@@ -61,7 +61,7 @@ class AdminTeacherAuthController extends Controller
 
             $admin = Admin::find($id);
 
-            if($admin->access_code == $request->access_code){
+            if($admin && $admin->access_code == $request->access_code){
 
                 session([
                     'admin_id'=>$admin->id
@@ -77,7 +77,7 @@ class AdminTeacherAuthController extends Controller
 
             $teacher = Teacher::find($id);
 
-            if($teacher->access_code == $request->access_code){
+            if($teacher && $teacher->access_code == $request->access_code){
 
                 session([
                     'teacher_id'=>$teacher->id
