@@ -9,20 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
-
             $table->id();
-
             $table->string('username')->unique();
-
             $table->enum('avatar', [
                 'explorer_boy',
                 'explorer_girl',
                 'scientist',
                 'adventurer'
             ])->nullable();
-
             $table->timestamp('last_played')->nullable();
-
             $table->timestamps();
         });
     }

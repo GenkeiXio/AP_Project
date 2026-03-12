@@ -8,33 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('teachers', function (Blueprint $table) {
-
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-
             $table->string('name');
-
             $table->string('email')->unique();
-
             $table->string('password');
-
             $table->string('access_code');
-
-            $table->enum('avatar', [
-                'teacher_male',
-                'teacher_female',
-                'scientist',
-                'explorer'
-            ])->default('teacher_male');
-
-            $table->boolean('is_active')->default(true);
-
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('admins');
     }
 };

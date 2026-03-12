@@ -382,7 +382,11 @@
                     document.getElementById('tName').value = '';
                     document.getElementById('tEmail').value = '';
                     document.getElementById('tPassword').value = '';
-                    if (typeof loadStats === 'function') loadStats();
+                    // Append to table live
+                    if (typeof window.onTeacherCreated === 'function') {
+                        window.onTeacherCreated(data.teacher, data.access_code);
+                        closeModal('createTeacherModal');
+                    }
                 } else {
                     const msg = data.errors ? Object.values(data.errors).flat().join(', ') : (data.message || 'Error creating teacher.');
                     showAlert(alert, 'error', msg);

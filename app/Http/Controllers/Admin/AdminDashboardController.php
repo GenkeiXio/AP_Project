@@ -15,12 +15,15 @@ class AdminDashboardController extends Controller
     public function index()
     {
         $stats = [
-            'total_students' => Student::count(),
-            'total_teachers' => Teacher::count(),
-            'total_admins'   => Admin::count(),
-            'active_teachers'=> Teacher::where('is_active', true)->count(),
+            'total_students'  => Student::count(),
+            'total_teachers'  => Teacher::count(),
+            'total_admins'    => Admin::count(),
+            'active_teachers' => Teacher::where('is_active', true)->count(),
         ];
-        return view('Admin.admindashboard', compact('stats'));
+        $teachers = Teacher::select('id', 'name', 'email', 'avatar', 'is_active', 'created_at')
+                           ->orderBy('created_at', 'desc')
+                           ->get();
+        return view('Admin.admindashboard', compact('stats', 'teachers'));
     }
 
     public function createTeacher(Request $request)
