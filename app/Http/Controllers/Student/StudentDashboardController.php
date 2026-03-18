@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class StudentDashboardController extends Controller
@@ -15,21 +14,8 @@ class StudentDashboardController extends Controller
         if (!$student) {
             return redirect()->route('home');
         }
+        // Update last_played on every dashboard visit
+        $student->update(['last_played' => now()]);
         return view('Students.studentsdashboard', compact('student'));
-    }
-
-    public function saveAvatar(Request $request)
-    {
-        $request->validate([
-            'avatar' => 'required|in:explorer_boy,explorer_girl,scientist,adventurer',
-        ]);
-
-        $student = Student::find(Session::get('student_id'));
-        if ($student) {
-            $student->update(['avatar' => $request->avatar]);
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false], 404);
     }
 }

@@ -17,9 +17,9 @@
         }
 
         .topnav {
-            background: rgba(255,255,255,0.82);
+            background: rgba(255,255,255,0.88);
             backdrop-filter: blur(12px);
-            padding: 14px 32px;
+            padding: 0 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -27,33 +27,58 @@
             position: sticky;
             top: 0;
             z-index: 50;
+            height: 60px;
         }
 
         .topnav .brand {
             font-family: 'Baloo 2', cursive;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: #3d2a1a;
+            flex-shrink: 0;
         }
         .topnav .brand span { color: #e8922a; }
 
-        .topnav-right { display: flex; align-items: center; gap: 14px; }
+        /* Nav Links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            padding: 0 24px;
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #7a6040;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-link:hover { background: rgba(109,191,126,0.12); color: #3d2a1a; }
+        .nav-link.active { background: rgba(109,191,126,0.2); color: #2d6a3c; }
+
+        .topnav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
         .user-chip {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             background: rgba(109,191,126,0.15);
             border: 1.5px solid rgba(109,191,126,0.3);
             border-radius: 20px;
-            padding: 6px 14px;
-            font-size: 0.88rem;
+            padding: 5px 12px;
+            font-size: 0.85rem;
             font-weight: 700;
             color: #2d6a3c;
         }
 
         .logout-btn {
-            padding: 8px 16px;
+            padding: 7px 14px;
             background: rgba(255,80,80,0.1);
             border: 1.5px solid rgba(255,80,80,0.25);
             border-radius: 10px;
@@ -67,8 +92,8 @@
         .logout-btn:hover { background: rgba(255,80,80,0.2); }
 
         .page-content {
-            padding: 36px 32px;
-            max-width: 1000px;
+            padding: 32px;
+            max-width: 1060px;
             margin: 0 auto;
         }
 
@@ -76,7 +101,6 @@
         .deco-1 { top: 15%; left: 2%;  animation-delay: 0s; }
         .deco-2 { top: 60%; right: 2%; animation-delay: 1.5s; }
         .deco-3 { bottom: 10%; left: 5%; animation-delay: 1s; }
-
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
     @stack('styles')
@@ -88,10 +112,14 @@
 
     <nav class="topnav">
         <div class="brand">Araling <span>Panlipunan</span> 🧭</div>
+
+        <div class="nav-links">
+            <a href="{{ route('student.dashboard') }}" class="nav-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">🏠 Home</a>
+            <a href="{{ route('student.classes') }}"   class="nav-link {{ request()->routeIs('student.classes*','student.class.*') ? 'active' : '' }}">🏫 My Classes</a>
+        </div>
+
         <div class="topnav-right">
-            <div class="user-chip">
-                🎒 {{ session('student_username') }}
-            </div>
+            <div class="user-chip">🎒 {{ session('student_username') }}</div>
             <form method="POST" action="{{ route('student.logout') }}">
                 @csrf
                 <button type="submit" class="logout-btn">🚪 Logout</button>

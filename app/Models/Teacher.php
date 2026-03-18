@@ -23,4 +23,9 @@ class Teacher extends Authenticatable
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function classes()
+    {
+        return $this->hasMany(SchoolClass::class);
+    }
 }

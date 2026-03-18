@@ -4,103 +4,54 @@
 
 @push('styles')
 <style>
-    .welcome-card {
-        background: rgba(255,255,255,0.85);
-        backdrop-filter: blur(12px);
-        border-radius: 22px;
-        padding: 36px 40px;
-        box-shadow: 0 8px 40px rgba(80,50,10,0.12);
-        text-align: center;
-        margin-bottom: 28px;
-        border: 1.5px solid rgba(255,255,255,0.7);
-        animation: slideUp 0.5s cubic-bezier(.22,1,.36,1) both;
-    }
-    @keyframes slideUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+    .welcome-card { background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); border-radius:22px; padding:32px 36px; box-shadow:0 8px 40px rgba(80,50,10,0.12); text-align:center; margin-bottom:24px; border:1.5px solid rgba(255,255,255,0.7); animation:slideUp 0.5s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .welcome-card .avatar-big { font-size:5rem; margin-bottom:12px; display:block; }
+    .welcome-card h1 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:#3d2a1a; }
+    .welcome-card .sub { color:#9a8060; font-size:0.95rem; margin-top:6px; }
 
-    .welcome-card .avatar-big { font-size: 5rem; margin-bottom: 12px; display: block; }
-    .welcome-card h1 { font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800; color: #3d2a1a; }
-    .welcome-card .sub { color: #9a8060; font-size: 0.95rem; margin-top: 6px; }
+    .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:22px; }
+    .info-card { background:rgba(255,255,255,0.82); border-radius:16px; padding:20px 22px; box-shadow:0 4px 16px rgba(80,50,10,0.08); border:1.5px solid rgba(255,255,255,0.6); animation:slideUp 0.5s cubic-bezier(.22,1,.36,1) both; }
+    .info-card:nth-child(2){ animation-delay:0.1s; }
+    .info-card:nth-child(3){ animation-delay:0.2s; }
+    .info-card .label { font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; color:#b5a48a; margin-bottom:5px; }
+    .info-card .value { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:700; color:#3d2a1a; }
 
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 18px;
-        margin-bottom: 28px;
-    }
+    /* Quick access */
+    .quick-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-bottom:22px; }
+    .quick-card { background:rgba(255,255,255,0.82); border-radius:18px; padding:22px; box-shadow:0 4px 16px rgba(80,50,10,0.08); border:2px solid rgba(255,255,255,0.6); text-decoration:none; display:flex; align-items:center; gap:14px; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; }
+    .quick-card:hover { transform:translateY(-3px); border-color:rgba(109,191,126,0.5); box-shadow:0 10px 28px rgba(80,50,10,0.13); }
+    .quick-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.7rem; flex-shrink:0; }
+    .quick-icon.green  { background:rgba(109,191,126,0.2); }
+    .quick-icon.orange { background:rgba(232,146,42,0.15); }
+    .quick-card .qt { font-family:'Baloo 2',cursive; font-size:1rem; font-weight:800; color:#3d2a1a; }
+    .quick-card .qs { font-size:0.78rem; color:#9a8060; margin-top:2px; }
 
-    .info-card {
-        background: rgba(255,255,255,0.82);
-        border-radius: 16px;
-        padding: 22px 24px;
-        box-shadow: 0 4px 16px rgba(80,50,10,0.08);
-        border: 1.5px solid rgba(255,255,255,0.6);
-        animation: slideUp 0.5s cubic-bezier(.22,1,.36,1) both;
-    }
-    .info-card:nth-child(2) { animation-delay: 0.1s; }
-    .info-card:nth-child(3) { animation-delay: 0.2s; }
-
-    .info-card .label { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #b5a48a; margin-bottom: 6px; }
-    .info-card .value { font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 700; color: #3d2a1a; }
-
-    .avatar-section {
-        background: rgba(255,255,255,0.82);
-        border-radius: 22px;
-        padding: 28px;
-        box-shadow: 0 4px 20px rgba(80,50,10,0.08);
-        border: 1.5px solid rgba(255,255,255,0.6);
-    }
-    .avatar-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; color: #3d2a1a; margin-bottom: 18px; }
-
-    .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-
-    .avatar-option {
-        border: 2.5px solid #e8dcc8;
-        border-radius: 16px;
-        padding: 18px 10px;
-        text-align: center;
-        cursor: pointer;
-        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-        background: #fff;
-    }
-    .avatar-option:hover { border-color: #6dbf7e; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(109,191,126,0.2); }
-    .avatar-option.selected { border-color: #6dbf7e; background: #f0faf3; box-shadow: 0 4px 14px rgba(109,191,126,0.25); }
-
-    .avatar-option .emo  { font-size: 2.5rem; display: block; margin-bottom: 8px; }
-    .avatar-option .name { font-size: 0.78rem; font-weight: 700; color: #5a4030; }
-
-    .btn-save {
-        margin-top: 20px;
-        padding: 13px 32px;
-        background: linear-gradient(135deg, #6dbf7e, #4da862);
-        color: #fff;
-        border: none;
-        border-radius: 12px;
-        font-family: 'Baloo 2', cursive;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 16px rgba(77,168,98,0.3);
-    }
-    .btn-save:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(77,168,98,0.38); }
-
-    .save-msg { display: none; margin-top: 10px; font-size: 0.88rem; font-weight: 700; color: #1e7a3a; }
-    .save-msg.show { display: block; }
+    /* Avatar section */
+    .avatar-section { background:rgba(255,255,255,0.82); border-radius:22px; padding:26px; box-shadow:0 4px 20px rgba(80,50,10,0.08); border:1.5px solid rgba(255,255,255,0.6); }
+    .avatar-section h2 { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; color:#3d2a1a; margin-bottom:16px; }
+    .avatar-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    @media(max-width:520px){ .avatar-grid{grid-template-columns:repeat(2,1fr);} }
+    .avatar-option { border:2.5px solid #e8dcc8; border-radius:16px; padding:16px 10px; text-align:center; cursor:pointer; transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s; background:#fff; }
+    .avatar-option:hover { border-color:#6dbf7e; transform:translateY(-3px); box-shadow:0 6px 20px rgba(109,191,126,0.2); }
+    .avatar-option.selected { border-color:#6dbf7e; background:#f0faf3; box-shadow:0 4px 14px rgba(109,191,126,0.25); }
+    .avatar-option .emo  { font-size:2.4rem; display:block; margin-bottom:6px; }
+    .avatar-option .name { font-size:0.75rem; font-weight:700; color:#5a4030; }
+    .btn-save { margin-top:18px; padding:13px 30px; background:linear-gradient(135deg,#6dbf7e,#4da862); color:#fff; border:none; border-radius:12px; font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; box-shadow:0 4px 16px rgba(77,168,98,0.3); }
+    .btn-save:hover { transform:translateY(-2px); box-shadow:0 7px 22px rgba(77,168,98,0.38); }
+    .save-msg { display:none; margin-top:10px; font-size:0.88rem; font-weight:700; color:#1e7a3a; }
+    .save-msg.show { display:block; }
 </style>
 @endpush
 
 @section('content')
 
+@php
+    $avatarIcons = ['explorer_boy'=>'🧭','explorer_girl'=>'🗺️','scientist'=>'🔬','adventurer'=>'⚔️'];
+    $icon = $avatarIcons[$student->avatar ?? ''] ?? '🎒';
+@endphp
+
 <div class="welcome-card">
-    @php
-        $avatarIcons = [
-            'explorer_boy'  => '🧭',
-            'explorer_girl' => '🗺️',
-            'scientist'     => '🔬',
-            'adventurer'    => '⚔️',
-        ];
-        $icon = $avatarIcons[$student->avatar ?? ''] ?? '🎒';
-    @endphp
     <span class="avatar-big">{{ $icon }}</span>
     <h1>Kumusta, {{ $student->username }}! 🌟</h1>
     <p class="sub">Handa ka na bang magsimula ng iyong pakikipagsapalaran sa Araling Panlipunan?</p>
@@ -121,15 +72,34 @@
     </div>
 </div>
 
+{{-- Quick Access --}}
+<div class="quick-grid">
+    <a href="{{ route('student.classes') }}" class="quick-card">
+        <div class="quick-icon green">🏫</div>
+        <div>
+            <div class="qt">My Classes</div>
+            <div class="qs">View joined classes & play quizzes</div>
+        </div>
+    </a>
+    <a href="{{ route('student.classes') }}" class="quick-card">
+        <div class="quick-icon orange">🎮</div>
+        <div>
+            <div class="qt">Play Games</div>
+            <div class="qs">Start a quiz or pre-test</div>
+        </div>
+    </a>
+</div>
+
+{{-- Avatar Picker --}}
 <div class="avatar-section">
     <h2>🎭 Piliin ang iyong Avatar</h2>
     <div class="avatar-grid">
         @php
             $avatars = [
-                'explorer_boy'  => ['icon' => '🧭', 'name' => 'Explorer Boy'],
-                'explorer_girl' => ['icon' => '🗺️', 'name' => 'Explorer Girl'],
-                'scientist'     => ['icon' => '🔬', 'name' => 'Scientist'],
-                'adventurer'    => ['icon' => '⚔️', 'name' => 'Adventurer'],
+                'explorer_boy'  => ['icon'=>'🧭','name'=>'Explorer Boy'],
+                'explorer_girl' => ['icon'=>'🗺️','name'=>'Explorer Girl'],
+                'scientist'     => ['icon'=>'🔬','name'=>'Scientist'],
+                'adventurer'    => ['icon'=>'⚔️','name'=>'Adventurer'],
             ];
         @endphp
         @foreach($avatars as $key => $av)
@@ -139,7 +109,6 @@
             </div>
         @endforeach
     </div>
-
     <button class="btn-save" onclick="saveAvatar()">💾 I-save ang Avatar</button>
     <div class="save-msg" id="saveMsg">✅ Na-save na ang iyong avatar!</div>
 </div>
@@ -160,10 +129,10 @@
     async function saveAvatar() {
         if (!selectedAvatar) return;
         try {
-            const res = await fetch('/student/avatar', {
-                method:  'POST',
+            const res  = await fetch('{{ route("student.avatar") }}', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
-                body:    JSON.stringify({ avatar: selectedAvatar }),
+                body: JSON.stringify({ avatar: selectedAvatar }),
             });
             const data = await res.json();
             if (data.success) {
