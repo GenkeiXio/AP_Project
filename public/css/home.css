@@ -1,0 +1,603 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --green: #6dbf7e;
+    --green-dark: #4da862;
+    --orange: #e8922a;
+    --brown: #3d2a1a;
+    --cream: #fdf9f0;
+    --card-bg: rgba(255, 255, 255, 0.82);
+    --shadow: 0 8px 40px rgba(80, 50, 10, 0.13);
+    --radius: 22px;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: "Nunito", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #d4edaa 0%, #f5e8c0 45%, #fde3a3 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    padding: 40px 20px;
+}
+
+/* ── Main Container ── */
+.main-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1200px;
+    width: 100%;
+    z-index: 2;
+}
+
+/* ── Left Side: Story/Scroll ── */
+.hero-content {
+    flex: 1;
+    max-width: 550px;
+    animation: fadeInRight 0.8s ease-out;
+}
+
+.header h1 {
+    font-family: "Baloo 2", cursive;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--brown);
+    line-height: 1;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
+}
+
+.header .subtitle {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 25px;
+}
+
+/* Description styled as a 'Quest Scroll' */
+.description-scroll {
+    background: #fdf9f0;
+    padding: 30px;
+    border-radius: 2px 40px 2px 40px;
+    border-left: 8px solid var(--orange);
+    box-shadow: 15px 15px 0px rgba(61, 42, 26, 0.05);
+    position: relative;
+    line-height: 1.7;
+    color: #5a4030;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.description-scroll::after {
+    content: "📜";
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 2rem;
+}
+
+/* ── Right Side: Login Card (Your existing design) ── */
+.login-section {
+    flex-shrink: 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+    .main-wrapper {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+    .description-scroll {
+        text-align: center;
+        border-left: none;
+        border-top: 8px solid var(--orange);
+        border-radius: 20px;
+    }
+    .header h1 {
+        font-size: 3rem;
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Floating decorations ── */
+.deco {
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    font-size: 2.2rem;
+    animation: float 5s ease-in-out infinite;
+    z-index: 0;
+}
+.deco-1 {
+    top: 3%;
+    left: 2%;
+    animation-delay: 0s;
+    font-size: 2.5rem;
+}
+.deco-2 {
+    top: 6%;
+    right: 2%;
+    animation-delay: 1s;
+    font-size: 2.8rem;
+}
+.deco-3 {
+    bottom: 8%;
+    left: 4%;
+    animation-delay: 2s;
+    font-size: 2rem;
+}
+.deco-4 {
+    bottom: 5%;
+    right: 3%;
+    animation-delay: 0.5s;
+    font-size: 2.6rem;
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* ── Header ── */
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.header-icons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.header h1 {
+    font-family: "Baloo 2", cursive;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--brown);
+    line-height: 1.1;
+}
+
+.header .subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--orange);
+    margin-top: 4px;
+}
+
+.header .description {
+    font-size: 0.95rem;
+    color: #7a6040;
+    margin-top: 15px;
+    line-height: 1.6;
+    text-align: justify;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+/* ── Card ── */
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px 44px;
+    width: min(440px, 90vw);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-compass {
+    font-size: 3.2rem;
+    margin-bottom: 14px;
+    display: block;
+    animation: spin-slow 8s linear infinite;
+}
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.card h2 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--brown);
+    margin-bottom: 4px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #8a7055;
+    margin-bottom: 22px;
+}
+
+/* ── Input ── */
+.input-wrap {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+.input-wrap input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid #e8dcc8;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-family: "Nunito", sans-serif;
+    color: var(--brown);
+    background: #fff;
+    outline: none;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.input-wrap input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.18);
+}
+
+.input-wrap input::placeholder {
+    color: #b5a48a;
+}
+
+.input-error {
+    color: #e05050;
+    font-size: 0.82rem;
+    text-align: left;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    padding-left: 4px;
+    display: none;
+}
+.input-error.show {
+    display: block;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #6dbf7e, #4da862);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-family: "Baloo 2", cursive;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.15s,
+        box-shadow 0.15s,
+        opacity 0.2s;
+    box-shadow: 0 4px 18px rgba(77, 168, 98, 0.35);
+    letter-spacing: 0.3px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 24px rgba(77, 168, 98, 0.4);
+}
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 12px rgba(77, 168, 98, 0.3);
+}
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ── Footer hint ── */
+.footer-hint {
+    margin-top: 20px;
+    font-size: 0.82rem;
+    color: #a09070;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Lock button (admin/teacher) ── */
+.lock-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    box-shadow: 0 4px 16px rgba(80, 50, 10, 0.18);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+}
+.lock-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 22px rgba(80, 50, 10, 0.25);
+}
+
+/* ── Modal Overlay ── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 25, 10, 0.45);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--cream);
+    border-radius: var(--radius);
+    padding: 36px 38px;
+    width: min(420px, 92vw);
+    box-shadow: 0 20px 60px rgba(40, 25, 10, 0.25);
+    position: relative;
+    animation: modalIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #9a8060;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.modal-close:hover {
+    color: var(--brown);
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Baloo 2", cursive;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--brown);
+    margin-bottom: 22px;
+}
+.modal-title .icon {
+    font-size: 1.4rem;
+    color: var(--green-dark);
+}
+
+.modal label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 7px;
+}
+
+.modal-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 2px solid #e2d5be;
+    border-radius: 12px;
+    background: #fff;
+    padding: 0 14px;
+    gap: 10px;
+    margin-bottom: 16px;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+.modal-input-wrap:focus-within {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.18);
+}
+.modal-input-wrap .icon {
+    font-size: 1rem;
+    color: #b5a48a;
+    flex-shrink: 0;
+}
+.modal-input-wrap input {
+    flex: 1;
+    padding: 13px 0;
+    border: none;
+    outline: none;
+    font-family: "Nunito", sans-serif;
+    font-size: 0.97rem;
+    color: var(--brown);
+    background: transparent;
+}
+.modal-input-wrap input::placeholder {
+    color: #c0ad90;
+}
+
+.modal-alert {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.87rem;
+    margin-bottom: 14px;
+    display: none;
+    font-weight: 600;
+}
+.modal-alert.error {
+    background: #fde8e8;
+    color: #c0392b;
+    border: 1px solid #f5c6cb;
+    display: block;
+}
+.modal-alert.success {
+    background: #e8f8ed;
+    color: #1e7a3a;
+    border: 1px solid #b8e0c4;
+    display: block;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    font-size: 0.88rem;
+    color: #9a8060;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+.back-link:hover {
+    color: var(--brown);
+}
+
+.access-input input {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 8px;
+    color: var(--brown);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+#step-verify {
+    display: none;
+}
+
+/* Description slider */
+.desc-pages {
+    position: relative;
+}
+
+.desc-page {
+    display: none;
+    animation: fadeText 0.4s ease;
+}
+
+.desc-page.active {
+    display: block;
+}
+
+@keyframes fadeText {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dots */
+.desc-dots {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    margin: 0 4px;
+    display: inline-block;
+    border-radius: 50%;
+    background: #d3c4a8;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dot.active {
+    background: var(--orange);
+    transform: scale(1.2);
+}
