@@ -9,6 +9,7 @@ use App\Http\Controllers\Teacher\TeacherDashboardController;
 use App\Http\Controllers\Teacher\ClassController;
 use App\Http\Controllers\Teacher\QuizController;
 use App\Http\Controllers\Teacher\TeacherAnalyticsController;
+use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\StudentClassController;
 
@@ -21,65 +22,66 @@ Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('
 
 // ── Student Routes (session-based) ──
 Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
-    Route::get('/student/dashboard',               [StudentDashboardController::class, 'index'])->name('student.dashboard');
-    Route::post('/student/avatar',                 [StudentClassController::class, 'saveAvatar'])->name('student.avatar');
+    Route::get('/student/dashboard',                [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::post('/student/avatar',                  [StudentClassController::class, 'saveAvatar'])->name('student.avatar');
 
-    // Classes
-    Route::get('/student/classes',                 [StudentClassController::class, 'index'])->name('student.classes');
-    Route::get('/student/classes/search',          [StudentClassController::class, 'search'])->name('student.classes.search');
-    Route::post('/student/classes/join',           [StudentClassController::class, 'join'])->name('student.classes.join');
-    Route::delete('/student/classes/{class}/leave',[StudentClassController::class, 'leave'])->name('student.classes.leave');
-    Route::get('/student/classes/{class}',         [StudentClassController::class, 'classDetail'])->name('student.class.detail');
+    Route::get('/student/classes',                  [StudentClassController::class, 'index'])->name('student.classes');
+    Route::get('/student/classes/search',           [StudentClassController::class, 'search'])->name('student.classes.search');
+    Route::post('/student/classes/join',            [StudentClassController::class, 'join'])->name('student.classes.join');
+    Route::delete('/student/classes/{class}/leave', [StudentClassController::class, 'leave'])->name('student.classes.leave');
+    Route::get('/student/classes/{class}',          [StudentClassController::class, 'classDetail'])->name('student.class.detail');
 
-    // Games
-    Route::get('/student/quiz/{quiz}/play',        [StudentClassController::class, 'playQuiz'])->name('student.quiz.play');
-    Route::post('/student/quiz/{quiz}/submit',     [StudentClassController::class, 'submitQuiz'])->name('student.quiz.submit');
+    Route::get('/student/quiz/{quiz}/play',         [StudentClassController::class, 'playQuiz'])->name('student.quiz.play');
+    Route::post('/student/quiz/{quiz}/submit',      [StudentClassController::class, 'submitQuiz'])->name('student.quiz.submit');
 });
 
 // ── Staff Auth ──
-Route::post('/staff/verify-credentials',  [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
-Route::post('/staff/verify-access-code',  [StaffAuthController::class, 'verifyAccessCode'])->name('staff.verify-access-code');
-Route::post('/staff/clear-pending',       [StaffAuthController::class, 'clearPending'])->name('staff.clear-pending');
+Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
+Route::post('/staff/verify-access-code', [StaffAuthController::class, 'verifyAccessCode'])->name('staff.verify-access-code');
+Route::post('/staff/clear-pending',      [StaffAuthController::class, 'clearPending'])->name('staff.clear-pending');
 
 // ── Admin Routes ──
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard',                         [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::post('/create-teacher',                   [AdminDashboardController::class, 'createTeacher'])->name('create-teacher');
-    Route::post('/create-admin',                     [AdminDashboardController::class, 'createAdmin'])->name('create-admin');
-    Route::get('/teachers',                          [AdminDashboardController::class, 'getTeachers'])->name('teachers');
-    Route::patch('/teacher/{teacher}/toggle',        [AdminDashboardController::class, 'toggleTeacher'])->name('teacher.toggle');
-
-    // Analytics
-    Route::get('/analytics',                         [AdminAnalyticsController::class, 'index'])->name('analytics');
-    Route::get('/analytics/export',                  [AdminAnalyticsController::class, 'export'])->name('analytics.export');
-
-    Route::post('/logout',                           [StaffAuthController::class, 'logoutAdmin'])->name('logout');
+    Route::get('/dashboard',                          [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::post('/create-teacher',                    [AdminDashboardController::class, 'createTeacher'])->name('create-teacher');
+    Route::post('/create-admin',                      [AdminDashboardController::class, 'createAdmin'])->name('create-admin');
+    Route::get('/teachers',                           [AdminDashboardController::class, 'getTeachers'])->name('teachers');
+    Route::patch('/teacher/{teacher}/toggle',         [AdminDashboardController::class, 'toggleTeacher'])->name('teacher.toggle');
+    Route::get('/analytics',                          [AdminAnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/analytics/export',                   [AdminAnalyticsController::class, 'export'])->name('analytics.export');
+    Route::post('/logout',                            [StaffAuthController::class, 'logoutAdmin'])->name('logout');
 });
 
 // ── Teacher Routes ──
 Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(function () {
-    Route::get('/dashboard',                         [TeacherDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard',                          [TeacherDashboardController::class, 'index'])->name('dashboard');
+
+    // Profile
+    Route::get('/profile',                            [TeacherProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/info',                      [TeacherProfileController::class, 'updateInfo'])->name('profile.info');
+    Route::post('/profile/avatar',                    [TeacherProfileController::class, 'updateAvatar'])->name('profile.avatar');
+    Route::post('/profile/password',                  [TeacherProfileController::class, 'updatePassword'])->name('profile.password');
 
     // Classes
-    Route::get('/classes',                           [ClassController::class, 'index'])->name('classes');
-    Route::post('/classes',                          [ClassController::class, 'store'])->name('classes.store');
-    Route::get('/classes/{class}',                   [ClassController::class, 'show'])->name('classes.show');
-    Route::put('/classes/{class}',                   [ClassController::class, 'update'])->name('classes.update');
-    Route::delete('/classes/{class}',                [ClassController::class, 'destroy'])->name('classes.destroy');
+    Route::get('/classes',                            [ClassController::class, 'index'])->name('classes');
+    Route::post('/classes',                           [ClassController::class, 'store'])->name('classes.store');
+    Route::get('/classes/{class}',                    [ClassController::class, 'show'])->name('classes.show');
+    Route::put('/classes/{class}',                    [ClassController::class, 'update'])->name('classes.update');
+    Route::delete('/classes/{class}',                 [ClassController::class, 'destroy'])->name('classes.destroy');
     Route::delete('/classes/{class}/students/{student}', [ClassController::class, 'removeStudent'])->name('classes.remove-student');
-    Route::post('/classes/{class}/regenerate-code',  [ClassController::class, 'regenerateCode'])->name('classes.regenerate-code');
+    Route::post('/classes/{class}/regenerate-code',   [ClassController::class, 'regenerateCode'])->name('classes.regenerate-code');
 
     // Quizzes
-    Route::get('/classes/{class}/quizzes/create',    [QuizController::class, 'create'])->name('quizzes.create');
-    Route::post('/classes/{class}/quizzes',          [QuizController::class, 'store'])->name('quizzes.store');
-    Route::get('/quizzes/{quiz}/edit',               [QuizController::class, 'edit'])->name('quizzes.edit');
-    Route::put('/quizzes/{quiz}',                    [QuizController::class, 'update'])->name('quizzes.update');
-    Route::patch('/quizzes/{quiz}/publish',          [QuizController::class, 'togglePublish'])->name('quizzes.publish');
-    Route::delete('/quizzes/{quiz}',                 [QuizController::class, 'destroy'])->name('quizzes.destroy');
+    Route::get('/classes/{class}/quizzes/create',     [QuizController::class, 'create'])->name('quizzes.create');
+    Route::post('/classes/{class}/quizzes',           [QuizController::class, 'store'])->name('quizzes.store');
+    Route::get('/quizzes/{quiz}/edit',                [QuizController::class, 'edit'])->name('quizzes.edit');
+    Route::put('/quizzes/{quiz}',                     [QuizController::class, 'update'])->name('quizzes.update');
+    Route::patch('/quizzes/{quiz}/publish',           [QuizController::class, 'togglePublish'])->name('quizzes.publish');
+    Route::delete('/quizzes/{quiz}',                  [QuizController::class, 'destroy'])->name('quizzes.destroy');
 
     // Analytics
-    Route::get('/analytics',                         [TeacherAnalyticsController::class, 'index'])->name('analytics');
-    Route::get('/analytics/export',                  [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
+    Route::get('/analytics',                          [TeacherAnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/analytics/export',                   [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
 
-    Route::post('/logout',                           [StaffAuthController::class, 'logoutTeacher'])->name('logout');
+    Route::post('/logout',                            [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
