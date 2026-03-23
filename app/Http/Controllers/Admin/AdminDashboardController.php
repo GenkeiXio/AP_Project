@@ -22,8 +22,12 @@ class AdminDashboardController extends Controller
         ];
         $teachers = Teacher::select('id', 'name', 'email', 'avatar', 'is_active', 'created_at')
                            ->orderBy('created_at', 'desc')
-                           ->get();
-        return view('Admin.admindashboard', compact('stats', 'teachers'));
+                           ->paginate(5, ['*'], 'teachers');
+        $admins = Admin::select('id', 'name', 'email', 'created_at')
+                       ->orderBy('created_at', 'desc')
+                       ->paginate(5, ['*'], 'admins');
+
+        return view('Admin.admindashboard', compact('stats', 'teachers', 'admins'));
     }
 
     public function createTeacher(Request $request)

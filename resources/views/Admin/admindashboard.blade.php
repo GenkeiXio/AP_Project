@@ -228,6 +228,82 @@
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.success { background: linear-gradient(135deg, #4da862, #3a8050); }
     .toast.error   { background: linear-gradient(135deg, #e05050, #c03030); }
+
+    .pagination-container nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .pagination-container .pagination {
+        display: flex !important;
+        flex-direction: row !important;
+        list-style-type: none !important; /* Ito ang tatanggal sa mga tuldok */
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 8px !important;
+    }
+
+    /* 3. Siguraduhing pantay ang mga list items */
+    .pagination-container .page-item {
+        display: flex !important;
+        align-items: center;
+        margin: 0 !important;
+    }
+
+    .pagination-container .page-item .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        border: 2px solid #e0d0ba;
+        background: #fff;
+        color: #9a8060;
+        padding: 0 12px;
+        border-radius: 8px;
+        font-weight: 800;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .pagination-container .page-item.active .page-link,
+    .pagination-container .page-item.active span {
+        background: #3d2a1a !important; /* Dark brown */
+        color: #fff !important;
+        border-color: #3d2a1a !important;
+    }
+
+    .pagination-container .page-item:not(.active):not(.disabled) .page-link:hover {
+        background: #fdfaf5 !important;
+        border-color: #6dbf7e !important; /* Green highlight */
+        color: #3d2a1a !important;
+    }
+
+    .pagination-container .page-item.disabled .page-link {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #f8f4ee;
+        border-color: #e8dcc8;
+    }
+
+    .pagination-container .text-muted, 
+    .pagination-container p {
+        font-size: 0.85rem !important;
+        color: #9a8060 !important;
+        font-weight: 600 !important;
+        margin: 0 !important;
+    }
+
+    .pagination-container .page-item:first-child .page-link,
+    .pagination-container .page-item:last-child .page-link {
+        font-size: 1.2rem; /* Palakihin nang konti ang arrow */
+        line-height: 1;
+        padding: 4px 12px;
+    }
 </style>
 @endpush
 
@@ -267,99 +343,183 @@
 
 <div style="display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start;">
 
-    {{-- ── Teacher Table ── --}}
-    <div class="section-card">
-        <div class="section-header">
-            <h2>👩‍🏫 Teacher Accounts
-                <span style="font-family:'Nunito',sans-serif; font-size:0.8rem; font-weight:600; color:#9a8060; margin-left:6px;">
-                    ({{ $teachers->count() }} total)
-                </span>
-            </h2>
-            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                <input
-                    type="text"
-                    class="search-input"
-                    id="teacherSearch"
-                    placeholder="🔍 Search teachers..."
-                    oninput="filterTeachers()"
-                />
-                <button class="btn btn-green" style="font-size:0.82rem; padding:8px 16px;" onclick="openCreateTeacherModal()">
-                    + Add Teacher
-                </button>
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+        {{-- ── Teacher Table ── --}}
+        <div class="section-card">
+            <div class="section-header">
+                <h2>👩‍🏫 Teacher Accounts
+                    <span style="font-family:'Nunito',sans-serif; font-size:0.8rem; font-weight:600; color:#9a8060; margin-left:6px;">
+                        ({{ $teachers->count() }} total)
+                    </span>
+                </h2>
+                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <input
+                        type="text"
+                        class="search-input"
+                        id="teacherSearch"
+                        placeholder="🔍 Search teachers..."
+                        oninput="filterTeachers()"
+                    />
+                    <button class="btn btn-green" style="font-size:0.82rem; padding:8px 16px;" onclick="openCreateTeacherModal()">
+                        + Add Teacher
+                    </button>
+                </div>
             </div>
+
+            @if($teachers->isEmpty())
+                <div class="empty-state">
+                    <div class="empty-icon">👩‍🏫</div>
+                    <p>No teachers yet. Click <strong>+ Add Teacher</strong> to get started!</p>
+                </div>
+            @else
+                <table class="teacher-table" id="teacherTable">
+                    <thead>
+                        <tr>
+                            <th class="row-num">#</th>
+                            <th>Teacher</th>
+                            <th>Avatar</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teacherTableBody">
+                        @foreach($teachers as $i => $teacher)
+                        <tr data-name="{{ strtolower($teacher->name) }}" data-email="{{ strtolower($teacher->email) }}" data-id="{{ $teacher->id }}">
+                            <td class="row-num">{{ $i + 1 }}</td>
+                            <td>
+                                <div class="teacher-name">{{ $teacher->name }}</div>
+                                <div class="teacher-email">{{ $teacher->email }}</div>
+                            </td>
+                            <td>
+                                @php
+                                    $avatarIcons = [
+                                        'teacher_male'   => '👨‍🏫',
+                                        'teacher_female' => '👩‍🏫',
+                                        'scientist'      => '🔬',
+                                        'explorer'       => '🧭',
+                                    ];
+                                    $avatarLabels = [
+                                        'teacher_male'   => 'Male',
+                                        'teacher_female' => 'Female',
+                                        'scientist'      => 'Scientist',
+                                        'explorer'       => 'Explorer',
+                                    ];
+                                @endphp
+                                <span class="avatar-chip">
+                                    {{ $avatarIcons[$teacher->avatar] ?? '👤' }}
+                                    {{ $avatarLabels[$teacher->avatar] ?? $teacher->avatar }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge {{ $teacher->is_active ? 'badge-active' : 'badge-inactive' }}" id="badge-{{ $teacher->id }}">
+                                    {{ $teacher->is_active ? '● Active' : '● Inactive' }}
+                                </span>
+                            </td>
+                            <td class="date-cell">{{ $teacher->created_at->format('M d, Y') }}</td>
+                            <td>
+                                <button
+                                    class="toggle-btn {{ $teacher->is_active ? 'btn-deactivate' : 'btn-activate' }}"
+                                    id="toggleBtn-{{ $teacher->id }}"
+                                    onclick="toggleTeacher({{ $teacher->id }}, {{ $teacher->is_active ? 'true' : 'false' }}, this)"
+                                >
+                                    {{ $teacher->is_active ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="pagination-container">
+                    {{ $teachers->appends(['teachers_page' => request('teachers_page')])->links('pagination::bootstrap-4') }}
+                </div>
+
+                {{-- No results from search --}}
+                <div id="noResults" style="display:none;" class="empty-state" style="padding:20px;">
+                    <p>🔍 No teachers found matching your search.</p>
+                </div>
+            @endif
         </div>
 
-        @if($teachers->isEmpty())
-            <div class="empty-state">
-                <div class="empty-icon">👩‍🏫</div>
-                <p>No teachers yet. Click <strong>+ Add Teacher</strong> to get started!</p>
+        {{-- ── Admins Table ── --}}
+        <div class="section-card">
+            <div class="section-header">
+                <h2>👩‍🏫 Admin Accounts
+                    <span style="font-family:'Nunito',sans-serif; font-size:0.8rem; font-weight:600; color:#9a8060; margin-left:6px;">
+                        ({{ $admins->count() }} total)
+                    </span>
+                </h2>
+                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <input
+                        type="text"
+                        class="search-input"
+                        id="adminSearch"
+                        placeholder="🔍 Search admins..."
+                        oninput="filterAdmins()"
+                    />
+                    <button class="btn btn-green" style="font-size:0.82rem; padding:8px 16px;" onclick="openCreateAdminModal()">
+                        + Add Admin
+                    </button>
+                </div>
             </div>
-        @else
-            <table class="teacher-table" id="teacherTable">
-                <thead>
-                    <tr>
-                        <th class="row-num">#</th>
-                        <th>Teacher</th>
-                        <th>Avatar</th>
-                        <th>Status</th>
-                        <th>Joined</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="teacherTableBody">
-                    @foreach($teachers as $i => $teacher)
-                    <tr data-name="{{ strtolower($teacher->name) }}" data-email="{{ strtolower($teacher->email) }}" data-id="{{ $teacher->id }}">
-                        <td class="row-num">{{ $i + 1 }}</td>
-                        <td>
-                            <div class="teacher-name">{{ $teacher->name }}</div>
-                            <div class="teacher-email">{{ $teacher->email }}</div>
-                        </td>
-                        <td>
-                            @php
-                                $avatarIcons = [
-                                    'teacher_male'   => '👨‍🏫',
-                                    'teacher_female' => '👩‍🏫',
-                                    'scientist'      => '🔬',
-                                    'explorer'       => '🧭',
-                                ];
-                                $avatarLabels = [
-                                    'teacher_male'   => 'Male',
-                                    'teacher_female' => 'Female',
-                                    'scientist'      => 'Scientist',
-                                    'explorer'       => 'Explorer',
-                                ];
-                            @endphp
-                            <span class="avatar-chip">
-                                {{ $avatarIcons[$teacher->avatar] ?? '👤' }}
-                                {{ $avatarLabels[$teacher->avatar] ?? $teacher->avatar }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge {{ $teacher->is_active ? 'badge-active' : 'badge-inactive' }}" id="badge-{{ $teacher->id }}">
-                                {{ $teacher->is_active ? '● Active' : '● Inactive' }}
-                            </span>
-                        </td>
-                        <td class="date-cell">{{ $teacher->created_at->format('M d, Y') }}</td>
-                        <td>
-                            <button
-                                class="toggle-btn {{ $teacher->is_active ? 'btn-deactivate' : 'btn-activate' }}"
-                                id="toggleBtn-{{ $teacher->id }}"
-                                onclick="toggleTeacher({{ $teacher->id }}, {{ $teacher->is_active ? 'true' : 'false' }}, this)"
-                            >
-                                {{ $teacher->is_active ? 'Deactivate' : 'Activate' }}
-                            </button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
 
-            {{-- No results from search --}}
-            <div id="noResults" style="display:none;" class="empty-state" style="padding:20px;">
-                <p>🔍 No teachers found matching your search.</p>
-            </div>
-        @endif
+            @if($admins->isEmpty())
+                <div class="empty-state">
+                    <div class="empty-icon">👩‍🏫</div>
+                    <p>No admins yet. Click <strong>+ Add Admin</strong> to get started!</p>
+                </div>
+            @else
+                <table class="teacher-table" id="teacherTable">
+                    <thead>
+                        <tr>
+                            <th class="row-num">#</th>
+                            <th>Admin</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teacherTableBody">
+                        @foreach($admins as $i => $admin)
+                        <tr data-name="{{ strtolower($admin->name) }}" data-email="{{ strtolower($admin->email) }}" data-id="{{ $admin->id }}">
+                            <td class="row-num">{{ $i + 1 }}</td>
+                            <td>
+                                <div class="teacher-name">{{ $admin->name }}</div>
+                                <div class="teacher-email">{{ $admin->email }}</div>
+                            </td>
+                            <td>
+                                <span class="badge {{ $teacher->is_active ? 'badge-active' : 'badge-inactive' }}" id="badge-{{ $teacher->id }}">
+                                    {{ $teacher->is_active ? '● Active' : '● Inactive' }}
+                                </span>
+                            </td>
+                            <td class="date-cell">{{ $teacher->created_at->format('M d, Y') }}</td>
+                            <td>
+                                <button
+                                    class="toggle-btn {{ $teacher->is_active ? 'btn-deactivate' : 'btn-activate' }}"
+                                    id="toggleBtn-{{ $teacher->id }}"
+                                    onclick="toggleTeacher({{ $teacher->id }}, {{ $teacher->is_active ? 'true' : 'false' }}, this)"
+                                >
+                                    {{ $teacher->is_active ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="pagination-container">
+                    {{ $admins->appends(['teachers_page' => request('teachers_page')])->links('pagination::bootstrap-4') }}
+                </div>
+
+                {{-- No results from search --}}
+                <div id="noResults" style="display:none;" class="empty-state" style="padding:20px;">
+                    <p>🔍 No admins found matching your search.</p>
+                </div>
+            @endif
+        </div>
     </div>
+    
 
     {{-- ── Sidebar: Quick Actions + Admin Info ── --}}
     <div>
