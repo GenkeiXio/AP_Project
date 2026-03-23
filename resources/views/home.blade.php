@@ -31,28 +31,6 @@
                 <h1>Hamon at Tugon:</h1>
                 <h2>An Interactive Digital Learning Material in Araling Panlipunan 10</h2>
             </div>
-
-            <!-- Description slider -->
-            <div class="description-scroll">
-                <div class="desc-pages">
-                    <div class="desc-page active">
-                        Sa harap ng patuloy na pagdanas ng Pilipinas ng iba’t ibang kalamidad tulad ng bagyo, lindol, baha, at pagputok ng bulkan, mahalagang maunawaan ng bawat mag-aaral ang kahalagahan ng kahandaan, disiplina, at kooperasyon sa pagtugon sa mga hamong pangkapaligiran.
-                    </div>
-                    <div class="desc-page">
-                        Ang <i>interactive instructional material</i> na ito ay idinisenyo upang gawing mas makabuluhan, masigla, at mas malalim ang pagkatuto sa pamamagitan ng mga sitwasyong batay sa tunay na pangyayari, pagsusuri ng sanhi at epekto, at pagbuo ng angkop na plano ng pagtugon.
-                    </div>
-                    <div class="desc-page">
-                        Layunin nitong hindi lamang mapalawak ang kaalaman ng mga mag-aaral tungkol sa kalagayan at suliraning pangkapaligiran ng bansa, kundi malinang din ang kanilang kritikal na pag-iisip at pananagutan bilang aktibong kabahagi sa pagpapabuti ng pamumuhay ng tao at komunidad.
-                    </div>
-                </div>
-
-                <!-- Dots -->
-                <div class="desc-dots">
-                    <span class="dot active" onclick="showPage(0)"></span>
-                    <span class="dot" onclick="showPage(1)"></span>
-                    <span class="dot" onclick="showPage(2)"></span>
-                </div>
-            </div>
         </div>
 
         <!-- Right: Login Card -->
