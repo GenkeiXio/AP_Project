@@ -18,30 +18,50 @@ class StudentClassController extends Controller
         return Student::findOrFail(Session::get('student_id'));
     }
 
-    // ── Classes page ──
+    // ── Classes page: joined + all available ──
     public function index()
     {
-        $student       = $this->student();
-        $joinedClasses = $student->classes()->with('teacher')->withCount('students')->get();
-        return view('Students.classes', compact('student', 'joinedClasses'));
+        $student = $this->student();
+
+        $joinedIds     = $student->classes()->pluck('classes.id');
+        $joinedClasses = $student->classes()
+            ->with('teacher')
+            ->withCount('students')
+            ->withCount('quizzes')
+            ->get();
+
+        // All other active classes not yet joined — auto-displayed
+        $availableClasses = SchoolClass::where('is_active', true)
+            ->whereNotIn('id', $joinedIds)
+            ->with('teacher')
+            ->withCount('students')
+            ->withCount('quizzes')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('Students.classes', compact('student', 'joinedClasses', 'availableClasses'));
     }
 
-    // ── Search classes by name or code ──
+    // ── Search classes by name, code, or teacher name ──
     public function search(Request $request)
     {
         $query   = $request->get('q', '');
         $student = $this->student();
 
         $classes = SchoolClass::where('is_active', true)
-            ->where(fn($q) =>
+            ->where(function ($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%")
                   ->orWhere('class_code', 'like', "%{$query}%")
-            )
-            ->whereNotIn('id', $student->classes()->pluck('classes.id'))
+                  ->orWhereHas('teacher', fn($t) => $t->where('name', 'like', "%{$query}%"));
+            })
             ->with('teacher')
             ->withCount('students')
-            ->limit(10)
-            ->get();
+            ->withCount('quizzes')
+            ->limit(12)
+            ->get()
+            ->map(fn($c) => array_merge($c->toArray(), [
+                'already_joined' => $student->classes()->where('class_id', $c->id)->exists(),
+            ]));
 
         return response()->json($classes);
     }
@@ -69,7 +89,7 @@ class StudentClassController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // ── Class quizzes ──
+    // ── Class detail + quiz list ──
     public function classDetail(SchoolClass $class)
     {
         $student = $this->student();
@@ -113,12 +133,12 @@ class StudentClassController extends Controller
         $quiz->load('questions.options');
 
         $session = GameSession::create([
-            'quiz_id'        => $quiz->id,
-            'student_id'     => $student->id,
-            'total_questions'=> $quiz->questions->count(),
-            'total_points'   => $quiz->questions->sum('points'),
-            'status'         => 'started',
-            'started_at'     => now(),
+            'quiz_id'         => $quiz->id,
+            'student_id'      => $student->id,
+            'total_questions' => $quiz->questions->count(),
+            'total_points'    => $quiz->questions->sum('points'),
+            'status'          => 'started',
+            'started_at'      => now(),
         ]);
 
         $score   = 0;
@@ -129,10 +149,7 @@ class StudentClassController extends Controller
             $studentAnswer = $answers[$question->id] ?? '';
             $isCorrect     = strtolower(trim($studentAnswer)) === strtolower(trim($question->correct_answer));
 
-            if ($isCorrect) {
-                $score += $question->points;
-                $correct++;
-            }
+            if ($isCorrect) { $score += $question->points; $correct++; }
 
             StudentScore::create([
                 'game_session_id' => $session->id,
@@ -163,7 +180,7 @@ class StudentClassController extends Controller
         ]);
     }
 
-    // ── Avatar update ──
+    // ── Save avatar ──
     public function saveAvatar(Request $request)
     {
         $request->validate(['avatar' => 'required|in:explorer_boy,explorer_girl,scientist,adventurer']);
