@@ -28,7 +28,7 @@ class StudentAuthController extends Controller
             $student->update(['last_played' => now()]);
             Session::put('student_id', $student->id);
             Session::put('student_username', $student->username);
-            return redirect()->route('student.dashboard');
+            return redirect()->route('narration');
         }
 
         // New student — register them
@@ -40,7 +40,7 @@ class StudentAuthController extends Controller
         Session::put('student_id', $student->id);
         Session::put('student_username', $student->username);
 
-        return redirect()->route('student.dashboard');
+        return redirect()->route('narration');
     }
 
     public function logout(Request $request)

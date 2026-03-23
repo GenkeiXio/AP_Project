@@ -16,6 +16,9 @@ use App\Http\Controllers\Student\StudentClassController;
 // ── Home ──
 Route::get('/', fn() => view('home'))->name('home');
 
+// ── Narration ──
+Route::get('/narration', fn() => view('narration'))->name('narration');
+
 // ── Student Auth ──
 Route::post('/student/login',  [StudentAuthController::class, 'login'])->name('student.login');
 Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
@@ -85,3 +88,11 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
 
     Route::post('/logout',                            [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
+
+Route::get('/module', function () {
+    return view('Students.module');
+})->name('module.home');
+
+Route::get('/poll', function () {
+    return view('Students.poll');
+})->name('poll');
