@@ -12,62 +12,62 @@
 
     <style>
         .poll-container {
-            max-width: 800px;
+            max-width: 900px; /* slightly narrower for readability */
             margin: auto;
             text-align: center;
+            padding: 30px 20px; /* slightly less padding */
         }
 
         .poll-question {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 30px; /* less than before */
         }
 
         .poll-options {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 20px; /* smaller gap between options */
+            margin-bottom: 30px; /* less space before button */
         }
 
         .poll-option {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 150px;
-            padding: 15px;
+            width: 200px; /* slightly narrower */
+            padding: 15px; /* less padding for tighter look */
             border: 2px solid #e0d6c5;
             border-radius: 12px;
             background: #fff;
             cursor: pointer;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, transform 0.2s ease;
         }
 
         .poll-option:hover {
             border-color: #d4a574;
-        }
-
-        .poll-option input[type="radio"] {
-            display: none;
+            transform: translateY(-3px); /* subtle hover lift */
         }
 
         .poll-option img {
-            width: 100px;
-            height: 100px;
+            width: 160px; /* slightly smaller */
+            height: 160px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 12px; /* less space under image */
         }
 
         .poll-option label {
             font-weight: 600;
             cursor: pointer;
+            text-align: center;
         }
 
-        .poll-option.selected {
-            border-color: #d4a574;
-            background: #fdfaf5;
+        button.btn-primary {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 12px;
         }
 
         .home-btn {
@@ -119,17 +119,17 @@
             <div class="poll-options">
                 <div class="poll-option" onclick="selectOption('a')">
                     <input type="radio" id="a" name="poll" value="a">
-                    <img src="https://via.placeholder.com/150x150?text=Basura" alt="Basura">
+                    <img src="/pictures/basura.jpg" alt="Basura">
                     <label for="a">a. Basura</label>
                 </div>
                 <div class="poll-option" onclick="selectOption('b')">
                     <input type="radio" id="b" name="poll" value="b">
-                    <img src="https://via.placeholder.com/150x150?text=Pagbaha" alt="Pagbaha">
+                    <img src="/pictures/pagbabaha.jpg" alt="Pagbaha">
                     <label for="b">b. Pagbaha</label>
                 </div>
                 <div class="poll-option" onclick="selectOption('c')">
                     <input type="radio" id="c" name="poll" value="c">
-                    <img src="https://via.placeholder.com/150x150?text=Pagputol+ng+Puno" alt="Pagputol ng Puno">
+                    <img src="/pictures/putol_puno.jpg" alt="Pagputol ng Puno">
                     <label for="c">c. Pagputol ng puno</label>
                 </div>
                 <div class="poll-option" onclick="selectOption('d')">

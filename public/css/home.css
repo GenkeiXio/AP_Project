@@ -36,20 +36,16 @@ body {
 /* ── Main Container ── */
 .main-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* stack hero and login vertically */
     align-items: center;
-    justify-content: center;
-    gap: 60px;
-    max-width: 1200px;
-    width: 100%;
-    z-index: 2;
+    justify-content: flex-start;
+    gap: 30px; /* spacing between hero and login card */
+    padding: 40px 20px; /* outer padding */
 }
 
-/* ── Left Side: Story/Scroll ── */
-.hero-content {
-    flex: 1;
-    max-width: 550px;
-    animation: fadeInRight 0.8s ease-out;
+.hero-content .header {
+    text-align: center;
+    margin-bottom: 20px; /* spacing under hero content */
 }
 
 .header h1 {
@@ -91,9 +87,23 @@ body {
     font-size: 2rem;
 }
 
-/* ── Right Side: Login Card (Your existing design) ── */
-.login-section {
-    flex-shrink: 0;
+.login-section .card {
+    max-width: 400px; /* keep card compact */
+    padding: 25px;
+    margin: 0 auto; /* center horizontally */
+}
+
+.login-section .card h2 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.login-section .card p {
+    margin-bottom: 20px;
+}
+
+.login-section .card .footer-hint {
+    margin-top: 15px; /* less than before */
 }
 
 /* Mobile Responsiveness */
