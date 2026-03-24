@@ -115,7 +115,7 @@
             Ano ang pinakakaraniwang suliraning pangkapaligiran sa inyong lugar?
         </div>
 
-        <form id="pollForm">
+        <form id="pollForm" action="{{ route('pretest.module2') }}" method="GET">
             <div class="poll-options">
                 <div class="poll-option" onclick="selectOption('a')">
                     <input type="radio" id="a" name="poll" value="a">
@@ -139,7 +139,7 @@
                 </div>
             </div>
 
-            <button type="button" onclick="proceed()" class="btn-primary">
+            <button type="submit" class="btn-primary">
                 Proceed 🚀
             </button>
         </form>
@@ -158,15 +158,16 @@ function selectOption(option) {
     document.getElementById(option).checked = true;
 }
 
-function proceed() {
+function proceed(e) {
     const selected = document.querySelector('input[name="poll"]:checked');
     if (!selected) {
-        alert('Please select an option.');
+        if (e) e.preventDefault();
+        alert('Pumili muna ng sagot bago magpatuloy.');
         return;
     }
-    alert('Selected: ' + selected.value + ' - Next: Quiz or something');
-    // For now, just alert. Later redirect to next page.
 }
+
+document.getElementById('pollForm').addEventListener('submit', proceed);
 </script>
 
 </body>

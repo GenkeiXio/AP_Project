@@ -74,3 +74,15 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::get('/analytics/export',                       [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
+
+Route::get('/module', function () {
+    return view('Students.module');
+})->name('module.home');
+
+Route::get('/poll', function () {
+    return view('Students.poll');
+})->name('poll');
+
+Route::get('/pre-test/module-2', function () {
+    return view('Students.Pre-Test.module2');
+})->name('pretest.module2');
