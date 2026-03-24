@@ -20,27 +20,27 @@ class StudentAuthController extends Controller
 
         $username = trim($request->username);
 
-        // Check if student exists
+        // Check if student already exists
         $student = Student::where('username', $username)->first();
 
         if ($student) {
-            // Existing student — log them in
+            // Existing student — log them in, go straight to dashboard
             $student->update(['last_played' => now()]);
-            Session::put('student_id', $student->id);
+            Session::put('student_id',       $student->id);
             Session::put('student_username', $student->username);
-            return redirect()->route('narration');
+            return redirect()->route('student.dashboard');
         }
 
-        // New student — register them
+        // New student — register and redirect to character selection
         $student = Student::create([
             'username'    => $username,
             'last_played' => now(),
         ]);
 
-        Session::put('student_id', $student->id);
+        Session::put('student_id',       $student->id);
         Session::put('student_username', $student->username);
 
-        return redirect()->route('narration');
+        return redirect()->route('student.select-character');
     }
 
     public function logout(Request $request)

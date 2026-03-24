@@ -12,10 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->enum('avatar', [
-                'explorer_boy',
-                'explorer_girl',
-                'scientist',
-                'adventurer'
+                'boy_uniform',
+                'girl_uniform',
             ])->nullable();
             $table->timestamp('last_played')->nullable();
             $table->timestamps();
