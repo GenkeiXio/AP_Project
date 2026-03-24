@@ -9,11 +9,37 @@
 	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 	<style>
+		:root {
+			--bg-1: #fffaf3;
+			--bg-2: #fff3df;
+			--card: rgba(255, 255, 255, 0.94);
+			--text: #3d2a1a;
+			--muted: #7a6143;
+			--accent: #6dbf7e;
+			--accent-dark: #4da862;
+			--accent-soft: #eefaf1;
+			--warm: #f4c97a;
+			--wrong-soft: #fff3e6;
+			--wrong-border: #efc48f;
+			--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
+			--radius-xl: 24px;
+			--radius-lg: 18px;
+			--radius-md: 14px;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
 		body {
 			display: block;
 			min-height: 100vh;
 			padding: 28px 20px 40px;
 			overflow-x: hidden;
+			background:
+				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
+				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
+				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
 		}
 
 		.main-wrapper {
@@ -25,157 +51,146 @@
 
 		.pretest-wrap {
 			width: 100%;
-			max-width: 860px;
+			max-width: 880px;
 			margin: 0 auto;
 		}
 
 		.pretest-card {
-			background: rgba(255, 255, 255, 0.9);
-			border-radius: 16px;
-			box-shadow: 0 6px 28px rgba(80, 50, 10, 0.1);
-			padding: 16px;
+			position: relative;
+			background: var(--card);
+			backdrop-filter: blur(10px);
+			border-radius: 28px;
+			box-shadow: var(--shadow);
+			padding: 22px;
+			border: 1px solid rgba(230, 208, 175, 0.7);
+			overflow: hidden;
+		}
+
+		.pretest-card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background:
+				linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+			pointer-events: none;
 		}
 
 		.pretest-header {
 			text-align: center;
-			margin-bottom: 14px;
+			margin-bottom: 16px;
+			position: relative;
+			z-index: 2;
 		}
 
 		.pretest-header .header-icons {
-			font-size: 1rem;
+			font-size: 1.2rem;
+			letter-spacing: 3px;
+			margin-bottom: 4px;
 		}
 
 		.pretest-header .subtitle {
-			font-size: 0.82rem;
+			font-size: 0.85rem;
+			font-weight: 800;
+			color: var(--muted);
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
 		}
 
 		.pretest-header h1 {
-			font-size: clamp(1.6rem, 3.3vw, 2.1rem);
-			margin: 6px 0;
+			font-family: "Baloo 2", cursive;
+			font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+			margin: 6px 0 4px;
+			color: var(--text);
+			line-height: 1.1;
 		}
 
 		.pretest-header p {
-			color: #7a6143;
+			color: var(--muted);
 			font-weight: 700;
 			margin-top: 6px;
-			font-size: 0.88rem;
+			font-size: 0.94rem;
 		}
 
 		.pretest-note {
-			background: #fff9ef;
+			background: linear-gradient(180deg, #fffaf0 0%, #fff4df 100%);
 			border: 1px solid #efd9b3;
 			color: #6e5233;
-			border-radius: 12px;
-			padding: 10px 12px;
-			font-size: 0.9rem;
-			margin-bottom: 14px;
+			border-radius: 16px;
+			padding: 12px 14px;
+			font-size: 0.92rem;
+			margin-bottom: 16px;
+			font-weight: 700;
+			text-align: center;
 		}
 
-		.question-list {
+		.quiz-page {
 			display: block;
-		}
-
-		.question-item {
-			background: #fff;
-			border: 1px solid #eadcc5;
-			border-radius: 12px;
-			padding: 12px;
-			min-height: 245px;
-		}
-
-		.question-item h4 {
-			color: #3d2a1a;
-			margin-bottom: 8px;
-			line-height: 1.42;
-			font-size: 0.91rem;
-		}
-
-		.choices {
-			display: grid;
-			gap: 7px;
-		}
-
-		.choice {
-			display: flex;
-			align-items: flex-start;
-			gap: 8px;
-			border: 1px solid #e7d7bf;
-			border-radius: 10px;
-			padding: 7px 9px;
-			cursor: pointer;
-			transition: border-color 0.2s, background-color 0.2s, transform 0.15s;
-		}
-
-		.choice:hover {
-			border-color: #d4a574;
-			background: #fffaf1;
-			transform: translateX(4px);
-		}
-
-		.choice.selected {
-			border-color: #6dbf7e;
-			background: #f3fbf5;
-			transform: translateX(4px);
-		}
-
-		.choice input {
-			margin-top: 3px;
-			accent-color: #6dbf7e;
-			cursor: pointer;
-		}
-
-		.choice span {
-			color: #4e3823;
-			font-size: 0.87rem;
-			line-height: 1.35;
+			position: relative;
+			z-index: 2;
 		}
 
 		.quiz-progress {
-			max-width: 430px;
-			margin: 0 auto 10px;
+			max-width: 520px;
+			margin: 0 auto 18px;
+		}
+
+		.progress-topline {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 8px;
+			flex-wrap: wrap;
+		}
+
+		.progress-label {
+			font-size: 0.84rem;
+			font-weight: 900;
+			color: var(--muted);
+			letter-spacing: 0.4px;
+		}
+
+		.progress-mini-badge {
+			font-size: 0.78rem;
+			font-weight: 800;
+			color: #5b472f;
+			background: #fff7ea;
+			border: 1px solid #efd9b3;
+			padding: 5px 10px;
+			border-radius: 999px;
 		}
 
 		.progress-dots {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			gap: 5px;
+			gap: 6px;
 			flex-wrap: wrap;
-			margin-bottom: 8px;
+			margin-bottom: 10px;
 		}
 
 		.progress-dot {
-			width: 6px;
-			height: 6px;
+			width: 8px;
+			height: 8px;
 			border-radius: 50%;
 			background: #dfd2c3;
 			transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-			cursor: default;
 		}
 
 		.progress-dot.completed {
-			background: #6dbf7e;
-			transform: scale(1.2);
+			background: var(--accent);
+			transform: scale(1.15);
 		}
 
 		.progress-dot.active {
 			background: #57ba77;
-			transform: scale(1.35);
-			box-shadow: 0 0 6px rgba(109, 191, 126, 0.45);
-		}
-
-		.progress-label {
-			text-align: center;
-			font-size: 0.78rem;
-			font-weight: 700;
-			color: #7a6143;
-			margin-bottom: 4px;
-			letter-spacing: 0.5px;
+			transform: scale(1.45);
+			box-shadow: 0 0 10px rgba(109, 191, 126, 0.45);
 		}
 
 		.progress-track {
 			width: 100%;
-			height: 6px;
+			height: 10px;
 			border-radius: 999px;
 			background: #eadfcd;
 			overflow: hidden;
@@ -184,56 +199,256 @@
 		.progress-fill {
 			height: 100%;
 			width: 0%;
-			background: linear-gradient(135deg, #6dbf7e, #4da862);
-			transition: width 0.3s ease;
+			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+			border-radius: inherit;
+			transition: width 0.35s ease;
 		}
 
-		.quiz-page {
+		.flashcard-stage {
+			position: relative;
+			min-height: 360px;
+			perspective: 1200px;
+		}
+
+		.question-list {
 			display: block;
+			position: relative;
+			min-height: 360px;
 		}
 
-		.result-page {
-			display: none;
-			max-width: 500px;
-			margin: 12px auto 0;
+		.question-item {
+			position: relative;
+			background:
+				linear-gradient(180deg, #ffffff 0%, #fffdf9 100%);
+			border: 1px solid #eadcc5;
+			border-radius: 24px;
+			padding: 18px;
+			min-height: 360px;
+			box-shadow: 0 12px 30px rgba(91, 66, 33, 0.08);
+			overflow: hidden;
 		}
 
-		.result-page.show {
-			display: block;
+		.question-item::after {
+			content: "";
+			position: absolute;
+			top: -60px;
+			right: -60px;
+			width: 160px;
+			height: 160px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(109,191,126,0.13) 0%, rgba(109,191,126,0) 68%);
+			pointer-events: none;
+		}
+
+		.card-chip-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			flex-wrap: wrap;
+			margin-bottom: 12px;
+		}
+
+		.card-chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			border-radius: 999px;
+			font-size: 0.8rem;
+			font-weight: 900;
+			background: #fff7ea;
+			color: #694d30;
+			border: 1px solid #efd9b3;
+		}
+
+		.card-tip {
+			font-size: 0.78rem;
+			font-weight: 800;
+			color: var(--muted);
+		}
+
+		.question-item h4 {
+			color: var(--text);
+			margin-bottom: 14px;
+			line-height: 1.5;
+			font-size: 1.02rem;
+			font-weight: 900;
+			padding-right: 18px;
+		}
+
+		.choices {
+			display: grid;
+			gap: 10px;
+		}
+
+		.choice {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			border: 1px solid #e7d7bf;
+			border-radius: 16px;
+			padding: 11px 12px;
+			cursor: pointer;
+			transition: border-color 0.22s, background-color 0.22s, transform 0.18s, box-shadow 0.18s;
+			background: #fff;
+			position: relative;
+		}
+
+		.choice:hover {
+			border-color: #d4a574;
+			background: #fffaf1;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 18px rgba(170, 124, 67, 0.08);
+		}
+
+		.choice.selected {
+			border-color: var(--accent);
+			background: #f3fbf5;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 22px rgba(109, 191, 126, 0.12);
+		}
+
+		.choice.correct-reveal {
+			border-color: var(--accent);
+			background: #f1fbf4;
+			box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.12);
+		}
+
+		.choice.soft-wrong {
+			border-color: var(--wrong-border);
+			background: var(--wrong-soft);
+		}
+
+		.choice input {
+			margin-top: 4px;
+			accent-color: var(--accent);
+			cursor: pointer;
+			transform: scale(1.05);
+		}
+
+		.choice span {
+			color: #4e3823;
+			font-size: 0.93rem;
+			line-height: 1.45;
+			font-weight: 700;
+		}
+
+		.reaction-box {
+			margin-top: 14px;
+			min-height: 64px;
+			border-radius: 16px;
+			padding: 12px 14px;
+			font-weight: 800;
+			font-size: 0.92rem;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			opacity: 0;
+			transform: translateY(8px);
+			pointer-events: none;
+			transition: opacity 0.25s ease, transform 0.25s ease;
+		}
+
+		.reaction-box.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		.reaction-box.correct {
+			background: linear-gradient(180deg, #eefaf1 0%, #e4f7ea 100%);
+			border: 1px solid #bfe3c8;
+			color: #2f6c44;
+		}
+
+		.reaction-box.gentle {
+			background: linear-gradient(180deg, #fff8ef 0%, #fff2df 100%);
+			border: 1px solid #efd2a7;
+			color: #7a5a2e;
+		}
+
+		.reaction-emoji {
+			font-size: 1.25rem;
+			line-height: 1;
+			flex-shrink: 0;
 		}
 
 		.action-row {
-			margin-top: 12px;
+			margin-top: 16px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			flex-wrap: wrap;
-			gap: 7px;
+			gap: 10px;
 		}
 
-		.action-row .btn-primary {
-			width: min(180px, 100%);
-			padding: 10px;
-			font-size: 0.88rem;
+		.btn-primary,
+		.btn-secondary {
+			border: none;
+			outline: none;
+			text-decoration: none;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			gap: 8px;
+			min-width: 160px;
+			padding: 11px 16px;
+			border-radius: 14px;
+			font-size: 0.92rem;
+			font-family: "Baloo 2", cursive;
+			font-weight: 800;
+			cursor: pointer;
+			transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 		}
 
-		.action-row .btn-primary[disabled] {
+		.btn-primary {
+			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+			color: #fff;
+			box-shadow: 0 10px 22px rgba(77, 168, 98, 0.22);
+		}
+
+		.btn-primary:hover:not([disabled]),
+		.btn-secondary:hover:not([disabled]) {
+			transform: translateY(-2px);
+		}
+
+		.btn-primary[disabled],
+		.btn-secondary[disabled] {
 			opacity: 0.5;
 			cursor: not-allowed;
 			transform: none;
 			box-shadow: none;
 		}
 
+		.btn-secondary {
+			background: #fff;
+			color: #4c3a26;
+			border: 2px solid #d7c4a3;
+			box-shadow: 0 8px 18px rgba(120, 90, 50, 0.08);
+		}
+
+		.result-page {
+			display: none;
+			max-width: 560px;
+			margin: 12px auto 0;
+		}
+
+		.result-page.show {
+			display: block;
+			animation: fadePop 0.45s ease;
+		}
+
 		.result-box {
 			display: none;
 			margin-top: 14px;
-			border-radius: 15px;
-			border: 2px solid rgba(109, 191, 126, 0.3);
+			border-radius: 24px;
+			border: 2px solid rgba(109, 191, 126, 0.28);
 			background: linear-gradient(180deg, #fffdf7 0%, #f6efe2 100%);
-			color: #3d2a1a;
-			padding: 14px 12px;
+			color: var(--text);
+			padding: 18px 16px;
 			text-align: center;
 			font-weight: 800;
+			box-shadow: 0 14px 32px rgba(91, 66, 33, 0.1);
 		}
 
 		.result-box.show {
@@ -242,27 +457,28 @@
 
 		.result-title {
 			font-family: "Baloo 2", cursive;
-			font-size: clamp(1.45rem, 3.4vw, 1.9rem);
-			color: #3d2a1a;
+			font-size: clamp(1.55rem, 3.4vw, 2rem);
+			color: var(--text);
 			margin-bottom: 10px;
 		}
 
 		.result-ring {
 			--progress: 0;
-			width: 150px;
-			height: 150px;
+			width: 160px;
+			height: 160px;
 			margin: 0 auto 10px;
 			border-radius: 50%;
 			background: conic-gradient(#57ba77 calc(var(--progress) * 1%), #d9e8dc 0);
 			display: grid;
 			place-items: center;
 			position: relative;
+			box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
 		}
 
 		.result-ring::before {
 			content: "";
-			width: 116px;
-			height: 116px;
+			width: 122px;
+			height: 122px;
 			border-radius: 50%;
 			background: linear-gradient(180deg, #fffdf8 0%, #f2eadf 100%);
 			position: absolute;
@@ -273,41 +489,41 @@
 		.result-percent {
 			position: relative;
 			z-index: 1;
-			font-size: 1.6rem;
+			font-size: 1.7rem;
 			font-weight: 900;
 			color: #2f6c44;
 		}
 
 		.result-score {
-			font-size: 0.96rem;
+			font-size: 1rem;
 			font-weight: 800;
 			color: #4c3a26;
-			margin-top: 3px;
+			margin-top: 4px;
 		}
 
 		.result-subtext {
-			margin-top: 5px;
-			font-size: 0.82rem;
+			margin-top: 6px;
+			font-size: 0.85rem;
 			font-weight: 700;
-			color: #7a6143;
+			color: var(--muted);
 		}
 
 		.result-feedback {
-			margin-top: 5px;
-			font-size: 0.84rem;
-			font-weight: 700;
+			margin-top: 6px;
+			font-size: 0.9rem;
+			font-weight: 800;
 			color: #6f5538;
 		}
 
 		.badge-pill {
 			display: inline-flex;
 			align-items: center;
-			gap: 5px;
-			padding: 4px 9px;
+			gap: 6px;
+			padding: 6px 12px;
 			border-radius: 999px;
-			font-size: 0.75rem;
-			font-weight: 800;
-			margin-top: 6px;
+			font-size: 0.8rem;
+			font-weight: 900;
+			margin-top: 8px;
 			background: #eefaf1;
 			color: #2f6c44;
 			border: 1px solid #bfe3c8;
@@ -318,55 +534,118 @@
 			justify-content: center;
 			align-items: center;
 			flex-wrap: wrap;
-			gap: 7px;
-			margin-top: 10px;
-		}
-
-		.result-actions .btn-primary,
-		.result-actions .btn-secondary {
-			text-decoration: none;
-			width: min(180px, 100%);
-			text-align: center;
-			padding: 9px;
-			font-size: 0.86rem;
-		}
-
-		.btn-secondary {
-			padding: 9px;
-			background: #fff;
-			color: #4c3a26;
-			border: 2px solid #d7c4a3;
-			border-radius: 12px;
-			font-size: 0.86rem;
-			font-family: "Baloo 2", cursive;
-			font-weight: 700;
-			cursor: pointer;
-			transition: transform 0.15s, box-shadow 0.15s;
-		}
-
-		.btn-secondary:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 7px 18px rgba(120, 90, 50, 0.18);
+			gap: 10px;
+			margin-top: 12px;
 		}
 
 		.home-btn {
 			position: fixed;
 			top: 20px;
 			left: 20px;
-			font-size: 1.8rem;
+			font-size: 1.6rem;
 			text-decoration: none;
 			color: #000;
 			padding: 10px 14px;
-			border-radius: 12px;
-			box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+			border-radius: 14px;
+			box-shadow: 0 6px 14px rgba(0,0,0,0.14);
 			z-index: 1000;
 			transition: transform 0.2s ease, box-shadow 0.2s ease;
-			background: rgba(255, 255, 255, 0.85);
+			background: rgba(255, 255, 255, 0.88);
+			backdrop-filter: blur(8px);
 		}
 
 		.home-btn:hover {
-			transform: scale(1.08);
-			box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+			transform: scale(1.06);
+			box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+		}
+
+		.card-slide-in-right {
+			animation: slideInRight 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.card-slide-in-left {
+			animation: slideInLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.card-slide-in-up {
+			animation: slideInUp 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.pulse-pop {
+			animation: pulsePop 0.45s ease;
+		}
+
+		@keyframes slideInRight {
+			from {
+				opacity: 0;
+				transform: translateX(60px) rotate(0.7deg) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0) rotate(0) scale(1);
+			}
+		}
+
+		@keyframes slideInLeft {
+			from {
+				opacity: 0;
+				transform: translateX(-60px) rotate(-0.7deg) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0) rotate(0) scale(1);
+			}
+		}
+
+		@keyframes slideInUp {
+			from {
+				opacity: 0;
+				transform: translateY(42px) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@keyframes fadePop {
+			from {
+				opacity: 0;
+				transform: translateY(18px) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@keyframes pulsePop {
+			0% { transform: scale(0.98); }
+			50% { transform: scale(1.015); }
+			100% { transform: scale(1); }
+		}
+
+		.confetti-piece {
+			position: fixed;
+			top: -20px;
+			width: 10px;
+			height: 16px;
+			border-radius: 3px;
+			opacity: 0.95;
+			z-index: 9999;
+			pointer-events: none;
+			animation: confettiFall linear forwards;
+		}
+
+		@keyframes confettiFall {
+			0% {
+				transform: translateY(0) rotate(0deg);
+				opacity: 1;
+			}
+			100% {
+				transform: translateY(110vh) rotate(720deg);
+				opacity: 0;
+			}
 		}
 
 		@media (max-width: 768px) {
@@ -375,29 +654,49 @@
 			}
 
 			.pretest-card {
-				padding: 12px;
+				padding: 14px;
+				border-radius: 22px;
 			}
 
-			.action-row {
-				flex-direction: column;
+			.question-item {
+				padding: 15px;
+				min-height: 340px;
 			}
 
+			.flashcard-stage,
+			.question-list {
+				min-height: 340px;
+			}
+
+			.action-row,
 			.result-actions {
 				flex-direction: column;
 			}
 
+			.btn-primary,
+			.btn-secondary {
+				width: 100%;
+			}
+
 			.result-ring {
-				width: 132px;
-				height: 132px;
+				width: 140px;
+				height: 140px;
 			}
 
 			.result-ring::before {
-				width: 102px;
-				height: 102px;
+				width: 106px;
+				height: 106px;
 			}
 
 			.result-percent {
-				font-size: 1.35rem;
+				font-size: 1.42rem;
+			}
+
+			.home-btn {
+				top: 12px;
+				left: 12px;
+				font-size: 1.4rem;
+				padding: 8px 11px;
 			}
 		}
 	</style>
@@ -409,33 +708,43 @@
 <span class="deco deco-3">🌸</span>
 <span class="deco deco-4">🗺️</span>
 
-<a href="{{ route('poll') }}" class="home-btn" title="Bumalik sa Poll">⬅️</a>
+<a href="{{ route('module.home') }}" class="home-btn" title="Bumalik sa Module">⬅️</a>
 
-<div class="main-wrapper" style="width:100%; max-width:1200px;">
+<div class="main-wrapper">
 	<div class="pretest-wrap">
 		<div class="pretest-card">
 			<div class="pretest-header">
 				<div class="header-icons">🧭 🗺️ ✨</div>
 				<div class="subtitle">Module 2</div>
 				<h1>Paunang Pagtataya</h1>
-				<p>Piliin ang letra ng tamang sagot.</p>
+				<p>Parang flashcards lang ito — isang tanong kada slide.</p>
+			</div>
+
+			<div class="pretest-note">
+				💡 Piliin ang sagot at mag-slide sa susunod. Kapag tama, may munting celebration. Kapag mali, may magaan na feedback para tuloy lang ang momentum.
 			</div>
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
 					<div class="quiz-progress">
+						<div class="progress-topline">
+							<div class="progress-label" id="quizProgressLabel"></div>
+							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
+						</div>
 						<div class="progress-dots" id="progressDots"></div>
-						<div class="progress-label" id="quizProgressLabel"></div>
 						<div class="progress-track">
 							<div class="progress-fill" id="quizProgressFill"></div>
 						</div>
 					</div>
-					<div class="question-list" id="questionList"></div>
+
+					<div class="flashcard-stage">
+						<div class="question-list" id="questionList"></div>
+					</div>
 
 					<div class="action-row">
-						<button type="button" class="btn-primary" id="prevBtn" onclick="goPreviousQuestion()">← Nakaraan</button>
+						<button type="button" class="btn-secondary" id="prevBtn" onclick="goPreviousQuestion()">← Nakaraan</button>
 						<button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()">Susunod →</button>
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Ipasa ang Pre-Test 🚀</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Pre-Test 🚀</button>
 					</div>
 				</div>
 
@@ -463,152 +772,152 @@
 <script>
 	const questions = [
 		{
-			question: '1. Alin sa mga sumusunod ang batas kung saan nakapaloob ang kautusan sa pagsasagawa ng reforestation sa buong bansa kasama ang pribadong sektor?',
+			question: '1. Ano ang tinutukoy ng solid waste?',
 			options: {
-				a: 'Presidential Decree 705',
-				b: 'Executive Order No. 23',
-				c: 'Republic Act 570',
-				d: 'Republic Act 9072'
-			},
-			answer: 'a'
-		},
-		{
-			question: '2. Alin sa mga sumusunod ang naglalarawan sa konsepto ng reforestation?',
-			options: {
-				a: 'Ang walang habas na pamumutol ng mga puno sa kagubatan',
-				b: 'Muling pagtatanim ng mga puno sa mga kagubatan at kabundukan',
-				c: 'Ang pagsunog sa mga kagubatan upang makuhanan ng mga uling at panggatong',
-				d: 'Wala sa nabanggit'
+				a: 'Mga likas na yaman',
+				b: 'Mga basurang mula sa tahanan at negosyo',
+				c: 'Mga hayop sa kagubatan',
+				d: 'Mga anyong tubig'
 			},
 			answer: 'b'
 		},
 		{
-			question: '3. Tumutukoy sa nararanasang pagtaas ng katamtamang temperatura ng himpapawid at mga karagatan sa mundo nitong mga nakaraang dekada.',
+			question: '2. Ano ang pangunahing dahilan ng suliranin sa basura sa Pilipinas?',
 			options: {
-				a: 'Climate Change',
-				b: 'Slash and Burn',
-				c: 'Deforestation',
-				d: 'Illegal Logging'
+				a: 'Kawalan ng disiplina sa pagtatapon',
+				b: 'Malakas na ulan',
+				c: 'Kakulangan sa tubig',
+				d: 'Pagdami ng bundok'
 			},
 			answer: 'a'
 		},
 		{
-			question: '4. Batay sa Executive Order No. 23, anong gawain ang ipinagbawal ng pamahalaan upang mapangalagaan ang kalikasan?',
+			question: '3. Ano ang maaaring maging epekto ng maling pagtatapon ng basura?',
 			options: {
-				a: 'Fuel Wood Harvesting',
-				b: 'Illegal Mining',
-				c: 'Illegal Logging',
-				d: 'Reforestation'
-			},
-			answer: 'c'
-		},
-		{
-			question: '5. Alin sa mga sumusunod ang HIGIT na nagpapakita ng pangangalaga sa likas na yaman ng daigdig?',
-			options: {
-				a: 'Paggamit ng mga renewable energy tulad ng solar at wind energy na hindi nauubos.',
-				b: 'Huwag mangisda sa mga maliliit na ilog at dagat.',
-				c: 'Pagtatapon sa tamang basurahan.',
-				d: 'Pagtatanim ng mga pagkain sa sariling bakuran upang hindi maubos ang likas na yaman.'
-			},
-			answer: 'a'
-		},
-		{
-			question: '6. Paano higit na maiiwasan ang pagkaubos ng likas na yaman ng daigdig?',
-			options: {
-				a: 'Huwag bumili ng mga mamahaling bato tulad ng diyamante at metal.',
-				b: 'Ibalik sa dagat ang mga maliliit pang isda.',
-				c: 'Huwag abusuhin ang kalikasan at gumamit ng mga renewable energy.',
-				d: 'Huwag putulin ang mga puno'
-			},
-			answer: 'c'
-		},
-		{
-			question: '7. Bakit mahalagang panatilihin ang ekolohikal na balanse ng ating kapaligiran?',
-			options: {
-				a: 'Para magkaroon ng kaunlaran ang bansa',
-				b: 'Para mapaunlad ang mga industriya at mga pagawaan sa bansa',
-				c: 'Para matiyak ang kaligtasan ng pamumuhay ng mga mamamayan.',
-				d: 'Para makilala at mabigyan ng karangalan sa ibang bansa'
-			},
-			answer: 'c'
-		},
-		{
-			question: '8. Bakit mahalagang bigyang-pansin ang pagtutulungan ng iba’t ibang sektor ng lipunan sa pagsugpo sa mga suliraning pangkapaligiran?',
-			options: {
-				a: 'Upang maraming dayuhan ang magtungo sa ating bansa',
-				b: 'Pananagutang panlahat ang pagsugpo sa iba’t ibang suliraning pangkapaligiran',
-				c: 'Makakabawas ito sa mga gastusin ng pamahalaan',
-				d: 'Masyadong malawak ang pagsugpo sa suliraning pangkapaligiran'
+				a: 'Pag-unlad ng ekonomiya',
+				b: 'Pagbaha at paglaganap ng sakit',
+				c: 'Pagdami ng puno',
+				d: 'Paglinis ng hangin'
 			},
 			answer: 'b'
 		},
 		{
-			question: '9. Ano ang batas na nilagdaan noong 1987 na tumugon sa pagpigil sa pagnipis ng ozone layer na nagbibigay proteksyon sa mundo laban sa matinding init ng araw na humahantong sa climate change?',
+			question: '4. Ano ang deforestation?',
 			options: {
-				a: 'Montreal Protocol',
-				b: 'Kyoto Protocol',
-				c: 'Clean and Green',
-				d: 'Bantay Kalikasan'
+				a: 'Pagtatanim ng puno',
+				b: 'Paglilinis ng ilog',
+				c: 'Pagputol ng mga puno sa kagubatan',
+				d: 'Pag-aalaga ng hayop'
 			},
-			answer: 'a'
+			answer: 'c'
 		},
 		{
-			question: '10. Batay sa mga ulat at pananaliksik, saang lugar sa Pilipinas nagmumula ang malaking bahagdan ng solid waste?',
+			question: '5. Alin sa mga sumusunod ang sanhi ng deforestation?',
 			options: {
-				a: 'Mindoro',
-				b: 'Masbate',
-				c: 'Marinduque',
-				d: 'Metro Manila'
-			},
-			answer: 'd'
-		},
-		{
-			question: '11. Alin sa mga sumusunod ang HINDI kabilang sa mga organisasyong nakikiisa sa pagsugpo sa mga suliraning pangkapaligiran?',
-			options: {
-				a: 'Mother Earth Foundation',
-				b: 'Clean and Green Foundation',
-				c: 'Greenpeace',
-				d: 'CEDAW'
-			},
-			answer: 'd'
-		},
-		{
-			question: '12. Ano-ano ang mga aspeto ng pamumuhay ang labis na naaapektuhan ng mga kalamidad na nararanasan sa Pilipinas?',
-			options: {
-				a: 'Kabuhayan at katarungan',
-				b: 'Kalusugan, kabuhayan at kalikasan',
-				c: 'Kalakalan, kabuhayan at kapatiran',
-				d: 'Kultura, kalikasan at kapayapaan'
+				a: 'Recycling',
+				b: 'Illegal logging',
+				c: 'Pagtatanim ng puno',
+				d: 'Clean-up drive'
 			},
 			answer: 'b'
 		},
 		{
-			question: '13. Ang mga sumusunod ay pawang mga epekto ng pagsasagawa ng illegal logging maliban sa ______________.',
+			question: '6. Ano ang maaaring epekto ng pagkakalbo ng kagubatan?',
 			options: {
-				a: 'malawakang pagbaha',
-				b: 'pagkasira ng tahanan ng mga hayop',
-				c: 'soil erosion',
-				d: 'pagkawala ng sustansya ng lupa'
+				a: 'Pagdami ng hayop',
+				b: 'Pagbaha at pagguho ng lupa',
+				c: 'Paglamig ng klima',
+				d: 'Pagdami ng isda'
 			},
-			answer: 'd'
+			answer: 'b'
 		},
 		{
-			question: '14. Batay sa pag-aaral ng National Solid Waste Management Report ng 2015, anong uri ng basura ang may pinakamalaking porsyento ang itinatapon sa bansa?',
+			question: '7. Ano ang climate change?',
 			options: {
-				a: 'Biodegradables',
-				b: 'Recyclables',
-				c: 'Residual',
-				d: 'Non-Biodegradables'
+				a: 'Pagbabago ng anyo ng lupa',
+				b: 'Pagtaas ng populasyon',
+				c: 'Pagbabago ng temperatura at klima ng mundo',
+				d: 'Pagdami ng kagubatan'
 			},
-			answer: 'a'
+			answer: 'c'
 		},
 		{
-			question: '15. Bilang isang mag-aaral, paano ka makakatulong sa pagsugpo sa mga suliraning pangkapaligiran sa ating daigdig?',
+			question: '8. Ano ang pangunahing sanhi ng climate change?',
 			options: {
-				a: 'Patuloy na pananaliksik sa mga epektibong pamamaraan',
-				b: 'Pakikisa sa mga gawaing nagtataguyod sa pangangalaga sa kalikasan',
-				c: 'Pananaliksik at pag-aaral sa mga kasalukuyang kaganapan sa kapaligiran',
-				d: 'Palagiang pagbatikos sa mga kakulangan ng gobyerno sa pagharap sa mga suliranin'
+				a: 'Pagtatanim ng puno',
+				b: 'Paggamit ng fossil fuels',
+				c: 'Paglilinis ng kapaligiran',
+				d: 'Pag-recycle'
+			},
+			answer: 'b'
+		},
+		{
+			question: '9. Alin sa mga sumusunod ang epekto ng climate change?',
+			options: {
+				a: 'Mas malamig na panahon',
+				b: 'Mas malalakas na bagyo',
+				c: 'Pagdami ng kagubatan',
+				d: 'Pagliit ng populasyon'
+			},
+			answer: 'b'
+		},
+		{
+			question: '10. Ano ang layunin ng Republic Act 9003?',
+			options: {
+				a: 'Pagpapatupad ng pagmimina',
+				b: 'Wastong pamamahala ng basura',
+				c: 'Pagputol ng puno',
+				d: 'Pagpaparami ng sasakyan'
+			},
+			answer: 'b'
+		},
+		{
+			question: '11. Ano ang pangunahing tungkulin ng early warning system?',
+			options: {
+				a: 'Magtanim ng puno',
+				b: 'Magbigay ng babala bago ang sakuna',
+				c: 'Mangolekta ng basura',
+				d: 'Magpatupad ng batas'
+			},
+			answer: 'b'
+		},
+		{
+			question: '12. Ano ang layunin ng evacuation program?',
+			options: {
+				a: 'Magtayo ng bahay',
+				b: 'Ilipat ang tao sa ligtas na lugar',
+				c: 'Maglinis ng kalsada',
+				d: 'Magtanim ng halaman'
+			},
+			answer: 'b'
+		},
+		{
+			question: '13. Bakit mahalaga ang pakikiisa ng mamamayan sa pangangalaga ng kalikasan?',
+			options: {
+				a: 'Para maging sikat',
+				b: 'Para sa pansariling interes',
+				c: 'Dahil ito ay pananagutang panlahat',
+				d: 'Para kumita ng pera'
+			},
+			answer: 'c'
+		},
+		{
+			question: '14. Alin sa mga sumusunod ang tamang hakbang sa pangangalaga ng kapaligiran?',
+			options: {
+				a: 'Pagsusunog ng basura',
+				b: 'Waste segregation',
+				c: 'Pagtapon sa ilog',
+				d: 'Pagputol ng puno'
+			},
+			answer: 'b'
+		},
+		{
+			question: '15. Bilang isang mag-aaral, paano ka makakatulong sa kalikasan?',
+			options: {
+				a: 'Huwag makialam',
+				b: 'Makilahok sa clean-up drive',
+				c: 'Magtapon ng basura kahit saan',
+				d: 'Sumira ng halaman'
 			},
 			answer: 'b'
 		}
@@ -618,6 +927,7 @@
 	const progressDots = document.getElementById('progressDots');
 	const quizProgressLabel = document.getElementById('quizProgressLabel');
 	const quizProgressFill = document.getElementById('quizProgressFill');
+	const answeredCountLabel = document.getElementById('answeredCountLabel');
 	const quizPage = document.getElementById('quizPage');
 	const resultPage = document.getElementById('resultPage');
 	const prevBtn = document.getElementById('prevBtn');
@@ -625,18 +935,42 @@
 	const submitBtn = document.getElementById('submitBtn');
 
 	const selectedAnswers = Array(questions.length).fill('');
+	const answerLocked = Array(questions.length).fill(false);
 	let currentQuestionIndex = 0;
+	let lastDirection = 'right';
+
+	const correctMessages = [
+		'🎉 Tama! Galing mo!',
+		'✨ Nice one! Tuloy lang!',
+		'🌟 Sakto! Good job!',
+		'🎊 Ayos! Nakuha mo!',
+		'🧠 Correct! Malakas!'
+	];
+
+	const gentleMessages = [
+		'🌱 Okay lang iyan — learning moment ito.',
+		'💛 Good try! Bawi tayo sa next card.',
+		'✨ Ayos lang — part ito ng pagkatuto.',
+		'🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.',
+		'📘 Nice try! Tuloy lang, nandito lang ang aralin.'
+	];
 
 	function getAnsweredCount() {
 		return selectedAnswers.filter(answer => answer !== '').length;
 	}
 
+	function randomFrom(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
+
 	function updateProgress() {
 		const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
-		quizProgressLabel.textContent = `Tanong ${currentQuestionIndex + 1} / ${questions.length}`;
+		const answeredCount = getAnsweredCount();
+
+		quizProgressLabel.textContent = `Card ${currentQuestionIndex + 1} of ${questions.length}`;
+		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} answered`;
 		quizProgressFill.style.width = `${progressPercent}%`;
 
-		// Update progress dots
 		progressDots.innerHTML = questions.map((_, idx) => `
 			<div class="progress-dot ${idx < currentQuestionIndex ? 'completed' : ''} ${idx === currentQuestionIndex ? 'active' : ''}"></div>
 		`).join('');
@@ -644,29 +978,79 @@
 
 	function updateActionButtons() {
 		prevBtn.disabled = currentQuestionIndex === 0;
+
 		const isLast = currentQuestionIndex === questions.length - 1;
 		const hasAnswer = Boolean(selectedAnswers[currentQuestionIndex]);
+
 		nextBtn.style.display = isLast ? 'none' : 'inline-flex';
 		submitBtn.style.display = isLast ? 'inline-flex' : 'none';
+
 		nextBtn.disabled = !isLast && !hasAnswer;
 		submitBtn.disabled = isLast && !hasAnswer;
+	}
+
+	function getCardAnimationClass() {
+		if (currentQuestionIndex === 0) return 'card-slide-in-up';
+		return lastDirection === 'left' ? 'card-slide-in-left' : 'card-slide-in-right';
 	}
 
 	function renderCurrentQuestion() {
 		const item = questions[currentQuestionIndex];
 		const selectedValue = selectedAnswers[currentQuestionIndex];
+		const isLocked = answerLocked[currentQuestionIndex];
+		const isCorrect = selectedValue && selectedValue === item.answer;
+		const animationClass = getCardAnimationClass();
 
-		const choicesHtml = Object.entries(item.options).map(([key, text]) => `
-			<label class="choice ${selectedValue === key ? 'selected' : ''}">
-				<input type="radio" name="q${currentQuestionIndex}" value="${key}" ${selectedValue === key ? 'checked' : ''}>
-				<span>${key}. ${text}</span>
-			</label>
-		`).join('');
+		const choicesHtml = Object.entries(item.options).map(([key, text]) => {
+			let classNames = ['choice'];
+			if (selectedValue === key) classNames.push('selected');
+			if (isLocked && key === item.answer) classNames.push('correct-reveal');
+			if (isLocked && selectedValue === key && selectedValue !== item.answer) classNames.push('soft-wrong');
+
+			return `
+				<label class="${classNames.join(' ')}">
+					<input type="radio" name="q${currentQuestionIndex}" value="${key}" ${selectedValue === key ? 'checked' : ''} ${isLocked ? 'disabled' : ''}>
+					<span>${key}. ${text}</span>
+				</label>
+			`;
+		}).join('');
+
+		let reactionBoxHtml = '';
+		if (isLocked && selectedValue) {
+			if (isCorrect) {
+				reactionBoxHtml = `
+					<div class="reaction-box correct show pulse-pop">
+						<div class="reaction-emoji">🎉</div>
+						<div>${randomFrom(correctMessages)}</div>
+					</div>
+				`;
+			} else {
+				reactionBoxHtml = `
+					<div class="reaction-box gentle show pulse-pop">
+						<div class="reaction-emoji">🌱</div>
+						<div>${randomFrom(gentleMessages)}</div>
+					</div>
+				`;
+			}
+		} else {
+			reactionBoxHtml = `
+				<div class="reaction-box">
+					<div class="reaction-emoji">✨</div>
+					<div>Piliin ang sagot na sa tingin mo ay tama.</div>
+				</div>
+			`;
+		}
 
 		questionList.innerHTML = `
-			<div class="question-item">
+			<div class="question-item ${animationClass}">
+				<div class="card-chip-row">
+					<div class="card-chip">🎴 Flashcard ${currentQuestionIndex + 1}</div>
+					<div class="card-tip">Swipe vibe • one question at a time</div>
+				</div>
+
 				<h4>${item.question}</h4>
 				<div class="choices">${choicesHtml}</div>
+				${reactionBoxHtml}
 			</div>
 		`;
 
@@ -674,35 +1058,59 @@
 		updateActionButtons();
 	}
 
+	function launchConfetti() {
+		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
+
+		for (let i = 0; i < 42; i++) {
+			const piece = document.createElement('div');
+			piece.className = 'confetti-piece';
+			piece.style.left = `${Math.random() * 100}vw`;
+			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
+			piece.style.animationDelay = `${Math.random() * 0.15}s`;
+			piece.style.transform = `translateY(0) rotate(${Math.random() * 360}deg)`;
+			piece.style.width = `${8 + Math.random() * 6}px`;
+			piece.style.height = `${10 + Math.random() * 10}px`;
+
+			document.body.appendChild(piece);
+			setTimeout(() => piece.remove(), 4200);
+		}
+	}
+
 	questionList.addEventListener('change', (event) => {
 		const target = event.target;
-		if (target && target.matches('input[type="radio"]')) {
-			selectedAnswers[currentQuestionIndex] = target.value;
-			updateProgress();
-			updateActionButtons();
+		if (!target || !target.matches('input[type="radio"]')) return;
+		if (answerLocked[currentQuestionIndex]) return;
+
+		selectedAnswers[currentQuestionIndex] = target.value;
+		answerLocked[currentQuestionIndex] = true;
+
+		const isCorrect = target.value === questions[currentQuestionIndex].answer;
+		if (isCorrect) {
+			launchConfetti();
 		}
+
+		renderCurrentQuestion();
 	});
 
 	function goPreviousQuestion() {
-		if (currentQuestionIndex === 0) {
-			return;
-		}
+		if (currentQuestionIndex === 0) return;
 
+		lastDirection = 'left';
 		currentQuestionIndex -= 1;
 		renderCurrentQuestion();
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	}
 
 	function goNextQuestion() {
-		if (currentQuestionIndex >= questions.length - 1) {
-			return;
-		}
+		if (currentQuestionIndex >= questions.length - 1) return;
 
 		if (!selectedAnswers[currentQuestionIndex]) {
-			alert('Pumili muna ng sagot bago magpatuloy sa susunod na tanong.');
+			alert('Pumili muna ng sagot bago magpatuloy sa susunod na card.');
 			return;
 		}
 
+		lastDirection = 'right';
 		currentQuestionIndex += 1;
 		renderCurrentQuestion();
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -730,14 +1138,27 @@
 	}
 
 	function getFeedbackByPercent(percent) {
-		if (percent >= 80) return { badge: '🏆 Napakahusay!', feedback: 'Malakas na ang pundasyon mo sa paksa. Ipagpatuloy mo lang!' };
-		if (percent >= 50) return { badge: '👏 Magaling!', feedback: 'May alam ka na sa paksa. Mas gagaling ka pa sa susunod na aralin.' };
-		return { badge: '🌱 Simula pa lang!', feedback: 'Okay lang ito. Ang pre-test ay gabay para mas mapalalim pa ang iyong pag-unawa.' };
+		if (percent >= 80) {
+			return {
+				badge: '🏆 Napakahusay!',
+				feedback: 'Ang ganda ng simula mo sa paksa. Ready ka na para sa susunod na bahagi!'
+			};
+		}
+		if (percent >= 50) {
+			return {
+				badge: '👏 Magaling!',
+				feedback: 'May matibay ka nang pundasyon. Mas lilinaw pa ito habang nagpapatuloy ang aralin.'
+			};
+		}
+		return {
+			badge: '🌱 Warm-up pa lang!',
+			feedback: 'Ayos lang iyan. Ginagamit ang pre-test para makita kung saan pa mas lalalim ang pag-unawa.'
+		};
 	}
 
 	function submitPreTest() {
 		if (selectedAnswers.some(answer => !answer)) {
-			alert('Pakisagutan muna ang lahat ng tanong bago ipasa.');
+			alert('Pakisagutan muna ang lahat ng card bago tapusin.');
 			return;
 		}
 
@@ -745,7 +1166,6 @@
 			return total + (selectedAnswers[index] === item.answer ? 1 : 0);
 		}, 0);
 
-		const resultBox = document.getElementById('resultBox');
 		const resultRing = document.getElementById('resultRing');
 		const resultPercent = document.getElementById('resultPercent');
 		const resultScoreText = document.getElementById('resultScoreText');
@@ -763,14 +1183,22 @@
 		quizPage.style.display = 'none';
 		resultPage.classList.add('show');
 
+		if (percentage >= 80) {
+			launchConfetti();
+		}
+
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function restartQuiz() {
 		selectedAnswers.fill('');
+		answerLocked.fill(false);
 		currentQuestionIndex = 0;
+		lastDirection = 'right';
+
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
+
 		renderCurrentQuestion();
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	}

@@ -38,7 +38,7 @@ class StudentController extends Controller
         if (!$student) return redirect()->route('home');
 
         $student->update(['avatar' => $request->avatar]);
-        return redirect()->route('student.dashboard');
+        return redirect()->route('narration');
     }
 
     // ── Student Profile ──

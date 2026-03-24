@@ -159,7 +159,7 @@
 
 <script>
 function startLesson() {
-    window.location.href = '{{ route("poll") }}';
+    window.location.href = '{{ route("pretest.module2") }}';
 }
 
 // FIXED ACCORDION
