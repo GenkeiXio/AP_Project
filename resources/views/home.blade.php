@@ -23,7 +23,7 @@
     <!-- Main wrapper -->
     <div class="main-wrapper">
 
-        <!-- Left: Description Area -->
+        <!-- Hero content first -->
         <div class="hero-content">
             <div class="header">
                 <div class="header-icons">🧭 🗺️ ✨</div>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <!-- Right: Login Card -->
+        <!-- Login Card below -->
         <div class="login-section">
             <div class="card">
                 <span class="card-compass">🧭</span>

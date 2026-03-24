@@ -8,6 +8,7 @@
     <title>Hamon at Tugon: Narration</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/narration.css') }}">
 </head>
 <body>
 
@@ -21,7 +22,7 @@
     <div class="main-wrapper">
 
         <!-- Narration Content -->
-        <div class="hero-content">
+        <div class="narration-container">
             <div class="header">
                 <div class="header-icons">🧭 🗺️ ✨</div>
                 <div class="subtitle">Araling Panlipunan 10: Mga Kontemporaryong Isyu</div>
