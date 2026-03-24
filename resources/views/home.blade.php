@@ -81,9 +81,10 @@
                 </div>
 
                 <label for="staffPassword">Password</label>
-                <div class="modal-input-wrap">
+                <div class="modal-input-wrap password-wrap">
                     <span class="icon">🔑</span>
                     <input type="password" id="staffPassword" placeholder="••••••••" />
+                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility()" title="Show/Hide password">👁️</button>
                 </div>
 
                 <button class="btn-primary" id="continueBtn" onclick="verifyCredentials()">Magpatuloy →</button>

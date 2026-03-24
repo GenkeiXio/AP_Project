@@ -48,6 +48,19 @@ function resetModal() {
     showStep('credentials');
 }
 
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('staffPassword');
+    const toggleBtn = document.querySelector('.password-toggle');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.textContent = '👁️‍🗨️';
+    } else {
+        passwordInput.type = 'password';
+        toggleBtn.textContent = '👁️';
+    }
+}
+
 function showStep(step) {
     document.getElementById('step-credentials').style.display = step === 'credentials' ? 'block' : 'none';
     document.getElementById('step-verify').style.display = step === 'verify' ? 'block' : 'none';

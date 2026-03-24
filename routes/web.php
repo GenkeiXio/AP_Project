@@ -96,3 +96,7 @@ Route::get('/module', function () {
 Route::get('/poll', function () {
     return view('Students.poll');
 })->name('poll');
+
+Route::get('/pre-test/module-2', function () {
+    return view('Students.Pre-Test.module2');
+})->name('pretest.module2');
