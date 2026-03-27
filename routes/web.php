@@ -88,3 +88,10 @@ Route::get('/module', function () {
 Route::get('/pre-test/module-2', function () {
     return view('Students.Pre-Test.module2');
 })->name('pretest.module2');
+
+Route::get('/node-3', function () {
+    return view('Students.Pre-Test.Nodes.node3');
+})->name('node3');
+Route::get('/demo-map', function () {
+    return view('Students.Games.mainmap'); // This matches the name 'mainmap.blade.php'
+})->name('student.map'); // This is the 'nickname' we use in the href
