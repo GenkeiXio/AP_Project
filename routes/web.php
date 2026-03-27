@@ -100,3 +100,11 @@ Route::get('/node-1/solid-waste/activity', function () {
 Route::get('/demo-map', function () {
     return view('Students.Games.mainmap');
 })->name('student.map');
+
+Route::get('/node2', function () {
+    return view('Students.Pre-Test.Nodes.node2');
+})->name('node2');
+
+Route::get('/node2/activity', function () {
+    return view('Students.Pre-Test.Nodes.node2_activity');
+})->name('node2.activity');

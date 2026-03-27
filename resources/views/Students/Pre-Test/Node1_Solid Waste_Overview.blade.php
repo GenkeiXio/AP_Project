@@ -190,20 +190,66 @@
 				grid-template-columns: 1fr;
 			}
 		}
+
+		.info-cards {
+			margin-top: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.info-card {
+			background: #ffffff;
+			border-left: 6px solid #4caf50;
+			border-radius: 12px;
+			padding: 14px 16px;
+
+			box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+			transition: 0.2s ease;
+		}
+
+		.info-card:hover {
+			transform: translateY(-2px);
+		}
+
+		.card-title {
+			font-weight: 900;
+			color: #2e7d32;
+			margin-bottom: 6px;
+		}
 	</style>
 </head>
 <body>
-<div class="page">
-	<section class="hero">
-		<h1 class="title">NODE 1: SOLID WASTE - Basura (Albay)</h1>
-		<p class="desc">
-			Ang solid waste ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
-			Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng pagbaha at polusyon sa ilog at dagat.
-		</p>
+	<div class="page">
+		<section class="hero">
+			<h1 class="title">NODE 1: SOLID WASTE - Basura (Albay)</h1>
+			<div class="info-cards">
 
-		<div class="start-wrap">
-			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Buksan ang Sanhi • Bunga • Solusyon Activity</a>
+		<div class="info-card">
+			<div class="card-title">Paglalarawan</div>
+			<p>
+				Ang solid waste ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
+				Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng pagbaha at polusyon sa ilog at dagat.
+			</p>
 		</div>
+
+		<div class="info-card">
+			<div class="card-title">Guiding Question</div>
+			<p>
+				Paano nakaaapekto ang hindi wastong pamamahala ng solid waste sa kapaligiran at kalusugan ng mga mamamayan sa Albay,
+				at ano ang maaari mong gawin bilang mag-aaral upang makatulong sa paglutas nito?
+			</p>
+		</div>
+
+		<div class="info-card">
+			<div class="card-title">📘 Alamin natin</div>
+			<p>
+				Ang <strong>SOLID WASTE</strong> ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
+				Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng <strong>pagbaha</strong> at <strong>polusyon</strong> sa ilog at dagat.
+			</p>
+		</div>
+
+	</div>
 
 		<div class="local-grid">
 			<article class="source-card">
@@ -235,6 +281,11 @@
 				<button class="source-link source-open" type="button" data-title="Tambak na basura sa Tagas, Daraga" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=true">Buksan ang source sa loob ng page</button>
 			</article>
 		</div>
+
+		<div class="start-wrap">
+			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Buksan ang Sanhi • Bunga • Solusyon Activity</a>
+		</div>
+		
 	</section>
 </div>
 

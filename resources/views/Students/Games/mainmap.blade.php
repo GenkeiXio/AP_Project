@@ -130,6 +130,7 @@ body, html {
 }
 
 /* MODAL (matches your theme) */
+/* MODAL (same behavior, improved design) */
 .modal {
     position: fixed;
     top: 0;
@@ -138,8 +139,8 @@ body, html {
     height: 100vh;
     z-index: 9999;
 
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(4px);
+    background: linear-gradient(135deg, rgba(0,0,0,0.65), rgba(34,139,34,0.45));
+    backdrop-filter: blur(6px);
 
     display: none;
     justify-content: center;
@@ -150,40 +151,69 @@ body, html {
     display: flex;
 }
 
+/* ✨ MAIN CARD */
 .modal-content {
-    background: #ffffff;
-    padding: 25px;
+    background: linear-gradient(135deg, #ffffff, #f3f8f3);
+    padding: 28px;
     width: 90%;
-    max-width: 600px;
-    border-radius: 18px;
+    max-width: 620px;
+    border-radius: 22px;
     text-align: left;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-    animation: popIn 0.3s ease;
+
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    animation: popIn 0.35s ease;
+    position: relative;
 }
 
+/* ✨ SECTION CARDS */
 .modal-section {
-    background: #f8fdf8;
+    background: #ffffff;
     border-left: 6px solid #2e7d32;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
 }
 
+.modal-section:hover {
+    transform: translateY(-2px);
+}
+
+/* ✨ HEADINGS */
 .modal-section h3 {
     margin-bottom: 8px;
-    font-weight: 800;
+    font-size: 1.1rem;
+    font-weight: 900;
     color: #1b5e20;
 }
 
+/* ✨ TEXT */
 .modal-section p {
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    color: #444;
 }
 
-.close-btn {
-    float: right;
-    font-size: 1.5rem;
-    cursor: pointer;
+/* ✨ BUTTON UPGRADE */
+.modal-content .btn-primary {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+
+    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+    color: #fff;
+
+    box-shadow: 0 8px 20px rgba(46,125,50,0.4);
+    transition: 0.25s ease;
+}
+
+.modal-content .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(46,125,50,0.6);
 }
 
 @keyframes popIn {
@@ -204,12 +234,10 @@ body, html {
 <div id="introModal" class="modal show">
     <div class="modal-content">
 
-        <span class="close-btn" onclick="closeIntro()">✖</span>
-
-        <div class="modal-section">
+        <!-- <div class="modal-section">
             <h3>🧭 III. EXPLORE (CONCEPT MAP)</h3>
             <p><strong>Create a clickable concept map with 4 nodes</strong></p>
-        </div>
+        </div> -->
 
         <div class="modal-section">
             <h3>📘 Paglalarawan</h3>
@@ -232,7 +260,7 @@ body, html {
     <div class="map-container" style="position: relative; display: inline-block;">
         <img src="{{ asset('pictures/main_map.png') }}" class="background-map" alt="Main Map">
 
-        <button class="pin location-1" onclick="showDetails('Module 2')">
+        <button class="pin location-1" onclick="goToModule2()">
              <span class="tooltip">Module 2</span>
         </button>
 
@@ -249,6 +277,14 @@ body, html {
 </div>
 
 <script>
+function goToModule2() {
+    window.location.href = '{{ route("module.home") }}';
+}
+
+function showDetails(locationName) {
+    alert("This module is not yet available");
+}
+
 function showDetails(locationName) {
     alert("You clicked on the " + locationName);
 }
