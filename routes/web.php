@@ -92,6 +92,11 @@ Route::get('/pre-test/module-2', function () {
 Route::get('/node-3', function () {
     return view('Students.Pre-Test.Nodes.node3');
 })->name('node3');
+
+//MAP Routes
 Route::get('/demo-map', function () {
     return view('Students.Games.mainmap'); // This matches the name 'mainmap.blade.php'
 })->name('student.map'); // This is the 'nickname' we use in the href
+Route::get('/inner-map-2', function () {
+    return view('students.module2.inner_map2'); // This matches inner_map2.blade.php
+})->name('inner.map2');

@@ -67,9 +67,10 @@ body, html {
 }
 
 /* Positioning the 3 pins (Adjust these % values to fit your map) */
-.location-1 { top: 59%; left: 82%;}
-.location-2 { top: 50%; left: 25%; }
-.location-3 { top: 53%; left: 50%; }
+.location-1 { top: 50%; left: 25%;}
+.location-2 { top: 53%; left: 50%; }
+.location-3 { top: 59%; left: 82%; }
+
 
 /* Simple Tooltip */
 .pin .tooltip {
@@ -232,8 +233,8 @@ body, html {
     <div class="map-container" style="position: relative; display: inline-block;">
         <img src="{{ asset('pictures/main_map.png') }}" class="background-map" alt="Main Map">
 
-        <button class="pin location-1" onclick="showDetails('Module 2')">
-             <span class="tooltip">Module 2</span>
+        <button class="pin location-1" onclick="window.location.href='{{ route('inner.map2') }}'">
+            <span class="tooltip">Module 2</span>
         </button>
 
         <button class="pin location-2" onclick="showDetails('Module 3')">
