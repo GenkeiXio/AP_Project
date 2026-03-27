@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climate Change sa Albay | Interactive Learning</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Climate Change sa Albay | Interactive Learning with Images</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <style>
         /* Smooth dragging style */
         .dragging {
@@ -49,24 +47,141 @@
             transition: all 0.2s ease;
         }
         
-        /* Item styling */
+        /* Item styling with image support */
         .drag-item {
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            border-radius: 12px;
+            padding: 8px 16px 8px 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .drag-item:active {
             cursor: grabbing;
         }
+        
+        .drag-item-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #f0f7e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .drag-item-text {
+            font-weight: 600;
+            color: #2d3e1f;
+            font-size: 0.95rem;
+        }
+        
+        /* Category zone item styling */
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fef9e6;
+            border-radius: 10px;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .category-item-img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 8px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .category-item-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #3a2c1a;
+        }
+        
+        /* CENTER TOP VALIDATION MESSAGE - Prominent and immediately visible */
+        .validation-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            z-index: 9999;
+            min-width: 320px;
+            max-width: 90vw;
+            text-align: center;
+            padding: 14px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2), 0 8px 10px -6px rgba(0,0,0,0.1);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .validation-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        .validation-toast.error {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border-left: 6px solid #ffd966;
+        }
+        .validation-toast.success {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            border-left: 6px solid #fde047;
+        }
+        .validation-toast.info {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+            border-left: 6px solid #93c5fd;
+        }
+        .toast-icon {
+            font-size: 1.5rem;
+            animation: gentlePulse 0.5s ease-in-out;
+            display: inline-block;
+        }
+        
+        @keyframes gentlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Pool container item styling */
+        .pool-item {
+            transition: transform 0.1s ease;
+        }
+        .pool-item:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
-<body">
-    <!-- Decorative elements (preserved) -->
+<body>
+    <!-- Decorative elements -->
     <span class="deco deco-1">🌿</span>
     <span class="deco deco-2">🦋</span>
     <span class="deco deco-3">🌸</span>
     <span class="deco deco-4">🗺️</span>
 
-    <!-- HERO SECTION (Preserved) -->
+    <!-- HERO SECTION -->
     <section class="relative py-20 md:py-28 bg-transparent bg-cover bg-center rounded-lg mx-6">
         <div class="absolute inset-0 bg-transparent bg-cover bg-center rounded-lg"></div>
         <div class="container mx-auto px-6 relative z-10 text-center">
@@ -74,7 +189,6 @@
             <p class="max-w-2xl mx-auto text-lg md:text-xl text-black">Paano nakaaapekto ang matinding init at malalakas na bagyo sa ating lalawigan? Alamin ang mga sanhi, epekto, at sama-samang solusyon.</p>
             
             <div class="mt-8 flex justify-center gap-4 flex-wrap">
-                <!-- Button to open modal -->
                 <button id="openEffectsModalBtn" class="bg-white text-green-800 px-6 py-2 rounded-full font-semibold shadow-md hover:bg-green-100 transition duration-200 cursor-pointer">Ating Alamin →</button>
             </div>
 
@@ -93,28 +207,23 @@
         </div>
     </section>
 
-    <!-- MODAL with Drag & Drop Game -->
+    <!-- MODAL with Drag & Drop Game (with Images) -->
     <div id="effectsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop opacity-0 invisible transition-all duration-300">
-        <!-- Modal Backdrop -->
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="modalBackdropClose"></div>
         
-        <!-- Modal Container -->
         <div class="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl modal-content scale-95 opacity-0 transition-all duration-300">
             <div class="game-board p-6 md:p-8 rounded-3xl border-8 border-[#c2d88a] relative">
-                <!-- Close Button -->
                 <button id="closeModalBtn" class="absolute top-3 right-4 bg-red-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-lg hover:bg-red-600 transition z-20 text-xl">✕</button>
                 
-                <!-- Title -->
                 <div class="text-center mb-6 relative">
                     <h2 class="inline-block bg-[#f8efc9] text-[#5a4614] border-4 border-[#d5b565] rounded-full px-8 py-2 text-2xl md:text-3xl font-extrabold shadow-md">
                         🌿 Sanhi • Bunga • Solusyon 🌏
                     </h2>
-                    <p class="text-sm text-gray-700 mt-2">📌 I-drag ang mga aytem mula sa ibaba papunta sa tamang kategorya</p>
+                    <p class="text-sm text-gray-700 mt-2">📌 I-drag ang mga aytem (may larawan) papunta sa tamang kategorya</p>
                 </div>
 
                 <!-- 3 Column Grid: Sanhi | Bunga | Solusyon -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <!-- Sanhi Zone -->
                     <div class="category-zone bg-white/90 border-4 border-[#eed072] rounded-2xl p-4 min-h-[320px] flex flex-col shadow-inner transition-all" 
                          id="zone-sanhi" data-category="sanhi" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
                         <div class="bg-[#fced9a] border-b-4 border-[#d9b846] w-[110%] -mt-8 py-2 text-center rounded-lg shadow-md mb-4 font-bold text-lg text-yellow-900">
@@ -123,7 +232,6 @@
                         <div id="sanhi-items" class="flex flex-col gap-2 min-h-[200px]"></div>
                     </div>
 
-                    <!-- Bunga Zone -->
                     <div class="category-zone bg-white/90 border-4 border-[#e99742] rounded-2xl p-4 min-h-[320px] flex flex-col shadow-inner transition-all" 
                          id="zone-bunga" data-category="bunga" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
                         <div class="bg-[#fbb963] border-b-4 border-[#d27e26] w-[110%] -mt-8 py-2 text-center rounded-lg shadow-md mb-4 font-bold text-lg text-orange-900">
@@ -132,7 +240,6 @@
                         <div id="bunga-items" class="flex flex-col gap-2 min-h-[200px]"></div>
                     </div>
 
-                    <!-- Solusyon Zone -->
                     <div class="category-zone bg-white/90 border-4 border-[#82b866] rounded-2xl p-4 min-h-[320px] flex flex-col shadow-inner transition-all" 
                          id="zone-solusyon" data-category="solusyon" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
                         <div class="bg-[#a8d387] border-b-4 border-[#619543] w-[110%] -mt-8 py-2 text-center rounded-lg shadow-md mb-4 font-bold text-lg text-green-900">
@@ -142,19 +249,18 @@
                     </div>
                 </div>
 
-                <!-- DRAGGABLE ITEMS POOL (All items start here) -->
+                <!-- DRAGGABLE ITEMS POOL with Images -->
                 <div class="bg-[#e4ebd3] border-4 border-solid border-[#82b866] rounded-2xl p-5 relative shadow-md" 
                      id="item-pool" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#e4ebd3] px-4 font-bold text-green-800 whitespace-nowrap text-sm md:text-base border-2 border-green-600 rounded-full">
-                        📦 DRAG & DROP ZONE - Simula dito ang mga aytem 📦
+                        📦 DRAG & DROP ZONE - May mga larawan ang bawat aytem 📦
                     </div>
                     <div id="items-pool-container" class="flex flex-wrap justify-center gap-3 mt-5">
-                        <!-- All draggable items will be placed here initially -->
+                        <!-- Draggable items with images will appear here -->
                     </div>
-                    <p class="text-center text-xs text-gray-600 mt-3">⬅️ I-drag ang kahit anong aytem papunta sa Sanhi, Bunga, o Solusyon sa itaas ➡️</p>
+                    <p class="text-center text-xs text-gray-600 mt-3">⬅️ I-drag ang kahit anong aytem (kasama ang imahe) papunta sa tamang kategorya sa itaas ➡️</p>
                 </div>
 
-                <!-- Reset Button -->
                 <div class="flex justify-center mt-6 gap-4">
                     <button id="resetModalItemsBtn" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-full shadow transition text-sm">⟳ I-reset ang Lahat</button>
                 </div>
@@ -163,73 +269,196 @@
     </div>
 
     <script>
-        // ==================== DATA ====================
-        // Define all draggable items with their correct category (for validation)
+        // ==================== DATA WITH IMAGES ====================
+        // Each item now has an image icon (emoji-based visual + some custom image URLs using emoji as fallback, 
+        // but we'll use actual image URLs from free icon resources to represent concepts)
+        // For a richer experience, we use a mix of FontAwesome-style emojis and embedded data URLs? 
+        // Using reliable emoji + background colors to simulate "images". But to truly attach an image, 
+        // we will use <img> with inline SVG or emoji as visual representation.
+        // To make it realistic and fun, each item gets a custom image-like representation (emoji as image + optional background)
+        
         const itemsData = [
-            { id: "item1", text: "🏭 Pagsusunog ng fossil fuels", correctCategory: "sanhi" },
-            { id: "item2", text: "🌊 Pagbaha", correctCategory: "bunga" },
-            { id: "item3", text: "🌱 Pagtatanim ng Puno", correctCategory: "solusyon" },
-            { id: "item4", text: "☀️ Renewable Energy", correctCategory: "solusyon" },
-            { id: "item5", text: "🪓 Deforestation", correctCategory: "sanhi" },
-            { id: "item6", text: "⛰️ Pagguho ng Lupa", correctCategory: "bunga" }
+            { 
+                id: "item1", 
+                text: "Pagsusunog ng fossil fuels", 
+                correctCategory: "sanhi",
+                image: "🏭",      // Emoji as visual image
+                imageBg: "#ffedd5",
+                altText: "factory pollution icon"
+            },
+            { 
+                id: "item2", 
+                text: "Pagbaha", 
+                correctCategory: "bunga",
+                image: "🌊",
+                imageBg: "#d9f0f7",
+                altText: "flood water icon"
+            },
+            { 
+                id: "item3", 
+                text: "Pagtatanim ng Puno", 
+                correctCategory: "solusyon",
+                image: "🌱",
+                imageBg: "#e0f2e0",
+                altText: "tree planting icon"
+            },
+            { 
+                id: "item4", 
+                text: "Renewable Energy", 
+                correctCategory: "solusyon",
+                image: "☀️",
+                imageBg: "#fff3cf",
+                altText: "solar energy icon"
+            },
+            { 
+                id: "item5", 
+                text: "Deforestation", 
+                correctCategory: "sanhi",
+                image: "🪓",
+                imageBg: "#e9e0c7",
+                altText: "deforestation icon"
+            },
+            { 
+                id: "item6", 
+                text: "Pagguho ng Lupa", 
+                correctCategory: "bunga",
+                image: "⛰️",
+                imageBg: "#e2d9c6",
+                altText: "landslide icon"
+            }
         ];
 
-        // Track current location of each item: 'pool', 'sanhi', 'bunga', 'solusyon'
+        // Track current location
         let itemLocations = {};
-        
-        // Store references to DOM elements
         let poolContainer, sanhiContainer, bungaContainer, solusyonContainer;
         
-        // ==================== INITIALIZATION ====================
-        function initializeLocations() {
-            // All items start in the pool (button area)
-            itemsData.forEach(item => {
-                itemLocations[item.id] = 'pool';
-            });
+        // ==================== CENTER-TOP VALIDATION ====================
+        let activeToast = null;
+        let toastTimeout = null;
+        
+        function showCenterTopValidation(message, type = 'info') {
+            if (activeToast) {
+                activeToast.classList.remove('show');
+                setTimeout(() => {
+                    if (activeToast && activeToast.parentNode) activeToast.parentNode.removeChild(activeToast);
+                    activeToast = null;
+                }, 200);
+                if (toastTimeout) clearTimeout(toastTimeout);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = `validation-toast ${type}`;
+            let icon = '';
+            if (type === 'error') icon = '❌';
+            else if (type === 'success') icon = '✅';
+            else if (type === 'warning') icon = '⚠️';
+            else icon = 'ℹ️';
+            
+            toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
+            document.body.appendChild(toast);
+            activeToast = toast;
+            
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            toastTimeout = setTimeout(() => {
+                if (activeToast) {
+                    activeToast.classList.remove('show');
+                    setTimeout(() => {
+                        if (activeToast && activeToast.parentNode) activeToast.parentNode.removeChild(activeToast);
+                        if (activeToast === toast) activeToast = null;
+                    }, 300);
+                }
+                toastTimeout = null;
+            }, 3500);
         }
         
-        // Create draggable element
+        // ==================== CREATE DRAGGABLE ITEM WITH IMAGE ====================
         function createDraggableItem(item) {
             const div = document.createElement('div');
-            div.className = "drag-item bg-white border-2 border-gray-400 rounded-lg p-3 cursor-grab shadow-md hover:shadow-lg hover:bg-gray-50 transition-all font-semibold text-center min-w-[140px]";
+            div.className = "drag-item pool-item cursor-grab shadow-md hover:shadow-lg transition-all";
             div.setAttribute('draggable', 'true');
             div.setAttribute('data-id', item.id);
             div.setAttribute('data-correct', item.correctCategory);
-            div.textContent = item.text;
+            div.style.background = "white";
+            div.style.border = "1px solid #cbd5a0";
             
-            // Drag event handlers
+            // Image/Icon container
+            const imgSpan = document.createElement('div');
+            imgSpan.className = "drag-item-img";
+            imgSpan.style.backgroundColor = item.imageBg || "#f0f7e8";
+            imgSpan.style.fontSize = "28px";
+            imgSpan.style.display = "flex";
+            imgSpan.style.alignItems = "center";
+            imgSpan.style.justifyContent = "center";
+            imgSpan.textContent = item.image; // Using emoji as image representation
+            
+            const textSpan = document.createElement('span');
+            textSpan.className = "drag-item-text";
+            textSpan.textContent = item.text;
+            
+            div.appendChild(imgSpan);
+            div.appendChild(textSpan);
+            
+            // Drag handlers
             div.addEventListener('dragstart', handleDragStart);
             div.addEventListener('dragend', handleDragEnd);
             
             return div;
         }
         
-        // Render all items based on current locations
+        // Create item display for category zones (non-draggable visual)
+        function createCategoryItemDisplay(item) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "category-item";
+            wrapper.style.borderLeftColor = item.correctCategory === 'sanhi' ? '#e9b741' : (item.correctCategory === 'bunga' ? '#e97a2e' : '#6b9e3f');
+            
+            const imgDiv = document.createElement('div');
+            imgDiv.className = "category-item-img";
+            imgDiv.style.backgroundColor = item.imageBg || "#faf3e0";
+            imgDiv.style.fontSize = "24px";
+            imgDiv.textContent = item.image;
+            
+            const textSpan = document.createElement('span');
+            textSpan.className = "category-item-text";
+            textSpan.textContent = item.text;
+            
+            wrapper.appendChild(imgDiv);
+            wrapper.appendChild(textSpan);
+            return wrapper;
+        }
+        
+        function initializeLocations() {
+            itemsData.forEach(item => {
+                itemLocations[item.id] = 'pool';
+            });
+        }
+        
         function renderAllItems() {
-            // Clear all containers
             if (poolContainer) poolContainer.innerHTML = '';
             if (sanhiContainer) sanhiContainer.innerHTML = '';
             if (bungaContainer) bungaContainer.innerHTML = '';
             if (solusyonContainer) solusyonContainer.innerHTML = '';
             
-            // For each item, render it in its current location
             itemsData.forEach(item => {
-                const itemElement = createDraggableItem(item);
                 const location = itemLocations[item.id];
                 
                 if (location === 'pool') {
-                    poolContainer.appendChild(itemElement);
+                    const draggableElem = createDraggableItem(item);
+                    poolContainer.appendChild(draggableElem);
                 } else if (location === 'sanhi') {
-                    sanhiContainer.appendChild(itemElement);
+                    const displayElem = createCategoryItemDisplay(item);
+                    sanhiContainer.appendChild(displayElem);
                 } else if (location === 'bunga') {
-                    bungaContainer.appendChild(itemElement);
+                    const displayElem = createCategoryItemDisplay(item);
+                    bungaContainer.appendChild(displayElem);
                 } else if (location === 'solusyon') {
-                    solusyonContainer.appendChild(itemElement);
+                    const displayElem = createCategoryItemDisplay(item);
+                    solusyonContainer.appendChild(displayElem);
                 }
             });
         }
         
-        // ==================== DRAG & DROP HANDLERS ====================
+        // ==================== DRAG & DROP ====================
         let draggedItemId = null;
         
         function handleDragStart(event) {
@@ -238,14 +467,10 @@
                 event.preventDefault();
                 return false;
             }
-            
             draggedItemId = target.getAttribute('data-id');
             event.dataTransfer.setData("text/plain", draggedItemId);
             event.dataTransfer.effectAllowed = "move";
-            
-            // Add dragging visual effect
             target.classList.add('opacity-50', 'scale-95');
-            
             return true;
         }
         
@@ -254,20 +479,15 @@
             if (target) {
                 target.classList.remove('opacity-50', 'scale-95');
             }
-            
-            // Remove highlight from all drop zones
             document.querySelectorAll('.category-zone, #item-pool').forEach(zone => {
                 zone.classList.remove('drop-zone-hover');
             });
-            
             draggedItemId = null;
         }
         
         function handleDragOver(event) {
             event.preventDefault();
             event.dataTransfer.dropEffect = "move";
-            
-            // Highlight the drop zone
             const zone = event.target.closest('.category-zone, #item-pool');
             if (zone && !zone.classList.contains('drop-zone-hover')) {
                 document.querySelectorAll('.category-zone, #item-pool').forEach(z => {
@@ -279,19 +499,13 @@
         
         function handleDrop(event) {
             event.preventDefault();
-            
-            // Remove highlights
             document.querySelectorAll('.category-zone, #item-pool').forEach(zone => {
                 zone.classList.remove('drop-zone-hover');
             });
             
-            // Get the dragged item ID
             const draggedId = event.dataTransfer.getData("text/plain");
-            if (!draggedId || !itemLocations.hasOwnProperty(draggedId)) {
-                return;
-            }
+            if (!draggedId || !itemLocations.hasOwnProperty(draggedId)) return;
             
-            // Determine drop target zone
             const dropTarget = event.target.closest('.category-zone, #item-pool');
             if (!dropTarget) return;
             
@@ -303,39 +517,35 @@
             else return;
             
             const currentZone = itemLocations[draggedId];
-            
-            // If dropping to the same zone, do nothing
             if (currentZone === targetZone) return;
             
-            // Find the item data
             const draggedItem = itemsData.find(item => item.id === draggedId);
             if (!draggedItem) return;
             
-            // If dropping to a category zone (sanhi/bunga/solusyon), validate if it's correct
+            // VALIDATION: check category correctness
             if (targetZone === 'sanhi' || targetZone === 'bunga' || targetZone === 'solusyon') {
-                // Check if the item belongs to this category
                 if (draggedItem.correctCategory !== targetZone) {
-                    // Wrong category - show feedback but still allow? Better to show warning and not move
-                    showTemporaryMessage(`⚠️ Mali! Ang "${draggedItem.text}" ay hindi kabilang sa ${getCategoryName(targetZone)}. Subukan sa tamang kategorya. ⚠️`, 'error');
+                    const categoryDisplay = getCategoryName(targetZone);
+                    const errorMsg = `❌ MALI! Ang "${draggedItem.text}" (${draggedItem.image}) ay HINDI kabilang sa ${categoryDisplay}. Hanapin ang tamang kategorya. ❌`;
+                    showCenterTopValidation(errorMsg, 'error');
                     return;
                 }
             }
             
-            // Valid move - update location
+            // Valid move
             itemLocations[draggedId] = targetZone;
-            
-            // Re-render the UI
             renderAllItems();
             
-            // Show success feedback (optional)
             if (targetZone !== 'pool') {
-                showTemporaryMessage(`✓ Tamang paglalagay! Ang "${draggedItem.text}" ay nasa ${getCategoryName(targetZone)} na.`, 'success');
+                const categoryDisplay = getCategoryName(targetZone);
+                const successMsg = `✓ TAMA! Ang "${draggedItem.text}" ${draggedItem.image} ay nasa ${categoryDisplay} na. Magaling! ✓`;
+                showCenterTopValidation(successMsg, 'success');
             } else {
-                showTemporaryMessage(`↺ Ibinalik sa pool ang "${draggedItem.text}"`, 'info');
+                const infoMsg = `↺ Ibinalik sa pool ang "${draggedItem.text}" ${draggedItem.image}. Maaari mo itong subukan muli. ↺`;
+                showCenterTopValidation(infoMsg, 'info');
             }
         }
         
-        // Helper function to get category name in Tagalog/English
         function getCategoryName(category) {
             const names = {
                 'sanhi': 'SANHI (Cause)',
@@ -346,46 +556,12 @@
             return names[category] || category;
         }
         
-        // Show temporary floating message
-        let messageTimeout = null;
-        function showTemporaryMessage(message, type = 'info') {
-            // Remove existing message if any
-            const existingMsg = document.getElementById('drag-feedback-msg');
-            if (existingMsg) existingMsg.remove();
-            if (messageTimeout) clearTimeout(messageTimeout);
-            
-            const msgDiv = document.createElement('div');
-            msgDiv.id = 'drag-feedback-msg';
-            msgDiv.className = 'fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-full shadow-lg text-white font-bold text-sm md:text-base animate-bounce';
-            
-            if (type === 'error') {
-                msgDiv.className += ' bg-red-600';
-            } else if (type === 'success') {
-                msgDiv.className += ' bg-green-600';
-            } else {
-                msgDiv.className += ' bg-blue-600';
-            }
-            
-            msgDiv.textContent = message;
-            document.body.appendChild(msgDiv);
-            
-            messageTimeout = setTimeout(() => {
-                if (msgDiv) msgDiv.remove();
-            }, 2500);
-        }
-        
-        // ==================== RESET FUNCTION ====================
         function resetAllItems() {
-            // Reset all locations to pool
             itemsData.forEach(item => {
                 itemLocations[item.id] = 'pool';
             });
-            
-            // Re-render everything
             renderAllItems();
-            
-            // Show feedback
-            showTemporaryMessage('✓ Na-reset ang lahat ng aytem. Lahat ay nasa pool na ulit!', 'success');
+            showCenterTopValidation('✓ NA-RESET! Lahat ng aytem (may mga larawan) ay nasa pool na. Magsimula muli! ✓', 'success');
         }
         
         // ==================== MODAL CONTROLS ====================
@@ -396,20 +572,13 @@
         const resetBtn = document.getElementById('resetModalItemsBtn');
         
         function openModal() {
-            // Reset any ongoing drag state
             draggedItemId = null;
-            
-            // Make sure all items are in their correct locations (as per current state)
             renderAllItems();
-            
-            // Show modal with animations
             modal.classList.remove('invisible', 'opacity-0');
             const modalContentDiv = modal.querySelector('.modal-content');
             modalContentDiv.classList.remove('scale-95', 'opacity-0');
             modalContentDiv.classList.add('scale-100', 'opacity-100');
             modal.classList.add('opacity-100');
-            
-            // Prevent body scrolling
             document.body.style.overflow = 'hidden';
         }
         
@@ -420,9 +589,16 @@
             modal.classList.remove('opacity-100');
             modal.classList.add('invisible', 'opacity-0');
             document.body.style.overflow = '';
+            if (activeToast) {
+                activeToast.classList.remove('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+                setTimeout(() => {
+                    if (activeToast && activeToast.parentNode) activeToast.parentNode.removeChild(activeToast);
+                    activeToast = null;
+                }, 200);
+            }
         }
         
-        // ==================== SETUP DOM REFERENCES ====================
         function setupContainers() {
             poolContainer = document.getElementById('items-pool-container');
             sanhiContainer = document.getElementById('sanhi-items');
@@ -430,39 +606,31 @@
             solusyonContainer = document.getElementById('solusyon-items');
         }
         
-        // ==================== INITIALIZE ====================
         function init() {
             setupContainers();
             initializeLocations();
             renderAllItems();
             
-            // Set up event listeners for modal
             if (openBtn) openBtn.addEventListener('click', openModal);
             if (closeBtn) closeBtn.addEventListener('click', closeModal);
             if (backdropClose) backdropClose.addEventListener('click', closeModal);
             if (resetBtn) resetBtn.addEventListener('click', resetAllItems);
             
-            // Close modal on escape key
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && modal && !modal.classList.contains('invisible')) {
                     closeModal();
                 }
             });
             
-            // Prevent modal content click from closing
             const modalContentDiv = modal ? modal.querySelector('.modal-content') : null;
             if (modalContentDiv) {
-                modalContentDiv.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
+                modalContentDiv.addEventListener('click', (e) => e.stopPropagation());
             }
         }
         
-        // Make drop handlers globally accessible
         window.handleDragOver = handleDragOver;
         window.handleDrop = handleDrop;
         
-        // Start the application
         init();
     </script>
 </body>
