@@ -1,4 +1,4 @@
-@extends('Students.studentslayout')
+<!-- @extends('Students.studentslayout') -->
 
 @section('title', 'World Map')
 
@@ -17,32 +17,26 @@ body, html {
 }
 
 .map-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Aligns map toward the top of the content area */
-    width: 100%;
-    min-height: 85vh;        /* Gives it plenty of vertical space */
-    padding: 20px 0;         /* Space between the nav and the map */
-    background: transparent;
+    width: 100vw;
+    height: 100vh;
+    padding: 0; /* ❌ remove spacing */
+    margin: 0;
 }
 
 .map-container {
     position: relative;
-    display: inline-block;
-    width: 95%;              /* Takes up 95% of the available width */
-    max-width: 1150px;       /* Increased from 900px to make it much bigger */
-    aspect-ratio: 16 / 9;    /* Keeps the map proportions perfect */
-    box-shadow: 0 15px 45px rgba(0,0,0,0.4); /* Stronger shadow for the floating effect */
-    border-radius: 20px;     /* Matches the rounded corners in your goal image */
+    width: 100vw;   /* FULL WIDTH */
+    height: 100vh;  /* FULL HEIGHT */
+    
+    border-radius: 0; /* remove rounded edges */
     overflow: hidden;
-    border: 4px solid rgba(255, 255, 255, 0.3); /* Adds a subtle frame */
+    box-shadow: none; /* optional: remove floating effect */
 }
 
 .background-map {
     width: 100%;
     height: 100%;
-    object-fit: cover;       /* Ensures the map fills the entire container */
-    display: block;
+    object-fit: cover; /* fills screen nicely */
 }
 
 .pin {
@@ -124,15 +118,116 @@ body, html {
     background-color: #ffffff;
 }
 
+.page-content {
+    max-width: 100% !important;
+    padding: 0 !important;
+}
+
 @keyframes pinPulse {
     0% { filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.4)); }
     50% { filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.9)); }
     100% { filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.4)); }
 }
+
+/* MODAL (matches your theme) */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 25px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 18px;
+    text-align: left;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    animation: popIn 0.3s ease;
+}
+
+.modal-section {
+    background: #f8fdf8;
+    border-left: 6px solid #2e7d32;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.modal-section h3 {
+    margin-bottom: 8px;
+    font-weight: 800;
+    color: #1b5e20;
+}
+
+.modal-section p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 </style>
 @endpush
 
 @section('content')
+<!-- INTRO MODAL -->
+<div id="introModal" class="modal show">
+    <div class="modal-content">
+
+        <span class="close-btn" onclick="closeIntro()">✖</span>
+
+        <div class="modal-section">
+            <h3>🧭 III. EXPLORE (CONCEPT MAP)</h3>
+            <p><strong>Create a clickable concept map with 4 nodes</strong></p>
+        </div>
+
+        <div class="modal-section">
+            <h3>📘 Paglalarawan</h3>
+            <p>
+                Ang Albay ay nahaharap sa iba’t ibang suliraning pangkapaligiran tulad ng basura,
+                pagkakalbo ng kagubatan, at climate change. Dahil sa lokasyon nito at presensya ng
+                Bulkang Mayon, mahalaga ang wastong pangangalaga sa kalikasan upang maiwasan ang sakuna
+                at mapanatili ang kaayusan ng pamumuhay.
+            </p>
+        </div>
+
+        <button onclick="closeIntro()" class="btn-primary" style="width:100%; margin-top:10px;">
+            Simulan 🚀
+        </button>
+
+    </div>
+</div>
+
 <div class="map-wrapper">
     <div class="map-container" style="position: relative; display: inline-block;">
         <img src="{{ asset('pictures/main_map.png') }}" class="background-map" alt="Main Map">
@@ -156,6 +251,11 @@ body, html {
 <script>
 function showDetails(locationName) {
     alert("You clicked on the " + locationName);
+}
+
+// CLOSE INTRO MODAL
+function closeIntro() {
+    document.getElementById("introModal").classList.remove("show");
 }
 
 document.querySelector('.map-wrapper').addEventListener('click', function(e) {

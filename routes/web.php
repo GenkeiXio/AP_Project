@@ -93,6 +93,14 @@ Route::get('/node-3', function () {
     return view('Students.Pre-Test.Nodes.node3');
 })->name('node3');
 
+Route::get('/node-1/solid-waste', function () {
+    return view('Students.Pre-Test.Node1_Solid Waste_Overview');
+})->name('node1.solid-waste');
+
+Route::get('/node-1/solid-waste/activity', function () {
+    return view('Students.Pre-Test.Node1_Solid Waste');
+})->name('node1.solid-waste.activity');
+
 Route::get('/demo-map', function () {
-    return view('Students.Games.mainmap'); 
-})->name('student.map'); 
+    return view('Students.Games.mainmap');
+})->name('student.map');
