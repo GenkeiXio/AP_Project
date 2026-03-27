@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Node 1: Solid Waste - Overview</title>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Nunito", sans-serif;
+			background: linear-gradient(180deg, #eff8ff 0%, #f6fff6 45%, #fff8ea 100%);
+			color: #2e2e2e;
+			min-height: 100vh;
+			padding: 20px 14px 32px;
+		}
+
+		.page {
+			max-width: 1100px;
+			margin: 0 auto;
+		}
+
+		.hero {
+			background: rgba(255, 255, 255, 0.95);
+			border: 2px solid #d9e9dc;
+			border-radius: 18px;
+			padding: 18px;
+			box-shadow: 0 10px 24px rgba(50, 90, 50, 0.12);
+		}
+
+		.title {
+			font-family: "Baloo 2", cursive;
+			color: #214f33;
+			font-size: clamp(1.4rem, 3vw, 2rem);
+			margin: 0 0 8px;
+			text-align: center;
+			line-height: 1.2;
+		}
+
+		.desc {
+			font-size: 0.94rem;
+			line-height: 1.5;
+			margin: 0;
+			text-align: center;
+			color: #43624d;
+		}
+
+		.start-wrap {
+			margin-top: 14px;
+			display: flex;
+			justify-content: center;
+		}
+
+		.start-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			text-decoration: none;
+			padding: 11px 18px;
+			border-radius: 12px;
+			font-weight: 900;
+			color: #10311f;
+			background: linear-gradient(180deg, #88d777 0%, #5eae4e 100%);
+			border: 2px solid #4a8f3d;
+			box-shadow: 0 4px 0 #3f7f36;
+		}
+
+		.start-btn:hover {
+			filter: brightness(1.03);
+		}
+
+		.local-grid {
+			margin-top: 14px;
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 10px;
+		}
+
+		.source-card {
+			background: #fff;
+			border: 1px solid #deeadf;
+			border-radius: 12px;
+			padding: 8px;
+			min-height: 178px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		.source-title {
+			font-weight: 800;
+			color: #2e5e3d;
+			font-size: 0.86rem;
+			line-height: 1.25;
+		}
+
+		.source-embed {
+			border: none;
+			width: 100%;
+			border-radius: 10px;
+			min-height: 120px;
+			background: #f0f0f0;
+		}
+
+		.source-link {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid #7ca786;
+			background: #eef8f0;
+			padding: 6px 10px;
+			border-radius: 8px;
+			font-size: 0.75rem;
+			color: #246b3f;
+			font-weight: 700;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		.source-link:hover {
+			background: #e2f1e5;
+		}
+
+		.source-modal {
+			position: fixed;
+			inset: 0;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			background: rgba(9, 21, 14, 0.75);
+			z-index: 2500;
+			padding: 16px;
+		}
+
+		.source-modal.show {
+			display: flex;
+		}
+
+		.source-modal-card {
+			width: min(940px, 100%);
+			background: #fff;
+			border-radius: 14px;
+			border: 2px solid #b8cfb6;
+			padding: 10px;
+		}
+
+		.source-modal-head {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 8px;
+		}
+
+		.source-modal-title {
+			font-weight: 900;
+			font-size: 0.95rem;
+			color: #285438;
+		}
+
+		.source-modal-close {
+			border: none;
+			background: #e9f3eb;
+			border-radius: 7px;
+			padding: 5px 10px;
+			font-weight: 800;
+			cursor: pointer;
+			color: #285438;
+		}
+
+		.source-modal-frame {
+			width: 100%;
+			height: min(72vh, 600px);
+			border: none;
+			border-radius: 10px;
+		}
+
+		.source-modal-tip {
+			font-size: 0.76rem;
+			color: #4a6b52;
+			margin-top: 6px;
+		}
+
+		@media (max-width: 960px) {
+			.local-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+<div class="page">
+	<section class="hero">
+		<h1 class="title">NODE 1: SOLID WASTE - Basura (Albay)</h1>
+		<p class="desc">
+			Ang solid waste ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
+			Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng pagbaha at polusyon sa ilog at dagat.
+		</p>
+
+		<div class="start-wrap">
+			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Buksan ang Sanhi • Bunga • Solusyon Activity</a>
+		</div>
+
+		<div class="local-grid">
+			<article class="source-card">
+				<div class="source-title">Local Example Video (Facebook Reel)</div>
+				<iframe
+					class="source-embed"
+					src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=false"
+					allowfullscreen="true"
+					allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+				</iframe>
+				<button class="source-link source-open" type="button" data-title="Local Example Video" data-embed="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=true">Buksan ang source sa loob ng page</button>
+			</article>
+
+			<article class="source-card">
+				<div class="source-title">Pagbabaha sa Albay lalong tumitindi</div>
+				<iframe
+					class="source-embed"
+					src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=false">
+				</iframe>
+				<button class="source-link source-open" type="button" data-title="Pagbabaha sa Albay" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=true">Buksan ang source sa loob ng page</button>
+			</article>
+
+			<article class="source-card">
+				<div class="source-title">Tambak na basura sa Purok 9, Tagas, Daraga, Albay</div>
+				<iframe
+					class="source-embed"
+					src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=false">
+				</iframe>
+				<button class="source-link source-open" type="button" data-title="Tambak na basura sa Tagas, Daraga" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=true">Buksan ang source sa loob ng page</button>
+			</article>
+		</div>
+	</section>
+</div>
+
+<div class="source-modal" id="sourceModal" aria-hidden="true">
+	<div class="source-modal-card">
+		<div class="source-modal-head">
+			<div class="source-modal-title" id="sourceModalTitle">Source Viewer</div>
+			<button type="button" class="source-modal-close" id="sourceModalClose">Isara ✕</button>
+		</div>
+		<iframe id="sourceModalFrame" class="source-modal-frame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+		<div class="source-modal-tip">Nasa loob lang ng system ang source viewer; walang external redirect.</div>
+	</div>
+</div>
+
+<script>
+	const sourceOpenBtns = Array.from(document.querySelectorAll('.source-open'));
+	const sourceModal = document.getElementById('sourceModal');
+	const sourceModalFrame = document.getElementById('sourceModalFrame');
+	const sourceModalTitle = document.getElementById('sourceModalTitle');
+	const sourceModalClose = document.getElementById('sourceModalClose');
+
+	function openSourceModal(title, embedUrl) {
+		sourceModalTitle.textContent = title;
+		sourceModalFrame.src = embedUrl;
+		sourceModal.classList.add('show');
+		sourceModal.setAttribute('aria-hidden', 'false');
+	}
+
+	function closeSourceModal() {
+		sourceModal.classList.remove('show');
+		sourceModal.setAttribute('aria-hidden', 'true');
+		sourceModalFrame.src = 'about:blank';
+	}
+
+	sourceOpenBtns.forEach(button => {
+		button.addEventListener('click', () => {
+			openSourceModal(button.dataset.title || 'Source Viewer', button.dataset.embed || 'about:blank');
+		});
+	});
+
+	sourceModalClose.addEventListener('click', closeSourceModal);
+	sourceModal.addEventListener('click', (event) => {
+		if (event.target === sourceModal) {
+			closeSourceModal();
+		}
+	});
+
+	window.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && sourceModal.classList.contains('show')) {
+			closeSourceModal();
+		}
+	});
+</script>
+</body>
+</html>
