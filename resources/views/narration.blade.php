@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <button onclick="proceedToModule()" class="btn-primary" style="margin-top: 20px;">Proceed to Module 2 🚀</button>
+            <button onclick="proceedToModule()" class="btn-primary" style="margin-top: 20px;">Magpatuloy sa Mapa ng Albay 🚀</button>
         </div>
 
     </div>
@@ -61,7 +61,7 @@
     <script src="{{ asset('js/home.js') }}"></script>
     <script>
     function proceedToModule() {
-        window.location.href = '{{ route("module.home") }}';
+        window.location.href = '{{ route("student.map") }}';
     }
     </script>
 
