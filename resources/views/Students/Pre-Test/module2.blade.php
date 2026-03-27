@@ -732,9 +732,9 @@
 							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
 						</div>
 						<div class="progress-dots" id="progressDots"></div>
-						<div class="progress-track">
+						<!-- <div class="progress-track">
 							<div class="progress-fill" id="quizProgressFill"></div>
-						</div>
+						</div> -->
 					</div>
 
 					<div class="flashcard-stage">
@@ -969,7 +969,7 @@
 
 		quizProgressLabel.textContent = `Card ${currentQuestionIndex + 1} of ${questions.length}`;
 		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} answered`;
-		quizProgressFill.style.width = `${progressPercent}%`;
+		// quizProgressFill.style.width = `${progressPercent}%`;
 
 		progressDots.innerHTML = questions.map((_, idx) => `
 			<div class="progress-dot ${idx < currentQuestionIndex ? 'completed' : ''} ${idx === currentQuestionIndex ? 'active' : ''}"></div>
