@@ -252,6 +252,13 @@
             <div class="qs">Baguhin ang karakter o username</div>
         </div>
     </a>
+
+    <a href="{{ route('student.map') }}" class="quick-card">
+        <div class="quick-icon qi-teal">🗺️</div> <div>
+            <div class="qt">DEMO MAP</div>
+            <div class="qs">Pumunta sa mapa</div>
+        </div>
+    </a>
 </div>
 
 @endsection
