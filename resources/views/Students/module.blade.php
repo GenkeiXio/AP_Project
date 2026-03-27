@@ -23,52 +23,6 @@
             font-weight: 700;
         }
 
-        .accordion {
-            margin-top: 25px;
-        }
-
-        .accordion-item {
-            border: 1px solid #e0d6c5;
-            margin-bottom: 10px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #fff;
-        }
-
-        /* ✅ CENTERED HEADER + BETTER DESIGN */
-        .accordion-header {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            background: #fdfaf5;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 0.95rem;
-            text-align: center; /* 👈 CENTERED */
-            transition: background 0.3s ease;
-        }
-
-        .accordion-header:hover {
-            background: #f5efe4;
-        }
-
-        /* ✅ SMOOTH ANIMATION */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 16px;
-            background: #fff;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            transition: max-height 0.4s ease, padding 0.3s ease;
-        }
-
-        /* OPEN STATE */
-        .accordion-item.active .accordion-content {
-            max-height: 200px; /* enough height */
-            padding: 16px;
-        }
-
         .home-btn {
             position: fixed; /* stays visible even on scroll */
             top: 20px;
@@ -87,6 +41,118 @@
         .home-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+        }
+
+        .modal {
+            display: none; /* default hidden */
+
+            position: fixed;
+            z-index: 9999;
+
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 0 !important; /* 👈 remove any rounding */
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        /* ✅ ACTIVE STATE */
+        .modal.show {
+            display: flex; /* 👈 KEEP FLEX ALWAYS */
+        }
+
+        /* ✨ POPUP CARD */
+        .modal-content {
+            background: #ffffff;
+            padding: 30px 28px;
+            width: 90%;
+            max-width: 650px;
+            border-radius: 20px;
+            text-align: left;
+
+            /* ✨ Soft shadow */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+            /* ✨ Animation */
+            animation: popIn 0.35s ease;
+
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        /* ✨ Animation */
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ✨ CLOSE BUTTON */
+        .close-btn {
+            float: right;
+            font-size: 1.6rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            color: red;
+            transform: scale(1.2);
+        }
+
+        /* ✨ SECTION CARDS */
+        .modal-section {
+            background: #f8fdf8;
+            border-left: 6px solid #2e7d32;
+            padding: 15px 18px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        /* ✨ HEADINGS */
+        .modal-section h3 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1b5e20;
+        }
+
+        /* ✨ TEXT */
+        .modal-section p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* ✨ LIST */
+        .modal-section ul {
+            padding-left: 18px;
+        }
+
+        .modal-section li {
+            margin-bottom: 6px;
+        }
+
+        #startBtn.disabled {
+            background: gray;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -114,42 +180,55 @@
 
         
 
-        <!-- Accordion -->
-        <div class="accordion">
+        <!-- Goals Button -->
+        <button onclick="openModal()" class="btn-primary" style="margin-top: 25px;">
+            Mga Layunin 🎯
+        </button>
 
-            <div class="accordion-item">
-                <button class="accordion-header">PAMANTAYANG PANGNILALAMAN</button>
-                <div class="accordion-content">
-                    Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.
+        <!-- Modal -->
+        <div id="goalsModal" class="modal">
+            <div class="modal-content">
+
+                <span class="close-btn" onclick="closeModal()">✖</span>
+
+                <div class="modal-section">
+                    <h3>📘 PAMANTAYANG PANGNILALAMAN</h3>
+                    <p>
+                        Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.
+                    </p>
                 </div>
-            </div>
 
-            <div class="accordion-item">
-                <button class="accordion-header">PAMANTAYAN SA PAGGANAP</button>
-                <div class="accordion-content">
-                    Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.
+                <div class="modal-section">
+                    <h3>🎯 PAMANTAYAN SA PAGGANAP</h3>
+                    <p>
+                        Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.
+                    </p>
                 </div>
-            </div>
 
-            <div class="accordion-item">
-                <button class="accordion-header">KASANAYAN SA PAGKATUTO</button>
-                <div class="accordion-content">
-                    Natatalakay ang kalagayan, suliranin at pagtugon sa isyung pangkapaligiran ng Pilipinas.
+                <div class="modal-section">
+                    <h3>🌱 KASANAYAN SA PAGKATUTO</h3>
+                    <p>Natatalakay ang kalagayan, suliranin at pagtugon sa isyung pangkapaligiran ng Pilipinas:</p>
+                    <ul>
+                        <li>Nailalarawan ang kasalukuyang kalagayan...</li>
+                        <li>Nailalahad at nasusuri ang mga epekto...</li>
+                        <li>Napahahalagahan ang pakikiisa...</li>
+                        <li>Nakabubuo ng proyekto para sa kalikasan</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="accordion-item">
-                <button class="accordion-header">PAKSANG ARALIN</button>
-                <div class="accordion-content">
-                    • Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas <br>
-                    • Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas
+                <div class="modal-section">
+                    <h3>📚 PAKSANG ARALIN</h3>
+                    <p>
+                        • Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas <br>
+                        • Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas
+                    </p>
                 </div>
-            </div>
 
+            </div>
         </div>
 
         <!-- Start Button -->
-        <button onclick="startLesson()" class="btn-primary" style="margin-top: 25px;">
+        <button id="startBtn" onclick="startLesson()" class="btn-primary disabled" style="margin-top: 25px;">
             Simulan 🚀
         </button>
 
@@ -158,24 +237,37 @@
 </div>
 
 <script>
-function startLesson() {
-    window.location.href = '{{ route("pretest.module2") }}';
-}
+    let hasOpenedGoals = false;
 
-// FIXED ACCORDION
-document.querySelectorAll('.accordion-header').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const item = btn.parentElement;
+    function openModal() {
+        document.getElementById("goalsModal").classList.add("show");
 
-        // Close all first
-        document.querySelectorAll('.accordion-item').forEach(i => {
-            if (i !== item) i.classList.remove('active');
-        });
+        hasOpenedGoals = true;
 
-        // Toggle current
-        item.classList.toggle('active');
-    });
-});
+        // enable button
+        document.getElementById("startBtn").classList.remove("disabled");
+    }
+
+    function closeModal() {
+        document.getElementById("goalsModal").classList.remove("show");
+    }
+
+    function startLesson() {
+        if (!hasOpenedGoals) {
+            alert("Basahin muna ang Goals bago magpatuloy 😊");
+            return;
+        }
+
+        window.location.href = '{{ route("pretest.module2") }}';
+    }
+
+    // close when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById("goalsModal");
+        if (event.target === modal) {
+            modal.classList.remove("show");
+        }
+    }
 </script>
 
 </body>

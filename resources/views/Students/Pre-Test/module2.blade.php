@@ -757,7 +757,8 @@
 						<div class="result-score" id="resultScoreText"></div>
 						<div class="badge-pill" id="resultBadge">🌟 Mahusay!</div>
 						<div class="result-feedback" id="resultFeedback"></div>
-						<div class="result-subtext">Makikita mo lang ang iskor, ngunit hindi pa ipapakita ang tamang sagot.</div>
+						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
+						
 						<div class="result-actions">
 							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
 							<a href="{{ route('module.home') }}" class="btn-primary">Magpatuloy →</a>
@@ -1137,22 +1138,25 @@
 		requestAnimationFrame(frame);
 	}
 
-	function getFeedbackByPercent(percent) {
-		if (percent >= 80) {
+	function getFeedbackByScore(score) {
+		if (score >= 11) {
 			return {
 				badge: '🏆 Napakahusay!',
-				feedback: 'Ang ganda ng simula mo sa paksa. Ready ka na para sa susunod na bahagi!'
+				feedback: 'Ang ganda ng iyong pundasyon. Ready ka na sa susunod na bahagi!',
+				interpretation: 'Handa'
 			};
 		}
-		if (percent >= 50) {
+		if (score >= 6) {
 			return {
 				badge: '👏 Magaling!',
-				feedback: 'May matibay ka nang pundasyon. Mas lilinaw pa ito habang nagpapatuloy ang aralin.'
+				feedback: 'May kaalaman ka na, patuloy pa ang pag-unlad.',
+				interpretation: 'May kaalaman'
 			};
 		}
 		return {
 			badge: '🌱 Warm-up pa lang!',
-			feedback: 'Ayos lang iyan. Ginagamit ang pre-test para makita kung saan pa mas lalalim ang pag-unawa.'
+			feedback: 'Kailangan ng gabay pa. Gamitin ito bilang panimulang lakas.',
+			interpretation: 'Kailangan ng gabay'
 		};
 	}
 
@@ -1172,13 +1176,14 @@
 		const resultBadge = document.getElementById('resultBadge');
 		const resultFeedback = document.getElementById('resultFeedback');
 		const percentage = Math.round((score / questions.length) * 100);
-		const level = getFeedbackByPercent(percentage);
+		const level = getFeedbackByScore(score);
 
 		animateResultRing(resultRing, percentage);
 		resultPercent.textContent = `${score}/${questions.length}`;
 		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
 		resultBadge.textContent = level.badge;
 		resultFeedback.textContent = level.feedback;
+		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
 
 		quizPage.style.display = 'none';
 		resultPage.classList.add('show');
