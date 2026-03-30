@@ -67,9 +67,9 @@ body, html {
 }
 
 /* Positioning the 3 pins (Adjust these % values to fit your map) */
-.location-1 { top: 59%; left: 82%;}
-.location-2 { top: 50%; left: 25%; }
-.location-3 { top: 53%; left: 50%; }
+.location-1 { top: 50%; left: 25%;}
+.location-2 { top: 53%; left: 50%; }
+.location-3 { top: 59%; left: 82%; }
 
 /* Simple Tooltip */
 .pin .tooltip {
