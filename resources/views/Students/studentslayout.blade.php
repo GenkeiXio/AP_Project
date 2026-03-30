@@ -106,18 +106,14 @@
     @endphp
 
     <nav class="topnav">
-        <a href="{{ route('student.dashboard') }}" class="brand">
+        <a href="{{ route('student.map') }}" class="brand">
             Araling <span>Panlipunan</span> 🧭
         </a>
 
         <div class="nav-links">
-            <a href="{{ route('student.dashboard') }}"
-               class="nav-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
-               🏠 Home
-            </a>
-            <a href="{{ route('student.classes') }}"
-               class="nav-link {{ request()->routeIs('student.classes*','student.class.*') ? 'active' : '' }}">
-               🏫 Classes
+            <a href="{{ route('student.map') }}"
+               class="nav-link {{ request()->routeIs('student.map') ? 'active' : '' }}">
+               🗺️ Map
             </a>
             <a href="{{ route('student.profile') }}"
                class="nav-link {{ request()->routeIs('student.profile') ? 'active' : '' }}">

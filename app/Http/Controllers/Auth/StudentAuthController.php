@@ -24,11 +24,12 @@ class StudentAuthController extends Controller
         $student = Student::where('username', $username)->first();
 
         if ($student) {
-            // Existing student — log them in, go straight to dashboard
+            // Existing student — log them in, go to narration (new flow)
             $student->update(['last_played' => now()]);
             Session::put('student_id',       $student->id);
             Session::put('student_username', $student->username);
-            return redirect()->route('student.dashboard');
+
+            return redirect()->route('narration'); // ✅ FIXED
         }
 
         // New student — register and redirect to character selection

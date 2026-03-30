@@ -21,8 +21,7 @@ class StudentController extends Controller
         $student = $this->student();
         if (!$student) return redirect()->route('home');
 
-        // Already has avatar → skip to dashboard
-        if ($student->avatar) return redirect()->route('student.dashboard');
+        if ($student->avatar) return redirect()->route('narration');
 
         return view('Students.select-character', compact('student'));
     }
