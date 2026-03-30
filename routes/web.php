@@ -89,6 +89,10 @@ Route::get('/pre-test/module-2', function () {
     return view('Students.Pre-Test.module2');
 })->name('pretest.module2');
 
+Route::get('/node-3', function () {
+    return view('Students.Pre-Test.Nodes.node3');
+})->name('node3');
+
 Route::get('/node-1/solid-waste', function () {
     return view('Students.Pre-Test.Node1_Solid Waste_Overview');
 })->name('node1.solid-waste');
@@ -102,6 +106,15 @@ Route::get('/node-1/solid-waste/activity', function () {
 Route::get('/demo-map', function () {
     return view('Students.Games.mainmap');
 })->name('student.map');
+
 Route::get('/inner-map-2', function () {
     return view('students.module2.inner_map2'); // This matches inner_map2.blade.php
 })->name('inner.map2');
+
+Route::get('/node2', function () {
+    return view('Students.Pre-Test.Nodes.node2');
+})->name('node2');
+
+Route::get('/node2/activity', function () {
+    return view('Students.Pre-Test.Nodes.node2_activity');
+})->name('node2.activity');

@@ -165,7 +165,7 @@
 <span class="deco deco-3">🌸</span>
 <span class="deco deco-4">🗺️</span>
 
-<a href="{{ route('home') }}" class="home-btn">🏠</a>
+<a href="{{ route('student.map') }}" class="home-btn">⬅</a>
 
 <div class="main-wrapper">
 

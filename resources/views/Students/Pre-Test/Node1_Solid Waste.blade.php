@@ -930,11 +930,17 @@
         </section>
 
         <section id="feedback" class="feedback-wrap" aria-live="polite">
+            <div style="text-align:center; margin-top: 20px;">
+                <button id="nextNodeBtn" class="btn btn-primary" style="display:none;">
+                    ➡ Proceed to Node 2
+                </button>
+            </div>
+
             <div class="feedback-title" id="feedbackTitle"></div>
             <p class="feedback-text" id="feedbackText"></p>
         </section>
 
-        <audio id="summaryAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/home-bg-music.mp3') }}"></audio>
+        <!-- <audio id="summaryAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/home-bg-music.mp3') }}"></audio> -->
         </div>
     </div>
 
@@ -956,6 +962,7 @@
         const missionHint = document.getElementById('missionHint');
         const deckCounter = document.getElementById('deckCounter');
         const confettiLayer = document.getElementById('confettiLayer');
+        const nextNodeBtn = document.getElementById('nextNodeBtn');
 
         const statusCause = document.getElementById('status-cause');
         const statusEffect = document.getElementById('status-effect');
@@ -1195,6 +1202,11 @@
 
         showSuccess(summary);
         burstConfetti();
+        nextNodeBtn.style.display = 'inline-block';
+        nextNodeBtn.addEventListener('click', () => {
+            if (nextNodeBtn.style.display === 'none') return;
+            window.location.href = '{{ route("node2") }}';
+        });
         summaryAudio.currentTime = 0;
         summaryAudio.play().catch(() => {});
         speakSummary(summary);
