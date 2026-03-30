@@ -96,10 +96,7 @@ document.querySelectorAll('.card').forEach(card=>{
 
 document.querySelectorAll('.zone').forEach(zone=>{
     zone.addEventListener('dragover',e=>e.preventDefault());
-
-    zone.addEventListener('drop',()=>{
-        zone.appendChild(dragged);
-    });
+    zone.addEventListener('drop',()=>zone.appendChild(dragged));
 });
 
 function check(){
@@ -112,8 +109,20 @@ function check(){
         }
     });
 
-    document.getElementById('result').innerText =
-        correct ? "✅ Tama!" : "❌ Subukan muli.";
+    if(correct){
+        document.getElementById('result').innerText = "✅ Tama!";
+        
+        // 🔥 unlock next node
+        sessionStorage.setItem("node2_done", "true");
+
+        // 🔁 back to map
+        setTimeout(()=>{
+            window.location.href = "{{ route('inner.map2') }}";
+        },1000);
+
+    } else {
+        document.getElementById('result').innerText = "❌ Subukan muli.";
+    }
 }
 </script>
 

@@ -932,7 +932,7 @@
         <section id="feedback" class="feedback-wrap" aria-live="polite">
             <div style="text-align:center; margin-top: 20px;">
                 <button id="nextNodeBtn" class="btn btn-primary" style="display:none;">
-                    ➡ Proceed to Node 2
+                    🗺️ Go back to Map
                 </button>
             </div>
 
@@ -951,6 +951,16 @@
         const dropZones = Array.from(document.querySelectorAll('.drop-zone'));
         const bankZone = document.getElementById('bankZone');
         const bankItems = document.getElementById('bankItems');
+                function shuffleCards() {
+            const cards = Array.from(bankItems.children);
+
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+
+            cards.forEach(card => bankItems.appendChild(card));
+        }
         const feedback = document.getElementById('feedback');
         const feedbackTitle = document.getElementById('feedbackTitle');
         const feedbackText = document.getElementById('feedbackText');
@@ -1008,6 +1018,7 @@
             }
 
             refreshZoneVisuals();
+            shuffleCards();
             clearFeedback();
         });
         });
@@ -1177,39 +1188,44 @@
         refreshZoneVisuals();
 
         function checkAnswers() {
-        const hasCause = zoneContains('cause', 'causeText');
-        const hasEffect = zoneContains('effect', 'effectText');
-        const hasSolution = zoneContains('solution', 'solutionText');
-        const hasCauseImage = zoneContains('cause', 'causeImage');
-        const hasEffectImage = zoneContains('effect', 'effectImage');
-        const hasSolutionImage = zoneContains('solution', 'solutionImage');
+            const hasCause = zoneContains('cause', 'causeText');
+            const hasEffect = zoneContains('effect', 'effectText');
+            const hasSolution = zoneContains('solution', 'solutionText');
+            const hasCauseImage = zoneContains('cause', 'causeImage');
+            const hasEffectImage = zoneContains('effect', 'effectImage');
+            const hasSolutionImage = zoneContains('solution', 'solutionImage');
 
-        if (!hasCause || !hasEffect || !hasSolution) {
-            showError('Ayusin pa ang text cards. Dapat nasa tamang zone ang Sanhi, Bunga, at Solusyon.');
-            return;
-        }
+            if (!hasCause || !hasEffect || !hasSolution) {
+                showError('Ayusin pa ang text cards. Dapat nasa tamang zone ang Sanhi, Bunga, at Solusyon.');
+                return;
+            }
 
-        if (!hasCauseImage || !hasEffectImage || !hasSolutionImage) {
-            showError('May image cards pang wala sa tamang zone. Itugma ang bawat larawan sa tamang kahulugan nito.');
-            return;
-        }
+            if (!hasCauseImage || !hasEffectImage || !hasSolutionImage) {
+                showError('May image cards pang wala sa tamang zone. Itugma ang bawat larawan sa tamang kahulugan nito.');
+                return;
+            }
 
-        const summary = `Magaling! Natukoy mo ang tamang ugnayan ng sanhi, bunga, at solusyon.
-    Ang suliranin ay nagsisimula sa kawalan ng disiplina at maling pamamahala ng basura.
-    Bunga nito ang pagbaha at paglaganap ng sakit sa komunidad.
-    Ngunit may malinaw na tugon: waste segregation, recycling, at clean-up drives.
-    Tandaan—ang pangangalaga sa kapaligiran ay nagsisimula sa araw-araw na tamang gawain.`;
+            const summary = `Magaling! Natukoy mo ang tamang ugnayan ng sanhi, bunga, at solusyon.
+        Ang suliranin ay nagsisimula sa kawalan ng disiplina at maling pamamahala ng basura.
+        Bunga nito ang pagbaha at paglaganap ng sakit sa komunidad.
+        Ngunit may malinaw na tugon: waste segregation, recycling, at clean-up drives.
+        Tandaan—ang pangangalaga sa kapaligiran ay nagsisimula sa araw-araw na tamang gawain.`;
 
-        showSuccess(summary);
-        burstConfetti();
-        nextNodeBtn.style.display = 'inline-block';
-        nextNodeBtn.addEventListener('click', () => {
-            if (nextNodeBtn.style.display === 'none') return;
-            window.location.href = '{{ route("node2") }}';
-        });
-        summaryAudio.currentTime = 0;
-        summaryAudio.play().catch(() => {});
-        speakSummary(summary);
+            showSuccess(summary);
+            burstConfetti();
+
+            // 🔥 IMPORTANT: UNLOCK NODE 2
+            sessionStorage.setItem("node1_done", "true");
+
+            nextNodeBtn.style.display = 'inline-block';
+
+            nextNodeBtn.addEventListener('click', () => {
+                window.location.href = '{{ route("inner.map2") }}';
+            });
+
+            summaryAudio.currentTime = 0;
+            summaryAudio.play().catch(() => {});
+            speakSummary(summary);
         }
 
         function resetBoard() {

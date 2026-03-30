@@ -10,7 +10,6 @@ use App\Http\Controllers\Teacher\ClassController;
 use App\Http\Controllers\Teacher\QuizController;
 use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
-use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
 
@@ -20,7 +19,6 @@ Route::post('/student/login',  [StudentAuthController::class, 'login'])->name('s
 Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
 
 Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
-    Route::get('/student/dashboard',         [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::get('/student/select-character',  [StudentController::class, 'selectCharacter'])->name('student.select-character');
     Route::post('/student/save-character',   [StudentController::class, 'saveCharacter'])->name('student.save-character');
     Route::get('/student/profile',           [StudentController::class, 'profile'])->name('student.profile');

@@ -260,7 +260,7 @@ body, html {
     <div class="map-container" style="position: relative; display: inline-block;">
         <img src="{{ asset('pictures/main_map.png') }}" class="background-map" alt="Main Map">
 
-        <button class="pin location-1" onclick="window.location.href='{{ route('inner.map2') }}'">
+        <button class="pin location-1" onclick="window.location.href='{{ route('module.home') }}'">
             <span class="tooltip">Module 2</span>
         </button>
 
