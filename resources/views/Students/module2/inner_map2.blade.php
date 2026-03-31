@@ -96,8 +96,8 @@ body, html {
     border-radius: 25px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: default;
+    transform: translate(-50%, -50%); 
+    cursor: default; 
 }
 
 .node-top-left { top: 15%; left: 20%; }

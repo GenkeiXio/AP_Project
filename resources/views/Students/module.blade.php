@@ -5,269 +5,346 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Hamon at Tugon: Module 2</title>
+    <title>Module 2</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
     <style>
-        .module-container {
-            max-width: 700px;
-            margin: auto;
-            text-align: center;
-        }
 
-        .module-title {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
+    /* 🔥 FULLSCREEN BACKGROUND */
+    html, body {
+        height: 100%;
+    }
 
-        .home-btn {
-            position: fixed; /* stays visible even on scroll */
-            top: 20px;
-            left: 20px; /* move to top-left for visibility */
-            font-size: 1.8rem; /* bigger icon */
-            text-decoration: none;
-            
-            color: #000; /* black icon for contrast */
-            padding: 10px 14px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            z-index: 1000; /* ensure it’s on top of other elements */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    .map-wrapper {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1; /* 👈 prevent overlap issues */
+    }   
 
-        .home-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 10px rgba(0,0,0,0.3);
-        }
+    /* 🌍 BACKGROUND IMAGE */
+    .background-map {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-        .modal {
-            display: none; /* default hidden */
+    /* 🎮 DARK OVERLAY (for readability) */
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+    }
 
-            position: fixed;
-            z-index: 9999;
+    /* 🎯 UI PANEL */
+    .ui-panel {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        background: rgba(255,255,255,0.92);
+        padding: 30px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 650px;
+        text-align: center;
 
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        animation: popIn 0.4s ease;
+    }
 
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            border-radius: 0 !important; /* 👈 remove any rounding */
+    /* @keyframes popIn {
+        from { transform: translate(-50%, -60%) scale(0.9); opacity:0; }
+        to { transform: translate(-50%, -50%) scale(1); opacity:1; }
+    } */
 
-            justify-content: center;
-            align-items: center;
+    /* 🔙 BACK BUTTON */
+    .home-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
 
-            padding: 20px;
-        }
+        font-size: 1.6rem;
+        background: white;
+        padding: 10px 14px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: black;
 
-        /* ✅ ACTIVE STATE */
-        .modal.show {
-            display: flex; /* 👈 KEEP FLEX ALWAYS */
-        }
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
 
-        /* ✨ POPUP CARD */
-        .modal-content {
-            background: #ffffff;
-            padding: 30px 28px;
-            width: 90%;
-            max-width: 650px;
-            border-radius: 20px;
-            text-align: left;
+    /* 🎮 BUTTON LOCK */
+    #startBtn.disabled {
+        background: gray;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
 
-            /* ✨ Soft shadow */
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    /* MODAL (same as yours) */
+    .modal {
+        display: none;
 
-            /* ✨ Animation */
-            animation: popIn 0.35s ease;
+        position: fixed;
+        z-index: 9999;
 
-            max-height: 85vh;
-            overflow-y: auto;
-        }
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
 
-        /* ✨ Animation */
-        @keyframes popIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
 
-        /* ✨ CLOSE BUTTON */
-        .close-btn {
-            float: right;
-            font-size: 1.6rem;
-            cursor: pointer;
-            font-weight: bold;
-            color: #555;
-            transition: 0.2s;
-        }
+        border-radius: 0 !important;
 
-        .close-btn:hover {
-            color: red;
-            transform: scale(1.2);
-        }
+        justify-content: center;
+        align-items: center;
 
-        /* ✨ SECTION CARDS */
-        .modal-section {
-            background: #f8fdf8;
-            border-left: 6px solid #2e7d32;
-            padding: 15px 18px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-        }
+        padding: 20px;
+    }
 
-        /* ✨ HEADINGS */
-        .modal-section h3 {
-            margin-bottom: 10px;
-            font-size: 1rem;
-            font-weight: 800;
-            color: #1b5e20;
-        }
+    .modal.show {
+        display: flex;
+    }
 
-        /* ✨ TEXT */
-        .modal-section p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 10px;
-        }
+    .modal-content {
+        background: #ffffff;
+        padding: 30px 28px;
+        width: 90%;
+        max-width: 650px;
+        border-radius: 20px;
+        text-align: left;
+        margin: auto;
 
-        /* ✨ LIST */
-        .modal-section ul {
-            padding-left: 18px;
-        }
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        animation: popIn 0.35s ease;
 
-        .modal-section li {
-            margin-bottom: 6px;
-        }
+        max-height: 85vh;
+        overflow-y: auto;
+    }
 
-        #startBtn.disabled {
-            background: gray;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
+    .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .modal-section {
+        background: #f8fdf8;
+        border-left: 5px solid #2e7d32;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+    }
+
+    .modal-title {
+        text-align: center;
+        font-family: 'Baloo 2';
+        margin-bottom: 20px;
+        font-size: 1.4rem;
+    }
+
+    /* 🎮 QUEST CARDS */
+    .goal-card {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+
+        background: linear-gradient(135deg, #f8fff8, #eef7ee);
+        border-radius: 15px;
+        padding: 16px;
+        margin-bottom: 15px;
+
+        border-left: 6px solid #2e7d32;
+
+        transition: 0.2s;
+    }
+
+    .goal-card:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    /* 🎮 ICON */
+    .goal-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 1.5rem;
+
+        width: 45px;
+        height: 45px;
+
+        background: #2e7d32;
+        color: white;
+
+        border-radius: 12px;
+
+        flex-shrink: 0; /* 👈 prevents shrinking */
+    }
+
+    /* 🎯 TEXT */
+    .goal-card h3 {
+        margin: 0 0 5px;
+        font-size: 1rem;
+        font-weight: 800;
+        color: #1b5e20;
+    }
+
+    .goal-card p {
+        font-size: 0.95rem;
+        color: #333;
+    }
+
+    /* ✅ CHECKLIST */
+    .goal-list {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .goal-list li {
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+    }
+
+    /* 🚀 FOOTER */
+    .quest-footer {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: 700;
+        color: #2e7d32;
+        background: #e8f5e9;
+        padding: 10px;
+        border-radius: 10px;
+    }
     </style>
 </head>
 
 <body>
 
-<!-- Decorations -->
-<!-- <span class="deco deco-1">🌿</span> -->
-<span class="deco deco-2">🦋</span>
-<span class="deco deco-3">🌸</span>
-<span class="deco deco-4">🗺️</span>
-
 <a href="{{ route('student.map') }}" class="home-btn">⬅</a>
 
-<div class="main-wrapper">
+<div class="map-wrapper">
 
-    <div class="module-container">
+    <!-- 🌍 BACKGROUND -->
+    <img src="{{ asset('pictures/module2_inner_map.png') }}" class="background-map">
 
-        <!-- Header -->
+    <!-- 🌫️ OVERLAY -->
+    <div class="overlay"></div>
+
+    <!-- 🎮 CENTER UI -->
+    <div class="ui-panel">
+
         <div class="header">
             <div class="header-icons">🧭 🗺️ ✨</div>
             <div class="subtitle">Module 2</div>
-            <h1>Kalagayan, Suliranin at Pagtugon sa Isyung Pangkapaligiran ng Pilipinas</h1>
+
+            <h1 style="font-family:'Baloo 2';">
+                Kalagayan, Suliranin At Pagtugon Sa Isyung Pangkapaligiran Ng Pilipinas
+            </h1>
+
+            <p style="margin-top:10px;">
+                Tuklasin ang mga suliraning pangkapaligiran sa Albay at matutunan kung paano tumugon bilang isang responsableng mamamayan.
+            </p>
         </div>
 
-        
-
-        <!-- Goals Button -->
-        <button onclick="openModal()" class="btn-primary" style="margin-top: 25px;">
+        <button onclick="openModal()" class="btn-primary" style="margin-top:20px;">
             Mga Layunin 🎯
         </button>
 
-        <!-- Modal -->
-        <div id="goalsModal" class="modal">
-            <div class="modal-content">
-
-                <span class="close-btn" onclick="closeModal()">✖</span>
-
-                <div class="modal-section">
-                    <h3>📘 PAMANTAYANG PANGNILALAMAN</h3>
-                    <p>
-                        Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.
-                    </p>
-                </div>
-
-                <div class="modal-section">
-                    <h3>🎯 PAMANTAYAN SA PAGGANAP</h3>
-                    <p>
-                        Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.
-                    </p>
-                </div>
-
-                <div class="modal-section">
-                    <h3>🌱 KASANAYAN SA PAGKATUTO</h3>
-                    <p>Natatalakay ang kalagayan, suliranin at pagtugon sa isyung pangkapaligiran ng Pilipinas:</p>
-                    <ul>
-                        <li>Nailalarawan ang kasalukuyang kalagayan...</li>
-                        <li>Nailalahad at nasusuri ang mga epekto...</li>
-                        <li>Napahahalagahan ang pakikiisa...</li>
-                        <li>Nakabubuo ng proyekto para sa kalikasan</li>
-                    </ul>
-                </div>
-
-                <div class="modal-section">
-                    <h3>📚 PAKSANG ARALIN</h3>
-                    <p>
-                        • Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas <br>
-                        • Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas
-                    </p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Start Button -->
-        <button id="startBtn" onclick="startLesson()" class="btn-primary disabled" style="margin-top: 25px;">
+        <button id="startBtn" onclick="startLesson()" class="btn-primary disabled" style="margin-top:15px;">
             Simulan 🚀
         </button>
 
     </div>
+</div>
 
+<!-- 🎯 MODAL -->
+<div id="goalsModal" class="modal">
+    <div class="modal-content">
+
+        <span class="close-btn" onclick="closeModal()">✖</span>
+
+        <h2 class="modal-title">🎯 Mga Layunin</h2>
+
+        <div class="goal-card">
+            <div class="goal-icon">📘</div>
+            <div>
+                <h3>Pamantayang Pangnilalaman</h3>
+                <p>Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.</p>
+            </div>
+        </div>
+
+        <div class="goal-card">
+            <div class="goal-icon">🎯</div>
+            <div>
+                <h3>Pamantayan sa Pagganap</h3>
+                <p>Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.</p>
+            </div>
+        </div>
+
+        <div class="goal-card">
+            <div class="goal-icon">🌱</div>
+            <div>
+                <h3>Kasanayan sa Pagkatuto</h3>
+                <p>Natatalakay ang kalagayan, suliranin at pagtugon sa isyung pangkapaligiran ng Pilipinas</p>
+                <ul class="goal-list">
+                    <li>✔ Nailalarawan ang kasalukuyang kalagayan, suliranin at mga pagtugon sa isyung pangkapaligiran ng Pilipinas;</li>
+                    <li>✔ Nailalahad at nasusuri ang mga epekto ng mga suliranin at isyung pangkapaligirang kinakaharap ng Pilipinas at sa ibang panig ng daigdig sa kasalukuyang panahon;</li>
+                    <li>✔ Napahahalagahan ang kahalagahan ng pakikiisa at pakikibahagi ng lahat sa pagsugpo sa mga hamong pangkapaligiran sa mga lokal na pamahalaan sa Pilipinas maging sa ibang panig ng daigdig</li>
+                    <li>✔ Nakabubuo ng isang malikhain at makabuluhang panukalang proyekto na makakatulong sa pangangalaga ng kalikasan.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="goal-card">
+            <div class="goal-icon">✅</div>
+            <div>
+                <h3>Paksang Aralin</h3>
+                <ul class="goal-list">
+                    <li>1. Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas</li>
+                    <li>2. Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <script>
-    let hasOpenedGoals = false;
+let hasOpenedGoals = false;
 
-    function openModal() {
-        document.getElementById("goalsModal").classList.add("show");
+function openModal(){
+    document.getElementById("goalsModal").classList.add("show");
+    hasOpenedGoals = true;
+    document.getElementById("startBtn").classList.remove("disabled");
+}
 
-        hasOpenedGoals = true;
+function closeModal(){
+    document.getElementById("goalsModal").classList.remove("show");
+}
 
-        // enable button
-        document.getElementById("startBtn").classList.remove("disabled");
+function startLesson(){
+    if(!hasOpenedGoals){
+        alert("Basahin muna ang Mga Layunin 😊");
+        return;
     }
 
-    function closeModal() {
-        document.getElementById("goalsModal").classList.remove("show");
-    }
+    window.location.href = '{{ route("pretest.module2") }}';
+}
 
-    function startLesson() {
-        if (!hasOpenedGoals) {
-            alert("Basahin muna ang Goals bago magpatuloy 😊");
-            return;
-        }
-
-        window.location.href = '{{ route("pretest.module2") }}';
+window.onclick = function(e){
+    const modal = document.getElementById("goalsModal");
+    if(e.target === modal){
+        modal.classList.remove("show");
     }
-
-    // close when clicking outside
-    window.onclick = function(event) {
-        const modal = document.getElementById("goalsModal");
-        if (event.target === modal) {
-            modal.classList.remove("show");
-        }
-    }
+}
 </script>
 
 </body>

@@ -226,6 +226,41 @@ body, html {
         opacity: 1;
     }
 }
+
+/* 🎮 MAP ZOOM EFFECT */
+.map-container.zooming {
+    animation: mapZoom 0.6s ease forwards;
+}
+
+@keyframes mapZoom {
+    0% { transform: scale(1); filter: blur(0); }
+    100% { transform: scale(1.3); filter: blur(4px); }
+}
+
+/* 🎯 PIN FOCUS */
+.pin.active {
+    transform: translate(-50%, -100%) scale(1.4) !important;
+    z-index: 50;
+    animation: pinSelect 0.6s ease;
+}
+
+@keyframes pinSelect {
+    0% { transform: translate(-50%, -100%) scale(1); }
+    50% { transform: translate(-50%, -100%) scale(1.6); }
+    100% { transform: translate(-50%, -100%) scale(1.4); }
+}
+
+/* 🌫 FADE OUT SCREEN */
+.screen-fade {
+    animation: fadeToBlack 0.6s forwards;
+}
+
+@keyframes fadeToBlack {
+    to {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+}
 </style>
 @endpush
 
@@ -260,7 +295,7 @@ body, html {
     <div class="map-container" style="position: relative; display: inline-block;">
         <img src="{{ asset('pictures/main_map.png') }}" class="background-map" alt="Main Map">
 
-        <button class="pin location-1" onclick="window.location.href='{{ route('module.home') }}'">
+        <button class="pin location-1" onclick="enterModule(this, '{{ route('module.home') }}')">
             <span class="tooltip">Module 2</span>
         </button>
 
@@ -277,24 +312,45 @@ body, html {
 </div>
 
 <script>
-function goToModule2() {
-    window.location.href = '{{ route("module.home") }}';
-}
+    function enterModule(pin, url) {
 
-function showDetails(locationName) {
-    alert("This module is not yet available");
-}
+        // 🎯 highlight clicked pin
+        pin.classList.add("active");
 
-function showDetails(locationName) {
-    alert("You clicked on the " + locationName);
-}
+        // 🎮 zoom map
+        document.querySelector('.map-container').classList.add("zooming");
 
-// CLOSE INTRO MODAL
-function closeIntro() {
-    document.getElementById("introModal").classList.remove("show");
-}
+        // 🔊 optional click feel
+        // new Audio('/audio/click.mp3').play();
 
-document.querySelector('.map-wrapper').addEventListener('click', function(e) {
+        // ⏳ delay before redirect
+        setTimeout(() => {
+            document.body.classList.add("screen-fade");
+        }, 300);
+
+        setTimeout(() => {
+            window.location.href = url;
+        }, 700);
+    }
+
+    function goToModule2() {
+        window.location.href = '{{ route("module.home") }}';
+    }
+
+    function showDetails(locationName) {
+        alert("This module is not yet available");
+    }
+
+    function showDetails(locationName) {
+        alert("You clicked on the " + locationName);
+    }
+
+    // CLOSE INTRO MODAL
+    function closeIntro() {
+        document.getElementById("introModal").classList.remove("show");
+    }
+
+    document.querySelector('.map-wrapper').addEventListener('click', function(e) {
         const rect = this.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
         const y = ((e.clientY - rect.top) / rect.height) * 100;

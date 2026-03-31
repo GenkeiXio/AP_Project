@@ -116,3 +116,9 @@ Route::get('/node2', function () {
 Route::get('/node2/activity', function () {
     return view('Students.Pre-Test.Nodes.node2_activity');
 })->name('node2.activity');
+
+
+//testing route
+Route::get('/node4', function () {
+    return view('Students.Pre-Test.Nodes.node4');
+})->name('node4');
