@@ -28,6 +28,16 @@
 
         * { box-sizing: border-box; }
 
+        .background-map {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
         html { scroll-behavior: smooth; }
 
         body {
@@ -39,6 +49,7 @@
         overflow-x: hidden;
         scroll-behavior: smooth;
         padding: 20px 14px 34px;
+        background: none !important;
         }
 
         .page {
@@ -796,6 +807,7 @@
     </style>
     </head>
     <body>
+        <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
     <div class="page">
         <div class="quest-shell">
         <div class="topbar">
@@ -932,7 +944,7 @@
         <section id="feedback" class="feedback-wrap" aria-live="polite">
             <div style="text-align:center; margin-top: 20px;">
                 <button id="nextNodeBtn" class="btn btn-primary" style="display:none;">
-                    🗺️ Go back to Map
+                    Bumalik sa Mapa 🗺️
                 </button>
             </div>
 
@@ -1186,6 +1198,8 @@
         dropZones.forEach(zone => wireDropTarget(zone));
         wireDropTarget(bankZone);
         refreshZoneVisuals();
+
+        shuffleCards();
 
         function checkAnswers() {
             const hasCause = zoneContains('cause', 'causeText');

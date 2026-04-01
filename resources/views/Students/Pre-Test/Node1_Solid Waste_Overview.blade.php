@@ -10,6 +10,16 @@
 			box-sizing: border-box;
 		}
 
+		.background-map {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			object-fit: cover;
+			z-index: -1;
+		}
+
 		body {
 			margin: 0;
 			font-family: "Nunito", sans-serif;
@@ -17,6 +27,7 @@
 			color: #2e2e2e;
 			min-height: 100vh;
 			padding: 20px 14px 32px;
+			background: none !important;
 		}
 
 		.page {
@@ -25,7 +36,7 @@
 		}
 
 		.hero {
-			background: rgba(255, 255, 255, 0.95);
+			background: rgba(255, 255, 255, 0.68);
 			border: 2px solid #d9e9dc;
 			border-radius: 18px;
 			padding: 18px;
@@ -236,6 +247,8 @@
 	</style>
 </head>
 <body>
+	
+	<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
 	<a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
 

@@ -285,8 +285,6 @@
 <div id="goalsModal" class="modal">
     <div class="modal-content">
 
-        <span class="close-btn" onclick="closeModal()">✖</span>
-
         <h2 class="modal-title">🎯 Mga Layunin</h2>
 
         <div class="goal-card">
@@ -312,9 +310,9 @@
                 <p>Natatalakay ang kalagayan, suliranin at pagtugon sa isyung pangkapaligiran ng Pilipinas</p>
                 <ul class="goal-list">
                     <li>✔ Nailalarawan ang kasalukuyang kalagayan, suliranin at mga pagtugon sa isyung pangkapaligiran ng Pilipinas;</li>
-                    <li>✔ Nailalahad at nasusuri ang mga epekto ng mga suliranin at isyung pangkapaligirang kinakaharap ng Pilipinas at sa ibang panig ng daigdig sa kasalukuyang panahon;</li>
-                    <li>✔ Napahahalagahan ang kahalagahan ng pakikiisa at pakikibahagi ng lahat sa pagsugpo sa mga hamong pangkapaligiran sa mga lokal na pamahalaan sa Pilipinas maging sa ibang panig ng daigdig</li>
-                    <li>✔ Nakabubuo ng isang malikhain at makabuluhang panukalang proyekto na makakatulong sa pangangalaga ng kalikasan.</li>
+                    <li>✔ Nailalahad at nasusuri ang mga epekto ng mga suliranin at isyung pangkapaligirang kinakaharap ng Pilipinas;</li>
+                    <li>✔ Napahahalagahan ang kahalagahan ng pakikiisa at pakikibahagi ng lahat;</li>
+                    <li>✔ Nakabubuo ng makabuluhang panukalang proyekto.</li>
                 </ul>
             </div>
         </div>
@@ -324,11 +322,21 @@
             <div>
                 <h3>Paksang Aralin</h3>
                 <ul class="goal-list">
-                    <li>1. Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas</li>
-                    <li>2. Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas</li>
+                    <li>1. Kalagayan at Suliranin</li>
+                    <li>2. Pagtugon sa mga Isyu</li>
                 </ul>
             </div>
         </div>
+
+        <!-- ✅ TAGALOG BUTTON -->
+        <button onclick="closeModal()" class="btn-primary" style="
+            width:100%;
+            margin-top:20px;
+            font-weight:700;
+            font-size:1rem;
+        ">
+            Naiintindihan Ko ✔
+        </button>
 
     </div>
 </div>
@@ -358,7 +366,7 @@ function startLesson(){
 window.onclick = function(e){
     const modal = document.getElementById("goalsModal");
     if(e.target === modal){
-        modal.classList.remove("show");
+        // DO NOTHING ❌
     }
 }
 </script>

@@ -33,22 +33,24 @@ body, html {
 
 .node {
     position: absolute;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
+    width: 220px;   /* 🔥 bigger */
+    height: 160px;  /* 🔥 rectangular */
+
+    border-radius: 20px; /* 🔥 not circle anymore */
     background: white;
+
     border: 4px solid #fff;
     box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+
     cursor: pointer;
-    overflow: visible;
-    transition: 0.3s;
+    overflow: hidden;
 }
 
 .node img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
+    object-fit: contain; /* 🔥 show full image */
+    border-radius: 0;    /* 🔥 remove circle */
 }
 
 .node:hover {
@@ -72,7 +74,7 @@ body, html {
 .label-orange { background: #e67e22; }
 .label-green { background: #27ae60; }
 
-/* LOCKED STYLE */
+/* LOCKED */
 .locked {
     filter: grayscale(100%) brightness(0.7);
     pointer-events: none;
@@ -87,17 +89,36 @@ body, html {
     color: white;
     border-radius: 50%;
     padding: 5px;
-    font-size: 14px;
 }
 
 .center-node {
-    width: 250px;
-    height: 180px;
-    border-radius: 25px;
+    position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
-    cursor: default; 
+    transform: translate(-50%, -50%); /* 🔥 TRUE CENTER */
+
+    width: 320px;   /* bigger for visibility */
+    height: 220px;
+
+    border-radius: 20px;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: white;
+}
+
+.center-node img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain; /* 🔥 SHOW FULL IMAGE (NO CROP) */
+}
+
+.center-node:hover {
+    transform: translate(-50%, -50%) scale(1); /* keep it fixed */
 }
 
 .node-top-left { top: 15%; left: 20%; }
@@ -110,75 +131,162 @@ body, html {
     top: 80px;
     left: 20px;
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.9);
+    background: white;
     padding: 10px 15px;
     border-radius: 8px;
     text-decoration: none;
-    color: #1a1a1a;
-	font-weight: bold;
-	font-family: 'Courier New', Courier, monospace;
-	box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-	transition: transform 0.2s;
+    font-weight: bold;
+}
+
+/* 🔑 Final Button */
+.final-key {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 20px;
+    background: gold;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 100;
 }
 </style>
 @endpush
 
 @section('content')
 <div class="map-wrapper">
+
     <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
     <div class="node center-node">
-        <img src="{{ asset('pictures/center_title.png') }}">
+        <img src="{{ asset('pictures/innermap_logo.png') }}">
     </div>
 
     <!-- NODE 1 -->
     <button class="node node-top-left"
         onclick="window.location.href='{{ route('node1.solid-waste') }}'">
-        <img src="{{ asset('pictures/node_basura.png') }}">
-        <div class="label label-blue">Basura</div>
+        <img src="{{ asset('pictures/basura_node.png') }}">
+        <!-- <div class="label label-blue">Basura</div> -->
     </button>
 
     <!-- NODE 2 -->
     <button class="node node-top-right locked" id="node2" onclick="goNode2()">
         <img src="{{ asset('pictures/node_forest.png') }}">
-        <div class="label label-brown">Pagkakalbo ng Kagubatan</div>
+        <!-- <div class="label label-brown">Pagkakalbo ng Kagubatan</div> -->
         <span class="lock-icon">🔒</span>
     </button>
 
     <!-- NODE 3 -->
-    <button class="node node-bottom-left locked" id="node3">
+    <button class="node node-bottom-left locked" id="node3" onclick="goNode3()">
         <img src="{{ asset('pictures/node_klima.png') }}">
-        <div class="label label-orange">Pagbabago ng Klima</div>
+        <!-- <div class="label label-orange">Pagbabago ng Klima</div> -->
         <span class="lock-icon">🔒</span>
     </button>
 
     <!-- NODE 4 -->
-    <button class="node node-bottom-right locked">
+    <button class="node node-bottom-right locked" id="node4" onclick="goNode4()">
         <img src="{{ asset('pictures/node_gov.png') }}">
-        <div class="label label-green">Tugon ng Pamahalaan</div>
+        <!-- <div class="label label-green">Tugon ng Pamahalaan</div> -->
         <span class="lock-icon">🔒</span>
     </button>
 
+    <!-- 🔑 FINAL -->
+    <button id="final-key" class="final-key" onclick="goFinal()">
+        🔑 Unlock Final Activity
+    </button>
+
     <a href="{{ url()->previous() }}" class="back-button">⬅️ Bumalik</a>
+
 </div>
 
 <script>
-function unlockNodes() {
-    if (sessionStorage.getItem("node1_done") === "true") {
-        const node2 = document.getElementById("node2");
-        node2.classList.remove("locked");
-        node2.querySelector(".lock-icon")?.remove();
-    }
+function getDone(key){
+    return sessionStorage.getItem(key) === "true";
 }
 
-function goNode2() {
-    if (sessionStorage.getItem("node1_done") === "true") {
-        window.location.href = "{{ route('node2') }}";
+function updateMapProgress(){
+
+    const node2 = document.getElementById("node2");
+    const node3 = document.getElementById("node3");
+    const node4 = document.getElementById("node4");
+    const finalBtn = document.getElementById("final-key");
+
+    // RESET LOCKS
+    lockNode(node2);
+    lockNode(node3);
+    lockNode(node4);
+
+    const n1 = getDone("node1_done");
+    const n2 = getDone("node2_done");
+    const n3 = getDone("node3_done");
+    const n4 = getDone("node4_done");
+
+    // 🔓 PROGRESSION
+    if(n1){
+        unlockNode(node2);
+    }
+
+    if(n1 && n2){
+        unlockNode(node3);
+    }
+
+    if(n1 && n2 && n3){
+        unlockNode(node4);
+    }
+
+    // ✅ FINAL BUTTON (ONLY WHEN ALL DONE)
+    if(n1 && n2 && n3 && n4){
+        finalBtn.style.display = "block";
     } else {
-        alert("Tapusin muna ang Node 1!");
+        finalBtn.style.display = "none";
     }
 }
 
-window.onload = unlockNodes;
+/* LOCK */
+function lockNode(node){
+    node.classList.add("locked");
+
+    if(!node.querySelector(".lock-icon")){
+        const lock = document.createElement("span");
+        lock.className = "lock-icon";
+        lock.innerText = "🔒";
+        node.appendChild(lock);
+    }
+}
+
+/* UNLOCK */
+function unlockNode(node){
+    node.classList.remove("locked");
+    node.querySelector(".lock-icon")?.remove();
+}
+
+/* NAVIGATION */
+function goNode2(){
+    if(getDone("node1_done")){
+        window.location.href="{{ route('node2') }}";
+    } else alert("Tapusin muna ang Node 1!");
+}
+
+function goNode3(){
+    if(getDone("node2_done")){
+        window.location.href="{{ route('node3') }}";
+    } else alert("Tapusin muna ang Node 2!");
+}
+
+function goNode4(){
+    if(getDone("node3_done")){
+        window.location.href="{{ route('node4') }}";
+    } else alert("Tapusin muna ang Node 3!");
+}
+
+/* FINAL */
+function goFinal(){
+    alert("🎉 Kumpleto mo na ang lahat ng nodes!");
+    window.location.href = "/module2-activity";
+}
+
+window.onload = updateMapProgress;
+</script>
 </script>
 @endsection

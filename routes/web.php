@@ -117,8 +117,10 @@ Route::get('/node2/activity', function () {
     return view('Students.Pre-Test.Nodes.node2_activity');
 })->name('node2.activity');
 
+Route::get('/module2-activity', function () {
+    return view('Students.module2.activities.final_activity');
+});
 
-//testing route
 Route::get('/node4', function () {
     return view('Students.Pre-Test.Nodes.node4');
 })->name('node4');

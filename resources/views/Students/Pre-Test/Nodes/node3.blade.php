@@ -536,6 +536,7 @@
             // Valid move
             itemLocations[draggedId] = targetZone;
             renderAllItems();
+            checkCompletion(); // 👈 ADD THIS
             
             if (targetZone !== 'pool') {
                 const categoryDisplay = getCategoryName(targetZone);
@@ -565,6 +566,16 @@
             showCenterTopValidation('✓ NA-RESET! Lahat ng aytem (may mga larawan) ay nasa pool na. Magsimula muli! ✓', 'success');
         }
         
+
+        function checkCompletion(){
+            const allPlaced = itemsData.every(item => {
+                return itemLocations[item.id] === item.correctCategory;
+            });
+
+            if(allPlaced){
+                showSummary();
+            }
+        }
         // ==================== MODAL CONTROLS ====================
         const modal = document.getElementById('effectsModal');
         const openBtn = document.getElementById('openEffectsModalBtn');
@@ -606,7 +617,7 @@
             bungaContainer = document.getElementById('bunga-items');
             solusyonContainer = document.getElementById('solusyon-items');
         }
-        
+
         function init() {
             setupContainers();
             initializeLocations();
@@ -632,6 +643,76 @@
         window.handleDragOver = handleDragOver;
         window.handleDrop = handleDrop;
         
+        function showSummary(){
+
+            const modalHTML = `
+            <div id="summaryModal" style="
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            ">
+                <div style="
+                    background: white;
+                    max-width: 600px;
+                    width: 90%;
+                    padding: 25px;
+                    border-radius: 16px;
+                    text-align: left;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                ">
+                    <h2 style="font-size:1.5rem; font-weight:800; color:#15803d; margin-bottom:15px;">
+                        🎉 Magaling!
+                    </h2>
+
+                    <p style="margin-bottom:10px;">
+                    Naunawaan mo ang mga dahilan, resulta, at mga hakbang kaugnay ng pagbabago ng klima.
+                    </p>
+
+                    <p style="margin-bottom:10px;">
+                    Ang climate change ay dulot ng mga gawain ng tao tulad ng pagputol ng puno, polusyon mula sa sasakyan at pabrika, at iba pang mapaminsalang gawain sa kalikasan.
+                    </p>
+
+                    <p style="margin-bottom:10px;">
+                    Dahil dito, nararanasan ang pagbaha, pagguho ng lupa, pagkasira ng imprastraktura, pagkawala ng biodiversity, at maging pagkawala ng buhay ng tao.
+                    </p>
+
+                    <p style="margin-bottom:10px;">
+                    Ngunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, paggamit ng malinis na enerhiya, tamang pamamahala ng basura, at kahandaan sa sakuna, mapoprotektahan natin ang ating komunidad.
+                    </p>
+
+                    <p style="font-weight:bold; color:#14532d;">
+                    Tandaan—ang kalikasan ay ating tahanan, kaya ito ay ating pangalagaan.
+                    </p>
+
+                    <button onclick="finishNode3()" style="
+                        margin-top:20px;
+                        width:100%;
+                        padding:12px;
+                        background:#16a34a;
+                        color:white;
+                        border:none;
+                        border-radius:10px;
+                        font-weight:bold;
+                        cursor:pointer;
+                    ">
+                        Magpatuloy 🚀
+                    </button>
+                </div>
+            </div>
+            `;
+
+            document.body.insertAdjacentHTML("beforeend", modalHTML);
+        }
+
+        function finishNode3(){
+            sessionStorage.setItem("node3_done", "true");
+
+            window.location.href = "{{ route('inner.map2') }}";
+        }
         init();
     </script>
 </body>
