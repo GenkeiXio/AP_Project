@@ -42,6 +42,16 @@
 				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
 		}
 
+		.background-map {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			object-fit: cover;
+			z-index: -1; /* 👈 stays behind everything */
+		}
+
 		.main-wrapper {
 			display: block;
 			width: 100%;
@@ -699,16 +709,34 @@
 				padding: 8px 11px;
 			}
 		}
+
+		.back-button {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+			z-index: 100;
+			background-color: rgba(255, 255, 255, 0.9);
+			padding: 10px 15px;
+			border-radius: 8px;
+			text-decoration: none;
+			color: #1a1a1a;
+			font-weight: bold;
+			font-family: 'Courier New', Courier, monospace;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+			transition: transform 0.2s;
+		}
 	</style>
 </head>
 <body>
 
-<span class="deco deco-1">🌿</span>
+<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+
+<!-- <span class="deco deco-1">🌿</span>
 <span class="deco deco-2">🦋</span>
 <span class="deco deco-3">🌸</span>
-<span class="deco deco-4">🗺️</span>
+<span class="deco deco-4">🗺️</span> -->
 
-<a href="{{ route('module.home') }}" class="home-btn" title="Bumalik sa Module">⬅️</a>
+<a href="{{ route('module.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
 <div class="main-wrapper">
 	<div class="pretest-wrap">

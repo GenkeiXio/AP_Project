@@ -9,150 +9,243 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
-<style>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+        }
 
-/* 🌍 BASE */
-body {
-    margin: 0;
-    font-family: 'Nunito', sans-serif;
-}
+        /* 🎯 HEADER (FIXED — NEVER MOVES) */
+        .header {
+            position: fixed;
+            top: 120px; /* 👈 was 40px → gives breathing space */
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
 
-/* 🎯 HEADER (FIXED — NEVER MOVES) */
-.header {
-    position: fixed;
-    top: 40px;
-    width: 100%;
-    text-align: center;
-    z-index: 10;
-}
+        .header h1 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 3.2rem;
+            color: #3e2c1c;
+            margin: 0;
+        }
 
-.header h1 {
-    font-family: 'Baloo 2', cursive;
-    font-size: 3.2rem;
-    color: #3e2c1c;
-    margin: 0;
-}
+        .header-icons {
+            margin-bottom: 5px;
+        }
 
-.header-icons {
-    margin-bottom: 5px;
-}
+        /* 🎮 GAME AREA */
+        .game-area {
+            height: 100vh;
+            display: flex;
+            align-items: flex-end; /* 👈 push content down */
+            justify-content: center;
+            padding-bottom: 40px;
+        }
 
-/* 🎮 GAME AREA */
-.game-area {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* REMOVE opacity issue */
+        .scene-placeholder {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 1; /* 👈 FIX: remove faded look */
+        }
 
-/* 🎭 OPTIONAL CENTER SPACE (future character) */
-.scene-placeholder {
-    text-align: center;
-    opacity: 0.3;
-    font-size: 1.2rem;
-}
+        /* 💬 DIALOGUE BOX (FIXED BOTTOM) */
+        .vn-box {
+            position: fixed;
 
-/* 💬 DIALOGUE BOX (FIXED BOTTOM) */
-.vn-box {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    width: 85%;
-    max-width: 900px;
+            top: 46%;
+            left: 50%;
+            transform: translate(-50%, -40%); 
+            /* 👈 was -20%, now higher to avoid character */
 
-    background: linear-gradient(145deg, #fff7e6, #f3e3c2);
-    border: 3px solid #e0c097;
-    border-radius: 20px;
+            width: 85%;
+            max-width: 900px;
 
-    padding: 25px;
+            background: linear-gradient(145deg, #fff7e6, #f3e3c2);
+            border: 3px solid #e0c097;
+            border-radius: 20px;
 
-    box-shadow: 
-        0 10px 30px rgba(0,0,0,0.25),
-        inset 0 0 15px rgba(255,255,255,0.5);
+            padding: 25px;
 
-    z-index: 20;
-}
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.25),
+                inset 0 0 15px rgba(255,255,255,0.5);
 
-/* ✨ TEXT */
-#text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #2d2d2d;
-}
+            z-index: 20;
+        }
 
-/* ✨ CURSOR */
-.cursor::after {
-    content: "|";
-    animation: blink 1s infinite;
-}
-@keyframes blink {
-    0%,50%,100% { opacity: 1; }
-    25%,75% { opacity: 0; }
-}
+        /* ✨ TEXT */
+        #text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d2d2d;
+        }
 
-/* 🎮 CONTROLS */
-.vn-controls {
-    margin-top: 15px;
-    display: flex;
-    justify-content: flex-end;
-}
+        /* ✨ CURSOR */
+        .cursor::after {
+            content: "|";
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%,50%,100% { opacity: 1; }
+            25%,75% { opacity: 0; }
+        }
 
-/* 🎮 BUTTON */
-.vn-btn {
-    background: linear-gradient(135deg,#2e7d32,#66bb6a);
-    color: white;
-    padding: 10px 18px;
-    border-radius: 12px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+        /* 🎮 CONTROLS */
+        .vn-controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+        }
 
-    box-shadow: 0 4px 0 #2e7d32;
-}
+        /* 🎮 BUTTON */
+        .vn-btn {
+            background: linear-gradient(135deg,#2e7d32,#66bb6a);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
 
-.vn-btn:hover {
-    transform: translateY(-2px);
-}
+            box-shadow: 0 4px 0 #2e7d32;
+        }
 
-.vn-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 0 #2e7d32;
-}
+        .vn-btn:hover {
+            transform: translateY(-2px);
+        }
 
-/* 🌍 FADE */
-.fade-out {
-    animation: fadeOut 0.6s forwards;
-}
-@keyframes fadeOut {
-    to { opacity: 0; transform: scale(1.05); }
-}
+        .vn-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 0 #2e7d32;
+        }
 
-/* 🧭 SPINNING ICON */
-.spinner {
-    font-size: 60px;
-    animation: spin 4s linear infinite;
-    display: inline-block;
-}
+        /* 🌍 FADE */
+        .fade-out {
+            animation: fadeOut 0.6s forwards;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: scale(1.05); }
+        }
 
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+        /* 🚶 CHARACTER IMAGE */
+        .character {
+            position: relative; /* 👈 important change */
+            left: 0;
+            bottom: 0;
 
-/* optional glow */
-.spinner-glow {
-    text-shadow: 0 0 15px rgba(255,200,100,0.8);
-}
+            width: 120px;
+            height: auto;
 
-</style>
+            will-change: transform;
+            animation: walkForward 10s linear infinite,
+                    walkBounce 0.6s ease-in-out infinite;
+        }
+
+        /* slight walking bounce */
+        @keyframes walkBounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* move LEFT ➜ RIGHT */
+        @keyframes walkForward {
+            0% { left: -120px; }
+            100% { left: 110%; }
+        }
+
+        .footsteps {
+            position: absolute;
+            bottom: 20px;
+            left: -120px;
+            width: 120px;
+
+            animation: walkForward 10s linear infinite;
+        }
+
+        .footsteps span {
+            display: inline-block;
+            font-size: 18px;
+            opacity: 0;
+
+            animation: footstepsAnim 1.2s infinite;
+        }
+
+        /* 🛤️ TRAVEL TEXT */
+        .path-text {
+            margin-top: 12px;
+
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.2rem;
+            font-weight: 700;
+
+            color: #3e2c1c;
+            letter-spacing: 0.5px;
+
+            /* ✨ glow + depth */
+            text-shadow: 
+                0 2px 0 #fff,
+                0 4px 10px rgba(0,0,0,0.2);
+
+            /* 🎮 floating animation */
+            animation: floatText 2.5s ease-in-out infinite;
+            will-change: transform;
+            opacity: 0.9;
+        }
+
+        /* ✨ subtle floating */
+        @keyframes floatText {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* ✨ animated dots */
+        .dots {
+            display: inline-block;
+            width: 1.5em; /* 👈 reserve space */
+            text-align: left;
+        }
+
+        .dots::after {
+            content: "...";
+            opacity: 0;
+            animation: dotsFade 3s infinite;
+        }
+
+        @keyframes dotsFade {
+            0%   { opacity: 0; }
+            25%  { opacity: 0.3; }
+            50%  { opacity: 0.6; }
+            75%  { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .back-button {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+			z-index: 100;
+			background-color: rgba(255, 255, 255, 0.9);
+			padding: 10px 15px;
+			border-radius: 8px;
+			text-decoration: none;
+			color: #1a1a1a;
+			font-weight: bold;
+			font-family: 'Courier New', Courier, monospace;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+			transition: transform 0.2s;
+		}
+    </style>
 </head>
 
 <body>
 
-<span class="deco deco-1">🌿</span>
+<a href="{{ route('home') }}" class="back-button">⬅️ Bumalik</a>
 <span class="deco deco-2">🦋</span>
 <span class="deco deco-3">🌸</span>
 <span class="deco deco-4">🗺️</span>
@@ -166,8 +259,10 @@ body {
 <!-- 🎮 GAME AREA -->
 <div class="game-area">
     <div class="scene-placeholder">
-        <div class="spinner spinner-glow">🧭</div>
-        <div style="margin-top:10px;">Naglalakbay ka sa Albay...</div>
+        <img src="{{ asset('pictures/Boy Walking.png') }}" class="character" alt="Walking Character">
+        <div class="path-text">
+            Naglalakbay ka sa Albay<span class="dots"></span>
+        </div>
     </div>
 </div>
 

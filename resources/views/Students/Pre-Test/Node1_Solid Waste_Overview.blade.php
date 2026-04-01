@@ -217,9 +217,28 @@
 			color: #2e7d32;
 			margin-bottom: 6px;
 		}
+
+		.back-button {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+			z-index: 100;
+			background-color: rgba(255, 255, 255, 0.9);
+			padding: 10px 15px;
+			border-radius: 8px;
+			text-decoration: none;
+			color: #1a1a1a;
+			font-weight: bold;
+			font-family: 'Courier New', Courier, monospace;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+			transition: transform 0.2s;
+		}
 	</style>
 </head>
 <body>
+
+	<a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
+
 	<div class="page">
 		<section class="hero">
 			<h1 class="title">NODE 1: SOLID WASTE - Basura (Albay)</h1>

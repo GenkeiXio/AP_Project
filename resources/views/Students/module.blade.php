@@ -62,7 +62,7 @@
     } */
 
     /* 🔙 BACK BUTTON */
-    .home-btn {
+    /* .home-btn {
         position: fixed;
         top: 20px;
         left: 20px;
@@ -76,7 +76,7 @@
         color: black;
 
         box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
+    } */
 
     /* 🎮 BUTTON LOCK */
     #startBtn.disabled {
@@ -223,17 +223,33 @@
         padding: 10px;
         border-radius: 10px;
     }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #1a1a1a;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        transition: transform 0.2s;
+    }
     </style>
 </head>
 
 <body>
 
-<a href="{{ route('student.map') }}" class="home-btn">⬅</a>
+<a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
 
 <div class="map-wrapper">
 
     <!-- 🌍 BACKGROUND -->
-    <img src="{{ asset('pictures/module2_inner_map.png') }}" class="background-map">
+    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
     <!-- 🌫️ OVERLAY -->
     <div class="overlay"></div>

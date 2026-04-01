@@ -110,18 +110,22 @@ body, html {
     top: 80px;
     left: 20px;
     z-index: 100;
-    background: white;
-    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
     border-radius: 8px;
     text-decoration: none;
-    font-weight: bold;
+    color: #1a1a1a;
+	font-weight: bold;
+	font-family: 'Courier New', Courier, monospace;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+	transition: transform 0.2s;
 }
 </style>
 @endpush
 
 @section('content')
 <div class="map-wrapper">
-    <img src="{{ asset('pictures/module2_inner_map.png') }}" class="background-map">
+    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
     <div class="node center-node">
         <img src="{{ asset('pictures/center_title.png') }}">
@@ -155,7 +159,7 @@ body, html {
         <span class="lock-icon">🔒</span>
     </button>
 
-    <a href="{{ url()->previous() }}" class="back-button">⬅ Bumalik</a>
+    <a href="{{ url()->previous() }}" class="back-button">⬅️ Bumalik</a>
 </div>
 
 <script>
