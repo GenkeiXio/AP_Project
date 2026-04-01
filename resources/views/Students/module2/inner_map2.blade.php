@@ -283,7 +283,7 @@ function goNode4(){
 /* FINAL */
 function goFinal(){
     alert("🎉 Kumpleto mo na ang lahat ng nodes!");
-    window.location.href = "/module2-activity";
+    window.location.href = "{{ route('module2.intro') }}";
 }
 
 window.onload = updateMapProgress;
