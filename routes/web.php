@@ -128,3 +128,7 @@ Route::get('/module2/final-intro', function () {
 Route::get('/module2-activity', function () {
     return view('Students.module2.activities.final_activity');
 })->name('module2.activity');
+
+Route::get('/module2-posttest', function () {
+    return view('Students.module2.module2_posttest');
+})->name('module2.posttest');

@@ -11,33 +11,60 @@
 body{
     margin:0;
     font-family:'Nunito',sans-serif;
-    background:linear-gradient(180deg,#eefaf1,#fff4d9);
+    overflow:hidden;
 }
 
+/* 🌍 BACKGROUND MAP */
+.background-map{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-1;
+}
+
+/* 🌫 DARK OVERLAY (improves readability) */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:0;
+}
+
+/* MAIN CONTENT */
 .page{
+    position:relative;
+    z-index:1;
     max-width:900px;
     margin:auto;
     padding:20px;
 }
 
+/* CARD */
 .card{
-    background:rgba(255,255,255,0.9);
+    background:rgba(255,255,255,0.92);
     border-radius:18px;
     padding:25px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    backdrop-filter: blur(6px); /* 🔥 glass effect */
 }
 
+/* TITLE */
 h1{
     text-align:center;
     font-family:'Baloo 2';
     color:#214f33;
 }
 
+/* TEXT */
 .section-title{
     font-weight:bold;
     margin-top:15px;
 }
 
+/* BUTTON */
 .btn{
     display:block;
     width:100%;
@@ -55,23 +82,32 @@ h1{
 
 .btn:hover{
     background:#4a983c;
+    transform:scale(1.02);
 }
 
-.back-button {
-    position: fixed;
-    top: 80px;
-    left: 20px;
-    z-index: 100;
-    background: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
+/* BACK BUTTON */
+.back-button{
+    position:fixed;
+    top:30px;
+    left:20px;
+    z-index:2;
+    background:white;
+    padding:10px 15px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 4px 8px rgba(0,0,0,0.2);
 }
 </style>
 </head>
 
 <body>
+
+<!-- 🌍 BACKGROUND -->
+<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+
+<!-- 🌫 OVERLAY -->
+<div class="overlay"></div>
 
 <div class="page">
 

@@ -11,27 +11,55 @@
 body{
     margin:0;
     font-family:'Nunito',sans-serif;
-    background:linear-gradient(180deg,#eefaf1,#fff4d9);
+    overflow:auto;
 }
 
 .page{
+    position:relative;
+    z-index:1;
     max-width:900px;
     margin:auto;
     padding:20px;
+    margin-top:40px;
+    margin-bottom:40px;
+
+    background:white;            /* 🔥 ADD THIS */
+    border-radius:18px;          /* 🔥 OPTIONAL */
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+.background-map{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:-1;
+    pointer-events:none; /* 🔥 IMPORTANT */
 }
 
 h1{
+    margin-top:5px;
     text-align:center;
     font-family:'Baloo 2';
     color:#214f33;
 }
 
 .card{
-    background:white;
+    background:rgba(255,255,255,0.92);
     border-radius:16px;
     padding:20px;
     margin-top:20px;
-    box-shadow:0 6px 12px rgba(0,0,0,0.1);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    backdrop-filter: blur(6px);
 }
 
 .choice{
@@ -42,8 +70,57 @@ h1{
     cursor:pointer;
 }
 
-/* .choice.correct{ background:#c8f7c5; }
-.choice.wrong{ background:#ffc9c9; } */
+/* CENTER CONTAINER */
+.btn-container{
+    display:flex;
+    justify-content:center;
+    margin-top:25px;
+}
+
+/* BIGGER PRIMARY BUTTON */
+.primary-btn{
+    font-size:18px;
+    padding:16px 40px;
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#5eae4e,#3d8f35);
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+
+    transition:all 0.2s ease;
+}
+
+/* HOVER EFFECT */
+.primary-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.3);
+}
+
+/* CLICK EFFECT */
+.primary-btn:active{
+    transform:scale(0.97);
+}
+
+.next-btn{
+    font-size:18px;
+    padding:16px 40px;
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#3498db,#21618c);
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+
+    margin-left:10px;
+
+    transition:all 0.2s ease;
+}
+
+.next-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.3);
+}
+
+.next-btn:active{
+    transform:scale(0.97);
+}
 
 .btn{
     padding:12px 20px;
@@ -116,12 +193,13 @@ h1{
 }
 
 .choice-box.correct{
-    background:#c8f7c5;
+    background:#e9fbe8;
     border-color:#2ecc71;
+    transform:scale(1.05);
 }
 
 .choice-box.wrong{
-    background:#ffc9c9;
+    background:#fdeaea;
     border-color:#e74c3c;
 }
 
@@ -148,10 +226,24 @@ h1{
     transform:scale(1.8); /* 🔥 bigger */
     cursor:pointer;
 }
+
+.pulse{
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop{
+    0%{ transform:scale(0.95); opacity:0;}
+    100%{ transform:scale(1); opacity:1;}
+}
+
+
 </style>
 </head>
 
 <body>
+
+<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+<div class="overlay"></div>
 
 <div class="page">
 
@@ -168,25 +260,21 @@ h1{
 
 <div id="game"></div>
 
-<button class="btn" onclick="submitAnswer()">Submit</button>
-<button class="btn" onclick="nextScenario()" id="nextBtn" style="display:none;">Next ▶</button>
+<div class="btn-container">
+    <button class="btn primary-btn" onclick="submitAnswer()">
+        🚀 Submit Answer
+    </button>
+
+    <button class="btn next-btn" onclick="nextScenario()" id="nextBtn" style="display:none;">
+        ▶ Next Scenario
+    </button>
+</div>
 
 <p id="feedback"></p>
 
 </div>
 
 <script>
-
-// ⏱ TIMER
-let time = 0;
-setInterval(()=>{
-    time++;
-    document.getElementById("timer").innerText = time;
-},1000);
-
-let xp = 0;
-let current = 0;
-
 // 🔥 SCENARIOS
 const scenarios = [
 
@@ -286,6 +374,18 @@ const scenarios = [
 
 ];
 
+// 🎮 GAME STATE
+let xp = 0;
+let current = 0;
+let streak = 0;
+
+// ⏱ TIMER
+let time = 0;
+setInterval(()=>{
+    time++;
+    document.getElementById("timer").innerText = time;
+},1000);
+
 // 🔀 RANDOMIZE
 scenarios.forEach(s=>{
     s.choices.sort(()=>Math.random()-0.5);
@@ -296,56 +396,48 @@ function loadScenario(){
     let s = scenarios[current];
     document.getElementById("current").innerText = current+1;
 
-    let html = `
-    <div class="card">
+    document.getElementById("feedback").innerHTML = "";
 
-        <!-- 🖼 SCENARIO IMAGE -->
+    let html = `
+    <div class="card pulse">
+
         <img src="${s.image}" class="scenario-img">
 
-        <!-- 📝 SITUATION -->
         <div class="situation">
-            <strong>Sitwasyon:</strong> ${s.desc || ""}
+            🌍 ${s.desc || ""}
         </div>
 
-        <!-- ❓ QUESTION -->
         <div class="question">
             ❓ ${s.question}
         </div>
 
-        <!-- 🧩 CHOICES -->
-        <div>
+        <div class="choices-grid">
     `;
-
-    html += `<div class="choices-grid">`;
 
     s.choices.forEach((c,i)=>{
         html += `
         <label class="choice-box">
-            <input type="checkbox" data-index="${i}" style="margin-bottom:5px;">
-
+            <input type="checkbox" data-index="${i}">
             ${c.img ? `<img src="${c.img}" class="choice-img">` : ""}
-
             <div class="choice-text">${c.t}</div>
         </label>
         `;
     });
 
-    html += `</div>`;
-
-    html += `
-        </div>
-    </div>`;
+    html += `</div></div>`;
 
     document.getElementById("game").innerHTML = html;
 }
 
 loadScenario();
 
-// ✅ SUBMIT ONE SCENARIO
+
+// ✅ SUBMIT (UPGRADED)
 function submitAnswer(){
 
 let s = scenarios[current];
 let correct = 0;
+let totalCorrect = s.choices.filter(c=>c.c).length;
 
 document.querySelectorAll(".choice-box").forEach((el,i)=>{
     let checkbox = el.querySelector("input");
@@ -353,18 +445,46 @@ document.querySelectorAll(".choice-box").forEach((el,i)=>{
     if(checkbox.checked && s.choices[i].c){
         el.classList.add("correct");
         correct++;
-        xp += 10;
     }
     else if(checkbox.checked && !s.choices[i].c){
         el.classList.add("wrong");
     }
 });
 
-document.getElementById("xp").innerText = xp;
-document.getElementById("feedback").innerText = `Score: ${correct}`;
+// 🎯 SCORING SYSTEM
+let gainedXP = correct * 10;
 
+// 🔥 STREAK BONUS
+if(correct === totalCorrect){
+    streak++;
+    gainedXP += 10 * streak;
+}else{
+    streak = 0;
+}
+
+xp += gainedXP;
+
+document.getElementById("xp").innerText = xp;
+
+// 🎉 FEEDBACK SYSTEM
+let feedback = "";
+
+if(correct === totalCorrect){
+    feedback = `🔥 PERFECT! +${gainedXP} XP (Streak x${streak})`;
+}
+else if(correct >= totalCorrect/2){
+    feedback = `👍 GOOD! +${gainedXP} XP`;
+}
+else{
+    feedback = `❌ TRY AGAIN NEXT! <br>+${gainedXP} XP`;
+}
+
+document.getElementById("feedback").innerHTML = feedback;
+
+// 🎮 BUTTON CONTROL
 document.getElementById("nextBtn").style.display="inline-block";
 }
+
 
 // ▶ NEXT
 function nextScenario(){
@@ -372,16 +492,29 @@ function nextScenario(){
 current++;
 
 if(current >= scenarios.length){
+
+    let rank = "";
+
+    if(xp >= 250) rank = "🏆 ECO MASTER";
+    else if(xp >= 150) rank = "🌿 ECO WARRIOR";
+    else rank = "🌱 ECO LEARNER";
+
     document.getElementById("game").innerHTML =
-    `<h2>🎉 Tapos na!</h2>
-    <p>XP: ${xp}</p>`;
+    `
+    <div class="card">
+        <h2>🎉 MISSION COMPLETE!</h2>
+        <p>⏱ Time: ${time}s</p>
+        <p>⭐ Total XP: ${xp}</p>
+        <h3>${rank}</h3>
+    </div>
+    `;
+
     document.getElementById("nextBtn").style.display="none";
+    document.getElementById("feedback").innerHTML="";
     return;
 }
 
-document.getElementById("feedback").innerText="";
 document.getElementById("nextBtn").style.display="none";
-
 loadScenario();
 }
 
