@@ -148,7 +148,7 @@
         }
 
         .hero-main::after {
-        content: "♻️";
+        content: "🌳";
         position: absolute;
         right: 18px;
         top: 14px;
@@ -515,6 +515,12 @@
         transform: scale(.98);
         }
 
+        .drag-item.wrong-card {
+        border-color: #dc2626 !important;
+        box-shadow: 0 0 0 4px rgba(220, 38, 38, .22), 0 10px 18px rgba(127, 29, 29, .24) !important;
+        animation: wrongFlash .35s ease;
+        }
+
         .drag-item:active { cursor: grabbing; }
 
         .drag-item.text-item {
@@ -568,9 +574,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -584,10 +590,10 @@
         }
         .modal-container {
             background: linear-gradient(145deg, #ffffff, #f9fef7);
-            max-width: 520px;
+            max-width: 560px;
             width: 90%;
             border-radius: 36px;
-            box-shadow: 0 30px 45px rgba(32, 58, 34, 0.35);
+            box-shadow: 0 30px 45px rgba(32, 58, 34, 0.4);
             border: 1px solid rgba(121, 171, 112, 0.5);
             overflow: hidden;
             transform: scale(0.96);
@@ -606,6 +612,9 @@
             font-size: 1.7rem;
             margin: 0;
             color: #2b5938;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .modal-close {
             background: rgba(200, 220, 190, 0.6);
@@ -615,6 +624,11 @@
             border-radius: 60px;
             width: 38px;
             height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #3d694b;
         }
         .modal-body { padding: 20px 24px 28px; }
         .modal-feedback-text {
@@ -634,13 +648,16 @@
             flex-wrap: wrap;
             gap: 14px;
             justify-content: center;
+            margin-top: 8px;
         }
         .modal-btn {
             padding: 12px 24px;
             border-radius: 50px;
             font-weight: 800;
             font-size: 0.9rem;
+            border: none;
             cursor: pointer;
+            transition: 0.12s linear;
             background: #f2f7ef;
             color: #2a573a;
             border: 1px solid #c1ddb5;
@@ -680,6 +697,11 @@
             40% { opacity: 1; }
             100% { transform: scale(1.25) rotate(20deg); opacity: 0; }
         }
+        @keyframes wrongFlash {
+            0% { transform: scale(1); }
+            35% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
@@ -687,6 +709,13 @@
         @media (max-width: 760px) {
             .flow-layout { grid-template-columns: 1fr; }
             .bank-items { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .hero { padding: 8px 12px 16px; }
+            .hero-main { padding: 16px; }
+            .quest-card { padding: 10px 12px; }
+            .quest-card h3 { font-size: 0.85rem; }
+            .quest-card p { font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -697,39 +726,48 @@
             <div class="topbar">
                 <a class="back-link" href="{{ route('node2') }}">⬅ Bumalik</a>
                 <div class="xp-rack">
-                    <div class="xp-chip" id="missionCount">0 / 3 Zones Cleared</div>
+                    <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
+                    <div class="xp-chip" id="missionCount">0 / 3 Tama</div>
                 </div>
             </div>
 
-            <section class="hero">
-                <div class="hero-main">
-                    <div class="eyebrow">🌍 Learning Quest</div>
-                    <h1 class="hero-title">Deforestation <span>Quest</span></h1>
-                    <p class="hero-copy">
-                        Ayusin ang tamang pagkakasunod-sunod base kung ito ay <strong>Sanhi</strong>, <strong>Bunga</strong>, o <strong>Solusyon</strong>.
-                        I-drag ang card sa tamang zones para makumpleto ang misyon.
-                    </p>
+            <!-- INTRO STAGE -->
+            <section class="hero" id="introStage">
+                <div class="hero-main" style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
+                    <div style="text-align:center; width:100%;">
+                        <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
+                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Deforestation <span>Quest</span></h1>
+                        <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
+                        <div class="actions" style="justify-content:center; margin-top:20px;">
+                            <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
+                        </div>
+                    </div>
                 </div>
-                <aside class="hero-side">
+                <aside class="hero-side" style="margin-top:10px;">
                     <div class="quest-card">
-                        <h3>🎯 Hint</h3>
-                        <p id="missionHint">Alamin ang ugat ng problema, ang epekto nito sa kalikasan, at ang solusyon upang maprotektahan ang kagubatan.</p>
+                        <h3>🎯 Layunin</h3>
+                        <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng deforestation.</p>
                     </div>
                     <div class="quest-card">
-                        <h3>📈 Progress Bar</h3>
-                        <div class="progress-track">
-                            <div class="progress-fill" id="missionProgressFill"></div>
-                        </div>
+                        <h3>📌 Paalala</h3>
+                        <p>I-drag ang bawat card papunta sa tamang zone. Tatlong card lamang ang ilalagay sa tamang kahon.</p>
                     </div>
                 </aside>
             </section>
 
-            <section class="mission-grid">
+            <!-- GAME STAGE -->
+            <section class="mission-grid" id="gameStage" style="display:none;">
                 <div class="panel">
                     <div class="board-header">
-                        <h2 class="board-title">Cause → Effect → Solution Board</h2>
-                        <div class="board-sub">✨ I-drag ang card sa tamang zone</div>
+                        <h2 class="board-title">Sanhi → Bunga → Solusyon</h2>
+                        <div class="board-sub">Bilang <span id="itemCount">1</span> / 3</div>
                     </div>
+
+                    <div style="display:flex; justify-content:center; margin:0 0 16px;">
+                        <div class="drag-item text-item" id="activeCard" draggable="true" data-label="Tekstong Kard" style="width:min(480px, 100%);"></div>
+                    </div>
+
                     <div class="flow-layout">
                         <div class="flow-line one"></div>
                         <div class="flow-line two"></div>
@@ -738,11 +776,9 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge cause"><strong>🌟 Sanhi</strong></div>
-                                    <div class="zone-status" id="status-cause">Waiting...</div>
+                                    <div class="zone-status" id="status-cause">Naghihintay...</div>
                                 </div>
-                                <div class="drop-zone" data-zone="cause">
-                                    <div class="drop-note">I-drop dito ang cause cards</div>
-                                </div>
+                                <div class="drop-zone" data-zone="cause"></div>
                             </div>
                         </div>
 
@@ -750,11 +786,9 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge effect"><strong>🔥 Bunga</strong></div>
-                                    <div class="zone-status" id="status-effect">Waiting...</div>
+                                    <div class="zone-status" id="status-effect">Naghihintay...</div>
                                 </div>
-                                <div class="drop-zone" data-zone="effect">
-                                    <div class="drop-note">I-drop dito ang effect cards</div>
-                                </div>
+                                <div class="drop-zone" data-zone="effect"></div>
                             </div>
                         </div>
 
@@ -762,266 +796,237 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge solution"><strong>🌿 Solusyon</strong></div>
-                                    <div class="zone-status" id="status-solution">Waiting...</div>
+                                    <div class="zone-status" id="status-solution">Naghihintay...</div>
                                 </div>
-                                <div class="drop-zone" data-zone="solution">
-                                    <div class="drop-note">I-drop dito ang solution cards</div>
-                                </div>
+                                <div class="drop-zone" data-zone="solution"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <aside class="deck-panel" id="bankZone">
-                    <div class="deck-head">
-                        <h3 class="deck-title">🃏 Card Deck</h3>
-                        <div class="deck-counter" id="deckCounter">3 Cards Left</div>
-                    </div>
-                    <div class="tray deck-unified">
-                        <p class="tray-title">All Cards</p>
-                        <div class="bank-items" id="bankItems">
-                            <div class="drag-item text-item" draggable="true" data-id="causeText" data-kind="text" data-correct-zone="cause" data-label="Text Card">
-                                Illegal logging at pagkakalbo ng kagubatan
-                            </div>
-                            <div class="drag-item text-item" draggable="true" data-id="effectText" data-kind="text" data-correct-zone="effect" data-label="Text Card">
-                                Pagbaha, pagguho ng lupa, at pagkawala ng tirahan ng wildlife
-                            </div>
-                            <div class="drag-item text-item" draggable="true" data-id="solutionText" data-kind="text" data-correct-zone="solution" data-label="Text Card">
-                                Pagtatanim ng puno, reforestation, at pangangalaga sa kagubatan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <button class="btn btn-primary" type="button" id="checkBtn">✅ Suriin ang Sagot</button>
-                        <button class="btn btn-secondary" type="button" id="resetBtn">🔄 I-reset</button>
-                    </div>
-                </aside>
             </section>
         </div>
     </div>
 
-    <div id="feedbackModal" class="modal-overlay">
+    <!-- MODAL for completion -->
+    <div id="completionModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitleIcon">📋 Resulta</div>
+                <div class="modal-title">🎉 Tagumpay!</div>
                 <button class="modal-close" id="closeModalBtn">✕</button>
             </div>
             <div class="modal-body">
                 <div class="modal-feedback-text" id="modalFeedbackText"></div>
                 <div class="modal-actions">
-                    <button class="modal-btn modal-btn-primary" id="modalNextMapBtn" style="display: none;">🗺️ Bumalik sa Mapa</button>
-                    <a href="{{ route('node3') }}" class="modal-btn" id="modalContinueBtn" style="display: none;">Magpatuloy</a>
+                    <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
+                    <a href="{{ route('node3') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="confetti" id="confettiLayer"></div>
+    <audio id="errorAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/error.mp3') }}"></audio>
 
     <script>
-        const dragItems = Array.from(document.querySelectorAll('.drag-item'));
-        const dropZones = Array.from(document.querySelectorAll('.drop-zone'));
-        const bankZone = document.getElementById('bankZone');
-        const bankItems = document.getElementById('bankItems');
-        
-        const modalOverlay = document.getElementById('feedbackModal');
-        const modalFeedbackText = document.getElementById('modalFeedbackText');
-        const modalTitleIcon = document.getElementById('modalTitleIcon');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const modalNextMapBtn = document.getElementById('modalNextMapBtn');
-        const modalContinueBtn = document.getElementById('modalContinueBtn');
-
-        function openModal(type, message) {
-            modalOverlay.classList.add('active');
-            modalTitleIcon.innerHTML = type === 'error' ? '⚠️ Hindi pa tama' : '🎉 Tagumpay!';
-            modalFeedbackText.innerText = message;
-        }
-
-        function closeModal() { 
-            modalOverlay.classList.remove('active'); 
-        }
-        
-        closeModalBtn.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => { 
-            if (e.target === modalOverlay) closeModal(); 
-        });
-
-        function shuffleCards() {
-            const cards = Array.from(bankItems.children);
-            for (let i = cards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [cards[i], cards[j]] = [cards[j], cards[i]];
-            }
-            cards.forEach(card => bankItems.appendChild(card));
-        }
-
-        const checkBtn = document.getElementById('checkBtn');
-        const resetBtn = document.getElementById('resetBtn');
+        const introStage = document.getElementById('introStage');
+        const gameStage = document.getElementById('gameStage');
+        const introText = document.getElementById('introText');
+        const introNextBtn = document.getElementById('introNextBtn');
+        const itemCount = document.getElementById('itemCount');
         const missionCountSpan = document.getElementById('missionCount');
-        const missionProgressFill = document.getElementById('missionProgressFill');
-        const missionHint = document.getElementById('missionHint');
-        const deckCounter = document.getElementById('deckCounter');
+        const activeCard = document.getElementById('activeCard');
         const confettiLayer = document.getElementById('confettiLayer');
+        const errorAudio = document.getElementById('errorAudio');
+        const dropZones = Array.from(document.querySelectorAll('.drop-zone'));
+        
+        // Modal elements
+        const completionModal = document.getElementById('completionModal');
+        const modalFeedbackText = document.getElementById('modalFeedbackText');
+        const closeModalBtn = document.getElementById('closeModalBtn');
 
-        const statusCause = document.getElementById('status-cause');
-        const statusEffect = document.getElementById('status-effect');
-        const statusSolution = document.getElementById('status-solution');
-        const zoneStatusMap = { cause: statusCause, effect: statusEffect, solution: statusSolution };
+        const lines = [
+            'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa deforestation o pagkakalbo ng kagubatan.',
+            'Ang deforestation ay ang patuloy na pagputol ng mga puno nang walang sapat na kapalit.',
+            'Ito ay nagdudulot ng pagbaha, pagguho ng lupa, at pagkawala ng tirahan ng mga hayop.',
+            'Ngayon, i-drag ang bawat card sa tamang zone: Sanhi, Bunga, o Solusyon.'
+        ];
 
-        let draggedId = '';
-        const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches;
-        const defaultDeckOrder = ['causeText', 'effectText', 'solutionText'];
-        const deckOrderIndex = Object.fromEntries(defaultDeckOrder.map((id, index) => [id, index]));
+        const items = [
+            { text: 'Illegal logging at pagkakalbo ng kagubatan', zone: 'cause' },
+            { text: 'Pagbaha, pagguho ng lupa, at pagkawala ng tirahan ng wildlife', zone: 'effect' },
+            { text: 'Pagtatanim ng puno, reforestation, at pangangalaga sa kagubatan', zone: 'solution' }
+        ];
 
-        dragItems.forEach(item => {
-            if (isCoarsePointer) item.setAttribute('draggable', 'false');
-            item.addEventListener('dragstart', () => { draggedId = item.dataset.id; item.classList.add('dragging'); });
-            item.addEventListener('dragend', () => { item.classList.remove('dragging'); });
-            item.addEventListener('click', () => {
-                if (!isCoarsePointer) return;
-                const inBank = item.closest('#bankItems');
-                if (inBank) {
-                    const correctZone = document.querySelector(`.drop-zone[data-zone="${item.dataset.correctZone}"]`);
-                    if (!correctZone) return;
-                    placeInZoneFixed(correctZone, item);
-                    triggerDropPop(correctZone);
-                } else {
-                    sendItemBackToBank(item);
-                    triggerDropPop(bankZone);
-                }
-                refreshZoneVisuals();
-                shuffleCards();
-                closeModal();
-            });
+        const zoneNameFil = {
+            cause: 'Sanhi',
+            effect: 'Bunga',
+            solution: 'Solusyon'
+        };
+
+        const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng pagkakalbo ng kagubatan.\n\nAng deforestation ay dulot ng illegal logging at labis na paggamit ng lupa.\n\nDahil dito, nagkakaroon ng pagbaha, soil erosion, at pagkawala ng tirahan ng mga hayop at halaman.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, pagsunod sa batas, at responsableng paggamit ng kalikasan, mapoprotektahan natin ang ating kagubatan.\n\nTandaan—ang kalikasan ay buhay, kaya ito ay dapat pangalagaan!`;
+
+        const statusMap = {
+            cause: document.getElementById('status-cause'),
+            effect: document.getElementById('status-effect'),
+            solution: document.getElementById('status-solution')
+        };
+
+        let lineIndex = 0;
+        let itemIndex = 0;
+        let correctCount = 0;
+        let dragged = false;
+
+        function showCompletionModal(message) {
+            modalFeedbackText.innerText = message;
+            completionModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            completionModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        completionModal.addEventListener('click', (e) => {
+            if (e.target === completionModal) closeModal();
         });
 
-        function sendItemBackToBank(item) { bankItems.appendChild(item); normalizeDeckOrder(); }
-        function normalizeDeckOrder() {
-            const items = Array.from(bankItems.querySelectorAll('.drag-item'));
-            items.sort((a, b) => (deckOrderIndex[a.dataset.id] ?? 999) - (deckOrderIndex[b.dataset.id] ?? 999))
-                  .forEach(item => bankItems.appendChild(item));
+        function typeLine(text) {
+            introText.textContent = '';
+            let i = 0;
+            const timer = setInterval(() => {
+                introText.textContent += text[i] ?? '';
+                i += 1;
+                if (i >= text.length) clearInterval(timer);
+            }, 18);
         }
-        function updateDeckCounter() { deckCounter.textContent = `${bankItems.querySelectorAll('.drag-item').length} Cards Left`; }
-        function placeInZoneFixed(zone, item) {
-            const existingSameKind = zone.querySelector(`.drag-item[data-kind="${item.dataset.kind}"]`);
-            if (existingSameKind && existingSameKind !== item) sendItemBackToBank(existingSameKind);
-            zone.appendChild(item);
+
+        function updateCard() {
+            const item = items[itemIndex];
+            activeCard.textContent = item.text;
+            itemCount.textContent = String(itemIndex + 1);
         }
-        function triggerDropPop(target) {
-            target.classList.remove('drop-pop', 'spark');
-            requestAnimationFrame(() => {
-                target.classList.add('drop-pop', 'spark');
-                setTimeout(() => target.classList.remove('drop-pop', 'spark'), 750);
+
+        function resetZoneStatus() {
+            Object.values(statusMap).forEach(el => {
+                el.textContent = 'Naghihintay...';
+                el.classList.remove('complete');
             });
         }
-        function refreshZoneVisuals() {
-            let filledZones = 0;
-            dropZones.forEach(zone => {
-                const zoneName = zone.dataset.zone;
-                const hasAnyItem = Boolean(zone.querySelector('.drag-item'));
-                zone.classList.toggle('filled', hasAnyItem);
-                if (hasAnyItem) filledZones += 1;
-                const statusEl = zoneStatusMap[zoneName];
-                if (statusEl) {
-                    statusEl.textContent = hasAnyItem ? 'Filled ✓' : 'Waiting...';
-                    statusEl.classList.toggle('complete', hasAnyItem);
-                }
-                const existingNote = zone.querySelector('.drop-note');
-                if (hasAnyItem && existingNote) existingNote.remove();
-                if (!hasAnyItem && !existingNote) {
-                    const note = document.createElement('div');
-                    note.className = 'drop-note';
-                    note.textContent = `I-drop dito ang ${zoneName} cards`;
-                    zone.appendChild(note);
-                }
-            });
-            missionCountSpan.textContent = `${filledZones} / 3 Zones Cleared`;
-            missionProgressFill.style.width = `${(filledZones / 3) * 100}%`;
-            missionHint.textContent = filledZones === 3 ? 'Kumpleto na ang board. Suriin na ang sagot!' : (filledZones === 0 ? 'Simulan sa sanhi.' : 'Ituloy mo lang.');
-            updateDeckCounter();
+
+        function completeZone(zoneName) {
+            const statusEl = statusMap[zoneName];
+            statusEl.textContent = 'Tama ✓';
+            statusEl.classList.add('complete');
         }
-        function zoneContains(zoneName, id) {
-            const zone = document.querySelector(`.drop-zone[data-zone="${zoneName}"]`);
-            return Boolean(zone.querySelector(`.drag-item[data-id="${id}"]`));
-        }
+
         function burstConfetti() {
             confettiLayer.innerHTML = '';
-            const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e'];
+            const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e', '#ffffff'];
             for (let i = 0; i < 26; i++) {
                 const piece = document.createElement('span');
                 piece.className = 'confetti-piece';
                 piece.style.left = `${Math.random() * 100}%`;
                 piece.style.background = colors[Math.floor(Math.random() * colors.length)];
                 piece.style.animationDelay = `${Math.random() * 0.35}s`;
+                piece.style.transform = `translateY(0) rotate(${Math.random() * 120}deg)`;
                 confettiLayer.appendChild(piece);
             }
-            setTimeout(() => confettiLayer.innerHTML = '', 2200);
+            setTimeout(() => {
+                confettiLayer.innerHTML = '';
+            }, 2200);
         }
-        function wireDropTarget(target) {
-            target.addEventListener('dragover', (e) => { e.preventDefault(); if (target.classList.contains('drop-zone')) target.classList.add('over'); });
-            target.addEventListener('dragleave', () => { target.classList.remove('over'); });
-            target.addEventListener('drop', (e) => {
-                e.preventDefault();
-                target.classList.remove('over');
-                const dragged = document.querySelector(`.drag-item[data-id="${draggedId}"]`);
-                if (!dragged) return;
-                if (target.classList.contains('drop-zone')) placeInZoneFixed(target, dragged);
-                else if (target === bankZone || target.closest('#bankZone')) sendItemBackToBank(dragged);
-                triggerDropPop(target.classList.contains('drop-zone') ? target : bankZone);
-                refreshZoneVisuals();
-                closeModal();
-            });
+
+        function playErrorSound() {
+            if (errorAudio) {
+                errorAudio.currentTime = 0;
+                errorAudio.play().catch(() => {});
+            }
         }
-        dropZones.forEach(zone => wireDropTarget(zone));
-        wireDropTarget(bankZone);
-        refreshZoneVisuals();
-        shuffleCards();
 
-        function checkAnswers() {
-            const hasCause = zoneContains('cause', 'causeText');
-            const hasEffect = zoneContains('effect', 'effectText');
-            const hasSolution = zoneContains('solution', 'solutionText');
-
-            const allCorrect = hasCause && hasEffect && hasSolution;
-
-            if (!allCorrect) {
-                openModal('error', 'Kailangang nasa tamang zone ang bawat card. Ilagay ang Sanhi, Bunga, at Solusyon sa kani-kanilang kahon.');
-                // HIDE both buttons when incorrect
-                modalNextMapBtn.style.display = 'none';
-                modalContinueBtn.style.display = 'none';
+        introNextBtn.addEventListener('click', () => {
+            if (lineIndex >= lines.length - 1) {
+                introStage.style.display = 'none';
+                gameStage.style.display = 'grid';
+                updateCard();
                 return;
             }
+            lineIndex += 1;
+            typeLine(lines[lineIndex]);
+            if (lineIndex === lines.length - 1) {
+                introNextBtn.textContent = 'Simulan ang Gawain';
+            }
+        });
 
-            // SHOW both buttons when correct
-            modalNextMapBtn.style.display = 'inline-flex';
-            modalContinueBtn.style.display = 'inline-flex';
-            
-            modalNextMapBtn.onclick = () => {
-                window.location.href = '{{ route("inner.map2") }}';
-            };
+        activeCard.addEventListener('dragstart', () => {
+            dragged = true;
+            activeCard.classList.add('dragging');
+        });
 
-            const summary = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng pagkakalbo ng kagubatan.
-                             Ang deforestation ay dulot ng illegal logging at paglaki ng populasyon na nagdudulot ng labis na paggamit ng lupa at likas na yaman.
-                             Dahil dito, nagkakaroon ng pagbaha, soil erosion, at pagkawala ng tirahan ng mga hayop at halaman.
-                             Ngunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, pagsunod sa batas, at responsableng paggamit ng kalikasan, mapoprotektahan natin ang ating kagubatan.
-                             Tandaan—ang kalikasan ay buhay, kaya ito ay dapat pangalagaan
-                            `;
-            openModal('success', summary);
-            burstConfetti();
-            sessionStorage.setItem("node2_done", "true");
-        }
+        activeCard.addEventListener('dragend', () => {
+            activeCard.classList.remove('dragging');
+        });
 
-        function resetBoard() {
-            dragItems.forEach(item => sendItemBackToBank(item));
-            refreshZoneVisuals();
-            closeModal();
-            confettiLayer.innerHTML = '';
-            modalNextMapBtn.style.display = 'none';
-            modalContinueBtn.style.display = 'none';
-        }
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                zone.classList.add('over');
+            });
 
-        checkBtn.addEventListener('click', checkAnswers);
-        resetBtn.addEventListener('click', resetBoard);
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('over');
+            });
+
+            zone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                zone.classList.remove('over');
+                if (!dragged) return;
+
+                const current = items[itemIndex];
+                const droppedZone = zone.dataset.zone;
+
+                if (droppedZone === current.zone) {
+                    correctCount += 1;
+                    missionCountSpan.textContent = `${correctCount} / 3 Tama`;
+                    completeZone(droppedZone);
+
+                    const snapCard = activeCard.cloneNode(true);
+                    snapCard.removeAttribute('id');
+                    snapCard.classList.remove('dragging');
+                    snapCard.style.cursor = 'default';
+                    snapCard.setAttribute('draggable', 'false');
+                    zone.innerHTML = '';
+                    zone.appendChild(snapCard);
+                    zone.classList.add('filled', 'drop-pop', 'spark');
+
+                    setTimeout(() => {
+                        itemIndex += 1;
+                        dragged = false;
+                        if (itemIndex < items.length) {
+                            zone.classList.remove('drop-pop', 'spark', 'filled');
+                            zone.innerHTML = '';
+                            resetZoneStatus();
+                            updateCard();
+                        } else {
+                            sessionStorage.setItem('node2_done', 'true');
+                            burstConfetti();
+                            showCompletionModal(summaryMessage);
+                            activeCard.style.display = 'none';
+                        }
+                    }, 750);
+                } else {
+                    activeCard.classList.add('wrong-card');
+                    playErrorSound();
+                    setTimeout(() => {
+                        activeCard.classList.remove('wrong-card');
+                    }, 420);
+                    dragged = false;
+                }
+            });
+        });
+
+        typeLine(lines[0]);
     </script>
 </body>
 </html>

@@ -669,40 +669,124 @@
     color: #5a4121;
     }
 
-    .feedback-wrap {
-    margin: 0 18px 18px;
-    padding: 14px 16px;
-    display: none;
+    /* MODAL STYLES */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.2s, opacity 0.2s ease;
     }
-
-    .feedback-wrap.show { display: block; }
-    .feedback-wrap.error {
-    background: linear-gradient(180deg, #fff4f4, #ffe6e6);
-    border-color: #f0c2c2;
-    color: #8b2d2d;
+    .modal-overlay.active {
+        visibility: visible;
+        opacity: 1;
     }
-
-    .feedback-wrap.success {
-    background: linear-gradient(180deg, #effff2, #e0f5e3);
-    border-color: #b8dfbe;
-    color: #205f30;
-    animation: glowSuccess .5s ease;
+    .modal-container {
+        background: linear-gradient(145deg, #ffffff, #f9fef7);
+        max-width: 560px;
+        width: 90%;
+        border-radius: 36px;
+        box-shadow: 0 30px 45px rgba(32, 58, 34, 0.4);
+        border: 1px solid rgba(121, 171, 112, 0.5);
+        overflow: hidden;
+        transform: scale(0.96);
+        transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
-
-    .feedback-title {
-    margin: 0 0 6px;
-    font-size: .95rem;
-    font-weight: 900;
+    .modal-overlay.active .modal-container {
+        transform: scale(1);
     }
-
-    .feedback-text {
-    margin: 0;
-    line-height: 1.6;
-    font-size: .92rem;
-    white-space: pre-line;
-    font-weight: 700;
+    .modal-header {
+        padding: 20px 24px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid #e2f0dc;
     }
-
+    .modal-title {
+        font-family: "Baloo 2", cursive;
+        font-size: 1.7rem;
+        margin: 0;
+        color: #2b5938;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-close {
+        background: rgba(200, 220, 190, 0.6);
+        border: none;
+        font-size: 1.6rem;
+        cursor: pointer;
+        border-radius: 60px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        color: #3d694b;
+        transition: all 0.15s;
+    }
+    .modal-close:hover {
+        background: #cfe2c6;
+        transform: scale(1.02);
+    }
+    .modal-body {
+        padding: 20px 24px 28px;
+    }
+    .modal-feedback-text {
+        font-size: 1rem;
+        line-height: 1.55;
+        font-weight: 600;
+        color: #2a4a35;
+        background: #f4fcf0;
+        padding: 18px;
+        border-radius: 24px;
+        margin-bottom: 28px;
+        white-space: pre-line;
+        border-left: 6px solid #8bc97c;
+    }
+    .modal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: center;
+        margin-top: 8px;
+    }
+    .modal-btn {
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.9rem;
+        border: none;
+        cursor: pointer;
+        transition: 0.12s linear;
+        background: #f2f7ef;
+        color: #2a573a;
+        border: 1px solid #c1ddb5;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .modal-btn-primary {
+        background: linear-gradient(100deg, #7ed15e, #51a23b);
+        color: #102e1a;
+        box-shadow: 0 5px 12px rgba(72, 128, 48, 0.25);
+        border: none;
+    }
+    .modal-btn-primary:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(100deg, #8edf6c, #62b848);
+    }
     .confetti {
     pointer-events: none;
     position: fixed;
@@ -722,11 +806,6 @@
     }
 
     .hidden-audio { display: none; }
-
-    @keyframes shimmer {
-    0% { transform: translateX(-120%); }
-    100% { transform: translateX(150%); }
-    }
 
     @keyframes popIn {
     0% { transform: scale(.97); }
@@ -767,54 +846,34 @@
     @media (max-width: 760px) {
     .flow-layout { grid-template-columns: 1fr; }
     .drop-zone { min-height: 130px; }
-
-    .bank-items {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-    }
-
-    .actions {
-        position: sticky;
-        bottom: 10px;
-        background: rgba(255,255,255,.94);
-        padding: 8px;
-        border-radius: 14px;
-        border: 1px solid #d9e8d0;
-        z-index: 5;
-    }
-
-    .actions .btn {
-        flex: 1 1 180px;
-        min-height: 44px;
-        font-size: .9rem;
-    }
-
-    .drag-item.text-item {
-        min-height: 72px;
-        font-size: .8rem;
-    }
-
-    .drag-item.image-item {
-        min-height: 118px;
-    }
-
-    .thumb-wrap {
-        min-height: 74px;
-    }
+    .bank-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .actions { position: sticky; bottom: 10px; background: rgba(255,255,255,.94); padding: 8px; border-radius: 14px; border: 1px solid #d9e8d0; z-index: 5; }
+    .actions .btn { flex: 1 1 180px; min-height: 44px; font-size: .9rem; }
+    .drag-item.text-item { min-height: 72px; font-size: .8rem; }
+    .drag-item.image-item { min-height: 118px; }
+    .thumb-wrap { min-height: 74px; }
     }
 
     @media (max-width: 520px) {
-    .bank-items {
-        grid-template-columns: 1fr;
-    }
+    .bank-items { grid-template-columns: 1fr; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
-    }
+    @media (max-width: 640px) {
+        .hero {
+            padding: 8px 12px 16px;
+        }
+        .hero-main {
+            padding: 16px;
+        }
+        .quest-card {
+            padding: 10px 12px;
+        }
+        .quest-card h3 {
+            font-size: 0.85rem;
+        }
+        .quest-card p {
+            font-size: 0.8rem;
+        }
     }
 </style>
 </head>
@@ -823,7 +882,7 @@
 <div class="page">
     <div class="quest-shell">
         <div class="topbar">
-            <a class="back-link" href="{{ route('node1.solid-waste') }}">⬅ Balik sa Pangkalahatang-ideya ng Node 1</a>
+            <a class="back-link" href="{{ route('node1.solid-waste') }}">⬅ Bumalik</a>
             <div class="xp-rack">
                 <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
                 <div class="xp-chip" id="missionCount">0 / 6 Tama</div>
@@ -831,18 +890,18 @@
         </div>
 
         <section class="hero" id="introStage">
-            <div class="hero-main" style="display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:center;">
-                <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:220px; max-width:100%; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
-                <div>
-                    <div class="eyebrow">🌍 Interaktibong Gawain</div>
-                    <h1 class="hero-title" style="font-size:clamp(1.4rem,3vw,2.3rem)">Gabay sa <span>Solid Waste</span></h1>
-                    <p class="hero-copy" id="introText"></p>
-                    <div class="actions" style="justify-content:flex-start; margin-top:14px;">
+            <div class="hero-main" style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+                <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
+                <div style="text-align:center; width:100%;">
+                    <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
+                    <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Gabay sa <span>Solid Waste</span></h1>
+                    <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
+                    <div class="actions" style="justify-content:center; margin-top:20px;">
                         <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
                     </div>
                 </div>
             </div>
-            <aside class="hero-side">
+            <aside class="hero-side" style="margin-top:10px;">
                 <div class="quest-card">
                     <h3>🎯 Layunin</h3>
                     <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> gamit ang dating daloy ng gawain.</p>
@@ -908,14 +967,25 @@
                 </div>
             </div>
 
-            <section id="feedback" class="feedback-wrap show" aria-live="polite">
-                <div class="feedback-title" id="feedbackTitle">Handa na?</div>
-                <p class="feedback-text" id="feedbackText">I-drag ang card sa tamang zone para magpatuloy.</p>
-                <div style="text-align:center; margin-top: 20px;">
-                    <button id="nextNodeBtn" class="btn btn-primary" style="display:none;">Bumalik sa Mapa 🗺️</button>
-                </div>
-            </section>
+            <!-- Removed old feedback section, replaced with modal -->
         </section>
+    </div>
+</div>
+
+<!-- MODAL for completion -->
+<div id="completionModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-title">🎉 Tagumpay!</div>
+            <button class="modal-close" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-feedback-text" id="modalFeedbackText"></div>
+            <div class="modal-actions">
+                <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
+                <a href="{{ route('node2') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -934,14 +1004,33 @@
     const activeTextCard = document.getElementById('activeTextCard');
     const activeCardImg = document.getElementById('activeCardImg');
     const activeCardCaption = document.getElementById('activeCardCaption');
-    const feedback = document.getElementById('feedback');
-    const feedbackTitle = document.getElementById('feedbackTitle');
-    const feedbackText = document.getElementById('feedbackText');
-    const nextNodeBtn = document.getElementById('nextNodeBtn');
     const confettiLayer = document.getElementById('confettiLayer');
     const summaryAudio = document.getElementById('summaryAudio');
     const errorAudio = document.getElementById('errorAudio');
     const dropZones = Array.from(document.querySelectorAll('.drop-zone'));
+    
+    // Modal elements
+    const completionModal = document.getElementById('completionModal');
+    const modalFeedbackText = document.getElementById('modalFeedbackText');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalBackToMapBtn = document.getElementById('modalBackToMapBtn');
+    const modalContinueBtn = document.getElementById('modalContinueBtn');
+
+    function showCompletionModal(message) {
+        modalFeedbackText.innerText = message;
+        completionModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        completionModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    completionModal.addEventListener('click', (e) => {
+        if (e.target === completionModal) closeModal();
+    });
 
     const lines = [
         'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa solid waste.',
@@ -1008,12 +1097,6 @@
         itemCount.textContent = String(itemIndex + 1);
     }
 
-    function showFeedback(kind, title, text) {
-        feedback.className = `feedback-wrap show ${kind}`;
-        feedbackTitle.textContent = title;
-        feedbackText.textContent = text;
-    }
-
     function resetZoneStatus() {
         Object.values(statusMap).forEach(el => {
             el.textContent = 'Naghihintay...';
@@ -1056,22 +1139,7 @@
     function playErrorSound() {
         if (errorAudio) {
             errorAudio.currentTime = 0;
-            errorAudio.play().catch(() => {
-                try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'square';
-                    osc.frequency.value = 220;
-                    gain.gain.value = 0.05;
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.18);
-                } catch (_) {
-                    // Silent fallback if audio context is unavailable.
-                }
-            });
+            errorAudio.play().catch(() => {});
         }
     }
 
@@ -1080,7 +1148,6 @@
             introStage.style.display = 'none';
             gameStage.style.display = 'grid';
             updateCard();
-            showFeedback('', 'Handa na?', 'I-drag ang card sa tamang zone para magpatuloy.');
             return;
         }
 
@@ -1124,7 +1191,6 @@
                 correctCount += 1;
                 missionCount.textContent = `${correctCount} / 6 Tama`;
                 completeZone(droppedZone);
-                showFeedback('success', '✔ Tama!', `Tamang tugma sa ${zoneNameFil[droppedZone]}.`);
 
                 const activeEl = getActiveElement();
                 const snapCard = activeEl.cloneNode(true);
@@ -1144,15 +1210,12 @@
                         zone.innerHTML = '';
                         resetZoneStatus();
                         updateCard();
-                        showFeedback('', 'Susunod na Bilang', 'I-drag ang kasunod na kard sa tamang zone.');
                     } else {
                         sessionStorage.setItem('node1_done', 'true');
                         burstConfetti();
-                        showFeedback('success', '🎉 Kumpleto ang Gawain', summaryMessage);
+                        showCompletionModal(summaryMessage);
                         activeImageCard.style.display = 'none';
                         activeTextCard.style.display = 'none';
-                        nextNodeBtn.style.display = 'inline-block';
-
                         if (summaryAudio) {
                             summaryAudio.currentTime = 0;
                             summaryAudio.play().catch(() => {
@@ -1164,7 +1227,6 @@
                     }
                 }, 750);
             } else {
-                showFeedback('error', '❌ Mali', 'Subukan muli. Hanapin ang tamang zone para sa card na ito.');
                 const activeEl = getActiveElement();
                 activeEl.classList.add('wrong-card');
                 playErrorSound();
@@ -1174,10 +1236,6 @@
                 dragged = false;
             }
         });
-    });
-
-    nextNodeBtn.addEventListener('click', () => {
-        window.location.href = '{{ route("inner.map2") }}';
     });
 
     typeLine(lines[0]);
