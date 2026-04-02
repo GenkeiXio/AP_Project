@@ -33,10 +33,10 @@ body, html {
 
 .node {
     position: absolute;
-    width: 220px;   /* 🔥 bigger */
-    height: 160px;  /* 🔥 rectangular */
+    width: 220px;
+    height: 160px;
 
-    border-radius: 20px; /* 🔥 not circle anymore */
+    border-radius: 20px;
     background: white;
 
     border: 4px solid #fff;
@@ -44,15 +44,20 @@ body, html {
 
     cursor: pointer;
     overflow: hidden;
+
+    z-index: 2;
 }
 
+/* IMAGE */
 .node img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* 🔥 show full image */
-    border-radius: 0;    /* 🔥 remove circle */
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
 }
 
+/* ❌ REMOVE HOVER MOVEMENT */
 .node:hover {
     transform: scale(1.1);
 }
@@ -75,20 +80,35 @@ body, html {
 .label-green { background: #27ae60; }
 
 /* LOCKED */
+/* LOCKED STATE (CLEAN) */
 .locked {
-    filter: grayscale(100%) brightness(0.7);
-    pointer-events: none;
+    filter: grayscale(100%);
     opacity: 0.6;
+    pointer-events: none;
 }
 
+/* 🔒 CENTER LOCK ICON */
 .lock-icon {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background: red;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 40px;
+
+    background: rgba(0,0,0,0.6);
     color: white;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border-radius: 50%;
-    padding: 5px;
+
+    z-index: 3;
 }
 
 .center-node {

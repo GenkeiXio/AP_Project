@@ -57,12 +57,16 @@ h1{
     background:#4a983c;
 }
 
-.back{
-    display:inline-block;
-    margin-bottom:10px;
-    text-decoration:none;
-    color:#333;
-    font-weight:bold;
+.back-button {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    z-index: 100;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
 }
 </style>
 </head>
@@ -71,7 +75,7 @@ h1{
 
 <div class="page">
 
-<a href="{{ route('inner.map2') }}" class="back">⬅ Bumalik</a>
+<a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
 
 <div class="card">
 

@@ -942,14 +942,14 @@
         </section>
 
         <section id="feedback" class="feedback-wrap" aria-live="polite">
+            <div class="feedback-title" id="feedbackTitle"></div>
+            <p class="feedback-text" id="feedbackText"></p>
+
             <div style="text-align:center; margin-top: 20px;">
                 <button id="nextNodeBtn" class="btn btn-primary" style="display:none;">
                     Bumalik sa Mapa 🗺️
                 </button>
             </div>
-
-            <div class="feedback-title" id="feedbackTitle"></div>
-            <p class="feedback-text" id="feedbackText"></p>
         </section>
 
         <!-- <audio id="summaryAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/home-bg-music.mp3') }}"></audio> -->

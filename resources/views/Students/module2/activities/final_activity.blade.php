@@ -42,8 +42,8 @@ h1{
     cursor:pointer;
 }
 
-.choice.correct{ background:#c8f7c5; }
-.choice.wrong{ background:#ffc9c9; }
+/* .choice.correct{ background:#c8f7c5; }
+.choice.wrong{ background:#ffc9c9; } */
 
 .btn{
     padding:12px 20px;
@@ -93,25 +93,60 @@ h1{
 .choices-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:12px;
+    gap:16px;
 }
 
 .choice-box{
     border:2px solid #ccc;
-    border-radius:12px;
-    padding:8px;
+    border-radius:14px;
+    padding:10px;
     background:white;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    min-height:200px;
+    position:relative;
+}
+
+.choice-box:hover{
+    transform:scale(1.03);
+    box-shadow:0 6px 12px rgba(0,0,0,0.15);
+}
+
+.choice-box.correct{
+    background:#c8f7c5;
+    border-color:#2ecc71;
+}
+
+.choice-box.wrong{
+    background:#ffc9c9;
+    border-color:#e74c3c;
 }
 
 .choice-img{
     width:100%;
-    border-radius:8px;
+    height:150px;            /* 🔥 smaller + controlled */
+    object-fit:cover;        /* 🔥 fills nicely */
+    border-radius:10px;
+    background:#eee;
 }
 
 .choice-text{
-    margin-top:5px;
+    margin-top:3px;
     font-weight:bold;
     text-align:center;
+    font-size:20px;
+}
+
+/* CHECKBOX FIX (top-right clean) */
+.choice-box input{
+    position:absolute;
+    top:10px;
+    right:10px;
+    transform:scale(1.8); /* 🔥 bigger */
+    cursor:pointer;
 }
 </style>
 </head>
@@ -155,99 +190,99 @@ let current = 0;
 // 🔥 SCENARIOS
 const scenarios = [
 
-{
-title:"Scenario 1",
-image:"/pictures/scenario1.png",
-desc:"Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura.",
-question:"Alin sa mga sumusunod ang tamang hakbang?",
-choices:[
-{t:"Sunugin ang basura",c:false},
-{t:"Makilahok sa clean-up drive",c:true},
-{t:"Itapon ang basura sa ilog",c:false},
-{t:"Isagawa ang waste segregation",c:true},
-{t:"Magtapon ng basura sa tamang lalagyan",c:true}
-]
-},
+    {
+    title:"Scenario 1",
+    image:"/pictures/Mod2_FinalAct/scenario1.png",
+    desc:"Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura.",
+    question:"Alin sa mga sumusunod ang tamang hakbang?",
+    choices:[
+    {t:"Sunugin ang basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
+    {t:"Makilahok sa clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
+    {t:"Itapon ang basura sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"},
+    {t:"Isagawa ang waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
+    {t:"Magtapon ng basura sa tamang lalagyan",c:true, img:"/pictures/Mod2_FinalAct/tamang_tapon.png"}
+    ]
+    },
 
-{
-title:"Scenario 2: Deforestation",
-image:"/pictures/scenario2.png",
-desc:"Sa isang barangay sa Daraga, patuloy ang pagputol ng mga puno upang gawing sakahan.",
-question:"Ano ang tamang hakbang?",
-choices:[
-{t:"Sumali sa pagputol ng puno",c:false},
-{t:"Magsagawa ng tree planting",c:true},
-{t:"Magputol pa ng puno para sa kita",c:false},
-{t:"I-report ang illegal logging",c:true},
-{t:"Sumunod sa batas pangkalikasan",c:true}
-]
-},
+    {
+    title:"Scenario 2: Deforestation",
+    image:"/pictures/Mod2_FinalAct/scenario2.png",
+    desc:"Sa isang barangay sa Daraga, patuloy ang pagputol ng mga puno upang gawing sakahan.",
+    question:"Ano ang tamang hakbang?",
+    choices:[
+    {t:"Sumali sa pagputol ng puno",c:false, img:"/pictures/Mod2_FinalAct/illegal_logging.png"},
+    {t:"Magsagawa ng tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
+    {t:"Magputol pa ng puno para sa kita",c:false, img:"/pictures/Mod2_FinalAct/more_cutting.png"},
+    {t:"I-report ang illegal logging",c:true, img:"/pictures/Mod2_FinalAct/report_logging.png"},
+    {t:"Sumunod sa batas pangkalikasan",c:true, img:"/pictures/Mod2_FinalAct/environment_law.png"}
+    ]
+    },
 
-{
-title:"Scenario 3: Climate Change",
-image:"/pictures/scenario3.png",
-desc:"Mas lumalakas ang bagyo at tumitindi ang init sa Albay.",
-question:"Alin ang makakatulong?",
-choices:[
-{t:"Pagtatanim ng puno",c:true},
-{t:"Pagsusunog ng basura",c:false},
-{t:"Pagputol ng mga puno",c:false},
-{t:"Paggamit ng renewable energy",c:true},
-{t:"Pagtitipid ng enerhiya",c:true}
-]
-},
+    {
+    title:"Scenario 3: Climate Change",
+    image:"/pictures/Mod2_FinalAct/scenario3.png",
+    desc:"Mas lumalakas ang bagyo at tumitindi ang init sa Albay.",
+    question:"Alin ang makakatulong?",
+    choices:[
+    {t:"Pagtatanim ng puno",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
+    {t:"Pagsusunog ng basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
+    {t:"Pagputol ng mga puno",c:false, img:"/pictures/Mod2_FinalAct/more_cutting.png"},
+    {t:"Paggamit ng renewable energy",c:true, img:"/pictures/Mod2_FinalAct/renewable_energy.png"},
+    {t:"Pagtitipid ng enerhiya",c:true, img:"/pictures/Mod2_FinalAct/save_energy.png"}
+    ]
+    },
 
-{
-title:"Scenario 4: Government Response",
-image:"/pictures/scenario4.png",
-desc:"May babala ang PAGASA tungkol sa bagyo at posibleng pagputok ng Mayon.",
-question:"Ano ang dapat gawin?",
-choices:[
-{t:"Huwag pansinin ang babala",c:false},
-{t:"Makilahok sa disaster drills",c:true},
-{t:"Sumunod sa early warning system",c:true},
-{t:"Maghihintay na lamang",c:false},
-{t:"Lumikas sa evacuation center",c:true}
-]
-},
+    {
+    title:"Scenario 4: Government Response",
+    image:"/pictures/Mod2_FinalAct/scenario4.png",
+    desc:"May babala ang PAGASA tungkol sa bagyo at posibleng pagputok ng Mayon.",
+    question:"Ano ang dapat gawin?",
+    choices:[
+    {t:"Huwag pansinin ang babala",c:false, img:"/pictures/Mod2_FinalAct/ignore_warning.png"},
+    {t:"Makilahok sa disaster drills",c:true, img:"/pictures/Mod2_FinalAct/disaster_drill.png"},
+    {t:"Sumunod sa early warning system",c:true, img:"/pictures/Mod2_FinalAct/warning_system.png"},
+    {t:"Maghihintay na lamang",c:false, img:"/pictures/Mod2_FinalAct/waiting.png"},
+    {t:"Lumikas sa evacuation center",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"}
+    ]
+    },
 
-{
-title:"Scenario 5: Flooding",
-image:"/pictures/scenario5.png",
-desc:"Baradong ilog sa barangay",
-question:"Ano ang tamang gawin?",
-choices:[
-{t:"Clean-up drive",c:true},
-{t:"Waste segregation",c:true},
-{t:"Report sa barangay",c:true},
-{t:"Itapon sa ilog",c:false}
-]
-},
+    {
+    title:"Scenario 5: Flooding",
+    image:"/pictures/Mod2_FinalAct/scenario5.png",
+    desc:"Baradong ilog sa barangay",
+    question:"Ano ang tamang gawin?",
+    choices:[
+    {t:"Clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
+    {t:"Waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
+    {t:"Report sa barangay",c:true, img:"/pictures/Mod2_FinalAct/report_barangay.png"},
+    {t:"Itapon sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"}
+    ]
+    },
 
-{
-title:"Scenario 6: Air Pollution",
-image:"/pictures/scenario6.png",
-desc:" Mausok na lugar",
-question:"Ano ang solusyon?",
-choices:[
-{t:"Public transport",c:true},
-{t:"Tree planting",c:true},
-{t:"Reduce burning",c:true},
-{t:"Mag-sunog pa",c:false}
-]
-},
+    {
+    title:"Scenario 6: Air Pollution",
+    image:"/pictures/Mod2_FinalAct/scenario6.png",
+    desc:"Mausok na lugar",
+    question:"Ano ang solusyon?",
+    choices:[
+    {t:"Public transport",c:true, img:"/pictures/Mod2_FinalAct/public_transport.png"},
+    {t:"Tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
+    {t:"Reduce burning",c:true, img:"/pictures/Mod2_FinalAct/reduce_burning.png"},
+    {t:"Mag-sunog pa",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"}
+    ]
+    },
 
-{
-title:"Scenario 7: Volcanic Eruption",
-image:"/pictures/scenario7.png",
-question:"Ano ang dapat gawin?",
-choices:[
-{t:"Follow evacuation",c:true},
-{t:"Prepare go bag",c:true},
-{t:"Ignore warnings",c:false},
-{t:"Listen to alerts",c:true}
-]
-}
+    {
+    title:"Scenario 7: Volcanic Eruption",
+    image:"/pictures/Mod2_FinalAct/scenario7.png",
+    question:"Ano ang dapat gawin?",
+    choices:[
+    {t:"Follow evacuation",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"},
+    {t:"Prepare go bag",c:true, img:"/pictures/Mod2_FinalAct/go_bag.png"},
+    {t:"Ignore warnings",c:false, img:"/pictures/Mod2_FinalAct/ignore_warning.png"},
+    {t:"Listen to alerts",c:true, img:"/pictures/Mod2_FinalAct/alerts.png"}
+    ]
+    }
 
 ];
 
@@ -281,15 +316,21 @@ function loadScenario(){
         <div>
     `;
 
+    html += `<div class="choices-grid">`;
+
     s.choices.forEach((c,i)=>{
         html += `
-        <div class="choice">
-            <label>
-                <input type="checkbox" data-index="${i}">
-                ${c.t}
-            </label>
-        </div>`;
+        <label class="choice-box">
+            <input type="checkbox" data-index="${i}" style="margin-bottom:5px;">
+
+            ${c.img ? `<img src="${c.img}" class="choice-img">` : ""}
+
+            <div class="choice-text">${c.t}</div>
+        </label>
+        `;
     });
+
+    html += `</div>`;
 
     html += `
         </div>
@@ -306,7 +347,7 @@ function submitAnswer(){
 let s = scenarios[current];
 let correct = 0;
 
-document.querySelectorAll(".choice").forEach((el,i)=>{
+document.querySelectorAll(".choice-box").forEach((el,i)=>{
     let checkbox = el.querySelector("input");
 
     if(checkbox.checked && s.choices[i].c){
