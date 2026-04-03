@@ -12,6 +12,7 @@ use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\EssayController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -132,3 +133,13 @@ Route::get('/module2-activity', function () {
 Route::get('/module2-posttest', function () {
     return view('Students.module2.module2_posttest');
 })->name('module2.posttest');
+
+Route::get('/module2/essay', function () {
+    return view('Students.module2.activities.mod2_essay');
+})->name('module2.essay');
+
+Route::post('/module2/essay-submit', [EssayController::class, 'submit'])->name('essay.submit');
+
+Route::get('/module2/buod', function () {
+    return view('Students.module2.mod2_buod');
+})->name('module2.buod');

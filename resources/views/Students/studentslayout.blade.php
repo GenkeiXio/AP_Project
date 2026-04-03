@@ -107,10 +107,10 @@
 
     <nav class="topnav">
         <a href="{{ route('student.map') }}" class="brand">
-            Araling <span>Panlipunan</span> 🧭
+            Araling <span>Panlipunan</span> 10 🧭
         </a>
 
-        <div class="nav-links">
+        <!-- <div class="nav-links">
             <a href="{{ route('student.map') }}"
                class="nav-link {{ request()->routeIs('student.map') ? 'active' : '' }}">
                🗺️ Map
@@ -119,7 +119,7 @@
                class="nav-link {{ request()->routeIs('student.profile') ? 'active' : '' }}">
                👤 Profile
             </a>
-        </div>
+        </div> -->
 
         <div class="topnav-right">
             {{-- Profile chip — shows avatar + username, links to profile --}}

@@ -171,11 +171,75 @@ body, html {
     cursor: pointer;
     z-index: 100;
 }
+
+/* MODAL BACKDROP */
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.6);
+
+    justify-content: center;
+    align-items: center;
+}
+
+/* MODAL BOX */
+.modal-content{
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    width: 350px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+/* BUTTON */
+.modal-btn{
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #5eae4e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* CLOSE BUTTON */
+.modal-close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+}
 </style>
 @endpush
 
 @section('content')
 <div class="map-wrapper">
+
+    <!-- 🎉 MODAL -->
+    <div id="finalModal" class="modal">
+        <div class="modal-content">
+    <h2>🎉 Mission Complete!</h2>
+            <p>Kumpleto mo na ang lahat ng !</p>
+
+            <button class="modal-btn" onclick="goToFinal()">
+                🚀 Pumunta sa Final Activity
+            </button>
+
+            <button class="modal-close" onclick="closeModal()">✖</button>
+        </div>
+    </div>
 
     <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
@@ -216,7 +280,7 @@ body, html {
         🔑 Unlock Final Activity
     </button>
 
-    <a href="{{ url()->previous() }}" class="back-button">⬅️ Bumalik</a>
+    <a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
 
 </div>
 
@@ -300,13 +364,20 @@ function goNode4(){
     } else alert("Tapusin muna ang Node 3!");
 }
 
-/* FINAL */
+function closeModal(){
+    document.getElementById("finalModal").style.display = "none";
+}
+
+/* OPEN MODAL */
 function goFinal(){
-    alert("🎉 Kumpleto mo na ang lahat ng nodes!");
+    document.getElementById("finalModal").style.display = "flex";
+}
+
+/* ✅ FIXED REDIRECT */
+function goToFinal(){
     window.location.href = "{{ route('module2.intro') }}";
 }
 
 window.onload = updateMapProgress;
-</script>
 </script>
 @endsection

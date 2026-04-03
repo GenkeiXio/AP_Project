@@ -743,6 +743,46 @@
 				opacity: 0;
 			}
 		}
+
+		.modal-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0,0,0,0.5);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.3s ease;
+		}
+
+		.modal-overlay.show {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.modal-box {
+			background: #fff;
+			padding: 24px;
+			border-radius: 20px;
+			max-width: 500px;
+			text-align: center;
+			box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+			animation: fadePop 0.4s ease;
+		}
+
+		.modal-box h2 {
+			font-family: "Baloo 2", cursive;
+			margin-bottom: 10px;
+		}
+
+		.modal-box p {
+			font-size: 0.95rem;
+			color: #4c3a26;
+			margin-bottom: 16px;
+		}
 	</style>
 </head>
 <body>
@@ -793,17 +833,30 @@
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
 						<div class="result-score" id="resultScoreText"></div>
-						<div class="badge-pill" id="resultBadge">🌟 Mahusay!</div>
+						<div class="badge-pill" id="resultBadge"></div>
 						<div class="result-feedback" id="resultFeedback"></div>
-						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
 						
-						<div class="result-actions">
+						<div class="result-actions" id="resultActions">
 							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Post-Test</button>
 							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
 				</div>
 			</form>
+		</div>
+	</div>
+	<!-- PASS MODAL -->
+	<div id="passModal" class="modal-overlay">
+		<div class="modal-box">
+			<h2>🎉 Mahusay!</h2>
+			<p>
+				Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
+				Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
+			</p>
+
+			<a href="{{ route('module2.essay') }}" class="btn-primary">
+				Magpatuloy sa Essay ✍️
+			</a>
 		</div>
 	</div>
 </div>
@@ -1032,26 +1085,45 @@
 		const resultScoreText = document.getElementById('resultScoreText');
 		const resultBadge = document.getElementById('resultBadge');
 		const resultFeedback = document.getElementById('resultFeedback');
-		const percentage = Math.round((score / questions.length) * 100);
-		if(score >= 13){
-            resultBadge.textContent = "🏆 Eco-Warrior!";
-            resultFeedback.textContent = "Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.";
-        } else {
-            resultBadge.textContent = "🔁 Subukan muli";
-            resultFeedback.textContent = "Kailangan mong makakuha ng 13/15 upang makapasa.";
-        }
+		const resultActions = document.getElementById('resultActions');
 
+		const percentage = Math.round((score / questions.length) * 100);
+
+		// animate
 		animateResultRing(resultRing, percentage);
 		resultPercent.textContent = `${score}/${questions.length}`;
 		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
-		resultBadge.textContent = level.badge;
-		resultFeedback.textContent = level.feedback;
-		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
+
+		// clear buttons
+		resultActions.innerHTML = "";
+
+		if (score >= 13) {
+			// ✅ PASS
+			resultBadge.textContent = "🏆 Mahusay!";
+			// resultFeedback.textContent = "Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.";
+
+			// show modal
+			setTimeout(() => {
+				document.getElementById('passModal').classList.add('show');
+			}, 800);
+
+		} else {
+			// ❌ FAIL (THIS IS WHAT YOU WANT)
+			resultBadge.textContent = "❌ Hindi pa sapat";
+			resultFeedback.textContent = "Too bad, try again.";
+
+			resultActions.innerHTML = `
+				<button type="button" class="btn-secondary" onclick="restartQuiz()">
+					Ulitin ang Post-Test
+				</button>
+			`;
+		}
 
 		quizPage.style.display = 'none';
 		resultPage.classList.add('show');
 
 		if (percentage >= 80) launchConfetti();
+
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
