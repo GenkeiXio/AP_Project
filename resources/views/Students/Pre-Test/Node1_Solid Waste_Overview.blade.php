@@ -298,7 +298,7 @@
 		<div class="info-card">
 			<div class="card-title">Gabay na Tanong</div>
 			<p>
-				Paano nakaaapekto ang hindi wastong pamamahala ng solid waste sa kapaligiran at kalusugan ng mga mamamayan sa Albay,
+				Paano nakakaapekto ang hindi wastong pamamahala ng solid waste sa kapaligiran at kalusugan ng mga mamamayan sa Albay,
 				at ano ang maaari mong gawin bilang mag-aaral upang makatulong sa paglutas nito?
 			</p>
 		</div>
@@ -306,7 +306,7 @@
 		<div class="info-card">
 			<div class="card-title">📘 Alamin natin</div>
 			<p>
-				Ang <strong>SOLID WASTE</strong> ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
+				Ang <strong>SOLID WASTE</strong> ay tumutukoy sa mga basurang nagmula sa tahanan, paaralan, at komersyal na lugar.
 				Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng <strong>pagbaha</strong> at <strong>polusyon</strong> sa ilog at dagat.
 			</p>
 		</div>

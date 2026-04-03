@@ -58,6 +58,12 @@ h1{
     color:#214f33;
 }
 
+h2{
+    text-align:center;
+    font-family:'Baloo 2';
+    color:#214f33;
+}
+
 /* TEXT */
 .section-title{
     font-weight:bold;
@@ -115,18 +121,18 @@ h1{
 
 <div class="card">
 
-<h1>🎮 Environmental Decision Game</h1>
+<h1><b>IKAW ANG TAGAPAMAHALA NG SAKUNA</b> <br>🎮Environmental Decision Game🎮</h1>
 
-<p><strong>Title:</strong> <b>Ikaw ang Tagapamahala ng Sakuna</b></p>
+<!-- <h2>🎮 Environmental Decision Game</h2> -->
 
-<p class="section-title">📘 Paglalarawan (Description):</p>
+<p class="section-title">📘 Paglalarawan:</p>
 <p>
 Ang gawaing ito ay tumutulong sa iyo na malinang ang iyong pag-iisip at kakayahan sa pagpapasya
 tungkol sa mga suliraning pangkapaligiran. Sa pamamagitan ng mga sitwasyong hango sa karanasan sa Albay,
 matututuhan mong tukuyin ang sanhi ng problema at pumili ng tamang hakbang upang makatulong sa kalikasan at komunidad.
 </p>
 
-<p class="section-title">📌 Mga Tagubilin (Instructions):</p>
+<p class="section-title">📌 Mga Tagubilin:</p>
 <p>
 Basahin at suriin ang bawat sitwasyon at larawan. Piliin ang <b>LAHAT</b> ng tamang sagot na
 makatutulong sa paglutas ng suliranin.

@@ -1066,6 +1066,8 @@
     let itemIndex = 0;
     let correctCount = 0;
     let dragged = false;
+    let typingTimer = null;
+    let isTyping = false;
 
     function getActiveElement() {
         const current = items[itemIndex];
@@ -1073,12 +1075,25 @@
     }
 
     function typeLine(text) {
+        // Clear any existing typing
+        if (typingTimer) {
+            clearInterval(typingTimer);
+            typingTimer = null;
+        }
+
         introText.textContent = '';
         let i = 0;
-        const timer = setInterval(() => {
-            introText.textContent += text[i] ?? '';
-            i += 1;
-            if (i >= text.length) clearInterval(timer);
+        isTyping = true;
+
+        typingTimer = setInterval(() => {
+            if (i < text.length) {
+                introText.textContent += text[i];
+                i++;
+            } else {
+                clearInterval(typingTimer);
+                typingTimer = null;
+                isTyping = false;
+            }
         }, 18);
     }
 

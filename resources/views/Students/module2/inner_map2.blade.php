@@ -231,7 +231,7 @@ body, html {
     <div id="finalModal" class="modal">
         <div class="modal-content">
     <h2>🎉 Mission Complete!</h2>
-            <p>Kumpleto mo na ang lahat ng !</p>
+            <p>Kumpleto mo na ang lahat ng aralin!</p>
 
             <button class="modal-btn" onclick="goToFinal()">
                 🚀 Pumunta sa Final Activity
