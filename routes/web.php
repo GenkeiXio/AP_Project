@@ -107,7 +107,7 @@ Route::get('/demo-map', function () {
 })->name('student.map');
 
 Route::get('/inner-map-2', function () {
-    return view('students.module2.inner_map2'); // This matches inner_map2.blade.php
+    return view('Students.module2.inner_map2'); 
 })->name('inner.map2');
 
 Route::get('/node2', function () {
