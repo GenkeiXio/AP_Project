@@ -143,3 +143,30 @@ Route::post('/module2/essay-submit', [EssayController::class, 'submit'])->name('
 Route::get('/module2/buod', function () {
     return view('Students.module2.mod2_buod');
 })->name('module2.buod');
+
+
+//Module 3 Routes//
+// MODULE 3 HOME
+Route::get('/module3', function () {
+    return view('Students.Module3.module3_home');
+})->name('module3.home');
+
+// PRETEST
+Route::get('/module3/pretest', function () {
+    return view('Students.Module3.Test.module3_pretest');
+})->name('module3.pretest');
+
+// POSTTEST
+Route::get('/module3/posttest', function () {
+    return view('Students.Module3.Activities.Test.module3_posttest');
+})->name('module3.posttest');
+
+// EXPLORE - SCENE
+Route::get('/module3/explore/scene', function () {
+    return view('Students.Module3.Activities.Explore.scene');
+})->name('module3.scene');
+
+// EXPLORE - BALIK ARAL
+Route::get('/module3/explore/balik-aral', function () {
+    return view('Students.Module3.Activities.balik-aral');
+})->name('module3.balik_aral');
