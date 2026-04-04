@@ -13,6 +13,10 @@ use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\EssayController;
+use App\Http\Controllers\Student\Pretest\Module2PretestController;
+use App\Http\Controllers\Student\Module2\Module2_Node1Controller;
+use App\Http\Controllers\Student\Module2\Module2_Node2Controller;
+use App\Http\Controllers\Student\Module2\Module2_Node3Controller;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -33,6 +37,11 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::get('/student/classes/{class}',          [StudentClassController::class, 'classDetail'])->name('student.class.detail');
     Route::get('/student/quiz/{quiz}/play',         [StudentClassController::class, 'playQuiz'])->name('student.quiz.play');
     Route::post('/student/quiz/{quiz}/submit',      [StudentClassController::class, 'submitQuiz'])->name('student.quiz.submit');
+
+    Route::post('/student/module2/pretest/save', [Module2PretestController::class, 'store']) ->name('student.module2.pretest.save');
+    Route::post('/module2/node1/save', [Module2_Node1Controller::class, 'store']) ->name('student.module2.node1.save');
+    Route::post('/student/module2/node2/save', [Module2_Node2Controller::class, 'store']) ->name('student.module2.node2.save');
+    Route::post('/student/module2/node3/save', [Module2_Node3Controller::class, 'store'] )->name('student.module2.node3.save');
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
