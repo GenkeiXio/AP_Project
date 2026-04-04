@@ -178,3 +178,11 @@ Route::get('/module3/balik-aral', function () {
 Route::get('/inner-map-3', function () {
     return view('Students.Module3.Inner_map3');
 })->name('inner.map3');
+
+Route::get('/module3/node1', function () {
+    return view('Students.Module3.Nodes.mod3_node1');
+})->name('module3.node1');
+
+Route::get('/module3/node2', function () {
+    return view('Students.Module3.Nodes.mod3_node2');
+})->name('module3.node2');

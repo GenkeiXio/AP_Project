@@ -323,10 +323,22 @@ body, html {
 @media (max-width: 900px) {
     .dd-layout { grid-template-columns: 1fr; }
 }
+
+.background-map {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	object-fit: cover;
+	z-index: -1;
+}
 </style>
 @endpush
 
 @section('content')
+
+<img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 <div class="dd-wrap">
     <section class="dd-hero">
         <div class="dd-badge">III. BALIK-ARAL</div>
