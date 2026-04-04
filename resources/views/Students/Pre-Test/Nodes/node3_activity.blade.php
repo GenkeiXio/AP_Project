@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>Node 2: Deforestation Quest</title>
+    <title>Node 3: Climate Change Quest</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -148,7 +148,7 @@
         }
 
         .hero-main::after {
-        content: "🌳";
+        content: "🌡️";
         position: absolute;
         right: 18px;
         top: 14px;
@@ -724,7 +724,7 @@
     <div class="page">
         <div class="quest-shell">
             <div class="topbar">
-                <a class="back-link" href="{{ route('node2') }}">⬅ Bumalik</a>
+                <a class="back-link" href="{{ route('node3') }}">⬅ Bumalik</a>
                 <div class="xp-rack">
                     <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
                     <div class="xp-chip" id="missionCount">0 / 3 Tama</div>
@@ -737,7 +737,7 @@
                     <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
                     <div style="text-align:center; width:100%;">
                         <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
-                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Deforestation <span>Quest</span></h1>
+                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Climate Change <span>Quest</span></h1>
                         <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
                         <div class="actions" style="justify-content:center; margin-top:20px;">
                             <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
@@ -747,7 +747,7 @@
                 <aside class="hero-side" style="margin-top:10px;">
                     <div class="quest-card">
                         <h3>🎯 Layunin</h3>
-                        <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng deforestation.</p>
+                        <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng climate change.</p>
                     </div>
                     <div class="quest-card">
                         <h3>📌 Paalala</h3>
@@ -818,7 +818,7 @@
                 <div class="modal-feedback-text" id="modalFeedbackText"></div>
                 <div class="modal-actions">
                     <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
-                    <a href="{{ route('node3') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
+                    <a href="{{ route('node4') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
                 </div>
             </div>
         </div>
@@ -847,16 +847,16 @@
         const closeModalBtn = document.getElementById('closeModalBtn');
 
         const lines = [
-            'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa deforestation o pagkakalbo ng kagubatan.',
-            'Ang deforestation ay ang patuloy na pagputol ng mga puno nang walang sapat na kapalit.',
-            'Ito ay nagdudulot ng pagbaha, pagguho ng lupa, at pagkawala ng tirahan ng mga hayop.',
+            'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa climate change o pagbabago ng klima.',
+            'Ang climate change ay ang patuloy na pagtaas ng temperatura ng mundo dulot ng mga gawain ng tao.',
+            'Ito ay nagdudulot ng matinding bagyo, pagbaha, tagtuyot, at pagkasira ng ating kalikasan.',
             'Ngayon, i-drag ang bawat card sa tamang zone: Sanhi, Bunga, o Solusyon.'
         ];
 
         const items = [
-            { text: 'Illegal logging at pagkakalbo ng kagubatan', zone: 'cause' },
-            { text: 'Pagbaha, pagguho ng lupa, at pagkawala ng tirahan ng wildlife', zone: 'effect' },
-            { text: 'Pagtatanim ng puno, reforestation, at pangangalaga sa kagubatan', zone: 'solution' }
+            { text: 'Pagsusunog ng fossil fuels, deforestation, at polusyon', zone: 'cause' },
+            { text: 'Pagbaha, pagguho ng lupa, at pagkawala ng biodiversity', zone: 'effect' },
+            { text: 'Pagtatanim ng puno, disaster preparedness, at renewable energy', zone: 'solution' }
         ];
 
         let completedRecords = [];
@@ -867,7 +867,7 @@
             solution: 'Solusyon'
         };
 
-        const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng pagkakalbo ng kagubatan.\n\nAng deforestation ay dulot ng illegal logging at labis na paggamit ng lupa.\n\nDahil dito, nagkakaroon ng pagbaha, soil erosion, at pagkawala ng tirahan ng mga hayop at halaman.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, pagsunod sa batas, at responsableng paggamit ng kalikasan, mapoprotektahan natin ang ating kagubatan.\n\nTandaan—ang kalikasan ay buhay, kaya ito ay dapat pangalagaan!`;
+        const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng climate change.\n\nAng climate change ay dulot ng pagsusunog ng fossil fuels, deforestation, at polusyon.\n\nDahil dito, nagkakaroon ng matinding pagbaha, pagguho ng lupa, at pagkawala ng biodiversity.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, disaster preparedness, at paggamit ng renewable energy, mapoprotektahan natin ang ating planeta.\n\nTandaan—ang laban sa climate change ay nagsisimula sa bawat isa sa atin!`;
 
         const statusMap = {
             cause: document.getElementById('status-cause'),
@@ -879,8 +879,6 @@
         let itemIndex = 0;
         let correctCount = 0;
         let dragged = false;
-        let typingTimer = null;
-        let isTyping = false;
 
         function showCompletionModal(message) {
             modalFeedbackText.innerText = message;
@@ -899,25 +897,12 @@
         });
 
         function typeLine(text) {
-            // Stop previous typing
-            if (typingTimer) {
-                clearInterval(typingTimer);
-                typingTimer = null;
-            }
-
             introText.textContent = '';
             let i = 0;
-            isTyping = true;
-
-            typingTimer = setInterval(() => {
-                if (i < text.length) {
-                    introText.textContent += text[i];
-                    i++;
-                } else {
-                    clearInterval(typingTimer);
-                    typingTimer = null;
-                    isTyping = false;
-                }
+            const timer = setInterval(() => {
+                introText.textContent += text[i] ?? '';
+                i += 1;
+                if (i >= text.length) clearInterval(timer);
             }, 18);
         }
 
@@ -1010,7 +995,7 @@
                     missionCountSpan.textContent = `${correctCount} / 3 Tama`;
                     completeZone(droppedZone);
 
-                    // ✅ STORE DATA (Node2 = 1 record only)
+                    // ✅ STORE DATA (1 record only)
                     let currentRecordIndex = 0;
 
                     if (!completedRecords[currentRecordIndex]) {
@@ -1034,7 +1019,7 @@
                         completedRecords[currentRecordIndex].solusyon = current.text;
                     }
 
-                    // 🔽 KEEP YOUR ORIGINAL UI CODE
+                    // 🔽 ORIGINAL UI
                     const snapCard = activeCard.cloneNode(true);
                     snapCard.removeAttribute('id');
                     snapCard.classList.remove('dragging');
@@ -1054,10 +1039,10 @@
                             resetZoneStatus();
                             updateCard();
                         } else {
-                            sessionStorage.setItem('node2_done', 'true');
+                            sessionStorage.setItem('node3_done', 'true');
 
-                            // ✅ SEND TO BACKEND (IMPORTANT PART)
-                            fetch("{{ route('student.module2.node2.save') }}", {
+                            // ✅ SAVE TO DATABASE
+                            fetch("{{ route('student.module2.node3.save') }}", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -1076,7 +1061,7 @@
                                     return;
                                 }
 
-                                console.log("Saved Node2:", data);
+                                console.log("Saved Node3:", data);
                             })
                             .catch(err => {
                                 console.error("Fetch Error:", err);

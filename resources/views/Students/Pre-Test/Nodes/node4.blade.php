@@ -531,23 +531,23 @@ function showCompletionMessage(){
             <div class="bg-green-50 p-6 rounded-xl border shadow text-base md:text-lg leading-relaxed text-gray-800 text-left mb-6">
 
                 <p class="mb-3">
-                Naunawaan mo ang kahalagahan ng mga batas, programa, at ahensya sa paghahanda at pagtugon sa sakuna.
+                Magaling! Naunawaan mo ang kahalagahan ng mga batas, programa, at ahensya sa paghahanda at pagtugon sa sakuna.
                 </p>
 
                 <p class="mb-3">
-                Ang mga ito ay gabay sa tamang pag-iwas, paghahanda, at pagkilos sa panahon ng kalamidad.
+                Ang mga ito ay binuo upang gabayan ang mga mamamayan at pamahalaan sa tamang pag-iwas, paghahanda, at pagkilos sa panahon ng kalamidad.
                 </p>
 
                 <p class="mb-3">
-                Sa early warning, evacuation, at tamang pangangalaga sa kalikasan, nababawasan ang pinsala.
+                Dahil sa wastong pagpapatupad ng mga hakbang tulad ng early warning system, maagang paglikas, at tamang pamamahala ng kapaligiran, nababawasan ang pinsala sa buhay at ari-arian.
                 </p>
 
                 <p class="mb-3">
-                Mahalaga ang pakikiisa ng bawat mamamayan upang maging ligtas ang komunidad.
+                Ngunit mahalaga rin ang pakikiisa ng bawat isa. Sa pagiging handa, pagsunod sa mga alituntunin, at pangangalaga sa kalikasan, mas nagiging ligtas ang ating komunidad.
                 </p>
 
                 <p class="font-semibold text-green-900 mt-4">
-                Tandaan—ang kaligtasan ay nagsisimula sa kahandaan.
+                Tandaan—ang kaligtasan sa sakuna ay nagsisimula sa kaalaman, kahandaan, at pagkakaisa ng lahat.
                 </p>
 
             </div>

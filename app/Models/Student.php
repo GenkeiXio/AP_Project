@@ -16,13 +16,6 @@ class Student extends Model
         'last_played' => 'datetime',
     ];
 
-    public function classes()
-    {
-        return $this->belongsToMany(
-            SchoolClass::class, 'class_student', 'student_id', 'class_id'
-        )->withPivot('joined_at');
-    }
-
     public function gameSessions()
     {
         return $this->hasMany(GameSession::class);

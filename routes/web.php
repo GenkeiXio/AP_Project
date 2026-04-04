@@ -12,6 +12,11 @@ use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\EssayController;
+use App\Http\Controllers\Student\Pretest\Module2PretestController;
+use App\Http\Controllers\Student\Module2\Module2_Node1Controller;
+use App\Http\Controllers\Student\Module2\Module2_Node2Controller;
+use App\Http\Controllers\Student\Module2\Module2_Node3Controller;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -32,6 +37,11 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::get('/student/classes/{class}',          [StudentClassController::class, 'classDetail'])->name('student.class.detail');
     Route::get('/student/quiz/{quiz}/play',         [StudentClassController::class, 'playQuiz'])->name('student.quiz.play');
     Route::post('/student/quiz/{quiz}/submit',      [StudentClassController::class, 'submitQuiz'])->name('student.quiz.submit');
+
+    Route::post('/student/module2/pretest/save', [Module2PretestController::class, 'store']) ->name('student.module2.pretest.save');
+    Route::post('/module2/node1/save', [Module2_Node1Controller::class, 'store']) ->name('student.module2.node1.save');
+    Route::post('/student/module2/node2/save', [Module2_Node2Controller::class, 'store']) ->name('student.module2.node2.save');
+    Route::post('/student/module2/node3/save', [Module2_Node3Controller::class, 'store'] )->name('student.module2.node3.save');
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
@@ -91,6 +101,10 @@ Route::get('/node-3', function () {
     return view('Students.Pre-Test.Nodes.node3');
 })->name('node3');
 
+Route::get('/node-3/activity', function () {
+    return view('Students.Pre-Test.Nodes.node3_activity');
+})->name('node3.activity');
+
 Route::get('/node-1/solid-waste', function () {
     return view('Students.Pre-Test.Node1_Solid Waste_Overview');
 })->name('node1.solid-waste');
@@ -106,7 +120,7 @@ Route::get('/demo-map', function () {
 })->name('student.map');
 
 Route::get('/inner-map-2', function () {
-    return view('students.module2.inner_map2'); // This matches inner_map2.blade.php
+    return view('Students.module2.inner_map2'); 
 })->name('inner.map2');
 
 Route::get('/inner-map-3', function () {
@@ -154,3 +168,52 @@ Route::get('/module2-activity', function () {
 Route::get('/module2-posttest', function () {
     return view('Students.module2.module2_posttest');
 })->name('module2.posttest');
+
+Route::get('/module2/essay', function () {
+    return view('Students.module2.activities.mod2_essay');
+})->name('module2.essay');
+
+Route::post('/module2/essay-submit', [EssayController::class, 'submit'])->name('essay.submit');
+
+Route::get('/module2/buod', function () {
+    return view('Students.module2.mod2_buod');
+})->name('module2.buod');
+
+
+//Module 3 Routes//
+// MODULE 3 HOME
+Route::get('/module3', function () {
+    return view('Students.Module3.module3_home');
+})->name('module3.home');
+
+// PRETEST
+Route::get('/module3/pretest', function () {
+    return view('Students.Module3.Test.module3_pretest');
+})->name('module3.pretest');
+
+// POSTTEST
+Route::get('/module3/posttest', function () {
+    return view('Students.Module3.Activities.Test.module3_posttest');
+})->name('module3.posttest');
+
+// EXPLORE - SCENE
+Route::get('/module3/explore/scene', function () {
+    return view('Students.Module3.Activities.Explore.scene');
+})->name('module3.scene');
+
+// EXPLORE - BALIK ARAL
+Route::get('/module3/balik-aral', function () {
+    return view('Students.Module3.Activities.balik-aral');
+})->name('module3.balik_aral');
+
+Route::get('/inner-map-3', function () {
+    return view('Students.Module3.Inner_map3');
+})->name('inner.map3');
+
+Route::get('/module3/node1', function () {
+    return view('Students.Module3.Nodes.mod3_node1');
+})->name('module3.node1');
+
+Route::get('/module3/node2', function () {
+    return view('Students.Module3.Nodes.mod3_node2');
+})->name('module3.node2');

@@ -1027,12 +1027,44 @@
 			return total + (selectedAnswers[index] === item.answer ? 1 : 0);
 		}, 0);
 
+		const percentage = Math.round((score / questions.length) * 100);
+
+		// Prepare answers for backend
+		const answersPayload = questions.map((q, index) => ({
+			question_number: index + 1,
+			selected: selectedAnswers[index],
+			correct: q.answer,
+			is_correct: selectedAnswers[index] === q.answer
+		}));
+
+		// 🔥 SEND TO BACKEND
+		fetch("{{ route('student.module2.pretest.save') }}", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRF-TOKEN": "{{ csrf_token() }}"
+			},
+			body: JSON.stringify({
+				score: score,
+				percentage: percentage,
+				answers: answersPayload
+			})
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(err => {
+			console.error("Error saving pretest:", err);
+		});
+
+		// ===== EXISTING RESULT LOGIC =====
 		const resultRing = document.getElementById('resultRing');
 		const resultPercent = document.getElementById('resultPercent');
 		const resultScoreText = document.getElementById('resultScoreText');
 		const resultBadge = document.getElementById('resultBadge');
 		const resultFeedback = document.getElementById('resultFeedback');
-		const percentage = Math.round((score / questions.length) * 100);
+
 		const level = getFeedbackByScore(score);
 
 		animateResultRing(resultRing, percentage);

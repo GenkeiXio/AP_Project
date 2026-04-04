@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 2 Post-Test</title>
+	<title>Hamon at Tugon: Module 3 Pre-Test</title>
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -743,66 +743,26 @@
 				opacity: 0;
 			}
 		}
-
-		.modal-overlay {
-			position: fixed;
-			inset: 0;
-			background: rgba(0,0,0,0.5);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			z-index: 9999;
-
-			opacity: 0;
-			pointer-events: none;
-			transition: opacity 0.3s ease;
-		}
-
-		.modal-overlay.show {
-			opacity: 1;
-			pointer-events: auto;
-		}
-
-		.modal-box {
-			background: #fff;
-			padding: 24px;
-			border-radius: 20px;
-			max-width: 500px;
-			text-align: center;
-			box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-			animation: fadePop 0.4s ease;
-		}
-
-		.modal-box h2 {
-			font-family: "Baloo 2", cursive;
-			margin-bottom: 10px;
-		}
-
-		.modal-box p {
-			font-size: 0.95rem;
-			color: #4c3a26;
-			margin-bottom: 16px;
-		}
 	</style>
 </head>
 <body>
 
-<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+<img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 
-<a href="{{ route('inner.map2') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
+<a href="{{ route('module3.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
 <div class="main-wrapper">
 	<div class="pretest-wrap">
 		<div class="pretest-card">
 			<div class="pretest-header">
 				<div class="header-icons">🧭 🗺️ ✨</div>
-				<div class="subtitle">Module 2</div>
-				<h1>Post-Test</h1>
-                <p>Basahin at unawain ang bawat tanong. Piliin ang tamang sagot at kumpirmahin bago magpatuloy.</p>
+				<div class="subtitle">Module 3</div>
+				<h1>Paunang Pagtataya</h1>
+				<p>Pumili ng sagot, pagkatapos kumpirmahin bago magpatuloy.</p>
 			</div>
 
 			<div class="pretest-note">
-				💡 Sagutin ang bawat tanong at i-click ang "✓ Kumpirmahin". <br> <br>Kailangang makakuha ng 13/15 upang makapasa.
+				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin". Kapag nakumpirma na, pwede nang pumunta sa susunod na tanong.
 			</div>
 
 			<form id="preTestForm">
@@ -822,62 +782,184 @@
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
 						<button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button>
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Post-Test 🚀</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Pre-Test 🚀</button>
 					</div>
 				</div>
 
 				<div class="result-page" id="resultPage" aria-live="polite">
 					<div class="result-box show" id="resultBox">
-						<div class="result-title">Resulta ng Post-Test</div>
+						<div class="result-title">Resulta ng Pre-Test</div>
 						<div class="result-ring" id="resultRing" style="--progress:0;">
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
 						<div class="result-score" id="resultScoreText"></div>
-						<div class="badge-pill" id="resultBadge"></div>
+						<div class="badge-pill" id="resultBadge">🌟 Mahusay!</div>
 						<div class="result-feedback" id="resultFeedback"></div>
+						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
 						
-						<div class="result-actions" id="resultActions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Post-Test</button>
-							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
+						<div class="result-actions">
+							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+							<a href="{{ route('module3.balik_aral') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-	<!-- PASS MODAL -->
-	<div id="passModal" class="modal-overlay">
-		<div class="modal-box">
-			<h2>🎉 Mahusay!</h2>
-			<p>
-				Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
-				Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
-			</p>
-
-			<a href="{{ route('module2.essay') }}" class="btn-primary">
-				Magpatuloy sa Essay ✍️
-			</a>
-		</div>
-	</div>
 </div>
 
 <script>
 	const questions = [
-        { question:'1. Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?', options:{ a:'Mga yamang likas sa kagubatan', b:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo', c:'Mga anyong tubig sa kapaligiran', d:'Mga produktong agrikultural' }, answer:'b' },
-        { question:'2. Ano ang pangunahing suliraning nagdudulot ng pagdami ng basura sa bansa?', options:{ a:'Kakulangan ng ulan', b:'Kawalan ng disiplina sa pagtatapon ng basura', c:'Pagdami ng puno', d:'Malinis na kapaligiran' }, answer:'b' },
-        { question:'3. Ano ang posibleng mangyari kung patuloy ang maling pamamahala ng basura?', options:{ a:'Pag-unlad ng kalikasan', b:'Pagbaha at pagkalat ng sakit', c:'Pagdami ng likas na yaman', d:'Paglilinis ng hangin' }, answer:'b' },
-        { question:'4. Ano ang tinutukoy kapag sinabing pagkakalbo ng kagubatan?', options:{ a:'Reforestation', b:'Deforestation', c:'Urbanisasyon', d:'Industrialisasyon' }, answer:'b' },
-        { question:'5. Alin sa mga sumusunod ang halimbawa ng gawaing nakasisira sa kagubatan?', options:{ a:'Tree planting', b:'Illegal logging', c:'Recycling', d:'Waste segregation' }, answer:'b' },
-        { question:'6. Ano ang epekto ng patuloy na pagputol ng mga puno?', options:{ a:'Pagdami ng biodiversity', b:'Pagbaha at soil erosion', c:'Paglamig ng panahon', d:'Pagdami ng hayop' }, answer:'b' },
-        { question:'7. Paano mailalarawan ang climate change?', options:{ a:'Pagbabago sa anyong lupa', b:'Pagbabago sa pangmatagalang kondisyon ng klima', c:'Pagtaas ng populasyon', d:'Pagdami ng kagubatan' }, answer:'b' },
-        { question:'8. Alin sa mga sumusunod ang nagpapalala sa climate change?', options:{ a:'Paggamit ng renewable energy', b:'Pagsusunog ng fossil fuels', c:'Pagtatanim ng puno', d:'Paglilinis ng kapaligiran' }, answer:'b' },
-        { question:'9. Ano ang isa sa mga epekto ng patuloy na pag-init ng mundo?', options:{ a:'Mas mahinang bagyo', b:'Mas malalakas na kalamidad', c:'Mas malamig na klima', d:'Mas maraming kagubatan' }, answer:'b' },
-        { question:'10. Ano ang pangunahing layunin ng Ecological Solid Waste Management Act (RA 9003)?', options:{ a:'Palakihin ang produksyon ng basura', b:'Isulong ang wastong pamamahala ng basura', c:'Magtayo ng pabrika', d:'Putulin ang mga puno' }, answer:'b' },
-        { question:'11. Ano ang kahalagahan ng early warning system sa komunidad?', options:{ a:'Para magtanim ng puno', b:'Para makapagbigay ng paunang babala sa sakuna', c:'Para mangolekta ng basura', d:'Para magpatupad ng batas' }, answer:'b' },
-        { question:'12. Bakit mahalaga ang agarang paglikas sa panahon ng sakuna?', options:{ a:'Para makapasyal', b:'Para maiwasan ang panganib at makaligtas', c:'Para kumita', d:'Para magtapon ng basura' }, answer:'b' },
-        { question:'13. Ano ang ipinapakita ng pakikiisa ng mamamayan sa mga programang pangkalikasan?', options:{ a:'Kawalan ng interes', b:'Pansariling layunin', c:'Pananagutang panlipunan', d:'Pagiging tamad' }, answer:'c' },
-        { question:'14. Alin sa sumusunod ang pinakaepektibong paraan ng pangangalaga sa kapaligiran?', options:{ a:'Pagtapon ng basura kung saan-saan', b:'Pagsusunog ng basura', c:'Paghihiwalay ng basura (waste segregation)', d:'Pagputol ng puno' }, answer:'c' },
-        { question:'15. Bilang kabataan, alin ang pinakamainam na hakbang upang makatulong sa kalikasan?', options:{ a:'Manahimik lamang', b:'Makilahok sa mga programang pangkalikasan', c:'Magtapon ng basura sa ilog', d:'Sirain ang mga halaman' }, answer:'b' }
+    {
+        question: '1. Ano ang pinakaangkop na paglalarawan ng hazard?',
+        options: {
+            a: 'Banta na maaaring magdulot ng pinsala',
+            b: 'Pangyayaring nakalipas na',
+            c: 'Plano ng pamahalaan',
+            d: 'Uri ng komunidad'
+        },
+        answer: 'a'
+    },
+    {
+        question: '2. Kailan nagiging disaster ang isang hazard?',
+        options: {
+            a: 'Kapag may ulan',
+            b: 'Kapag may tao sa lugar',
+            c: 'Kapag gabi',
+            d: 'Kapag may pinsala dahil sa kahinaan ng komunidad'
+        },
+        answer: 'd'
+    },
+    {
+        question: '3. Ano ang ibig sabihin ng vulnerability?',
+        options: {
+            a: 'Uri ng hazard',
+            b: 'Kakayahang tumulong',
+            c: 'Plano ng barangay',
+            d: 'Kahinaan ng tao o lugar sa panganib'
+        },
+        answer: 'd'
+    },
+    {
+        question: '4. Kung ang isang komunidad ay matibay ang bahay ngunit nasa flood-prone area, ano ito?',
+        options: {
+            a: 'Walang risk',
+            b: 'Mataas na vulnerability pa rin',
+            c: 'Walang hazard',
+            d: 'Ligtas na lugar'
+        },
+        answer: 'b'
+    },
+    {
+        question: '5. Ano ang layunin ng disaster preparedness?',
+        options: {
+            a: 'Maglaro',
+            b: 'Magtago',
+            c: 'Mabawasan ang epekto ng sakuna',
+            d: 'Maghintay ng tulong'
+        },
+        answer: 'c'
+    },
+    {
+        question: '6. Alin ang pinakamahalagang gawin bago ang bagyo?',
+        options: {
+            a: 'Maghanda ng emergency kit at makinig sa balita',
+            b: 'Matulog',
+            c: 'Mag-video',
+            d: 'Lumabas'
+        },
+        answer: 'a'
+    },
+    {
+        question: '7. Ano ang pinakaangkop na gawin kapag may evacuation order?',
+        options: {
+            a: 'Maghintay muna',
+            b: 'Huwag pansinin',
+            c: 'Sumunod agad upang maiwasan ang panganib',
+            d: 'Lumabas mag-isa'
+        },
+        answer: 'c'
+    },
+    {
+        question: '8. Bakit mahalaga ang early warning system?',
+        options: {
+            a: 'Para maghintay',
+            b: 'Para sa ingay',
+            c: 'Para maglibang',
+            d: 'Para mabigyan ng oras ang tao na maghanda'
+        },
+        answer: 'd'
+    },
+    {
+        question: '9. Ano ang katangian ng top-down approach?',
+        options: {
+            a: 'Walang plano',
+            b: 'Komunidad ang lider',
+            c: 'Walang aksyon',
+            d: 'Pamahalaan ang pangunahing nagdedesisyon'
+        },
+        answer: 'd'
+    },
+    {
+        question: '10. Ano ang limitasyon ng top-down approach?',
+        options: {
+            a: 'Hindi isinasaalang-alang ang lokal na pangangailangan',
+            b: 'Malakas',
+            c: 'Kumpleto',
+            d: 'Mabilis'
+        },
+        answer: 'a'
+    },
+    {
+        question: '11. Ano ang pangunahing ideya ng bottom-up approach?',
+        options: {
+            a: 'Walang plano',
+            b: 'Mabagal',
+            c: 'Aktibong pakikilahok ng komunidad',
+            d: 'Walang lider'
+        },
+        answer: 'c'
+    },
+    {
+        question: '12. Ano ang layunin ng CBDRRM?',
+        options: {
+            a: 'Maglaro',
+            b: 'Magtago',
+            c: 'Maghintay ng tulong',
+            d: 'Palakasin ang kakayahan ng komunidad sa sakuna'
+        },
+        answer: 'd'
+    },
+    {
+        question: '13. Ano ang tamang gawin habang lumilindol?',
+        options: {
+            a: 'Magtago sa ilalim ng matibay na mesa',
+            b: 'Tumakbo palabas agad',
+            c: 'Tumalon',
+            d: 'Sumigaw'
+        },
+        answer: 'a'
+    },
+    {
+        question: '14. Ano ang pinakamainam gawin pagkatapos ng baha?',
+        options: {
+            a: 'Matulog',
+            b: 'Pumasok agad',
+            c: 'Maglaro',
+            d: 'Suriin muna ang kuryente at paligid'
+        },
+        answer: 'd'
+    },
+    {
+        question: '15. Ano ang ibig sabihin ng resilience?',
+        options: {
+            a: 'Uri ng lupa',
+            b: 'Uri ng sakuna',
+            c: 'Kahinaan',
+            d: 'Kakayahang makabangon at makapag-adjust'
+        },
+        answer: 'd'
+    }
     ];
 
 	const questionList = document.getElementById('questionList');
@@ -1085,45 +1167,20 @@
 		const resultScoreText = document.getElementById('resultScoreText');
 		const resultBadge = document.getElementById('resultBadge');
 		const resultFeedback = document.getElementById('resultFeedback');
-		const resultActions = document.getElementById('resultActions');
-
 		const percentage = Math.round((score / questions.length) * 100);
+		const level = getFeedbackByScore(score);
 
-		// animate
 		animateResultRing(resultRing, percentage);
 		resultPercent.textContent = `${score}/${questions.length}`;
 		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
-
-		// clear buttons
-		resultActions.innerHTML = "";
-
-		if (score >= 13) {
-			// ✅ PASS
-			resultBadge.textContent = "🏆 Mahusay!";
-			// resultFeedback.textContent = "Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.";
-
-			// show modal
-			setTimeout(() => {
-				document.getElementById('passModal').classList.add('show');
-			}, 800);
-
-		} else {
-			// ❌ FAIL (THIS IS WHAT YOU WANT)
-			resultBadge.textContent = "❌ Hindi pa sapat";
-			resultFeedback.textContent = "Too bad, try again.";
-
-			resultActions.innerHTML = `
-				<button type="button" class="btn-secondary" onclick="restartQuiz()">
-					Ulitin ang Post-Test
-				</button>
-			`;
-		}
+		resultBadge.textContent = level.badge;
+		resultFeedback.textContent = level.feedback;
+		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
 
 		quizPage.style.display = 'none';
 		resultPage.classList.add('show');
 
 		if (percentage >= 80) launchConfetti();
-
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 

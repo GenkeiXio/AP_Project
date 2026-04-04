@@ -117,24 +117,62 @@
 			background: #f0f0f0;
 		}
 
+		.source-preview {
+			background: linear-gradient(135deg, #f8fff6 0%, #eef5ea 100%);
+			border-radius: 10px;
+			padding: 16px 12px;
+			text-align: center;
+			margin-bottom: 8px;
+			border: 1px solid #c8e0c1;
+			min-height: 100px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+		}
+
+		.preview-icon {
+			font-size: 2.2rem;
+		}
+
+		.preview-text {
+			font-size: 0.8rem;
+			color: #4a6e54;
+			font-weight: 600;
+			line-height: 1.4;
+		}
+
+		.btn-icon {
+			margin-right: 6px;
+		}
+
 		.source-link {
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
-			border: 1px solid #7ca786;
-			background: #eef8f0;
-			padding: 6px 10px;
-			border-radius: 8px;
-			font-size: 0.75rem;
-			color: #246b3f;
-			font-weight: 700;
+			border: none;
+			background: linear-gradient(180deg, #4caf50, #2e7d32);
+			padding: 10px 16px;
+			border-radius: 10px;
+			font-size: 0.8rem;
+			color: white;
+			font-weight: 800;
 			cursor: pointer;
 			text-decoration: none;
+			transition: all 0.2s ease;
+			box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 		}
 
 		.source-link:hover {
-			background: #e2f1e5;
+			transform: translateY(-1px);
+			box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+			background: linear-gradient(180deg, #5cbf60, #3e9142);
 		}
+
+		.source-embed {
+			display: none;
+		}		
 
 		.source-modal {
 			position: fixed;
@@ -254,21 +292,13 @@
 
 	<div class="page">
 		<section class="hero">
-			<h1 class="title">NODE 1: SOLID WASTE - Basura (Albay)</h1>
+			<h1 class="title">NODE 1: SOLID WASTE </h1>
 			<div class="info-cards">
 
 		<div class="info-card">
-			<div class="card-title">Paglalarawan</div>
+			<div class="card-title">Gabay na Tanong</div>
 			<p>
-				Ang solid waste ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
-				Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng pagbaha at polusyon sa ilog at dagat.
-			</p>
-		</div>
-
-		<div class="info-card">
-			<div class="card-title">Guiding Question</div>
-			<p>
-				Paano nakaaapekto ang hindi wastong pamamahala ng solid waste sa kapaligiran at kalusugan ng mga mamamayan sa Albay,
+				Paano nakakaapekto ang hindi wastong pamamahala ng solid waste sa kapaligiran at kalusugan ng mga mamamayan sa Albay,
 				at ano ang maaari mong gawin bilang mag-aaral upang makatulong sa paglutas nito?
 			</p>
 		</div>
@@ -276,7 +306,7 @@
 		<div class="info-card">
 			<div class="card-title">📘 Alamin natin</div>
 			<p>
-				Ang <strong>SOLID WASTE</strong> ay tumutukoy sa mga basurang nagmumula sa tahanan, paaralan, at komersyal na lugar.
+				Ang <strong>SOLID WASTE</strong> ay tumutukoy sa mga basurang nagmula sa tahanan, paaralan, at komersyal na lugar.
 				Sa Albay, ang hindi wastong pagtatapon ng basura ay nagdudulot ng <strong>pagbaha</strong> at <strong>polusyon</strong> sa ilog at dagat.
 			</p>
 		</div>
@@ -285,40 +315,44 @@
 
 		<div class="local-grid">
 			<article class="source-card">
-				<div class="source-title">Local Example Video (Facebook Reel)</div>
-				<iframe
-					class="source-embed"
-					src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=false"
-					allowfullscreen="true"
-					allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-				</iframe>
-				<button class="source-link source-open" type="button" data-title="Local Example Video" data-embed="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=true">Buksan ang source sa loob ng page</button>
+				<div class="source-title">📹 Local Example Video (Facebook Reel)</div>
+				<div class="source-preview">
+					<div class="preview-icon">🎬</div>
+					<div class="preview-text">Panoorin ang video tungkol sa solid waste management sa Albay</div>
+				</div>
+				<button class="source-link source-open" type="button" data-title="Local Example Video" data-embed="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=true">
+					<span class="btn-icon">▶️</span> Panoorin ang Video
+				</button>
 			</article>
 
 			<article class="source-card">
-				<div class="source-title">Pagbabaha sa Albay lalong tumitindi</div>
-				<iframe
-					class="source-embed"
-					src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=false">
-				</iframe>
-				<button class="source-link source-open" type="button" data-title="Pagbabaha sa Albay" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=true">Buksan ang source sa loob ng page</button>
+				<div class="source-title">🌊 Pagbabaha sa Albay lalong tumitindi</div>
+				<div class="source-preview">
+					<div class="preview-icon">📰</div>
+					<div class="preview-text">Balita at impormasyon tungkol sa tumitinding pagbaha sa Albay</div>
+				</div>
+				<button class="source-link source-open" type="button" data-title="Pagbabaha sa Albay" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=true">
+					<span class="btn-icon">📖</span> Basahin ang Post
+				</button>
 			</article>
 
 			<article class="source-card">
-				<div class="source-title">Tambak na basura sa Purok 9, Tagas, Daraga, Albay</div>
-				<iframe
-					class="source-embed"
-					src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=false">
-				</iframe>
-				<button class="source-link source-open" type="button" data-title="Tambak na basura sa Tagas, Daraga" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=true">Buksan ang source sa loob ng page</button>
+				<div class="source-title">🗑️ Tambak na basura sa Purok 9, Tagas, Daraga, Albay</div>
+				<div class="source-preview">
+					<div class="preview-icon">⚠️</div>
+					<div class="preview-text">Dokumentasyon ng problema sa tambak na basura sa Daraga</div>
+				</div>
+				<button class="source-link source-open" type="button" data-title="Tambak na basura sa Tagas, Daraga" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=true">
+					<span class="btn-icon">📋</span> Tingnan ang Post
+				</button>
 			</article>
 		</div>
 
 		<div class="start-wrap">
-			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Buksan ang Sanhi • Bunga • Solusyon Activity</a>
+			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Simulan ang Activity 🚀</a>
 		</div>
 		
-	</section>
+	<!-- </section> -->
 </div>
 
 <div class="source-modal" id="sourceModal" aria-hidden="true">
