@@ -799,7 +799,7 @@
 						
 						<div class="result-actions">
 							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
-							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
+							<a href="{{ route('module3.balik_aral') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
 				</div>

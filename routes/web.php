@@ -167,6 +167,10 @@ Route::get('/module3/explore/scene', function () {
 })->name('module3.scene');
 
 // EXPLORE - BALIK ARAL
-Route::get('/module3/explore/balik-aral', function () {
+Route::get('/module3/balik-aral', function () {
     return view('Students.Module3.Activities.balik-aral');
 })->name('module3.balik_aral');
+
+Route::get('/inner-map-3', function () {
+    return view('Students.Module3.Inner_map3');
+})->name('inner.map3');
