@@ -92,6 +92,10 @@ Route::get('/node-3', function () {
     return view('Students.Pre-Test.Nodes.node3');
 })->name('node3');
 
+Route::get('/node-3/activity', function () {
+    return view('Students.Pre-Test.Nodes.node3_activity');
+})->name('node3.activity');
+
 Route::get('/node-1/solid-waste', function () {
     return view('Students.Pre-Test.Node1_Solid Waste_Overview');
 })->name('node1.solid-waste');
