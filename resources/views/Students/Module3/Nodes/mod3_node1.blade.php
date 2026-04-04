@@ -33,40 +33,53 @@ body {
 }
 
 .game-card {
-	background: white;
-	padding: 30px;
-	border-radius: 24px;
+	background: rgba(255, 255, 255, 0.85);
+	backdrop-filter: blur(12px);
+	padding: 35px;
+	border-radius: 28px;
 	width: 100%;
-	max-width: 900px;
-	box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+	max-width: 950px;
+	box-shadow: 0 20px 60px rgba(0,0,0,0.18);
 	text-align: center;
+	border: 1px solid rgba(255,255,255,0.4);
 }
 
 /* HEADER */
 .game-header h1 {
 	margin: 0;
-	font-size: 2rem;
-	color: #2c3e50;
+	font-size: 2.3rem;
+	font-weight: 800;
+	letter-spacing: 1px;
+	background: linear-gradient(45deg, #2ecc71, #3498db);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .game-header p {
-	color: #666;
-	margin-top: 8px;
+	color: #7f8c8d;
+	font-size: 0.95rem;
 }
 
 /* TIMER */
 .timer {
-	font-size: 20px;
+	font-size: 22px;
 	font-weight: bold;
 	color: #e74c3c;
 	margin-top: 15px;
+	transition: 0.3s;
 }
 
 .warning {
 	color: #e74c3c;
 	font-weight: bold;
-	display: none;
 	margin-top: 5px;
+	animation: pulse 0.8s infinite;
+}
+
+@keyframes pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0.5; }
+	100% { opacity: 1; }
 }
 
 /* QUESTION */
@@ -79,48 +92,61 @@ body {
 
 /* DROP ZONE */
 .drop-zone {
-	border: 3px dashed #cbd5e1;
-	padding: 30px;
+	border: 3px dashed #bcd3ff;
+	padding: 35px;
 	margin: 20px auto;
-	width: 300px;
-	min-height: 130px;
-	border-radius: 16px;
-	background: #f9fbff;
+	width: 380px;
+	min-height: 170px;
+	border-radius: 18px;
+	background: linear-gradient(135deg, #f0f6ff, #f9fbff);
 	transition: all 0.3s ease;
+	font-weight: 600;
+	color: #5a6c7d;
+}
+
+.drop-zone:hover {
+	transform: scale(1.03);
+	border-color: #3498db;
 }
 
 .drop-zone.correct {
 	border-color: #2ecc71;
 	background: #ecfff3;
+	box-shadow: 0 0 20px rgba(46,204,113,0.4);
 }
 
 .drop-zone.wrong {
 	border-color: #e74c3c;
 	background: #fff2f2;
+	box-shadow: 0 0 20px rgba(231,76,60,0.4);
 }
 
 /* DRAG ITEMS */
 .drag-container {
 	display: flex;
 	justify-content: center;
-	gap: 15px;
-	margin-top: 20px;
+	gap: 25px; /* 🔥 more breathing space */
+	margin-top: 30px;
 	flex-wrap: wrap;
 }
 
 .draggable {
-	width: 120px;
+	width: 220px;        /* 🔥 bigger */
+	height: 150px;       /* maintain proportion */
+	object-fit: cover;
 	cursor: grab;
-	border-radius: 14px;
-	border: 2px solid #e2e8f0;
+	border-radius: 18px;
+	border: 3px solid transparent;
 	background: white;
 	padding: 6px;
-	box-shadow: 0 5px 10px rgba(0,0,0,0.08);
-	transition: transform 0.2s ease;
+	box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+	transition: all 0.25s ease;
 }
 
 .draggable:hover {
-	transform: scale(1.08);
+	transform: translateY(-8px) scale(1.1);
+	box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+	border-color: #3498db;
 }
 
 /* RESULT */
@@ -273,6 +299,13 @@ dropZone.addEventListener("drop", function(e) {
 	if (dragged === correct) {
 		score++;
 		dropZone.classList.add("correct");
+
+		// 🔥 ADD THIS
+		dropZone.style.transform = "scale(1.1)";
+		setTimeout(() => {
+			dropZone.style.transform = "scale(1)";
+		}, 300);
+
 	} else {
 		dropZone.classList.add("wrong");
 	}
