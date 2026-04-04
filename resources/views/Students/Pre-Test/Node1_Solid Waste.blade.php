@@ -993,6 +993,8 @@
 <audio id="summaryAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/node1_summary.mp3') }}"></audio>
 <audio id="errorAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/error.mp3') }}"></audio>
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
     const introStage = document.getElementById('introStage');
     const gameStage = document.getElementById('gameStage');
@@ -1047,6 +1049,8 @@
         { type: 'image', src: "{{ asset('pictures/Solusion.png') }}", label: 'Larawang kard', zone: 'solution' },
         { type: 'text', text: 'Waste segregation Recycling Clean-up drives', label: 'Tekstong kard', zone: 'solution' }
     ];
+
+    let completedRecords = [];
 
     const zoneNameFil = {
         cause: 'Sanhi',
@@ -1207,6 +1211,53 @@
                 missionCount.textContent = `${correctCount} / 6 Tama`;
                 completeZone(droppedZone);
 
+                // ✅ STORE DATA (ADD THIS PART ONLY)
+                let currentRecordIndex = Math.floor(itemIndex / 2);
+
+                let value = current.type === 'image'
+                    ? current.src.replace(window.location.origin + '/', '')
+                    : current.text;
+
+                if (!completedRecords[currentRecordIndex]) {
+                    completedRecords[currentRecordIndex] = {
+                        problem_number: currentRecordIndex + 1,
+
+                        sanhi_image: '',
+                        sanhi_text: '',
+
+                        bunga_image: '',
+                        bunga_text: '',
+
+                        solusyon_image: '',
+                        solusyon_text: ''
+                    };
+                }
+
+                if (current.zone === 'cause') {
+                    if (current.type === 'image') {
+                        completedRecords[currentRecordIndex].sanhi_image = value;
+                    } else {
+                        completedRecords[currentRecordIndex].sanhi_text = value;
+                    }
+                }
+
+                if (current.zone === 'effect') {
+                    if (current.type === 'image') {
+                        completedRecords[currentRecordIndex].bunga_image = value;
+                    } else {
+                        completedRecords[currentRecordIndex].bunga_text = value;
+                    }
+                }
+
+                if (current.zone === 'solution') {
+                    if (current.type === 'image') {
+                        completedRecords[currentRecordIndex].solusyon_image = value;
+                    } else {
+                        completedRecords[currentRecordIndex].solusyon_text = value;
+                    }
+                }
+
+                // 🔽 KEEP YOUR ORIGINAL CODE BELOW (UNCHANGED)
                 const activeEl = getActiveElement();
                 const snapCard = activeEl.cloneNode(true);
                 snapCard.removeAttribute('id');
@@ -1220,6 +1271,7 @@
                 setTimeout(() => {
                     itemIndex += 1;
                     dragged = false;
+
                     if (itemIndex < items.length) {
                         zone.classList.remove('drop-pop', 'spark', 'filled');
                         zone.innerHTML = '';
@@ -1227,10 +1279,38 @@
                         updateCard();
                     } else {
                         sessionStorage.setItem('node1_done', 'true');
+
+                        // ✅ SEND TO BACKEND
+                        fetch("{{ route('student.module2.node1.save') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                records: completedRecords
+                            })
+                        })
+                        .then(async res => {
+                            const data = await res.json();
+
+                            if (!res.ok) {
+                                console.error("Server Error:", data);
+                                alert("Error saving data!");
+                                return;
+                            }
+
+                            console.log("Saved Node1:", data);
+                        })
+                        .catch(err => {
+                            console.error("Fetch Error:", err);
+                        });
+
                         burstConfetti();
                         showCompletionModal(summaryMessage);
                         activeImageCard.style.display = 'none';
                         activeTextCard.style.display = 'none';
+
                         if (summaryAudio) {
                             summaryAudio.currentTime = 0;
                             summaryAudio.play().catch(() => {
@@ -1241,13 +1321,16 @@
                         }
                     }
                 }, 750);
+
             } else {
                 const activeEl = getActiveElement();
                 activeEl.classList.add('wrong-card');
                 playErrorSound();
+
                 setTimeout(() => {
                     activeEl.classList.remove('wrong-card');
                 }, 420);
+
                 dragged = false;
             }
         });

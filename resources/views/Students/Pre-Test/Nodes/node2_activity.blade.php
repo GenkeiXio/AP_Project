@@ -827,6 +827,8 @@
     <div class="confetti" id="confettiLayer"></div>
     <audio id="errorAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/error.mp3') }}"></audio>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <script>
         const introStage = document.getElementById('introStage');
         const gameStage = document.getElementById('gameStage');
@@ -856,6 +858,8 @@
             { text: 'Pagbaha, pagguho ng lupa, at pagkawala ng tirahan ng wildlife', zone: 'effect' },
             { text: 'Pagtatanim ng puno, reforestation, at pangangalaga sa kagubatan', zone: 'solution' }
         ];
+
+        let completedRecords = [];
 
         const zoneNameFil = {
             cause: 'Sanhi',
@@ -1006,6 +1010,31 @@
                     missionCountSpan.textContent = `${correctCount} / 3 Tama`;
                     completeZone(droppedZone);
 
+                    // ✅ STORE DATA (Node2 = 1 record only)
+                    let currentRecordIndex = 0;
+
+                    if (!completedRecords[currentRecordIndex]) {
+                        completedRecords[currentRecordIndex] = {
+                            problem_number: 1,
+                            sanhi: '',
+                            bunga: '',
+                            solusyon: ''
+                        };
+                    }
+
+                    if (current.zone === 'cause') {
+                        completedRecords[currentRecordIndex].sanhi = current.text;
+                    }
+
+                    if (current.zone === 'effect') {
+                        completedRecords[currentRecordIndex].bunga = current.text;
+                    }
+
+                    if (current.zone === 'solution') {
+                        completedRecords[currentRecordIndex].solusyon = current.text;
+                    }
+
+                    // 🔽 KEEP YOUR ORIGINAL UI CODE
                     const snapCard = activeCard.cloneNode(true);
                     snapCard.removeAttribute('id');
                     snapCard.classList.remove('dragging');
@@ -1018,6 +1047,7 @@
                     setTimeout(() => {
                         itemIndex += 1;
                         dragged = false;
+
                         if (itemIndex < items.length) {
                             zone.classList.remove('drop-pop', 'spark', 'filled');
                             zone.innerHTML = '';
@@ -1025,17 +1055,47 @@
                             updateCard();
                         } else {
                             sessionStorage.setItem('node2_done', 'true');
+
+                            // ✅ SEND TO BACKEND (IMPORTANT PART)
+                            fetch("{{ route('student.module2.node2.save') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({
+                                    records: completedRecords
+                                })
+                            })
+                            .then(async res => {
+                                const data = await res.json();
+
+                                if (!res.ok) {
+                                    console.error("Server Error:", data);
+                                    alert("Error saving data!");
+                                    return;
+                                }
+
+                                console.log("Saved Node2:", data);
+                            })
+                            .catch(err => {
+                                console.error("Fetch Error:", err);
+                            });
+
                             burstConfetti();
                             showCompletionModal(summaryMessage);
                             activeCard.style.display = 'none';
                         }
                     }, 750);
+
                 } else {
                     activeCard.classList.add('wrong-card');
                     playErrorSound();
+
                     setTimeout(() => {
                         activeCard.classList.remove('wrong-card');
                     }, 420);
+
                     dragged = false;
                 }
             });
