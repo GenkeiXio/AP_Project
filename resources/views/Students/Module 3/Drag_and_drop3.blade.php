@@ -455,42 +455,39 @@ function subokDrop(card, zona){
     const inaasahan = tugma[id].zone;
     const target = zona.dataset.zone;
 
-    if (fromTimer) {
-        feedbackText.textContent = 'Natapos ang oras. Narito ang tamang sagot at ang iyong iskor.';
+    if(target === inaasahan){
+        puntos += 1; // +1 bawat tamang sagot
+        tama += 1;
+        tunogTama();
+
+        lagayKalagayan(target, 'Tama ✓');
+        zona.dataset.filled = 'true';
+        zona.classList.add('tama');
+
+        const katawan = zona.querySelector('.zona-katawan');
+        katawan.classList.add('puno');
+        katawan.innerHTML = '';
+        card.classList.add('locked');
+        card.setAttribute('draggable', 'false');
+        katawan.appendChild(card);
+
+        gabayTeksto.className = 'gabay mensahe-tama';
+        gabayTeksto.textContent = 'Magaling! Tama ang iyong inilagay.';
+
+        if(tama === 3){
+            tapusin(false);
+        }
+    }else{
+        puntos = Math.max(0, puntos - 0);
+        tunogMali();
+
+        card.classList.add('alog');
+        setTimeout(() => card.classList.remove('alog'), 280);
+
+        gabayTeksto.className = 'gabay mensahe-mali';
+        gabayTeksto.textContent = '“Subukan muli!” May ilang hindi tugma. Basahing muli ang mga konsepto at i-drag ulit.';
     }
-
-    nextBtn.disabled = false;
-    nextBtn.textContent = 'Magpatuloy';
 }
-
-function resetGame() {
-    gameEnded = false;
-    score = 0;
-    correctCount = 0;
-    placed = {};
-    warnedAtTen = false;
-    updateStats();
-    resetTimer();
-    feedbackText.textContent = 'Panuto: I-drag ang bawat suliranin papunta sa tamang epekto.';
-    answerKey.style.display = 'none';
-    nextBtn.disabled = false;
-    nextBtn.textContent = 'Magpatuloy';
-
-    document.querySelectorAll('.zone').forEach(zone => {
-        const body = zone.querySelector('.zone-body');
-        body.innerHTML = '<div class="zone-placeholder">I-drop dito ang tamang suliranin</div>';
-        markStatus(zone.dataset.zone, 'Hintay...');
-    });
-
-    document.querySelectorAll('.card-item').forEach(card => {
-        card.classList.remove('dragging', 'wrong', 'correct');
-        card.setAttribute('draggable', 'true');
-        cardsRoot.appendChild(card);
-    });
-}
-
-// drag events
-let draggedCard = null;
 
 document.querySelectorAll('.kard-drag').forEach(card => {
     card.addEventListener('dragstart', () => {
@@ -517,12 +514,8 @@ document.querySelectorAll('.zona').forEach(zona => {
     });
 });
 
-checkBtn.addEventListener('click', () => {
-    finalizeQuiz(false);
-    feedbackText.textContent = `Magaling! 🎉 Natukoy mo ang tamang ugnayan ng suliranin at epekto. Iskor: ${score}/3.`;
-});
-
-nextBtn.addEventListener('click', () => {
+document.getElementById('resetBtn').addEventListener('click', resetLaro);
+document.getElementById('nextBtn').addEventListener('click', () => {
     window.location.href = '{{ route("module3.iv_explore") }}';
 });
 
