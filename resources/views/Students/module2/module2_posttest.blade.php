@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Hamon at Tugon: Module 2 Post-Test</title>
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -861,6 +862,7 @@
 	</div>
 </div>
 
+
 <script>
 	const questions = [
         { question:'1. Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?', options:{ a:'Mga yamang likas sa kagubatan', b:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo', c:'Mga anyong tubig sa kapaligiran', d:'Mga produktong agrikultural' }, answer:'b' },
@@ -1080,6 +1082,37 @@
 			return total + (selectedAnswers[index] === item.answer ? 1 : 0);
 		}, 0);
 
+		const percentage = Math.round((score / questions.length) * 100);
+
+		// PREPARE ANSWERS DATA
+		const answers = questions.map((q, index) => ({
+			question_number: index + 1,
+			selected_answer: selectedAnswers[index],
+			correct_answer: q.answer,
+			is_correct: selectedAnswers[index] === q.answer
+		}));
+
+		// 🔥 SEND TO BACKEND
+		fetch("{{ route('student.module2.posttest.save') }}", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRF-TOKEN": "{{ csrf_token() }}"
+			},
+			body: JSON.stringify({
+				score: score,
+				percentage: percentage,
+				answers: answers
+			})
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log("Saved:", data);
+		})
+		.catch(err => console.error(err));
+
+		// ================= EXISTING UI =================
+
 		const resultRing = document.getElementById('resultRing');
 		const resultPercent = document.getElementById('resultPercent');
 		const resultScoreText = document.getElementById('resultScoreText');
@@ -1087,28 +1120,20 @@
 		const resultFeedback = document.getElementById('resultFeedback');
 		const resultActions = document.getElementById('resultActions');
 
-		const percentage = Math.round((score / questions.length) * 100);
-
-		// animate
 		animateResultRing(resultRing, percentage);
 		resultPercent.textContent = `${score}/${questions.length}`;
 		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
 
-		// clear buttons
 		resultActions.innerHTML = "";
 
 		if (score >= 13) {
-			// ✅ PASS
 			resultBadge.textContent = "🏆 Mahusay!";
-			// resultFeedback.textContent = "Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.";
 
-			// show modal
 			setTimeout(() => {
 				document.getElementById('passModal').classList.add('show');
 			}, 800);
 
 		} else {
-			// ❌ FAIL (THIS IS WHAT YOU WANT)
 			resultBadge.textContent = "❌ Hindi pa sapat";
 			resultFeedback.textContent = "Too bad, try again.";
 
