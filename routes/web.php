@@ -17,6 +17,9 @@ use App\Http\Controllers\Student\Pretest\Module2PretestController;
 use App\Http\Controllers\Student\Module2\Module2_Node1Controller;
 use App\Http\Controllers\Student\Module2\Module2_Node2Controller;
 use App\Http\Controllers\Student\Module2\Module2_Node3Controller;
+use App\Http\Controllers\Student\Module2\Module2_FinalActivityController;
+use App\Http\Controllers\Student\Module2\Module2_PosttestController;
+use App\Http\Controllers\Student\Module2\Module2_EssayController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -42,6 +45,9 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/module2/node1/save', [Module2_Node1Controller::class, 'store']) ->name('student.module2.node1.save');
     Route::post('/student/module2/node2/save', [Module2_Node2Controller::class, 'store']) ->name('student.module2.node2.save');
     Route::post('/student/module2/node3/save', [Module2_Node3Controller::class, 'store'] )->name('student.module2.node3.save');
+    Route::post('/module2/final-activity/save', [Module2_FinalActivityController::class, 'store']) ->name('student.module2.final.save');
+    Route::post('/student/module2/posttest/save', [Module2_PosttestController::class, 'store']) ->name('student.module2.posttest.save');
+    Route::post('/student/module2/essay/submit', [Module2_EssayController::class, 'submit']) ->name('student.module2.essay.submit');
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
@@ -150,8 +156,6 @@ Route::get('/module2-posttest', function () {
 Route::get('/module2/essay', function () {
     return view('Students.module2.activities.mod2_essay');
 })->name('module2.essay');
-
-Route::post('/module2/essay-submit', [EssayController::class, 'submit'])->name('essay.submit');
 
 Route::get('/module2/buod', function () {
     return view('Students.module2.mod2_buod');

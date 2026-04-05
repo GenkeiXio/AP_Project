@@ -348,335 +348,396 @@ button:disabled{
 
 </style>
 </head>
+        <body>
 
-<body>
+        <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+        <div class="overlay"></div>
 
-<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
-<div class="overlay"></div>
+        <div class="page">
+            <h1>🎮 Environmental Decision Game</h1>
 
-<div class="page">
-
-<h1>🎮 Environmental Decision Game</h1>
-
-<div class="topbar">
-    <div>⏱ Timer: <span id="timer">00:00</span></div>
-    <div>⭐ XP: <span id="xp">0</span></div>
-</div>
-
-<div class="progress">
-    Scenario <span id="current">1</span> / 6
-</div>
-
-<div id="game"></div>
-
-<div class="btn-container">
-    <button class="btn primary-btn" onclick="submitAnswer()">
-        🚀 Submit Answer
-    </button>
-
-    <button class="btn next-btn" onclick="nextScenario()" id="nextBtn" style="display:none;">
-        ▶ Next Scenario
-    </button>
-</div>
-
-<p id="feedback"></p>
-
-</div>
-
-<script>
-// 🔥 SCENARIOS
-const scenarios = [
-
-{
-title:"Scenario 1",
-image:"/pictures/Mod2_FinalAct/scenario1.png",
-desc:"Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura.",
-question:"Alin sa mga sumusunod ang tamang hakbang?",
-choices:[
-{t:"Sunugin ang basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
-{t:"Makilahok sa clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
-{t:"Itapon ang basura sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"},
-{t:"Isagawa ang waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
-{t:"Magtapon ng basura sa tamang lalagyan",c:true, img:"/pictures/Mod2_FinalAct/tamang_tapon.png"}
-]
-},
-
-{
-title:"Scenario 2: Deforestation",
-image:"/pictures/Mod2_FinalAct/scenario2.png",
-desc:"Sa isang barangay sa Daraga, patuloy ang pagputol ng mga puno upang gawing sakahan.",
-question:"Ano ang tamang hakbang?",
-choices:[
-{t:"Sumali sa pagputol ng puno",c:false, img:"/pictures/Mod2_FinalAct/illegal_logging.png"},
-{t:"Magsagawa ng tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
-{t:"Magputol pa ng puno para sa kita",c:false, img:"/pictures/Mod2_FinalAct/more_cutting.png"},
-{t:"I-report ang illegal logging",c:true, img:"/pictures/Mod2_FinalAct/report_logging.png"},
-{t:"Sumunod sa batas pangkalikasan",c:true, img:"/pictures/Mod2_FinalAct/environment_law.png"}
-]
-},
-
-{
-title:"Scenario 3: Climate Change",
-image:"/pictures/Mod2_FinalAct/scenario3.png",
-desc:"Mas lumalakas ang bagyo at tumitindi ang init sa Albay.",
-question:"Alin ang makakatulong?",
-choices:[
-{t:"Pagtatanim ng puno",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
-{t:"Pagsusunog ng basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
-{t:"Pagputol ng mga puno",c:false, img:"/pictures/Mod2_FinalAct/more_cutting.png"},
-{t:"Paggamit ng renewable energy",c:true, img:"/pictures/Mod2_FinalAct/renewable_energy.png"},
-{t:"Pagtitipid ng enerhiya",c:true, img:"/pictures/Mod2_FinalAct/save_energy.png"}
-]
-},
-
-{
-title:"Scenario 4: Government Response",
-image:"/pictures/Mod2_FinalAct/scenario4.png",
-desc:"May babala ang PAGASA tungkol sa bagyo at posibleng pagputok ng Mayon.",
-question:"Ano ang dapat gawin?",
-choices:[
-{t:"Huwag pansinin ang babala",c:false, img:"/pictures/Mod2_FinalAct/ignore_warning.png"},
-{t:"Makilahok sa disaster drills",c:true, img:"/pictures/Mod2_FinalAct/disaster_drill.png"},
-{t:"Sumunod sa early warning system",c:true, img:"/pictures/Mod2_FinalAct/warning_system.png"},
-{t:"Maghihintay na lamang",c:false, img:"/pictures/Mod2_FinalAct/waiting.png"},
-{t:"Lumikas sa evacuation center",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"}
-]
-},
-
-{
-title:"Scenario 5: Flooding",
-image:"/pictures/Mod2_FinalAct/scenario5.png",
-desc:"Baradong ilog sa barangay",
-question:"Ano ang tamang gawin?",
-choices:[
-{t:"Clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
-{t:"Waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
-{t:"Report sa barangay",c:true, img:"/pictures/Mod2_FinalAct/report_barangay.png"},
-{t:"Itapon sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"}
-]
-},
-
-{
-title:"Scenario 6: Air Pollution",
-image:"/pictures/Mod2_FinalAct/scenario6.png",
-desc:"Mausok na lugar",
-question:"Ano ang solusyon?",
-choices:[
-{t:"Public transport",c:true, img:"/pictures/Mod2_FinalAct/public_transport.png"},
-{t:"Tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
-{t:"Reduce burning",c:true, img:"/pictures/Mod2_FinalAct/reduce_burning.png"},
-{t:"Mag-sunog pa",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"}
-]
-}
-
-];
-
-
-/* ===============================
-   🎮 GAME STATE
-================================ */
-let xp = 0;
-let current = 0;
-let streak = 0;
-let answered = false;
-
-
-/* ===============================
-   ⏱ TIMER SYSTEM
-================================ */
-let time = 0;
-
-function formatTime(seconds){
-    let minutes = Math.floor(seconds / 60);
-    let secs = seconds % 60;
-
-    return String(minutes).padStart(2, '0') + ":" +
-           String(secs).padStart(2, '0');
-}
-
-let timerInterval = setInterval(() => {
-    time++;
-    document.getElementById("timer").innerText = formatTime(time);
-}, 1000);
-
-
-/* ===============================
-   🔀 INITIAL SETUP
-================================ */
-scenarios.forEach(s => {
-    s.choices.sort(() => Math.random() - 0.5);
-});
-
-loadScenario();
-
-
-/* ===============================
-   🎮 LOAD SCENARIO
-================================ */
-function loadScenario(){
-    answered = false;
-
-    let s = scenarios[current];
-
-    document.getElementById("current").innerText = current + 1;
-    document.getElementById("feedback").innerHTML = "";
-
-    let html = `
-    <div class="card pulse">
-
-        <img src="${s.image}" class="scenario-img">
-
-        <div class="situation">
-            🌍 ${s.desc || ""}
-        </div>
-
-        <div class="question">
-            ❓ ${s.question}
-        </div>
-
-        <div class="choices-grid">
-    `;
-
-    s.choices.forEach((c, i) => {
-        html += `
-        <label class="choice-box">
-            <input type="checkbox" data-index="${i}">
-            ${c.img ? `<img src="${c.img}" class="choice-img">` : ""}
-            <div class="choice-text">${c.t}</div>
-        </label>
-        `;
-    });
-
-    html += `</div></div>`;
-
-    document.getElementById("game").innerHTML = html;
-}
-
-
-/* ===============================
-   ✅ SUBMIT ANSWER
-================================ */
-function submitAnswer(){
-
-    if(answered) return;
-    answered = true;
-
-    let s = scenarios[current];
-    let correct = 0;
-    let totalCorrect = s.choices.filter(c => c.c).length;
-
-    document.querySelectorAll(".choice-box").forEach((el, i) => {
-        let checkbox = el.querySelector("input");
-
-        if(checkbox.checked && s.choices[i].c){
-            el.classList.add("correct");
-            correct++;
-        }
-        else if(checkbox.checked && !s.choices[i].c){
-            el.classList.add("wrong");
-        }
-    });
-
-    document.querySelector(".primary-btn").disabled = true;
-
-    let gainedXP = correct * 10;
-
-    if(correct === totalCorrect){
-        streak++;
-        gainedXP += 10 * streak;
-    } else {
-        streak = 0;
-    }
-
-    xp += gainedXP;
-    document.getElementById("xp").innerText = xp;
-
-    /* 🎯 SMART CONSEQUENCE FEEDBACK */
-    let feedback = "";
-    let ratio = correct / totalCorrect;
-
-    if(ratio === 1){
-        feedback = `🔥 PERFECT! Kumpleto ang tamang sagot — nakatulong ka talaga sa kalikasan! +${gainedXP} XP (Streak x${streak})`;
-    }
-    else if(ratio >= 0.75){
-        feedback = `👍 HALOS TAMANG-TAMA! May ilang pagkukulang — maaaring may maliit na epekto sa kapaligiran.<br>+${gainedXP} XP`;
-    }
-    else if(ratio >= 0.5){
-        feedback = `⚠️ KATAMTAMAN! May ilang maling desisyon na maaaring magdulot ng problema sa kapaligiran.<br>+${gainedXP} XP`;
-    }
-    else if(ratio > 0){
-        feedback = `🚨 MARAMING MALI! Malaki ang posibleng epekto ng iyong mga desisyon sa kalikasan.<br>+${gainedXP} XP`;
-    }
-    else{
-        feedback = `💀 WALANG TAMANG SAGOT! Maaaring lumala nang husto ang sitwasyon sa kapaligiran.<br>+${gainedXP} XP`;
-    }
-
-    document.getElementById("feedback").innerHTML = feedback;
-
-    document.getElementById("nextBtn").style.display = "inline-block";
-}
-
-
-/* ===============================
-   ▶ NEXT SCENARIO
-================================ */
-function nextScenario(){
-
-    current++;
-    document.querySelector(".primary-btn").disabled = false;
-
-    if(current >= scenarios.length){
-
-        document.querySelector(".btn-container").style.display = "none";
-        document.getElementById("nextBtn").style.display = "none";
-        document.getElementById("feedback").innerHTML = "";
-        clearInterval(timerInterval);
-
-        let rank = "";
-        if(xp >= 250) rank = "🏆 ECO MASTER";
-        else if(xp >= 150) rank = "🌿 ECO WARRIOR";
-        else rank = "🌱 ECO LEARNER";
-
-        let finalTime = formatTime(time);
-
-        document.getElementById("game").innerHTML = `
-        <div class="final-card">
-
-            <div class="final-header">
-                🎉 MISSION COMPLETE!
+            <div class="topbar">
+                <div>⏱ Timer: <span id="timer">00:00</span></div>
+                <div>⭐ XP: <span id="xp">0</span></div>
             </div>
 
-            <div class="final-stats">
-                <div class="stat-box">
-                    ⏱ <span>${finalTime}</span>
-                    <small>Time</small>
-                </div>
-
-                <div class="stat-box">
-                    ⭐ <span>${xp}</span>
-                    <small>Total XP</small>
-                </div>
+            <div class="progress">
+                Scenario <span id="current">1</span> / 6
             </div>
 
-            <div class="rank-section">
-                <div class="rank-badge">
-                    ${rank}
-                </div>
+            <div id="game"></div>
 
-                <a href="{{ route('module2.posttest') }}" class="final-btn">
-                    📝 Take Post Test
-                </a>
+            <div class="btn-container">
+                <button class="btn primary-btn" onclick="submitAnswer()">
+                    🚀 Submit Answer
+                </button>
+
+                <button class="btn next-btn" onclick="nextScenario()" id="nextBtn" style="display:none;">
+                    ▶ Next Scenario
+                </button>
             </div>
+
+            <p id="feedback"></p>
         </div>
-        `;
 
-        return;
-    }
+        <script>
+            // 🔥 SCENARIOS
+            const scenarios = [
+                {
+                    title:"Scenario 1",
+                    image:"/pictures/Mod2_FinalAct/scenario1.png",
+                    desc:"Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura.",
+                    question:"Alin sa mga sumusunod ang tamang hakbang?",
+                    choices:[
+                        {t:"Sunugin ang basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
+                        {t:"Makilahok sa clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
+                        {t:"Itapon ang basura sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"},
+                        {t:"Isagawa ang waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
+                        {t:"Magtapon ng basura sa tamang lalagyan",c:true, img:"/pictures/Mod2_FinalAct/tamang_tapon.png"}
+                    ]
+                },
 
-    document.getElementById("nextBtn").style.display = "none";
-    loadScenario();
-}
-</script>
+                {
+                    title:"Scenario 2: Deforestation",
+                    image:"/pictures/Mod2_FinalAct/scenario2.png",
+                    desc:"Sa isang barangay sa Daraga, patuloy ang pagputol ng mga puno upang gawing sakahan.",
+                    question:"Ano ang tamang hakbang?",
+                    choices:[
+                        {t:"Sumali sa pagputol ng puno",c:false, img:"/pictures/Mod2_FinalAct/illegal_logging.png"},
+                        {t:"Magsagawa ng tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
+                        {t:"Magputol pa ng puno para sa kita",c:false, img:"/pictures/Mod2_FinalAct/more_cutting.png"},
+                        {t:"I-report ang illegal logging",c:true, img:"/pictures/Mod2_FinalAct/report_logging.png"},
+                        {t:"Sumunod sa batas pangkalikasan",c:true, img:"/pictures/Mod2_FinalAct/environment_law.png"}
+                    ]
+                },
 
-</body>
+                {
+                    title:"Scenario 3: Climate Change",
+                    image:"/pictures/Mod2_FinalAct/scenario3.png",
+                    desc:"Mas lumalakas ang bagyo at tumitindi ang init sa Albay.",
+                    question:"Alin ang makakatulong?",
+                    choices:[
+                        {t:"Pagtatanim ng puno",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
+                        {t:"Pagsusunog ng basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
+                        {t:"Pagputol ng mga puno",c:false, img:"/pictures/Mod2_FinalAct/more_cutting.png"},
+                        {t:"Paggamit ng renewable energy",c:true, img:"/pictures/Mod2_FinalAct/renewable_energy.png"},
+                        {t:"Pagtitipid ng enerhiya",c:true, img:"/pictures/Mod2_FinalAct/save_energy.png"}
+                    ]
+                },
+
+                {
+                    title:"Scenario 4: Government Response",
+                    image:"/pictures/Mod2_FinalAct/scenario4.png",
+                    desc:"May babala ang PAGASA tungkol sa bagyo at posibleng pagputok ng Mayon.",
+                    question:"Ano ang dapat gawin?",
+                    choices:[
+                        {t:"Huwag pansinin ang babala",c:false, img:"/pictures/Mod2_FinalAct/ignore_warning.png"},
+                        {t:"Makilahok sa disaster drills",c:true, img:"/pictures/Mod2_FinalAct/disaster_drill.png"},
+                        {t:"Sumunod sa early warning system",c:true, img:"/pictures/Mod2_FinalAct/warning_system.png"},
+                        {t:"Maghihintay na lamang",c:false, img:"/pictures/Mod2_FinalAct/waiting.png"},
+                        {t:"Lumikas sa evacuation center",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"}
+                    ]
+                },
+
+                {
+                    title:"Scenario 5: Flooding",
+                    image:"/pictures/Mod2_FinalAct/scenario5.png",
+                    desc:"Baradong ilog sa barangay",
+                    question:"Ano ang tamang gawin?",
+                    choices:[
+                        {t:"Clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
+                        {t:"Waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
+                        {t:"Report sa barangay",c:true, img:"/pictures/Mod2_FinalAct/report_barangay.png"},
+                        {t:"Itapon sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"}
+                    ]
+                },
+
+                {
+                    title:"Scenario 6: Air Pollution",
+                    image:"/pictures/Mod2_FinalAct/scenario6.png",
+                    desc:"Mausok na lugar",
+                    question:"Ano ang solusyon?",
+                    choices:[
+                        {t:"Public transport",c:true, img:"/pictures/Mod2_FinalAct/public_transport.png"},
+                        {t:"Tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
+                        {t:"Reduce burning",c:true, img:"/pictures/Mod2_FinalAct/reduce_burning.png"},
+                        {t:"Mag-sunog pa",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"}
+                    ]
+                }
+            ];
+
+            /* ===============================
+            🎮 GAME STATE
+            ================================ */
+            let xp = 0;
+            let current = 0;
+            let streak = 0;
+            let answered = false;
+            let time = 0;
+            let allAnswers = [];
+            let totalCorrectSelected = 0;
+            let isSaving = false;
+
+            /* ===============================
+            ⏱ TIMER SYSTEM
+            ================================ */
+            function formatTime(seconds){
+                let minutes = Math.floor(seconds / 60);
+                let secs = seconds % 60;
+
+                return String(minutes).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+            }
+
+            let timerInterval = setInterval(() => {
+                time++;
+                document.getElementById("timer").innerText = formatTime(time);
+            }, 1000);
+
+            /* ===============================
+            🔀 INITIAL SETUP
+            ================================ */
+            scenarios.forEach(s => {
+                s.choices.sort(() => Math.random() - 0.5);
+            });
+
+            loadScenario();
+
+            /* ===============================
+            🎮 LOAD SCENARIO
+            ================================ */
+            function loadScenario(){
+                answered = false;
+
+                let s = scenarios[current];
+
+                document.getElementById("current").innerText = current + 1;
+                document.getElementById("feedback").innerHTML = "";
+
+                let html = `
+                    <div class="card pulse">
+                        <img src="${s.image}" class="scenario-img">
+
+                        <div class="situation">
+                            🌍 ${s.desc || ""}
+                        </div>
+
+                        <div class="question">
+                            ❓ ${s.question}
+                        </div>
+
+                        <div class="choices-grid">
+                `;
+
+                s.choices.forEach((c, i) => {
+                    html += `
+                        <label class="choice-box">
+                            <input type="checkbox" data-index="${i}">
+                            ${c.img ? `<img src="${c.img}" class="choice-img">` : ""}
+                            <div class="choice-text">${c.t}</div>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+
+                document.getElementById("game").innerHTML = html;
+                document.querySelector(".primary-btn").disabled = false;
+            }
+
+            /* ===============================
+            ✅ SUBMIT ANSWER
+            ================================ */
+            function submitAnswer(){
+                if(answered) return;
+                answered = true;
+
+                let s = scenarios[current];
+                let correct = 0;
+                let totalCorrect = s.choices.filter(c => c.c).length;
+                let scenarioAnswers = [];
+
+                document.querySelectorAll(".choice-box").forEach((el, i) => {
+                    let checkbox = el.querySelector("input");
+                    let selected = checkbox.checked;
+                    let isCorrect = s.choices[i].c;
+
+                    if(selected && isCorrect){
+                        el.classList.add("correct");
+                        correct++;
+                        totalCorrectSelected++;
+                    } else if(selected && !isCorrect){
+                        el.classList.add("wrong");
+                    }
+
+                    scenarioAnswers.push({
+                        scenario_number: current + 1,
+                        choice_text: s.choices[i].t,
+                        selected: selected,
+                        is_correct: isCorrect
+                    });
+                });
+
+                allAnswers.push(...scenarioAnswers);
+
+                document.querySelector(".primary-btn").disabled = true;
+
+                let gainedXP = correct * 10;
+
+                if(correct === totalCorrect){
+                    streak++;
+                    gainedXP += 10 * streak;
+                } else {
+                    streak = 0;
+                }
+
+                xp += gainedXP;
+                document.getElementById("xp").innerText = xp;
+
+                let feedback = "";
+                let ratio = totalCorrect > 0 ? (correct / totalCorrect) : 0;
+
+                if(ratio === 1){
+                    feedback = `🔥 PERFECT! Kumpleto ang tamang sagot — nakatulong ka talaga sa kalikasan! +${gainedXP} XP (Streak x${streak})`;
+                }
+                else if(ratio >= 0.75){
+                    feedback = `👍 HALOS TAMANG-TAMA! May ilang pagkukulang — maaaring may maliit na epekto sa kapaligiran.<br>+${gainedXP} XP`;
+                }
+                else if(ratio >= 0.5){
+                    feedback = `⚠️ KATAMTAMAN! May ilang maling desisyon na maaaring magdulot ng problema sa kapaligiran.<br>+${gainedXP} XP`;
+                }
+                else if(ratio > 0){
+                    feedback = `🚨 MARAMING MALI! Malaki ang posibleng epekto ng iyong mga desisyon sa kalikasan.<br>+${gainedXP} XP`;
+                }
+                else{
+                    feedback = `💀 WALANG TAMANG SAGOT! Maaaring lumala nang husto ang sitwasyon sa kapaligiran.<br>+${gainedXP} XP`;
+                }
+
+                document.getElementById("feedback").innerHTML = feedback;
+                document.getElementById("nextBtn").style.display = "inline-block";
+            }
+
+            /* ===============================
+            💾 SAVE FINAL ACTIVITY
+            ================================ */
+            function saveFinalActivity() {
+                return fetch("{{ route('student.module2.final.save') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        total_xp: xp,
+                        score: xp,
+                        total_questions: scenarios.length,
+                        correct_answers: totalCorrectSelected,
+                        time_taken: time,
+                        answers: allAnswers
+                    })
+                });
+            }
+
+            /* ===============================
+            ▶ NEXT SCENARIO
+            ================================ */
+            function nextScenario(){
+                current++;
+
+                if(current >= scenarios.length){
+
+                    if (isSaving) return;
+                    isSaving = true;
+
+                    clearInterval(timerInterval);
+
+                    document.querySelector(".btn-container").style.display = "none";
+                    document.getElementById("nextBtn").style.display = "none";
+                    document.getElementById("feedback").innerHTML = "";
+
+                    let rank = "";
+                    if(xp >= 250) rank = "🏆 ECO MASTER";
+                    else if(xp >= 150) rank = "🌿 ECO WARRIOR";
+                    else rank = "🌱 ECO LEARNER";
+
+                    let finalTime = formatTime(time);
+
+                    saveFinalActivity()
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById("game").innerHTML = `
+                                <div class="final-card">
+                                    <div class="final-header">
+                                        🎉 MISSION COMPLETE!
+                                    </div>
+
+                                    <div class="final-stats">
+                                        <div class="stat-box">
+                                            ⏱ <span>${finalTime}</span>
+                                            <small>Time</small>
+                                        </div>
+
+                                        <div class="stat-box">
+                                            ⭐ <span>${xp}</span>
+                                            <small>Total XP</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="rank-section">
+                                        <div class="rank-badge">
+                                            ${rank}
+                                        </div>
+
+                                        <a href="{{ route('module2.posttest') }}" class="final-btn">
+                                            📝 Take Post Test
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                        })
+                        .catch(error => {
+                            console.error("Error saving final activity:", error);
+
+                            document.getElementById("game").innerHTML = `
+                                <div class="final-card">
+                                    <div class="final-header">
+                                        🎉 MISSION COMPLETE!
+                                    </div>
+
+                                    <div class="final-stats">
+                                        <div class="stat-box">
+                                            ⏱ <span>${finalTime}</span>
+                                            <small>Time</small>
+                                        </div>
+
+                                        <div class="stat-box">
+                                            ⭐ <span>${xp}</span>
+                                            <small>Total XP</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="rank-section">
+                                        <div class="rank-badge">
+                                            ${rank}
+                                        </div>
+
+                                        <p style="color:red; margin: 15px 0;">
+                                            Failed to save activity result.
+                                        </p>
+
+                                        <a href="{{ route('module2.posttest') }}" class="final-btn">
+                                            📝 Take Post Test
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                    return;
+                }
+
+                document.getElementById("nextBtn").style.display = "none";
+                loadScenario();
+            }
+        </script>
+    </body>
 </html>

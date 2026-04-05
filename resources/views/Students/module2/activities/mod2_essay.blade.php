@@ -152,7 +152,7 @@
 				Magbigay ng ebidensya ng iyong gawa (hal. clean-up, pagtatanim) sa pamamagitan ng larawan o video.
 			</p>
 
-			<form action="{{ route('essay.submit') }}" method="POST" enctype="multipart/form-data">
+			<form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
 				@csrf
 
 				<textarea name="essay_answer" rows="8" placeholder="Isulat ang iyong sagot dito..." required></textarea>
