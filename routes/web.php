@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -97,8 +98,6 @@ Route::get('/module', function () {
     return view('Students.module');
 })->name('module.home');
 
-
-
 Route::get('/pre-test/module-2', function () {
     return view('Students.Pre-Test.module2');
 })->name('pretest.module2');
@@ -118,7 +117,6 @@ Route::get('/node-1/solid-waste', function () {
 Route::get('/node-1/solid-waste/activity', function () {
     return view('Students.Pre-Test.Node1_Solid Waste');
 })->name('node1.solid-waste.activity');
-
 
 //MAP Routes
 Route::get('/demo-map', function () {
@@ -150,6 +148,8 @@ Route::get('/students/module-3/iv-explore', function () {
     return view('Students/Module 3/Explore');
 })->name('module3.iv_explore');
 
+Route::view('/students/module-3/termino-konsepto', 'Students.Module 3.termino_konsepto')
+    ->name('students.module3.termino_konsepto');
 
 Route::get('/node2', function () {
     return view('Students.Pre-Test.Nodes.node2');
@@ -182,7 +182,6 @@ Route::get('/module2/essay', function () {
 Route::get('/module2/buod', function () {
     return view('Students.module2.mod2_buod');
 })->name('module2.buod');
-
 
 //Module 3 Routes//
 // MODULE 3 HOME
