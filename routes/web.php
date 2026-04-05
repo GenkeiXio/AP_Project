@@ -224,3 +224,5 @@ Route::get('/module3/node2', function () {
 Route::get('/module3/node3', function () {
     return view('Students.Module3.Nodes.mod3_node3');
 })->name('module3.node3');
+
+Route::view('/module4', 'Students.Module 4.Home')->name('module4.home');
