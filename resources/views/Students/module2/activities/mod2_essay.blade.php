@@ -45,7 +45,7 @@
 			background: rgba(255,255,255,0.95);
 			backdrop-filter: blur(10px);
 			border-radius: 24px;
-			padding: 24px;
+			padding: 28px;
 			box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 			border: 2px solid #e7d7bf;
 		}
@@ -69,23 +69,27 @@
 
 		textarea {
 			width: 100%;
+			box-sizing: border-box;
 			border-radius: 14px;
 			padding: 12px;
 			border: 1px solid #d7c4a3;
-			margin: 12px 0;
+			margin: 15px 0;
 			resize: none;
+			display: block;
 		}
 
-		.file-upload {
-			margin-bottom: 12px;
-			font-weight: 700;
+		textarea:focus {
+			outline: none;
+			border: 2px solid #6dbf7e;
+			box-shadow: 0 0 0 3px rgba(109,191,126,0.2);
 		}
 
 		.submission-note {
-			font-size: 0.9rem;
+			font-size: 0.95rem;
 			color: #2f6c44;
 			font-weight: 800;
-			margin-bottom: 12px;
+			margin: 12px 0;
+			text-align: center;
 		}
 
 		.btn-primary {
@@ -97,10 +101,19 @@
 			font-weight: 800;
 			cursor: pointer;
 			transition: 0.2s;
+			text-align: center;
+			text-decoration: none;
 		}
 
 		.btn-primary:hover {
 			transform: scale(1.05);
+		}
+
+		.button-group {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			justify-content: center;
 		}
 
 		.back-button {
@@ -152,35 +165,60 @@
 				Magbigay ng ebidensya ng iyong gawa (hal. clean-up, pagtatanim) sa pamamagitan ng larawan o video.
 			</p>
 
-			<form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
-				@csrf
+			<!-- TEXTAREA -->
+			<textarea id="essayAnswer" rows="8" placeholder="Isulat ang iyong sagot dito..."></textarea>
 
-				<textarea name="essay_answer" rows="8" placeholder="Isulat ang iyong sagot dito..." required></textarea>
+			<!-- INSTRUCTIONS -->
+			<p class="submission-note">
+				📩 <strong>Paraan ng Pagsusumite:</strong><br><br>
+				I-copy ang iyong sagot at ipadala ito sa Gmail ng iyong guro kasama ang ebidensya (larawan o video).<br><br>
+				<strong>Email ng Guro:</strong> teacher@gmail.com
+			</p>
 
-				<div class="file-upload">
-					<label>Mag-upload ng larawan o video bilang ebidensya:</label>
-					<input type="file" name="evidence" accept="image/*,video/*" required>
-				</div>
+			<!-- BUTTONS -->
+			<div class="button-group">
+				<button class="btn-primary" onclick="copyAnswer()">📋 Kopyahin ang Sagot</button>
 
-				<p class="submission-note">
-					📩 Ang iyong sagot at kalakip na ebidensya ay <strong>ipapadala diretso sa Gmail ng iyong guro</strong>.
-				</p>
+				<a href="https://mail.google.com/" target="_blank" class="btn-primary">
+					📧 Buksan ang Gmail
+				</a>
+			</div>
 
-				<button type="submit" class="btn-primary">
-					Isumite ang Sagot 📤
-				</button>
-			</form>
+			<div id="copyMessage" class="success-message" style="display:none;">
+				✅ Nakopya na ang sagot!
+			</div>
 
-			@if(session('success'))
-				<div class="success-message">
-					{{ session('success') }}
-				</div>
-			@endif
+			<!-- ALWAYS VISIBLE NEXT BUTTON -->
+			<div style="text-align:center; margin-top:15px;">
+				<a href="{{ route('module2.buod') }}" class="btn-primary">
+					👉 Magpatuloy
+				</a>
+			</div>
 
 		</div>
 	</div>
 
 </div>
+
+<script>
+function copyAnswer() {
+	const text = document.getElementById("essayAnswer").value;
+
+	if (!text.trim()) {
+		alert("⚠️ Wala pang laman ang iyong sagot.");
+		return;
+	}
+
+	navigator.clipboard.writeText(text).then(() => {
+		const msg = document.getElementById("copyMessage");
+		msg.style.display = "block";
+
+		setTimeout(() => {
+			msg.style.display = "none";
+		}, 2000);
+	});
+}
+</script>
 
 </body>
 </html>

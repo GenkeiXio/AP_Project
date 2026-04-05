@@ -323,22 +323,10 @@ body, html {
 @media (max-width: 900px) {
     .dd-layout { grid-template-columns: 1fr; }
 }
-
-.background-map {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	object-fit: cover;
-	z-index: -1;
-}
 </style>
 @endpush
 
 @section('content')
-
-<img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 <div class="dd-wrap">
     <section class="dd-hero">
         <div class="dd-badge">III. BALIK-ARAL</div>
@@ -503,7 +491,7 @@ let placed = {};
 let warnedAtTen = false;
 
 function renderKey() {
-    answerKey.innerHTML = Object.values(mapping).map(item => <div class="dd-key-item">${item.label}</div>).join('');
+    answerKey.innerHTML = Object.values(mapping).map(item => `<div class="dd-key-item">${item.label}</div>`).join('');
 }
 
 function startTimer() {
@@ -559,7 +547,7 @@ function setZoneCard(zoneEl, card, labelText) {
 }
 
 function markStatus(zoneName, state) {
-    const el = document.getElementById(status-${zoneName});
+    const el = document.getElementById(`status-${zoneName}`);
     if (!el) return;
     el.textContent = state;
 }
@@ -669,12 +657,11 @@ document.querySelectorAll('.zone').forEach(zone => {
 
 checkBtn.addEventListener('click', () => {
     finalizeQuiz(false);
-    feedbackText.textContent =Magaling! 🎉 Natukoy mo ang tamang ugnayan ng suliranin at epekto. Iskor: ${score}/3.`;
+    feedbackText.textContent = `Magaling! 🎉 Natukoy mo ang tamang ugnayan ng suliranin at epekto. Iskor: ${score}/3.`;
 });
 
-resetBtn.addEventListener('click', resetGame);
 nextBtn.addEventListener('click', () => {
-    window.location.href = '{{ route("inner.map3") }}';
+    window.location.href = '{{ route("module3.iv_explore") }}';
 });
 
 renderKey();

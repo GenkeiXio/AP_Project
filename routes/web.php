@@ -129,6 +129,28 @@ Route::get('/inner-map-2', function () {
     return view('Students.module2.inner_map2'); 
 })->name('inner.map2');
 
+Route::get('/inner-map-3', function () {
+    return view('Students.Module 3.Inner_map3');
+})->name('inner.map3');
+
+Route::get('/module3-home', function () {
+    return view('Students.Module 3.Home');
+})->name('module3.home');
+
+Route::get('/module3-pretest', function () {
+    return view('Students.Module 3.Pre-Test_mod3');
+})->name('module3.pretest');
+
+Route::get('/module3-next', function () {
+    return view('Students.Module 3.Drag_and_drop3');
+})->name('module3.next');
+
+// IV Explore page
+Route::get('/students/module-3/iv-explore', function () {
+    return view('Students/Module 3/Explore');
+})->name('module3.iv_explore');
+
+
 Route::get('/node2', function () {
     return view('Students.Pre-Test.Nodes.node2');
 })->name('node2');
@@ -191,3 +213,11 @@ Route::get('/module3/balik-aral', function () {
 Route::get('/inner-map-3', function () {
     return view('Students.Module3.Inner_map3');
 })->name('inner.map3');
+
+Route::get('/module3/node1', function () {
+    return view('Students.Module3.Nodes.mod3_node1');
+})->name('module3.node1');
+
+Route::get('/module3/node2', function () {
+    return view('Students.Module3.Nodes.mod3_node2');
+})->name('module3.node2');

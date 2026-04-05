@@ -26,10 +26,14 @@
 
     /* 🌍 BACKGROUND IMAGE */
     .background-map {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			object-fit: cover;
+			z-index: -1;
+		}
 
     /* 🎮 DARK OVERLAY (for readability) */
     .overlay {
@@ -232,7 +236,7 @@
 <div class="map-wrapper">
 
     <!-- 🌍 BACKGROUND -->
-    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 
     <!-- 🌫️ OVERLAY -->
     <div class="overlay"></div>

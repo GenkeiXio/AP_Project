@@ -92,9 +92,9 @@
     @stack('styles')
 </head>
 <body>
-    <span class="deco deco-1">🌿</span>
+    <!-- <span class="deco deco-1">🌿</span>
     <span class="deco deco-2">🦋</span>
-    <span class="deco deco-3">🌸</span>
+    <span class="deco deco-3">🌸</span> -->
 
     @php
         $student = \App\Models\Student::find(session('student_id'));

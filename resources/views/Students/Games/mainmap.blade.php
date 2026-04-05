@@ -300,7 +300,7 @@
             <span class="tooltip">Module 2</span>
         </button>
 
-        <button class="pin location-2" onclick="showDetails('Module 3')">
+           <button class="pin location-2" onclick="enterModule(this, '{{ route('inner.map3') }}')">
              <span class="tooltip">Module 3</span>
         </button>
 
