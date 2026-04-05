@@ -17,9 +17,6 @@ return new class extends Migration
 
             $table->text('essay_answer');
 
-            $table->string('evidence_path');
-            $table->enum('evidence_type', ['image', 'video']);
-
             $table->string('submitted_by');
             $table->timestamp('submitted_at')->nullable();
 

@@ -165,8 +165,25 @@
 				Magbigay ng ebidensya ng iyong gawa (hal. clean-up, pagtatanim) sa pamamagitan ng larawan o video.
 			</p>
 
-			<!-- TEXTAREA -->
-			<textarea id="essayAnswer" rows="8" placeholder="Isulat ang iyong sagot dito..."></textarea>
+			<form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
+				@csrf
+
+				<!-- TEXTAREA -->
+				<textarea name="essay_answer" rows="8" placeholder="Isulat ang iyong sagot dito..." required></textarea>
+
+				 <!-- CENTERED BUTTON -->
+				<div style="display: flex; justify-content: center; margin-top:10px;">
+					<button type="submit" class="btn-primary">
+						📤 Submit Essay
+					</button>
+				</div>
+			</form>
+
+			@if(session('success'))
+				<div class="success-message">
+					{{ session('success') }}
+				</div>
+			@endif
 
 			<!-- INSTRUCTIONS -->
 			<p class="submission-note">
@@ -202,7 +219,7 @@
 
 <script>
 function copyAnswer() {
-	const text = document.getElementById("essayAnswer").value;
+	const text = document.getElementById("essay_answer").value;
 
 	if (!text.trim()) {
 		alert("⚠️ Wala pang laman ang iyong sagot.");

@@ -11,8 +11,6 @@ class Module2Essay extends Model
     protected $fillable = [
         'student_id',
         'essay_answer',
-        'evidence_path',
-        'evidence_type',
         'submitted_by',
         'submitted_at',
     ];
