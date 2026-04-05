@@ -226,3 +226,18 @@ Route::get('/module3/node3', function () {
 })->name('module3.node3');
 
 Route::view('/module4', 'Students.Module 4.Home')->name('module4.home');
+Route::get('/apply-activity', function () {
+    return view('Students.Module3.Activities.apply');
+})->name('apply.activity');
+
+Route::get('/gobag-activity', function () {
+    return view('Students.Module3.Activities.gobag_activity');
+})->name('gobag.activity');
+
+Route::get('/safe-home-activity', function () {
+    return view('Students.Module3.Activities.safe_home');
+})->name('safehome.activity');
+
+Route::get('/gabay', function () {
+    return view('Students.Module3.Activities.gabay');
+})->name('gabay.page');
