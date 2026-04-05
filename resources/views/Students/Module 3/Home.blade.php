@@ -1,32 +1,52 @@
-@extends('Students.studentslayout')
-@section('title', 'Module 3 Home')
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 Home</title>
 
-@push('styles')
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+
 <style>
+/* ===== BACKGROUND (KEEP DESIGN) ===== */
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #d4edaa 0%, #f5e8c0 50%, #fde3a3 100%);
+    margin:0;
+    color:#3d2a1a;
+}
+
+/* PAGE WRAPPER (same feel as layout) */
+.page-content{
+    max-width:1060px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+/* ===== MODULE DESIGN ===== */
 :root{
     --green:#1f7a47;
-    --light:#66bb6a;
     --soft:#f4fff6;
 }
 
-/* Layout */
+/* WRAP */
 .m3-wrap{
-    max-width:1000px;
-    margin:30px auto;
-    padding:15px;
+    width:100%;
 }
 
 /* HERO */
 .m3-hero{
     background:#fff;
     border-radius:20px;
-    padding:25px;
+    padding:30px 28px;
     border:1px solid #d7e9d8;
     box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    max-width:900px;
+    margin:0 auto;
 }
 
 .m3-title{
-    font-size:clamp(1.3rem,2.5vw,1.9rem);
+    font-size:clamp(1.5rem,2.5vw,2rem);
     font-weight:900;
     color:#1f3b2a;
 }
@@ -34,22 +54,20 @@
 .m3-sub{
     margin-top:8px;
     color:#4e7a61;
+    font-size:0.95rem;
 }
 
-/* ACTIONS */
+/* BUTTONS */
 .m3-actions{
     margin-top:18px;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
 }
 
 .m3-btn{
     padding:10px 16px;
     border-radius:12px;
     font-weight:800;
-    cursor:pointer;
     border:none;
+    cursor:pointer;
     transition:.2s;
 }
 
@@ -71,45 +89,60 @@
     padding:20px;
     border-radius:18px;
     border:1px solid #dcecdf;
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
-.m3-question{
-    font-weight:900;
-    margin-bottom:12px;
+/* GOALS FIX */
+.m3-goal{
+    margin-top:16px;
+    padding:14px;
+    border-radius:12px;
+    background:#f4fff6;
+    border:1px solid #dcecdf;
+}
+
+.m3-goal h4{
+    margin-bottom:6px;
+    color:#1f7a47;
+    font-size:0.95rem;
+}
+
+.m3-goal p{
+    font-size:0.9rem;
+    line-height:1.5;
+}
+
+/* COMPETENCY FIX */
+.m3-competency{
+    padding:10px 12px;
+    border-radius:10px;
+    margin-top:8px;
+    background:#ffffff;
+    border:1px solid #e3efe6;
+    font-size:0.9rem;
+    transition:.2s;
+}
+
+.m3-competency:hover{
+    background:#eaffea;
+    border-color:#1f7a47;
 }
 
 /* CHOICES */
 .m3-choice{
-    display:flex;
-    align-items:center;
-    gap:12px;
     padding:14px;
     border-radius:14px;
     border:1px solid #d7e7da;
     margin-bottom:10px;
     cursor:pointer;
-    transition:.2s;
-}
-
-.m3-choice:hover{
-    background:#f6fff8;
 }
 
 .m3-choice.active{
     border-color:var(--green);
     background:#eaffea;
     font-weight:800;
-}
-
-.m3-icon{
-    font-size:22px;
-}
-
-/* PROGRESS FEEL */
-.m3-progress{
-    font-size:.8rem;
-    color:#5c7d67;
-    margin-bottom:10px;
 }
 
 /* MODAL */
@@ -131,45 +164,36 @@
     max-width:800px;
     width:95%;
     max-height:85vh;
-    overflow:auto;
+    overflow-y:auto;
 }
 
-/* GOALS */
-.m3-goal{
-    margin-top:14px;
-    padding:12px;
-    border-radius:10px;
-    background:var(--soft);
+.m3-modal-card h3{
+    margin-bottom:10px;
 }
 
-.m3-goal h4{
-    margin-bottom:6px;
-    color:var(--green);
-}
-
-/* COMPETENCY */
-.m3-competency{
-    padding:10px;
-    border-radius:10px;
-    margin-top:8px;
-    cursor:pointer;
-    display:flex;
-    gap:10px;
-    transition:.2s;
-}
-
-.m3-competency:hover{
-    background:#eaffea;
-}
-
-.m3-competency.active{
-    background:#d7f7db;
-    border-left:4px solid var(--green);
-}
+.back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #1a1a1a;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        transition: transform 0.2s;
+    }
 </style>
-@endpush
+</head>
 
-@section('content')
+<body>
+
+<a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
+
+<div class="page-content">
 <div class="m3-wrap">
 
 <!-- HERO -->
@@ -190,16 +214,12 @@
 <!-- POLL -->
 <div class="m3-poll" id="pollSection">
 
-<div class="m3-progress">Step 1 of 2</div>
+<p><b>👉 Ano ang pinakamahalagang paghahanda?</b></p>
 
-<p class="m3-question">
-👉 Ano ang pinakamahalagang paghahanda na ginagawa sa inyong lugar kapag may paparating na kalamidad?
-</p>
-
-<div class="m3-choice"><span class="m3-icon">🧰</span>Paghahanda ng emergency kit</div>
-<div class="m3-choice"><span class="m3-icon">📢</span>Pakikinig sa balita at babala</div>
-<div class="m3-choice"><span class="m3-icon">🏃</span>Paglikas sa ligtas na lugar</div>
-<div class="m3-choice"><span class="m3-icon">🧹</span>Paglilinis ng kanal at kapaligiran</div>
+<div class="m3-choice">🧰 Paghahanda ng emergency kit</div>
+<div class="m3-choice">📢 Pakikinig sa balita at babala</div>
+<div class="m3-choice">🏃 Paglikas sa ligtas na lugar</div>
+<div class="m3-choice">🧹 Paglilinis ng kanal at kapaligiran</div>
 
 <button class="m3-btn m3-primary" id="proceedBtn" disabled>
 Magpatuloy →
@@ -208,66 +228,64 @@ Magpatuloy →
 </div>
 
 </div>
+</div>
 
 <!-- MODAL -->
 <div class="m3-modal" id="goalsModal">
-<div class="m3-modal-card">
+    <div class="m3-modal-card">
 
-<h3>📘 Mga Layunin ng Aralin</h3>
+        <h3>📘 Mga Layunin ng Aralin</h3>
 
-<div class="m3-goal">
-<h4>a. PAMANTAYANG PANGNILALAMAN</h4>
-<p>
-Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.
-</p>
-</div>
+        <div class="m3-goal">
+            <h4>
+                a. PAMANTAYANG PANGNILALAMAN
+            </h4>
+                <p>
+                    Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.
+                </p>
+        </div>
 
-<div class="m3-goal">
-<h4>b. PAMANTAYAN SA PAGGANAP</h4>
-<p>
-Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.
-</p>
-</div>
+    <div class="m3-goal">
+    <h4>b. PAMANTAYAN SA PAGGANAP</h4>
+    <p>
+    Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.
+    </p>
+    </div>
 
-<div class="m3-goal">
-<h4>c. KASANAYAN SA PAGKATUTO</h4>
-<div class="m3-competency">Natutukoy ang mga paghahandang nararapat gawin sa harap ng panganib na dulot ng mga suliraning pangkapaligiran. (MELC3)</div>
-<div class="m3-competency">Naibibigay ang katuturan ng Disaster Management;</div>
-<div class="m3-competency">Nasusuri ang mga konsepto o termino na may kaugnayan sa disaster management;</div>
-<div class="m3-competency">Naipaliliwanag ang katangian ng top-down approach sa pagharap sa suliraning pangkapaligiran;</div>
-<div class="m3-competency">Napaghahambing ang top-down at bottom-up approach;</div>
-<div class="m3-competency">Nasusuri ang mga layunin ng Community Based-Disaster and Risk Management;</div>
-<div class="m3-competency">Natutukoy ang mga paghahanda na nararapat gawin sa harap ng mga panganib na dulot ng suliraning pangkapaligiran; at</div>
-<div class="m3-competency">Napahahalagahan ang bahaging ginagampanan bilang isang mamamayan para sa ligtas na pamayanang kaniyang kinabibilangan.</div>
+    <div class="m3-goal">
+    <h4>c. KASANAYAN SA PAGKATUTO</h4>
+    <div class="m3-competency">Natutukoy ang mga paghahandang nararapat gawin sa harap ng panganib na dulot ng mga suliraning pangkapaligiran. (MELC3)</div>
+    <div class="m3-competency">Naibibigay ang katuturan ng Disaster Management;</div>
+    <div class="m3-competency">Nasusuri ang mga konsepto o termino na may kaugnayan sa disaster management;</div>
+    <div class="m3-competency">Naipaliliwanag ang katangian ng top-down approach sa pagharap sa suliraning pangkapaligiran;</div>
+    <div class="m3-competency">Napaghahambing ang top-down at bottom-up approach;</div>
+    <div class="m3-competency">Nasusuri ang mga layunin ng Community Based-Disaster and Risk Management;</div>
+    <div class="m3-competency">Natutukoy ang mga paghahanda na nararapat gawin sa harap ng mga panganib na dulot ng suliraning pangkapaligiran; at</div>
+    <div class="m3-competency">Napahahalagahan ang bahaging ginagampanan bilang isang mamamayan para sa ligtas na pamayanang kaniyang kinabibilangan.</div>
 
-</div>
+    </div>
 
-<div class="m3-goal">
-<h4>d. PAKSANG ARALIN</h4>
-<ul>
-<li>Ang Disaster Management</li>
-<li>Mga Paghahandang Nararapat Gawin sa Harap ng Panganib/Kalamidad</li>
-</ul>
-</div>
+    <div class="m3-goal">
+    <h4>d. PAKSANG ARALIN</h4>
+    <ul>
+    <li>Ang Disaster Management</li>
+    <li>Mga Paghahandang Nararapat Gawin sa Harap ng Panganib/Kalamidad</li>
+    </ul>
+    </div>
 
-<button class="m3-btn m3-primary" id="closeGoals">Isara</button>
+    <button class="m3-btn m3-primary" id="closeGoals">Isara</button>
 
-<div class="m3-actions" style="justify-content:flex-end; margin-top:12px;">
-    <button class="m3-btn m3-primary" id="startBtn" type="button">▶ Simulan</button>
-</div>
-
-</div>
+    <div class="m3-actions" style="justify-content:flex-end; margin-top:12px;">
+        <button class="m3-btn m3-primary" id="startBtn" type="button">▶ Simulan</button>
+    </div>
 </div>
 
 <script>
-/* START */
 startBtn.onclick=()=>{
     goalsModal.classList.remove('show');
     pollSection.style.display='block';
-    pollSection.scrollIntoView({behavior:'smooth'});
 };
 
-/* SELECT */
 const choices=document.querySelectorAll('.m3-choice');
 const btn=document.getElementById('proceedBtn');
 
@@ -279,18 +297,13 @@ choices.forEach(c=>{
     }
 });
 
+openGoals.onclick=()=>goalsModal.classList.add('show');
+closeGoals.onclick=()=>goalsModal.classList.remove('show');
+
 btn.onclick=()=>{
     window.location.href='{{ route("module3.pretest") }}';
 };
-
-/* COMPETENCY INTERACTION */
-document.querySelectorAll('.m3-competency').forEach(c=>{
-    c.onclick=()=>c.classList.toggle('active');
-});
-
-/* MODAL */
-openGoals.onclick=()=>goalsModal.classList.add('show');
-closeGoals.onclick=()=>goalsModal.classList.remove('show');
 </script>
 
-@endsection
+</body>
+</html>

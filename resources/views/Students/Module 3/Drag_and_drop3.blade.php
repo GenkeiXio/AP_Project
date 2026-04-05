@@ -606,9 +606,9 @@ function resetGame() {
     warnedAtTen = false;
     updateStats();
     resetTimer();
-    feedbackText.textContent = 'Panuto: I-drag ang bawat suliranin papunta sa tamang epekto.';
+    feedbackText.textContent = 'Panuto: I-drag muna ang lahat bago magpatuloy.';
     answerKey.style.display = 'none';
-    nextBtn.disabled = false;
+    nextBtn.disabled = true;
     nextBtn.textContent = 'Magpatuloy';
 
     document.querySelectorAll('.zone').forEach(zone => {
@@ -661,6 +661,8 @@ checkBtn.addEventListener('click', () => {
 });
 
 nextBtn.addEventListener('click', () => {
+    if (nextBtn.disabled) return;
+
     window.location.href = '{{ route("module3.iv_explore") }}';
 });
 
