@@ -5,204 +5,432 @@
 
 @push('styles')
 <style>
-    .filter-bar { background:#fff; border-radius:16px; padding:20px 24px; box-shadow:0 4px 16px rgba(0,0,0,0.06); margin-bottom:24px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-    .filter-bar label { font-size:0.82rem; font-weight:800; color:#9a8060; text-transform:uppercase; letter-spacing:0.6px; }
-    .filter-select { padding:9px 14px; border:2px solid #e0d0ba; border-radius:10px; font-family:'Nunito',sans-serif; font-size:0.88rem; color:#3d2a1a; outline:none; transition:border-color 0.2s; min-width:200px; }
-    .filter-select:focus { border-color:#3a9e8c; }
+/* ---------- GLOBAL ---------- */
+body {
+    background: #f8fafc;
+}
 
-    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:24px; }
-    .stat-card { background:#fff; border-radius:14px; padding:20px; box-shadow:0 3px 12px rgba(0,0,0,0.06); display:flex; align-items:center; gap:12px; }
-    .stat-icon { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
-    .stat-icon.teal   { background:#e0f5f2; }
-    .stat-icon.orange { background:#fff3e0; }
-    .stat-icon.green  { background:#e8f8ed; }
-    .stat-icon.blue   { background:#e8f0ff; }
-    .stat-info .val { font-family:'Baloo 2',cursive; font-size:1.7rem; font-weight:800; color:#3d2a1a; line-height:1; }
-    .stat-info .lbl { font-size:0.75rem; color:#9a8060; font-weight:600; margin-top:2px; }
+.page-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+}
 
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
-    @media(max-width:900px){ .grid-2 { grid-template-columns:1fr; } }
+.page-header h1 {
+    font-size:1.8rem;
+    font-weight:800;
+}
 
-    .section-card { background:#fff; border-radius:16px; padding:24px; box-shadow:0 4px 16px rgba(0,0,0,0.06); }
-    .section-card h2 { font-family:'Baloo 2',cursive; font-size:1.05rem; font-weight:800; color:#3d2a1a; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-    .chart-wrap { position:relative; height:250px; }
+.page-header p {
+    color:#64748b;
+}
 
-    .data-table { width:100%; border-collapse:collapse; }
-    .data-table th { text-align:left; font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; color:#9a8060; padding:0 12px 10px; border-bottom:2px solid #f0e8d8; }
-    .data-table td { padding:11px 12px; font-size:0.87rem; border-bottom:1px solid #f5ede0; color:#5a4030; vertical-align:middle; }
-    .data-table tr:last-child td { border-bottom:none; }
-    .data-table tbody tr:hover { background:#fdfaf5; }
+/* ---------- BUTTONS ---------- */
+.btn {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:10px 16px;
+    border-radius:12px;
+    font-size:0.85rem;
+    font-weight:600;
+    cursor:pointer;
+    border:none;
+    transition:0.3s ease;
+}
 
-    .rank-badge { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; font-size:0.75rem; font-weight:800; }
-    .rank-1 { background:#ffd700; color:#7a5800; }
-    .rank-2 { background:#e0e0e0; color:#5a5a5a; }
-    .rank-3 { background:#cd7f32; color:#fff; }
-    .rank-n { background:#f0ebe0; color:#9a8060; }
+.btn-primary {
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    color:#fff;
+}
 
-    .score-bar-wrap { display:flex; align-items:center; gap:10px; }
-    .score-bar-bg { flex:1; height:7px; background:#f0e8d8; border-radius:4px; overflow:hidden; }
-    .score-bar-fill { height:100%; border-radius:4px; }
-    .score-pct { font-size:0.8rem; font-weight:800; color:#3d2a1a; width:38px; text-align:right; }
+.btn-outline {
+    background:#eef2ff;
+    color:#3b82f6;
+}
 
-    .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:700; }
-    .badge-green  { background:#e8f8ed; color:#1a7a38; }
-    .badge-orange { background:#fff3e0; color:#b05800; }
+.btn:hover {
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(99,102,241,0.2);
+}
 
-    .empty-state { text-align:center; padding:36px; color:#c0ad90; }
-    .empty-state .emoji { font-size:2.5rem; margin-bottom:8px; }
+/* ---------- STATS ---------- */
+.stats-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:26px;
+}
 
-    .export-btn { display:inline-flex; align-items:center; gap:7px; padding:9px 18px; border-radius:10px; border:2px solid #3a9e8c; background:transparent; color:#3a9e8c; font-family:'Nunito',sans-serif; font-size:0.85rem; font-weight:700; cursor:pointer; transition:background 0.2s,color 0.2s; text-decoration:none; }
-    .export-btn:hover { background:#3a9e8c; color:#fff; }
+.stat-card {
+    background:rgba(255,255,255,0.7);
+    backdrop-filter:blur(10px);
+    border-radius:18px;
+    padding:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+    opacity:0;
+    transform:translateY(20px);
+}
 
-    .sessions-wrap { max-height:320px; overflow-y:auto; }
-    .sessions-wrap::-webkit-scrollbar { width:4px; }
-    .sessions-wrap::-webkit-scrollbar-thumb { background:#ddd; border-radius:2px; }
+.stat-card:hover {
+    transform:translateY(-6px) scale(1.02);
+}
+
+.stat-info h3 {
+    font-size:1.8rem;
+    font-weight:800;
+}
+
+.stat-info span {
+    font-size:0.85rem;
+    color:#64748b;
+}
+
+.trend.up { color:#16a34a; }
+.trend.down { color:#dc2626; }
+
+/* ---------- ICON ---------- */
+.icon-box {
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.blue { background:#eef2ff; color:#3b82f6; }
+.green { background:#ecfdf5; color:#16a34a; }
+.orange { background:#fff7ed; color:#ea580c; }
+.purple { background:#f5f3ff; color:#7c3aed; }
+
+/* ---------- CARDS ---------- */
+.card {
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(12px);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+    opacity:0;
+    transform:translateY(30px);
+}
+
+.card:hover {
+    transform:translateY(-4px);
+}
+
+.card h2 {
+    font-weight:700;
+    margin-bottom:16px;
+}
+
+.grid-2 {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+@media(max-width:900px){
+    .grid-2 { grid-template-columns:1fr; }
+}
+
+.chart-wrap {
+    height:260px;
+}
+
+/* ---------- TABLE ---------- */
+.table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table td {
+    padding:12px 0;
+    border-bottom:1px solid #f1f5f9;
+}
+
+.table tr:hover {
+    background:#f8fafc;
+}
+
+/* ---------- BADGES ---------- */
+.badge {
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:0.75rem;
+    font-weight:600;
+}
+
+.badge-green { background:#dcfce7; color:#166534; }
+.badge-yellow { background:#fef3c7; color:#92400e; }
+.badge-red { background:#fee2e2; color:#991b1b; }
+
+/* ---------- DONUT ---------- */
+.donut-card {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 </style>
 @endpush
 
 @section('content')
 
-<div class="filter-bar">
-    <span style="font-size:1.1rem;">🔍</span>
-    <form method="GET" action="{{ route('teacher.analytics') }}" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;flex:1;">
-        <div>
-            <label>Filter by Class</label><br>
-            <select name="class_id" class="filter-select" onchange="this.form.submit()">
-                <option value="">All My Classes</option>
-                @foreach($classes as $c)
-                    <option value="{{ $c->id }}" {{ $classId == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        @if($classId)
-        <div style="align-self:flex-end;">
-            <a href="{{ route('teacher.analytics') }}" style="font-size:0.82rem;color:#c0392b;font-weight:700;text-decoration:none;">✕ Clear</a>
-        </div>
-        @endif
-        <div style="margin-left:auto; align-self:flex-end;">
-            <a href="{{ route('teacher.analytics.export', ['class_id'=>$classId]) }}" class="export-btn">📥 Export CSV</a>
-        </div>
-    </form>
+<!-- HEADER -->
+<div class="page-header">
+    <div>
+        <h1>Analytics</h1>
+        <p>Track student performance and module engagement</p>
+    </div>
+
+    <div style="display:flex; gap:10px;">
+        <button id="btn-monthly" class="btn btn-outline time-btn" onclick="switchView('monthly', this)">Monthly</button>
+        <button id="btn-quarterly" class="btn btn-outline time-btn" onclick="switchView('quarterly', this)">Quarterly</button>
+        <button id="btn-yearly" class="btn btn-primary time-btn" onclick="switchView('yearly', this)">Yearly</button>
+
+        <a href="{{ route('teacher.analytics.export', ['class_id'=>$classId]) }}" class="btn btn-primary">
+            <i data-lucide="download"></i> Export CSV
+        </a>
+    </div>
 </div>
 
+<!-- STATS -->
 <div class="stats-grid">
-    <div class="stat-card"><div class="stat-icon teal">📝</div><div class="stat-info"><div class="val">{{ $stats['total_sessions'] }}</div><div class="lbl">Quiz Attempts</div></div></div>
-    <div class="stat-card"><div class="stat-icon orange">📊</div><div class="stat-info"><div class="val">{{ $stats['avg_score'] }}%</div><div class="lbl">Avg Score</div></div></div>
-    <div class="stat-card"><div class="stat-icon green">🎒</div><div class="stat-info"><div class="val">{{ $stats['total_students'] }}</div><div class="lbl">Students Attempted</div></div></div>
-    <div class="stat-card"><div class="stat-icon blue">🎮</div><div class="stat-info"><div class="val">{{ $stats['total_quizzes'] }}</div><div class="lbl">Quizzes Played</div></div></div>
-</div>
 
-<div class="grid-2">
-    <div class="section-card">
-        <h2>📊 Avg Score per Class</h2>
-        @if($chartData->isEmpty())
-            <div class="empty-state"><div class="emoji">📭</div><p>No data yet.</p></div>
-        @else
-            <div class="chart-wrap"><canvas id="barChart"></canvas></div>
-        @endif
-    </div>
-    <div class="section-card">
-        <h2>🎯 Score Distribution</h2>
-        @if($sessions->isEmpty())
-            <div class="empty-state"><div class="emoji">📭</div><p>No attempts yet.</p></div>
-        @else
-            <div class="chart-wrap"><canvas id="donutChart"></canvas></div>
-        @endif
-    </div>
-</div>
-
-<div class="grid-2">
-    <div class="section-card">
-        <h2>🏆 Top Students</h2>
-        @if($topStudents->isEmpty())
-            <div class="empty-state"><div class="emoji">🌱</div><p>No data yet.</p></div>
-        @else
-        <table class="data-table">
-            <thead><tr><th>#</th><th>Student</th><th>Avg Score</th><th>Attempts</th></tr></thead>
-            <tbody>
-            @foreach($topStudents as $i => $ts)
-            <tr>
-                <td><span class="rank-badge {{ $i===0?'rank-1':($i===1?'rank-2':($i===2?'rank-3':'rank-n')) }}">{{ $i===0?'🥇':($i===1?'🥈':($i===2?'🥉':$i+1)) }}</span></td>
-                <td><strong>{{ $ts->student->username ?? '?' }}</strong></td>
-                <td>
-                    <div class="score-bar-wrap">
-                        <div class="score-bar-bg"><div class="score-bar-fill" style="width:{{ round($ts->avg_pct) }}%;background:{{ $ts->avg_pct>=75?'#4da862':($ts->avg_pct>=50?'#e8922a':'#e05050') }};"></div></div>
-                        <span class="score-pct">{{ round($ts->avg_pct) }}%</span>
-                    </div>
-                </td>
-                <td><span class="badge badge-blue" style="background:#e8f0ff;color:#2a4aaa;">{{ $ts->attempts }}x</span></td>
-            </tr>
-            @endforeach
-            </tbody>
-        </table>
-        @endif
-    </div>
-
-    <div class="section-card">
-        <h2>🕐 Recent Attempts</h2>
-        @if($sessions->isEmpty())
-            <div class="empty-state"><div class="emoji">📭</div><p>No attempts yet.</p></div>
-        @else
-        <div class="sessions-wrap">
-        <table class="data-table">
-            <thead><tr><th>Student</th><th>Quiz</th><th>Score</th><th>Date</th></tr></thead>
-            <tbody>
-            @foreach($sessions->sortByDesc('completed_at')->take(30) as $s)
-            @php $pct = $s->total_points>0?round(($s->score/$s->total_points)*100):0; @endphp
-            <tr>
-                <td><strong>{{ $s->student->username ?? '?' }}</strong></td>
-                <td style="font-size:0.8rem;">{{ Str::limit($s->quiz->title??'?',22) }}</td>
-                <td><span class="badge {{ $pct>=75?'badge-green':($pct>=50?'badge-orange':'') }}" style="{{ $pct<50?'background:#fde8e8;color:#c0392b;':'' }}">{{ $pct }}%</span></td>
-                <td style="font-size:0.75rem;color:#9a8060;">{{ $s->completed_at?->format('M d') }}</td>
-            </tr>
-            @endforeach
-            </tbody>
-        </table>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3 id="stat-attempts">{{ $stats['total_sessions'] }}</h3>
+            <span>Module Attempts</span>
+            <div class="trend up">+12.5%</div>
         </div>
-        @endif
+        <div class="icon-box blue"><i data-lucide="book-open"></i></div>
     </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3 id="stat-students">{{ $stats['total_students'] }}</h3>
+            <span>Students Attempted</span>
+            <div class="trend up">+8.2%</div>
+        </div>
+        <div class="icon-box green"><i data-lucide="users"></i></div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3 id="stat-avg">{{ $stats['avg_score'] }}%</h3>
+            <span>Average Score</span>
+            <div class="trend down">-2.1%</div>
+        </div>
+        <div class="icon-box orange"><i data-lucide="trophy"></i></div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3 id="stat-modules">{{ $stats['total_quizzes'] }}</h3>
+            <span>Modules Played</span>
+            <div class="trend up">+15.3%</div>
+        </div>
+        <div class="icon-box purple"><i data-lucide="gamepad-2"></i></div>
+    </div>
+
+</div>
+
+<!-- CHARTS -->
+<div class="grid-2">
+
+    <div class="card">
+        <h2>Module Attempts Over Time</h2>
+        <div class="chart-wrap">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Average Score Distribution</h2>
+        <div class="chart-wrap">
+            <canvas id="donutChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<!-- TABLE + DONUT -->
+<div class="grid-2">
+
+    <div class="card">
+        <h2>Detailed Analytics</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Module</th>
+                    <th>Attempts</th>
+                    <th>Students</th>
+                    <th>Avg Score</th>
+                    <th>Completion</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($topStudents as $ts)
+                <tr>
+                    <td>Module</td>
+                    <td>{{ $ts->attempts }}</td>
+                    <td>{{ $ts->student->username ?? '?' }}</td>
+                    <td>{{ round($ts->avg_pct) }}%</td>
+                    <td>
+                        <span class="badge badge-green">82%</span>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="card donut-card">
+        <canvas id="donutChart2"></canvas>
+    </div>
+
 </div>
 
 @endsection
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script>
-@if(!$chartData->isEmpty())
-new Chart(document.getElementById('barChart').getContext('2d'), {
-    type: 'bar',
-    data: {
-        labels: {!! json_encode($chartData->pluck('label')) !!},
-        datasets:[{ label:'Avg Score (%)', data:{!! json_encode($chartData->pluck('avg')) !!},
-            backgroundColor:{!! json_encode($chartData->map(fn($d)=>$d['avg']>=75?'rgba(58,158,140,0.8)':($d['avg']>=50?'rgba(232,146,42,0.8)':'rgba(224,80,80,0.8)'))->values()) !!},
-            borderRadius:8, borderSkipped:false }]
-    },
-    options:{ responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{ display:false } },
-        scales:{ y:{ min:0,max:100,ticks:{callback:v=>v+'%'},grid:{color:'#f0e8d8'} }, x:{grid:{display:false}} }
-    }
-});
-@endif
 
-@if(!$sessions->isEmpty())
-@php
-    $excellent = $sessions->filter(fn($s)=>$s->total_points>0&&($s->score/$s->total_points)*100>=75)->count();
-    $passing   = $sessions->filter(fn($s)=>$s->total_points>0&&($s->score/$s->total_points)*100>=50&&($s->score/$s->total_points)*100<75)->count();
-    $failing   = $sessions->filter(fn($s)=>$s->total_points>0&&($s->score/$s->total_points)*100<50)->count();
-@endphp
-new Chart(document.getElementById('donutChart').getContext('2d'), {
-    type:'doughnut',
-    data:{
-        labels:['Excellent (75%+)','Passing (50–74%)','Needs Help (<50%)'],
-        datasets:[{ data:[{{$excellent}},{{$passing}},{{$failing}}],
-            backgroundColor:['rgba(58,158,140,0.85)','rgba(232,146,42,0.85)','rgba(224,80,80,0.85)'],
-            borderWidth:0, hoverOffset:8 }]
+<!-- LUCIDE -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+lucide.createIcons();
+
+/* ---------------- DATA ---------------- */
+const analyticsData = {
+    monthly: {
+        stats: {
+            attempts: 1200,
+            students: 120,
+            avg: 78,
+            modules: 320
+        },
+        bar: {
+            labels: ['Week 1','Week 2','Week 3','Week 4'],
+            data: [300, 400, 250, 250]
+        },
+        line: [10,20,30,50,80,120,90,60]
     },
-    options:{ responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{ position:'bottom', labels:{ padding:14, font:{family:'Nunito',size:11} } } },
-        cutout:'65%'
+
+    quarterly: {
+        stats: {
+            attempts: 3500,
+            students: 320,
+            avg: 74,
+            modules: 860
+        },
+        bar: {
+            labels: ['Jan','Feb','Mar'],
+            data: [900, 1200, 1400]
+        },
+        line: [20,40,60,90,130,160,120,80]
+    },
+
+    yearly: {
+        stats: {
+            attempts: 7070,
+            students: 580,
+            avg: 75,
+            modules: 1170
+        },
+        bar: {
+            labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            data: [400,380,500,460,580,620,540,680,710,650,720,790]
+        },
+        line: [5,10,20,40,80,110,150,100,40]
     }
-});
-@endif
+};
+
+/* ---------------- INIT CHARTS ---------------- */
+let barChart, lineChart;
+
+function createCharts(dataset) {
+
+    if(barChart) barChart.destroy();
+    if(lineChart) lineChart.destroy();
+
+    barChart = new Chart(document.getElementById('barChart'), {
+        type:'bar',
+        data:{
+            labels: dataset.bar.labels,
+            datasets:[{
+                data: dataset.bar.data,
+                backgroundColor:'#3b82f6',
+                borderRadius:8
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{ legend:{display:false} }
+        }
+    });
+
+    lineChart = new Chart(document.getElementById('donutChart'), {
+        type:'line',
+        data:{
+            labels:['0-10','20','30','40','50','60','70','80','90','100'],
+            datasets:[{
+                data: dataset.line,
+                borderColor:'#22c55e',
+                fill:true,
+                tension:0.4
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{ legend:{display:false} }
+        }
+    });
+}
+
+/* ---------------- UPDATE STATS ---------------- */
+function updateStats(dataset){
+    document.getElementById('stat-attempts').innerText = dataset.stats.attempts;
+    document.getElementById('stat-students').innerText = dataset.stats.students;
+    document.getElementById('stat-avg').innerText = dataset.stats.avg + '%';
+    document.getElementById('stat-modules').innerText = dataset.stats.modules;
+}
+
+/* ---------------- BUTTON HANDLER ---------------- */
+function setActive(button){
+    document.querySelectorAll('.time-btn').forEach(btn=>{
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline');
+    });
+
+    button.classList.remove('btn-outline');
+    button.classList.add('btn-primary');
+}
+
+/* ---------------- SWITCH VIEW ---------------- */
+function switchView(type, el){
+    const dataset = analyticsData[type];
+
+    updateStats(dataset);
+    createCharts(dataset);
+    setActive(el);
+}
+
+/* ---------------- INIT DEFAULT ---------------- */
+window.onload = () => {
+    switchView('monthly', document.getElementById('btn-monthly'));
+};
 </script>
 @endpush

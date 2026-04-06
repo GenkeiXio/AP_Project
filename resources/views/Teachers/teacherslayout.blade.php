@@ -98,32 +98,33 @@
         <nav>
             <div class="nav-section-title">Main</div>
             <a href="{{ route('teacher.dashboard') }}" class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}">
-                <span class="icon">🏠</span> Dashboard
+                <i data-lucide="layout-dashboard" class="icon"></i>
+                <span>Dashboard</span>
             </a>
 
             <div class="nav-section-title">Teaching</div>
-            <a href="{{ route('teacher.classes') }}" class="nav-link {{ request()->routeIs('teacher.classes*') ? 'active' : '' }}">
-                <span class="icon">🏫</span> My Classes
-            </a>
             <a href="{{ route('teacher.analytics') }}" class="nav-link {{ request()->routeIs('teacher.analytics*') ? 'active' : '' }}">
-                <span class="icon">📊</span> Analytics
+                <i data-lucide="layout-dashboard" class="icon"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="{{ route('teacher.results.results') }}" class="nav-link {{ request()->routeIs('teacher.results.results*') ? 'active' : '' }}">
+                <i data-lucide="file-text" class="icon"></i>
+                <span>Results</span>
             </a>
 
             <div class="nav-section-title">Students</div>
             <a href="{{ route('teacher.dashboard') }}" class="nav-link">
-                <span class="icon">🎒</span> All Students
-            </a>
-
-            <div class="nav-section-title">Account</div>
-            <a href="{{ route('teacher.profile') }}" class="nav-link {{ request()->routeIs('teacher.profile') ? 'active' : '' }}">
-                <span class="icon">👤</span> My Profile
+                <i data-lucide="user-pen" class="icon"></i>
+                <span>All Students</span>
             </a>
         </nav>
 
         <div class="sidebar-footer">
             <form method="POST" action="{{ route('teacher.logout') }}">
                 @csrf
-                <button type="submit" class="logout-btn">🚪 Logout</button>
+                <button type="submit" class="logout-btn">
+                    <i data-lucide="log-out" class="icon"></i>
+                </button>
             </form>
         </div>
     </aside>
@@ -145,5 +146,10 @@
     </div>
 
     @stack('scripts')
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

@@ -12,7 +12,6 @@ use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
-use App\Http\Controllers\EssayController;
 use App\Http\Controllers\Student\Pretest\Module2PretestController;
 use App\Http\Controllers\Student\Module2\Module2_Node1Controller;
 use App\Http\Controllers\Student\Module2\Module2_Node2Controller;
@@ -86,8 +85,13 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::delete('/quizzes/{quiz}',                      [QuizController::class, 'destroy'])->name('quizzes.destroy');
     Route::get('/analytics',                              [TeacherAnalyticsController::class, 'index'])->name('analytics');
     Route::get('/analytics/export',                       [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
+
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
+
+Route::get('/results', function () {
+    return view('teachers.results.results');
+})->name('teacher.results.results');
 
 Route::get('/narration', function () {
     return view('narration');
@@ -96,8 +100,6 @@ Route::get('/narration', function () {
 Route::get('/module', function () {
     return view('Students.module');
 })->name('module.home');
-
-
 
 Route::get('/pre-test/module-2', function () {
     return view('Students.Pre-Test.module2');
@@ -118,7 +120,6 @@ Route::get('/node-1/solid-waste', function () {
 Route::get('/node-1/solid-waste/activity', function () {
     return view('Students.Pre-Test.Node1_Solid Waste');
 })->name('node1.solid-waste.activity');
-
 
 //MAP Routes
 Route::get('/demo-map', function () {
@@ -149,7 +150,6 @@ Route::get('/module3-next', function () {
 Route::get('/students/module-3/iv-explore', function () {
     return view('Students/Module 3/Explore');
 })->name('module3.iv_explore');
-
 
 Route::get('/node2', function () {
     return view('Students.Pre-Test.Nodes.node2');
@@ -182,7 +182,6 @@ Route::get('/module2/essay', function () {
 Route::get('/module2/buod', function () {
     return view('Students.module2.mod2_buod');
 })->name('module2.buod');
-
 
 //Module 3 Routes//
 // MODULE 3 HOME
