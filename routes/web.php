@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -151,6 +152,9 @@ Route::get('/students/module-3/iv-explore', function () {
     return view('Students/Module 3/Explore');
 })->name('module3.iv_explore');
 
+Route::view('/students/module-3/termino-konsepto', 'Students.Module 3.termino_konsepto')
+    ->name('students.module3.termino_konsepto');
+
 Route::get('/node2', function () {
     return view('Students.Pre-Test.Nodes.node2');
 })->name('node2');
@@ -220,3 +224,24 @@ Route::get('/module3/node1', function () {
 Route::get('/module3/node2', function () {
     return view('Students.Module3.Nodes.mod3_node2');
 })->name('module3.node2');
+
+Route::get('/module3/node3', function () {
+    return view('Students.Module3.Nodes.mod3_node3');
+})->name('module3.node3');
+
+Route::view('/module4', 'Students.Module 4.Home')->name('module4.home');
+Route::get('/apply-activity', function () {
+    return view('Students.Module3.Activities.apply');
+})->name('apply.activity');
+
+Route::get('/gobag-activity', function () {
+    return view('Students.Module3.Activities.gobag_activity');
+})->name('gobag.activity');
+
+Route::get('/safe-home-activity', function () {
+    return view('Students.Module3.Activities.safe_home');
+})->name('safehome.activity');
+
+Route::get('/gabay', function () {
+    return view('Students.Module3.Activities.gabay');
+})->name('gabay.page');

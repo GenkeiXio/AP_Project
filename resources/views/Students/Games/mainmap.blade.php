@@ -300,15 +300,12 @@
             <span class="tooltip">Module 2</span>
         </button>
 
-           <button class="pin location-2" onclick="enterModule(this, '{{ route('inner.map3') }}')">
+           <button class="pin location-2" onclick="enterModule(this, '{{ route('module3.home') }}')">
              <span class="tooltip">Module 3</span>
         </button>
 
-        <button class="pin location-3" onclick="showDetails('Module 4')">
-             <span class="tooltip">Module 4</span>
-        </button>
-
-        <a href="{{ route('narration') }}" class="back-button">⬅️ Bumalik</a>
+        <button class="pin location-3" onclick="enterModule(this, '{{ route('module4.home') }}')">
+        <a href="{{ route('narration') }}" class="back-button">Module 4</a>
     </div> 
 </div>
 

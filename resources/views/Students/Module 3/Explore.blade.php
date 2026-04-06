@@ -40,18 +40,14 @@
         box-shadow: 0 10px 28px rgba(2, 6, 23, .24);
     }
 
-    .scene {
-        animation: fadeIn .45s ease;
-    }
+    .scene { animation: fadeIn .45s ease; }
 
     .choice-btn {
         transition: .18s ease;
         color: #fff;
     }
 
-    .choice-btn.text-slate-900 {
-        color: #0f172a !important;
-    }
+    .choice-btn.text-slate-900 { color: #0f172a !important; }
 
     .choice-btn:hover {
         transform: translateY(-2px) scale(1.01);
@@ -83,6 +79,50 @@
         display: block;
     }
 
+    /* One shared intro card: image + content inside (glass style, no divider) */
+    .intro-card {
+        --intro-panel-bg: rgba(255, 255, 255, 0.06);
+        width: 100%;
+        max-width: 1080px;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.35);
+        background: rgba(255,255,255,.14);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 12px 28px rgba(2, 6, 23, .35);
+    }
+
+    .intro-card-inner {
+        display: grid;
+        grid-template-columns: 340px minmax(0, 1fr);
+        gap: 0;
+        align-items: stretch;
+        min-height: 330px;
+    }
+
+    .intro-card-image {
+        background: var(--intro-panel-bg);
+    }
+
+    .intro-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    .intro-card-content {
+        background: var(--intro-panel-bg);
+        backdrop-filter: blur(8px);
+        padding: 18px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #e2e8f0;
+    }
+
     #scene2, #scene3, #scene4, #scene5, #scene6 {
         max-width: 820px;
         margin-left: auto;
@@ -97,8 +137,24 @@
         height: clamp(200px, 42vw, 420px);
     }
 
-    .storm-top {
-        background: linear-gradient(135deg, #334155, #0f172a);
+    .storm-top { background: linear-gradient(135deg, #334155, #0f172a); }
+
+    @media (max-width: 900px) {
+        .intro-card { max-width: 640px; }
+
+        .intro-card-inner {
+            grid-template-columns: 1fr;
+            min-height: auto;
+        }
+
+        .intro-card-image img {
+            min-height: 210px;
+            max-height: 260px;
+        }
+
+        .intro-card-content {
+            padding: 16px;
+        }
     }
 
     @keyframes rainMove {
@@ -120,19 +176,27 @@
 <div class="page-overlay"></div>
 
 <div id="panimulangModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 px-4 py-6 overflow-y-auto">
-    <div class="w-full max-w-xl rounded-2xl border border-white/60 bg-white/90 backdrop-blur p-4 md:p-5 shadow-2xl">
-        <h2 class="text-lg md:text-xl font-extrabold text-red-600 mb-3">⚠️ Paunang Sitwasyon</h2>
+    <div class="intro-card">
+        <div class="intro-card-inner">
+            <div class="intro-card-image">
+                <img src="{{ asset('pictures/Youth disaster leader in action.png') }}" alt="Youth disaster leader in action">
+            </div>
 
-        <div class="space-y-3 text-sm md:text-base text-slate-700 leading-relaxed">
-            <p>Isang malakas na bagyo ang paparating sa inyong komunidad. Ayon sa ulat ng PAGASA, posibleng magdulot ito ng matinding pagbaha at landslide.</p>
-            <p>Ikaw ay napili bilang Youth Disaster Leader sa inyong barangay. Nasa iyong mga kamay ang kaligtasan ng iyong pamilya at komunidad.</p>
-            <p class="font-bold text-cyan-700">Handa ka na bang harapin ang sakuna?</p>
-        </div>
+            <div class="intro-card-content">
+                <h2 class="text-lg md:text-xl font-extrabold text-red-500 mb-3">⚠️ Paunang Sitwasyon</h2>
 
-        <div class="mt-4 flex justify-end">
-            <button id="simulanModalBtn" class="choice-btn px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-slate-900 font-extrabold text-sm md:text-base">
-                SIMULAN
-            </button>
+                <div class="space-y-3 text-sm md:text-base text-slate-100 leading-relaxed">
+                    <p>Isang malakas na bagyo ang paparating sa inyong komunidad. Ayon sa ulat ng PAGASA, posibleng magdulot ito ng matinding pagbaha at landslide.</p>
+                    <p>Ikaw ay napili bilang Youth Disaster Leader sa inyong barangay. Nasa iyong mga kamay ang kaligtasan ng iyong pamilya at komunidad.</p>
+                    <p class="font-bold text-cyan-300">Handa ka na bang harapin ang sakuna?</p>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    <button id="simulanModalBtn" class="choice-btn px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-slate-900 font-extrabold text-sm md:text-base">
+                        SIMULAN
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -214,7 +278,14 @@
             <div class="p-5 md:p-6">
                 <p>📊 Iyong Iskor: <span id="finalScore" class="font-bold text-lime-600">0 XP</span></p>
                 <p class="mt-2">🎖 Natamong Badge: <span id="finalBadge" class="font-bold text-amber-600">Wala pang badge</span></p>
-                <button onclick="ulitinMisyon()" class="choice-btn mt-4 px-6 py-3 rounded-xl bg-amber-400 text-slate-900 font-bold">🔄 Ulitin ang Laro</button>
+                <p id="autoRedirectText" class="mt-2 text-sm text-slate-600"></p>
+
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <button onclick="ulitinMisyon()" class="choice-btn px-6 py-3 rounded-xl bg-amber-400 text-slate-900 font-bold">🔄 Ulitin ang Laro</button>
+                    <a href="{{ route('students.module3.termino_konsepto') }}" class="inline-flex items-center px-6 py-3 rounded-xl bg-cyan-600 text-white font-bold hover:bg-cyan-700 transition">
+                        📘 Magpatuloy sa Termino at Konsepto
+                    </a>
+                </div>
             </div>
         </section>
     </div>
@@ -223,6 +294,8 @@
 <script>
 let currentScene = 1, xp = 0, streak = 0, soundOn = true, audioUnlocked = false;
 let flags = { s2:false, s4:false, s5:false };
+let redirectTimer = null;
+let countdownTimer = null;
 
 const sfx = {
     click: new Audio('{{ asset("sounds/module3/click.mp3") }}'),
@@ -282,6 +355,15 @@ function playAmbience(scene) {
     stopAmbience();
     if (scene === 4) play('rain');
     if (scene === 5) play('calm');
+}
+
+function clearRedirectTimers() {
+    if (redirectTimer) clearTimeout(redirectTimer);
+    if (countdownTimer) clearInterval(countdownTimer);
+    redirectTimer = null;
+    countdownTimer = null;
+    const label = document.getElementById('autoRedirectText');
+    if (label) label.textContent = '';
 }
 
 function lumipatSaEksena(n) {
@@ -358,6 +440,8 @@ function piliinSaEksena5(c) {
 }
 
 function taposNa() {
+    clearRedirectTimers();
+
     if (flags.s2 && flags.s4 && flags.s5) xp += 10;
     lumipatSaEksena(6);
     play('success');
@@ -370,9 +454,30 @@ function taposNa() {
     else if (xp >= 40) badge = '🏅 Nakaligtas sa Sakuna';
 
     document.getElementById('finalBadge').textContent = badge;
+
+    const nextUrl = '{{ route("students.module3.termino_konsepto") }}';
+    let seconds = 3;
+    const label = document.getElementById('autoRedirectText');
+    if (label) label.textContent = `Awtomatikong lilipat sa Termino at Konsepto sa ${seconds}s...`;
+
+    countdownTimer = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+            clearInterval(countdownTimer);
+            countdownTimer = null;
+            return;
+        }
+        if (label) label.textContent = `Awtomatikong lilipat sa Termino at Konsepto sa ${seconds}s...`;
+    }, 1000);
+
+    redirectTimer = setTimeout(() => {
+        window.location.href = nextUrl;
+    }, 3000);
 }
 
 function ulitinMisyon() {
+    clearRedirectTimers();
+
     xp = 0;
     streak = 0;
     flags = { s2:false, s4:false, s5:false };
