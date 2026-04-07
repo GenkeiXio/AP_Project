@@ -271,21 +271,28 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        align-items: center;
     }
 
     @media (min-width: 768px) {
         .modal-body-grid {
             flex-direction: row;
             gap: 28px;
+            justify-content: center;
+            align-items: center;
         }
     }
 
     .modal-image {
         flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .modal-image img {
         width: 100%;
+        max-width: 360px;
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         object-fit: cover;
@@ -293,6 +300,8 @@
 
     .modal-text {
         flex: 1;
+        width: 100%;
+        max-width: 420px;
         color: #2d4a3a;
         line-height: 1.7;
         font-size: 0.95rem;

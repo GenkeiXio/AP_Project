@@ -13,7 +13,6 @@ use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
-use App\Http\Controllers\EssayController;
 use App\Http\Controllers\Student\Pretest\Module2PretestController;
 use App\Http\Controllers\Student\Module2\Module2_Node1Controller;
 use App\Http\Controllers\Student\Module2\Module2_Node2Controller;
@@ -87,8 +86,13 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::delete('/quizzes/{quiz}',                      [QuizController::class, 'destroy'])->name('quizzes.destroy');
     Route::get('/analytics',                              [TeacherAnalyticsController::class, 'index'])->name('analytics');
     Route::get('/analytics/export',                       [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
+
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
+
+Route::get('/results', function () {
+    return view('teachers.results.results');
+})->name('teacher.results.results');
 
 Route::get('/narration', function () {
     return view('narration');
@@ -127,25 +131,21 @@ Route::get('/inner-map-2', function () {
     return view('Students.module2.inner_map2'); 
 })->name('inner.map2');
 
-Route::get('/inner-map-3', function () {
-    return view('Students.Module 3.Inner_map3');
-})->name('inner.map3');
-
 Route::get('/module3-home', function () {
-    return view('Students.Module 3.Home');
-})->name('module3.home');
+    return redirect()->route('module3.home');
+})->name('module3.home.legacy');
 
 Route::get('/module3-pretest', function () {
-    return view('Students.Module 3.Pre-Test_mod3');
-})->name('module3.pretest');
+    return redirect()->route('module3.pretest');
+})->name('module3.pretest.legacy');
 
 Route::get('/module3-next', function () {
-    return view('Students.Module 3.Drag_and_drop3');
+    return redirect()->route('module3.node2');
 })->name('module3.next');
 
 // IV Explore page
 Route::get('/students/module-3/iv-explore', function () {
-    return view('Students/Module 3/Explore');
+    return redirect()->route('module3.scene');
 })->name('module3.iv_explore');
 
 Route::view('/students/module-3/termino-konsepto', 'Students.Module 3.termino_konsepto')
@@ -196,12 +196,12 @@ Route::get('/module3/pretest', function () {
 
 // POSTTEST
 Route::get('/module3/posttest', function () {
-    return view('Students.Module3.Activities.Test.module3_posttest');
+    return view('Students.Module3.Test.module3_posttest');
 })->name('module3.posttest');
 
 // EXPLORE - SCENE
 Route::get('/module3/explore/scene', function () {
-    return view('Students.Module3.Activities.Explore.scene');
+    return view('Students.Module 3.Explore');
 })->name('module3.scene');
 
 // EXPLORE - BALIK ARAL
@@ -240,4 +240,24 @@ Route::get('/safe-home-activity', function () {
 
 Route::get('/gabay', function () {
     return view('Students.Module3.Activities.gabay');
+})->name('gabay.activity');
+
+Route::get('/gabay-page', function () {
+    return redirect()->route('gabay.activity');
 })->name('gabay.page');
+
+Route::get('/module3/activity/el-nino', function () {
+    return view('Students.Module3.Activities.el_niño');
+})->name('el-nino.activity');
+
+Route::get('/module3/activity/bulkan', function () {
+    return view('Students.Module3.Activities.bulkan');
+})->name('bulkan.activity');
+
+Route::get('/module3/activity/flood', function () {
+    return view('Students.Module3.Activities.flood_activity');
+})->name('flood.activity');
+
+Route::get('/module3/closing', function () {
+    return view('Students.Module3.closing');
+})->name('module3.closing');
