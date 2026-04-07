@@ -146,7 +146,7 @@ Route::get('/students/module-3/iv-explore', function () {
     return redirect()->route('module3.scene');
 })->name('module3.iv_explore');
 
-Route::view('/students/module-3/termino-konsepto', 'Students.Module 3.termino_konsepto')
+Route::view('/students/module-3/termino-konsepto', 'Students.Module3.termino_konsepto')
     ->name('students.module3.termino_konsepto');
 
 Route::get('/node2', function () {
@@ -184,7 +184,7 @@ Route::get('/module2/buod', function () {
 //Module 3 Routes//
 // MODULE 3 HOME
 Route::get('/module3', function () {
-    return view('Students.Module3.module3_home');
+    return view('Students.Module3.Home');
 })->name('module3.home');
 
 // PRETEST
@@ -199,7 +199,7 @@ Route::get('/module3/posttest', function () {
 
 // EXPLORE - SCENE
 Route::get('/module3/explore/scene', function () {
-    return view('Students.Module 3.Explore');
+    return view('Students.Module3.Explore');
 })->name('module3.scene');
 
 // EXPLORE - BALIK ARAL
@@ -257,5 +257,5 @@ Route::get('/module3/activity/flood', function () {
 })->name('flood.activity');
 
 Route::get('/module3/closing', function () {
-    return view('Students.Module3.closing');
+    return view('Students.Module3.Activities.closing');
 })->name('module3.closing');
