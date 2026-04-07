@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -9,8 +8,8 @@ use App\Http\Controllers\Admin\AdminAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherDashboardController;
 use App\Http\Controllers\Teacher\ClassController;
 use App\Http\Controllers\Teacher\QuizController;
-use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
+use App\Http\Controllers\Teacher\AnalyticsController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\Pretest\Module2PretestController;
@@ -84,9 +83,8 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::put('/quizzes/{quiz}',                         [QuizController::class, 'update'])->name('quizzes.update');
     Route::patch('/quizzes/{quiz}/publish',               [QuizController::class, 'togglePublish'])->name('quizzes.publish');
     Route::delete('/quizzes/{quiz}',                      [QuizController::class, 'destroy'])->name('quizzes.destroy');
-    Route::get('/analytics',                              [TeacherAnalyticsController::class, 'index'])->name('analytics');
-    Route::get('/analytics/export',                       [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
-
+    Route::get('/analytics',                              [AnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/analytics/export',                       function () { return "Export CSV";})->name('analytics.export');
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
 
