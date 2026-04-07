@@ -1,29 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagputok ng Bulkan Activity</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --lava: #ff4d00;
+            --magma: #cf1010;
+            --ash: #2c3e50;
+            --smoke: #1a1a1b;
+        }
+
         body {
-            background: #f5f7fb;
-            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at top, #343a40 0%, #1a1a1b 100%);
+            font-family: 'Lexend', sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            margin-top: 30px;
+            margin-bottom: 30px;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 10px;
+            color: var(--lava);
+            text-shadow: 0 0 15px rgba(255, 77, 0, 0.5);
+            font-weight: 800;
+            letter-spacing: -1px;
         }
 
         .guide {
             text-align: center;
-            margin-bottom: 25px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            border-bottom: 3px solid var(--magma);
+            margin-bottom: 30px;
+        }
+
+        .guide strong {
+            color: var(--lava);
+            text-transform: uppercase;
+            font-size: 0.85rem;
         }
 
         .video-section {
@@ -35,197 +66,206 @@
 
         iframe {
             width: 100%;
-            height: 220px;
-            border-radius: 10px;
+            height: 200px;
+            border-radius: 15px;
+            border: 2px solid var(--ash);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
         .instruction {
-            font-weight: bold;
-            margin-bottom: 15px;
+            color: #2dd4bf;
+            font-weight: 600;
+            background: rgba(45, 212, 191, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         /* Image grid */
         .image-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px; /* smaller spacing */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .image-card {
             position: relative;
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-            background: white;
+            background: #000;
+            border: 3px solid transparent;
             cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .image-card {
+            height: 220px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 250px; /* controls card size */
-            background: #000;
-
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .image-card img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 90%;
+            max-height: 90%;
             object-fit: contain;
+            transition: transform 0.3s ease;
         }
 
-        /* CLICK ANIMATION */
-        .image-card:active {
-            transform: scale(0.97);
+        .image-card:hover {
+            border-color: rgba(255, 77, 0, 0.4);
+            transform: translateY(-5px);
         }
 
-        /* Checkbox overlay */
-        .check-overlay {
+        .image-card.selected {
+            border-color: var(--lava);
+            box-shadow: 0 0 20px rgba(255, 77, 0, 0.6);
+            background: #111;
+        }
+
+        .image-card.selected::after {
+            content: '✓ Selected';
             position: absolute;
             top: 10px;
             right: 10px;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 8px;
+            background: var(--lava);
+            color: white;
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
+        /* STATUS COLORS */
         .correct {
-            outline: 4px solid #28a745;
+            border-color: #10b981 !important;
+            animation: pulse-green 0.6s ease;
         }
 
         .wrong {
-            outline: 4px solid #dc3545;
+            border-color: #ef4444 !important;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* BUTTONS */
+        .btn-submit {
+            background: var(--lava);
+            border: none;
+            padding: 15px 40px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 77, 0, 0.3);
+        }
+
+        .btn-submit:hover {
+            background: var(--magma);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 77, 0, 0.5);
         }
 
         #feedback {
-            margin-top: 25px;
-            text-align: center;
+            margin-top: 30px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            color: #d1fae5;
+            border-radius: 20px;
+            padding: 25px;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        .selected {
-            outline: 4px solid #0d6efd;
-            transform: scale(1.02);
+        .next-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
         }
 
-        /* CORRECT ANIMATION */
-        @keyframes correctPulse {
-            0% { box-shadow: 0 0 0 0 rgba(40,167,69,0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(40,167,69,0); }
-            100% { box-shadow: 0 0 0 0 rgba(40,167,69,0); }
-        }
-
-        .correct {
-            outline: 4px solid #28a745;
-            animation: correctPulse 0.6s ease;
-        }
-
-        /* WRONG ANIMATION */
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-6px); }
-            40% { transform: translateX(6px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-            100% { transform: translateX(0); }
-        }
-
-        .wrong {
-            outline: 4px solid #dc3545;
-            animation: shake 0.4s ease;
+        .next-btn:hover {
+            background: #059669;
+            color: white;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-<div class="container py-4">
+<div class="container">
 
-    <h2 class="fw-bold">D. Mga Dapat Gawin sa Pagputok ng Bulkan</h2>
+    <h2 class="mb-2">🌋 Gawain: Pagputok ng Bulkan</h2>
 
-    <p class="guide">
-        <strong>Guiding Question:</strong><br>
-        Paano nakapagliligtas ng buhay ang maagap na paglikas?
-    </p>
-
-    <!-- Videos -->
-    <div class="video-section">
-
-        <!-- Replace video -->
-        <iframe src="https://www.youtube.com/embed/Hg1ktHeXaPU"></iframe>
-
-        <!-- Replace video -->
-        <iframe src="https://www.youtube.com/embed/UFz2fLrqZuk"></iframe>
-
+    <div class="guide">
+        <strong>Gabay na Tanong</strong>
+        <p class="mb-0">Paano nakapagliligtas ng buhay ang maagap na paglikas?</p>
     </div>
 
-    <p class="instruction">
-        Panuto: Lagyan ng check kung ang larawan ay nagpapakita ng tamang gawain sa oras ng Pagputok ng Bulkan.
-    </p>
+    <div class="video-section">
+        <iframe src="https://www.youtube.com/embed/Hg1ktHeXaPU" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/UFz2fLrqZuk" allowfullscreen></iframe>
+    </div>
 
-    <!-- Image Grid -->
+    <div class="text-center">
+        <p class="instruction">
+            📍 Panuto: I-click ang mga larawang nagpapakita ng TAMA at LIGTAS na gawain.
+        </p>
+    </div>
+
     <div class="image-grid">
-
-        <!-- IMAGE 1 -->
         <div class="image-card" data-answer="correct">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan1.png">
         </div>
-
-        <!-- IMAGE 2 -->
         <div class="image-card" data-answer="correct">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan2.png">
-            
         </div>
-
-        <!-- IMAGE 3 -->
         <div class="image-card" data-answer="wrong">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan3.png">
-            
         </div>
-
-        <!-- IMAGE 4 -->
         <div class="image-card" data-answer="wrong">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan4.png">
-            
         </div>
-
-        <!-- IMAGE 5 -->
         <div class="image-card" data-answer="correct">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan5.png">
-            
         </div>
-
-        <!-- IMAGE 6 -->
         <div class="image-card" data-answer="correct">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan6.png">
-            
         </div>
-
-        <!-- IMAGE 7 -->
         <div class="image-card" data-answer="wrong">
             <img src="/pictures/Module 3/Bulkan_Activity/bulkan7.jpg">
-            
         </div>
-
     </div>
 
-    <!-- Submit Button -->
-    <div class="text-center mt-4">
-        <button class="btn btn-primary" onclick="checkAnswers()">Submit</button>
+    <div class="text-center mt-5">
+        <button class="btn btn-primary btn-submit" onclick="checkAnswers()">Isubmit ang Sagot</button>
     </div>
 
-    <!-- Feedback -->
-    <div id="feedback" class="alert alert-success d-none">
-        <strong>Mahusay!</strong> Bilang isang manlalaro, natutunan mo na mahalagang sundin ang mga babala at agad na lumikas kapag kinakailangan upang maiwasan ang panganib. 
+    <div id="feedback" class="d-none">
+        <h4 class="text-success fw-bold">🔥 Napakahusay!</h4>
+        Bilang isang manlalaro, natutunan mo na mahalagang sundin ang mga babala at agad na lumikas kapag kinakailangan upang maiwasan ang panganib. 
         Nauunawaan mo rin na dapat magdala lamang ng mahahalagang kagamitan tulad ng tubig, flashlight, at radyo upang maging handa sa anumang sitwasyon. 
-        Bukod dito, natutunan mong pahalagahan ang kaligtasan ng bawat isa sa pamamagitan ng pagsunod sa mga paalala ng kinauukulan at pananatili sa evacuation center hangga’t hindi pa ligtas. 
-        Ang mga aral na ito ay makatutulong upang maging responsable at handa ka sa panahon ng sakuna.
+        Bukod dito, natutunan mong pahalagahan ang kaligtasan ng bawat isa sa pamamagitan ng pagsunod sa mga paalala ng kinauukulan at pananatili sa evacuation center hangga’t hindi pa ligtas. Ang mga aral na ito ay makatutulong upang maging responsable at handa ka sa panahon ng sakuna.
+
     </div>
 
-    <div class="text-center mt-3 d-none" id="nextActivity">
-        <a href="{{ route('flood.activity') }}" class="btn btn-success btn-lg">
-            👉 Susunod na Activity (Pagbaha)
+    <div class="text-center mt-4 d-none" id="nextActivity">
+        <a href="{{ route('flood.activity') }}" class="next-btn">
+            👉 SUSUNOD NA ARALIN (PAGBAHA)
         </a>
     </div>
 
@@ -240,10 +280,8 @@
             const isSelected = card.classList.contains('selected');
             const answer = card.dataset.answer;
 
-            // reset animation
             card.classList.remove('correct', 'wrong');
-
-            void card.offsetWidth; // 🔥 force reflow (important for animation replay)
+            void card.offsetWidth; 
 
             if (isSelected && answer === "correct") {
                 card.classList.add('correct');
@@ -259,23 +297,16 @@
 
         if (allCorrect) {
             document.getElementById('feedback').classList.remove('d-none');
-
-            // show next activity button
             document.getElementById('nextActivity').classList.remove('d-none');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        } else {
+            alert("May kulang o maling napili. Subukan muli!");
         }
     }
 
-    // CLICK TO TOGGLE SELECTION
     document.querySelectorAll('.image-card').forEach(card => {
         card.addEventListener('click', () => {
-
             card.classList.toggle('selected');
-
-            // small bounce effect
-            card.style.transform = "scale(0.95)";
-            setTimeout(() => {
-                card.style.transform = "";
-            }, 100);
         });
     });
 </script>

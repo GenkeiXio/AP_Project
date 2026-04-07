@@ -1,561 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
 <meta charset="UTF-8">
-<title>Gabay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabay sa Kaligtasan: Araling Panlipunan Activity</title>
 
 <style>
-    /* FULLSCREEN BACKGROUND */
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
+    :root {
+        --papel: #f4e4bc;
+        --kahoy: #5d4037;
+        --asul: #0038a8;
+        --pula: #ce1126;
+        --ginto: #fcd116;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow: hidden;
-
-        background: url("{{ asset('pictures/Module 3/Gabay/gabay_bg.png') }}") no-repeat center center;
-        background-size: cover;
-
-        font-family: Arial, sans-serif;
+        margin: 0; padding: 0;
+        height: 100vh; overflow: hidden;
+        font-family: 'Lora', serif;
+        background-color: #2c1e1a;
+        background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
+        display: flex; flex-direction: column; align-items: center;
     }
 
-    /* GRAY OVERLAY */
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-
-        background: rgba(0, 0, 0, 0.25); /* 🔥 adjust darkness here */
-
-        z-index: 0;
+    /* HEADER */
+    .ap-header {
+        width: 100%; background: var(--kahoy);
+        padding: 15px 0; text-align: center;
+        border-bottom: 5px solid var(--ginto);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 10;
     }
 
-    /* CENTER CONTENT */
-    .main-container {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        z-index: 1;
+    .ap-header h1 {
+        font-family: 'Cinzel', serif; color: var(--ginto);
+        margin: 0; font-size: 28px; letter-spacing: 2px;
+        text-shadow: 2px 2px 0px black;
     }
 
-    /* GLASS CARD */
-    .card {
-        width: 90%;
-        max-width: 800px;
-
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 20px;
-        padding: 30px;
-
-        text-align: center;
-
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    /* GAME GRID */
+    .map-container {
+        flex: 1; width: 98%; max-width: 1400px;
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 15px; padding: 15px; margin-bottom: 240px;
     }
 
-    /* TITLE */
-    h1 {
-        margin-bottom: 10px;
+    .scroll-box {
+        background: var(--papel);
+        background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+        border: 12px solid transparent;
+        border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png') 30 stretch;
+        display: flex; flex-direction: column;
+        box-shadow: 10px 10px 20px rgba(0,0,0,0.6);
     }
 
-    /* TEXT */
-    p {
-        font-size: 18px;
-        line-height: 1.6;
+    .scroll-title {
+        background: var(--kahoy); color: var(--papel);
+        padding: 10px; text-align: center; font-weight: bold;
+        font-size: 16px; border-bottom: 2px solid var(--ginto);
+        font-family: 'Cinzel', serif;
     }
 
-    /* BUTTON */
-    .btn {
-        margin-top: 20px;
-        padding: 12px 25px;
-        border: none;
-        background: #0d6efd;
-        color: white;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: 0.2s;
+    .drop-zone {
+        flex: 1; padding: 10px;
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+        gap: 12px; justify-content: center; align-content: flex-start;
     }
 
-    .btn:hover {
-        background: #0b5ed7;
-        transform: scale(1.05);
+    /* INVENTORY - BIG CARDS */
+    .inventory-shelf {
+        position: fixed; bottom: 15px;
+        width: 95%; height: 210px;
+        background: rgba(0,0,0,0.85);
+        border: 3px solid var(--ginto); border-radius: 15px;
+        display: flex; align-items: center; gap: 20px;
+        padding: 0 30px; overflow-x: auto; z-index: 100;
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
     }
 
-    /* TABLE POSITION (ALIGNED TO IMAGE BOXES) */
-    .table-overlay {
-        position: absolute;
-        top: 30%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
+    .larawan-card {
+        min-width: 180px; height: 180px;
+        background: white; border: 5px solid white;
+        cursor: grab; transition: 0.3s;
+        object-fit: contain;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
 
-    /* TABLE */
-    .gabay-table {
-        width: 70%;
-        border-collapse: separate;
-        border-spacing: 20px;
+    .larawan-card:hover {
+        transform: scale(1.1) translateY(-10px);
+        z-index: 105; border-color: var(--ginto);
     }
 
-    /* HEADERS */
-    .gabay-table th {
-        color: white;
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 16px;
+    /* PLACED IMAGES */
+    .placed-img {
+        width: 110px; height: 110px;
+        object-fit: contain; background: white;
+        border: 4px solid white; border-radius: 5px;
+        animation: sealPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* COLOR CODING */
-    .before {
-        background: #f57c00; /* orange */
+    @keyframes sealPop {
+        0% { transform: scale(0); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
     }
 
-    .during {
-        background: #1565c0; /* blue */
+    .tama { border-color: var(--asul); }
+    .mali { border-color: var(--pula); }
+
+    /* MODAL STYLES */
+    .overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.9); backdrop-filter: blur(8px);
+        display: flex; justify-content: center; align-items: center; z-index: 2000;
     }
 
-    .after {
-        background: #2e7d32; /* green */
+    .document-card {
+        background: var(--papel); background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+        padding: 40px; border: 15px double var(--kahoy);
+        width: 90%; max-width: 550px; text-align: center; color: var(--kahoy);
+        box-shadow: 0 0 50px rgba(0,0,0,0.8);
     }
 
-    /* CELLS */
-    .gabay-table td {
-        background: rgba(255,255,255,0.9);
-        border-radius: 10px;
-        padding: 10px;
-        font-size: 14px;
-        text-align: left;
-        vertical-align: top;
-
-        height: 120px; /* matches box height */
+    .score-circle {
+        width: 130px; height: 130px; border: 6px solid var(--kahoy);
+        border-radius: 50%; margin: 20px auto;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        background: rgba(255,255,255,0.4);
     }
 
-    /* ITEMS */
-    .items {
-        position: absolute;
-        bottom: 15px;
-        width: 100%;
-
-        display: flex;
-        justify-content: flex-start;
-        gap: 30px;
-
-        overflow-x: auto;
-        padding: 20px 60px;
-
-        z-index: 2;
+    .btn-custom {
+        background: var(--kahoy); color: var(--ginto);
+        border: none; padding: 15px 35px;
+        font-family: 'Cinzel', serif; font-size: 18px;
+        cursor: pointer; transition: 0.3s; margin-top: 15px;
     }
 
-    .item {
-        width: 220px;   /* 🔥 BIG */
-        height: 180px;
+    .btn-custom:hover { background: #3e2723; transform: scale(1.05); }
 
-        object-fit: contain; /* no crop */
-        background: white;
-
-        border-radius: 18px;
-        padding: 12px;
-
-        cursor: grab;
-        transition: 0.25s;
-
-        box-shadow: 0 10px 20px rgba(0,0,0,0.35);
-    }
-
-    /* HOVER EFFECT */
-    .item:hover {
-        transform: scale(1.2);
-        z-index: 5;
-    }
-
-    /* DRAG STATE */
-    .item.dragging {
-        opacity: 0.5;
-        transform: scale(1.1);
-    }
-
-    .items::-webkit-scrollbar {
-        height: 8px;
-    }
-
-    .items::-webkit-scrollbar-thumb {
-        background: rgba(0,0,0,0.3);
-        border-radius: 10px;
-    }
-
-    /* COLUMNS */
-    .column-header {
-        color: white;
-        padding: 12px;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .columns {
-        position: absolute;
-        top: 16%;
-        width: 80%;
-        display: flex;
-        gap: 25px;
-        justify-content: center;
-    }
-
-    .column {
-        flex: 1;
-        height: 350px;
-        border-radius: 20px;
-        background: rgba(255,255,255,0.9);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        transition: 0.3s;
-    }
-
-    .column h3 {
-        color: white;
-        padding: 8px;
-        border-radius: 10px;
-    }
-
-    /* COLORS */
-    .column.before .column-header { background: #f57c00; }
-    .column.during .column-header { background: #1565c0; }
-    .column.after .column-header { background: #2e7d32; }
-
-    .column.before h3 { background: #f57c00; }
-    .column.during h3 { background: #1565c0; }
-    .column.after h3 { background: #2e7d32; }
-
-    /* DROP EFFECT */
-    .column.hovered {
-        transform: scale(1.05);
-        background: rgba(255,255,255,1);
-    }
-
-    /* DROP AREA */
-    .drop-area {
-        flex: 1;
-        padding: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        align-content: flex-start;
-        gap: 8px;
-    }
-
-    /* DROPPED ITEMS */
-    .dropped {
-        width: 100px;
-        height: 100px;
-        object-fit: contain; /* ✅ FIXED */
-        border-radius: 10px;
-        background: white;
-    }
-
-    .correct {
-        border: 3px solid green;
-    }
-
-    .wrong {
-        border: 3px solid red;
-    }
-
-    /* HEADER TITLE */
-    .header-title {
-        position: absolute;
-        top: 3%;
-        width: 100%;
-        text-align: center;
-
-        font-size: 52px;
-        font-weight: 900;
-
-        background: linear-gradient(to bottom, #ff9800, #e65100);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-
-        text-shadow:
-            2px 2px 0 #fff,
-            4px 4px 10px rgba(0,0,0,0.4);
-
-        z-index: 2;
-    }
-
-    .finish-panel {
-        position: fixed;
-        right: 20px;
-        bottom: 20px;
-        z-index: 30;
-        background: rgba(255,255,255,0.95);
-        border-radius: 14px;
-        padding: 12px;
-        box-shadow: 0 10px 24px rgba(0,0,0,0.25);
-        display: none;
-        min-width: 260px;
-    }
-
-    .finish-panel p {
-        margin: 0 0 10px;
-        font-size: 14px;
-        text-align: left;
-    }
-
-    .finish-btn {
-        width: 100%;
-        border: none;
-        border-radius: 10px;
-        background: #1565c0;
-        color: #fff;
-        padding: 10px 12px;
-        font-weight: 700;
-        cursor: pointer;
-    }
+    .inventory-shelf::-webkit-scrollbar { height: 8px; }
+    .inventory-shelf::-webkit-scrollbar-thumb { background: var(--ginto); border-radius: 10px; }
 </style>
-
 </head>
 <body>
-    <div class="main-container">
 
-        <!-- INSTRUCTION MODAL -->
-        <div id="instructionModal" style="
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        ">
-
-            <div style="
-                background: white;
-                width: 90%;
-                max-width: 600px;
-                padding: 30px;
-                border-radius: 20px;
-                text-align: center;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            ">
-                <h2>📘 Panuto</h2>
-
-                <p style="font-size:16px; line-height:1.6;">
-                    Ayusin ang mga larawan sa tamang kategorya:
-                    <br><br>
-                    <b>Bago ang Bagyo</b>, <b>Habang may Bagyo</b>, at <b>Pagkatapos ng Bagyo</b>.
-                    <br><br>
-                    I-drag ang bawat larawan papunta sa tamang kahon.
-                    <br><br>
-                    ✔️ Kapag tama, magiging <span style="color:green;">berde</span><br>
-                    ❌ Kapag mali, magiging <span style="color:red;">pula</span>
-                </p>
-
-                <button id="startBtn" class="btn">Simulan</button>
-            </div>
-        </div>
-
-        <!-- HEADER TITLE -->
-        <div class="header-title">
-            Mga Gabay sa Panahon ng Bagyo
-        </div>
-
-        <!-- DROP ZONES -->
-        <div class="columns">
-
-            <div class="column before" data-zone="before">
-                <div class="column-header">Bago ang Bagyo</div>
-                <div class="drop-area"></div>
-            </div>
-
-            <div class="column during" data-zone="during">
-                <div class="column-header">Habang may Bagyo</div>
-                <div class="drop-area"></div>
-            </div>
-
-            <div class="column after" data-zone="after">
-                <div class="column-header">Pagkatapos ng Bagyo</div>
-                <div class="drop-area"></div>
-            </div>
-
-        </div>
-
-        <!-- IMAGE ITEMS (BOTTOM INVENTORY STYLE) -->
-        <div class="items">
-            <img src="{{ asset('pictures\Module 3\Gabay\before1.jpg') }}" class="item" draggable="true" data-target="before">
-            <img src="{{ asset('pictures\Module 3\Gabay\before2.jpg') }}" class="item" draggable="true" data-target="before">
-            <img src="{{ asset('pictures\Module 3\Gabay\before3.jpg') }}" class="item" draggable="true" data-target="before">
-            <img src="{{ asset('pictures\Module 3\Gabay\before4.jpg') }}" class="item" draggable="true" data-target="before">
-
-            <img src="{{ asset('pictures\Module 3\Gabay\during1.jpg') }}" class="item" draggable="true" data-target="during">
-            <img src="{{ asset('pictures\Module 3\Gabay\during2.jpg') }}" class="item" draggable="true" data-target="during">
-            <img src="{{ asset('pictures\Module 3\Gabay\during3.jpg') }}" class="item" draggable="true" data-target="during">
-            <img src="{{ asset('pictures\Module 3\Gabay\during4.jpg') }}" class="item" draggable="true" data-target="during">
-
-            <img src="{{ asset('pictures\Module 3\Gabay\after1.jpg') }}" class="item" draggable="true" data-target="after">
-            <img src="{{ asset('pictures\Module 3\Gabay\after2.png') }}" class="item" draggable="true" data-target="after">
-            <img src="{{ asset('pictures\Module 3\Gabay\after3.jpg') }}" class="item" draggable="true" data-target="after">
-            <img src="{{ asset('pictures\Module 3\Gabay\after4.jpg') }}" class="item" draggable="true" data-target="after">
-        </div>
-
-        <!-- IMAGE PREVIEW -->
-        <div id="previewModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; justify-content:center; align-items:center;">
-            <img id="previewImg" style="max-width:90%; max-height:90%;">
-        </div>
-
-        <div id="finishPanel" class="finish-panel">
-            <p id="finishText">Tapusin ang pag-aayos para magpatuloy.</p>
-            <button id="finishBtn" class="finish-btn" type="button">➡ Magpatuloy sa Posttest</button>
+    <div id="startOverlay" class="overlay">
+        <div class="document-card">
+            <h2 style="font-family:'Cinzel';">Sertipikasyon ng Kahandaan</h2>
+            <hr style="border: 1px solid var(--kahoy); margin: 20px 0;">
+            <p style="font-size: 20px;">
+                I-drag ang mga malalaking larawan sa tamang hanay. Tapusin ang pagsusulit upang makapunta sa susunod na aralin.
+            </p>
+            <button class="btn-custom" onclick="magsimula()">TANGGAPIN ANG HAMON</button>
         </div>
     </div>
-</body>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+    <div id="resultOverlay" class="overlay" style="display:none;">
+        <div class="document-card">
+            <h2 style="font-family:'Cinzel'; text-decoration: underline;">RESULTA NG PAGSUSULIT</h2>
+            <div class="score-circle">
+                <p style="font-size:45px; font-weight:900; margin:0;" id="finalScore">0</p>
+                <p style="font-size:12px; margin:0;">PUNTOS</p>
+            </div>
+            <div id="rankText" style="font-size: 24px; font-weight: bold; color: var(--kahoy); margin: 10px 0;">TAPOS NA!</div>
+            <p id="feedbackMessage">Naitala na ang iyong puntos sa gawaing ito.</p>
+            
+            <button class="btn-custom" onclick="window.location.href = '{{ route('el-nino.activity') }}'">
+                MAGPATULOY SA EL NIÑO
+            </button>
+        </div>
+    </div>
 
-    let draggedItem = null;
-    let droppedCount = 0;
-    let correctCount = 0;
-    const totalItems = document.querySelectorAll('.item').length;
+    <div class="ap-header">
+        <h1>GABAY SA PANAHON NG BAGYO</h1>
+    </div>
 
-    /* =========================
-       🔀 SHUFFLE ITEMS
-    ========================= */
-    function shuffleItems() {
-        const container = document.querySelector('.items');
-        const items = Array.from(container.children);
+    <div class="map-container">
+        <div class="scroll-box" data-yugto="bago">
+            <div class="scroll-title">I. BAGO ANG BAGYO</div>
+            <div class="drop-zone"></div>
+        </div>
+        <div class="scroll-box" data-yugto="habang">
+            <div class="scroll-title">II. HABANG MAY BAGYO</div>
+            <div class="drop-zone"></div>
+        </div>
+        <div class="scroll-box" data-yugto="tapos">
+            <div class="scroll-title">III. PAGKATAPOS NG BAGYO</div>
+            <div class="drop-zone"></div>
+        </div>
+    </div>
 
-        for (let i = items.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [items[i], items[j]] = [items[j], items[i]];
+    <div class="inventory-shelf" id="shelf">
+        <img src="{{ asset('pictures/Module 3/Gabay/before1.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
+        <img src="{{ asset('pictures/Module 3/Gabay/before2.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
+        <img src="{{ asset('pictures/Module 3/Gabay/before3.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
+        <img src="{{ asset('pictures/Module 3/Gabay/before4.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
+
+        <img src="{{ asset('pictures/Module 3/Gabay/during1.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
+        <img src="{{ asset('pictures/Module 3/Gabay/during2.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
+        <img src="{{ asset('pictures/Module 3/Gabay/during3.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
+        <img src="{{ asset('pictures/Module 3/Gabay/during4.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
+
+        <img src="{{ asset('pictures/Module 3/Gabay/after1.jpg') }}" class="larawan-card" draggable="true" data-target="tapos">
+        <img src="{{ asset('pictures/Module 3/Gabay/after2.png') }}" class="larawan-card" draggable="true" data-target="tapos">
+        <img src="{{ asset('pictures/Module 3/Gabay/after3.jpg') }}" class="larawan-card" draggable="true" data-target="tapos">
+        <img src="{{ asset('pictures/Module 3/Gabay/after4.jpg') }}" class="larawan-card" draggable="true" data-target="tapos">
+    </div>
+
+    <script>
+        let draggedImg = null;
+        let score = 0;
+        let droppedCount = 0;
+
+        function magsimula() {
+            document.getElementById('startOverlay').style.display = 'none';
+            shuffleShelf();
         }
 
-        items.forEach(item => container.appendChild(item));
-    }
+        function shuffleShelf() {
+            const shelf = document.getElementById('shelf');
+            for (let i = shelf.children.length; i >= 0; i--) {
+                shelf.appendChild(shelf.children[Math.random() * i | 0]);
+            }
+        }
 
-    shuffleItems();
-
-
-    /* =========================
-       🚫 DISABLE SCROLL BEFORE START
-    ========================= */
-    document.body.style.overflow = "hidden";
-
-
-    /* =========================
-       ▶️ START BUTTON (MODAL)
-    ========================= */
-    const startBtn = document.getElementById('startBtn');
-    if (startBtn) {
-        startBtn.addEventListener('click', function () {
-            document.getElementById('instructionModal').style.display = 'none';
-            document.body.style.overflow = "auto";
-        });
-    }
-
-
-    /* =========================
-       🖱 DRAG & DROP ITEMS
-    ========================= */
-    document.querySelectorAll('.item').forEach(item => {
-
-        item.addEventListener('dragstart', () => {
-            draggedItem = item;
-            item.classList.add('dragging');
+        document.querySelectorAll('.larawan-card').forEach(card => {
+            card.addEventListener('dragstart', (e) => {
+                draggedImg = e.target;
+                e.target.style.opacity = "0.4";
+            });
+            card.addEventListener('dragend', (e) => {
+                e.target.style.opacity = "1";
+            });
         });
 
-        item.addEventListener('dragend', () => {
-            item.classList.remove('dragging');
+        document.querySelectorAll('.scroll-box').forEach(box => {
+            box.addEventListener('dragover', e => e.preventDefault());
+            box.addEventListener('drop', () => {
+                if (!draggedImg) return;
+
+                const zone = box.dataset.yugto;
+                const correct = draggedImg.dataset.target;
+                
+                const mini = document.createElement('img');
+                mini.src = draggedImg.src;
+                mini.className = 'placed-img ' + (zone === correct ? 'tama' : 'mali');
+
+                if (zone === correct) score++;
+
+                box.querySelector('.drop-zone').appendChild(mini);
+                draggedImg.remove();
+                draggedImg = null;
+                droppedCount++;
+
+                // Kapag nalagay na lahat ng 12 images
+                if (droppedCount === 12) ipakitaResulta();
+            });
         });
 
-        // CLICK TO ZOOM
-        item.addEventListener('click', function () {
-            document.getElementById('previewImg').src = this.src;
-            document.getElementById('previewModal').style.display = 'flex';
-        });
-
-    });
-
-
-    /* =========================
-       📦 DROP ZONES
-    ========================= */
-    document.querySelectorAll('.column').forEach(column => {
-
-        column.addEventListener('dragover', e => {
-            e.preventDefault();
-            column.classList.add('hovered');
-        });
-
-        column.addEventListener('dragleave', () => {
-            column.classList.remove('hovered');
-        });
-
-        column.addEventListener('drop', () => {
-            column.classList.remove('hovered');
-
-            if (!draggedItem) return;
-
-            let correctZone = draggedItem.dataset.target;
-            let dropZone = column.dataset.zone;
-
-            let newItem = draggedItem.cloneNode(true);
-            newItem.classList.remove('item');
-            newItem.classList.add('dropped');
-
-            if (correctZone === dropZone) {
-                newItem.classList.add('correct');
-                correctCount++;
+        function ipakitaResulta() {
+            const resOverlay = document.getElementById('resultOverlay');
+            document.getElementById('finalScore').innerText = score;
+            resOverlay.style.display = 'flex';
+            
+            // Optional: Iba-ibang message base sa score pero isa lang ang button
+            const msg = document.getElementById('feedbackMessage');
+            if (score >= 9) {
+                msg.innerText = "Napakahusay! Matagumpay mong natapos ang hamon.";
             } else {
-                newItem.classList.add('wrong');
+                msg.innerText = "Naitala na ang iyong puntos. Maaari nang tumuloy sa susunod na aralin.";
             }
-
-            column.querySelector('.drop-area').appendChild(newItem);
-            draggedItem.remove();
-            droppedCount++;
-
-            if (droppedCount >= totalItems) {
-                const finishPanel = document.getElementById('finishPanel');
-                const finishText = document.getElementById('finishText');
-                const pass = correctCount >= Math.ceil(totalItems * 0.7);
-
-                if (pass) {
-                    finishText.textContent = `Magaling! Tama ang ${correctCount}/${totalItems}. Maaari ka nang mag-posttest.`;
-                    sessionStorage.setItem('m3_activity_gabay_done', 'true');
-                } else {
-                    finishText.textContent = `Nakuha mo ang ${correctCount}/${totalItems}. Subukan muli para sa mas mataas na score, o magpatuloy kung handa ka na.`;
-                }
-
-                finishPanel.style.display = 'block';
-            }
-        });
-
-    });
-
-    const finishBtn = document.getElementById('finishBtn');
-    if (finishBtn) {
-        finishBtn.addEventListener('click', () => {
-            window.location.href = "{{ route('module3.posttest') }}";
-        });
-    }
-
-
-    /* =========================
-       🔍 IMAGE PREVIEW MODAL
-    ========================= */
-    const previewModal = document.getElementById('previewModal');
-
-    if (previewModal) {
-        previewModal.addEventListener('click', function () {
-            this.style.display = 'none';
-        });
-    }
-
-});
-</script>
+        }
+    </script>
+</body>
 </html>

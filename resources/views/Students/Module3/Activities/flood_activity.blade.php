@@ -1,238 +1,304 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
-<meta charset="UTF-8">
-<title>Flood Activity</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Survival Challenge</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700;800&display=swap" rel="stylesheet">
 
-<style>
-body {
-    background: #f4f7fb;
-    font-family: Arial;
-}
+    <style>
+        :root {
+            --deep-water: #003973;
+            --safety-yellow: #ffcc00;
+            --hp-green: #2ecc71;
+            --danger-red: #e74c3c;
+        }
 
-.container {
-    max-width: 1000px;
-}
+        body {
+            background: linear-gradient(180deg, #1a1a1d 0%, #002142 100%);
+            font-family: 'Lexend', sans-serif;
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
 
-h2, p {
-    text-align: center;
-}
+        /* GAME HUD */
+        .game-hud {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px 0;
+            border-bottom: 4px solid var(--safety-yellow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-.statement-card {
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    transition: 0.3s;
-}
+        .hp-bar-container {
+            width: 100%;
+            height: 25px;
+            background: #333;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #fff;
+        }
 
-.buttons {
-    margin-top: 10px;
-    text-align: center;
-}
+        #hp-fill {
+            width: 100%;
+            height: 100%;
+            background: var(--hp-green);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-.btn-choice {
-    margin: 5px;
-    width: 130px;
-}
+        .game-stage {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
 
-.btn-lg {
-    width: 180px;
-    font-size: 18px;
-}
+        .mission-header h1 {
+            font-family: 'Bungee';
+            font-size: 2.2rem;
+            color: var(--safety-yellow);
+            text-align: center;
+            text-shadow: 3px 3px 0px #000;
+        }
 
-/* Correct animation */
-.correct {
-    border: 4px solid #28a745;
-    animation: pulse 0.5s;
-}
+        .briefing-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 6px solid var(--safety-yellow);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
 
-/* Wrong animation */
-.wrong {
-    border: 4px solid #dc3545;
-    animation: shake 0.4s;
-}
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(40,167,69,0.7); }
-    100% { box-shadow: 0 0 0 15px rgba(40,167,69,0); }
-}
+        /* VIDEO SECTION */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
 
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    50% { transform: translateX(6px); }
-    75% { transform: translateX(-6px); }
-    100% { transform: translateX(0); }
-}
+        .video-wrapper {
+            background: #000;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-#feedback {
-    display: none;
-}
+        iframe { width: 100%; height: 250px; border-radius: 12px; }
 
-.video-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
+        /* QUEST CARD */
+        .quest-card {
+            background: #ffffff;
+            color: #1a1a1b;
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 15px 0px var(--deep-water);
+            position: relative;
+        }
 
-.video-card {
-    background: white;
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-}
+        .action-btn {
+            border: none;
+            border-radius: 20px;
+            padding: 25px;
+            font-family: 'Bungee', cursive;
+            font-size: 1.5rem;
+            width: 100%;
+            transition: 0.2s;
+            color: white;
+        }
 
-.video-card iframe {
-    width: 100%;
-    height: 220px;
-    border-radius: 10px;
-}
-</style>
+        .btn-safe { background: #27ae60; box-shadow: 0 8px 0 #1e8449; }
+        .btn-danger { background: #c0392b; box-shadow: 0 8px 0 #922b21; }
+
+        .action-btn:active { transform: translateY(6px); box-shadow: 0 2px 0 #000; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+        }
+        .damage-shake { animation: shake 0.4s ease-in-out; }
+
+        #result-screen {
+            display: none;
+            background: white;
+            color: #1a1a1b;
+            border-radius: 40px;
+            padding: 60px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container py-4">
+<div class="game-hud">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <span style="font-family: 'Bungee'; color: var(--safety-yellow);">HP</span>
+            <div class="hp-bar-container" style="width: 200px;">
+                <div id="hp-fill"></div>
+            </div>
+        </div>
+        <div style="font-family: 'Bungee';">SCORE: <span id="game-score" class="text-warning">0</span></div>
+    </div>
+</div>
 
-<h2 class="fw-bold">E. Mga Dapat Gawin sa Banta ng Pagbaha at Flash Flood</h2>
+<div class="game-stage">
+    <div id="game-play">
+        <div class="mission-header">
+            <h1>Mga Dapat Gawin sa Banta ng Pagbaha</h1>
+        </div>
 
-<p><strong>Guiding Question:</strong> Ano ang maaaring mangyari kung hindi susundin ang safety measures?</p>
+        <div class="briefing-box">
+            <h6 class="text-warning fw-bold mb-1">GUIDING QUESTION:</h6>
+            <p class="m-0 fs-5">Ano ang maaaring mangyari kung hindi susundin ang safety measures?</p>
+        </div>
 
-<!-- Video Section -->
-<div class="video-section mb-4">
+        <div class="video-grid">
+            <div class="video-wrapper">
+                <p class="text-center small mb-2 text-white-50">Ano ang Pagbaha at Flashflood?</p>
+                <iframe src="https://www.youtube.com/embed/9hQZCiZ21fk" allowfullscreen></iframe>
+            </div>
+            <div class="video-wrapper">
+                <p class="text-center small mb-2 text-white-50">Safety Guide tuwing Pagbaha</p>
+                <iframe src="https://www.youtube.com/embed/AoraXNrMp48" allowfullscreen></iframe>
+            </div>
+        </div>
 
-    <div class="video-card">
-        <p><strong>Ano ang Pagbaha at Flashflood?</strong><br>Panoorin ang video presentation.</p>
-        <iframe src="https://www.youtube.com/embed/9hQZCiZ21fk" allowfullscreen></iframe>
+        <div class="quest-card" id="card">
+            <div class="mb-3 text-muted small">MISSION PROGRESS: <span id="q-num">1</span> / 19</div>
+            <h4 id="question-text" class="fw-bold mb-4">Loading mission...</h4>
+
+            <div class="row g-4 mt-2">
+                <div class="col-md-6"><button class="action-btn btn-safe" onclick="processAnswer('safe')">✅ LIGTAS</button></div>
+                <div class="col-md-6"><button class="action-btn btn-danger" onclick="processAnswer('danger')">❌ DELIKADO</button></div>
+            </div>
+        </div>
     </div>
 
-    <div class="video-card">
-        <p><strong>Ano ang dapat na gawin tuwing may pagbabaha?</strong><br>Panoorin ang video.</p>
-        <iframe src="https://www.youtube.com/embed/AoraXNrMp48" allowfullscreen></iframe>
+    <div id="result-screen">
+        <h1 style="font-family: 'Bungee'; color: var(--deep-water);">MISSION COMPLETE!</h1>
+        <div class="display-1 fw-bold my-4" id="final-score" style="color: #27ae60;">0</div>
+        <p class="fs-4">Magaling! Natapos mo ang gawain!</p>
+        <p class="fs-5">Sa activity na ito, natutunan mo kung alin ang mga ligtas at delikadong gawain sa panahon ng baha at bagyo. Mahalaga ang pagiging handa, maingat, at pagsunod sa tamang hakbang upang mapanatiling ligtas ang sarili at pamilya.
+Tandaan: Ang tamang kaalaman ay susi sa kaligtasan! 🌧️</p>
+        <a href="{{ route('module3.closing') }}" class="btn btn-dark btn-lg px-5 py-3 rounded-pill fw-bold mt-3">TAPUSIN ANG MODULE</a>
     </div>
-
-</div>
-
-<p><strong>Panuto:</strong> Piliin kung ang gawain ay LIGTAS o DELIKADO.</p>
-
-<div id="quiz"></div>
-
-<div class="text-center mt-4">
-    <button class="btn btn-primary" onclick="checkAnswers()">Submit</button>
-</div>
-
-<div id="feedback" class="alert alert-success mt-4">
-    🎉 <strong>Magaling!</strong> Natutunan mo ang mga ligtas at delikadong gawain sa panahon ng baha.
-</div>
-
 </div>
 
 <script>
-    const data = [
-    { text:"Maging handa sa posibilidad na pagbaha kung patuloy ang pag-ulan.", answer:"safe"},
-    { text:"Makinig sa radyo o TV para sa emergency instructions.", answer:"safe"},
-    { text:"Hindi na kailangang mag-imbak ng tubig kahit may bagyo.", answer:"danger"},
-    { text:"Mag-imbak ng malinis na tubig.", answer:"safe"},
-    { text:"Ilagay ang gamit sa mababang bahagi.", answer:"danger"},
-    { text:"Ilagay ang gamit sa mataas na bahagi.", answer:"safe"},
-    { text:"Dalhin ang alagang hayop sa mataas na lugar.", answer:"safe"},
-    { text:"Iwan ang alagang hayop sa labas.", answer:"danger"},
-    { text:"Manatili sa loob ng bahay.", answer:"safe"},
-    { text:"Lumabas habang may bagyo.", answer:"danger"},
-    { text:"Patayin ang kuryente bago lumikas.", answer:"safe"},
-    { text:"Maghintay bago lumikas.", answer:"danger"},
-    { text:"Iwasan ang baha na hindi alam ang lalim.", answer:"safe"},
-    { text:"Tumawid sa baha kahit di alam lalim.", answer:"danger"},
-    { text:"Huwag pilitin ang sasakyan sa baha.", answer:"safe"},
-    { text:"Pakuluan ang tubig.", answer:"safe"},
-    { text:"Huwag pakuluan ang tubig.", answer:"danger"},
-    { text:"Siguraduhing walang live wire.", answer:"safe"},
-    { text:"Ipakita sa elektrisyan ang kuryente.", answer:"safe"},
+    // --- SOUND ENGINE ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+            oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.1); 
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        } else {
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(150, audioCtx.currentTime); 
+            oscillator.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+            
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sawtooth';
+            osc2.frequency.setValueAtTime(150, audioCtx.currentTime + 0.15);
+            osc2.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.25);
+            
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
+            gain2.gain.setValueAtTime(0.1, audioCtx.currentTime + 0.15);
+            gain2.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1);
+            osc2.start(audioCtx.currentTime + 0.15);
+            osc2.stop(audioCtx.currentTime + 0.25);
+        }
+    }
+
+    // --- GAME LOGIC ---
+    const quizData = [
+        { t: "Maging handa sa posibilidad na pagbaha kung patuloy ang pag-ulan.", a: "safe" },
+        { t: "Makinig sa radyo o TV para sa emergency instructions.", a: "safe" },
+        { t: "Hindi na kailangang mag-imbak ng tubig kahit may bagyo.", a: "danger" },
+        { t: "Mag-imbak ng malinis na tubig.", a: "safe" },
+        { t: "Ilagay ang gamit sa mababang bahagi ng bahay.", a: "danger" },
+        { t: "Ilagay ang gamit sa mataas na bahagi ng bahay.", a: "safe" },
+        { t: "Dalhin ang alagang hayop sa mataas na lugar.", a: "safe" },
+        { t: "Iwan ang alagang hayop sa labas.", a: "danger" },
+        { t: "Manatili sa loob ng bahay.", a: "safe" },
+        { t: "Lumabas habang may bagyo.", a: "danger" },
+        { t: "Patayin ang kuryente bago lumikas.", a: "safe" },
+        { t: "Maghintay bago lumikas hanggang pumasok ang tubig.", a: "danger" },
+        { t: "Iwasan ang baha na hindi alam ang lalim.", a: "safe" },
+        { t: "Tumawid sa baha kahit di alam ang lalim.", a: "danger" },
+        { t: "Huwag pilitin ang sasakyan sa baha.", a: "safe" },
+        { t: "Pakuluan ang tubig bago inumin.", a: "safe" },
+        { t: "Huwag pakuluan ang tubig, okay lang yan.", a: "danger" },
+        { t: "Siguraduhing walang live wire sa paligid.", a: "safe" },
+        { t: "Ipakita sa elektrisyan ang kuryente bago ito muling buksan.", a: "safe" }
     ];
 
     let current = 0;
     let score = 0;
+    let hp = 100;
 
-    const quiz = document.getElementById("quiz");
-
-    function renderQuestion() {
-        const item = data[current];
-
-        quiz.innerHTML = `
-            <div class="statement-card text-center p-4">
-
-                <h5 class="mb-3">Tanong ${current+1} / ${data.length}</h5>
-
-                <p style="font-size:18px;">${item.text}</p>
-
-                <div class="buttons mt-3">
-                    <button class="btn btn-success btn-lg m-2"
-                        onclick="answer('safe')">✅ LIGTAS</button>
-
-                    <button class="btn btn-danger btn-lg m-2"
-                        onclick="answer('danger')">❌ DELIKADO</button>
-                </div>
-
-                <div id="nextBtn" class="mt-3 d-none">
-                    <button class="btn btn-primary" onclick="nextQuestion()">Next ➡</button>
-                </div>
-
-            </div>
-        `;
-    }
-
-    function answer(choice){
-        const item = data[current];
-        const card = document.querySelector('.statement-card');
-
-        // disable buttons after answer
-        document.querySelectorAll('.btn-success, .btn-danger').forEach(btn => btn.disabled = true);
-
-        if(choice === item.answer){
-            card.classList.add('correct');
-            score++;
-        } else {
-            card.classList.add('wrong');
+    function refreshUI() {
+        if (current >= quizData.length) {
+            document.getElementById('game-play').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            return;
         }
-
-        // show next button
-        document.getElementById('nextBtn').classList.remove('d-none');
+        document.getElementById('q-num').innerText = current + 1;
+        document.getElementById('question-text').innerText = quizData[current].t;
+        document.getElementById('card').classList.remove('damage-shake');
     }
 
-    function nextQuestion(){
+    function processAnswer(choice) {
+        if (choice === quizData[current].a) {
+            score += 1; // FIXED: Changed from 10 to 1
+            document.getElementById('game-score').innerText = score;
+            playSound('correct');
+        } else {
+            hp -= 20;
+            document.getElementById('hp-fill').style.width = hp + "%";
+            document.getElementById('card').classList.add('damage-shake');
+            playSound('wrong');
+            if (hp <= 0) { 
+                alert("GAME OVER! Naubos ang iyong HP. Subukan muli."); 
+                location.reload(); 
+                return;
+            }
+        }
         current++;
-
-        if(current < data.length){
-            renderQuestion();
-        } else {
-            showResult();
-        }
+        setTimeout(refreshUI, 400);
     }
 
-    function showResult(){
-        quiz.innerHTML = `
-            <div class="text-center p-4">
-
-                <h3>🎉 Natapos mo ang Activity!</h3>
-
-                <p class="mt-3">Score: <strong>${score} / ${data.length}</strong></p>
-
-                <div class="alert alert-success mt-3">
-                    Mahusay! Natutunan mo kung alin ang ligtas at delikadong gawain sa panahon ng baha.
-                </div>
-
-                <a href="{{ route('module3.closing') }}" class="btn btn-success btn-lg mt-3">
-                    👉 Tapusin ang Module
-                </a>
-
-            </div>
-        `;
-    }
-
-    // start
-    renderQuestion();
+    refreshUI();
 </script>
 
 </body>
