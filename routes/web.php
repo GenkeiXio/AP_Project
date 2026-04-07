@@ -13,7 +13,6 @@ use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
-use App\Http\Controllers\EssayController;
 use App\Http\Controllers\Student\Pretest\Module2PretestController;
 use App\Http\Controllers\Student\Module2\Module2_Node1Controller;
 use App\Http\Controllers\Student\Module2\Module2_Node2Controller;
@@ -87,8 +86,13 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::delete('/quizzes/{quiz}',                      [QuizController::class, 'destroy'])->name('quizzes.destroy');
     Route::get('/analytics',                              [TeacherAnalyticsController::class, 'index'])->name('analytics');
     Route::get('/analytics/export',                       [TeacherAnalyticsController::class, 'export'])->name('analytics.export');
+
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
+
+Route::get('/results', function () {
+    return view('teachers.results.results');
+})->name('teacher.results.results');
 
 Route::get('/narration', function () {
     return view('narration');
@@ -225,6 +229,7 @@ Route::get('/module3/node3', function () {
     return view('Students.Module3.Nodes.mod3_node3');
 })->name('module3.node3');
 
+Route::view('/module4', 'Students.Module 4.Home')->name('module4.home');
 Route::get('/apply-activity', function () {
     return view('Students.Module3.Activities.apply');
 })->name('apply.activity');

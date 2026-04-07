@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>Node 3: Climate Change Quest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+
+@extends('Students.studentslayout')
+@section('title', 'Module 2 : Node 3 - Activity')
+
+@push('styles')
     <style>
         :root {
         --bg-1: #eefaf1;
@@ -38,18 +36,19 @@
             z-index: -1;
         }
 
-        html { scroll-behavior: smooth; }
+        html, body{
+            scroll-behavior:smooth;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+                radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+                radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+                linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+        }
 
-        body {
-        margin: 0;
-        font-family: "Nunito", sans-serif;
-        color: var(--text);
-        background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 48%, var(--bg-3) 100%);
-        min-height: 100vh;
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-        padding: 20px 14px 34px;
-        background: none !important;
+        body{
+            overflow-x:hidden;
+            color:var(--text);
+            font-family:'Poppins', sans-serif;
         }
 
         .page {
@@ -718,8 +717,9 @@
             .quest-card p { font-size: 0.8rem; }
         }
     </style>
-</head>
-<body>
+@endpush
+
+@section('content')
     <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
     <div class="page">
         <div class="quest-shell">
@@ -1088,5 +1088,5 @@
 
         typeLine(lines[0]);
     </script>
-</body>
-</html>
+
+@endsection
