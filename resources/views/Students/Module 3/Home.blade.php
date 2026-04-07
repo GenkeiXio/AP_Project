@@ -208,23 +208,6 @@ body{
 
 .m3-modal-close:hover{ background:#185f37; }
 
-.m3-read-indicator{
-    margin:10px 0 0;
-    padding:10px 12px;
-    border-radius:12px;
-    font-size:.92rem;
-    background:#eef8ef;
-    border:1px solid #dcecdf;
-    color:#2f5a44;
-}
-
-.m3-read-indicator.done{
-    background:#def8e3;
-    border-color:#bfe5c8;
-    color:#1d6a3e;
-    font-weight:700;
-}
-
 .m3-goals-inline{ margin-top:8px; }
 
 .m3-goal{
@@ -373,6 +356,12 @@ body{
     justify-content:flex-end;
 }
 
+.m3-goals-actions{
+    margin-top:16px;
+    display:flex;
+    justify-content:flex-end;
+}
+
 .hidden{ display:none; }
 .m3-hidden{ display:none !important; }
 
@@ -429,14 +418,10 @@ body{
                     <div>
                         <h2 class="m3-modal-title">🎯 Mga Layunin ng Aralin</h2>
                         <p class="m3-modal-sub">
-                            Basahin ang buong nilalaman. Kapag naabot mo ang dulo, awtomatikong maa-unlock ang <strong>Simulan</strong>.
+                            Basahin ang buong nilalaman, pagkatapos ay pindutin ang <strong>Naiintindihan ko</strong> para ma-unlock ang Simulan.
                         </p>
                     </div>
                     <button class="m3-modal-close" id="closeGoalsBtn" type="button">❎ Isara</button>
-                </div>
-
-                <div class="m3-read-indicator" id="readIndicator">
-                    ⬇️ I-scroll hanggang dulo para ma-mark as “Nabasa”.
                 </div>
 
                 <div class="m3-goals-inline">
@@ -473,6 +458,10 @@ body{
                             <li>Mga Paghahandang Nararapat Gawin sa Harap ng Panganib/Kalamidad</li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="m3-goals-actions">
+                    <button type="button" class="m3-btn m3-primary m3-disabled" id="goalsUnderstandBtn" disabled>✅ Naiintindihan ko</button>
                 </div>
             </div>
         </div>
@@ -546,7 +535,7 @@ const openGoalsBtn = document.getElementById('openGoalsBtn');
 const closeGoalsBtn = document.getElementById('closeGoalsBtn');
 const goalsModal = document.getElementById('goalsModal');
 const goalsScrollArea = document.getElementById('goalsScrollArea');
-const readIndicator = document.getElementById('readIndicator');
+const goalsUnderstandBtn = document.getElementById('goalsUnderstandBtn');
 
 let hasReadGoals = false;
 
@@ -559,17 +548,39 @@ function unlockStart() {
     startBtn.innerHTML = '🚀 Simulan';
 
     startNote.textContent = '✅ Nabasa mo na ang Mga Layunin. Maaari mo nang pindutin ang Simulan.';
-    readIndicator.textContent = '✅ Nabasa na ang Mga Layunin. Naka-unlock na ang Simulan.';
-    readIndicator.classList.add('done');
+}
+
+function enableUnderstandButton() {
+    if (!goalsUnderstandBtn || hasReadGoals) return;
+    goalsUnderstandBtn.disabled = false;
+    goalsUnderstandBtn.classList.remove('m3-disabled');
 }
 
 function checkReadProgress() {
     const nearBottom = goalsScrollArea.scrollTop + goalsScrollArea.clientHeight >= goalsScrollArea.scrollHeight - 24;
-    if (nearBottom) unlockStart();
+    if (nearBottom) enableUnderstandButton();
 }
 
-openGoalsBtn.addEventListener('click', () => goalsModal.classList.add('show'));
+openGoalsBtn.addEventListener('click', () => {
+    goalsModal.classList.add('show');
+
+    if (hasReadGoals) {
+        goalsUnderstandBtn.disabled = false;
+        goalsUnderstandBtn.classList.remove('m3-disabled');
+    } else {
+        goalsUnderstandBtn.disabled = true;
+        goalsUnderstandBtn.classList.add('m3-disabled');
+        setTimeout(checkReadProgress, 50);
+    }
+});
+
 closeGoalsBtn.addEventListener('click', () => goalsModal.classList.remove('show'));
+
+goalsUnderstandBtn.addEventListener('click', () => {
+    if (goalsUnderstandBtn.disabled) return;
+    unlockStart();
+    goalsModal.classList.remove('show');
+});
 
 goalsModal.addEventListener('click', (e) => {
     if (e.target === goalsModal) goalsModal.classList.remove('show');

@@ -324,7 +324,7 @@ h2 {
             img = "{{ asset('pictures/Module 3/Safe_Home/safe.png') }}";
 
             btnText = "➡️ Magpatuloy";
-            btnAction = () => window.location.href = "{{ route('gabay.page') }}";
+            btnAction = () => window.location.href = "{{ route('gabay.activity') }}";
         }
 
         document.getElementById('resultTitle').innerText = title;

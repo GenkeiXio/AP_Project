@@ -222,7 +222,7 @@ function goNode1(){
 
 function goNode2(){
     if(getDone("m3_node1")){
-        window.location.href = "{{ route('module3.next') }}";
+        window.location.href = "{{ route('module3.node2') }}";
     } else {
         alert("Tapusin muna ang Node 1!");
     }
@@ -230,7 +230,7 @@ function goNode2(){
 
 function goNode3(){
     if(getDone("m3_node2")){
-        window.location.href = "{{ route('module3.posttest') }}";
+        window.location.href = "{{ route('module3.node3') }}";
     } else {
         alert("Tapusin muna ang Node 2!");
     }
@@ -238,7 +238,7 @@ function goNode3(){
 
 function goNode4(){
     if(getDone("m3_node3")){
-        window.location.href = "{{ route('module3.home') }}";
+        window.location.href = "{{ route('apply.activity') }}";
     } else {
         alert("Tapusin muna ang Node 3!");
     }

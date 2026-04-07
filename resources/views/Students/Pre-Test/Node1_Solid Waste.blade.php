@@ -148,6 +148,36 @@
     min-height: 260px;
     }
 
+    .intro-layout {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+    }
+
+    .intro-illustration {
+    width: min(180px, 100%);
+    max-width: 220px;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));
+    justify-self: center;
+    }
+
+    .intro-narration {
+    text-align: left;
+    width: 100%;
+    }
+
+    .intro-actions {
+    justify-content: flex-start;
+    margin-top: 12px;
+    width: fit-content;
+    }
+
+    .intro-narration .actions {
+    justify-content: flex-start;
+    }
+
     .hero-main::after {
     content: "♻️";
     position: absolute;
@@ -865,6 +895,29 @@
         .hero-main {
             padding: 16px;
         }
+        .intro-layout {
+            grid-template-columns: 110px 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+        .intro-illustration {
+            width: 100%;
+            max-width: 110px;
+            justify-self: center;
+            align-self: center;
+        }
+        .intro-narration {
+            text-align: left;
+        }
+        .intro-actions {
+            justify-content: flex-end;
+            position: static;
+            bottom: auto;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            z-index: auto;
+        }
         .quest-card {
             padding: 10px 12px;
         }
@@ -873,6 +926,18 @@
         }
         .quest-card p {
             font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .intro-layout {
+            grid-template-columns: 90px 1fr;
+            gap: 10px;
+            align-items: start;
+        }
+        .intro-illustration {
+            max-width: 90px;
+            justify-self: center;
         }
     }
 </style>
@@ -890,13 +955,13 @@
         </div>
 
         <section class="hero" id="introStage">
-            <div class="hero-main" style="display:flex; flex-direction:column; align-items:center; gap:20px;">
-                <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
-                <div style="text-align:center; width:100%;">
+            <div class="hero-main intro-layout">
+                <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-illustration">
+                <div class="intro-narration">
                     <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
                     <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Gabay sa <span>Solid Waste</span></h1>
                     <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
-                    <div class="actions" style="justify-content:center; margin-top:20px;">
+                    <div class="actions intro-actions" style="margin-left:0;">
                         <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
                     </div>
                 </div>
@@ -1129,15 +1194,6 @@
         statusEl.classList.add('complete');
     }
 
-    function basahinAngBuod(text) {
-        if (!('speechSynthesis' in window)) return;
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text.replace(/\n/g, ' '));
-        utterance.lang = 'fil-PH';
-        utterance.rate = 0.92;
-        window.speechSynthesis.speak(utterance);
-    }
-
     function burstConfetti() {
         confettiLayer.innerHTML = '';
         const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e', '#ffffff'];
@@ -1313,11 +1369,7 @@
 
                         if (summaryAudio) {
                             summaryAudio.currentTime = 0;
-                            summaryAudio.play().catch(() => {
-                                basahinAngBuod(summaryMessage);
-                            });
-                        } else {
-                            basahinAngBuod(summaryMessage);
+                            summaryAudio.play().catch(() => {});
                         }
                     }
                 }, 750);

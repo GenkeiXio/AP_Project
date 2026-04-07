@@ -131,25 +131,21 @@ Route::get('/inner-map-2', function () {
     return view('Students.module2.inner_map2'); 
 })->name('inner.map2');
 
-Route::get('/inner-map-3', function () {
-    return view('Students.Module 3.Inner_map3');
-})->name('inner.map3');
-
 Route::get('/module3-home', function () {
-    return view('Students.Module 3.Home');
-})->name('module3.home');
+    return redirect()->route('module3.home');
+})->name('module3.home.legacy');
 
 Route::get('/module3-pretest', function () {
-    return view('Students.Module 3.Pre-Test_mod3');
-})->name('module3.pretest');
+    return redirect()->route('module3.pretest');
+})->name('module3.pretest.legacy');
 
 Route::get('/module3-next', function () {
-    return view('Students.Module 3.Drag_and_drop3');
+    return redirect()->route('module3.node2');
 })->name('module3.next');
 
 // IV Explore page
 Route::get('/students/module-3/iv-explore', function () {
-    return view('Students/Module 3/Explore');
+    return redirect()->route('module3.scene');
 })->name('module3.iv_explore');
 
 Route::view('/students/module-3/termino-konsepto', 'Students.Module 3.termino_konsepto')
@@ -200,12 +196,12 @@ Route::get('/module3/pretest', function () {
 
 // POSTTEST
 Route::get('/module3/posttest', function () {
-    return view('Students.Module3.Activities.Test.module3_posttest');
+    return view('Students.Module3.Test.module3_posttest');
 })->name('module3.posttest');
 
 // EXPLORE - SCENE
 Route::get('/module3/explore/scene', function () {
-    return view('Students.Module3.Activities.Explore.scene');
+    return view('Students.Module 3.Explore');
 })->name('module3.scene');
 
 // EXPLORE - BALIK ARAL
@@ -244,6 +240,10 @@ Route::get('/safe-home-activity', function () {
 
 Route::get('/gabay', function () {
     return view('Students.Module3.Activities.gabay');
+})->name('gabay.activity');
+
+Route::get('/gabay-page', function () {
+    return redirect()->route('gabay.activity');
 })->name('gabay.page');
 
 Route::get('/module3/activity/el-nino', function () {
