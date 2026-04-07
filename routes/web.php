@@ -243,3 +243,19 @@ Route::get('/safe-home-activity', function () {
 Route::get('/gabay', function () {
     return view('Students.Module3.Activities.gabay');
 })->name('gabay.page');
+
+Route::get('/module3/activity/el-nino', function () {
+    return view('Students.Module3.Activities.el_niño');
+})->name('el-nino.activity');
+
+Route::get('/module3/activity/bulkan', function () {
+    return view('Students.Module3.Activities.bulkan');
+})->name('bulkan.activity');
+
+Route::get('/module3/activity/flood', function () {
+    return view('Students.Module3.Activities.flood_activity');
+})->name('flood.activity');
+
+Route::get('/module3/closing', function () {
+    return view('Students.Module3.closing');
+})->name('module3.closing');

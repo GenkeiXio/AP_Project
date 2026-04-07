@@ -146,7 +146,7 @@
 @section('content')
 <div class="mod3-pretest-wrap">
     <section class="mod3-head">
-        <h1>🎮 PAUNANG PAGSUSULIT: Gaano Ka Kahanda? (Mas Mataas na Antas)</h1>
+        <h1>🎮 PRE-TEST: Gaano Ka Kahanda? (Mas Mataas na Antas)</h1>
         <p><strong>Panuto:</strong> Basahin at unawain ang bawat sitwasyon. Piliin ang pinakaangkop na sagot.</p>
 
         <div class="mod3-score-guide">
