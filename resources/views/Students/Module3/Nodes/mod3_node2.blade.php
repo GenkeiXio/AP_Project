@@ -806,6 +806,10 @@ function endGame(){
     const passed = score >= 5;
     const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
 
+    if (passed) {
+        sessionStorage.setItem('m3_node2', 'true');
+    }
+
     if (passed){
         burstConfetti();
         document.getElementById('successModal').style.display = 'flex';

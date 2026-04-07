@@ -241,6 +241,17 @@
     #completeScreen h2 {
         color: green;
     }
+
+    .next-btn {
+        margin-top: 12px;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 10px;
+        background: #1565c0;
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
@@ -287,6 +298,7 @@
             <h2>🎉 MISYON COMPLETE!</h2>
             <p id="rating"></p>
             <button onclick="location.reload()">🔁 Ulitin</button>
+            <button class="next-btn" onclick="window.location.href='{{ route('safehome.activity') }}'">➡ Magpatuloy</button>
         </div>
 
     </div>

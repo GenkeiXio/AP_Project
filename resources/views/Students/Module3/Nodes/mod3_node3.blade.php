@@ -40,6 +40,20 @@ body {
     backdrop-filter: blur(8px);
 }
 
+.back-link {
+    position: fixed;
+    top: 88px;
+    left: 20px;
+    z-index: 100;
+    text-decoration: none;
+    color: #1b4332;
+    background: #ffffff;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 800;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
 /* Header Section */
 .header-hero {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -201,6 +215,8 @@ body {
 </style>
 
 <div class="game-container">
+    <a href="{{ route('inner.map3') }}" class="back-link">⬅ Bumalik sa Mapa</a>
+
     <div class="header-hero">
         <h1 style="margin:0; font-size: 2.5rem;">NODE 3: CBDRRM</h1>
         <p style="margin-top:10px; font-size: 1.3rem; opacity: 0.9;">“BUILD YOUR COMMUNITY”</p>
@@ -275,6 +291,7 @@ body {
 
             <button class="action-btn" id="simBtn" onclick="runSim()">ISAGAWA ANG SIMULASYON</button>
             <button class="action-btn" style="margin-top:15px; background:#f0f0f0; display:none; box-shadow: 0 6px 0 #ccc;" id="resetBtn" onclick="location.reload()">ULITIN ANG PLANO</button>
+            <button class="action-btn" style="margin-top:15px; background:#2d6a4f; color:#fff; display:none; box-shadow: 0 6px 0 #1f4a37;" id="nextBtn" onclick="window.location.href='{{ route('apply.activity') }}'">MAGPATULOY SA ACTIVITY ➡</button>
         </div>
     </div>
 </div>
@@ -326,12 +343,17 @@ function runSim() {
             if (safety >= 100) {
                 log.innerHTML = "🏆 <b>TAGUMPAY!</b> Maiibaba ang epekto ng kalamidad dahil kumpleto ang iyong CBDRRM pillars. Ligtas ang buong komunidad!";
                 document.getElementById('meter').style.background = "#2ecc71";
+                sessionStorage.setItem('m3_node3', 'true');
+                document.getElementById('nextBtn').style.display = 'block';
             } else if (safety >= 75) {
                 log.innerHTML = "⚠️ <b>BAHAGYANG HANDA.</b> May ilang nasaktan dahil kulang ang kooperasyon o pagsasanay. Kailangan ng buong pakikilahok.";
                 document.getElementById('meter').style.background = "#f39c12";
+                sessionStorage.setItem('m3_node3', 'true');
+                document.getElementById('nextBtn').style.display = 'block';
             } else {
                 log.innerHTML = "❌ <b>HINDI HANDA.</b> Masyadong malaki ang nagastos sa dekorasyon kaysa sa kaligtasan. Kailangan ng masusing CBDRRM approach.";
                 document.getElementById('meter').style.background = "#e74c3c";
+                sessionStorage.removeItem('m3_node3');
             }
             document.getElementById('resetBtn').style.display = 'block';
         }, 1500);

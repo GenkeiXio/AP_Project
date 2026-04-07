@@ -285,6 +285,36 @@
 
         z-index: 2;
     }
+
+    .finish-panel {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 30;
+        background: rgba(255,255,255,0.95);
+        border-radius: 14px;
+        padding: 12px;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+        display: none;
+        min-width: 260px;
+    }
+
+    .finish-panel p {
+        margin: 0 0 10px;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .finish-btn {
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        background: #1565c0;
+        color: #fff;
+        padding: 10px 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
 </style>
 
 </head>
@@ -377,6 +407,11 @@
         <div id="previewModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; justify-content:center; align-items:center;">
             <img id="previewImg" style="max-width:90%; max-height:90%;">
         </div>
+
+        <div id="finishPanel" class="finish-panel">
+            <p id="finishText">Tapusin ang pag-aayos para magpatuloy.</p>
+            <button id="finishBtn" class="finish-btn" type="button">➡ Magpatuloy sa Posttest</button>
+        </div>
     </div>
 </body>
 
@@ -384,6 +419,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     let draggedItem = null;
+    let droppedCount = 0;
+    let correctCount = 0;
+    const totalItems = document.querySelectorAll('.item').length;
 
     /* =========================
        🔀 SHUFFLE ITEMS
@@ -472,15 +510,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (correctZone === dropZone) {
                 newItem.classList.add('correct');
+                correctCount++;
             } else {
                 newItem.classList.add('wrong');
             }
 
             column.querySelector('.drop-area').appendChild(newItem);
             draggedItem.remove();
+            droppedCount++;
+
+            if (droppedCount >= totalItems) {
+                const finishPanel = document.getElementById('finishPanel');
+                const finishText = document.getElementById('finishText');
+                const pass = correctCount >= Math.ceil(totalItems * 0.7);
+
+                if (pass) {
+                    finishText.textContent = `Magaling! Tama ang ${correctCount}/${totalItems}. Maaari ka nang mag-posttest.`;
+                    sessionStorage.setItem('m3_activity_gabay_done', 'true');
+                } else {
+                    finishText.textContent = `Nakuha mo ang ${correctCount}/${totalItems}. Subukan muli para sa mas mataas na score, o magpatuloy kung handa ka na.`;
+                }
+
+                finishPanel.style.display = 'block';
+            }
         });
 
     });
+
+    const finishBtn = document.getElementById('finishBtn');
+    if (finishBtn) {
+        finishBtn.addEventListener('click', () => {
+            window.location.href = "{{ route('module3.posttest') }}";
+        });
+    }
 
 
     /* =========================
