@@ -33,18 +33,12 @@ body, html {
 
 .node {
     position: absolute;
-    width: 220px;
-    height: 160px;
-
-    border-radius: 20px;
-    background: white;
-
-    border: 4px solid #fff;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-
+    width: 286px;  
+    height: 208px;
+    background: transparent; 
+    border: none;            
     cursor: pointer;
-    overflow: hidden;
-
+    overflow: visible;       
     z-index: 2;
 }
 
@@ -80,7 +74,6 @@ body, html {
 .label-green { background: #27ae60; }
 
 /* LOCKED */
-/* LOCKED STATE (CLEAN) */
 .locked {
     filter: grayscale(100%);
     opacity: 0.6;
@@ -93,21 +86,15 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     font-size: 40px;
-
     background: rgba(0,0,0,0.6);
     color: white;
-
     width: 70px;
     height: 70px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-
     z-index: 3;
 }
 
@@ -115,36 +102,32 @@ body, html {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 🔥 TRUE CENTER */
-
-    width: 320px;   /* bigger for visibility */
-    height: 220px;
-
-    border-radius: 20px;
-    overflow: hidden;
-
+    transform: translate(-50%, -50%); 
+    width: 544px;   
+    height: 374px;
+    overflow: visible; 
+    background: transparent;
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background: white;
 }
 
 .center-node img {
     width: 100%;
     height: 100%;
-
-    object-fit: contain; /* 🔥 SHOW FULL IMAGE (NO CROP) */
+    object-fit: contain; 
 }
 
 .center-node:hover {
-    transform: translate(-50%, -50%) scale(1); /* keep it fixed */
+    transform: translate(-50%, -50%) scale(1); 
 }
 
-.node-top-left { top: 15%; left: 20%; }
-.node-top-right { top: 15%; left: 65%; }
-.node-bottom-left { top: 60%; left: 20%; }
-.node-bottom-right { top: 60%; left: 65%; }
+/* Adjusted for corner placement */
+.node-top-left     { top: 15%; left: 20%; }
+.node-bottom-left  { top: 60%; left: 20%; }
+.node-top-right    { top: 15%; right: 20%; } 
+.node-bottom-right { top: 60%; right: 20%; }
 
 .back-button {
     position: fixed;
@@ -182,7 +165,6 @@ body, html {
     width:100%;
     height:100%;
     background: rgba(0,0,0,0.6);
-
     justify-content: center;
     align-items: center;
 }
@@ -194,9 +176,16 @@ body, html {
     border-radius: 16px;
     text-align: center;
     width: 350px;
-
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     position: relative;
+}
+
+/* Added specific style for percentage text */
+#percentText {
+    color: #5eae4e;
+    font-size: 48px;
+    margin: 10px 0;
+    font-weight: bold;
 }
 
 /* BUTTON */
@@ -227,16 +216,23 @@ body, html {
 @section('content')
 <div class="map-wrapper">
 
-    <!-- 🎉 MODAL -->
+    <div id="progressModal" class="modal">
+        <div class="modal-content">
+            <h2 id="progressTitle">Magaling!</h2>
+            <p>Natapos mo ang isang bahagi ng aralin.</p>
+            <div id="percentText">0%</div>
+            <p>Tapusin ang lahat para ma-unlock ang Final Activity.</p>
+            <button class="modal-btn" onclick="closeProgressModal()">Ipagpatuloy</button>
+        </div>
+    </div>
+
     <div id="finalModal" class="modal">
         <div class="modal-content">
-    <h2>🎉 Mission Complete!</h2>
+            <h2>🎉 Mission Complete!</h2>
             <p>Kumpleto mo na ang lahat ng aralin!</p>
-
             <button class="modal-btn" onclick="goToFinal()">
                 🚀 Pumunta sa Final Activity
             </button>
-
             <button class="modal-close" onclick="closeModal()">✖</button>
         </div>
     </div>
@@ -244,38 +240,29 @@ body, html {
     <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
     <div class="node center-node">
-        <img src="{{ asset('pictures/innermap_logo.png') }}">
+        <img src="{{ asset('pictures/isyualbay_node.png') }}">
     </div>
 
-    <!-- NODE 1 -->
     <button class="node node-top-left"
         onclick="window.location.href='{{ route('node1.solid-waste') }}'">
         <img src="{{ asset('pictures/basura_node.png') }}">
-        <!-- <div class="label label-blue">Basura</div> -->
     </button>
 
-    <!-- NODE 2 -->
     <button class="node node-top-right locked" id="node2" onclick="goNode2()">
-        <img src="{{ asset('pictures/node_forest.png') }}">
-        <!-- <div class="label label-brown">Pagkakalbo ng Kagubatan</div> -->
+        <img src="{{ asset('pictures/kagubatan_node.png') }}">
         <span class="lock-icon">🔒</span>
     </button>
 
-    <!-- NODE 3 -->
     <button class="node node-bottom-left locked" id="node3" onclick="goNode3()">
-        <img src="{{ asset('pictures/node_klima.png') }}">
-        <!-- <div class="label label-orange">Pagbabago ng Klima</div> -->
+        <img src="{{ asset('pictures/klima_node.png') }}">
         <span class="lock-icon">🔒</span>
     </button>
 
-    <!-- NODE 4 -->
     <button class="node node-bottom-right locked" id="node4" onclick="goNode4()">
-        <img src="{{ asset('pictures/node_gov.png') }}">
-        <!-- <div class="label label-green">Tugon ng Pamahalaan</div> -->
+        <img src="{{ asset('pictures/tugon_node.png') }}">
         <span class="lock-icon">🔒</span>
     </button>
 
-    <!-- 🔑 FINAL -->
     <button id="final-key" class="final-key" onclick="goFinal()">
         🔑 Unlock Final Activity
     </button>
@@ -290,37 +277,44 @@ function getDone(key){
 }
 
 function updateMapProgress(){
-
     const node2 = document.getElementById("node2");
     const node3 = document.getElementById("node3");
     const node4 = document.getElementById("node4");
     const finalBtn = document.getElementById("final-key");
 
-    // RESET LOCKS
-    lockNode(node2);
-    lockNode(node3);
-    lockNode(node4);
+    // 1. Calculate Progression Math
+    const nodes = ["node1_done", "node2_done", "node3_done", "node4_done"];
+    let completedCount = 0;
+    nodes.forEach(key => {
+        if (getDone(key)) completedCount++;
+    });
 
+    const percentage = (completedCount / nodes.length) * 100;
+
+    // 2. Unlock Visuals
     const n1 = getDone("node1_done");
     const n2 = getDone("node2_done");
     const n3 = getDone("node3_done");
     const n4 = getDone("node4_done");
 
-    // 🔓 PROGRESSION
-    if(n1){
-        unlockNode(node2);
+    if(n1) unlockNode(node2);
+    if(n1 && n2) unlockNode(node3);
+    if(n1 && n2 && n3) unlockNode(node4);
+
+    // 3. Logic to show Progress Modal only once per completion
+    const lastReported = parseInt(sessionStorage.getItem("last_reported_progress") || "0");
+    
+    if (percentage > lastReported && percentage < 100) {
+        showProgressModal(percentage);
+        sessionStorage.setItem("last_reported_progress", percentage);
+    } else if (percentage === 100 && lastReported < 100) {
+        // If they just hit 100, show the Final Modal instead
+        goFinal();
+        sessionStorage.setItem("last_reported_progress", 100);
     }
 
-    if(n1 && n2){
-        unlockNode(node3);
-    }
-
-    if(n1 && n2 && n3){
-        unlockNode(node4);
-    }
-
-    // ✅ FINAL BUTTON (ONLY WHEN ALL DONE)
-    if(n1 && n2 && n3 && n4){
+    // 4. Final Button Visibility
+    if(percentage === 100){
         finalBtn.style.display = "block";
     } else {
         finalBtn.style.display = "none";
@@ -330,7 +324,6 @@ function updateMapProgress(){
 /* LOCK */
 function lockNode(node){
     node.classList.add("locked");
-
     if(!node.querySelector(".lock-icon")){
         const lock = document.createElement("span");
         lock.className = "lock-icon";
@@ -343,6 +336,16 @@ function lockNode(node){
 function unlockNode(node){
     node.classList.remove("locked");
     node.querySelector(".lock-icon")?.remove();
+}
+
+/* PROGRESS MODAL CONTROLS */
+function showProgressModal(percent) {
+    document.getElementById("percentText").innerText = percent + "%";
+    document.getElementById("progressModal").style.display = "flex";
+}
+
+function closeProgressModal() {
+    document.getElementById("progressModal").style.display = "none";
 }
 
 /* NAVIGATION */
