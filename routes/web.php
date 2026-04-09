@@ -19,6 +19,7 @@ use App\Http\Controllers\Student\Module2\Module2_Node3Controller;
 use App\Http\Controllers\Student\Module2\Module2_FinalActivityController;
 use App\Http\Controllers\Student\Module2\Module2_PosttestController;
 use App\Http\Controllers\Student\Module2\Module2_EssayController;
+use App\Http\Controllers\Student\Module3\Module3PerformanceTaskController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -47,6 +48,9 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/module2/final-activity/save', [Module2_FinalActivityController::class, 'store']) ->name('student.module2.final.save');
     Route::post('/student/module2/posttest/save', [Module2_PosttestController::class, 'store']) ->name('student.module2.posttest.save');
     Route::post('/student/module2/essay/submit', [Module2_EssayController::class, 'submit']) ->name('student.module2.essay.submit');
+    
+    Route::get('/student/module3/performance-task', [Module3PerformanceTaskController::class, 'show']) ->name('student.module3.performance-task');
+    Route::post('/student/module3/performance-task/save', [Module3PerformanceTaskController::class, 'store']) ->name('student.module3.performance-task.save');
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');

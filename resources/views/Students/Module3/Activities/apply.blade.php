@@ -1,250 +1,279 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fil">
 <head>
     <meta charset="UTF-8">
-    <title>Apply Activity - Bagyo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabay sa Protokol ng Panahon | PAGASA</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --brand-primary: #0f172a;
+            --brand-accent: #2563eb;
+            --section-bg: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            
+            /* Professional Card Tints */
+            --obj-card-bg: #eff6ff; /* Very light blue */
+            --obj-card-border: #bfdbfe;
+            --skill-card-bg: #fffbeb; /* Very light amber */
+            --skill-card-border: #fef3c7;
+        }
+
         body {
-            background: #f4f6f9;
+            background-color: var(--section-bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
         }
 
         /* HEADER */
-        .title {
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #0d47a1;
+        .page-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* GAME HEADER CARDS */
-        .game-header .card {
-            transition: transform 0.2s, box-shadow 0.2s;
+        .breadcrumb-label {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 0.5rem;
         }
 
-        .game-header .card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        .main-title {
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin: 0;
         }
 
-        /* INSTRUCTION BOX */
-        .game-header div[style*="background:#d1e7dd"] {
-            font-size: 15px;
+        /* ENHANCED PROFESSIONAL CARDS */
+        .protocol-card {
+            border-radius: 16px;
+            padding: 2rem;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid transparent;
         }
 
-        /* BLUE CONTAINER (LIKE PAGASA) */
-        .wind-banner {
-            background: linear-gradient(to right, #1e73be, #0d47a1);
-            padding: 20px;
-            border-radius: 15px;
+        .protocol-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* ROW STYLE */
-        .wind-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
+        /* Objective Card Styling */
+        .protocol-card.objective {
+            background-color: var(--obj-card-bg);
+            border-color: var(--obj-card-border);
+            border-top: 5px solid var(--brand-accent);
         }
 
-        /* EACH SIGNAL */
-        .wind-box {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
+        /* Skills Card Styling */
+        .protocol-card.skills {
+            background-color: var(--skill-card-bg);
+            border-color: var(--skill-card-border);
+            border-top: 5px solid #f59e0b;
+        }
+
+        .protocol-card h5 {
+            color: var(--brand-primary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .icon-box {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* MAIN PANEL */
+        .signals-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .panel-title {
+            color: var(--brand-primary);
+            font-weight: 700;
+            border-left: 6px solid var(--brand-accent);
+            padding-left: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* INTERACTIVE SIGNALS */
+        .wind-signal-item {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            background: #f1f5f9;
+            padding: 12px;
+        }
+
+        .wind-signal-item:hover {
+            border-color: var(--brand-accent);
+            background: #e0f2fe;
+            transform: scale(1.05);
         }
 
         .wind-img {
             width: 100%;
-            max-width: 150px;
-            cursor: pointer;
-            transition: transform 0.25s, box-shadow 0.25s;
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
-        .wind-img:hover {
-            transform: scale(1.08);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-        .modal-backdrop.show {
-            opacity: 0.9;
-        }
-
-        .source {
-            font-size: 14px;
-            color: #555;
-            margin-top: 20px;
-        }
-
-        .source a {
-            color: #0d6efd;
-            text-decoration: none;
-        }
-
-        .source a:hover {
-            text-decoration: underline;
-        }
-
-        .game-header .card {
+        /* VIDEO SECTION */
+        .video-section {
             background: #ffffff;
-            transition: transform 0.2s;
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid #e2e8f0;
         }
 
-        .game-header .card:hover {
-            transform: scale(1.02);
+        /* BUTTON */
+        .btn-continue {
+            background: var(--brand-accent);
+            color: white;
+            font-weight: 700;
+            padding: 1.2rem 3.5rem;
+            border-radius: 12px;
+            border: none;
+            transition: 0.3s;
+            letter-spacing: 0.5px;
         }
 
-        .title {
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .container {
-            padding-bottom: 30px;
+        .btn-continue:hover {
+            background: #1d4ed8;
+            color: white;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
         }
     </style>
 </head>
 <body>
 
-<div class="container text-center mt-4">
-
-    <!-- GAME HEADER -->
-    <div class="game-header text-center mb-4">
-
-        <h1 class="title">🌪️ MISYON: BAGYO</h1>
-
-        <!-- OBJECTIVE -->
-        <div class="card shadow p-3 mt-3 border-0" style="border-radius:15px; background:#e3f2fd;">
-            <h4>🎯 Layunin ng Misyon</h4>
-            <p>
-                Tuklasin kung paano nakaaapekto ang 
-                <strong>hazard</strong>, 
-                <strong>vulnerability</strong>, at 
-                <strong>risk</strong> 
-                sa pagkakaroon ng sakuna.
-            </p>
-        </div>
-
-        <!-- CHALLENGE -->
-        <div class="card shadow p-3 mt-3 border-0" style="border-radius:15px; background:#fff3cd;">
-            <h4>🧠 Iyong Hamon</h4>
-            <p>
-                Alamin kung paano magiging handa 
-                <strong>bago</strong>, 
-                <strong>habang</strong>, at 
-                <strong>pagkatapos</strong> ng bagyo.
-            </p>
-        </div>
-
-        <!-- INSTRUCTION -->
-        <div class="mt-3 p-3" style="background:#d1e7dd; border-radius:12px;">
-            🎮 <strong>Paano Laruin:</strong><br>
-            I-click ang bawat <strong>wind signal</strong> upang makita ang epekto at impormasyon nito.
-        </div>
-
+<header class="page-header text-center">
+    <div class="container">
+        <span class="breadcrumb-label">MODYUL SA PAGHAHANDA SA SAKUNA 3.1</span>
+        <h1 class="main-title">Gabay sa Pag-unawa sa Bagyo</h1>
     </div>
+</header>
 
-    <!-- PAGASA STYLE BANNER -->
-    <div class="wind-banner mt-4">
-        <div class="wind-row">
-
-            <div class="wind-box">
-                <img src="{{ asset('pictures/Module 3/Apply/wind1.png') }}"
-                     class="wind-img wind-signal"
-                     data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
-            </div>
-
-            <div class="wind-box">
-                <img src="{{ asset('pictures/Module 3/Apply/wind2.png') }}"
-                     class="wind-img wind-signal"
-                     data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
-            </div>
-
-            <div class="wind-box">
-                <img src="{{ asset('pictures/Module 3/Apply/wind3.png') }}"
-                     class="wind-img wind-signal"
-                     data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
-            </div>
-
-            <div class="wind-box">
-                <img src="{{ asset('pictures/Module 3/Apply/wind4.png') }}"
-                     class="wind-img wind-signal"
-                     data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
-            </div>
-
-            <div class="wind-box">
-                <img src="{{ asset('pictures/Module 3/Apply/wind5.png') }}"
-                     class="wind-img wind-signal"
-                     data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
-            </div>
-
-        </div>
-    </div>
-
-    <!-- MODAL -->
-    <div class="modal fade" id="popupModal">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content bg-transparent border-0">
-
-                <button type="button"
-                        class="btn-close btn-close-white position-absolute top-0 end-0 m-4"
-                        style="z-index: 10;"
-                        data-bs-dismiss="modal">
-                </button>
-
-                <div class="d-flex justify-content-center align-items-center vh-100">
-                    <img id="popupImage"
-                         style="max-width:95%; max-height:95vh; object-fit:contain;">
-                </div>
-
-            </div>
-        </div>
-    </div>
+<div class="container pb-5">
     
-    <!-- SOURCE -->
-    <div class="source mt-3">
-        Source:
-        <a href="https://www.pagasa.dost.gov.ph/learning-tools/tropical-cyclone-wind-signal" target="_blank">
-            PAGASA Tropical Cyclone Wind Signal
-        </a>
-    </div>
-
-    <!-- VIDEO -->
-    <div class="mt-5">
-        <h4 class="mb-3">📺 Mga Dapat Gawin</h4>
-
-        <div class="d-flex justify-content-center">
-            <iframe width="800" height="400"
-                src="https://www.youtube.com/embed/5MP0TxfEWyA"
-                frameborder="0"
-                allowfullscreen
-                style="border-radius:12px;">
-            </iframe>
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="protocol-card objective shadow-sm">
+                <div class="icon-box text-primary"><i class="fa-solid fa-bullseye"></i></div>
+                <h5>Layunin ng Aralin</h5>
+                <p>Matutunan kung paano <strong>makikilala ang panganib</strong> at kung paano <strong>mababawasan ang pinsala</strong> gamit ang mga babala mula sa PAGASA.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="protocol-card skills shadow-sm">
+                <div class="icon-box" style="color: #f59e0b;"><i class="fa-solid fa-shield-halved"></i></div>
+                <h5>Ang Inyong Matututunan</h5>
+                <p>Kakayahang <strong>magsagawa ng pag-iingat</strong> base sa lakas ng hangin at sa mga posibleng epekto ng bawat signal ng bagyo.</p>
+            </div>
         </div>
     </div>
 
-    <!-- NEXT BUTTON -->
-    <div class="mt-4 mb-5">
-        <a href="{{ route('gobag.activity') }}" class="btn btn-primary btn-lg px-4 py-2" style="border-radius:12px;">
-            Magpatuloy sa susunod na aktibidad 🎒
+    <section class="signals-panel mb-5 shadow-sm">
+        <h4 class="panel-title">Gabay sa mga Signal ng Bagyo</h4>
+        <p class="text-muted mb-4">Pindutin ang bawat icon sa ibaba upang makita ang mga dapat gawin at mahalagang impormasyon para sa bawat signal.</p>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-2 text-center">
+                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
+                    <img src="{{ asset('pictures/Module 3/Apply/wind1.png') }}" class="wind-img">
+                    <div class="mt-2 fw-bold small text-secondary">Signal No. 1</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
+                    <img src="{{ asset('pictures/Module 3/Apply/wind2.png') }}" class="wind-img">
+                    <div class="mt-2 fw-bold small text-secondary">Signal No. 2</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
+                    <img src="{{ asset('pictures/Module 3/Apply/wind3.png') }}" class="wind-img">
+                    <div class="mt-2 fw-bold small text-secondary">Signal No. 3</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
+                    <img src="{{ asset('pictures/Module 3/Apply/wind4.png') }}" class="wind-img">
+                    <div class="mt-2 fw-bold small text-secondary">Signal No. 4</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
+                    <img src="{{ asset('pictures/Module 3/Apply/wind5.png') }}" class="wind-img">
+                    <div class="mt-2 fw-bold small text-secondary">Signal No. 5</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="video-section shadow-sm mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
+                <h4 class="video-label">Video sa Kaligtasan</h4>
+                <p class="text-muted small">Panoorin ang video na ito para malaman ang mga tamang hakbang na dapat gawin ng inyong pamilya tuwing may banta ng bagyo.</p>
+            </div>
+            <div class="col-lg-8">
+                <div class="ratio ratio-16x9 rounded shadow-lg overflow-hidden border">
+                    <iframe src="https://www.youtube.com/embed/5MP0TxfEWyA" title="PAGASA Protocol" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="text-center py-4">
+        <a href="{{ route('gobag.activity') }}" class="btn btn-continue shadow">
+            SUSUNOD NA BAHAGI <i class="fa-solid fa-arrow-right ms-2"></i>
         </a>
     </div>
 
 </div>
 
+<div class="modal fade" id="popupModal" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content border-0" style="background: rgba(255,255,255,0.98); backdrop-filter: blur(12px);">
+            <div class="modal-header border-0 container py-4">
+                <h5 class="fw-bold" style="color: var(--brand-primary);"><i class="fa-solid fa-circle-info me-2"></i>Gabay at Detalye</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center p-4">
+                <img id="popupImage" src="" class="img-fluid rounded-4 shadow-2xl" style="max-height: 80vh; border: 1px solid #ddd;">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-document.querySelectorAll('.wind-signal').forEach(img => {
-    img.addEventListener('click', function() {
-        document.getElementById('popupImage').src = this.dataset.img;
+    const modal = new bootstrap.Modal(document.getElementById('popupModal'));
+    const popupImg = document.getElementById('popupImage');
 
-        let modal = new bootstrap.Modal(document.getElementById('popupModal'));
-        modal.show();
+    document.querySelectorAll('.wind-signal-item').forEach(el => {
+        el.addEventListener('click', function() {
+            popupImg.src = this.getAttribute('data-img');
+            modal.show();
+        });
     });
-});
 </script>
 
 </body>

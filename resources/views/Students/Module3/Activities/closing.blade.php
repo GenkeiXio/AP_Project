@@ -183,8 +183,8 @@
                 </p>
 
                 <div class="text-center text-md-start mt-4">
-                    <a href="/next-topic" class="btn-next">
-                        Tuklasin ang mga Ahensiya ➜
+                    <a href="{{ route('module3.posttest') }}" class="btn-next">
+                        Magpatuloy sa Posttest ➜
                     </a>
                 </div>
             </div>

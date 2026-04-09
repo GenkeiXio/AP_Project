@@ -2,385 +2,308 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Go Bag Activity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission: Go Bag</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
-    body {
-        font-family: Arial;
-        margin: 0;
-        padding: 0;
+    :root {
+        --primary: #1e88e5;
+        --success: #2e7d32;
+        --dark: #0d1b2a;
+        --glass: rgba(255, 255, 255, 0.95);
+    }
 
+    body {
+        font-family: 'Lexend', sans-serif;
+        margin: 0;
         background: url("{{ asset('pictures/Module 3/Bag_Activity/background.png') }}") no-repeat center center fixed;
         background-size: cover;
+        min-height: 100vh;
     }
 
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+    .header-section { padding: 15px 10px; text-align: center; }
+    h2 { font-family: 'Bungee', cursive; color: var(--dark); font-size: clamp(1.5rem, 5vw, 2.2rem); margin: 0; }
 
-        background: rgba(255,255,255,0.6); /* adjust if needed */
-        z-index: -1;
-    }
-
-    h2, p {
-        text-align: center;
-    }
-
-    /* MAIN LAYOUT */
-    .game-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-        padding: 0 40px;
-    }
-
-    /* WRAPPER */
-    .game-wrapper {
+    .stats-container {
         display: flex;
         justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        padding: 30px;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
     }
 
-    /* GLASS CARD */
+    .stat-pill {
+        background: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        font-weight: bold;
+        border: 2px solid var(--primary);
+    }
+
+    .game-wrapper { padding: 10px; display: flex; justify-content: center; padding-bottom: 50px; }
+
     .game-card {
         width: 100%;
-        max-width: 1200px;
-
-        background: rgba(255, 255, 255, 0.85);
+        max-width: 1100px;
+        background: var(--glass);
         backdrop-filter: blur(10px);
-
-        border-radius: 20px;
+        border-radius: 30px;
         padding: 30px;
-
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-        .game-container {
-            flex-direction: column;
-        }
-
-        .items, .bag-container {
-            width: 100%;
-        }
-
-        .bag-image {
-            width: 400px;
-        }
+    .game-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: center;
     }
 
-    /* ITEMS (LEFT SIDE) */
-    .items {
-        width: 45%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    @media (max-width: 992px) {
+        .game-container { grid-template-columns: 1fr; }
+        .items-grid { order: 1; }
+        .bag-area { order: 2; }
     }
 
-    /* BIGGER ITEMS */
+    /* ITEMS CABINET */
+    .items-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 15px;
+        background: rgba(0,0,0,0.03);
+        padding: 20px;
+        border-radius: 20px;
+        border: 2px dashed var(--primary);
+    }
+
     .item {
-        width: 130px;   /* 🔥 bigger */
-        margin: 15px;
+        width: 100%;
         cursor: grab;
         transition: transform 0.2s;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
     }
 
-    .item:hover {
-        transform: scale(1.15);
-    }
+    .item:hover { transform: scale(1.1); }
 
-    /* BAG AREA (RIGHT SIDE) */
-    .bag-container {
-        width: 50%;
+    /* BAG AREA & FITTING LOGIC */
+    .bag-area {
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    /* 🔥 MUCH BIGGER BAG */
-    .bag-image {
-        width: 550px;
+    .bag-visual {
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+        z-index: 1;
     }
 
-    /* 🔥 BIGGER DROP ZONE */
-    #bag {
+    #drop-zone {
         position: absolute;
-        top: 18%;
+        top: 25%; /* Adjusted to look like they are inside the main pocket */
         left: 50%;
         transform: translateX(-50%);
-
-        width: 360px;
-        height: 420px;
-
+        width: 55%; /* Narrowed to fit the bag's shape */
+        height: 50%;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-content: flex-start;
-        padding: 15px;
-
-        border-radius: 20px;
-        transition: 0.3s;
-        z-index: 2;
+        align-content: center; /* Centers items inside the bag */
+        z-index: 5;
+        gap: 5px;
+        pointer-events: auto;
     }
 
-    /* HOVER EFFECT */
-    #bag.hovered {
-        background: rgba(0, 123, 255, 0.25);
-        box-shadow: 0 0 25px rgba(0,123,255,0.6);
+    .dropped-item {
+        width: clamp(45px, 8vw, 65px); /* Size to ensure 10 items fit */
+        height: auto;
+        object-fit: contain;
+        animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    /* DROPPED ITEMS */
-    .dropped {
-        width: 70px; /* 🔥 bigger inside bag */
-        margin: 6px;
-        border-radius: 10px;
-    }
-
-    /* FEEDBACK */
-    .correct {
-        border: 3px solid green;
-    }
-
-    .wrong {
-        border: 3px solid red;
-    }
-
-    /* SCORE */
-    #score {
-        text-align: center;
-        font-size: 26px;
-        margin-top: 25px;
-        font-weight: bold;
-    }
-
-    /* MESSAGE */
-    #message {
-        text-align: center;
-        margin-top: 10px;
-        font-size: 24px;
-        color: green;
-        display: none;
-    }
-
-    /* TIMER */
-    #timer {
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        color: #0d47a1;
-    }
-
-    /* PROGRESS */
-    #progress {
-        text-align: center;
-        font-size: 20px;
-        margin-top: 10px;
-    }
-
-    /* DRAG EFFECT */
-    .item:active {
-        transform: scale(1.2) rotate(5deg);
-    }
-
-    /* DROP ANIMATION */
-    @keyframes dropBounce {
-        0% { transform: scale(0.5); }
-        60% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-    }
-
-    .dropped {
-        width: 70px;
-        margin: 6px;
-        border-radius: 10px;
-        animation: dropBounce 0.3s ease;
-    }
-
-    /* CORRECT EFFECT */
-    @keyframes glow {
-        0% { box-shadow: 0 0 0px green; }
-        50% { box-shadow: 0 0 20px green; }
-        100% { box-shadow: 0 0 0px green; }
-    }
-
-    .correct {
-        border: 3px solid green;
-        animation: glow 0.5s;
-    }
-
-    /* WRONG SHAKE */
-    @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-6px); }
-        50% { transform: translateX(6px); }
-        75% { transform: translateX(-6px); }
-        100% { transform: translateX(0); }
-    }
-
-    .wrong {
-        border: 3px solid red;
-        animation: shake 0.3s;
-    }
-
-    /* COMPLETE SCREEN */
+    /* MODAL STYLING */
     #completeScreen {
         display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(13, 27, 42, 0.9);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 40px;
+        border-radius: 30px;
         text-align: center;
-        margin-top: 20px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 0 30px var(--primary);
+        border: 4px solid var(--primary);
     }
 
-    #completeScreen h2 {
-        color: green;
+    .modal-content h3 { font-family: 'Bungee'; color: var(--primary); margin-top: 0; }
+    
+    .rating-badge {
+        background: #f1f5f9;
+        padding: 15px;
+        border-radius: 15px;
+        margin: 20px 0;
+        font-weight: bold;
+        color: var(--dark);
     }
 
-    .next-btn {
-        margin-top: 12px;
-        padding: 10px 18px;
+    .btn-group { display: flex; gap: 10px; flex-direction: column; }
+
+    .btn {
+        padding: 15px;
+        border-radius: 50px;
         border: none;
-        border-radius: 10px;
-        background: #1565c0;
-        color: #fff;
-        font-weight: 700;
+        font-family: 'Bungee';
+        font-size: 1rem;
         cursor: pointer;
+        text-decoration: none;
+        transition: 0.3s;
     }
+
+    .btn-next { background: var(--success); color: white; }
+    .btn-retry { background: #64748b; color: white; }
+    .btn:hover { transform: translateY(-3px); opacity: 0.9; }
+
+    @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 </style>
 </head>
 <body>
 
-<div class="game-wrapper">
-
-    <div class="game-card">
-
-        <h2>🎒 MISYON: BUUIN ANG GO BAG</h2>
-        <p>I-drag ang mga tamang gamit papunta sa bag!</p>
-
-        <div id="timer">⏱ Oras: 0s</div>
-        <div id="progress">🎯 Nakalagay: 0 / 10</div>
-
-        <div class="game-container">
-
-            <!-- ITEMS -->
-            <div class="items">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/food.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/clothes.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/kumot.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/whistle.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/firstaid.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/powerbank.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/radio.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/flashlight.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/hygiene.png') }}" class="item" draggable="true" data-correct="true">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/knife.png') }}" class="item" draggable="true" data-correct="true">
-            </div>
-
-            <!-- BAG -->
-            <div class="bag-container">
-                <img src="{{ asset('pictures/Module 3/Bag_Activity/bag.png') }}" class="bag-image">
-                <div id="bag"></div>
-            </div>
-
-        </div>
-
-        <!-- SCORE -->
-        <div id="score">Score: 0</div>
-        <div id="message">🎉 Kumpleto na ang iyong Go Bag!</div>
-
-        <div id="completeScreen">
-            <h2>🎉 MISYON COMPLETE!</h2>
-            <p id="rating"></p>
-            <button onclick="location.reload()">🔁 Ulitin</button>
-            <button class="next-btn" onclick="window.location.href='{{ route('safehome.activity') }}'">➡ Magpatuloy</button>
-        </div>
-
+<div class="header-section">
+    <h2>🎒 GO BAG MISSION</h2>
+    <div class="stats-container">
+        <div class="stat-pill">⏱ Oras: <span id="timer">0s</span></div>
+        <div class="stat-pill">🎯 Progress: <span id="progress">0 / 10</span></div>
     </div>
+</div>
 
+<div class="game-wrapper">
+    <div class="game-card">
+        <div class="game-container">
+            
+            <div class="items-grid" id="cabinet">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/food.png') }}" class="item" draggable="true" data-id="food">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/clothes.png') }}" class="item" draggable="true" data-id="clothes">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/kumot.png') }}" class="item" draggable="true" data-id="blanket">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/whistle.png') }}" class="item" draggable="true" data-id="whistle">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/firstaid.png') }}" class="item" draggable="true" data-id="aid">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/powerbank.png') }}" class="item" draggable="true" data-id="power">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/radio.png') }}" class="item" draggable="true" data-id="radio">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/flashlight.png') }}" class="item" draggable="true" data-id="light">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/hygiene.png') }}" class="item" draggable="true" data-id="hygiene">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/knife.png') }}" class="item" draggable="true" data-id="knife">
+            </div>
+
+            <div class="bag-area">
+                <img src="{{ asset('pictures/Module 3/Bag_Activity/bag.png') }}" class="bag-visual">
+                <div id="drop-zone"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="completeScreen" class="animate__animated animate__fadeIn">
+    <div class="modal-content animate__animated animate__zoomIn">
+        <h3>MISSION REPORT</h3>
+        <div style="font-size: 3rem;">🏆</div>
+        <p>Matagumpay mong nabuo ang iyong Emergency Go Bag!</p>
+        
+        <div class="rating-badge">
+            ⏱ Oras: <span id="final-time"></span><br>
+            <span id="rating-text" style="color: var(--primary);"></span>
+        </div>
+
+        <div class="btn-group">
+            <a href="{{ route('safehome.activity') }}" class="btn btn-next">MAGPATULOY ➡</a>
+            <button class="btn btn-retry" onclick="location.reload()">ULITIN ANG MISYON</button>
+        </div>
+    </div>
 </div>
 
 <script>
 let score = 0;
-let correctNeeded = 10;
-let placedItems = new Set();
 let time = 0;
-
-/* TIMER */
-setInterval(() => {
-    time++;
-    document.getElementById('timer').innerText = "⏱ Oras: " + time + "s";
+let placedItems = new Set();
+let timerInterval = setInterval(() => { 
+    time++; 
+    document.getElementById('timer').innerText = time + "s"; 
 }, 1000);
 
 const items = document.querySelectorAll('.item');
-const bag = document.getElementById('bag');
+const dropZone = document.getElementById('drop-zone');
 
 items.forEach(item => {
     item.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('correct', item.dataset.correct);
+        e.dataTransfer.setData('id', item.dataset.id);
         e.dataTransfer.setData('src', item.src);
     });
 });
 
-bag.addEventListener('dragover', (e) => {
+dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
-    bag.classList.add('hovered');
+    dropZone.style.backgroundColor = "rgba(30, 136, 229, 0.1)";
+    dropZone.style.borderRadius = "20px";
 });
 
-bag.addEventListener('dragleave', () => {
-    bag.classList.remove('hovered');
+dropZone.addEventListener('dragleave', () => {
+    dropZone.style.backgroundColor = "transparent";
 });
 
-bag.addEventListener('drop', (e) => {
+dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
-    bag.classList.remove('hovered');
-
-    const correct = e.dataTransfer.getData('correct');
+    dropZone.style.backgroundColor = "transparent";
+    
+    const id = e.dataTransfer.getData('id');
     const src = e.dataTransfer.getData('src');
 
-    /* PREVENT DUPLICATES */
-    if (placedItems.has(src)) return;
+    if (!id || placedItems.has(id)) return;
 
-    placedItems.add(src);
-
+    placedItems.add(id);
+    score++;
+    
+    // Create the item inside the bag
     const img = document.createElement('img');
     img.src = src;
-    img.classList.add('dropped');
+    img.classList.add('dropped-item');
+    dropZone.appendChild(img);
 
-    if (correct === "true") {
-        score++;
-        img.classList.add('correct');
-    } else {
-        img.classList.add('wrong');
-    }
+    // Update UI
+    document.getElementById('progress').innerText = score + " / 10";
+    document.querySelector(`[data-id="${id}"]`).style.visibility = "hidden";
 
-    bag.appendChild(img);
-
-    document.getElementById('score').innerText = "Score: " + score;
-    document.getElementById('progress').innerText =
-        "🎯 Nakalagay: " + score + " / " + correctNeeded;
-
-    /* WIN CONDITION */
-    if (score === correctNeeded) {
-        document.getElementById('message').style.display = "block";
-
-        let rating = "⭐";
-        if (time < 20) rating = "⭐⭐⭐ Ang bilis mo!";
-        else if (time < 40) rating = "⭐⭐ Magaling!";
-        else rating = "⭐ Subukan ulit para mas mabilis!";
-
-        document.getElementById('rating').innerText =
-            "Natapos mo sa " + time + " segundo! " + rating;
-
-        document.getElementById('completeScreen').style.display = "block";
+    // Win Check
+    if (score === 10) {
+        clearInterval(timerInterval);
+        showModal();
     }
 });
-</script>
 
+function showModal() {
+    document.getElementById('completeScreen').style.display = "flex";
+    document.getElementById('final-time').innerText = time + " segundo";
+    
+    let rating = "";
+    if (time <= 25) rating = "⭐⭐⭐ Napakahusay! Handa ka na.";
+    else if (time <= 45) rating = "⭐⭐ Magaling! Maging mas mabilis pa.";
+    else rating = "⭐ Mabuti! Praktis pa para sa kaligtasan.";
+    
+    document.getElementById('rating-text').innerText = rating;
+}
+</script>
 </body>
 </html>
