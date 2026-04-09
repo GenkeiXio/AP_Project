@@ -36,11 +36,19 @@ body{
     max-width:1120px;
     margin:0 auto;
     padding:24px 16px 40px;
+    min-height:calc(100vh - 70px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .m3-shell{
     position:relative;
     z-index:2;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 .m3-icon{
@@ -60,16 +68,28 @@ body{
 .m3-title-wrap{
     display:flex;
     align-items:flex-start;
+    justify-content:center;
     gap:10px;
 }
 
 .m3-hero{
+    width:min(980px, 100%);
+    position:relative;
     background: rgba(255,255,255,.93);
     border:1px solid rgba(215,233,216,.95);
     border-radius:24px;
     padding:26px;
     box-shadow:0 20px 50px rgba(0,0,0,.18);
     backdrop-filter: blur(10px);
+}
+
+.m3-hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    border-radius:24px;
+    background:radial-gradient(circle at top right, rgba(91,192,255,.16), transparent 38%);
 }
 
 .m3-title{
@@ -79,6 +99,7 @@ body{
     color:#123725;
     line-height:1.16;
     margin:0;
+    text-align:center;
 }
 
 .m3-sub{
@@ -86,6 +107,31 @@ body{
     color:#496856;
     line-height:1.7;
     max-width:900px;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.m3-badges{
+    margin-top:14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+}
+
+.m3-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:.84rem;
+    font-weight:800;
+    color:#17472f;
+    background:linear-gradient(135deg,#e9f8ec,#eef8ff);
+    border:1px solid #cde6d3;
+    box-shadow:0 6px 14px rgba(0,0,0,.06);
 }
 
 .m3-actions{
@@ -93,6 +139,7 @@ body{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
+    justify-content:center;
 }
 
 .m3-btn{
@@ -110,12 +157,27 @@ body{
 }
 
 .m3-primary{
+    position:relative;
+    overflow:hidden;
     background:linear-gradient(135deg,#8ce274,#2f9b57);
     color:#0f311f;
     box-shadow:0 10px 24px rgba(47,155,87,.25);
 }
 
 .m3-primary:hover{ transform:translateY(-2px); }
+
+.m3-primary::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(100deg, transparent 0%, rgba(255,255,255,.38) 50%, transparent 100%);
+    transition:left .45s ease;
+}
+
+.m3-primary:hover::before{ left:120%; }
 
 .m3-ghost{
     background:#eef8ef;
@@ -141,6 +203,8 @@ body{
     border-radius:10px;
     padding:8px 10px;
     display:inline-block;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .m3-modal{
@@ -253,6 +317,7 @@ body{
 }
 
 .m3-panel{
+    width:min(980px, 100%);
     margin-top:22px;
     background: rgba(255,255,255,.94);
     border:1px solid rgba(215,233,216,.95);
@@ -368,6 +433,8 @@ body{
 @media (max-width:640px){
     .m3-wrap{ padding:14px 10px 28px; }
     .m3-hero, .m3-panel, .m3-modal-content{ border-radius:18px; }
+    .m3-title-wrap{ align-items:center; }
+    .m3-badge{ font-size:.78rem; }
     .m3-step{
         grid-template-columns:88px 1fr;
     }
@@ -406,9 +473,7 @@ body{
                 <button class="m3-btn m3-primary m3-disabled" id="startBtn" type="button" disabled>🔒 Simulan</button>
             </div>
 
-            <div id="startNote" class="m3-start-note">
-                Kailangan munang basahin ang buong “Mga Layunin” para ma-unlock ang Simulan.
-            </div>
+
         </div>
 
         <!-- GOALS MODAL -->

@@ -224,66 +224,11 @@
             <div class="change-char-label">Palitan ang Karakter</div>
             <div class="char-options">
                 <div class="char-opt {{ $isBoy ? 'selected' : '' }}" id="opt-boy" onclick="selectProfileChar('boy_uniform', this)">
-                    <svg class="char-opt-svg" viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="70" cy="165" rx="30" ry="4" fill="rgba(0,0,0,0.07)"/>
-                        <ellipse cx="57" cy="155" rx="11" ry="5" fill="#2c1a0e"/>
-                        <ellipse cx="83" cy="155" rx="11" ry="5" fill="#2c1a0e"/>
-                        <rect x="51" y="118" width="14" height="36" rx="4" fill="#2a4080"/>
-                        <rect x="75" y="118" width="14" height="36" rx="4" fill="#2a4080"/>
-                        <rect x="47" y="113" width="46" height="8" rx="3" fill="#1a2a50"/>
-                        <rect x="44" y="70" width="52" height="46" rx="7" fill="#f0f4ff"/>
-                        <polygon points="70,73 63,86 70,82 77,86" fill="#dde4ff"/>
-                        <polygon points="70,76 67,92 70,94 73,92" fill="#c03030"/>
-                        <rect x="30" y="72" width="16" height="32" rx="7" fill="#f5c5a0"/>
-                        <rect x="94" y="72" width="16" height="32" rx="7" fill="#f5c5a0"/>
-                        <ellipse cx="38" cy="109" rx="8" ry="6" fill="#f5c5a0"/>
-                        <ellipse cx="102" cy="109" rx="8" ry="6" fill="#f5c5a0"/>
-                        <rect x="62" y="57" width="16" height="16" rx="4" fill="#f5c5a0"/>
-                        <ellipse cx="70" cy="42" rx="27" ry="28" fill="#f5c5a0"/>
-                        <ellipse cx="70" cy="20" rx="28" ry="14" fill="#3d1f0a"/>
-                        <rect x="42" y="16" width="9" height="20" rx="5" fill="#3d1f0a"/>
-                        <rect x="89" y="16" width="9" height="20" rx="5" fill="#3d1f0a"/>
-                        <ellipse cx="60" cy="44" rx="4.5" ry="5" fill="#fff"/>
-                        <ellipse cx="80" cy="44" rx="4.5" ry="5" fill="#fff"/>
-                        <circle cx="61" cy="45" r="2.5" fill="#2c1a0e"/>
-                        <circle cx="81" cy="45" r="2.5" fill="#2c1a0e"/>
-                        <path d="M63 55 Q70 61 77 55" stroke="#c07050" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <ellipse cx="55" cy="52" rx="5" ry="4" fill="rgba(255,160,100,0.25)"/>
-                        <ellipse cx="85" cy="52" rx="5" ry="4" fill="rgba(255,160,100,0.25)"/>
-                    </svg>
+                    <img class="char-opt-svg" src="{{ asset('pictures/chibi_boy.png') }}" alt="Juan" style="object-fit: contain;" />
                     <div class="char-opt-name">Juan</div>
                 </div>
                 <div class="char-opt girl-opt {{ $isGirl ? 'selected' : '' }}" id="opt-girl" onclick="selectProfileChar('girl_uniform', this)">
-                    <svg class="char-opt-svg" viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="70" cy="165" rx="30" ry="4" fill="rgba(0,0,0,0.07)"/>
-                        <ellipse cx="57" cy="156" rx="10" ry="4" fill="#2c1a0e"/>
-                        <ellipse cx="83" cy="156" rx="10" ry="4" fill="#2c1a0e"/>
-                        <rect x="51" y="148" width="12" height="8" rx="3" fill="#fff"/>
-                        <rect x="77" y="148" width="12" height="8" rx="3" fill="#fff"/>
-                        <path d="M46 110 Q70 128 94 110 L90 153 Q70 163 50 153 Z" fill="#1a3a7a"/>
-                        <rect x="44" y="66" width="52" height="47" rx="7" fill="#fff5f5"/>
-                        <polygon points="70,69 63,83 70,79 77,83" fill="#ffd0d0"/>
-                        <ellipse cx="70" cy="69" rx="7" ry="4" fill="#e83060"/>
-                        <rect x="30" y="68" width="16" height="32" rx="7" fill="#f5c5a0"/>
-                        <rect x="94" y="68" width="16" height="32" rx="7" fill="#f5c5a0"/>
-                        <ellipse cx="38" cy="105" rx="8" ry="6" fill="#f5c5a0"/>
-                        <ellipse cx="102" cy="105" rx="8" ry="6" fill="#f5c5a0"/>
-                        <rect x="62" y="53" width="16" height="16" rx="4" fill="#f5c5a0"/>
-                        <ellipse cx="70" cy="38" rx="26" ry="27" fill="#f5c5a0"/>
-                        <ellipse cx="70" cy="17" rx="27" ry="13" fill="#2c1206"/>
-                        <rect x="42" y="13" width="9" height="46" rx="5" fill="#2c1206"/>
-                        <rect x="89" y="13" width="9" height="46" rx="5" fill="#2c1206"/>
-                        <path d="M42 48 Q38 65 42 84" stroke="#2c1206" stroke-width="9" fill="none" stroke-linecap="round"/>
-                        <path d="M98 48 Q102 65 98 84" stroke="#2c1206" stroke-width="9" fill="none" stroke-linecap="round"/>
-                        <ellipse cx="88" cy="25" rx="5" ry="3.5" fill="#e83060"/>
-                        <ellipse cx="60" cy="40" rx="4.5" ry="5" fill="#fff"/>
-                        <ellipse cx="80" cy="40" rx="4.5" ry="5" fill="#fff"/>
-                        <circle cx="61" cy="41" r="2.5" fill="#2c1a0e"/>
-                        <circle cx="81" cy="41" r="2.5" fill="#2c1a0e"/>
-                        <path d="M63 51 Q70 57 77 51" stroke="#c07050" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <ellipse cx="54" cy="48" rx="6" ry="4" fill="rgba(255,130,130,0.28)"/>
-                        <ellipse cx="86" cy="48" rx="6" ry="4" fill="rgba(255,130,130,0.28)"/>
-                    </svg>
+                    <img class="char-opt-svg" src="{{ asset('pictures/girl_pink.png') }}" alt="Maria" style="object-fit: contain;" />
                     <div class="char-opt-name">Maria</div>
                 </div>
             </div>
