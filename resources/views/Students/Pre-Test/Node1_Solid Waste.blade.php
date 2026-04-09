@@ -1163,11 +1163,8 @@
 
     const items = [
         { type: 'image', src: "{{ asset('pictures/node1sanhi.png') }}", label: 'Larawang kard', zone: 'cause' },
-        { type: 'text', text: 'Kawalan ng disiplina at hindi pagsunod sa waste segregation', label: 'Tekstong kard', zone: 'cause' },
         { type: 'image', src: "{{ asset('pictures/node1bunga.png') }}", label: 'Larawang kard', zone: 'effect' },
-        { type: 'text', text: 'Pagbaha at Paglaganap ng sakit', label: 'Tekstong kard', zone: 'effect' },
         { type: 'image', src: "{{ asset('pictures/node1solution.png') }}", label: 'Larawang kard', zone: 'solution' },
-        { type: 'text', text: 'Waste segregation Recycling Clean-up drives', label: 'Tekstong kard', zone: 'solution' }
     ];
 
     let completedRecords = [];

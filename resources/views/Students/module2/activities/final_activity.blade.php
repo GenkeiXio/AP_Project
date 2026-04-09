@@ -622,9 +622,11 @@ button:disabled{
             function saveFinalActivity() {
                 return fetch("{{ route('student.module2.final.save') }}", {
                     method: "POST",
+                    credentials: "same-origin", 
                     headers: {
                         "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Accept": "application/json" 
                     },
                     body: JSON.stringify({
                         total_xp: xp,
@@ -662,7 +664,17 @@ button:disabled{
                     let finalTime = formatTime(time);
 
                     saveFinalActivity()
-                        .then(response => response.json())
+                        .then(async response => {
+                            let text = await response.text();
+
+                            console.log("RAW RESPONSE:", text);
+
+                            if (!response.ok) {
+                                throw new Error("HTTP " + response.status + " → " + text);
+                            }
+
+                            return JSON.parse(text);
+                        })
                         .then(data => {
                             document.getElementById("game").innerHTML = `
                                 <div class="final-card">
