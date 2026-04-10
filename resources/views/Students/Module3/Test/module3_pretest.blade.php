@@ -50,12 +50,27 @@
     border: 1px solid #dfece1;
     border-radius: 14px;
     padding: 14px;
+    transition: all 0.2s ease;
+}
+
+.mod3-q.missing {
+    border: 2px solid #d94141;
+    background: #fff8f8;
+    box-shadow: 0 0 0 2px rgba(217, 65, 65, 0.2);
 }
 
 .mod3-q-title {
     margin: 0 0 10px;
     color: #214a33;
     font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.mod3-q-title .status-icon {
+    font-size: 0.9rem;
 }
 
 .mod3-opt {
@@ -82,6 +97,11 @@
     background: #fff0f0;
 }
 
+.mod3-opt input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
 .mod3-actions {
     margin-top: 16px;
     display: flex;
@@ -95,6 +115,7 @@
     padding: 11px 16px;
     font-weight: 800;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .mod3-btn-primary {
@@ -102,10 +123,24 @@
     color: #11351f;
 }
 
+.mod3-btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(89, 171, 68, 0.3);
+}
+
+.mod3-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .mod3-btn-ghost {
     background: #eef8ef;
     color: #2f5a40;
     border: 1px solid #c9dfcd;
+}
+
+.mod3-btn-ghost:hover {
+    background: #e2f0e4;
 }
 
 .mod3-result {
@@ -140,6 +175,37 @@
 .mod3-next {
     margin-top: 14px;
 }
+
+.mod3-error-message {
+    margin-top: 12px;
+    padding: 10px;
+    background: #fff0f0;
+    border: 1px solid #d94141;
+    border-radius: 10px;
+    color: #b33;
+    font-weight: 600;
+    display: none;
+}
+
+.mod3-error-message.show {
+    display: block;
+}
+
+.mod3-progress {
+    margin-top: 16px;
+    padding: 10px;
+    background: #f0f7f2;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    color: #2f5a40;
+}
+
+.mod3-progress span {
+    color: #1f7a47;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
 </style>
 @endpush
 
@@ -159,8 +225,16 @@
 
         <section class="mod3-questions" id="questionsRoot"></section>
 
+        <div class="mod3-progress" id="progressBar">
+            Nasagot na: <span id="answeredCount">0</span> / <span id="totalCount">15</span> na tanong
+        </div>
+
+        <div class="mod3-error-message" id="errorMessage">
+            ⚠️ Pakisagutan muna ang lahat ng tanong bago ipasa ang pagsusulit.
+        </div>
+
         <div class="mod3-actions">
-            <button class="mod3-btn mod3-btn-primary" id="checkBtn" type="button">Ipakita ang Iskor at Tamang Sagot</button>
+            <button class="mod3-btn mod3-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Iskor at Tamang Sagot</button>
             <a class="mod3-btn mod3-btn-ghost" href="{{ route('module3.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
         </div>
 
@@ -258,6 +332,27 @@
         const resultBox = document.getElementById('resultBox');
         const scoreText = document.getElementById('scoreText');
         const levelText = document.getElementById('levelText');
+        const errorMessage = document.getElementById('errorMessage');
+        const answeredCountSpan = document.getElementById('answeredCount');
+        const totalCountSpan = document.getElementById('totalCount');
+        
+        totalCountSpan.textContent = quizItems.length;
+
+        // Store submitted flag to prevent double submission
+        let isSubmitted = false;
+        let answeredStatus = new Array(quizItems.length).fill(false);
+
+        function updateProgress() {
+            const answered = answeredStatus.filter(status => status === true).length;
+            answeredCountSpan.textContent = answered;
+            
+            // Enable button only when all questions are answered AND not yet submitted
+            if (answered === quizItems.length && !isSubmitted) {
+                checkBtn.disabled = false;
+            } else if (answered !== quizItems.length) {
+                checkBtn.disabled = true;
+            }
+        }
 
         function renderQuiz() {
             root.innerHTML = quizItems.map((item, index) => {
@@ -268,12 +363,85 @@
                 `).join('');
 
                 return `
-                    <article class="mod3-q" id="q_${index}">
-                        <p class="mod3-q-title">${item.q}</p>
-                        <div>${optionsHtml}</div>
+                    <article class="mod3-q" id="q_${index}" data-q-index="${index}">
+                        <p class="mod3-q-title">
+                            <span>${item.q}</span>
+                            <span class="status-icon" id="status_${index}"></span>
+                        </p>
+                        <div class="options-container">${optionsHtml}</div>
                     </article>
                 `;
             }).join('');
+
+            // Add event listeners to each radio button to update status
+            quizItems.forEach((_, index) => {
+                const radios = document.querySelectorAll(`input[name="q_${index}"]`);
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        answeredStatus[index] = true;
+                        updateQuestionStatus(index);
+                        updateProgress();
+                        // Hide error message when user starts answering
+                        errorMessage.classList.remove('show');
+                    });
+                });
+            });
+        }
+
+        function updateQuestionStatus(qIndex) {
+            const selected = getChosenValue(qIndex);
+            const statusIcon = document.getElementById(`status_${qIndex}`);
+            const questionCard = document.getElementById(`q_${qIndex}`);
+            
+            if (selected !== -1) {
+                // Question is answered - show green check
+                statusIcon.innerHTML = '✅';
+                statusIcon.style.color = '#3ca75e';
+                questionCard.classList.remove('missing');
+            } else {
+                // Question is unanswered - show nothing (no red X)
+                statusIcon.innerHTML = '';
+                questionCard.classList.add('missing');
+            }
+        }
+
+        function checkAllQuestionsAnswered() {
+            let allAnswered = true;
+            const missingQuestions = [];
+
+            for (let i = 0; i < quizItems.length; i++) {
+                const selected = getChosenValue(i);
+                if (selected === -1) {
+                    allAnswered = false;
+                    missingQuestions.push(i + 1);
+                    updateQuestionStatus(i);
+                } else {
+                    answeredStatus[i] = true;
+                    updateQuestionStatus(i);
+                }
+            }
+
+            return { allAnswered, missingQuestions };
+        }
+
+        function scrollToFirstMissing() {
+            for (let i = 0; i < quizItems.length; i++) {
+                const selected = getChosenValue(i);
+                if (selected === -1) {
+                    const questionElement = document.getElementById(`q_${i}`);
+                    if (questionElement) {
+                        questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        questionElement.style.transition = 'all 0.3s ease';
+                        setTimeout(() => {
+                            questionElement.style.borderColor = '#d94141';
+                        }, 300);
+                        setTimeout(() => {
+                            questionElement.style.borderColor = '';
+                        }, 2000);
+                    }
+                    break;
+                }
+            }
         }
 
         function getChosenValue(qIndex) {
@@ -283,7 +451,7 @@
 
         function interpretScore(score) {
             if (score <= 5) return '🔴 Kailangan ng gabay';
-            if (score <= 10) return '🟡 May kaalaman';
+            if (score <= 10) return '🟡 may kaalaman';
             return '🟢 Handa sa sakuna';
         }
 
@@ -311,33 +479,83 @@
             levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
             resultBox.classList.add('show');
             resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            return score;
         }
 
-        // MODIFY EXISTING BUTTON EVENT
-        checkBtn.addEventListener('click', () => {
-            revealAnswersAndScore();
-            submitToServer(); // 🔥 SAVE TO DATABASE
-        });
-
-        renderQuiz();
-
-        function submitToServer() {
-            const answers = quizItems.map((_, index) => getChosenValue(index));
-
+        function submitToServer(score, answers) {
             fetch("{{ route('student.module3.pretest.store') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
-                body: JSON.stringify({ answers })
+                body: JSON.stringify({ answers, score: score })
             })
             .then(res => res.json())
             .then(data => {
                 console.log("Saved:", data);
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Save error:", err));
         }
 
+        // Main check button handler
+        checkBtn.addEventListener('click', () => {
+            // Prevent multiple submissions
+            if (isSubmitted) {
+                return;
+            }
+            
+            // Check if all questions are answered
+            const { allAnswered, missingQuestions } = checkAllQuestionsAnswered();
+            
+            if (!allAnswered) {
+                // Show error message
+                errorMessage.classList.add('show');
+                // Scroll to first missing question
+                scrollToFirstMissing();
+                return;
+            }
+            
+            // Hide error message if all are answered
+            errorMessage.classList.remove('show');
+            
+            // Get all answers
+            const answers = quizItems.map((_, index) => getChosenValue(index));
+            
+            // Calculate score and reveal answers
+            const score = revealAnswersAndScore();
+            
+            // Mark as submitted
+            isSubmitted = true;
+            
+            // Disable all radio buttons after submission
+            for (let i = 0; i < quizItems.length; i++) {
+                const radios = document.querySelectorAll(`input[name="q_${i}"]`);
+                radios.forEach(radio => {
+                    radio.disabled = true;
+                });
+            }
+            
+            // Save to database
+            submitToServer(score, answers);
+            
+            // Change button text and disable it
+            checkBtn.textContent = '✓ Naisumite na';
+            checkBtn.disabled = true;
+            checkBtn.style.opacity = '0.7';
+            checkBtn.style.cursor = 'not-allowed';
+        });
+
+        // Initial render
+        renderQuiz();
+        
+        // Initialize status icons (no X's, just empty)
+        setTimeout(() => {
+            for (let i = 0; i < quizItems.length; i++) {
+                updateQuestionStatus(i);
+            }
+            updateProgress();
+        }, 100);
     </script>
 @endsection
