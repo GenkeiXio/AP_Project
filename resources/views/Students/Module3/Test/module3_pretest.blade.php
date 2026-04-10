@@ -144,176 +144,200 @@
 @endpush
 
 @section('content')
-<div class="mod3-pretest-wrap">
-    <section class="mod3-head">
-        <h1>🎮 PRE-TEST: Gaano Ka Kahanda? (Mas Mataas na Antas)</h1>
-        <p><strong>Panuto:</strong> Basahin at unawain ang bawat sitwasyon. Piliin ang pinakaangkop na sagot.</p>
+    <div class="mod3-pretest-wrap">
+        <section class="mod3-head">
+            <h1>🎮 PRE-TEST: Gaano Ka Kahanda? (Mas Mataas na Antas)</h1>
+            <p><strong>Panuto:</strong> Basahin at unawain ang bawat sitwasyon. Piliin ang pinakaangkop na sagot.</p>
 
-        <div class="mod3-score-guide">
-            <strong>Pagpapakahulugan ng Iskor:</strong><br>
-            0–5 → 🔴 Kailangan ng gabay<br>
-            6–10 → 🟡 May kaalaman<br>
-            11–15 → 🟢 Handa sa sakuna
+            <div class="mod3-score-guide">
+                <strong>Pagpapakahulugan ng Iskor:</strong><br>
+                0–5 → 🔴 Kailangan ng gabay<br>
+                6–10 → 🟡 May kaalaman<br>
+                11–15 → 🟢 Handa sa sakuna
+            </div>
+        </section>
+
+        <section class="mod3-questions" id="questionsRoot"></section>
+
+        <div class="mod3-actions">
+            <button class="mod3-btn mod3-btn-primary" id="checkBtn" type="button">Ipakita ang Iskor at Tamang Sagot</button>
+            <a class="mod3-btn mod3-btn-ghost" href="{{ route('module3.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
         </div>
-    </section>
 
-    <section class="mod3-questions" id="questionsRoot"></section>
-
-    <div class="mod3-actions">
-        <button class="mod3-btn mod3-btn-primary" id="checkBtn" type="button">Ipakita ang Iskor at Tamang Sagot</button>
-        <a class="mod3-btn mod3-btn-ghost" href="{{ route('module3.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
+        <section class="mod3-result" id="resultBox">
+            <p class="mod3-score" id="scoreText"></p>
+            <p class="mod3-level" id="levelText"></p>
+            <p class="mod3-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
+            <div class="mod3-next">
+                <a class="mod3-btn mod3-btn-primary" href="{{ route('module3.next') }}" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
+            </div>
+        </section>
     </div>
 
-    <section class="mod3-result" id="resultBox">
-        <p class="mod3-score" id="scoreText"></p>
-        <p class="mod3-level" id="levelText"></p>
-        <p class="mod3-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
-        <div class="mod3-next">
-            <a class="mod3-btn mod3-btn-primary" href="{{ route('module3.next') }}" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
-        </div>
-    </section>
-</div>
-
-<script>
-const quizItems = [
-    {
-        q: '1) Ano ang pinakaangkop na paglalarawan ng banta?',
-        options: ['A. Pangyayaring nakalipas na', 'B. Banta na maaaring magdulot ng pinsala', 'C. Plano ng pamahalaan', 'D. Uri ng komunidad'],
-        answer: 1
-    },
-    {
-        q: '2) Kailan nagiging sakuna ang isang banta?',
-        options: ['A. Kapag may ulan', 'B. Kapag may tao sa lugar', 'C. Kapag may pinsala dahil sa kahinaan ng komunidad', 'D. Kapag gabi'],
-        answer: 2
-    },
-    {
-        q: '3) Ano ang ibig sabihin ng kahinaan?',
-        options: ['A. Kakayahang tumulong', 'B. Kahinaan ng tao o lugar sa panganib', 'C. Uri ng banta', 'D. Plano ng barangay'],
-        answer: 1
-    },
-    {
-        q: '4) Kung ang isang komunidad ay matibay ang bahay ngunit nasa lugar na madalas bahain, ano ito?',
-        options: ['A. Walang banta', 'B. Mataas na kahinaan pa rin', 'C. Walang panganib', 'D. Ligtas na lugar'],
-        answer: 1
-    },
-    {
-        q: '5) Ano ang layunin ng paghahanda sa sakuna?',
-        options: ['A. Maghintay ng tulong', 'B. Mabawasan ang epekto ng sakuna', 'C. Maglaro', 'D. Magtago'],
-        answer: 1
-    },
-    {
-        q: '6) Alin ang pinakamahalagang gawin bago ang bagyo?',
-        options: ['A. Lumabas', 'B. Maghanda ng kagamitang pang-emergency at makinig sa balita', 'C. Matulog', 'D. Mag-video'],
-        answer: 1
-    },
-    {
-        q: '7) Ano ang pinakaangkop na gawin kapag may utos ng paglikas?',
-        options: ['A. Maghintay muna', 'B. Sumunod agad upang maiwasan ang panganib', 'C. Huwag pansinin', 'D. Lumabas mag-isa'],
-        answer: 1
-    },
-    {
-        q: '8) Bakit mahalaga ang maagang babala?',
-        options: ['A. Para sa ingay', 'B. Para mabigyan ng oras ang tao na maghanda', 'C. Para maglibang', 'D. Para maghintay'],
-        answer: 1
-    },
-    {
-        q: '9) Ano ang katangian ng lapit na mula sa itaas?',
-        options: ['A. Komunidad ang lider', 'B. Pamahalaan ang pangunahing nagdedesisyon', 'C. Walang plano', 'D. Walang aksyon'],
-        answer: 1
-    },
-    {
-        q: '10) Ano ang limitasyon ng lapit na mula sa itaas?',
-        options: ['A. Mabilis', 'B. Hindi isinasaalang-alang ang lokal na pangangailangan', 'C. Malakas', 'D. Kumpleto'],
-        answer: 1
-    },
-    {
-        q: '11) Ano ang pangunahing ideya ng lapit na mula sa ibaba?',
-        options: ['A. Walang lider', 'B. Aktibong pakikilahok ng komunidad', 'C. Walang plano', 'D. Mabagal'],
-        answer: 1
-    },
-    {
-        q: '12) Ano ang layunin ng pamamahalang nakabatay sa komunidad sa pagbawas ng panganib sa sakuna?',
-        options: ['A. Maghintay ng tulong', 'B. Palakasin ang kakayahan ng komunidad sa sakuna', 'C. Magtago', 'D. Maglaro'],
-        answer: 1
-    },
-    {
-        q: '13) Ano ang tamang gawin habang lumilindol?',
-        options: ['A. Tumakbo palabas agad', 'B. Magtago sa ilalim ng matibay na mesa', 'C. Tumalon', 'D. Sumigaw'],
-        answer: 1
-    },
-    {
-        q: '14) Ano ang pinakamainam gawin pagkatapos ng baha?',
-        options: ['A. Pumasok agad', 'B. Suriin muna ang kuryente at paligid', 'C. Matulog', 'D. Maglaro'],
-        answer: 1
-    },
-    {
-        q: '15) Ano ang ibig sabihin ng katatagan?',
-        options: ['A. Kahinaan', 'B. Kakayahang makabangon at makapag-angkop', 'C. Uri ng sakuna', 'D. Uri ng lupa'],
-        answer: 1
-    }
-];
-
-const root = document.getElementById('questionsRoot');
-const checkBtn = document.getElementById('checkBtn');
-const resultBox = document.getElementById('resultBox');
-const scoreText = document.getElementById('scoreText');
-const levelText = document.getElementById('levelText');
-
-function renderQuiz() {
-    root.innerHTML = quizItems.map((item, index) => {
-        const optionsHtml = item.options.map((opt, optIndex) => `
-            <label class="mod3-opt" data-q="${index}" data-opt="${optIndex}">
-                <input type="radio" name="q_${index}" value="${optIndex}"> ${opt}
-            </label>
-        `).join('');
-
-        return `
-            <article class="mod3-q" id="q_${index}">
-                <p class="mod3-q-title">${item.q}</p>
-                <div>${optionsHtml}</div>
-            </article>
-        `;
-    }).join('');
-}
-
-function getChosenValue(qIndex) {
-    const selected = document.querySelector(`input[name="q_${qIndex}"]:checked`);
-    return selected ? Number(selected.value) : -1;
-}
-
-function interpretScore(score) {
-    if (score <= 5) return '🔴 Kailangan ng gabay';
-    if (score <= 10) return '🟡 May kaalaman';
-    return '🟢 Handa sa sakuna';
-}
-
-function revealAnswersAndScore() {
-    let score = 0;
-
-    quizItems.forEach((item, index) => {
-        const selectedValue = getChosenValue(index);
-        if (selectedValue === item.answer) score += 1;
-
-        const optionLabels = root.querySelectorAll(`label[data-q="${index}"]`);
-        optionLabels.forEach((label) => {
-            const opt = Number(label.dataset.opt);
-            label.classList.remove('correct', 'wrong');
-            if (opt === item.answer) {
-                label.classList.add('correct');
+    <script>
+        const quizItems = [
+            {
+                q: '1) Ano ang pinakaangkop na paglalarawan ng banta?',
+                options: ['A. Pangyayaring nakalipas na', 'B. Banta na maaaring magdulot ng pinsala', 'C. Plano ng pamahalaan', 'D. Uri ng komunidad'],
+                answer: 1
+            },
+            {
+                q: '2) Kailan nagiging sakuna ang isang banta?',
+                options: ['A. Kapag may ulan', 'B. Kapag may tao sa lugar', 'C. Kapag may pinsala dahil sa kahinaan ng komunidad', 'D. Kapag gabi'],
+                answer: 2
+            },
+            {
+                q: '3) Ano ang ibig sabihin ng kahinaan?',
+                options: ['A. Kakayahang tumulong', 'B. Kahinaan ng tao o lugar sa panganib', 'C. Uri ng banta', 'D. Plano ng barangay'],
+                answer: 1
+            },
+            {
+                q: '4) Kung ang isang komunidad ay matibay ang bahay ngunit nasa lugar na madalas bahain, ano ito?',
+                options: ['A. Walang banta', 'B. Mataas na kahinaan pa rin', 'C. Walang panganib', 'D. Ligtas na lugar'],
+                answer: 1
+            },
+            {
+                q: '5) Ano ang layunin ng paghahanda sa sakuna?',
+                options: ['A. Maghintay ng tulong', 'B. Mabawasan ang epekto ng sakuna', 'C. Maglaro', 'D. Magtago'],
+                answer: 1
+            },
+            {
+                q: '6) Alin ang pinakamahalagang gawin bago ang bagyo?',
+                options: ['A. Lumabas', 'B. Maghanda ng kagamitang pang-emergency at makinig sa balita', 'C. Matulog', 'D. Mag-video'],
+                answer: 1
+            },
+            {
+                q: '7) Ano ang pinakaangkop na gawin kapag may utos ng paglikas?',
+                options: ['A. Maghintay muna', 'B. Sumunod agad upang maiwasan ang panganib', 'C. Huwag pansinin', 'D. Lumabas mag-isa'],
+                answer: 1
+            },
+            {
+                q: '8) Bakit mahalaga ang maagang babala?',
+                options: ['A. Para sa ingay', 'B. Para mabigyan ng oras ang tao na maghanda', 'C. Para maglibang', 'D. Para maghintay'],
+                answer: 1
+            },
+            {
+                q: '9) Ano ang katangian ng lapit na mula sa itaas?',
+                options: ['A. Komunidad ang lider', 'B. Pamahalaan ang pangunahing nagdedesisyon', 'C. Walang plano', 'D. Walang aksyon'],
+                answer: 1
+            },
+            {
+                q: '10) Ano ang limitasyon ng lapit na mula sa itaas?',
+                options: ['A. Mabilis', 'B. Hindi isinasaalang-alang ang lokal na pangangailangan', 'C. Malakas', 'D. Kumpleto'],
+                answer: 1
+            },
+            {
+                q: '11) Ano ang pangunahing ideya ng lapit na mula sa ibaba?',
+                options: ['A. Walang lider', 'B. Aktibong pakikilahok ng komunidad', 'C. Walang plano', 'D. Mabagal'],
+                answer: 1
+            },
+            {
+                q: '12) Ano ang layunin ng pamamahalang nakabatay sa komunidad sa pagbawas ng panganib sa sakuna?',
+                options: ['A. Maghintay ng tulong', 'B. Palakasin ang kakayahan ng komunidad sa sakuna', 'C. Magtago', 'D. Maglaro'],
+                answer: 1
+            },
+            {
+                q: '13) Ano ang tamang gawin habang lumilindol?',
+                options: ['A. Tumakbo palabas agad', 'B. Magtago sa ilalim ng matibay na mesa', 'C. Tumalon', 'D. Sumigaw'],
+                answer: 1
+            },
+            {
+                q: '14) Ano ang pinakamainam gawin pagkatapos ng baha?',
+                options: ['A. Pumasok agad', 'B. Suriin muna ang kuryente at paligid', 'C. Matulog', 'D. Maglaro'],
+                answer: 1
+            },
+            {
+                q: '15) Ano ang ibig sabihin ng katatagan?',
+                options: ['A. Kahinaan', 'B. Kakayahang makabangon at makapag-angkop', 'C. Uri ng sakuna', 'D. Uri ng lupa'],
+                answer: 1
             }
-            if (selectedValue === opt && selectedValue !== item.answer) {
-                label.classList.add('wrong');
-            }
+        ];
+
+        const root = document.getElementById('questionsRoot');
+        const checkBtn = document.getElementById('checkBtn');
+        const resultBox = document.getElementById('resultBox');
+        const scoreText = document.getElementById('scoreText');
+        const levelText = document.getElementById('levelText');
+
+        function renderQuiz() {
+            root.innerHTML = quizItems.map((item, index) => {
+                const optionsHtml = item.options.map((opt, optIndex) => `
+                    <label class="mod3-opt" data-q="${index}" data-opt="${optIndex}">
+                        <input type="radio" name="q_${index}" value="${optIndex}"> ${opt}
+                    </label>
+                `).join('');
+
+                return `
+                    <article class="mod3-q" id="q_${index}">
+                        <p class="mod3-q-title">${item.q}</p>
+                        <div>${optionsHtml}</div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function getChosenValue(qIndex) {
+            const selected = document.querySelector(`input[name="q_${qIndex}"]:checked`);
+            return selected ? Number(selected.value) : -1;
+        }
+
+        function interpretScore(score) {
+            if (score <= 5) return '🔴 Kailangan ng gabay';
+            if (score <= 10) return '🟡 May kaalaman';
+            return '🟢 Handa sa sakuna';
+        }
+
+        function revealAnswersAndScore() {
+            let score = 0;
+
+            quizItems.forEach((item, index) => {
+                const selectedValue = getChosenValue(index);
+                if (selectedValue === item.answer) score += 1;
+
+                const optionLabels = root.querySelectorAll(`label[data-q="${index}"]`);
+                optionLabels.forEach((label) => {
+                    const opt = Number(label.dataset.opt);
+                    label.classList.remove('correct', 'wrong');
+                    if (opt === item.answer) {
+                        label.classList.add('correct');
+                    }
+                    if (selectedValue === opt && selectedValue !== item.answer) {
+                        label.classList.add('wrong');
+                    }
+                });
+            });
+
+            scoreText.textContent = `Iskor: ${score} / 15`;
+            levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // MODIFY EXISTING BUTTON EVENT
+        checkBtn.addEventListener('click', () => {
+            revealAnswersAndScore();
+            submitToServer(); // 🔥 SAVE TO DATABASE
         });
-    });
 
-    scoreText.textContent = `Iskor: ${score} / 15`;
-    levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
-    resultBox.classList.add('show');
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+        renderQuiz();
 
-checkBtn.addEventListener('click', revealAnswersAndScore);
-renderQuiz();
-</script>
+        function submitToServer() {
+            const answers = quizItems.map((_, index) => getChosenValue(index));
+
+            fetch("{{ route('student.module3.pretest.store') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ answers })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Saved:", data);
+            })
+            .catch(err => console.error(err));
+        }
+
+    </script>
 @endsection
