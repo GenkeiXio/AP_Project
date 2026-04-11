@@ -272,6 +272,34 @@
             } else {
                 msg.innerText = "Naitala na ang iyong puntos. Maaari nang tumuloy sa susunod na aralin.";
             }
+
+            // 🔥 COLLECT DATA
+            let placements = [];
+
+            document.querySelectorAll('.scroll-box').forEach(box => {
+                const yugto = box.dataset.yugto;
+
+                box.querySelectorAll('.placed-img').forEach(img => {
+                    placements.push({
+                        image: img.src,
+                        placed_in: yugto,
+                        is_correct: img.classList.contains('tama')
+                    });
+                });
+            });
+
+            // 🔥 SAVE TO DATABASE
+            fetch("{{ route('student.module3.gabay.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    score: score,
+                    placements: placements
+                })
+            });
         }
     </script>
 </body>

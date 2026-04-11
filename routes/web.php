@@ -25,7 +25,13 @@ use App\Http\Controllers\Student\Module3\Module3PerformanceTaskController;
 use App\Http\Controllers\Student\Module3\Module3_PretestController;
 use App\Http\Controllers\Student\Module3\Module3Node1Controller;
 use App\Http\Controllers\Student\Module3\Module3Node2Controller;
-
+use App\Http\Controllers\Student\Module3\Module3Node3Controller;
+use App\Http\Controllers\Student\Module3\Module3GobagActivityController;
+use App\Http\Controllers\Student\Module3\Module3SafeHomeController;
+use App\Http\Controllers\Student\Module3\Module3GabayController;
+use App\Http\Controllers\Student\Module3\Module3ElninoController;
+use App\Http\Controllers\Student\Module3\Module3BulkanController;
+use App\Http\Controllers\Student\Module3\Module3FloodController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -63,8 +69,20 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/module3/node2/save', [Module3Node2Controller::class, 'save'])->name('module3.node2.save');
     Route::get('/module3/node1', [Module3Node1Controller::class, 'index'])->name('module3.node1');
     Route::post('/module3/node1/save', [Module3Node1Controller::class, 'save'])->name('module3.node1.save');
-
-
+    Route::get('/student/module3/node3', [Module3Node3Controller::class, 'index'])->name('student.module3.node3');
+    Route::post('/student/module3/node3/save', [Module3Node3Controller::class, 'store'])->name('student.module3.node3.save');
+    Route::get('/student/module3/gobag', [Module3GobagActivityController::class, 'index'])->name('student.module3.gobag');
+    Route::post('/student/module3/gobag/save', [Module3GobagActivityController::class, 'store'])->name('student.module3.gobag.save');
+    Route::get('/student/module3/safe-home', [Module3SafeHomeController::class, 'index'])->name('student.module3.safehome');
+    Route::post('/student/module3/safe-home/save', [Module3SafeHomeController::class, 'store'])->name('student.module3.safehome.save');
+    Route::get('/student/module3/gabay', [Module3GabayController::class, 'index'])->name('gabay.activity');
+    Route::post('/student/module3/gabay/save', [Module3GabayController::class, 'store'])->name('student.module3.gabay.save');
+    Route::get('/student/module3/elnino', [Module3ElninoController::class, 'index'])->name('el-nino.activity');
+    Route::post('/student/module3/elnino/save', [Module3ElninoController::class, 'store'])->name('student.module3.elnino.save');
+    Route::get('/student/module3/bulkan', [Module3BulkanController::class, 'index'])->name('bulkan.activity');
+    Route::post('/student/module3/bulkan/save', [Module3BulkanController::class, 'store'])->name('student.module3.bulkan.save');
+    Route::get('/student/module3/flood', [Module3FloodController::class, 'index'])->name('flood.activity');
+    Route::post('/student/module3/flood/save', [Module3FloodController::class, 'store'])->name('student.module3.flood.save');
 
 
 });
