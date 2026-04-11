@@ -32,6 +32,8 @@ use App\Http\Controllers\Student\Module3\Module3GabayController;
 use App\Http\Controllers\Student\Module3\Module3ElninoController;
 use App\Http\Controllers\Student\Module3\Module3BulkanController;
 use App\Http\Controllers\Student\Module3\Module3FloodController;
+use App\Http\Controllers\Student\Module3\Module3PosttestController;
+use App\Http\Controllers\Student\Module3\Module3LindolController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -83,6 +85,13 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/bulkan/save', [Module3BulkanController::class, 'store'])->name('student.module3.bulkan.save');
     Route::get('/student/module3/flood', [Module3FloodController::class, 'index'])->name('flood.activity');
     Route::post('/student/module3/flood/save', [Module3FloodController::class, 'store'])->name('student.module3.flood.save');
+    Route::get('/student/module3/posttest', [Module3PosttestController::class, 'index'])->name('student.module3.posttest');
+    Route::post('/student/module3/posttest/save', [Module3PosttestController::class, 'store'])->name('student.module3.posttest.save');
+    Route::get('/student/module3/lindol', [Module3LindolController::class, 'index'])->name('lindol.activity');
+    Route::post('/student/module3/lindol/save', [Module3LindolController::class, 'store'])->name('student.module3.lindol.save');
+
+
+
 
 
 });
@@ -287,10 +296,6 @@ Route::get('/gabay-page', function () {
 Route::get('/module3/activity/el-nino', function () {
     return view('Students.Module3.Activities.el_niño');
 })->name('el-nino.activity');
-
-Route::get('/module3/activity/lindol', function () {
-    return view('Students.Module3.Activities.lindol');
-})->name('lindol.activity');
 
 Route::get('/module3/activity/bulkan', function () {
     return view('Students.Module3.Activities.bulkan');

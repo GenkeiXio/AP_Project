@@ -199,6 +199,7 @@ let dragged = null;
 let score = 0;
 let totalCorrect = 0;
 let totalItems = document.querySelectorAll('.draggable').length;
+let startTime = Date.now();
 
 const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
 const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
@@ -263,6 +264,9 @@ function endGame() {
 
     nextBtn.style.display = "block";
     confetti();
+
+    //SAVE TO DATABASE
+    saveLindol();
 }
 
 // CONFETTI
@@ -287,6 +291,28 @@ function confetti() {
             }
         }, 30);
     }
+}
+
+function saveLindol() {
+
+    let timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+    fetch("{{ route('student.module3.lindol.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            score: score,
+            total_items: totalItems,
+            correct_items: totalCorrect,
+            time_spent: timeSpent
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Saved:", data))
+    .catch(err => console.error(err));
 }
 </script>
 
