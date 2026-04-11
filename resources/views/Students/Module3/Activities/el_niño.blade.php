@@ -187,10 +187,12 @@ Ilagay ang mga salita na magbibigay ng  tamang gabay sa ganitong pangyayari.
 
         <div id="successBox">
             <h2 class="fw-bold" style="font-size: 2.5rem;">🌟 Mahusay!</h2>
-            <p class="fs-4">Mahusay! Ipinapakita ng larawan ang epekto ng El Niño (tagtuyot) at La Niña (pagbaha) at ang mga paraan ng paghahanda tulad ng pagtitipid ng tubig, paglilinis ng daluyan, at pangangalaga sa kapaligiran upang mabawasan ang pinsala.
-
-</p>
-            <a href="{{ route('bulkan.activity') }}" class="btn btn-light btn-lg fw-bold px-5 mt-3">Susunod na Aralin</a>
+            <p class="fs-4">
+                Mahusay! Ipinapakita ng larawan ang epekto ng El Niño (tagtuyot) at La Niña (pagbaha) at ang mga paraan ng paghahanda tulad ng pagtitipid ng tubig, paglilinis ng daluyan, at pangangalaga sa kapaligiran upang mabawasan ang pinsala.
+            </p>
+            <a href="{{ route('lindol.activity') }}" class="btn btn-light btn-lg fw-bold px-5 mt-3">
+                Susunod na Aralin
+            </a>
         </div>
     </div>
 </div>
