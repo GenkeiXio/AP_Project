@@ -21,28 +21,38 @@
         }
 
         .dropzone {
-            min-height: 220px;
+            height: 220px; /* FIXED HEIGHT */
             border: 2px dashed #fff;
             padding: 10px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            overflow-y: auto; /* scroll instead of expanding */
         }
 
         .draggable {
             cursor: grab;
-            border: 2px solid #fff;
-            padding: 5px;
-            background: white;
-            border-radius: 10px;
-            transition: 0.3s;
-            width: 200px;      /* ✅ bigger */
-            height: auto;
+            border: 2px solid #ddd;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 12px;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 200px;
+            height: 180px;
+            object-fit: contain;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
         .dropzone img {
-            width: 200px;      /* ✅ readable */
-            height: auto;
-            margin: 8px;
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin: 0;
         }
 
         .draggable:hover {
@@ -79,6 +89,26 @@
             text-align: center;
             margin-bottom: 10px;
         }
+
+        .choice-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            padding: 8px;
+            color: #222;
+        }
+
+        .choice-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        #choices {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
     </style>
 </head>
 
@@ -100,7 +130,6 @@
     <!-- GAME HUD -->
     <div class="d-flex justify-content-between mb-3">
         <div>⭐ Score: <span id="score">0</span></div>
-        <div>❤️ Lives: <span id="lives">3</span></div>
     </div>
 
     <!-- DROP ZONES -->
@@ -124,28 +153,31 @@
     <!-- DRAG ITEMS -->
     @php
         $items = [
-            ['img'=>'pictures/Module%203/lindol_activity/earthquake_drill.png','type'=>'before'],
-            ['img'=>'pictures/Module%203/lindol_activity/emergency_kit.png','type'=>'before'],
-            ['img'=>'pictures/Module%203/lindol_activity/exit_route.png','type'=>'before'],
+            ['img'=>'pictures/Module%203/lindol_activity/earthquake_drill.png','type'=>'before','label'=>'Earthquake Drill'],
+            ['img'=>'pictures/Module%203/lindol_activity/emergency_kit.png','type'=>'before','label'=>'Emergency Kit'],
+            ['img'=>'pictures/Module%203/lindol_activity/exit_route.png','type'=>'before','label'=>'Exit Route'],
 
-            ['img'=>'pictures/Module%203/lindol_activity/avoid_structures.png','type'=>'during'],
-            ['img'=>'pictures/Module%203/lindol_activity/duck_cover.png','type'=>'during'],
-            ['img'=>'pictures/Module%203/lindol_activity/go_safe_place.png','type'=>'during'],
+            ['img'=>'pictures/Module%203/lindol_activity/avoid_structures.png','type'=>'during','label'=>'Avoid Structures'],
+            ['img'=>'pictures/Module%203/lindol_activity/duck_cover.png','type'=>'during','label'=>'Duck Cover Hold'],
+            ['img'=>'pictures/Module%203/lindol_activity/go_safe_place.png','type'=>'during','label'=>'Go Safe Place'],
 
-            ['img'=>'pictures/Module%203/lindol_activity/exit_building.png','type'=>'after'],
-            ['img'=>'pictures/Module%203/lindol_activity/bring_kit.png','type'=>'after'],
-            ['img'=>'pictures/Module%203/lindol_activity/evacuate.png','type'=>'after'],
+            ['img'=>'pictures/Module%203/lindol_activity/exit_building.png','type'=>'after','label'=>'Exit Building'],
+            ['img'=>'pictures/Module%203/lindol_activity/bring_kit.png','type'=>'after','label'=>'Bring Kit'],
+            ['img'=>'pictures/Module%203/lindol_activity/evacuate.png','type'=>'after','label'=>'Evacuate'],
         ];
-        shuffle($items);
     @endphp
 
-    <div class="row" id="choices">
+    <div id="choices">
         @foreach($items as $item)
-            <div class="col-md-2 mb-3 text-center">
-                <img src="{{ asset($item['img']) }}"
-                     class="draggable"
-                     draggable="true"
-                     data-type="{{ $item['type'] }}">
+            <div class="col-md-3 mb-3 text-center">
+                <div class="choice-card">
+                    <img src="{{ asset($item['img']) }}"
+                        class="draggable"
+                        draggable="true"
+                        data-type="{{ $item['type'] }}">
+
+                    <div class="choice-label">{{ $item['label'] }}</div>
+                </div>
             </div>
         @endforeach
     </div>
@@ -165,7 +197,6 @@
 <script>
 let dragged = null;
 let score = 0;
-let lives = 3;
 let totalCorrect = 0;
 let totalItems = document.querySelectorAll('.draggable').length;
 
@@ -203,52 +234,35 @@ document.querySelectorAll('.dropzone').forEach(zone => {
             dragged.classList.add("wrong");
             wrongSound.play();
 
-            lives--;
-            document.getElementById('lives').innerText = lives;
-
             setTimeout(() => {
                 dragged.classList.remove("wrong");
             }, 500);
         }
 
         // PERFECT WIN
-        if (totalCorrect === totalItems && lives === 3) {
+        if (totalCorrect === totalItems) {
             endGame(true);
-        }
-
-        // FAIL
-        if (lives <= 0) {
-            endGame(false);
         }
     });
 });
 
 // END GAME
-function endGame(win) {
+function endGame() {
     let feedback = document.getElementById('feedback');
     let nextBtn = document.getElementById('nextBtn');
 
     feedback.style.display = "block";
 
-    if (win) {
-        feedback.className = "mt-4 alert alert-success";
-        feedback.innerHTML = `
-        🎉 <strong>PERFECT SCORE!</strong><br><br>
-        Napagtagumpayan mong matukoy ang lahat ng tamang gawain nang walang pagkakamali!<br><br>
-        ⭐ Score: ${score}<br><br>
-        👏 Ang handa ay ligtas!
-        `;
-        nextBtn.style.display = "block";
-        confetti();
+    feedback.className = "mt-4 alert alert-success";
+    feedback.innerHTML = `
+    🎉 <strong>Great Job!</strong><br><br>
+    Natapos mo ang gawain!<br><br>
+    ⭐ Score: ${score}<br><br>
+    Handa ka na sa susunod!
+    `;
 
-    } else {
-        feedback.className = "mt-4 alert alert-danger";
-        feedback.innerHTML = `
-        💥 GAME OVER<br>
-        Kailangan mong makuha ang PERFECT score upang makapagpatuloy.<br>
-        ⭐ Score: ${score}
-        `;
-    }
+    nextBtn.style.display = "block";
+    confetti();
 }
 
 // CONFETTI
