@@ -288,6 +288,10 @@ Route::get('/module3/activity/el-nino', function () {
     return view('Students.Module3.Activities.el_niño');
 })->name('el-nino.activity');
 
+Route::get('/module3/activity/lindol', function () {
+    return view('Students.Module3.Activities.lindol');
+})->name('lindol.activity');
+
 Route::get('/module3/activity/bulkan', function () {
     return view('Students.Module3.Activities.bulkan');
 })->name('bulkan.activity');

@@ -243,7 +243,7 @@
             <p class="mod3-level" id="levelText"></p>
             <p class="mod3-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
             <div class="mod3-next">
-                <a class="mod3-btn mod3-btn-primary" href="{{ route('module3.next') }}" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
+                <a class="mod3-btn mod3-btn-primary" href="{{ route('module3.balik_aral') }}" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
             </div>
         </section>
     </div>
