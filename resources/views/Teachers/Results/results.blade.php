@@ -145,7 +145,7 @@
             </div>
             <div>
                 <p>Total Modules</p>
-                <h2>3</h2>
+                <h2>{{ $totalModules }}</h2>
             </div>
         </div>
 
@@ -155,7 +155,7 @@
             </div>
             <div>
                 <p>Total Students</p>
-                <h2>6</h2>
+                <h2>{{ $totalStudents }}</h2>
             </div>
         </div>
 
@@ -165,7 +165,7 @@
             </div>
             <div>
                 <p>Avg. Completion</p>
-                <h2>82%</h2>
+                <h2>{{ round($avgCompletion) }}%</h2>
             </div>
         </div>
     </div>
@@ -173,17 +173,19 @@
     <!-- MODULES -->
     <div class="modules-grid">
 
-        <div class="module-card blue">
-            <div class="stat-icon" style="background:#dbeafe;">
-                <i data-lucide="book-open"></i>
-            </div>
-            <div class="module-title">Module 2</div>
-            <div class="module-sub">Sanhi at Bunga</div>
+        <a href="{{ route('teacher.module2.results') }}" style="text-decoration:none; color:inherit;">
+            <div class="module-card blue">
+                <div class="stat-icon" style="background:#dbeafe;">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div class="module-title">Module 2</div>
+                <div class="module-sub">Sanhi at Bunga</div>
 
-            <span class="badge blue">
-                <i data-lucide="users"></i> 6 students
-            </span>
-        </div>
+                <span class="badge blue">
+                    <i data-lucide="users"></i> 6 students
+                </span>
+            </div>
+        </a>
 
         <div class="module-card green">
             <div class="stat-icon" style="background:#dcfce7;">

@@ -804,6 +804,10 @@ function endGame(){
 
     const maxScore = rounds.length * 3;
     const passed = score >= 5;
+
+    // ✅ SAVE TO DATABASE
+    saveGameProgress(passed);
+    
     const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
 
     if (passed) {
@@ -863,6 +867,28 @@ document.getElementById('bottomCard').classList.add('active');
 chooseSection.style.display = 'block';
 
 typeNarrator(narratorMessage, 30);
+
+function saveGameProgress(passed){
+    fetch("{{ route('module3.node2.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            chosen_side: chosenSide,
+            score: score,
+            lives_remaining: lives,
+            is_passed: passed ? 1 : 0
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Saved:", data);
+    })
+    .catch(err => console.error(err));
+}
+
 </script>
 
 @endsection
