@@ -1,16 +1,16 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 3\Pre-Test_mod3.blade.php --}}
+{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 4\Pre-Test_mod4.blade.php --}}
 @extends('Students.studentslayout')
-@section('title', 'Paunang Pagsusulit Modyul 3')
+@section('title', 'Paunang Pagsusulit Modyul 4')
 
 @push('styles')
 <style>
-.mod3-pretest-wrap {
+.mod4-pretest-wrap {
     max-width: 1000px;
     margin: 24px auto;
     padding: 0 16px 28px;
 }
 
-.mod3-head {
+.mod4-head {
     background: #ffffff;
     border: 2px solid #d8eadb;
     border-radius: 18px;
@@ -18,19 +18,19 @@
     box-shadow: 0 10px 22px rgba(29, 92, 52, 0.1);
 }
 
-.mod3-head h1 {
+.mod4-head h1 {
     margin: 0;
     color: #1f4f32;
     font-size: clamp(1.2rem, 2.4vw, 1.8rem);
 }
 
-.mod3-head p {
+.mod4-head p {
     margin: 8px 0 0;
     color: #40624b;
     line-height: 1.5;
 }
 
-.mod3-score-guide {
+.mod4-score-guide {
     margin-top: 12px;
     padding: 12px;
     border-radius: 12px;
@@ -39,13 +39,13 @@
     color: #305942;
 }
 
-.mod3-questions {
+.mod4-questions {
     margin-top: 16px;
     display: grid;
     gap: 12px;
 }
 
-.mod3-q {
+.mod4-q {
     background: #fff;
     border: 1px solid #dfece1;
     border-radius: 14px;
@@ -53,13 +53,13 @@
     transition: all 0.2s ease;
 }
 
-.mod3-q.missing {
+.mod4-q.missing {
     border: 2px solid #d94141;
     background: #fff8f8;
     box-shadow: 0 0 0 2px rgba(217, 65, 65, 0.2);
 }
 
-.mod3-q-title {
+.mod4-q-title {
     margin: 0 0 10px;
     color: #214a33;
     font-weight: 800;
@@ -69,11 +69,11 @@
     gap: 8px;
 }
 
-.mod3-q-title .status-icon {
+.mod4-q-title .status-icon {
     font-size: 0.9rem;
 }
 
-.mod3-opt {
+.mod4-opt {
     display: block;
     padding: 8px 10px;
     border: 1px solid #dde9e0;
@@ -83,33 +83,33 @@
     transition: 0.15s;
 }
 
-.mod3-opt:hover {
+.mod4-opt:hover {
     background: #f6fff7;
 }
 
-.mod3-opt.correct {
+.mod4-opt.correct {
     border-color: #3ca75e;
     background: #ebfff0;
 }
 
-.mod3-opt.wrong {
+.mod4-opt.wrong {
     border-color: #d94141;
     background: #fff0f0;
 }
 
-.mod3-opt input[type="radio"] {
+.mod4-opt input[type="radio"] {
     margin-right: 10px;
     cursor: pointer;
 }
 
-.mod3-actions {
+.mod4-actions {
     margin-top: 16px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.mod3-btn {
+.mod4-btn {
     border: none;
     border-radius: 12px;
     padding: 11px 16px;
@@ -118,32 +118,32 @@
     transition: all 0.2s ease;
 }
 
-.mod3-btn-primary {
+.mod4-btn-primary {
     background: linear-gradient(180deg, #7fd46a, #59ab44);
     color: #11351f;
 }
 
-.mod3-btn-primary:hover:not(:disabled) {
+.mod4-btn-primary:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(89, 171, 68, 0.3);
 }
 
-.mod3-btn-primary:disabled {
+.mod4-btn-primary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.mod3-btn-ghost {
+.mod4-btn-ghost {
     background: #eef8ef;
     color: #2f5a40;
     border: 1px solid #c9dfcd;
 }
 
-.mod3-btn-ghost:hover {
+.mod4-btn-ghost:hover {
     background: #e2f0e4;
 }
 
-.mod3-result {
+.mod4-result {
     margin-top: 16px;
     padding: 14px;
     border-radius: 12px;
@@ -152,31 +152,31 @@
     display: none;
 }
 
-.mod3-result.show {
+.mod4-result.show {
     display: block;
 }
 
-.mod3-score {
+.mod4-score {
     margin: 0;
     font-weight: 900;
     color: #1e4d31;
 }
 
-.mod3-level {
+.mod4-level {
     margin: 8px 0 0;
     font-weight: 800;
 }
 
-.mod3-feedback {
+.mod4-feedback {
     margin: 10px 0 0;
     color: #3f604a;
 }
 
-.mod3-next {
+.mod4-next {
     margin-top: 14px;
 }
 
-.mod3-error-message {
+.mod4-error-message {
     margin-top: 12px;
     padding: 10px;
     background: #fff0f0;
@@ -187,11 +187,11 @@
     display: none;
 }
 
-.mod3-error-message.show {
+.mod4-error-message.show {
     display: block;
 }
 
-.mod3-progress {
+.mod4-progress {
     margin-top: 16px;
     padding: 10px;
     background: #f0f7f2;
@@ -201,7 +201,7 @@
     color: #2f5a40;
 }
 
-.mod3-progress span {
+.mod4-progress span {
     color: #1f7a47;
     font-size: 1.2rem;
     font-weight: 800;
@@ -210,12 +210,12 @@
 @endpush
 
 @section('content')
-    <div class="mod3-pretest-wrap">
-        <section class="mod3-head">
-            <h1>🎮 PRE-TEST: Gaano Ka Kahanda? (Mas Mataas na Antas)</h1>
+    <div class="mod4-pretest-wrap">
+        <section class="mod4-head">
+            <h1>🎮 PRE-TEST: Pamumuno at Pagtugon sa Sakuna</h1>
             <p><strong>Panuto:</strong> Basahin at unawain ang bawat sitwasyon. Piliin ang pinakaangkop na sagot.</p>
 
-            <div class="mod3-score-guide">
+            <div class="mod4-score-guide">
                 <strong>Pagpapakahulugan ng Iskor:</strong><br>
                 0–5 → 🔴 Kailangan ng gabay<br>
                 6–10 → 🟡 May kaalaman<br>
@@ -223,27 +223,27 @@
             </div>
         </section>
 
-        <section class="mod3-questions" id="questionsRoot"></section>
+        <section class="mod4-questions" id="questionsRoot"></section>
 
-        <div class="mod3-progress" id="progressBar">
+        <div class="mod4-progress" id="progressBar">
             Nasagot na: <span id="answeredCount">0</span> / <span id="totalCount">15</span> na tanong
         </div>
 
-        <div class="mod3-error-message" id="errorMessage">
+        <div class="mod4-error-message" id="errorMessage">
             ⚠️ Pakisagutan muna ang lahat ng tanong bago ipasa ang pagsusulit.
         </div>
 
-        <div class="mod3-actions">
-            <button class="mod3-btn mod3-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Iskor at Tamang Sagot</button>
-            <a class="mod3-btn mod3-btn-ghost" href="{{ route('module3.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
+        <div class="mod4-actions">
+            <button class="mod4-btn mod4-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Iskor at Tamang Sagot</button>
+            <a class="mod4-btn mod4-btn-ghost" href="{{ route('module4.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
         </div>
 
-        <section class="mod3-result" id="resultBox">
-            <p class="mod3-score" id="scoreText"></p>
-            <p class="mod3-level" id="levelText"></p>
-            <p class="mod3-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
-            <div class="mod3-next">
-                <a class="mod3-btn mod3-btn-primary" href="{{ route('module3.next') }}" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
+        <section class="mod4-result" id="resultBox">
+            <p class="mod4-score" id="scoreText"></p>
+            <p class="mod4-level" id="levelText"></p>
+            <p class="mod4-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
+            <div class="mod4-next">
+                <a class="mod4-btn mod4-btn-primary" href="" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
             </div>
         </section>
     </div>
@@ -251,78 +251,78 @@
     <script>
         const quizItems = [
             {
-                q: '1) Ano ang pinakaangkop na paglalarawan ng banta?',
-                options: ['A. Pangyayaring nakalipas na', 'B. Banta na maaaring magdulot ng pinsala', 'C. Plano ng pamahalaan', 'D. Uri ng komunidad'],
+                q: '1) May paparating na bagyo ngunit ayaw lumikas ng mga residente. Ano ang pinakamainam na gawin bilang lider?',
+                options: ['A. Hayaan sila', 'B. Magbigay ng malinaw na babala at ipaliwanag ang panganib', 'C. Pilitin agad nang walang paliwanag', 'D. Maghintay ng utos'],
                 answer: 1
             },
             {
-                q: '2) Kailan nagiging sakuna ang isang banta?',
-                options: ['A. Kapag may ulan', 'B. Kapag may tao sa lugar', 'C. Kapag may pinsala dahil sa kahinaan ng komunidad', 'D. Kapag gabi'],
-                answer: 2
-            },
-            {
-                q: '3) Ano ang ibig sabihin ng kahinaan?',
-                options: ['A. Kakayahang tumulong', 'B. Kahinaan ng tao o lugar sa panganib', 'C. Uri ng banta', 'D. Plano ng barangay'],
+                q: '2) Sa isang barangay, maraming tao ang hindi sumusunod sa evacuation plan. Ano ang pangunahing problema?',
+                options: ['A. Kakulangan sa pera', 'B. Kakulangan sa disiplina', 'C. Kakulangan sa bahay', 'D. Kakulangan sa pagkain'],
                 answer: 1
             },
             {
-                q: '4) Kung ang isang komunidad ay matibay ang bahay ngunit nasa lugar na madalas bahain, ano ito?',
-                options: ['A. Walang banta', 'B. Mataas na kahinaan pa rin', 'C. Walang panganib', 'D. Ligtas na lugar'],
+                q: '3) Sa gitna ng baha, may mga taong gustong bumalik sa bahay para kumuha ng gamit. Ano ang dapat mong gawin?',
+                options: ['A. Payagan sila', 'B. Ipaliwanag ang panganib at pigilan sila', 'C. Sumama sa kanila', 'D. Iwanan sila'],
                 answer: 1
             },
             {
-                q: '5) Ano ang layunin ng paghahanda sa sakuna?',
-                options: ['A. Maghintay ng tulong', 'B. Mabawasan ang epekto ng sakuna', 'C. Maglaro', 'D. Magtago'],
+                q: '4) Matapos ang lindol, may bitak ang gusali ngunit may gustong pumasok. Ano ang tamang desisyon?',
+                options: ['A. Pahintulutan', 'B. I-inspect muna ang kaligtasan bago papasukin', 'C. Balewalain', 'D. Ipagpatuloy ang normal na gawain'],
                 answer: 1
             },
             {
-                q: '6) Alin ang pinakamahalagang gawin bago ang bagyo?',
-                options: ['A. Lumabas', 'B. Maghanda ng kagamitang pang-emergency at makinig sa balita', 'C. Matulog', 'D. Mag-video'],
+                q: '5) Sa isang komunidad, may maling balita tungkol sa sakuna. Ano ang epekto nito?',
+                options: ['A. Nagiging kalmado ang tao', 'B. Nagdudulot ng takot at kalituhan', 'C. Walang epekto', 'D. Nakakatulong sa paghahanda'],
                 answer: 1
             },
             {
-                q: '7) Ano ang pinakaangkop na gawin kapag may utos ng paglikas?',
-                options: ['A. Maghintay muna', 'B. Sumunod agad upang maiwasan ang panganib', 'C. Huwag pansinin', 'D. Lumabas mag-isa'],
+                q: '6) Sa panahon ng bagyo, may mga taong hindi nakikinig sa babala. Ano ang dapat gawin ng lider?',
+                options: ['A. Huwag na silang pansinin', 'B. Palakasin ang information drive at babala', 'C. Iwanan sila', 'D. Maghintay'],
                 answer: 1
             },
             {
-                q: '8) Bakit mahalaga ang maagang babala?',
-                options: ['A. Para sa ingay', 'B. Para mabigyan ng oras ang tao na maghanda', 'C. Para maglibang', 'D. Para maghintay'],
+                q: '7) Sa isang lugar, may sapat na kagamitan ngunit kulang ang koordinasyon. Ano ang magiging epekto?',
+                options: ['A. Mas mabilis ang pagtugon', 'B. Magiging magulo ang operasyon', 'C. Walang epekto', 'D. Mas magiging maayos'],
                 answer: 1
             },
             {
-                q: '9) Ano ang katangian ng lapit na mula sa itaas?',
-                options: ['A. Komunidad ang lider', 'B. Pamahalaan ang pangunahing nagdedesisyon', 'C. Walang plano', 'D. Walang aksyon'],
+                q: '8) Sa isang evacuation center, may kaguluhan sa pamamahagi ng relief goods. Ano ang solusyon?',
+                options: ['A. Magbigay agad nang walang sistema', 'B. Magpatupad ng maayos na organisasyon at listahan', 'C. Itigil ang pamamahagi', 'D. Hayaan ang kaguluhan'],
                 answer: 1
             },
             {
-                q: '10) Ano ang limitasyon ng lapit na mula sa itaas?',
-                options: ['A. Mabilis', 'B. Hindi isinasaalang-alang ang lokal na pangangailangan', 'C. Malakas', 'D. Kumpleto'],
+                q: '9) Sa Guinobatan flashflood, ano ang pinakaunang hakbang upang maiwasan ang pinsala?',
+                options: ['A. Maghintay', 'B. Magbigay agad ng babala at magpa-evacuate', 'C. Mag-record ng video', 'D. Magpahinga'],
                 answer: 1
             },
             {
-                q: '11) Ano ang pangunahing ideya ng lapit na mula sa ibaba?',
-                options: ['A. Walang lider', 'B. Aktibong pakikilahok ng komunidad', 'C. Walang plano', 'D. Mabagal'],
+                q: '10) Sa pagputok ng bulkan, bakit mahalaga ang pagsunod sa alert level?',
+                options: ['A. Para sa dokumento', 'B. Dahil ito ay base sa siyentipikong pagsusuri ng panganib', 'C. Para sa media', 'D. Walang dahilan'],
                 answer: 1
             },
             {
-                q: '12) Ano ang layunin ng pamamahalang nakabatay sa komunidad sa pagbawas ng panganib sa sakuna?',
-                options: ['A. Maghintay ng tulong', 'B. Palakasin ang kakayahan ng komunidad sa sakuna', 'C. Magtago', 'D. Maglaro'],
+                q: '11) Kung may aftershock matapos ang lindol, ano ang tamang kilos?',
+                options: ['A. Bumalik agad sa bahay', 'B. Manatili sa ligtas na lugar', 'C. Maglakad-lakad', 'D. Magpahinga'],
                 answer: 1
             },
             {
-                q: '13) Ano ang tamang gawin habang lumilindol?',
-                options: ['A. Tumakbo palabas agad', 'B. Magtago sa ilalim ng matibay na mesa', 'C. Tumalon', 'D. Sumigaw'],
+                q: '12) Sa isang barangay, may kahandaan ngunit walang kooperasyon. Ano ang posibleng mangyari?',
+                options: ['A. Magiging ligtas lahat', 'B. Hindi magiging epektibo ang plano', 'C. Walang epekto', 'D. Mas magiging mabilis'],
                 answer: 1
             },
             {
-                q: '14) Ano ang pinakamainam gawin pagkatapos ng baha?',
-                options: ['A. Pumasok agad', 'B. Suriin muna ang kuryente at paligid', 'C. Matulog', 'D. Maglaro'],
+                q: '13) Bakit mahalaga ang emergency kit kahit hindi pa dumarating ang sakuna?',
+                options: ['A. Para sa display', 'B. Para sa agarang pangangailangan kung may sakuna', 'C. Para sa laro', 'D. Para sa dekorasyon'],
                 answer: 1
             },
             {
-                q: '15) Ano ang ibig sabihin ng katatagan?',
-                options: ['A. Kahinaan', 'B. Kakayahang makabangon at makapag-angkop', 'C. Uri ng sakuna', 'D. Uri ng lupa'],
+                q: '14) Sa isang sitwasyon, may sapat na kaalaman ngunit walang aksyon. Ano ang kakulangan?',
+                options: ['A. Kahandaan', 'B. Disiplina', 'C. Kooperasyon', 'D. Lahat ng nabanggit'],
+                answer: 3
+            },
+            {
+                q: '15) Bilang lider, alin ang nagpapakita ng pinakamataas na antas ng kahandaan, disiplina, at kooperasyon?',
+                options: ['A. Maghintay ng tulong', 'B. Magbigay ng plano, sumunod sa protocol, at hikayatin ang komunidad', 'C. Umalis sa lugar', 'D. Sariling pamilya lang ang tulungan'],
                 answer: 1
             }
         ];
@@ -357,14 +357,14 @@
         function renderQuiz() {
             root.innerHTML = quizItems.map((item, index) => {
                 const optionsHtml = item.options.map((opt, optIndex) => `
-                    <label class="mod3-opt" data-q="${index}" data-opt="${optIndex}">
+                    <label class="mod4-opt" data-q="${index}" data-opt="${optIndex}">
                         <input type="radio" name="q_${index}" value="${optIndex}"> ${opt}
                     </label>
                 `).join('');
 
                 return `
-                    <article class="mod3-q" id="q_${index}" data-q-index="${index}">
-                        <p class="mod3-q-title">
+                    <article class="mod4-q" id="q_${index}" data-q-index="${index}">
+                        <p class="mod4-q-title">
                             <span>${item.q}</span>
                             <span class="status-icon" id="status_${index}"></span>
                         </p>
@@ -451,7 +451,7 @@
 
         function interpretScore(score) {
             if (score <= 5) return '🔴 Kailangan ng gabay';
-            if (score <= 10) return '🟡 may kaalaman';
+            if (score <= 10) return '🟡 May kaalaman';
             return '🟢 Handa sa sakuna';
         }
 
@@ -483,20 +483,17 @@
             return score;
         }
 
-        function submitToServer(score, answers) {
-            fetch("{{ route('student.module3.pretest.store') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ answers, score: score })
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log("Saved:", data);
-            })
-            .catch(err => console.error("Save error:", err));
+        function submitToLocalStorage(score, answers) {
+            // Save to localStorage since no DB/controller yet for Module 4
+            const module4Result = {
+                score: score,
+                answers: answers,
+                totalItems: quizItems.length,
+                timestamp: new Date().toISOString(),
+                completed: true
+            };
+            localStorage.setItem('module4_pretest_result', JSON.stringify(module4Result));
+            console.log("Saved to localStorage:", module4Result);
         }
 
         // Main check button handler
@@ -537,8 +534,8 @@
                 });
             }
             
-            // Save to database
-            submitToServer(score, answers);
+            // Save to localStorage (no DB for Module 4 yet)
+            submitToLocalStorage(score, answers);
             
             // Change button text and disable it
             checkBtn.textContent = '✓ Naisumite na';

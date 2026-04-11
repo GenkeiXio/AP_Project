@@ -10,6 +10,8 @@ use App\Http\Controllers\Teacher\ClassController;
 use App\Http\Controllers\Teacher\QuizController;
 use App\Http\Controllers\Teacher\TeacherProfileController;
 use App\Http\Controllers\Teacher\AnalyticsController;
+use App\Http\Controllers\Teacher\ResultsController;
+use App\Http\Controllers\Teacher\Module2ResultsController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\Pretest\Module2PretestController;
@@ -21,6 +23,9 @@ use App\Http\Controllers\Student\Module2\Module2_PosttestController;
 use App\Http\Controllers\Student\Module2\Module2_EssayController;
 use App\Http\Controllers\Student\Module3\Module3PerformanceTaskController;
 use App\Http\Controllers\Student\Module3\Module3_PretestController;
+use App\Http\Controllers\Student\Module3\Module3Node1Controller;
+use App\Http\Controllers\Student\Module3\Module3Node2Controller;
+
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -54,6 +59,14 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/performance-task/save', [Module3PerformanceTaskController::class, 'store']) ->name('student.module3.performance-task.save');
     Route::get('student/module3/pretest', [Module3_PretestController::class, 'index'])->name('student.module3.pretest');
     Route::post('student/module3/pretest/store', [Module3_PretestController::class, 'store'])->name('student.module3.pretest.store');
+    Route::get('/module3/node2', [Module3Node2Controller::class, 'index'])->name('module3.node2');
+    Route::post('/module3/node2/save', [Module3Node2Controller::class, 'save'])->name('module3.node2.save');
+    Route::get('/module3/node1', [Module3Node1Controller::class, 'index'])->name('module3.node1');
+    Route::post('/module3/node1/save', [Module3Node1Controller::class, 'save'])->name('module3.node1.save');
+
+
+
+
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
@@ -92,12 +105,14 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::delete('/quizzes/{quiz}',                      [QuizController::class, 'destroy'])->name('quizzes.destroy');
     Route::get('/analytics',                              [AnalyticsController::class, 'index'])->name('analytics');
     Route::get('/analytics/export',                       function () { return "Export CSV";})->name('analytics.export');
+    Route::get('/results',                                [ResultsController::class, 'index'])->name('results');
+    Route::get('/module2-results',                        [Module2ResultsController::class, 'index'])->name('module2.results');
+    Route::get('/module2/student/{id}',                   [Module2ResultsController::class, 'show'])->name('module2.student');
+    Route::get('/module2/student/{id}/export',            [Module2ResultsController::class, 'exportFull'])->name('module2.export.full');
+
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
 
-Route::get('/results', function () {
-    return view('teachers.results.results');
-})->name('teacher.results.results');
 
 Route::get('/narration', function () {
     return view('narration');
@@ -270,3 +285,7 @@ Route::get('/module3/activity/flood', function () {
 Route::get('/module3/closing', function () {
     return view('Students.Module3.Activities.closing');
 })->name('module3.closing');
+
+Route::get('/module4/pretest', function () {
+    return view('Students.Module 4.Pretest');
+})->name('module4.pretest');

@@ -1,10 +1,7 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 4\home.blade.php --}}
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modyul 4</title>
+@extends('Students.studentslayout')
+@section('title', 'Modyul 4 - Home')
+
+@push('styles')
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@600;700;800&family=Fredoka:wght@500;600;700&display=swap');
@@ -668,8 +665,9 @@
             .progress-bar{ width:86px; }
         }
     </style>
-</head>
-<body>
+@endpush
+
+@section('content')
 <div class="wrap">
     <div class="view active" id="homeView">
         <section class="hero">
@@ -1097,5 +1095,4 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePollState();
 });
 </script>
-</body>
-</html>
+@endsection

@@ -107,7 +107,7 @@
                 <i data-lucide="layout-dashboard" class="icon"></i>
                 <span>Analytics</span>
             </a>
-            <a href="{{ route('teacher.results.results') }}" class="nav-link {{ request()->routeIs('teacher.results.results*') ? 'active' : '' }}">
+            <a href="{{ route('teacher.results') }}" class="nav-link {{ request()->routeIs('teacher.results*') ? 'active' : '' }}">
                 <i data-lucide="file-text" class="icon"></i>
                 <span>Results</span>
             </a>

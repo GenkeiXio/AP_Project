@@ -366,11 +366,37 @@ function handleResult(isCorrect) {
 function endMission() {
     document.getElementById('playArea').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
+
+    const accuracy = (score / items.length) * 100;
+
     document.getElementById('finalComment').innerText = `Katumpakan: ${(score/items.length)*100}% | Kabuuang Iskor: ${score}/${items.length}`;
+
+    //SAVE TO DATABASE
+    saveGameResult();
+
     sessionStorage.setItem("m3_node1", "true");
 }
 
 initRound();
+
+function saveGameResult(){
+    fetch("{{ route('module3.node1.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            score: score,
+            total_items: items.length
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Saved Node1:", data);
+    })
+    .catch(err => console.error(err));
+}
 </script>
 
 @endsection
