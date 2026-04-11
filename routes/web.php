@@ -281,3 +281,7 @@ Route::get('/module3/activity/flood', function () {
 Route::get('/module3/closing', function () {
     return view('Students.Module3.Activities.closing');
 })->name('module3.closing');
+
+Route::get('/module4/pretest', function () {
+    return view('Students.Module 4.Pretest');
+})->name('module4.pretest');

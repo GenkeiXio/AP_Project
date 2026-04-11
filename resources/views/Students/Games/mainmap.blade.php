@@ -98,6 +98,7 @@
         color: #000;
     }
 
+    /* Back Button - Desktop */
     .back-button {
         position: absolute;
         top: 20px;
@@ -119,6 +120,107 @@
         background-color: #ffffff;
     }
 
+    /* ===== BURGER MENU (Mobile Only) ===== */
+    .burger-menu {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+        width: 45px;
+        height: 45px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .burger-menu span {
+        display: block;
+        width: 24px;
+        height: 2.5px;
+        background-color: #2e7d32;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+
+    /* Burger animation when open */
+    .burger-menu.open span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .burger-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .burger-menu.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Mobile Navigation Drawer */
+    .mobile-nav {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 260px;
+        height: 100vh;
+        background: linear-gradient(180deg, #1b5e20, #0d3b12);
+        z-index: 999;
+        transition: left 0.3s ease;
+        padding-top: 70px;
+        box-shadow: 2px 0 20px rgba(0,0,0,0.3);
+    }
+
+    .mobile-nav.open {
+        left: 0;
+    }
+
+    .mobile-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mobile-nav li {
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .mobile-nav a {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+
+    .mobile-nav a:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+    /* Overlay when menu is open */
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        display: none;
+    }
+
+    .nav-overlay.show {
+        display: block;
+    }
+
     .page-content {
         max-width: 100% !important;
         padding: 0 !important;
@@ -131,7 +233,6 @@
     }
 
     /* MODAL (matches your theme) */
-    /* MODAL (same behavior, improved design) */
     .modal {
         position: fixed;
         top: 0;
@@ -152,18 +253,35 @@
         display: flex;
     }
 
-    /* ✨ MAIN CARD */
+    /* ✨ MAIN CARD - Made scrollable for mobile */
     .modal-content {
         background: linear-gradient(135deg, #ffffff, #f3f8f3);
         padding: 28px;
         width: 90%;
         max-width: 620px;
+        max-height: 85vh;
+        overflow-y: auto;
         border-radius: 22px;
         text-align: left;
 
         box-shadow: 0 25px 60px rgba(0,0,0,0.3);
         animation: popIn 0.35s ease;
         position: relative;
+    }
+
+    /* Custom scrollbar for modal content */
+    .modal-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .modal-content::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 10px;
+    }
+
+    .modal-content::-webkit-scrollbar-thumb {
+        background: #2e7d32;
+        border-radius: 10px;
     }
 
     /* ✨ SECTION CARDS */
@@ -207,6 +325,8 @@
 
         background: linear-gradient(135deg, #2e7d32, #66bb6a);
         color: #fff;
+        border: none;
+        cursor: pointer;
 
         box-shadow: 0 8px 20px rgba(46,125,50,0.4);
         transition: 0.25s ease;
@@ -252,11 +372,271 @@
             transform: scale(1.05);
         }
     }
+
+    /* ===== NEW MOBILE RESPONSIVE STYLES ===== */
+    /* For tablets and smaller devices */
+    @media (max-width: 1024px) {
+        .pin {
+            width: 90px;
+            height: 120px;
+        }
+        
+        .pin .tooltip {
+            bottom: 100px;
+            font-size: 14px;
+            padding: 4px 12px;
+            white-space: nowrap;
+        }
+        
+        .pin:hover {
+            transform: translate(-50%, -100%) scale(1.05);
+        }
+        
+        .modal-content {
+            width: 85%;
+            max-width: 500px;
+            padding: 20px;
+            max-height: 80vh;
+        }
+        
+        .modal-section {
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        
+        .modal-section h3 {
+            font-size: 1rem;
+        }
+        
+        .modal-section p {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* For mobile phones (portrait) - Show burger, hide back button */
+    @media (max-width: 768px) {
+        /* Hide desktop back button on mobile */
+        .back-button {
+            display: none;
+        }
+        
+        /* Show burger menu */
+        .burger-menu {
+            display: flex;
+        }
+        
+        .pin {
+            width: 65px;
+            height: 85px;
+        }
+        
+        .pin .tooltip {
+            bottom: 70px;
+            font-size: 11px;
+            padding: 3px 8px;
+            white-space: nowrap;
+        }
+        
+        /* Adjust pin positions for better visibility on mobile */
+        .location-1 { top: 48%; left: 22%; }
+        .location-2 { top: 51%; left: 48%; }
+        .location-3 { top: 57%; left: 80%; }
+        
+        .modal-content {
+            width: 92%;
+            max-width: none;
+            padding: 16px;
+            border-radius: 18px;
+            max-height: 80vh;
+        }
+        
+        .modal-section {
+            padding: 12px;
+            margin-bottom: 12px;
+            border-left-width: 4px;
+        }
+        
+        .modal-section h3 {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        
+        .modal-section p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .modal-content .btn-primary {
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+        
+        /* Tooltip visibility on tap for mobile */
+        .pin:active .tooltip {
+            background-color: #ffa502;
+            color: #000;
+        }
+        
+        /* Adjust modal for better mobile viewing */
+        .modal {
+            align-items: center;
+            padding: 10px;
+        }
+    }
+
+    /* For very small mobile devices (<=480px) */
+    @media (max-width: 480px) {
+        .burger-menu {
+            width: 40px;
+            height: 40px;
+            top: 12px;
+            left: 12px;
+        }
+        
+        .burger-menu span {
+            width: 20px;
+            height: 2px;
+        }
+        
+        .pin {
+            width: 50px;
+            height: 65px;
+        }
+        
+        .pin .tooltip {
+            bottom: 55px;
+            font-size: 9px;
+            padding: 2px 6px;
+            white-space: nowrap;
+        }
+        
+        .pin:active {
+            transform: translate(-50%, -100%) scale(1.15);
+        }
+        
+        .location-1 { top: 47%; left: 20%; }
+        .location-2 { top: 50%; left: 47%; }
+        .location-3 { top: 56%; left: 82%; }
+        
+        .modal-content {
+            padding: 14px;
+            max-height: 85vh;
+        }
+        
+        .modal-section {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .modal-section h3 {
+            font-size: 0.85rem;
+        }
+        
+        .modal-section p {
+            font-size: 0.8rem;
+            line-height: 1.45;
+        }
+        
+        .modal-content .btn-primary {
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .mobile-nav {
+            width: 240px;
+            left: -240px;
+        }
+        
+        .mobile-nav a {
+            padding: 12px 18px;
+            font-size: 14px;
+        }
+    }
+
+    /* Landscape orientation on mobile */
+    @media (max-width: 900px) and (orientation: landscape) {
+        .pin {
+            width: 55px;
+            height: 75px;
+        }
+        
+        .pin .tooltip {
+            bottom: 60px;
+            font-size: 10px;
+            padding: 2px 7px;
+        }
+        
+        .location-1 { top: 45%; left: 24%; }
+        .location-2 { top: 48%; left: 49%; }
+        .location-3 { top: 54%; left: 81%; }
+        
+        .modal-content {
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 14px;
+        }
+        
+        .modal-section {
+            padding: 8px 12px;
+            margin-bottom: 10px;
+        }
+        
+        /* Ensure map still covers screen in landscape */
+        .background-map {
+            object-fit: cover;
+        }
+    }
+
+    /* Touch-friendly improvements - no hover on mobile, use active state */
+    @media (hover: none) and (pointer: coarse) {
+        .pin:hover {
+            transform: translate(-50%, -100%) scale(1);
+        }
+        
+        .pin:active {
+            transform: translate(-50%, -100%) scale(1.2);
+        }
+        
+        .pin .tooltip {
+            pointer-events: none;
+        }
+        
+        .modal-content .btn-primary:active {
+            transform: translateY(-1px);
+        }
+    }
+
+    /* Prevent text scaling on orientation change */
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
 </style>
 @endpush
 
 @section('content')
-<!-- INTRO MODAL -->
+<!-- BURGER MENU (Mobile Only) -->
+<div class="burger-menu" id="burgerMenu" onclick="toggleMobileNav()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- MOBILE NAVIGATION DRAWER -->
+<div class="mobile-nav" id="mobileNav">
+    <ul>
+        <li><a href="{{ url('/') }}">🏠 Home</a></li>
+        <li><a href="{{ route('module.home') }}">📘 Module 2</a></li>
+        <li><a href="{{ route('module3.home') }}">📗 Module 3</a></li>
+        <li><a href="{{ route('module4.home') }}">📙 Module 4</a></li>
+        <li><a href="#" onclick="showIntroModal()">ℹ️ About Mission</a></li>
+    </ul>
+</div>
+
+<!-- OVERLAY -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
+
+<!-- INTRO MODAL - Scrollable on mobile -->
 <div id="introModal" class="modal show">
     <div class="modal-content">
 
@@ -300,16 +680,45 @@
             <span class="tooltip">Module 2</span>
         </button>
 
-           <button class="pin location-2" onclick="enterModule(this, '{{ route('module3.home') }}')">
+        <button class="pin location-2" onclick="enterModule(this, '{{ route('module3.home') }}')">
              <span class="tooltip">Module 3</span>
         </button>
 
         <button class="pin location-3" onclick="enterModule(this, '{{ route('module4.home') }}')">
-        <a href="{{ route('narration') }}" class="back-button">Module 4</a>
+            <span class="tooltip">Module 4</span>
+        </button>
+
     </div> 
 </div>
 
 <script>
+    // Mobile Navigation Functions
+    function toggleMobileNav() {
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('navOverlay');
+        const burger = document.getElementById('burgerMenu');
+        
+        mobileNav.classList.toggle('open');
+        overlay.classList.toggle('show');
+        burger.classList.toggle('open');
+    }
+    
+    function closeMobileNav() {
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('navOverlay');
+        const burger = document.getElementById('burgerMenu');
+        
+        mobileNav.classList.remove('open');
+        overlay.classList.remove('show');
+        burger.classList.remove('open');
+    }
+    
+    // Show intro modal again (from burger menu)
+    function showIntroModal() {
+        closeMobileNav();
+        document.getElementById("introModal").classList.add("show");
+    }
+    
     function enterModule(pin, url) {
 
         const map = document.querySelector('.map-container');
@@ -356,14 +765,17 @@
         alert("This module is not yet available");
     }
 
-    function showDetails(locationName) {
-        alert("You clicked on the " + locationName);
-    }
-
     // CLOSE INTRO MODAL
     function closeIntro() {
         document.getElementById("introModal").classList.remove("show");
     }
+
+    // Close modal when clicking outside content (optional)
+    document.getElementById('introModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+        }
+    });
 
     document.querySelector('.map-wrapper').addEventListener('click', function(e) {
         const rect = this.getBoundingClientRect();
