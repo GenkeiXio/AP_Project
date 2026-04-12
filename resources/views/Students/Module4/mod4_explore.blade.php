@@ -149,7 +149,7 @@ h2{text-align:center;font-weight:800;}
 </div>
 
 <div class="news-card" onclick="openStory('landslide')">
-<img src="{{ asset('pictures/Module4/landslide/card1_1.jpg') }}">
+<img src="{{ asset('pictures/Module4/landslide/landslide.png') }}">
 <h5 class="text-center p-2">⛰️ Landslide sa Albay</h5>
 </div>
 
@@ -171,6 +171,7 @@ h2{text-align:center;font-weight:800;}
     @include('Students.Module4.Explore.baha_story')
     @include('Students.Module4.Explore.lindol_story')
     @include('Students.Module4.Explore.mayon_story')
+    @include('Students.Module4.Explore.landslide_story')
 
     <!-- OTHER STORIES PLACEHOLDER -->
     <div class="story" id="landslide">
