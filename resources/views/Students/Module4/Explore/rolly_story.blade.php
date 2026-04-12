@@ -171,12 +171,50 @@
         padding: 10px 15px;
         font-size: 14px;
         font-weight: 600;
+        background: #f8fafc;
+        color: #1f2937;
+        border: 1px solid #cbd5e1;
+        transition: all 0.2s ease;
+    }
+
+    .step-nav button:hover {
+        background: #edf2f7;
+        transform: translateY(-1px);
+    }
+
+    .final-game-cta {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 14px 22px;
+        background: linear-gradient(135deg, #0d6efd, #6bc1ff);
+        color: white !important;
+        border: none !important;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        box-shadow: 0 14px 30px rgba(13, 110, 253, 0.22);
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .final-game-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 36px rgba(13, 110, 253, 0.26);
     }
 </style>
 
 <div class="gamified-header">
     <div class="story-title">🌀 Super Typhoon Rolly</div>
     <div class="story-xp" id="totalXP">Total XP: 0</div>
+</div>
+
+<div class="story-progress">
+    <div class="progress">
+        <div id="rollyProgressBar" class="progress-bar bg-warning" style="width: 12.5%;"></div>
+    </div>
+    <div id="rollyProgressLabel" class="story-progress-label">Step 1 / 8</div>
 </div>
 
 <p>
@@ -239,7 +277,7 @@
 
     <div class="step-nav">
         <button class="btn btn-secondary" disabled>← Nakaraan</button>
-        <button class="btn btn-primary" onclick="nextStep(2); updateXP(100);">Susunod →</button>
+        <button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step1', 100); nextStep(2); updateStoryProgress(currentStory, 2);">Susunod →</button>
     </div>
 </div>
 
@@ -250,7 +288,7 @@
             <div class="card-number">2</div>
             <h5 style="margin: 0;">🧩 ULAT NG PINSALA</h5>
         </div>
-        <div class="card-points">+100 XP</div>
+        <!-- <div class="card-points">+100 XP</div> -->
     </div>
 
     <div class="learning-objective">
@@ -295,7 +333,7 @@
 
 <div class="step-nav">
 <button class="btn btn-secondary" onclick="nextStep(1);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="nextStep(3); updateXP(100);">Susunod →</button>
+<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step2', 100); nextStep(3); updateStoryProgress(currentStory, 3);">Susunod →</button>
 </div>
 </div>
 
@@ -349,7 +387,7 @@
 
 <div class="step-nav">
 <button class="btn btn-secondary" onclick="nextStep(2);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="nextStep(4); updateXP(100);">Susunod →</button>
+<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step3', 100); nextStep(4); updateStoryProgress(currentStory, 4);">Susunod →</button>
 </div>
 </div>
 
@@ -401,7 +439,7 @@
 
 <div class="step-nav">
 <button class="btn btn-secondary" onclick="nextStep(3);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="nextStep(5); updateXP(100);">Susunod →</button>
+<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step4', 100); nextStep(5); updateStoryProgress(currentStory, 5);">Susunod →</button>
 </div>
 </div>
 
@@ -454,7 +492,7 @@
 
 <div class="step-nav">
 <button class="btn btn-secondary" onclick="nextStep(4);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="nextStep(6); updateXP(100);">Susunod →</button>
+<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step5', 100); nextStep(6); updateStoryProgress(currentStory, 6);">Susunod →</button>
 </div>
 </div>
 
@@ -494,7 +532,7 @@
 
 <div class="step-nav">
 <button class="btn btn-secondary" onclick="nextStep(5);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="nextStep(7); updateXP(100);">Susunod →</button>
+<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step6', 100); nextStep(7); updateStoryProgress(currentStory, 7);">Susunod →</button>
 </div>
 </div>
 
@@ -536,7 +574,7 @@
 
 <div class="step-nav">
 <button class="btn btn-secondary" onclick="nextStep(6);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="nextStep(8); updateXP(100);">Susunod →</button>
+<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step7', 100); nextStep(8); updateStoryProgress(currentStory, 8);">Susunod →</button>
 </div>
 </div>
 
@@ -578,28 +616,10 @@ src="https://www.youtube.com/embed/mtf1JAQ2hq4"
 title="YouTube video"
 allowfullscreen></iframe>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px;">
-    <button class="btn btn-secondary" onclick="finishStory()">✓ Tapusin</button>
-    <a href="{{ route('module4.rolly.game') }}" class="btn btn-warning" style="text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 600;">🎮 Maglaro ng Game</a>
+<div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 30px;">
+    <a href="{{ route('module4.rolly.game') }}" onclick="awardStepXP(currentStory+'-step8', 200)" class="btn btn-warning final-game-cta" style="text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 600;">🎮 Maglaro ng Game</a>
 </div>
 
-<style>
-function updateXP(points) {
-    let xpText = document.getElementById('totalXP').textContent;
-    let currentXP = parseInt(xpText.replace('Total XP: ', ''));
-    let newXP = currentXP + points;
-    document.getElementById('totalXP').textContent = 'Total XP: ' + newXP;
-}
-</style>
-
-<script>
-function updateXP(points) {
-    let xpText = document.getElementById('totalXP').textContent;
-    let currentXP = parseInt(xpText.replace('Total XP: ', ''));
-    let newXP = currentXP + points;
-    document.getElementById('totalXP').textContent = 'Total XP: ' + newXP;
-}
-</script>
 </div>
 
 </div>

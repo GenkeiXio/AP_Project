@@ -338,3 +338,9 @@ Route::view('/module4/explore', 'Students.Module4.mod4_explore')
 Route::view('/module4/explore/games/rolly', 'Students.Module4.Explore.Games.rolly_game')
     ->name('module4.rolly.game');
 
+Route::view('/module4/explore/games/baha', 'Students.Module4.Explore.Games.baha_game')
+    ->name('module4.baha.game');
+
+Route::view('/module4/explore/games/lindol', 'Students.Module4.Explore.Games.lindol_game')
+    ->name('module4.lindol.game');
+

@@ -140,54 +140,118 @@ h2{text-align:center;font-weight:800;}
 </div>
 
 <script>
-let progress=0;
-let completed={};
-let currentStory="";
+let progress = 0;
+const completed = {};
+const storyCount = document.querySelectorAll('.news-card').length;
+const progressPerStory = storyCount > 0 ? 100 / storyCount : 20;
+let currentStory = "";
+
+// Load completed stories from localStorage
+function loadCompletedStories() {
+    const saved = localStorage.getItem('module4_completed_stories');
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        Object.assign(completed, parsed);
+        // Recalculate progress
+        progress = Object.keys(completed).length * progressPerStory;
+    }
+}
+
+// Save completed stories to localStorage
+function saveCompletedStories() {
+    localStorage.setItem('module4_completed_stories', JSON.stringify(completed));
+}
+
+function updateProgress() {
+    progress = Math.min(progress, 100);
+    const bar = document.getElementById('progressBar');
+    bar.style.width = progress + "%";
+    bar.innerText = Math.round(progress) + "%";
+    saveCompletedStories(); // Save after updating
+}
+
+const storyStepCounts = {
+    rolly: 8,
+    baha: 6,
+    lindol: 8
+};
+
+const awardedSteps = new Set();
+
+function updateXP(points) {
+    const xpElement = document.getElementById('totalXP');
+    if (!xpElement) return;
+
+    const xpText = xpElement.textContent.replace('Total XP: ', '');
+    const currentXP = Number(xpText) || 0;
+    xpElement.textContent = 'Total XP: ' + (currentXP + points);
+}
+
+function awardStepXP(stepId, points) {
+    if (!awardedSteps.has(stepId)) {
+        awardedSteps.add(stepId);
+        updateXP(points);
+    }
+}
+
+function updateStoryProgress(storyId, stepNumber) {
+    const stepCount = storyStepCounts[storyId] || 1;
+    const bar = document.getElementById(`${storyId}ProgressBar`);
+    const label = document.getElementById(`${storyId}ProgressLabel`);
+    if (bar) {
+        const percent = Math.round((stepNumber / stepCount) * 100);
+        bar.style.width = percent + "%";
+    }
+    if (label) {
+        label.textContent = `Step ${stepNumber} / ${stepCount}`;
+    }
+}
 
 // Check URL parameter for completed stories
 function checkCompletedFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const completedStory = urlParams.get('completed');
-    
+
     if (completedStory && !completed[completedStory]) {
         completed[completedStory] = true;
-        progress += 20;
-        let bar = document.getElementById('progressBar');
-        bar.style.width = progress + "%";
-        bar.innerText = progress + "%";
-        
+        progress += progressPerStory;
+        updateProgress();
+
         // Clean up the URL
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 }
 
 function openStory(id){
-currentStory=id;
-document.getElementById('modal').classList.add('show');
-document.querySelectorAll('.story').forEach(s=>s.style.display='none');
-document.getElementById(id).style.display='block';
-document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-document.querySelector('#'+id+' .step').classList.add('active');
+    currentStory=id;
+    document.getElementById('modal').classList.add('show');
+    document.querySelectorAll('.story').forEach(s=>s.style.display='none');
+    document.getElementById(id).style.display='block';
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.querySelector('#'+id+' .step').classList.add('active');
+    updateStoryProgress(id, 1);
 }
 
 function nextStep(step){
-document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-document.getElementById(currentStory+'-step'+step).classList.add('active');
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById(currentStory+'-step'+step).classList.add('active');
+    updateStoryProgress(currentStory, step);
 }
 
 function finishStory(){
-document.getElementById('modal').classList.remove('show');
-if(!completed[currentStory]){
-completed[currentStory]=true;
-progress+=20;
-let bar=document.getElementById('progressBar');
-bar.style.width=progress+"%";
-bar.innerText=progress+"%";
-}
+    document.getElementById('modal').classList.remove('show');
+    if(!completed[currentStory]){
+        completed[currentStory]=true;
+        progress += progressPerStory;
+        updateProgress();
+    }
 }
 
 // Initialize on page load
-window.addEventListener('DOMContentLoaded', checkCompletedFromURL);
+window.addEventListener('DOMContentLoaded', function() {
+    loadCompletedStories();
+    checkCompletedFromURL();
+});
 </script>
 
 </body>
