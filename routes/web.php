@@ -41,6 +41,7 @@ use App\Http\Controllers\Student\Module4\Module4PretestController;
 use App\Http\Controllers\Student\Module4\Module4BalikAralController;
 use App\Http\Controllers\Student\Module4\Module4ExploreController;
 use App\Http\Controllers\Student\Module4\Module4GameResultController;
+use App\Http\Controllers\Teacher\ModulesController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -152,7 +153,7 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::get('/module3/results',                        [Module3ResultsController::class, 'index'])->name('module3.results');
     Route::get('/module3/student/{id}',                   [Module3ResultsController::class, 'show'])->name('module3.student');
     Route::get('/teacher/module3/student/{id}/export',    [Module3ResultsController::class, 'export'])->name('module3.export');
-
+    Route::get('/teacher/modules',                        [ModulesController::class, 'index'])->name('modules');
 
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });
