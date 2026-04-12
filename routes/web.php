@@ -34,6 +34,8 @@ use App\Http\Controllers\Student\Module3\Module3BulkanController;
 use App\Http\Controllers\Student\Module3\Module3FloodController;
 use App\Http\Controllers\Student\Module3\Module3PosttestController;
 use App\Http\Controllers\Student\Module3\Module3LindolController;
+use App\Http\Controllers\Student\Module3\Module3BalikAralController;
+use App\Http\Controllers\Student\Module3\Module3ExploreController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -89,8 +91,8 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/posttest/save', [Module3PosttestController::class, 'store'])->name('student.module3.posttest.save');
     Route::get('/student/module3/lindol', [Module3LindolController::class, 'index'])->name('lindol.activity');
     Route::post('/student/module3/lindol/save', [Module3LindolController::class, 'store'])->name('student.module3.lindol.save');
-
-
+    Route::post('/student/module3/balik-aral/save', [Module3BalikAralController::class, 'store'])->name('student.module3.balikaral.save');
+    Route::post('/student/module3/explore/save', [Module3ExploreController::class, 'store'])->name('student.module3.explore.save');
 
 
 

@@ -197,6 +197,10 @@
 
 <script>
     const imgFolder = "{{ asset('pictures/Module 3/lindol_activity') }}/";
+
+    let startTime = Date.now(); // ✅ FIX
+    let correctItems = 0; // ✅ FIX
+
     const data = [
         { phase: 'before', img: 'earthquake_drill.png', text: 'Makilahok sa pagsasanay sa lindol.' },
         { phase: 'before', img: 'emergency_kit.png', text: 'Maghanda ng kagamitang pang-emergency.' },
@@ -213,8 +217,12 @@
     let score = 0;
     let itemsInZone = 0;
     let draggedData = null;
+    let totalItems = 9; // 3 per phase x 3 phases
 
     function startGame() {
+        startTime = Date.now(); // ✅ RESET TIMER
+        correctItems = 0;  
+
         document.getElementById('intro-layer').classList.add('hidden');
         document.getElementById('game-layer').classList.remove('hidden');
         loadPhase();
@@ -275,6 +283,9 @@
         const card = document.getElementById('dragging-now');
 
         if (draggedData.phase === currentPhase) {
+
+            correctItems++; // ✅ TRACK
+
             const audio = document.getElementById('sfx-correct');
             audio.currentTime = 0;
             audio.play().catch(() => {});
@@ -291,63 +302,63 @@
 
             if (itemsInZone === 3) setTimeout(nextPhase, 1200);
         } else {
-            dragged.classList.add("wrong");
-            wrongSound.play();
-
-            setTimeout(() => {
-                dragged.classList.remove("wrong");
-            }, 500);
+            const audio = document.getElementById('sfx-wrong');
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            
+            card.classList.add('wrong-shake');
+            setTimeout(() => card.classList.remove('wrong-shake'), 400);
         }
-
-        // PERFECT WIN
-        if (totalCorrect === totalItems) {
-            endGame(true);
-        }
+        card.id = "";
     });
-});
 
-// END GAME
-function endGame() {
-    let feedback = document.getElementById('feedback');
-    let nextBtn = document.getElementById('nextBtn');
+    function nextPhase() {
+        if (currentPhase === 'before') { 
+            currentPhase = 'during'; 
+            loadPhase(); 
+        }
+        else if (currentPhase === 'during') { 
+            currentPhase = 'after'; 
+            loadPhase(); 
+        }
+        else {
 
-    feedback.style.display = "block";
+            saveLindol(); // ✅ IMPORTANT
 
-    feedback.className = "mt-4 alert alert-success";
-    feedback.innerHTML = `
-    🎉 <strong>Great Job!</strong><br><br>
-    Natapos mo ang gawain!<br><br>
-    ⭐ Score: ${score}<br><br>
-    Handa ka na sa susunod!
-    `;
+            document.getElementById('sfx-alarm').pause();
+            document.getElementById('sfx-victory').play().catch(() => {});
+            document.getElementById('game-layer').classList.add('hidden');
+            document.getElementById('end-layer').classList.remove('hidden');
+            document.getElementById('progress-bar').style.width = "100%";
 
-    nextBtn.style.display = "block";
-    confetti();
-}
-
-// CONFETTI
-function confetti() {
-    for (let i = 0; i < 80; i++) {
-        let c = document.createElement("div");
-        c.style.position = "fixed";
-        c.style.width = "8px";
-        c.style.height = "8px";
-        c.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
-        c.style.top = "0";
-        c.style.left = Math.random() * window.innerWidth + "px";
-
-        document.body.appendChild(c);
-
-        let fall = setInterval(() => {
-            c.style.top = (parseFloat(c.style.top) + 5) + "px";
-
-            if (parseFloat(c.style.top) > window.innerHeight) {
-                clearInterval(fall);
-                c.remove();
-            }
-        }, 30);
+            // ✅ SAVE GAME HERE
+            saveLindol();
+        }
     }
-}
+
+    function saveLindol() {
+        let timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+        fetch("{{ route('student.module3.lindol.save') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                score: Math.round(score),
+                total_items: totalItems,
+                correct_items: correctItems,
+                time_spent: timeSpent
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("SAVED:", data);
+            alert("Saved successfully!");
+        })
+        .catch(err => console.error("ERROR:", err));
+    }
 </script>
 
 </body>

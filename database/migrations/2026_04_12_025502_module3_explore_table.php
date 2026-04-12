@@ -8,17 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('module3_lindol_table', function (Blueprint $table) {
+        Schema::create('module3_explore_table', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('student_id');
 
-            $table->integer('score')->default(0);
-            $table->integer('total_items')->default(0);
-            $table->integer('correct_items')->default(0);
+            $table->integer('xp')->default(0);
+            $table->string('badge')->nullable();
 
-            $table->boolean('completed')->default(false);
-            $table->integer('time_spent')->nullable();
+            $table->boolean('is_completed')->default(false);
 
             $table->timestamps();
 
@@ -31,6 +29,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('module3_lindol_table');
+        Schema::dropIfExists('module3_explore_table');
     }
 };

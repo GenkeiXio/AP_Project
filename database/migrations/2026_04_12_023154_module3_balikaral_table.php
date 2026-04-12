@@ -8,29 +8,26 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('module3_lindol_table', function (Blueprint $table) {
+        Schema::create('module3_balikaral_table', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('student_id');
+            $table->foreignId('student_id')
+                  ->constrained('students')
+                  ->onDelete('cascade');
 
             $table->integer('score')->default(0);
-            $table->integer('total_items')->default(0);
-            $table->integer('correct_items')->default(0);
+            $table->integer('correct_answers')->default(0);
+            $table->integer('total_items')->default(3);
 
             $table->boolean('completed')->default(false);
             $table->integer('time_spent')->nullable();
 
             $table->timestamps();
-
-            $table->foreign('student_id')
-                  ->references('id')
-                  ->on('students')
-                  ->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('module3_lindol_table');
+        Schema::dropIfExists('module3_balikaral_table');
     }
 };
