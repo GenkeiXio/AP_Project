@@ -944,6 +944,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const pollSaveUrl = "{{ route('student.module4.poll.save') }}";
+
     const homeView = document.getElementById('homeView');
     const pollView = document.getElementById('pollView');
 
@@ -1029,6 +1032,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function getSelectedOptions() {
+        return Array.from(checks)
+            .filter(c => c.checked)
+            .map(c => c.id);
+    }
+
+    async function savePollSelection() {
+        const selectedOptions = getSelectedOptions();
+        if (selectedOptions.length === 0) {
+            return false;
+        }
+
+        try {
+            const response = await fetch(pollSaveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    selected_options: selectedOptions,
+                    selected_count: selectedOptions.length
+                })
+            });
+
+            return response.ok;
+        } catch (error) {
+            console.error('Failed to save Module 4 poll:', error);
+            return false;
+        }
+    }
+
     accButtons.forEach((btn, index) => {
         btn.addEventListener('click', () => togglePanel(btn));
         if (index === 0) openPanel(btn);
@@ -1075,8 +1111,15 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePollState();
     });
 
-    proceedBtn.addEventListener('click', function () {
-        window.location.href = "{{ url('/module4/pretest') }}";
+    proceedBtn.addEventListener('click', async function () {
+        proceedBtn.disabled = true;
+        const originalText = proceedBtn.textContent;
+        proceedBtn.textContent = 'Nagse-save...';
+
+        await savePollSelection();
+        window.location.href = "{{ route('module4.pretest') }}";
+
+        proceedBtn.textContent = originalText;
     });
 
     goalsModal.addEventListener('click', function (e) {

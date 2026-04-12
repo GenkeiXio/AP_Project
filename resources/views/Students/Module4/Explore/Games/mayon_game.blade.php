@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Mayon Alert: Disaster Response Mission</title>
   <style>
@@ -408,10 +409,34 @@
   let answerLock = false;             // already answered current level?
   let selectedOptionIndex = null;     // store which option was selected (for styling)
   let userAnswers = new Array(levels.length).fill(null); // store correct status (bool)
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+  const gameSaveUrl = "{{ route('student.module4.games.save') }}";
 
   // DOM elements
   const quizPanel = document.getElementById('quizPanel');
   const resultArea = document.getElementById('resultArea');
+
+  async function saveGameResult(rank) {
+    try {
+      await fetch(gameSaveUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          game_type: 'mayon',
+          score: score,
+          total_items: levels.length,
+          rank: rank,
+          is_completed: true
+        })
+      });
+    } catch (error) {
+      console.error('Failed to save Mayon game result:', error);
+    }
+  }
 
   function getLevelTheme(levelId) {
     const themes = {
@@ -594,6 +619,9 @@
         <a href="{{ route('module4.explore', ['completed' => 'mayon']) }}" class="restart-btn" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#E67E22;">📚 Balik sa Explore</a>
       </div>
     `;
+
+    saveGameResult(rank);
+
     document.getElementById('restartGameBtn').addEventListener('click', () => {
       resetGame();
     });

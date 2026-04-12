@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flash Flood Survival: Guinobatan Mission</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -302,6 +303,30 @@
     let score = 0;
     let safety = 100;
     let answered = false;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const gameSaveUrl = "{{ route('student.module4.games.save') }}";
+
+    async function saveGameResult(rank) {
+        try {
+            await fetch(gameSaveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    game_type: 'baha',
+                    score: score,
+                    total_items: gameData.length,
+                    rank: rank,
+                    is_completed: true
+                })
+            });
+        } catch (error) {
+            console.error('Failed to save Baha game result:', error);
+        }
+    }
 
     function renderLevel() {
         const level = gameData[currentLevel];
@@ -395,6 +420,8 @@
             badge.style.background = "rgba(239, 68, 68, 0.2)";
             badge.style.color = "#ef4444";
         }
+
+        saveGameResult(badge.textContent);
     }
 
     function restartGame() {

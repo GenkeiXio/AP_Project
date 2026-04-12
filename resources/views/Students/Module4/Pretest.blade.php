@@ -337,6 +337,8 @@
         const errorMessage = document.getElementById('errorMessage');
         const answeredCountSpan = document.getElementById('answeredCount');
         const totalCountSpan = document.getElementById('totalCount');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        const pretestSaveUrl = "{{ route('student.module4.pretest.save') }}";
         
         totalCountSpan.textContent = quizItems.length;
 
@@ -498,8 +500,38 @@
             console.log("Saved to localStorage:", module4Result);
         }
 
+        async function savePretestToDatabase(score, answers) {
+            const payloadAnswers = answers.map((selectedOption, index) => ({
+                question_number: index + 1,
+                selected_option: selectedOption,
+                correct_option: quizItems[index].answer,
+                is_correct: selectedOption === quizItems[index].answer
+            }));
+
+            const response = await fetch(pretestSaveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    score: score,
+                    total_items: quizItems.length,
+                    level: interpretScore(score),
+                    answers: payloadAnswers
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Pretest save failed');
+            }
+
+            return response.json();
+        }
+
         // Main check button handler
-        checkBtn.addEventListener('click', () => {
+        checkBtn.addEventListener('click', async () => {
             // Prevent multiple submissions
             if (isSubmitted) {
                 return;
@@ -536,8 +568,14 @@
                 });
             }
             
-            // Save to localStorage (no DB for Module 4 yet)
+            // Keep local cache copy for offline/quick restore behavior.
             submitToLocalStorage(score, answers);
+
+            try {
+                await savePretestToDatabase(score, answers);
+            } catch (error) {
+                console.error('Failed to save Module 4 pretest:', error);
+            }
             
             // Change button text and disable it
             checkBtn.textContent = '✓ Naisumite na';

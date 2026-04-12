@@ -2,6 +2,7 @@
 <html lang="fil">
 <head>
 <meta charset="UTF-8">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Modyul 4 - Galugarin</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -281,7 +282,7 @@ h2{
 
 <div class="container-box">
 
-<h2>🧠 GALUGARIN: AP Disaster Mission Hub</h2>
+<h2>🧠 GALUGARIN: Disaster Mission Hub</h2>
 
 <div class="page-banner">
     <div class="brief">
@@ -363,6 +364,8 @@ let currentStory = "";
 const progressPerStory = 20;
 const totalStories = 5;
 const progressText = document.getElementById('progressText');
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+const exploreSaveUrl = "{{ route('student.module4.explore.save') }}";
 
 function updateProgress() {
     const bar = document.getElementById('progressBar');
@@ -384,6 +387,26 @@ function loadCompletedStories() {
 
 function saveCompletedStories() {
     localStorage.setItem('module4_completedStories', JSON.stringify(completed));
+}
+
+async function saveExploreProgress() {
+    try {
+        await fetch(exploreSaveUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                completed_stories: Object.keys(completed),
+                progress_percent: Math.min(progress, 100),
+                is_completed: Object.keys(completed).length >= totalStories
+            })
+        });
+    } catch (error) {
+        console.error('Failed to save Module 4 explore progress:', error);
+    }
 }
 
 function awardStepXP(stepId, xp) {
@@ -415,6 +438,7 @@ function checkCompletedFromURL() {
         progress = Math.min(Object.keys(completed).length * progressPerStory, 100);
         updateProgress();
         saveCompletedStories();
+        saveExploreProgress();
 
         // Clean up the URL
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -446,6 +470,7 @@ function finishStory() {
         progress = Math.min(Object.keys(completed).length * progressPerStory, 100);
         updateProgress();
         saveCompletedStories();
+        saveExploreProgress();
 
         if (Object.keys(completed).length >= totalStories) {
             setTimeout(() => {
