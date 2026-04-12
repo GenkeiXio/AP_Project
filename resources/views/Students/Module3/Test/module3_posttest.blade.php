@@ -206,6 +206,7 @@
     let score = 0;
     let selectedIdx = null;
     let isLocked = false;
+    let answers = [];
 
     function loadQuestion() {
         if (currentQ >= questions.length) { showResults(); return; }
@@ -251,6 +252,14 @@
         
         const correctIndex = questions[currentQ].a;
         const allBtns = document.querySelectorAll('.option-btn');
+
+        // SAVE ANSWER
+        answers.push({
+            question: currentQ,
+            selected: selectedIdx,
+            correct: correctIndex
+        });
+
         allBtns.forEach(btn => btn.disabled = true);
 
         if (selectedIdx === correctIndex) {
@@ -269,6 +278,10 @@
     }
 
     function showResults() {
+
+        // SAVE TO DATABASE
+        savePosttest();
+
         document.getElementById('bar').style.width = "100%";
         document.getElementById('quiz-content').style.display = 'none';
         document.getElementById('result-screen').style.display = 'block';
@@ -286,6 +299,23 @@
             feedback.innerText = "Kailangan mo pa ng kaunting paghahanda. Balikan ang mga aralin at subukan muli.";
             document.getElementById('result-actions').innerHTML = `<button onclick="location.reload()" class="btn-action">ULITIN ANG MISYON</button>`;
         }
+    }
+
+    function savePosttest() {
+        fetch("{{ route('student.module3.posttest.save') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                score: score,
+                answers: answers
+            })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Saved:", data))
+        .catch(err => console.error(err));
     }
 
     loadQuestion();

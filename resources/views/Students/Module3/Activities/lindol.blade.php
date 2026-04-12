@@ -197,6 +197,10 @@
 
 <script>
     const imgFolder = "{{ asset('pictures/Module 3/lindol_activity') }}/";
+
+    let startTime = Date.now(); // ✅ FIX
+    let correctItems = 0; // ✅ FIX
+
     const data = [
         { phase: 'before', img: 'earthquake_drill.png', text: 'Makilahok sa pagsasanay sa lindol.' },
         { phase: 'before', img: 'emergency_kit.png', text: 'Maghanda ng kagamitang pang-emergency.' },
@@ -213,8 +217,12 @@
     let score = 0;
     let itemsInZone = 0;
     let draggedData = null;
+    let totalItems = 9; // 3 per phase x 3 phases
 
     function startGame() {
+        startTime = Date.now(); // ✅ RESET TIMER
+        correctItems = 0;  
+
         document.getElementById('intro-layer').classList.add('hidden');
         document.getElementById('game-layer').classList.remove('hidden');
         loadPhase();
@@ -275,6 +283,9 @@
         const card = document.getElementById('dragging-now');
 
         if (draggedData.phase === currentPhase) {
+
+            correctItems++; // ✅ TRACK
+
             const audio = document.getElementById('sfx-correct');
             audio.currentTime = 0;
             audio.play().catch(() => {});
@@ -302,15 +313,51 @@
     });
 
     function nextPhase() {
-        if (currentPhase === 'before') { currentPhase = 'during'; loadPhase(); }
-        else if (currentPhase === 'during') { currentPhase = 'after'; loadPhase(); }
+        if (currentPhase === 'before') { 
+            currentPhase = 'during'; 
+            loadPhase(); 
+        }
+        else if (currentPhase === 'during') { 
+            currentPhase = 'after'; 
+            loadPhase(); 
+        }
         else {
+
+            saveLindol(); // ✅ IMPORTANT
+
             document.getElementById('sfx-alarm').pause();
             document.getElementById('sfx-victory').play().catch(() => {});
             document.getElementById('game-layer').classList.add('hidden');
             document.getElementById('end-layer').classList.remove('hidden');
             document.getElementById('progress-bar').style.width = "100%";
+
+            // ✅ SAVE GAME HERE
+            saveLindol();
         }
+    }
+
+    function saveLindol() {
+        let timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+        fetch("{{ route('student.module3.lindol.save') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                score: Math.round(score),
+                total_items: totalItems,
+                correct_items: correctItems,
+                time_spent: timeSpent
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("SAVED:", data);
+            alert("Saved successfully!");
+        })
+        .catch(err => console.error("ERROR:", err));
     }
 </script>
 

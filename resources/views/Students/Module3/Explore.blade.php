@@ -291,6 +291,8 @@
     </div>
 </div>
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
 let currentScene = 1, xp = 0, streak = 0, soundOn = true, audioUnlocked = false;
 let flags = { s2:false, s4:false, s5:false };
@@ -455,6 +457,9 @@ function taposNa() {
 
     document.getElementById('finalBadge').textContent = badge;
 
+    // SAVE HERE
+    saveExplore(xp, badge);
+
     const nextUrl = '{{ route("students.module3.termino_konsepto") }}';
     let seconds = 3;
     const label = document.getElementById('autoRedirectText');
@@ -514,6 +519,23 @@ document.getElementById('simulanModalBtn').addEventListener('click', async () =>
     isaraPanimulangModal();
     simulanMisyon();
 });
+
+function saveExplore(xp, badge) {
+    fetch("{{ route('student.module3.explore.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            xp: xp,
+            badge: badge
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Explore Saved:", data))
+    .catch(err => console.error(err));
+}
 
 buksanPanimulangModal();
 </script>

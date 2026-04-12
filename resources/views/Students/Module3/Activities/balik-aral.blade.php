@@ -249,7 +249,12 @@ body{overflow-x:hidden}
     </section>
 </div>
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
+
+let startTime = Date.now();
+
 const tugma = {
     solid: {
         zone: 'flood',
@@ -397,6 +402,9 @@ function tapusin(galingSaOras = false){
     });
 
     ipakitaResulta(galingSaOras);
+
+    //SAVE HERE
+    saveBalikAral();
 }
 
 function resetLaro(){
@@ -518,6 +526,27 @@ document.getElementById('resetBtn').addEventListener('click', resetLaro);
 document.getElementById('nextBtn').addEventListener('click', () => {
     window.location.href = '{{ route("module3.iv_explore") }}';
 });
+
+function saveBalikAral() {
+    let timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+    fetch("{{ route('student.module3.balikaral.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            score: puntos,
+            correct_answers: tama,
+            total_items: 3,
+            time_spent: timeSpent
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Saved:", data))
+    .catch(err => console.error(err));
+}
 
 resetLaro();
 </script>
