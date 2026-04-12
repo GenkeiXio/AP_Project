@@ -1,304 +1,413 @@
 @extends('Students.studentslayout')
-@section('title', 'Module 4 : Balik-Aral')
+@section('title', 'Module 4 : Disaster Defense')
 
 @push('styles')
 <style>
-    html, body{
-        scroll-behavior:smooth;
-        background:
-            radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
-            radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
-            radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
-            linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+    :root {
+        --neon-cyan: #00f2ff;
+        --neon-green: #39ff14;
+        --neon-red: #ff3131;
+        --neon-yellow: #f4ea14;
+        --panel-bg: rgba(13, 25, 48, 0.9);
     }
 
-    body{
-        overflow-x:hidden;
-        color:var(--text);
-        font-family:'Poppins', sans-serif;
+    html, body {
+        background: #050a14;
+        background-image: 
+            linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+        background-size: 30px 30px;
+        color: #e2e8f0;
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
     }
 
     .container-box {
         max-width: 1100px;
-        margin: auto;
-        background: white;
-        padding: 25px 30px;
-        border-radius: 25px;
-        box-shadow: 0 15px 35px rgba(0,0,0,.15);
+        margin: 20px auto;
+        padding: 30px;
+        border-radius: 30px;
+        background: var(--panel-bg);
+        border: 1px solid rgba(0, 242, 255, 0.2);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
     }
 
-    h2 { text-align:center; font-weight:800; margin-bottom: 0.5rem; font-size: 2rem; }
-
-    /* COMPACT TIMER + SCORE HEADER */
-    .game-stats {
+    /* HUD HEADER */
+    .hud-header {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        gap: 15px;
-        margin-bottom: 20px;
-        background: #1a2a1f;
-        border-radius: 60px;
-        padding: 8px 20px;
-        box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-    }
-    .timer-section {
-        display: flex;
         align-items: center;
-        gap: 12px;
-        flex: 2;
-    }
-    .timer-label {
-        color: white;
-        font-weight: 700;
-        font-size: 0.9rem;
-        letter-spacing: 1px;
-    }
-    .timer-slider-wrapper {
-        flex: 1;
-        background: #e9ecef;
-        border-radius: 40px;
-        height: 12px;
-        overflow: hidden;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .timer-slider-bar {
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
-        border-radius: 40px;
-        transition: width 0.2s linear;
-    }
-    .timer-big-number {
-        font-weight: 800;
-        background: #f8f9fa;
-        padding: 4px 16px;
-        border-radius: 40px;
-        color: #1e5a3a;
-        font-size: 1.3rem;
-        min-width: 70px;
-        text-align: center;
-        font-family: monospace;
-        font-weight: 800;
-    }
-    .score-section {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255,255,255,0.15);
-        padding: 5px 18px;
-        border-radius: 50px;
-    }
-    .score-label {
-        color: white;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-    .score-value {
-        background: #f8f9fa;
-        padding: 4px 14px;
-        border-radius: 40px;
-        font-weight: 800;
-        font-size: 1.3rem;
-        color: #2c7a4d;
-    }
-    .score-value span {
-        font-size: 1rem;
-        color: #6c757d;
+        margin-bottom: 25px;
+        padding: 15px 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        border-left: 4px solid var(--neon-cyan);
     }
 
-    .zones {
+    .game-title h2 {
+        font-weight: 800;
+        color: var(--neon-cyan);
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .stat-display {
+        background: #1a2233;
+        padding: 8px 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
+        min-width: 100px;
+    }
+
+    .stat-label { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; }
+    .stat-value { font-size: 1.2rem; font-weight: 700; color: #fff; }
+
+    /* MISSION SECTORS */
+    .mission-grid {
         display: grid;
-        grid-template-columns: repeat(3,1fr);
-        gap: 18px;
-        margin-top: 25px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
     }
 
-    .zone {
-        border: 3px dashed #ccc;
+    .sector {
+        background: rgba(0, 0, 0, 0.2);
+        border: 2px dashed rgba(255, 255, 255, 0.1);
         border-radius: 20px;
-        padding: 15px 10px;
         min-height: 250px;
-        background: rgba(255,255,240,0.6);
-        transition: none;
+        padding: 12px;
+        transition: 0.2s;
     }
 
-    .before { border-color: #4f90ff; background: rgba(79,144,255,0.08); }
-    .during { border-color: #ffc107; background: rgba(255,193,7,0.08); }
-    .after { border-color: #28a745; background: rgba(40,167,69,0.08); }
+    .sector.drag-over {
+        border-color: var(--neon-cyan);
+        background: rgba(0, 242, 255, 0.1);
+    }
 
-    .zone h5 {
+    .sector-title {
         text-align: center;
-        font-weight: 800;
+        padding: 8px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
         margin-bottom: 15px;
-        font-size: 1.3rem;
+        text-transform: uppercase;
     }
 
-    .items {
+    .bago { background: rgba(0, 242, 255, 0.1); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
+    .habang { background: rgba(244, 234, 20, 0.1); color: var(--neon-yellow); border: 1px solid var(--neon-yellow); }
+    .pagkatapos { background: rgba(57, 255, 20, 0.1); color: var(--neon-green); border: 1px solid var(--neon-green); }
+
+    .drop-target {
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    /* CARD STYLING */
+    .deck-container {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 20px;
+        border-radius: 20px;
         display: flex;
         flex-wrap: wrap;
-        gap: 14px;
+        gap: 12px;
         justify-content: center;
-        margin-top: 30px;
-        padding: 18px;
-        background: #fef9e6;
-        border-radius: 60px;
+        border-top: 2px solid var(--neon-cyan);
     }
 
-    .item {
-        background: white;
-        padding: 14px 22px;
-        border-radius: 60px;
+    .action-card {
+        background: #1e293b;
+        width: 160px;
+        border-radius: 12px;
+        padding: 10px;
         cursor: grab;
-        min-width: 170px;
-        text-align: center;
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        touch-action: none;
+    }
+
+    .action-card:hover { box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
+    .action-card:active { cursor: grabbing; transform: scale(0.95); }
+
+    .action-card img {
+        width: 100%;
+        height: 110px;
+        object-fit: contain;
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
+
+    .action-card p {
+        font-size: 0.75rem;
         font-weight: 600;
-        font-size: 1rem;
-        border: 2px solid #ddd;
-        user-select: none;
-        /* REMOVED: box-shadow, transition, border-left */
-    }
-    .item:active { cursor: grabbing; }
-    
-    /* Remove any drag visual effects */
-    .item:active, .item:focus, .item:focus-visible {
-        outline: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    /* Remove default drag image glow */
-    .item::-moz-selection,
-    .item::selection {
-        background: transparent;
-    }
-
-    .correct {
-        background: #d4edda;
-        border: 2px solid #28a745;
-        opacity: 0.9;
-        cursor: default;
-    }
-    .wrong {
-        background: #f8d7da;
-        border: 2px solid #dc3545;
-        animation: shake 0.3s ease-in-out 0s 2;
-    }
-
-    @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-6px); }
-        75% { transform: translateX(6px); }
-        100% { transform: translateX(0); }
-    }
-
-    /* BIGGER BUTTON */
-    .btn-reset {
-        background: #ffc107;
-        border: none;
-        padding: 14px 40px;
-        font-size: 1.3rem;
-        font-weight: 800;
-        border-radius: 60px;
-        color: #2c3e2f;
-        transition: 0.2s;
-        box-shadow: 0 6px 0 #b8860b;
-        letter-spacing: 1px;
-    }
-    .btn-reset:hover {
-        background: #ffca2c;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 0 #b8860b;
-    }
-    .btn-reset:active {
-        transform: translateY(4px);
-        box-shadow: 0 2px 0 #b8860b;
-    }
-
-    .controls { text-align:center; margin-top: 30px; }
-    .feedback {
-        margin-top:25px;
-        padding:20px;
-        border-radius:25px;
-        display:none;
-        font-weight: 500;
         text-align: center;
-        font-size: 1.1rem;
-    }
-    .zone .item {
-        margin: 10px auto;
-        width: 90%;
-        cursor: default;
+        line-height: 1.2;
+        margin: 0;
+        color: #f8fafc;
     }
 
-    @media (max-width: 700px) {
-        .zones { gap: 10px; }
-        .item { min-width: 130px; font-size: 0.85rem; padding: 10px 12px; }
-        .timer-big-number { font-size: 1rem; min-width: 55px; padding: 3px 10px; }
-        .score-value { font-size: 1rem; padding: 3px 10px; }
-        .btn-reset { padding: 10px 28px; font-size: 1.1rem; }
-        .game-stats { padding: 6px 15px; }
-        .timer-slider-wrapper { height: 8px; }
+    /* CUSTOM MODAL */
+    .game-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0; top: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 5, 20, 0.85);
+        backdrop-filter: blur(8px);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background: #0d1930;
+        border: 2px solid var(--neon-cyan);
+        padding: 40px;
+        border-radius: 30px;
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+        animation: modalSlide 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes modalSlide {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* UTILITIES */
+    .correct-drop { width: 100% !important; margin-bottom: 8px; border-color: var(--neon-green) !important; box-shadow: 0 0 10px rgba(57, 255, 20, 0.2); }
+    .shake { animation: shake-ani 0.3s; border-color: var(--neon-red) !important; }
+    @keyframes shake-ani { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .timer-pulse { animation: timerPulse 0.8s ease-in-out infinite; color: var(--neon-red); }
+    @keyframes timerPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+    .timer-safe { color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.35); }
+    .timer-warning { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(244, 234, 20, 0.35); }
+    .timer-danger { color: var(--neon-red); text-shadow: 0 0 12px rgba(255, 49, 49, 0.45); }
+
+    .btn-deploy {
+        margin-top: 20px;
+        background: linear-gradient(135deg, #00f2ff 0%, #39ff14 100%);
+        color: #001724;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 28px;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        box-shadow: 0 7px 0 #0aa2b0, 0 14px 22px rgba(0, 0, 0, 0.25);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn-deploy:hover {
+        color: #001724;
+        filter: brightness(1.06);
+        transform: translateY(-2px);
+        box-shadow: 0 9px 0 #0aa2b0, 0 18px 28px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-deploy:active {
+        transform: translateY(4px);
+        box-shadow: 0 3px 0 #0aa2b0, 0 8px 12px rgba(0, 0, 0, 0.28);
+    }
+
+    @media (max-width: 992px) {
+        .container-box {
+            padding: 22px;
+            margin: 14px;
+        }
+
+        .hud-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+        }
+
+        .hud-header .d-flex.gap-2 {
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px !important;
+        }
+
+        .stat-display {
+            min-width: 0;
+            padding: 8px 10px;
+        }
+
+        .mission-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .sector {
+            min-height: auto;
+        }
+
+        .drop-target {
+            min-height: 140px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container-box {
+            padding: 16px;
+            border-radius: 18px;
+            margin: 10px;
+        }
+
+        .game-title h2 {
+            font-size: 1.1rem;
+        }
+
+        .game-title p {
+            font-size: 0.72rem;
+        }
+
+        .hud-header {
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .hud-header .d-flex.gap-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-label {
+            font-size: 0.62rem;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+        }
+
+        .deck-container {
+            padding: 12px;
+            gap: 10px;
+        }
+
+        .action-card {
+            width: calc(50% - 10px);
+            min-width: 130px;
+            padding: 8px;
+        }
+
+        .action-card img {
+            height: 95px;
+        }
+
+        .action-card p {
+            font-size: 0.7rem;
+        }
+
+        .btn-deploy {
+            width: 100%;
+            padding: 11px 14px;
+            font-size: 0.9rem;
+            letter-spacing: 0.4px;
+        }
+
+        .modal-content {
+            width: 94%;
+            padding: 22px 16px;
+            border-radius: 18px;
+        }
+
+        #modalTitle {
+            font-size: 1.25rem;
+        }
+
+        #modalMessage {
+            font-size: 0.92rem;
+            margin-bottom: 18px;
+        }
     }
 </style>
 @endpush
 
-
 @section('content')
 <div class="container-box">
-
-    <h2>🎮 Ayusin Mo Ako!</h2>
-    <p class="text-center text-muted"><strong>📌 Gabay:</strong> I-drag ang bawat gawain sa tamang yugto (Bago, Habang, Pagkatapos).</p>
-
-    <!-- COMPACT GAME STATS: Timer Slider + Timer Number + Score (all in one row) -->
-    <div class="game-stats">
-        <div class="timer-section">
-            <span class="timer-label">⏱️</span>
-            <div class="timer-slider-wrapper">
-                <div class="timer-slider-bar" id="timerSliderBar" style="width: 100%;"></div>
+    <div class="hud-header">
+        <div class="game-title">
+            <h2>OPERASYON: KALAMIDAD</h2>
+            <p class="m-0 text-muted small">AYUSIN ANG MGA HAKBANG SA KALIGTASAN</p>
+        </div>
+        <div class="d-flex gap-2">
+            <div class="stat-display">
+                <div class="stat-label">Oras</div>
+                <div class="stat-value timer-safe" id="timerBigDisplay">30s</div>
             </div>
-            <div class="timer-big-number" id="timerBigDisplay">30s</div>
-        </div>
-        <div class="score-section">
-            <span class="score-label">⭐ SCORE</span>
-            <div class="score-value">
-                <span id="score">0</span>/6
+            <div class="stat-display">
+                <div class="stat-label">Iskor</div>
+                <div class="stat-value"><span id="score">0</span>/6</div>
+            </div>
+            <div class="stat-display">
+                <div class="stat-label">Antas</div>
+                <div class="stat-value text-info" id="missionRank">BAGUHAN</div>
             </div>
         </div>
     </div>
 
-    <!-- ZONES -->
-    <div class="zones">
-        <div class="zone before" id="before">
-            <h5>🟦 BAGO</h5>
-            <div class="zone-items-container"></div>
+    <div style="height: 10px; background: #0f172a; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
+        <div id="missionXpBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green)); transition: 0.5s; border-radius: 10px;"></div>
+    </div>
+
+    <div id="warningMessage" style="display:none; text-align:center; color:var(--neon-yellow); font-weight:bold; margin-bottom:10px;">⚠️ 5 segundo na lang!</div>
+    <div id="sfxMessage" style="min-height: 25px; text-align:center; font-weight:bold; margin-bottom:10px;"></div>
+
+    <div class="mission-grid">
+        <div class="sector" id="before">
+            <div class="sector-title bago">BAGO (Paghahanda)</div>
+            <div class="drop-target"></div>
         </div>
-        <div class="zone during" id="during">
-            <h5>🟨 HABANG</h5>
-            <div class="zone-items-container"></div>
+        <div class="sector" id="during">
+            <div class="sector-title habang">HABANG (Aksyon)</div>
+            <div class="drop-target"></div>
         </div>
-        <div class="zone after" id="after">
-            <h5>🟩 PAGKATAPOS</h5>
-            <div class="zone-items-container"></div>
+        <div class="sector" id="after">
+            <div class="sector-title pagkatapos">PAGKATAPOS (Pagbangon)</div>
+            <div class="drop-target"></div>
         </div>
     </div>
 
-    <!-- DRAGGABLE ITEMS (choices) - NO SHADOWS/HIGHLIGHTS -->
-    <div class="items" id="choices">
-        <div class="item" draggable="true" data-type="before">🧰 Emergency Kit</div>
-        <div class="item" draggable="true" data-type="before">📢 Makinig sa Babala</div>
-        <div class="item" draggable="true" data-type="during">🏃 Lumikas</div>
-        <div class="item" draggable="true" data-type="during">🙇 Drop Cover Hold</div>
-        <div class="item" draggable="true" data-type="after">🧹 Clean-up Drive</div>
-        <div class="item" draggable="true" data-type="after">🔌 Suriin ang Kuryente</div>
+    <div class="deck-container" id="choices">
+        @php
+            $cards = [
+                ['type' => 'before', 'img' => 'mod4_emergencykit.png', 'text' => 'Maghanda ng emergency kit.'],
+                ['type' => 'before', 'img' => 'mod4_newsbabala.png', 'text' => 'Makinig sa balita at babala.'],
+                ['type' => 'during', 'img' => 'mod4_evacuating.png', 'text' => 'Lumikas sa ligtas na lugar.'],
+                ['type' => 'during', 'img' => 'mod4_duckcoverhold.png', 'text' => 'Yumuko, magkubli, at kumapit.'],
+                ['type' => 'after', 'img' => 'mod4_cleanupdrive.png', 'text' => 'Tumulong sa paglilinis.'],
+                ['type' => 'after', 'img' => 'mod4_suriinkuryente.png', 'text' => 'Suriin ang linya ng kuryente.']
+            ];
+            shuffle($cards);
+        @endphp
+
+        @foreach($cards as $card)
+        <div class="action-card" draggable="true" data-type="{{ $card['type'] }}">
+            <img src="{{ asset('pictures/'.$card['img']) }}" alt="Gawain">
+            <p>{{ $card['text'] }}</p>
+        </div>
+        @endforeach
     </div>
 
-    <!-- CONTROLS -->
-    <div class="controls">
-        <button class="btn btn-reset" onclick="resetGame()">🔄 SUBUKAN MULI</button>
+    <div class="text-center">
+        <button class="btn btn-deploy" onclick="resetGame()">🔄 I-RESET ANG LARO</button>
     </div>
+</div>
 
-    <!-- FEEDBACK -->
-    <div id="feedback" class="feedback"></div>
-
+<div id="feedbackModal" class="game-modal">
+    <div class="modal-content">
+        <div id="modalIcon" style="font-size: 50px; margin-bottom: 20px;"></div>
+        <h2 id="modalTitle" style="font-weight: 800; margin-bottom: 15px;"></h2>
+        <p id="modalMessage" style="color: #cbd5e1; line-height: 1.6; margin-bottom: 30px;"></p>
+        <div id="modalAction"></div>
+    </div>
 </div>
 
 <script>
@@ -307,187 +416,122 @@
     const total = 6;
     let time = 30;
     let timer;
-    let intervalRunning = true;
+    let isActive = true;
+    let warningShown = false;
 
-    // Sound effects
     const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
     const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
 
-    // DOM elements
-    const timerSliderBar = document.getElementById('timerSliderBar');
-    const timerBigDisplay = document.getElementById('timerBigDisplay');
-    const scoreSpan = document.getElementById('score');
-    const feedbackDiv = document.getElementById('feedback');
-    const zones = {
-        before: document.getElementById('before'),
-        during: document.getElementById('during'),
-        after: document.getElementById('after')
-    };
+    function initGame() {
+        const cards = document.querySelectorAll('.action-card');
+        const sectors = document.querySelectorAll('.sector');
 
-    // Helper: update timer slider & big number
-    function updateTimerUI() {
-        const percent = (time / 30) * 100;
-        timerSliderBar.style.width = `${percent}%`;
-        timerBigDisplay.innerText = `${time}s`;
-        // change bar color based on remaining time
-        if (percent <= 20) {
-            timerSliderBar.style.background = "#dc3545";
-        } else if (percent <= 50) {
-            timerSliderBar.style.background = "#ffc107";
-        } else {
-            timerSliderBar.style.background = "linear-gradient(90deg, #28a745, #ffc107, #dc3545)";
-        }
-    }
-
-    // Drag & Drop logic
-    function attachDragEvents() {
-        document.querySelectorAll('.item').forEach(item => {
-            item.setAttribute('draggable', 'true');
-            item.removeEventListener('dragstart', dragStartHandler);
-            item.addEventListener('dragstart', dragStartHandler);
-        });
-    }
-
-    function dragStartHandler(e) {
-        dragged = e.target;
-        // Only allow dragging if the item is still inside #choices (not yet placed in a zone)
-        if (dragged.parentElement.id !== 'choices') {
-            e.preventDefault();
-            dragged = null;
-            return false;
-        }
-        e.dataTransfer.setData('text/plain', '');
-        e.dataTransfer.effectAllowed = 'move';
-    }
-
-    function setupDropZones() {
-        for (let zoneId in zones) {
-            const zone = zones[zoneId];
-            zone.addEventListener('dragover', (e) => e.preventDefault());
-            zone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                if (!dragged) return;
-
-                const expectedType = dragged.getAttribute('data-type');
-                if (expectedType === zone.id) {
-                    // CORRECT DROP
-                    zone.appendChild(dragged);
-                    dragged.classList.add("correct");
-                    dragged.setAttribute('draggable', 'false');
-                    correctSound.play();
-                    score++;
-                    scoreSpan.innerText = score;
-
-                    // check win
-                    if (score === total) {
-                        endGame(true);
-                    }
-                } else {
-                    // WRONG DROP
-                    wrongSound.play();
-                    dragged.classList.add("wrong");
-                    setTimeout(() => dragged.classList.remove("wrong"), 400);
-                }
+        cards.forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                if(!isActive) return;
+                dragged = this;
+                e.dataTransfer.setData('text/plain', null);
+                this.style.opacity = '0.4';
+            });
+            card.addEventListener('dragend', function() {
+                this.style.opacity = '1';
                 dragged = null;
             });
-        }
+        });
+
+        sectors.forEach(sector => {
+            sector.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                sector.classList.add('drag-over');
+            });
+            sector.addEventListener('dragleave', () => sector.classList.remove('drag-over'));
+            sector.addEventListener('drop', function(e) {
+                e.preventDefault();
+                sector.classList.remove('drag-over');
+                if(!dragged) return;
+
+                if(dragged.dataset.type === this.id) {
+                    this.querySelector('.drop-target').appendChild(dragged);
+                    dragged.setAttribute('draggable', 'false');
+                    dragged.classList.add('correct-drop');
+                    correctSound.play().catch(()=>{});
+                    score++;
+                    updateUI();
+                    if(score === total) endGame(true);
+                } else {
+                    wrongSound.play().catch(()=>{});
+                    dragged.classList.add('shake');
+                    setTimeout(() => dragged.classList.remove('shake'), 400);
+                }
+            });
+        });
+        startTimer();
     }
 
-    // Timer with visual slider
+    function updateUI() {
+        document.getElementById('score').innerText = score;
+        const xp = (score / total) * 100;
+        document.getElementById('missionXpBar').style.width = xp + '%';
+        
+        const rank = document.getElementById('missionRank');
+        if(score >= 6) { rank.innerText = "HEPE"; rank.style.color = "var(--neon-green)"; }
+        else if(score >= 4) { rank.innerText = "OPISYAL"; rank.style.color = "var(--neon-cyan)"; }
+        else if(score >= 2) { rank.innerText = "REKRUT"; rank.style.color = "var(--neon-yellow)"; }
+    }
+
     function startTimer() {
-        updateTimerUI();
+        const timerEl = document.getElementById('timerBigDisplay');
         timer = setInterval(() => {
-            if (!intervalRunning) return;
-            if (time <= 1) {
-                clearInterval(timer);
-                time = 0;
-                updateTimerUI();
-                endGame(false);
+            if(time <= 0) { endGame(false); return; }
+            time--;
+            timerEl.innerText = time + 's';
+
+            timerEl.classList.remove('timer-safe', 'timer-warning', 'timer-danger');
+            if (time > 15) {
+                timerEl.classList.add('timer-safe');
+            } else if (time > 5) {
+                timerEl.classList.add('timer-warning');
             } else {
-                time--;
-                updateTimerUI();
-                if (time === 5) {
-                    alert("⚠️ 5 segundo na lang! Bilisan mo.");
-                }
+                timerEl.classList.add('timer-danger');
+            }
+
+            if (time <= 5) {
+                timerEl.classList.add('timer-pulse');
+                document.getElementById('warningMessage').style.display = 'block';
             }
         }, 1000);
     }
 
-    // End game function (win/loss)
-    function endGame(isWin) {
-        if (!intervalRunning) return;
-        intervalRunning = false;
+    function endGame(win) {
         clearInterval(timer);
+        isActive = false;
+        
+        const modal = document.getElementById('feedbackModal');
+        const icon = document.getElementById('modalIcon');
+        const title = document.getElementById('modalTitle');
+        const msg = document.getElementById('modalMessage');
+        const action = document.getElementById('modalAction');
 
-        // Disable further drag on all items
-        document.querySelectorAll('.item').forEach(item => {
-            item.setAttribute('draggable', 'false');
-        });
+        modal.style.display = 'flex';
 
-        feedbackDiv.style.display = "block";
-        if (isWin && score === total) {
-            feedbackDiv.className = "feedback alert alert-success";
-            feedbackDiv.innerHTML = `
-                🎉 <strong>NAPAKAHUSAY!</strong><br><br>
-                ✅ Naayos mo nang tama ang lahat ng hakbang!<br>
-                Ipinapakita mong handa ka sa bawat yugto ng kalamidad.<br><br>
-                👉 <strong>Dadalhin ka na sa susunod na modyul...</strong>
-            `;
-            setTimeout(() => {
-                window.location.href = "{{ route('module4.welcome') }}";
-            }, 3000);
+        if(win) {
+            icon.innerHTML = "🎉";
+            title.innerText = "Magaling!";
+            title.style.color = "var(--neon-green)";
+            msg.innerHTML = "Naipakita mo ang tamang pagkakasunod-sunod ng mga gawain sa panahon ng kalamidad.<br><br><strong>👉 Tandaan:</strong> Ang pagiging handa bago ang sakuna, maingat habang ito ay nangyayari, at responsable pagkatapos nito ay susi sa kaligtasan ng lahat.";
+            action.innerHTML = `<button class="btn btn-deploy" onclick="window.location.href='{{ route('module4.welcome') }}'">Magpatuloy</button>`;
         } else {
-            feedbackDiv.className = "feedback alert alert-danger";
-            feedbackDiv.innerHTML = `
-                ⚠️ <strong>Oras na! o Hindi pa tapos ang lahat.</strong><br><br>
-                Siguraduhing mailagay lahat ng anim na gawain sa tamang zone.<br>
-                Pindutin ang "SUBUKAN MULI" para magsimulang muli.<br><br>
-                🧠 <i>Balikan ang mga hakbang: Bago, Habang, at Pagkatapos ng kalamidad.</i>
-            `;
+            icon.innerHTML = "❌";
+            title.innerText = "Subukan Muli!";
+            title.style.color = "var(--neon-red)";
+            msg.innerText = "May ilang gawain na hindi nailagay sa tamang yugto o naubusan ka ng oras. Balikan ang iyong kaalaman at ayusin muli ang mga sagot.";
+            action.innerHTML = `<button class="btn btn-deploy" onclick="resetGame()">SUBUKAN MULI</button>`;
         }
     }
 
-    // Reset everything
     function resetGame() {
-        // kill old timer to avoid double intervals
-        clearInterval(timer);
-        intervalRunning = false;
-
-        // reset variables
-        score = 0;
-        time = 30;
-        intervalRunning = true;
-        scoreSpan.innerText = "0";
-        updateTimerUI();
-
-        // remove all items from zones and put back to #choices
-        const choicesContainer = document.getElementById('choices');
-        const allItems = document.querySelectorAll('.item');
-        allItems.forEach(item => {
-            // remove correct/wrong classes
-            item.classList.remove('correct', 'wrong');
-            item.setAttribute('draggable', 'true');
-            choicesContainer.appendChild(item);
-        });
-
-        // clear feedback
-        feedbackDiv.style.display = "none";
-        feedbackDiv.innerHTML = "";
-
-        // restart timer
-        startTimer();
-        dragged = null;
+        location.reload(); // Pinakamalinis na paraan para i-reset ang lahat ng states at positions
     }
-
-    // Initialize game
-    function initGame() {
-        setupDropZones();
-        attachDragEvents();
-        startTimer();
-    }
-
-    // Make reset globally accessible
-    window.resetGame = resetGame;
 
     initGame();
 </script>
