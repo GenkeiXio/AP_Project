@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Landslide Alert: Rescue Mission | Libon, Albay</title>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
@@ -401,9 +402,33 @@
   let currentLevelIndex = 0;
   let score = 0;
   let userAnswers = new Array(levels.length).fill(null);
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+  const gameSaveUrl = "{{ route('student.module4.games.save') }}";
 
   const quizPanel = document.getElementById('quizPanel');
   const resultArea = document.getElementById('resultArea');
+
+  async function saveGameResult(rank) {
+    try {
+      await fetch(gameSaveUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          game_type: 'landslide',
+          score: score,
+          total_items: levels.length,
+          rank: rank,
+          is_completed: true
+        })
+      });
+    } catch (error) {
+      console.error('Failed to save Landslide game result:', error);
+    }
+  }
 
   function renderLevel() {
     if (currentLevelIndex >= levels.length) {
@@ -471,8 +496,13 @@
       <div class="score-badge">${score} / ${levels.length}</div>
       <h2 style="color:var(--emergency-orange); text-transform:uppercase;">${rank}</h2>
       <p style="margin: 1.5rem 0; font-weight:500;">${msg}</p>
-      <button class="restart-btn" onclick="location.reload()">🔄 Restart Mission</button>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button class="restart-btn" onclick="location.reload()">🔄 Restart Mission</button>
+        <a href="{{ route('module4.explore', ['completed' => 'landslide']) }}" class="restart-btn" style="background: var(--emergency-orange);">📚 Back to Explore</a>
+      </div>
     `;
+
+    saveGameResult(rank);
   }
 
   renderLevel();

@@ -187,17 +187,19 @@
             </div>
         </a>
 
-        <div class="module-card green">
-            <div class="stat-icon" style="background:#dcfce7;">
-                <i data-lucide="book-open"></i>
-            </div>
-            <div class="module-title">Module 3</div>
-            <div class="module-sub">Pag-unawa sa Teksto</div>
+        <a href="{{ route('teacher.module3.results') }}" style="text-decoration:none; color:inherit;">
+            <div class="module-card green">
+                <div class="stat-icon" style="background:#dcfce7;">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div class="module-title">Module 3</div>
+                <div class="module-sub">Pag-unawa sa Teksto</div>
 
-            <span class="badge green">
-                <i data-lucide="users"></i> 6 students
-            </span>
-        </div>
+                <span class="badge green">
+                    <i data-lucide="users"></i> 6 students
+                </span>
+            </div>
+        </a>
 
         <div class="module-card purple">
             <div class="stat-icon" style="background:#ede9fe;">

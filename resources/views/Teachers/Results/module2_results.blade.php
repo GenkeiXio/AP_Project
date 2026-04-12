@@ -169,6 +169,42 @@ body {
     transform: translateX(6px);
     color: #6366f1;
 }
+
+/* BACK LINK (UPGRADED) */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+
+    border: 1px solid #e5e7eb;
+
+    transition: all 0.25s ease;
+}
+
+/* HOVER */
+.back-link:hover {
+    background: white;
+    color: #111827;
+    transform: translateX(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+/* ACTIVE */
+.back-link:active {
+    transform: scale(0.96);
+}
 </style>
 @endpush
 
@@ -176,7 +212,7 @@ body {
 
 <!-- BACK -->
 <a href="{{ route('teacher.results') }}" class="back-link">
-    ← Back to Results
+    <i data-lucide="arrow-left"></i> Back to Results
 </a>
 
 <!-- HEADER -->
@@ -187,10 +223,6 @@ body {
             Sanhi at Bunga — {{ count($students) }} students
         </div>
     </div>
-
-    <button class="export-btn">
-        Export CSV
-    </button>
 </div>
 
 <!-- SEARCH -->
