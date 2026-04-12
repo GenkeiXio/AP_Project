@@ -16,7 +16,7 @@
 
   <!-- CARD 1: ANO ANG NANGYARI? -->
   <div class="step active" id="mayon-step1">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 1: ANO ANG NANGYARI?</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 1: ANO ANG NANGYARI?</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C1 - 1.jpg') }}" alt="Mayon lava glow">
@@ -40,7 +40,7 @@
 
   <!-- CARD 2: URI NG AKTIBIDAD -->
   <div class="step" id="mayon-step2">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 2: URI NG AKTIBIDAD NG BULKAN</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 2: URI NG AKTIBIDAD NG BULKAN</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C2 - 1.jpg') }}" alt="Incandescent rockfalls">
@@ -66,7 +66,7 @@
 
   <!-- CARD 3: LAWAK NG EPEKTO -->
   <div class="step" id="mayon-step3">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 3: LAWAK NG EPEKTO</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 3: LAWAK NG EPEKTO</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C3 - 1.jpg') }}" alt="Lava flow down slope">
@@ -92,7 +92,7 @@
 
   <!-- CARD 4: ALERT LEVEL AT BABALA -->
   <div class="step" id="mayon-step4">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 4: ALERT LEVEL AT BABALA</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 4: ANTAS NG BABALA</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C4 - 1.jpg') }}" alt="Alert Level 3 sign">
@@ -117,7 +117,7 @@
 
   <!-- CARD 5: PANGANIB SA KOMUNIDAD -->
   <div class="step" id="mayon-step5">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 5: PANGANIB SA KOMUNIDAD</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 5: PANGANIB SA KOMUNIDAD</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C5 - 1.jpg') }}" alt="Ashfall">
@@ -143,7 +143,7 @@
 
   <!-- CARD 6: KALAGAYAN SA GABI -->
   <div class="step" id="mayon-step6">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 6: KALAGAYAN SA GABI</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 6: KALAGAYAN SA GABI</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C6 - 1.jpg') }}" alt="Glowing lava at night">
@@ -168,7 +168,7 @@
 
   <!-- CARD 7: PAGTUGON AT PAG-IINGAT -->
   <div class="step" id="mayon-step7">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 7: PAGTUGON AT PAG-IINGAT</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 7: PAGTUGON AT PAG-IINGAT</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C7 - 1.jpg') }}" alt="Safety precautions">
@@ -194,7 +194,7 @@
 
   <!-- CARD 8: BUOD -->
   <div class="step" id="mayon-step8">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 CARD 8: BUOD</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #f97316; padding-left: 16px;">🧩 KARD 8: BUOD</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/mayon/C8.png') }}" alt="Mayon summary">
@@ -209,7 +209,7 @@
 
     <div style="display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end;">
       <button class="btn" onclick="mayonPrevStep(7)" style="padding: 10px 20px; font-size: 1rem; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; background: #6c757d; color: white;">← Nakaraan</button>
-      <button class="btn btn-success" onclick="mayonFinishStory()" style="padding: 10px 20px; font-size: 1rem; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; background: #2e7d32; color: white;">🎮 Tapusin at Pumunta sa Laro</button>
+      <a href="{{ route('module4.mayon.game') }}" onclick="awardStepXP(currentStory+'-step8', 200)" class="btn btn-success" style="padding: 10px 20px; font-size: 1rem; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; background: #2e7d32; color: white; text-decoration: none; display: inline-flex; align-items: center;">🎮 Tapusin at Pumunta sa Laro</a>
     </div>
   </div>
 

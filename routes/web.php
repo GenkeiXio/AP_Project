@@ -36,7 +36,11 @@ use App\Http\Controllers\Student\Module3\Module3PosttestController;
 use App\Http\Controllers\Student\Module3\Module3LindolController;
 use App\Http\Controllers\Student\Module3\Module3BalikAralController;
 use App\Http\Controllers\Student\Module3\Module3ExploreController;
-use App\Http\Controllers\Teacher\Module3ResultsController;
+use App\Http\Controllers\Student\Module4\Module4HomeController;
+use App\Http\Controllers\Student\Module4\Module4PretestController;
+use App\Http\Controllers\Student\Module4\Module4BalikAralController;
+use App\Http\Controllers\Student\Module4\Module4ExploreController;
+use App\Http\Controllers\Student\Module4\Module4GameResultController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -94,6 +98,12 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/lindol/save', [Module3LindolController::class, 'store'])->name('student.module3.lindol.save');
     Route::post('/student/module3/balik-aral/save', [Module3BalikAralController::class, 'store'])->name('student.module3.balikaral.save');
     Route::post('/student/module3/explore/save', [Module3ExploreController::class, 'store'])->name('student.module3.explore.save');
+
+    Route::post('/student/module4/poll/save', [Module4HomeController::class, 'storePoll'])->name('student.module4.poll.save');
+    Route::post('/student/module4/pretest/save', [Module4PretestController::class, 'store'])->name('student.module4.pretest.save');
+    Route::post('/student/module4/balik-aral/save', [Module4BalikAralController::class, 'store'])->name('student.module4.balikaral.save');
+    Route::post('/student/module4/explore/save', [Module4ExploreController::class, 'store'])->name('student.module4.explore.save');
+    Route::post('/student/module4/games/save', [Module4GameResultController::class, 'store'])->name('student.module4.games.save');
 
 
 
@@ -348,4 +358,10 @@ Route::view('/module4/explore/games/baha', 'Students.Module4.Explore.Games.baha_
 
 Route::view('/module4/explore/games/lindol', 'Students.Module4.Explore.Games.lindol_game')
     ->name('module4.lindol.game');
+
+Route::view('/module4/explore/games/mayon', 'Students.Module4.Explore.Games.mayon_game')
+    ->name('module4.mayon.game');
+
+Route::view('/module4/explore/games/landslide', 'Students.Module4.Explore.Games.landslide_game')
+    ->name('module4.landslide.game');
 
