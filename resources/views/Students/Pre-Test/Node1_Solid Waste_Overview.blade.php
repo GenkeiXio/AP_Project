@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Node 1: Solid Waste - Overview</title>
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+@extends('Students.studentslayout')
+@section('title', 'Module 2 : Node 1')
+
+@push('styles')
 	<style>
 		* {
 			box-sizing: border-box;
@@ -20,14 +17,19 @@
 			z-index: -1;
 		}
 
-		body {
-			margin: 0;
-			font-family: "Nunito", sans-serif;
-			background: linear-gradient(180deg, #eff8ff 0%, #f6fff6 45%, #fff8ea 100%);
-			color: #2e2e2e;
-			min-height: 100vh;
-			padding: 20px 14px 32px;
-			background: none !important;
+		html, body{
+			scroll-behavior:smooth;
+			background:
+				radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+				radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+				radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+				linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+		}
+
+		body{
+			overflow-x:hidden;
+			color:var(--text);
+			font-family:'Poppins', sans-serif;
 		}
 
 		.page {
@@ -283,8 +285,9 @@
 			transition: transform 0.2s;
 		}
 	</style>
-</head>
-<body>
+@endpush
+
+@section('content')
 	
 	<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
@@ -355,55 +358,54 @@
 	<!-- </section> -->
 </div>
 
-<div class="source-modal" id="sourceModal" aria-hidden="true">
-	<div class="source-modal-card">
-		<div class="source-modal-head">
-			<div class="source-modal-title" id="sourceModalTitle">Source Viewer</div>
-			<button type="button" class="source-modal-close" id="sourceModalClose">Isara ✕</button>
+	<div class="source-modal" id="sourceModal" aria-hidden="true">
+		<div class="source-modal-card">
+			<div class="source-modal-head">
+				<div class="source-modal-title" id="sourceModalTitle">Source Viewer</div>
+				<button type="button" class="source-modal-close" id="sourceModalClose">Isara ✕</button>
+			</div>
+			<iframe id="sourceModalFrame" class="source-modal-frame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+			<div class="source-modal-tip">Nasa loob lang ng system ang source viewer; walang external redirect.</div>
 		</div>
-		<iframe id="sourceModalFrame" class="source-modal-frame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-		<div class="source-modal-tip">Nasa loob lang ng system ang source viewer; walang external redirect.</div>
 	</div>
-</div>
 
-<script>
-	const sourceOpenBtns = Array.from(document.querySelectorAll('.source-open'));
-	const sourceModal = document.getElementById('sourceModal');
-	const sourceModalFrame = document.getElementById('sourceModalFrame');
-	const sourceModalTitle = document.getElementById('sourceModalTitle');
-	const sourceModalClose = document.getElementById('sourceModalClose');
+	<script>
+		const sourceOpenBtns = Array.from(document.querySelectorAll('.source-open'));
+		const sourceModal = document.getElementById('sourceModal');
+		const sourceModalFrame = document.getElementById('sourceModalFrame');
+		const sourceModalTitle = document.getElementById('sourceModalTitle');
+		const sourceModalClose = document.getElementById('sourceModalClose');
 
-	function openSourceModal(title, embedUrl) {
-		sourceModalTitle.textContent = title;
-		sourceModalFrame.src = embedUrl;
-		sourceModal.classList.add('show');
-		sourceModal.setAttribute('aria-hidden', 'false');
-	}
+		function openSourceModal(title, embedUrl) {
+			sourceModalTitle.textContent = title;
+			sourceModalFrame.src = embedUrl;
+			sourceModal.classList.add('show');
+			sourceModal.setAttribute('aria-hidden', 'false');
+		}
 
-	function closeSourceModal() {
-		sourceModal.classList.remove('show');
-		sourceModal.setAttribute('aria-hidden', 'true');
-		sourceModalFrame.src = 'about:blank';
-	}
+		function closeSourceModal() {
+			sourceModal.classList.remove('show');
+			sourceModal.setAttribute('aria-hidden', 'true');
+			sourceModalFrame.src = 'about:blank';
+		}
 
-	sourceOpenBtns.forEach(button => {
-		button.addEventListener('click', () => {
-			openSourceModal(button.dataset.title || 'Source Viewer', button.dataset.embed || 'about:blank');
+		sourceOpenBtns.forEach(button => {
+			button.addEventListener('click', () => {
+				openSourceModal(button.dataset.title || 'Source Viewer', button.dataset.embed || 'about:blank');
+			});
 		});
-	});
 
-	sourceModalClose.addEventListener('click', closeSourceModal);
-	sourceModal.addEventListener('click', (event) => {
-		if (event.target === sourceModal) {
-			closeSourceModal();
-		}
-	});
+		sourceModalClose.addEventListener('click', closeSourceModal);
+		sourceModal.addEventListener('click', (event) => {
+			if (event.target === sourceModal) {
+				closeSourceModal();
+			}
+		});
 
-	window.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && sourceModal.classList.contains('show')) {
-			closeSourceModal();
-		}
-	});
-</script>
-</body>
-</html>
+		window.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && sourceModal.classList.contains('show')) {
+				closeSourceModal();
+			}
+		});
+	</script>
+@endsection

@@ -97,7 +97,7 @@ class AnalyticsController extends Controller
             ->limit(5)
             ->get();
 
-        return view('teachers.analytics', compact(
+        return view('Teachers.analytics', compact(
             'stats',
             'topStudents',
 
