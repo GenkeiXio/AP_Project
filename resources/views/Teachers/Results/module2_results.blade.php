@@ -7,21 +7,36 @@
 <style>
 body {
     background: linear-gradient(135deg, #f8fafc, #eef2ff);
+    color: #1e293b;
 }
 
-/* BACK */
+/* BACK LINK */
 .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: #64748b;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
     text-decoration: none;
-    font-weight: 500;
-    transition: 0.2s;
+
+    border: 1px solid #e5e7eb;
+
+    transition: all 0.25s ease;
 }
 .back-link:hover {
+    background: white;
     color: #111827;
-    transform: translateX(-3px);
+    transform: translateX(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
 }
 
 /* HEADER */
@@ -29,122 +44,104 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .page-title {
-    font-size: 34px;
+    font-size: 28px;
     font-weight: 800;
-    letter-spacing: -0.5px;
 }
 
 .page-sub {
-    color: #6b7280;
+    color: #64748b;
+    font-size: 14px;
     margin-top: 4px;
 }
 
-/* BUTTON */
-.export-btn {
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
-    color: white;
-    border: none;
-    padding: 11px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.25s;
-    box-shadow: 0 8px 20px rgba(59,130,246,0.3);
-}
-.export-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(59,130,246,0.4);
-}
-
 /* SEARCH */
+.search-bar {
+    margin-bottom: 20px;
+}
 .search-bar input {
     width: 100%;
-    padding: 15px 18px;
-    border-radius: 14px;
+    padding: 13px 16px;
+    border-radius: 12px;
     border: 1px solid #e5e7eb;
+
     font-size: 14px;
     outline: none;
-    transition: 0.25s;
-    background: rgba(255,255,255,0.7);
+
+    background: rgba(255,255,255,0.8);
     backdrop-filter: blur(10px);
+
+    transition: 0.25s ease;
 }
 .search-bar input:focus {
     border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
 }
 
 /* GRID */
 .students-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+    gap: 20px;
 }
 
 /* CARD */
 .student-card {
     position: relative;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(14px);
-    border-radius: 18px;
+    background: white;
+    border-radius: 16px;
+
     padding: 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-    transition: all 0.35s ease;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+
+    transition: all 0.3s ease;
     cursor: pointer;
+
     opacity: 0;
-    transform: translateY(30px);
-    overflow: hidden;
+    transform: translateY(25px);
 }
 
-/* glow effect */
-.student-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.student-card:hover::before {
-    opacity: 1;
-}
-
+/* HOVER */
 .student-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 30px rgba(0,0,0,0.08);
 }
 
 /* INFO */
 .student-info {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
 }
 
 /* AVATAR */
 .avatar {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
+
     background: linear-gradient(135deg, #6366f1, #3b82f6);
     color: white;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     font-weight: 700;
-    letter-spacing: 1px;
-    transition: 0.3s;
+    font-size: 14px;
+
+    transition: 0.3s ease;
 }
 
 .student-card:hover .avatar {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 /* TEXT */
@@ -155,7 +152,8 @@ body {
 
 .student-sub {
     font-size: 13px;
-    color: #6b7280;
+    color: #64748b;
+    margin-top: 2px;
 }
 
 /* ARROW */
@@ -166,8 +164,27 @@ body {
 }
 
 .student-card:hover .arrow {
-    transform: translateX(6px);
+    transform: translateX(5px);
     color: #6366f1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .students-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .students-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }
 </style>
 @endpush
@@ -176,7 +193,7 @@ body {
 
 <!-- BACK -->
 <a href="{{ route('teacher.results') }}" class="back-link">
-    ← Back to Results
+    <i data-lucide="arrow-left"></i> Back to Results
 </a>
 
 <!-- HEADER -->
@@ -187,15 +204,11 @@ body {
             Sanhi at Bunga — {{ count($students) }} students
         </div>
     </div>
-
-    <button class="export-btn">
-        Export CSV
-    </button>
 </div>
 
 <!-- SEARCH -->
 <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search students...">
+    <input type="text" id="" placeholder="">
 </div>
 
 <!-- STUDENTS -->

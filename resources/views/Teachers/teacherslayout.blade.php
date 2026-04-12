@@ -111,6 +111,10 @@
                 <i data-lucide="file-text" class="icon"></i>
                 <span>Results</span>
             </a>
+            <a href="{{ route('teacher.modules') }}" class="nav-link {{ request()->routeIs('teacher.modules') ? 'active' : '' }}">
+                <i data-lucide="book" class="icon"></i>
+                <span>Modules</span>
+            </a>
 
             <div class="nav-section-title">Students</div>
             <a href="{{ route('teacher.dashboard') }}" class="nav-link">

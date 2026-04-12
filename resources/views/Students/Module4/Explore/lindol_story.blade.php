@@ -276,7 +276,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Maunawaan ang epicenter at lawak ng pinsala mula sa magnitude 6.9 na lindol
+        <strong>📖 Layuning Pangkatuto:</strong> Maunawaan ang sentro at lawak ng pinsala mula sa magnitude 6.9 na lindol
     </div>
 
     <div class="img-grid">
@@ -286,12 +286,12 @@
     </div>
 
     <div class="fact-box">
-        <strong>💡 Observation:</strong>
+        <strong>💡 Obserbasyon:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px;">Ang magnitude 6.9 na lindol ay umabot na sa Bogo City at nagdulot ng malawak na pinsala sa iba't ibang bahagi ng lungsod.</p>
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Quick Insight</div>
+        <div class="quick-check-title">❓ Mabilis na Pagsusuri</div>
         <p style="margin: 8px 0; font-size: 14px;">Bakit mahalaga ang unang kahulugan ng lindol?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Ang mabilis na pag-intindi ay tumutulong sa mabilis na response.')">Sagutin</button>
     </div>
@@ -313,7 +313,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Malaman ang epekto sa buhay ng mga tao at komunidad
+        <strong>📖 Layuning Pangkatuto:</strong> Malaman ang epekto sa buhay ng mga tao at komunidad
     </div>
 
     <div class="img-grid">
@@ -338,7 +338,7 @@
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Critical Thinking</div>
+        <div class="quick-check-title">❓ Kritikal na Pag-iisip</div>
         <p style="margin: 8px 0; font-size: 14px;">Bakit importante ang mabilis na ulat ng casualty?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Para makapag-deploy ng rescue teams at medical assistance agad.')">Sagutin</button>
     </div>
@@ -360,7 +360,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Unawain ang pagkasira ng mga gusali at imprastruktura
+        <strong>📖 Layuning Pangkatuto:</strong> Unawain ang pagkasira ng mga gusali at imprastruktura
     </div>
 
     <div class="img-grid">
@@ -375,7 +375,7 @@
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Lesson</div>
+        <div class="quick-check-title">❓ Aral</div>
         <p style="margin: 8px 0; font-size: 14px;">Ano ang dapat gawin para maiwasan ang pagsisira ng gusali sa lindol?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Earthquake-resistant na disenyo at matibay na pundasyon.')">Sagutin</button>
     </div>
@@ -397,7 +397,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Kilalanin ang hamon sa healthcare system sa oras ng disaster
+        <strong>📖 Layuning Pangkatuto:</strong> Kilalanin ang hamon sa sistemang pangkalusugan sa oras ng sakuna
     </div>
 
     <div class="img-grid">
@@ -406,7 +406,7 @@
     </div>
 
     <div class="fact-box">
-        <strong>🏥 Hospital Crisis:</strong>
+        <strong>🏥 Krisis sa Ospital:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px;">Napuno ang mga ospital ng mga biktima kaya maraming pasyente ang ginagamot sa labas. Kailangan ng temporary medical facilities.</p>
     </div>
 
@@ -433,7 +433,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Maintindihan ang evacuation at temporary shelter protocols
+        <strong>📖 Layuning Pangkatuto:</strong> Maintindihan ang paglikas at pansamantalang panunuluyan
     </div>
 
     <div class="img-grid">
@@ -448,7 +448,7 @@
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Safety Awareness</div>
+        <div class="quick-check-title">❓ Kaalaman sa Kaligtasan</div>
         <p style="margin: 8px 0; font-size: 14px;">Ano ang kailangan sa evacuation centers?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Pagkain, tubig, medical kit, at psychosocial support.')">Sagutin</button>
     </div>
@@ -470,7 +470,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Kilalanin ang secondary hazards ng aftershocks
+        <strong>📖 Layuning Pangkatuto:</strong> Kilalanin ang pangalawang panganib ng aftershocks
     </div>
 
     <div class="img-grid">
@@ -484,7 +484,7 @@
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Risk Awareness</div>
+        <div class="quick-check-title">❓ Kaalaman sa Panganib</div>
         <p style="margin: 8px 0; font-size: 14px;">Saan ang ligtas na lugar sa panahon ng aftershocks?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Sa open spaces, malayo sa mga gusali at tulay.')">Sagutin</button>
     </div>
@@ -506,7 +506,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Makita ang kapangyarihan ng rescue operations at community resilience
+        <strong>📖 Layuning Pangkatuto:</strong> Makita ang kapangyarihan ng rescue operations at katatagan ng komunidad
     </div>
 
     <div class="two-image-grid">
@@ -523,7 +523,7 @@
     <div class="achievement-badge">❤️ Community Hero</div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Personal Reflection</div>
+        <div class="quick-check-title">❓ Sariling Pagninilay</div>
         <p style="margin: 8px 0; font-size: 14px;">Paano ka makakatulong sa iyong komunidad kapag may sakuna?</p>
         <button class="quick-check-btn" onclick="alert('✅ Maganda! Ang voluntarismo at pagkakaisa ay ang susi sa pagbangon.')">Sagutin</button>
     </div>
@@ -545,7 +545,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Final Goal:</strong> Ibuod ang magnitude 6.9 na lindol at ang kahalagahan ng disaster preparedness
+        <strong>📖 Pangwakas na Layunin:</strong> Ibuod ang magnitude 6.9 na lindol at ang kahalagahan ng paghahandang pangsakuna
     </div>
 
     <div class="img-grid">
@@ -553,7 +553,7 @@
     </div>
 
     <div class="fact-box" style="background: linear-gradient(135deg, #d4f1e8, #bde7d5); border-left-color: #28a745;">
-        <strong style="color: #155724;">📚 Summary:</strong>
+        <strong style="color: #155724;">📚 Buod:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px; color: #155724;">
             Ang magnitude 6.9 na lindol na tumama sa Bogo City ay nagdulot ng matinding pinsala sa buhay at ari-arian, kung saan umabot sa 69 ang nasawi at 175 ang nasugatan dahil sa mga gumuhong gusali at bahay. Maraming residente ang napilitang lumikas habang ang mga ospital ay napuno ng mga biktima. Naramdaman ang pagyanig sa iba't ibang bahagi ng Visayas at Bicol, at sinundan ito ng daan-daang aftershocks na nagpalala ng sitwasyon. Sa kabila nito, mabilis na kumilos ang pamahalaan at mga rescue teams upang magbigay ng tulong, magsagawa ng search and rescue operations, at tiyakin ang kaligtasan ng mga apektadong komunidad, na nagpapakita ng kahalagahan ng kahandaan at pagtutulungan sa panahon ng sakuna.
         </p>

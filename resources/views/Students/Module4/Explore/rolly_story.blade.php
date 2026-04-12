@@ -206,7 +206,7 @@
 </style>
 
 <div class="gamified-header">
-    <div class="story-title">🌀 Super Typhoon Rolly</div>
+    <div class="story-title">🌀 Super Taifun Rolly</div>
     <div class="story-xp" id="totalXP">Total XP: 0</div>
 </div>
 
@@ -240,7 +240,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Alamin ang kahulugan at lakas ng Super Typhoon Rolly
+        <strong>📖 Layuning Pangkatuto:</strong> Alamin ang kahulugan at lakas ng Super Taifun Rolly
     </div>
 
     <div class="img-grid">
@@ -321,12 +321,12 @@
 </div>
 
 <div class="fact-box">
-<strong>💡 Impact Assessment:</strong>
+<strong>💡 Pagsusuri ng Epekto:</strong>
 <p style="margin: 8px 0 0 0; font-size: 14px;">Malubhang naapektuhan ang tirahan ng mga pamilya at ang pangunahing industriya ng pangingisda sa lugar.</p>
 </div>
 
 <div class="quick-check">
-<div class="quick-check-title">❓ Critical Thinking</div>
+<div class="quick-check-title">❓ Kritikal na Pag-iisip</div>
 <p style="margin: 8px 0; font-size: 14px;">Bakit mahalagang i-monitor ang ebolusyon ng sakuna?</p>
 <button class="quick-check-btn" onclick="alert('✅ Tama! Para makapag-plano ng mabuting solusyon at makatulong ng mas marami.')">Sagutin</button>
 </div>
@@ -348,7 +348,7 @@
 </div>
 
 <div class="learning-objective">
-<strong>📖 Learning Goal:</strong> Maintindihan ang humanitarian crisis pagkatapos ng sakuna
+<strong>📖 Layuning Pangkatuto:</strong> Maintindihan ang krisis pangkatauhan pagkatapos ng sakuna
 </div>
 
 <div class="img-grid">
@@ -402,7 +402,7 @@
 </div>
 
 <div class="learning-objective">
-<strong>📖 Learning Goal:</strong> Unawain ang mga peligrong dala ng extreme flooding
+<strong>📖 Layuning Pangkatuto:</strong> Unawain ang mga panganib na dala ng matinding pagbaha
 </div>
 
 <div class="img-grid">
@@ -432,7 +432,7 @@
 </div>
 
 <div class="quick-check">
-<div class="quick-check-title">❓ Safety Awareness</div>
+<div class="quick-check-title">❓ Kaalaman sa Kaligtasan</div>
 <p style="margin: 8px 0; font-size: 14px;">Bakit HINDI dapat lumangoy ang mga tao sa baha?</p>
 <button class="quick-check-btn" onclick="alert('✅ Tama! Mabilis na agos, kontaminasyon, at mga nakatagong obstacle ang naghihintay.')">Sagutin</button>
 </div>
@@ -454,7 +454,7 @@
 </div>
 
 <div class="learning-objective">
-<strong>📖 Learning Goal:</strong> Kilalanin ang kahalagahan ng disaster preparedness
+<strong>📖 Layuning Pangkatuto:</strong> Kilalanin ang kahalagahan ng paghahandang pangsakuna
 </div>
 
 <div class="img-grid">
@@ -507,7 +507,7 @@
 </div>
 
 <div class="learning-objective">
-<strong>📖 Learning Goal:</strong> Maunawaan ang kahalagahan ng cultural preservation
+<strong>📖 Layuning Pangkatuto:</strong> Maunawaan ang kahalagahan ng pangangalaga sa pamanang kultural
 </div>
 
 <div class="img-grid">
@@ -547,7 +547,7 @@
 </div>
 
 <div class="learning-objective">
-<strong>📖 Learning Goal:</strong> Makita ang kapangyarihan ng bayanihan at community unity
+<strong>📖 Layuning Pangkatuto:</strong> Makita ang kapangyarihan ng bayanihan at pagkakaisa ng komunidad
 </div>
 
 <div class="img-grid">
@@ -567,7 +567,7 @@
 <div class="achievement-badge">❤️ Community Leader</div>
 
 <div class="quick-check">
-<div class="quick-check-title">❓ Personal Reflection</div>
+<div class="quick-check-title">❓ Sariling Pagninilay</div>
 <p style="margin: 8px 0; font-size: 14px;">Paano ka makakatulong sa iyong komunidad sa panahon ng sakuna?</p>
 <button class="quick-check-btn" onclick="alert('✅ Maganda! Ang iyong malasakit at voluntarismo ay magagamit.')">Sagutin</button>
 </div>
@@ -589,11 +589,11 @@
 </div>
 
 <div class="learning-objective">
-<strong>📖 Final Goal:</strong> I-apply ang natutunan sa interactive game scenario
+<strong>📖 Pangwakas na Layunin:</strong> Ipag-apply ang natutunan sa interaktibong sitwasyon ng laro
 </div>
 
 <div class="fact-box" style="background: linear-gradient(135deg, #d4edda, #c3e6cb); border-left-color: #28a745;">
-<strong style="color: #155724;">📚 Complete Summary:</strong>
+<strong style="color: #155724;">📚 Kumpletong Buod:</strong>
 <p style="margin: 8px 0 0 0; font-size: 14px; color: #155724;">
 Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, <strong>walang naitalang nasawi</strong>, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa kalamidad.
 </p>

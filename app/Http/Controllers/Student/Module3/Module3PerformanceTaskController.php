@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Student\Module3;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use App\Models\Module_2\Module3PerformanceTask;
+use App\Models\Module_3\Module3PerformanceTask;
 
 class Module3PerformanceTaskController extends Controller
 {

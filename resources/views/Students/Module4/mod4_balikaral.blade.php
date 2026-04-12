@@ -8,29 +8,38 @@
         --neon-green: #39ff14;
         --neon-red: #ff3131;
         --neon-yellow: #f4ea14;
-        --panel-bg: rgba(13, 25, 48, 0.9);
+        --panel-bg: rgba(10, 18, 34, 0.9);
+        --ink-1: #e6edf7;
+        --ink-2: #9fb1c9;
+        --stroke-1: rgba(155, 190, 230, 0.24);
+        --card-bg: linear-gradient(160deg, #17243b 0%, #101a2d 100%);
+        --card-hover: linear-gradient(160deg, #1d2e4b 0%, #14223a 100%);
+        --surface-1: rgba(255, 255, 255, 0.04);
+        --surface-2: rgba(255, 255, 255, 0.07);
     }
 
     html, body {
-        background: #050a14;
+        background: #060b16;
         background-image: 
-            linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-        background-size: 30px 30px;
-        color: #e2e8f0;
+            radial-gradient(circle at 8% 8%, rgba(0, 242, 255, 0.1), transparent 24%),
+            radial-gradient(circle at 90% 14%, rgba(57, 255, 20, 0.08), transparent 20%),
+            linear-gradient(rgba(160, 190, 230, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(160, 190, 230, 0.04) 1px, transparent 1px);
+        background-size: auto, auto, 34px 34px, 34px 34px;
+        color: var(--ink-1);
         font-family: 'Poppins', sans-serif;
         overflow-x: hidden;
     }
 
     .container-box {
-        max-width: 1100px;
-        margin: 20px auto;
-        padding: 30px;
-        border-radius: 30px;
+        max-width: 1180px;
+        margin: 24px auto;
+        padding: 28px;
+        border-radius: 24px;
         background: var(--panel-bg);
-        border: 1px solid rgba(0, 242, 255, 0.2);
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
+        border: 1px solid var(--stroke-1);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(12px);
     }
 
     /* HUD HEADER */
@@ -38,70 +47,82 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 25px;
-        padding: 15px 20px;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 15px;
-        border-left: 4px solid var(--neon-cyan);
+        margin-bottom: 18px;
+        padding: 16px 18px;
+        background: linear-gradient(130deg, rgba(12, 22, 40, 0.92), rgba(16, 28, 50, 0.82));
+        border-radius: 16px;
+        border: 1px solid var(--stroke-1);
+        gap: 12px;
     }
 
     .game-title h2 {
-        font-weight: 800;
-        color: var(--neon-cyan);
+        font-weight: 700;
+        color: #d8e9fb;
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 1.28rem;
+        letter-spacing: 0.2px;
+    }
+
+    .game-title p {
+        color: var(--ink-2) !important;
+        margin-top: 4px !important;
+        letter-spacing: 0.3px;
     }
 
     .stat-display {
-        background: #1a2233;
-        padding: 8px 15px;
-        border-radius: 10px;
-        border: 1px solid rgba(255,255,255,0.1);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+        padding: 8px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.12);
         text-align: center;
-        min-width: 100px;
+        min-width: 108px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
-    .stat-label { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; }
+    .stat-label { font-size: 0.64rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.6px; }
     .stat-value { font-size: 1.2rem; font-weight: 700; color: #fff; }
 
     /* MISSION SECTORS */
     .mission-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        margin-bottom: 30px;
+        gap: 14px;
+        margin-bottom: 24px;
     }
 
     .sector {
-        background: rgba(0, 0, 0, 0.2);
-        border: 2px dashed rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        min-height: 250px;
-        padding: 12px;
-        transition: 0.2s;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+        border: 1px dashed rgba(180, 205, 236, 0.35);
+        border-radius: 16px;
+        min-height: 232px;
+        padding: 10px;
+        transition: 0.2s ease;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
     .sector.drag-over {
-        border-color: var(--neon-cyan);
-        background: rgba(0, 242, 255, 0.1);
+        border-color: #5ac8ff;
+        background: rgba(90, 200, 255, 0.1);
+        transform: translateY(-2px);
     }
 
     .sector-title {
         text-align: center;
         padding: 8px;
-        border-radius: 8px;
+        border-radius: 10px;
         font-weight: 700;
-        font-size: 0.85rem;
-        margin-bottom: 15px;
+        font-size: 0.8rem;
+        margin-bottom: 10px;
         text-transform: uppercase;
+        letter-spacing: 0.6px;
     }
 
-    .bago { background: rgba(0, 242, 255, 0.1); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
-    .habang { background: rgba(244, 234, 20, 0.1); color: var(--neon-yellow); border: 1px solid var(--neon-yellow); }
-    .pagkatapos { background: rgba(57, 255, 20, 0.1); color: var(--neon-green); border: 1px solid var(--neon-green); }
+    .bago { background: rgba(46, 157, 255, 0.16); color: #8ed3ff; border: 1px solid rgba(83, 185, 255, 0.6); }
+    .habang { background: rgba(255, 193, 7, 0.14); color: #ffe28a; border: 1px solid rgba(255, 209, 77, 0.58); }
+    .pagkatapos { background: rgba(71, 198, 132, 0.14); color: #9af0c3; border: 1px solid rgba(84, 219, 147, 0.58); }
 
     .drop-target {
-        min-height: 180px;
+        min-height: 168px;
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -109,46 +130,52 @@
 
     /* CARD STYLING */
     .deck-container {
-        background: rgba(0, 0, 0, 0.4);
-        padding: 20px;
-        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+        padding: 16px;
+        border-radius: 16px;
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 10px;
         justify-content: center;
-        border-top: 2px solid var(--neon-cyan);
+        border: 1px solid var(--stroke-1);
     }
 
     .action-card {
-        background: #1e293b;
-        width: 160px;
-        border-radius: 12px;
+        background: var(--card-bg);
+        width: 200px;
+        border-radius: 14px;
         padding: 10px;
         cursor: grab;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(176, 206, 238, 0.2);
         transition: transform 0.2s, box-shadow 0.2s;
         touch-action: none;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
 
-    .action-card:hover { box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
+    .action-card:hover {
+        background: var(--card-hover);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(90, 200, 255, 0.24);
+        transform: translateY(-2px);
+    }
     .action-card:active { cursor: grabbing; transform: scale(0.95); }
 
     .action-card img {
         width: 100%;
-        height: 110px;
+        height: 160px;
         object-fit: contain;
-        background: white;
-        border-radius: 8px;
+        background: linear-gradient(180deg, #ffffff, #f5f8fc);
+        border-radius: 10px;
         margin-bottom: 8px;
+        border: 1px solid rgba(16, 35, 64, 0.12);
     }
 
     .action-card p {
-        font-size: 0.75rem;
+        font-size: 0.74rem;
         font-weight: 600;
         text-align: center;
-        line-height: 1.2;
+        line-height: 1.24;
         margin: 0;
-        color: #f8fafc;
+        color: #edf4ff;
     }
 
     /* CUSTOM MODAL */
@@ -164,14 +191,14 @@
     }
 
     .modal-content {
-        background: #0d1930;
-        border: 2px solid var(--neon-cyan);
+        background: linear-gradient(180deg, #11203b, #0c1730);
+        border: 1px solid rgba(122, 188, 246, 0.45);
         padding: 40px;
-        border-radius: 30px;
+        border-radius: 22px;
         width: 90%;
         max-width: 500px;
         text-align: center;
-        box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
         animation: modalSlide 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     }
 
@@ -181,7 +208,7 @@
     }
 
     /* UTILITIES */
-    .correct-drop { width: 100% !important; margin-bottom: 8px; border-color: var(--neon-green) !important; box-shadow: 0 0 10px rgba(57, 255, 20, 0.2); }
+    .correct-drop { width: 100% !important; margin-bottom: 8px; border-color: rgba(84, 219, 147, 0.85) !important; box-shadow: 0 0 0 1px rgba(84, 219, 147, 0.35), 0 10px 20px rgba(0,0,0,0.22); }
     .shake { animation: shake-ani 0.3s; border-color: var(--neon-red) !important; }
     @keyframes shake-ani { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
     .timer-pulse { animation: timerPulse 0.8s ease-in-out infinite; color: var(--neon-red); }
@@ -193,15 +220,15 @@
 
     .btn-deploy {
         margin-top: 20px;
-        background: linear-gradient(135deg, #00f2ff 0%, #39ff14 100%);
-        color: #001724;
+        background: linear-gradient(135deg, #63c9ff 0%, #68e2a9 100%);
+        color: #042034;
         border: none;
-        border-radius: 12px;
+        border-radius: 10px;
         padding: 12px 28px;
-        font-weight: 800;
-        letter-spacing: 0.8px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
-        box-shadow: 0 7px 0 #0aa2b0, 0 14px 22px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 6px 0 #2d8ec2, 0 14px 22px rgba(0, 0, 0, 0.28);
         transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
     }
 
@@ -209,17 +236,17 @@
         color: #001724;
         filter: brightness(1.06);
         transform: translateY(-2px);
-        box-shadow: 0 9px 0 #0aa2b0, 0 18px 28px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 0 #2d8ec2, 0 18px 28px rgba(0, 0, 0, 0.32);
     }
 
     .btn-deploy:active {
         transform: translateY(4px);
-        box-shadow: 0 3px 0 #0aa2b0, 0 8px 12px rgba(0, 0, 0, 0.28);
+        box-shadow: 0 3px 0 #2d8ec2, 0 8px 12px rgba(0, 0, 0, 0.28);
     }
 
     @media (max-width: 992px) {
         .container-box {
-            padding: 22px;
+            padding: 20px;
             margin: 14px;
         }
 
@@ -293,12 +320,12 @@
 
         .action-card {
             width: calc(50% - 10px);
-            min-width: 130px;
+            min-width: 156px;
             padding: 8px;
         }
 
         .action-card img {
-            height: 95px;
+            height: 132px;
         }
 
         .action-card p {
@@ -415,9 +442,14 @@
     let score = 0;
     const total = 6;
     let time = 30;
+    const initialTime = 30;
     let timer;
     let isActive = true;
     let warningShown = false;
+    let hasEnded = false;
+    const placedCards = new Set();
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const balikAralSaveUrl = "{{ route('student.module4.balikaral.save') }}";
 
     const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
     const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
@@ -441,19 +473,25 @@
 
         sectors.forEach(sector => {
             sector.addEventListener('dragover', (e) => {
+                if(!isActive) return;
                 e.preventDefault();
                 sector.classList.add('drag-over');
             });
             sector.addEventListener('dragleave', () => sector.classList.remove('drag-over'));
             sector.addEventListener('drop', function(e) {
+                if(!isActive) return;
                 e.preventDefault();
                 sector.classList.remove('drag-over');
                 if(!dragged) return;
+
+                // Prevent scoring the same card more than once.
+                if (placedCards.has(dragged)) return;
 
                 if(dragged.dataset.type === this.id) {
                     this.querySelector('.drop-target').appendChild(dragged);
                     dragged.setAttribute('draggable', 'false');
                     dragged.classList.add('correct-drop');
+                    placedCards.add(dragged);
                     correctSound.play().catch(()=>{});
                     score++;
                     updateUI();
@@ -497,14 +535,26 @@
 
             if (time <= 5) {
                 timerEl.classList.add('timer-pulse');
-                document.getElementById('warningMessage').style.display = 'block';
+                if (!warningShown) {
+                    document.getElementById('warningMessage').style.display = 'block';
+                    warningShown = true;
+                }
+            }
+
+            if (time === 0) {
+                endGame(false);
             }
         }, 1000);
     }
 
     function endGame(win) {
+        if (hasEnded) return;
+        hasEnded = true;
         clearInterval(timer);
         isActive = false;
+
+        const timeSpent = Math.max(0, initialTime - Math.max(time, 0));
+        saveBalikAralResult(score, total, timeSpent, win);
         
         const modal = document.getElementById('feedbackModal');
         const icon = document.getElementById('modalIcon');
@@ -526,6 +576,28 @@
             title.style.color = "var(--neon-red)";
             msg.innerText = "May ilang gawain na hindi nailagay sa tamang yugto o naubusan ka ng oras. Balikan ang iyong kaalaman at ayusin muli ang mga sagot.";
             action.innerHTML = `<button class="btn btn-deploy" onclick="resetGame()">SUBUKAN MULI</button>`;
+        }
+    }
+
+    async function saveBalikAralResult(currentScore, totalItems, timeSpent, completed) {
+        try {
+            await fetch(balikAralSaveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    score: currentScore,
+                    correct_answers: currentScore,
+                    total_items: totalItems,
+                    time_spent: timeSpent,
+                    completed: completed
+                })
+            });
+        } catch (error) {
+            console.error('Failed to save Module 4 Balik-Aral result:', error);
         }
     }
 

@@ -2,391 +2,219 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Flood Survival: Guinobatan Rescue Mission</title>
+    <title>Flash Flood Survival: Guinobatan Mission</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-dark: #0f172a;
+            --accent-blue: #38bdf8;
+            --emergency-red: #ef4444;
+            --success-green: #22c55e;
+            --warning-orange: #f59e0b;
+            --card-bg: #1e293b;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0d6efd 0%, #6bc1ff 100%);
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .game-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-            max-width: 800px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 850px;
             width: 100%;
-            padding: 40px;
+            overflow: hidden;
         }
 
-        .game-header {
-            text-align: center;
-            margin-bottom: 30px;
+        /* HUD Header */
+        .hud-header {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .game-title {
-            font-size: 32px;
+        .mission-title {
             font-weight: 800;
-            color: #0d3f8b;
-            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            margin: 0;
+            letter-spacing: 1px;
         }
 
-        .game-subtitle {
-            font-size: 16px;
-            color: #4a4a4a;
-            margin-bottom: 20px;
+        .safety-meter-container {
+            width: 200px;
         }
 
-        .progress-section {
-            margin-bottom: 30px;
+        .meter-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 4px;
         }
 
-        .level-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #0d6efd, #6bc1ff);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .progress {
-            height: 12px;
+        .progress-sync {
+            height: 8px;
+            background: #334155;
             border-radius: 10px;
-            background: #e9ecef;
+            overflow: hidden;
         }
 
-        .progress-bar {
-            background: linear-gradient(90deg, #0d6efd, #6bc1ff);
-            border-radius: 10px;
-        }
+        /* Game Content */
+        .game-content { padding: 40px; }
 
-        .scenario-box {
-            background: linear-gradient(135deg, #f1f8ff, #dbefff);
+        .scenario-card {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 16px;
             padding: 25px;
-            border-radius: 15px;
             margin-bottom: 30px;
-            border-left: 5px solid #0d6efd;
+            border-left: 4px solid var(--accent-blue);
         }
 
-        .scenario-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .scenario-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0d3f8b;
+        .phase-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--warning-orange);
+            background: rgba(245, 158, 11, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
             margin-bottom: 15px;
-        }
-
-        .scenario-text {
-            font-size: 16px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .question-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border: 2px solid #e9ecef;
-        }
-
-        .question-text {
-            font-size: 18px;
+            display: inline-block;
             font-weight: 700;
-            color: #222;
-            margin-bottom: 20px;
         }
 
-        .options-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
+        .scenario-text { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; }
+
+        .question-text { font-size: 1.4rem; font-weight: 700; margin-bottom: 25px; color: #fff; }
+
+        /* Options Grid */
+        .options-grid { display: grid; gap: 12px; }
 
         .option-btn {
-            padding: 15px 20px;
-            border: 2px solid #e9ecef;
-            background: white;
-            border-radius: 10px;
+            background: #334155;
+            border: 2px solid transparent;
+            padding: 18px 25px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             text-align: left;
-            font-size: 16px;
+            color: white;
             font-weight: 500;
-            color: #333;
+            width: 100%;
         }
 
-        .option-btn:hover {
-            border-color: #0d6efd;
-            background: #eff6ff;
+        .option-btn:hover:not(:disabled) {
+            background: #475569;
+            border-color: var(--accent-blue);
             transform: translateX(5px);
         }
 
-        .option-btn.correct {
-            border-color: #198754;
-            background: #198754;
-            color: white;
-        }
-
-        .option-btn.incorrect {
-            border-color: #dc3545;
-            background: #dc3545;
-            color: white;
-        }
+        .option-btn.correct { background: rgba(34, 197, 94, 0.2) !important; border-color: var(--success-green) !important; color: #bef264; }
+        .option-btn.incorrect { background: rgba(239, 68, 68, 0.2) !important; border-color: var(--emergency-red) !important; color: #fca5a5; }
 
         .feedback-box {
+            margin-top: 20px;
             padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            border-radius: 12px;
             display: none;
+            font-size: 0.95rem;
+            animation: fadeIn 0.4s;
+            font-weight: 500;
         }
 
-        .feedback-box.show {
-            display: block;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .feedback-correct {
-            background: #d1e7dd;
-            border: 2px solid #198754;
-            color: #0f5132;
-        }
-
-        .feedback-incorrect {
-            background: #f8d7da;
-            border: 2px solid #dc3545;
-            color: #842029;
-        }
-
-        .feedback-text {
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
-
-        .feedback-message {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .btn-primary-game,
-        .btn-secondary-game {
-            flex: 1;
-            padding: 12px 20px;
+        .btn-next {
+            background: var(--accent-blue);
+            color: var(--bg-dark);
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
-        }
-
-        .btn-primary-game {
-            background: linear-gradient(135deg, #0d6efd, #6bc1ff);
-            color: white;
-        }
-
-        .btn-primary-game:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(13, 110, 253, 0.25);
-        }
-
-        .btn-primary-game:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .results-screen {
-            text-align: center;
-            display: none;
-        }
-
-        .results-screen.show {
-            display: block;
-        }
-
-        .results-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .results-title {
-            font-size: 36px;
+            padding: 15px;
+            border-radius: 12px;
             font-weight: 800;
-            color: #0d3f8b;
-            margin-bottom: 15px;
+            width: 100%;
+            margin-top: 25px;
+            transition: 0.3s;
         }
 
-        .results-description {
-            font-size: 18px;
-            color: #4a4a4a;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+        .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .score-display {
-            background: linear-gradient(135deg, #0d6efd, #6bc1ff);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            font-size: 48px;
-            font-weight: 800;
-        }
-
+        /* Results */
+        .results-screen { text-align: center; padding: 50px 20px; display: none; }
+        .score-display { font-size: 4rem; font-weight: 800; color: var(--accent-blue); margin: 20px 0; }
+        
         .rank-badge {
             display: inline-block;
-            padding: 10px 25px;
+            padding: 8px 20px;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 16px;
             margin-bottom: 20px;
-        }
-
-        .rank-excellent {
-            background: #d1e7dd;
-            color: #0f5132;
-            border: 2px solid #198754;
-        }
-
-        .rank-good {
-            background: #fff3cd;
-            color: #664d03;
-            border: 2px solid #ffc107;
-        }
-
-        .rank-needswork {
-            background: #f8d7da;
-            color: #842029;
-            border: 2px solid #dc3545;
-        }
-
-        .btn-restart {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #0d6efd, #6bc1ff);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-restart:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(13, 110, 253, 0.25);
-        }
-
-        @media (max-width: 768px) {
-            .game-container {
-                padding: 25px;
-            }
-
-            .game-title {
-                font-size: 24px;
-            }
-
-            .option-btn {
-                font-size: 14px;
-                padding: 12px 15px;
-            }
-
-            .results-title {
-                font-size: 28px;
-            }
-
-            .score-display {
-                font-size: 36px;
-                padding: 20px;
-            }
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
 <div class="game-container">
-
-    <div class="game-screen">
-
-        <div class="game-header">
-            <div class="game-title">🌧️ Flash Flood Survival: Guinobatan Rescue Mission</div>
-            <div class="game-subtitle">Barangay Disaster Response Leader</div>
+    <div class="hud-header">
+        <div>
+            <p class="mission-title">🌧️ Flash Flood Survival: Guinobatan</p>
+            <span id="lvlDisplay" style="font-family: 'JetBrains Mono'; font-size: 11px; color: #64748b;">LEVEL 1/6</span>
         </div>
-
-        <div class="progress-section">
-            <div class="level-badge" id="levelBadge">Level 1 of 6</div>
-            <div class="progress">
-                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        <div class="safety-meter-container">
+            <span class="meter-label">Community Safety Status</span>
+            <div class="progress-sync">
+                <div id="safetyBar" class="progress-bar bg-info" style="width: 100%; transition: width 0.5s ease;"></div>
             </div>
         </div>
+    </div>
 
-        <div class="scenario-box">
-            <div class="scenario-icon" id="scenarioIcon">🌧️</div>
-            <div class="scenario-title" id="scenarioTitle">Scenario Title</div>
-            <div class="scenario-text" id="scenarioText">Scenario description goes here</div>
+    <div id="gameScreen" class="game-content">
+        <div class="scenario-card">
+            <span id="phaseTag" class="phase-tag">PHASE</span>
+            <div id="scenarioText" class="scenario-text">...</div>
         </div>
 
         <div class="question-box">
-            <div class="question-text" id="questionText">Question?</div>
+            <div id="questionText" class="question-text">...</div>
         </div>
 
-        <div class="options-container" id="optionsContainer"></div>
+        <div id="optionsContainer" class="options-grid"></div>
 
-        <div class="feedback-box" id="feedbackBox">
-            <div class="feedback-text" id="feedbackTitle">Feedback</div>
-            <div class="feedback-message" id="feedbackMessage">Message</div>
-        </div>
+        <div id="feedbackBox" class="feedback-box"></div>
 
-        <div class="button-group">
-            <button class="btn-primary-game" id="nextBtn" onclick="nextLevel()" disabled>Next Level ➜</button>
-        </div>
-
+        <button id="nextBtn" class="btn-next" onclick="nextLevel()" disabled>SUSUNOD NA LEVEL ➜</button>
     </div>
 
-    <div class="results-screen" id="resultsScreen">
-
-        <div class="results-icon" id="resultsIcon">🎖️</div>
-        <div class="results-title" id="resultsTitle">Flood-Ready Leader</div>
-        <div class="rank-badge" id="rankBadge">Excellent Performance</div>
-
-        <div class="score-display" id="scoreDisplay">6/6</div>
-
-        <div class="results-description" id="resultsDescription">
-            Ang iyong mabilis at tamang desisyon ay nakatulong sa komunidad.
+    <div id="resultsScreen" class="results-screen">
+        <div id="resIcon" style="font-size: 60px;">🎖️</div>
+        <h1 id="resTitle" style="font-weight: 800; margin-top: 10px;">Flood-Ready Leader</h1>
+        <div id="rankBadge" class="rank-badge">RANK</div>
+        <div class="score-display" id="scoreDisplay">0/6</div>
+        <p id="resDesc" class="mb-5" style="color: #94a3b8; max-width: 500px; margin: 0 auto;">...</p>
+        
+        <div class="d-flex gap-2 justify-content-center">
+            <button class="btn btn-outline-light px-4 py-3" onclick="restartGame()">🔄 Maglaro Muli</button>
+            <a href="{{ route('module4.explore', ['completed' => 'baha']) }}" class="btn btn-info px-4 py-3" style="font-weight: 700;">📚 Balik sa Explore</a>
         </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; justify-items: center;">
-            <button class="btn-restart" onclick="restartGame()">🔄 Maglaro Muli</button>
-            <a href="{{ route('module4.explore', ['completed' => 'baha']) }}" class="btn-restart" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">📚 Balik sa Explore</a>
-        </div>
-
     </div>
-
 </div>
 
 <script>
@@ -473,14 +301,37 @@
 
     let currentLevel = 0;
     let score = 0;
+    let safety = 100;
     let answered = false;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const gameSaveUrl = "{{ route('student.module4.games.save') }}";
+
+    async function saveGameResult(rank) {
+        try {
+            await fetch(gameSaveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    game_type: 'baha',
+                    score: score,
+                    total_items: gameData.length,
+                    rank: rank,
+                    is_completed: true
+                })
+            });
+        } catch (error) {
+            console.error('Failed to save Baha game result:', error);
+        }
+    }
 
     function renderLevel() {
         const level = gameData[currentLevel];
-        document.getElementById('levelBadge').textContent = `Level ${level.level} of 6`;
-        document.getElementById('progressBar').style.width = ((currentLevel + 1) / 6 * 100) + '%';
-        document.getElementById('scenarioIcon').textContent = level.icon;
-        document.getElementById('scenarioTitle').textContent = level.phase;
+        document.getElementById('lvlDisplay').textContent = `LEVEL ${level.level}/6`;
+        document.getElementById('phaseTag').textContent = level.phase;
         document.getElementById('scenarioText').textContent = level.scenario;
         document.getElementById('questionText').textContent = level.question;
 
@@ -491,100 +342,95 @@
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.textContent = option.text;
-            btn.onclick = () => selectOption(index);
+            btn.onclick = () => selectOption(index, btn);
             optionsContainer.appendChild(btn);
         });
 
-        document.getElementById('feedbackBox').classList.remove('show', 'feedback-correct', 'feedback-incorrect');
+        document.getElementById('feedbackBox').style.display = 'none';
         document.getElementById('nextBtn').disabled = true;
         answered = false;
     }
 
-    function selectOption(index) {
+    function selectOption(index, btn) {
         if (answered) return;
+        answered = true;
         const level = gameData[currentLevel];
         const correct = level.options[index].correct;
 
-        document.querySelectorAll('.option-btn').forEach((btn, i) => {
-            if (level.options[i].correct) {
-                btn.classList.add('correct');
-            } else if (i === index && !correct) {
-                btn.classList.add('incorrect');
-            }
-            btn.disabled = true;
-        });
-
         if (correct) {
+            btn.classList.add('correct');
             score++;
-        }
-
-        const feedbackBox = document.getElementById('feedbackBox');
-        feedbackBox.classList.add('show');
-
-        if (correct) {
-            feedbackBox.classList.add('feedback-correct');
-            feedbackBox.classList.remove('feedback-incorrect');
-            document.getElementById('feedbackTitle').textContent = '✅ Correct!';
         } else {
-            feedbackBox.classList.add('feedback-incorrect');
-            feedbackBox.classList.remove('feedback-correct');
-            document.getElementById('feedbackTitle').textContent = '❌ Incorrect';
+            btn.classList.add('incorrect');
+            safety -= 16.6;
+            document.getElementById('safetyBar').style.width = Math.max(0, safety) + '%';
+            // Show correct answer
+            document.querySelectorAll('.option-btn').forEach((b, i) => {
+                if(level.options[i].correct) b.classList.add('correct');
+            });
         }
 
-        document.getElementById('feedbackMessage').textContent = level.feedback;
+        const feedback = document.getElementById('feedbackBox');
+        feedback.style.display = 'block';
+        feedback.style.background = correct ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+        feedback.style.color = correct ? '#bef264' : '#fca5a5';
+        feedback.textContent = level.feedback;
+
         document.getElementById('nextBtn').disabled = false;
-        answered = true;
     }
 
     function nextLevel() {
         currentLevel++;
-        if (currentLevel >= gameData.length) {
-            showResults();
-        } else {
+        if (currentLevel < gameData.length) {
             renderLevel();
+        } else {
+            showResults();
         }
     }
 
     function showResults() {
-        document.querySelector('.game-screen').style.display = 'none';
-        document.getElementById('resultsScreen').classList.add('show');
-
+        document.getElementById('gameScreen').style.display = 'none';
+        document.getElementById('resultsScreen').style.display = 'block';
         document.getElementById('scoreDisplay').textContent = `${score}/6`;
 
-        let title, description, icon, rank, badgeClass;
+        const title = document.getElementById('resTitle');
+        const desc = document.getElementById('resDesc');
+        const icon = document.getElementById('resIcon');
+        const badge = document.getElementById('rankBadge');
+
         if (score >= 5) {
-            title = 'Flood-Ready Leader 🎖️';
-            description = 'Magaling! Handang-handa ka sa flash flood response.';
-            icon = '🟢';
-            rank = '⭐ Excellent Performance';
-            badgeClass = 'rank-excellent';
+            title.textContent = "Flood-Ready Leader";
+            desc.textContent = "Magaling! Ang iyong mabilis at tamang desisyon ay nakatulong sa komunidad.";
+            icon.textContent = "🟢";
+            badge.textContent = "Excellent Performance";
+            badge.style.background = "rgba(34, 197, 94, 0.2)";
+            badge.style.color = "#22c55e";
         } else if (score >= 3) {
-            title = 'Developing Responder 📈';
-            description = 'Maganda ang simula. Mas lalo pang paigtingin ang iyong kaalaman.';
-            icon = '🟡';
-            rank = '⚡ Good Effort';
-            badgeClass = 'rank-good';
+            title.textContent = "Developing Responder";
+            desc.textContent = "Maganda ang simula. Mas lalo pang paigtingin ang iyong kaalaman.";
+            icon.textContent = "🟡";
+            badge.textContent = "Good Effort";
+            badge.style.background = "rgba(245, 158, 11, 0.2)";
+            badge.style.color = "#f59e0b";
         } else {
-            title = 'At Risk – Needs Training 📚';
-            description = 'Kailangan pa ng karagdagang pagsasanay para mas maging handa.';
-            icon = '🔴';
-            rank = '⏱️ Needs Improvement';
-            badgeClass = 'rank-needswork';
+            title.textContent = "At Risk – Needs Training";
+            desc.textContent = "Kailangan pa ng karagdagang pagsasanay para mas maging handa.";
+            icon.textContent = "🔴";
+            badge.textContent = "Needs Improvement";
+            badge.style.background = "rgba(239, 68, 68, 0.2)";
+            badge.style.color = "#ef4444";
         }
 
-        document.getElementById('resultsIcon').textContent = icon;
-        document.getElementById('resultsTitle').textContent = title;
-        document.getElementById('resultsDescription').textContent = description;
-        document.getElementById('rankBadge').textContent = rank;
-        document.getElementById('rankBadge').className = 'rank-badge ' + badgeClass;
+        saveGameResult(badge.textContent);
     }
 
     function restartGame() {
         currentLevel = 0;
         score = 0;
-        answered = false;
-        document.querySelector('.game-screen').style.display = 'block';
-        document.getElementById('resultsScreen').classList.remove('show');
+        safety = 100;
+        document.getElementById('safetyBar').style.width = '100%';
+        document.getElementById('gameScreen').style.display = 'block';
+        document.getElementById('resultsScreen').style.display = 'none';
         renderLevel();
     }
 

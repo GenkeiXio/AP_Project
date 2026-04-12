@@ -2,10 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolly Rescue Mission</title>
+    <title>Rolly Rescue Mission | Storm Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --emergency-navy: #0f172a;
+            --alert-red: #dc2626;
+            --warning-yellow: #facc15;
+            --success-green: #22c55e;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,345 +24,217 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: #f8fafc;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            /* Wind effect overlay */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3%3C/filter%3%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3%3C/svg%3");
+            background-blend-mode: overlay;
         }
 
         .game-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
+            background: var(--emergency-navy);
+            border: 2px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            max-width: 850px;
             width: 100%;
             padding: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* HEADER */
+        /* Tactical Header */
         .game-header {
-            text-align: center;
+            text-align: left;
             margin-bottom: 30px;
+            border-bottom: 2px solid var(--alert-red);
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
 
         .game-title {
-            font-size: 32px;
-            font-weight: 800;
-            color: #222;
-            margin-bottom: 10px;
+            font-family: 'Black Ops One', system-ui;
+            font-size: 28px;
+            text-transform: uppercase;
+            color: var(--warning-yellow);
+            letter-spacing: 2px;
         }
 
         .game-subtitle {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
         }
 
-        /* PROGRESS */
+        /* Radar Progress */
         .progress-section {
             margin-bottom: 30px;
         }
 
         .level-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--alert-red);
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
         }
 
         .progress {
-            height: 12px;
-            border-radius: 10px;
-            background: #e9ecef;
+            height: 6px;
+            background: #334155;
+            border-radius: 0;
         }
 
         .progress-bar {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 10px;
+            background: var(--warning-yellow);
+            box-shadow: 0 0 15px var(--warning-yellow);
         }
 
-        /* SCENARIO */
+        /* Mission Scenario Card */
         .scenario-box {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            background: var(--glass);
+            border: 1px solid var(--border-glass);
             padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border-left: 5px solid #667eea;
-        }
-
-        .scenario-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .scenario-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 15px;
-        }
-
-        .scenario-text {
-            font-size: 16px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* QUESTION */
-        .question-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border: 2px solid #e9ecef;
-        }
-
-        .question-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 20px;
-        }
-
-        /* OPTIONS */
-        .options-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
+            position: relative;
             margin-bottom: 30px;
         }
+
+        .scenario-box::before {
+            content: "SITUATION REPORT";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--emergency-navy);
+            padding: 0 10px;
+            font-size: 10px;
+            font-family: 'JetBrains Mono';
+            color: var(--warning-yellow);
+        }
+
+        .scenario-icon { font-size: 40px; margin-right: 20px; float: left; }
+        .scenario-title { font-weight: 800; color: var(--warning-yellow); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
+        .scenario-text { color: #e2e8f0; font-size: 1.1rem; line-height: 1.6; }
+
+        /* Tactical Options */
+        .question-box { margin-bottom: 20px; }
+        .question-text { font-weight: 700; font-size: 1.2rem; border-left: 4px solid var(--alert-red); padding-left: 15px; }
+
+        .options-container { display: grid; gap: 10px; }
 
         .option-btn {
-            padding: 15px 20px;
-            border: 2px solid #e9ecef;
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid #475569;
+            color: #cbd5e1;
+            padding: 18px;
             text-align: left;
-            font-size: 16px;
+            transition: 0.2s;
             font-weight: 500;
-            color: #333;
+            border-radius: 4px;
         }
 
-        .option-btn:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-            transform: translateX(5px);
-        }
-
-        .option-btn.selected {
-            border-color: #667eea;
-            background: #667eea;
+        .option-btn:hover:not(:disabled) {
+            background: rgba(250, 204, 21, 0.1);
+            border-color: var(--warning-yellow);
             color: white;
         }
 
-        .option-btn.correct {
-            border-color: #28a745;
-            background: #28a745;
-            color: white;
-        }
+        .option-btn.correct { background: var(--success-green) !important; color: white !important; border-color: var(--success-green); }
+        .option-btn.incorrect { background: var(--alert-red) !important; color: white !important; border-color: var(--alert-red); }
 
-        .option-btn.incorrect {
-            border-color: #dc3545;
-            background: #dc3545;
-            color: white;
-        }
-
-        /* FEEDBACK */
+        /* Feedback Comms */
         .feedback-box {
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            background: #1e293b;
+            border-left: 4px solid white;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'JetBrains Mono', monospace;
             display: none;
         }
 
-        .feedback-box.show {
-            display: block;
-        }
+        .feedback-correct { border-color: var(--success-green); color: var(--success-green); }
+        .feedback-incorrect { border-color: var(--alert-red); color: var(--alert-red); }
 
-        .feedback-correct {
-            background: #d4edda;
-            border: 2px solid #28a745;
-            color: #155724;
-        }
-
-        .feedback-incorrect {
-            background: #f8d7da;
-            border: 2px solid #dc3545;
-            color: #721c24;
-        }
-
-        .feedback-text {
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
-
-        .feedback-message {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* BUTTONS */
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
+        /* Tactical Buttons */
         .btn-primary-game {
-            flex: 1;
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: var(--warning-yellow);
+            color: black;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
+            padding: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            width: 100%;
         }
 
-        .btn-primary-game:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+        .btn-primary-game:hover:not(:disabled) { background: #eab308; transform: scale(1.01); }
 
-        .btn-primary-game:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* RESULTS SCREEN */
-        .results-screen {
-            text-align: center;
-            display: none;
-        }
-
-        .results-screen.show {
-            display: block;
-        }
-
-        .results-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .results-title {
-            font-size: 36px;
-            font-weight: 800;
-            color: #222;
-            margin-bottom: 15px;
-        }
-
-        .results-description {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .score-display {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            font-size: 48px;
-            font-weight: 800;
+        /* Result Screen HUD */
+        .results-screen { text-align: center; display: none; }
+        .score-display { 
+            font-family: 'Black Ops One';
+            font-size: 70px; 
+            color: var(--warning-yellow);
+            text-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
         }
 
         .rank-badge {
-            display: inline-block;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 16px;
+            font-family: 'JetBrains Mono';
+            padding: 8px 20px;
+            border: 2px solid;
+            text-transform: uppercase;
             margin-bottom: 20px;
+            display: inline-block;
         }
 
-        .rank-excellent {
-            background: #d4edda;
-            color: #155724;
-            border: 2px solid #28a745;
-        }
-
-        .rank-good {
-            background: #fff3cd;
-            color: #856404;
-            border: 2px solid #ffc107;
-        }
-
-        .rank-needswork {
-            background: #f8d7da;
-            color: #721c24;
-            border: 2px solid #dc3545;
-        }
+        .rank-excellent { border-color: var(--success-green); color: var(--success-green); }
+        .rank-good { border-color: var(--warning-yellow); color: var(--warning-yellow); }
+        .rank-needswork { border-color: var(--alert-red); color: var(--alert-red); }
 
         .btn-restart {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #334155;
             color: white;
             border: none;
-            border-radius: 10px;
+            padding: 12px 20px;
             font-weight: 700;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            border-radius: 4px;
+            transition: 0.3s;
+            text-decoration: none;
         }
 
-        .btn-restart:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+        .btn-restart:hover { background: #475569; }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .game-container {
-                padding: 25px;
-            }
-
-            .game-title {
-                font-size: 24px;
-            }
-
-            .option-btn {
-                font-size: 14px;
-                padding: 12px 15px;
-            }
-
-            .results-title {
-                font-size: 28px;
-            }
-
-            .score-display {
-                font-size: 36px;
-                padding: 20px;
-            }
+            .game-header { flex-direction: column; align-items: flex-start; }
+            .game-container { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="game-container">
-
-    <!-- GAME SCREEN -->
     <div class="game-screen">
-
         <div class="game-header">
-            <div class="game-title">🌀 Rolly Rescue Mission</div>
-            <div class="game-subtitle">Barangay Disaster Response Leader</div>
+            <div>
+                <div class="game-subtitle">STORM COMMAND UNIT</div>
+                <div class="game-title">🌀 ROLLY RESCUE MISSION</div>
+            </div>
+            <div id="levelBadge" class="level-badge">LEVEL 1 / 6</div>
         </div>
 
         <div class="progress-section">
-            <div class="level-badge" id="levelBadge">Level 1 of 6</div>
             <div class="progress">
                 <div class="progress-bar" id="progressBar" style="width: 0%"></div>
             </div>
@@ -359,50 +242,48 @@
 
         <div class="scenario-box">
             <div class="scenario-icon" id="scenarioIcon">📢</div>
-            <div class="scenario-title" id="scenarioTitle">Scenario Title</div>
-            <div class="scenario-text" id="scenarioText">Scenario description goes here</div>
+            <div class="scenario-title" id="scenarioTitle">PHASE</div>
+            <div class="scenario-text" id="scenarioText">...</div>
+            <div style="clear:both;"></div>
         </div>
 
         <div class="question-box">
-            <div class="question-text" id="questionText">Question?</div>
+            <div class="question-text" id="questionText">...</div>
         </div>
 
         <div class="options-container" id="optionsContainer"></div>
 
         <div class="feedback-box" id="feedbackBox">
-            <div class="feedback-text" id="feedbackTitle">Feedback</div>
-            <div class="feedback-message" id="feedbackMessage">Message</div>
+            <div id="feedbackTitle" style="font-weight: bold; margin-bottom: 5px;">COMM_LOG:</div>
+            <div id="feedbackMessage">...</div>
         </div>
 
-        <div class="button-group">
-            <button class="btn-primary-game" id="nextBtn" onclick="nextLevel()" disabled>Next Level ➜</button>
+        <div class="button-group mt-4">
+            <button class="btn-primary-game" id="nextBtn" onclick="nextLevel()" disabled>PROCEED TO NEXT PHASE ➜</button>
         </div>
-
     </div>
 
-    <!-- RESULTS SCREEN -->
     <div class="results-screen" id="resultsScreen">
-
-        <div class="results-icon" id="resultsIcon">🎖️</div>
-        <div class="results-title" id="resultsTitle">Disaster Ready Leader</div>
-        <div class="rank-badge" id="rankBadge">Excellent Performance</div>
-
+        <div class="results-icon" id="resultsIcon" style="font-size: 80px;">🎖️</div>
+        <div class="results-title" id="resultsTitle" style="font-family: 'Black Ops One'; font-size: 32px; margin: 15px 0;">MISSION DEBRIEF</div>
+        
         <div class="score-display" id="scoreDisplay">6/6</div>
+        <br>
+        <div class="rank-badge" id="rankBadge">RANK</div>
 
-        <div class="results-description" id="resultsDescription">
-            Ang iyong matalinong desisyon ay nakaligtas ng libu-libong buhay!
+        <div class="results-description mt-3 mb-4" id="resultsDescription" style="max-width: 600px; margin: 0 auto; color: #94a3b8; line-height: 1.6;">
+            ...
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px;">
-            <button class="btn-restart" onclick="restartGame()">🔄 Maglaro Muli</button>
-            <a href="{{ route('module4.explore', ['completed' => 'rolly']) }}" class="btn-restart" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">📚 Balik sa Explore</a>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
+            <button class="btn-restart" onclick="restartGame()">🔄 RE-RUN MISSION</button>
+            <a href="{{ route('module4.explore', ['completed' => 'rolly']) }}" class="btn-restart" style="background: var(--warning-yellow); color: black;">📚 BACK TO HQ</a>
         </div>
-
     </div>
-
 </div>
 
 <script>
+    // Logic remains strictly identical to original
     const gameData = [
         {
             level: 1,
@@ -415,7 +296,8 @@
                 { text: 'B. Mag-evacuate agad ng mga residente sa danger zone', correct: true },
                 { text: 'C. Mag-post lang sa social media', correct: false }
             ],
-            feedback: '✅ Correct! Ang maagap na paglikas ay nakapagliligtas ng buhay.'
+            feedback: '✅ Correct! Ang maagap na paglikas ay nakapagliligtas ng buhay.',
+            wrongFeedback: '❌ Hindi ito ang pinakamahusay na unang hakbang sa ganitong sitwasyon.'
         },
         {
             level: 2,
@@ -428,7 +310,8 @@
                 { text: 'B. Mag-rescue operation gamit ang bangka', correct: true },
                 { text: 'C. Isara ang barangay hall', correct: false }
             ],
-            feedback: '✅ Correct! Ang agarang pagtugon ay mahalaga sa oras ng panganib.'
+            feedback: '✅ Correct! Ang agarang pagtugon ay mahalaga sa oras ng panganib.',
+            wrongFeedback: '❌ Sa tumataas na baha, kailangan ang aktibong rescue at mabilis na pag-aksyon.'
         },
         {
             level: 3,
@@ -441,7 +324,8 @@
                 { text: 'B. Mag-organize ng relief distribution', correct: true },
                 { text: 'C. Magpahinga muna', correct: false }
             ],
-            feedback: '✅ Correct! Ang organisadong tulong ay susi sa kaligtasan.'
+            feedback: '✅ Correct! Ang organisadong tulong ay susi sa kaligtasan.',
+            wrongFeedback: '❌ Sa kakulangan ng suplay, mahalaga ang maayos at agarang pamamahagi ng relief.'
         },
         {
             level: 4,
@@ -454,7 +338,8 @@
                 { text: 'B. Mag-assess ng damage at pangangailangan', correct: true },
                 { text: 'C. Umuwi na lang', correct: false }
             ],
-            feedback: '✅ Correct! Mahalaga ang tamang assessment para sa epektibong tulong.'
+            feedback: '✅ Correct! Mahalaga ang tamang assessment para sa epektibong tulong.',
+            wrongFeedback: '❌ Bago tumulong nang malawakan, dapat munang malinaw ang lawak ng pinsala at pangangailangan.'
         },
         {
             level: 5,
@@ -467,7 +352,8 @@
                 { text: 'B. I-dokumento at planuhin ang restoration', correct: true },
                 { text: 'C. Gibain lahat', correct: false }
             ],
-            feedback: '✅ Correct! Ang kultura at kasaysayan ay dapat pinapahalagahan.'
+            feedback: '✅ Correct! Ang kultura at kasaysayan ay dapat pinapahalagahan.',
+            wrongFeedback: '❌ Ang makasaysayang pook ay kailangang idokumento at maibalik, hindi basta isinasantabi.'
         },
         {
             level: 6,
@@ -480,28 +366,49 @@
                 { text: 'B. Hikayatin ang bayanihan', correct: true },
                 { text: 'C. Umalis sa lugar', correct: false }
             ],
-            feedback: '✅ Correct! Ang lakas ng komunidad ang susi sa pagbangon.'
+            feedback: '✅ Correct! Ang lakas ng komunidad ang susi sa pagbangon.',
+            wrongFeedback: '❌ Sa pagbangon mula sa sakuna, kailangan ang pagtutulungan ng buong komunidad.'
         }
     ];
 
     let currentLevel = 0;
     let score = 0;
     let answered = false;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const gameSaveUrl = "{{ route('student.module4.games.save') }}";
+
+    async function saveGameResult(rank) {
+        try {
+            await fetch(gameSaveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    game_type: 'rolly',
+                    score: score,
+                    total_items: gameData.length,
+                    rank: rank,
+                    is_completed: true
+                })
+            });
+        } catch (error) {
+            console.error('Failed to save Rolly game result:', error);
+        }
+    }
 
     function renderLevel() {
         const level = gameData[currentLevel];
-        
-        document.getElementById('levelBadge').textContent = `Level ${level.level} of 6`;
+        document.getElementById('levelBadge').textContent = `PHASE 0${level.level} / 06`;
         document.getElementById('progressBar').style.width = ((currentLevel + 1) / 6 * 100) + '%';
-        
         document.getElementById('scenarioIcon').textContent = level.icon;
         document.getElementById('scenarioTitle').textContent = level.phase;
         document.getElementById('scenarioText').textContent = level.scenario;
         document.getElementById('questionText').textContent = level.question;
-        
         const optionsContainer = document.getElementById('optionsContainer');
         optionsContainer.innerHTML = '';
-        
         level.options.forEach((option, index) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
@@ -509,110 +416,86 @@
             btn.onclick = () => selectOption(index);
             optionsContainer.appendChild(btn);
         });
-        
-        document.getElementById('feedbackBox').classList.remove('show', 'feedback-correct', 'feedback-incorrect');
+        document.getElementById('feedbackBox').style.display = 'none';
+        document.getElementById('feedbackBox').classList.remove('feedback-correct', 'feedback-incorrect');
         document.getElementById('nextBtn').disabled = true;
         answered = false;
     }
 
     function selectOption(index) {
         if (answered) return;
-        
         const level = gameData[currentLevel];
         const correct = level.options[index].correct;
-        
+        const correctOption = level.options.find(option => option.correct);
         const buttons = document.querySelectorAll('.option-btn');
         buttons.forEach((btn, i) => {
-            if (level.options[i].correct) {
-                btn.classList.add('correct');
-            } else if (i === index && !correct) {
-                btn.classList.add('incorrect');
-            }
+            if (level.options[i].correct) btn.classList.add('correct');
+            else if (i === index && !correct) btn.classList.add('incorrect');
             btn.disabled = true;
         });
-        
-        if (correct) {
-            score++;
-        }
-        
+        if (correct) score++;
         const feedbackBox = document.getElementById('feedbackBox');
-        feedbackBox.classList.add('show');
-        
+        feedbackBox.style.display = 'block';
         if (correct) {
             feedbackBox.classList.add('feedback-correct');
-            feedbackBox.classList.remove('feedback-incorrect');
-            document.getElementById('feedbackTitle').textContent = '✅ Correct!';
+            document.getElementById('feedbackTitle').textContent = '✅ TARGET IDENTIFIED';
+            document.getElementById('feedbackMessage').textContent = level.feedback;
         } else {
             feedbackBox.classList.add('feedback-incorrect');
-            feedbackBox.classList.remove('feedback-correct');
-            document.getElementById('feedbackTitle').textContent = '❌ Incorrect';
+            document.getElementById('feedbackTitle').textContent = '❌ STRATEGIC ERROR';
+            document.getElementById('feedbackMessage').textContent = `${level.wrongFeedback} Tamang sagot: ${correctOption.text}`;
         }
-        
-        document.getElementById('feedbackMessage').textContent = level.feedback;
         document.getElementById('nextBtn').disabled = false;
         answered = true;
     }
 
     function nextLevel() {
         currentLevel++;
-        
-        if (currentLevel >= gameData.length) {
-            showResults();
-        } else {
-            renderLevel();
-        }
+        if (currentLevel >= gameData.length) showResults();
+        else renderLevel();
     }
 
     function showResults() {
         document.querySelector('.game-screen').style.display = 'none';
-        document.getElementById('resultsScreen').classList.add('show');
-        
-        const percentage = (score / 6) * 100;
+        document.getElementById('resultsScreen').style.display = 'block';
         document.getElementById('scoreDisplay').textContent = `${score}/6`;
-        
         let title, description, icon, rank, badgeClass;
-        
         if (score >= 5) {
-            title = 'Disaster Ready Leader 🎖️';
+            title = 'ELITE COMMANDER';
             description = 'Ang iyong matalinong desisyon ay nakaligtas ng libu-libong buhay! Ikaw ay handa nang harapin ang kahirap-hirap at maglingkod sa komunidad.';
             icon = '🟢';
-            rank = '⭐ Excellent Performance';
+            rank = 'OFFICIAL RANK: DISASTER READY LEADER';
             badgeClass = 'rank-excellent';
         } else if (score >= 3) {
-            title = 'Developing Responder 📈';
+            title = 'FIELD RESPONDER';
             description = 'Maganda ang iyong simula! Patuloy na mag-aral at palakasin ang iyong kaalaman tungkol sa disaster response.';
             icon = '🟡';
-            rank = '⚡ Good Effort';
+            rank = 'OFFICIAL RANK: DEVELOPING RESPONDER';
             badgeClass = 'rank-good';
         } else {
-            title = 'Needs More Training 📚';
+            title = 'TRAINEE STATUS';
             description = 'Huwag mawalan ng pag-asa! Basahin muli ang mga kwento at subukan ang laro ulit.';
             icon = '🔴';
-            rank = '⏱️ Needs Improvement';
+            rank = 'OFFICIAL RANK: NEEDS MORE TRAINING';
             badgeClass = 'rank-needswork';
         }
-        
         document.getElementById('resultsIcon').textContent = icon;
         document.getElementById('resultsTitle').textContent = title;
         document.getElementById('resultsDescription').textContent = description;
         document.getElementById('rankBadge').textContent = rank;
         document.getElementById('rankBadge').className = 'rank-badge ' + badgeClass;
+
+        saveGameResult(rank);
     }
 
     function restartGame() {
-        currentLevel = 0;
-        score = 0;
-        answered = false;
-        
+        currentLevel = 0; score = 0; answered = false;
         document.querySelector('.game-screen').style.display = 'block';
-        document.getElementById('resultsScreen').classList.remove('show');
-        
+        document.getElementById('resultsScreen').style.display = 'none';
         renderLevel();
     }
 
-    // Initialize game
     renderLevel();
 </script>
-
 </body>
 </html>

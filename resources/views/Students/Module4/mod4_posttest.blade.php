@@ -1,6 +1,5 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 4\Pre-Test_mod4.blade.php --}}
 @extends('Students.studentslayout')
-@section('title', 'Paunang Pagsusulit Modyul 4')
+@section('title', 'Post-Test Modyul 4')
 
 @push('styles')
 <style>
@@ -85,16 +84,6 @@
 
 .mod4-opt:hover {
     background: #f6fff7;
-}
-
-.mod4-opt.correct {
-    border-color: #3ca75e;
-    background: #ebfff0;
-}
-
-.mod4-opt.wrong {
-    border-color: #d94141;
-    background: #fff0f0;
 }
 
 .mod4-opt input[type="radio"] {
@@ -212,14 +201,13 @@
 @section('content')
     <div class="mod4-pretest-wrap">
         <section class="mod4-head">
-            <h1>🎮 PRE-TEST: Pamumuno at Pagtugon sa Sakuna</h1>
-            <p><strong>Panuto:</strong> Basahin at unawain ang bawat sitwasyon. Piliin ang pinakaangkop na sagot.</p>
+            <h1>📝 POST-TEST: "Handa Ka Na Ba?"</h1>
+            <p><strong>Panuto:</strong> Basahin ang bawat sitwasyon. Piliin ang PINAKATAMANG sagot.</p>
 
             <div class="mod4-score-guide">
-                <strong>Pagpapakahulugan ng Iskor:</strong><br>
-                0–5 → 🔴 Kailangan ng gabay<br>
-                6–10 → 🟡 May kaalaman<br>
-                11–15 → 🟢 Handa sa sakuna
+                <strong>Passing Score:</strong><br>
+                12–15 → ✅ Handa ka na!<br>
+                0–11 → 🔁 Subukan muli
             </div>
         </section>
 
@@ -234,99 +222,64 @@
         </div>
 
         <div class="mod4-actions">
-            <button class="mod4-btn mod4-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Iskor at Tamang Sagot</button>
+            <button class="mod4-btn mod4-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Resulta</button>
             <a class="mod4-btn mod4-btn-ghost" href="{{ route('module4.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
         </div>
 
         <section class="mod4-result" id="resultBox">
             <p class="mod4-score" id="scoreText"></p>
             <p class="mod4-level" id="levelText"></p>
-            <p class="mod4-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
-            <div class="mod4-next">
-                <a class="mod4-btn mod4-btn-primary" href="{{ route('module4.balikaral') }}">
-                    Magpatuloy sa Balik-Aral →
-                </a>
-            </div>
+            <p class="mod4-feedback">Ang iyong post-test ay magsisilbing pagtataya ng iyong natutunan sa modyul na ito.</p>
+            <div class="mod4-next" id="nextContainer"></div>
         </section>
     </div>
 
     <script>
         const quizItems = [
-            {
-                q: '1) May paparating na bagyo ngunit ayaw lumikas ng mga residente. Ano ang pinakamainam na gawin bilang lider?',
-                options: ['A. Hayaan sila', 'B. Magbigay ng malinaw na babala at ipaliwanag ang panganib', 'C. Pilitin agad nang walang paliwanag', 'D. Maghintay ng utos'],
-                answer: 1
-            },
-            {
-                q: '2) Sa isang barangay, maraming tao ang hindi sumusunod sa evacuation plan. Ano ang pangunahing problema?',
-                options: ['A. Kakulangan sa pera', 'B. Kakulangan sa disiplina', 'C. Kakulangan sa bahay', 'D. Kakulangan sa pagkain'],
-                answer: 1
-            },
-            {
-                q: '3) Sa gitna ng baha, may mga taong gustong bumalik sa bahay para kumuha ng gamit. Ano ang dapat mong gawin?',
-                options: ['A. Payagan sila', 'B. Ipaliwanag ang panganib at pigilan sila', 'C. Sumama sa kanila', 'D. Iwanan sila'],
-                answer: 1
-            },
-            {
-                q: '4) Matapos ang lindol, may bitak ang gusali ngunit may gustong pumasok. Ano ang tamang desisyon?',
-                options: ['A. Pahintulutan', 'B. I-inspect muna ang kaligtasan bago papasukin', 'C. Balewalain', 'D. Ipagpatuloy ang normal na gawain'],
-                answer: 1
-            },
-            {
-                q: '5) Sa isang komunidad, may maling balita tungkol sa sakuna. Ano ang epekto nito?',
-                options: ['A. Nagiging kalmado ang tao', 'B. Nagdudulot ng takot at kalituhan', 'C. Walang epekto', 'D. Nakakatulong sa paghahanda'],
-                answer: 1
-            },
-            {
-                q: '6) Sa panahon ng bagyo, may mga taong hindi nakikinig sa babala. Ano ang dapat gawin ng lider?',
-                options: ['A. Huwag na silang pansinin', 'B. Palakasin ang information drive at babala', 'C. Iwanan sila', 'D. Maghintay'],
-                answer: 1
-            },
-            {
-                q: '7) Sa isang lugar, may sapat na kagamitan ngunit kulang ang koordinasyon. Ano ang magiging epekto?',
-                options: ['A. Mas mabilis ang pagtugon', 'B. Magiging magulo ang operasyon', 'C. Walang epekto', 'D. Mas magiging maayos'],
-                answer: 1
-            },
-            {
-                q: '8) Sa isang evacuation center, may kaguluhan sa pamamahagi ng relief goods. Ano ang solusyon?',
-                options: ['A. Magbigay agad nang walang sistema', 'B. Magpatupad ng maayos na organisasyon at listahan', 'C. Itigil ang pamamahagi', 'D. Hayaan ang kaguluhan'],
-                answer: 1
-            },
-            {
-                q: '9) Sa Guinobatan flashflood, ano ang pinakaunang hakbang upang maiwasan ang pinsala?',
-                options: ['A. Maghintay', 'B. Magbigay agad ng babala at magpa-evacuate', 'C. Mag-record ng video', 'D. Magpahinga'],
-                answer: 1
-            },
-            {
-                q: '10) Sa pagputok ng bulkan, bakit mahalaga ang pagsunod sa alert level?',
-                options: ['A. Para sa dokumento', 'B. Dahil ito ay base sa siyentipikong pagsusuri ng panganib', 'C. Para sa media', 'D. Walang dahilan'],
-                answer: 1
-            },
-            {
-                q: '11) Kung may aftershock matapos ang lindol, ano ang tamang kilos?',
-                options: ['A. Bumalik agad sa bahay', 'B. Manatili sa ligtas na lugar', 'C. Maglakad-lakad', 'D. Magpahinga'],
-                answer: 1
-            },
-            {
-                q: '12) Sa isang barangay, may kahandaan ngunit walang kooperasyon. Ano ang posibleng mangyari?',
-                options: ['A. Magiging ligtas lahat', 'B. Hindi magiging epektibo ang plano', 'C. Walang epekto', 'D. Mas magiging mabilis'],
-                answer: 1
-            },
-            {
-                q: '13) Bakit mahalaga ang emergency kit kahit hindi pa dumarating ang sakuna?',
-                options: ['A. Para sa display', 'B. Para sa agarang pangangailangan kung may sakuna', 'C. Para sa laro', 'D. Para sa dekorasyon'],
-                answer: 1
-            },
-            {
-                q: '14) Sa isang sitwasyon, may sapat na kaalaman ngunit walang aksyon. Ano ang kakulangan?',
-                options: ['A. Kahandaan', 'B. Disiplina', 'C. Kooperasyon', 'D. Lahat ng nabanggit'],
-                answer: 3
-            },
-            {
-                q: '15) Bilang lider, alin ang nagpapakita ng pinakamataas na antas ng kahandaan, disiplina, at kooperasyon?',
-                options: ['A. Maghintay ng tulong', 'B. Magbigay ng plano, sumunod sa protocol, at hikayatin ang komunidad', 'C. Umalis sa lugar', 'D. Sariling pamilya lang ang tulungan'],
-                answer: 1
-            }
+            {q:"1. May paparating na bagyo at may sapat pang oras. Ano ang pinakamahusay na unang hakbang?",
+            options:["A. Maghintay ng anunsyo","B. Maghanda ng emergency kit at magbigay babala","C. Magpahinga muna","D. Maglaro"],answer:1},
+
+            {q:"2. Sa isang evacuation center, may kakulangan sa koordinasyon. Ano ang dapat gawin?",
+            options:["A. Hayaan ang sitwasyon","B. Magtalaga ng lider at sistema ng pamamahala","C. Itigil ang operasyon","D. Maghintay ng tulong"],answer:1},
+
+            {q:"3. Matapos ang baha, maraming kable ng kuryente ang nakakalat. Ano ang tamang aksyon?",
+            options:["A. Hawakan agad","B. Iwasan at ipagbigay-alam sa awtoridad","C. Lakaran lamang","D. Balewalain"],answer:1},
+
+            {q:"4. Sa gitna ng lindol, alin ang tamang kilos?",
+            options:["A. Tumakbo agad palabas","B. Drop, Cover, and Hold","C. Magpanic","D. Sumigaw"],answer:1},
+
+            {q:"5. Sa isang komunidad, may mga hindi sumusunod sa babala. Ano ang dapat gawin ng lider?",
+            options:["A. Iwanan sila","B. Magpatuloy sa pagbibigay ng impormasyon at paalala","C. Maghintay","D. Umalis"],answer:1},
+
+            {q:"6. Sa panahon ng sakuna, bakit mahalaga ang kooperasyon?",
+            options:["A. Para sa kasikatan","B. Para mapabilis ang pagtugon at pagbangon","C. Para kumita","D. Para maglibang"],answer:1},
+
+            {q:"7. Sa isang sitwasyon, may sapat na kagamitan ngunit walang disiplina. Ano ang magiging resulta?",
+            options:["A. Maayos ang operasyon","B. Magiging magulo at delikado ang sitwasyon","C. Walang epekto","D. Mas mabilis ang aksyon"],answer:1},
+
+            {q:"8. Sa pagputok ng bulkan, bakit mahalaga ang maagang paglikas?",
+            options:["A. Para makapaglakbay","B. Para maiwasan ang panganib at masave ang buhay","C. Para sa aliwan","D. Para makakita ng lava"],answer:1},
+
+            {q:"9. Sa Guinobatan flashflood, alin ang nagpapakita ng kahandaan?",
+            options:["A. Pagtawid sa baha","B. Pagsunod sa babala at paglikas","C. Paglalaro sa tubig","D. Pananatili sa bahay kahit delikado"],answer:1},
+
+            {q:"10. Sa isang lindol, maraming sugatan. Ano ang dapat unahin?",
+            options:["A. Mag-record ng video","B. Magbigay ng agarang tulong sa mga kritikal","C. Maghintay","D. Umalis"],answer:1},
+
+            {q:"11. Ano ang pinakamahalagang papel ng tamang impormasyon?",
+            options:["A. Magdulot ng kaba","B. Magbigay ng gabay sa tamang desisyon","C. Magpalaganap ng tsismis","D. Walang silbi"],answer:1},
+
+            {q:"12. Sa isang barangay, may kahandaan at disiplina ngunit walang kooperasyon. Ano ang epekto?",
+            options:["A. Mas magiging maayos","B. Hindi magiging ganap ang pagtugon","C. Walang epekto","D. Mas mabilis ang aksyon"],answer:1},
+
+            {q:"13. Sa panahon ng sakuna, bakit mahalaga ang pagsunod sa awtoridad?",
+            options:["A. Dahil utos lamang","B. Dahil nakabatay ito sa kaligtasan ng lahat","C. Dahil tradisyon","D. Dahil uso"],answer:1},
+
+            {q:"14. Ang lider ay may plano ngunit hindi ipinatupad. Ano ang kakulangan?",
+            options:["A. Kahandaan","B. Disiplina","C. Kooperasyon","D. Aksyon"],answer:3},
+
+            {q:"15. Bilang mamamayan, alin ang pinakamainam na kontribusyon?",
+            options:["A. Maghintay lamang","B. Maging handa, sumunod, at makiisa","C. Umalis agad","D. Sarili lamang ang isipin"],answer:1}
         ];
 
         const root = document.getElementById('questionsRoot');
@@ -337,8 +290,7 @@
         const errorMessage = document.getElementById('errorMessage');
         const answeredCountSpan = document.getElementById('answeredCount');
         const totalCountSpan = document.getElementById('totalCount');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-        const pretestSaveUrl = "{{ route('student.module4.pretest.save') }}";
+        const nextContainer = document.getElementById('nextContainer');
         
         totalCountSpan.textContent = quizItems.length;
 
@@ -403,7 +355,7 @@
                 statusIcon.style.color = '#3ca75e';
                 questionCard.classList.remove('missing');
             } else {
-                // Question is unanswered - show nothing (no red X)
+                // Question is unanswered - show nothing
                 statusIcon.innerHTML = '';
                 questionCard.classList.add('missing');
             }
@@ -411,13 +363,11 @@
 
         function checkAllQuestionsAnswered() {
             let allAnswered = true;
-            const missingQuestions = [];
 
             for (let i = 0; i < quizItems.length; i++) {
                 const selected = getChosenValue(i);
                 if (selected === -1) {
                     allAnswered = false;
-                    missingQuestions.push(i + 1);
                     updateQuestionStatus(i);
                 } else {
                     answeredStatus[i] = true;
@@ -425,7 +375,7 @@
                 }
             }
 
-            return { allAnswered, missingQuestions };
+            return allAnswered;
         }
 
         function scrollToFirstMissing() {
@@ -454,91 +404,51 @@
         }
 
         function interpretScore(score) {
-            if (score <= 5) return '🔴 Kailangan ng gabay';
-            if (score <= 10) return '🟡 May kaalaman';
-            return '🟢 Handa sa sakuna';
+            if (score >= 12) return '✅ Handa ka na!';
+            return '🔁 Subukan muli';
         }
 
-        function revealAnswersAndScore() {
+        function calculateScore() {
             let score = 0;
-
             quizItems.forEach((item, index) => {
                 const selectedValue = getChosenValue(index);
                 if (selectedValue === item.answer) score += 1;
-
-                const optionLabels = root.querySelectorAll(`label[data-q="${index}"]`);
-                optionLabels.forEach((label) => {
-                    const opt = Number(label.dataset.opt);
-                    label.classList.remove('correct', 'wrong');
-                    if (opt === item.answer) {
-                        label.classList.add('correct');
-                    }
-                    if (selectedValue === opt && selectedValue !== item.answer) {
-                        label.classList.add('wrong');
-                    }
-                });
             });
-
-            scoreText.textContent = `Iskor: ${score} / 15`;
-            levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
-            resultBox.classList.add('show');
-            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
             return score;
         }
 
-        function submitToLocalStorage(score, answers) {
-            // Save to localStorage since no DB/controller yet for Module 4
-            const module4Result = {
-                score: score,
-                answers: answers,
-                totalItems: quizItems.length,
-                timestamp: new Date().toISOString(),
-                completed: true
-            };
-            localStorage.setItem('module4_pretest_result', JSON.stringify(module4Result));
-            console.log("Saved to localStorage:", module4Result);
-        }
-
-        async function savePretestToDatabase(score, answers) {
-            const payloadAnswers = answers.map((selectedOption, index) => ({
-                question_number: index + 1,
-                selected_option: selectedOption,
-                correct_option: quizItems[index].answer,
-                is_correct: selectedOption === quizItems[index].answer
-            }));
-
-            const response = await fetch(pretestSaveUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    score: score,
-                    total_items: quizItems.length,
-                    level: interpretScore(score),
-                    answers: payloadAnswers
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error('Pretest save failed');
+        function generateNextButtons(score) {
+            let nextHTML = "";
+            
+            if (score >= 12) {
+                nextHTML = `
+                    <a href="{{ route('module4.performance') }}" class="mod4-btn mod4-btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;">
+                        🎯 Proceed to Performance Task →
+                    </a>
+                `;
+            } else {
+                nextHTML = `
+                    <div style="color:#d94141;font-weight:700; margin-bottom:12px;">
+                        ⚠️ Kailangan mong makakuha ng 12 pataas upang magpatuloy.
+                    </div>
+                    <button onclick="location.reload()" class="mod4-btn mod4-btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;">
+                        🔄 Ulitin ang Post-Test
+                    </button>
+                `;
             }
-
-            return response.json();
+            
+            nextContainer.innerHTML = nextHTML;
         }
 
         // Main check button handler
-        checkBtn.addEventListener('click', async () => {
+        checkBtn.addEventListener('click', () => {
             // Prevent multiple submissions
             if (isSubmitted) {
                 return;
             }
             
             // Check if all questions are answered
-            const { allAnswered, missingQuestions } = checkAllQuestionsAnswered();
+            const allAnswered = checkAllQuestionsAnswered();
             
             if (!allAnswered) {
                 // Show error message
@@ -551,11 +461,17 @@
             // Hide error message if all are answered
             errorMessage.classList.remove('show');
             
-            // Get all answers
-            const answers = quizItems.map((_, index) => getChosenValue(index));
+            // Calculate score
+            const score = calculateScore();
             
-            // Calculate score and reveal answers
-            const score = revealAnswersAndScore();
+            // Display score and feedback (NO ANSWER REVELATION)
+            scoreText.textContent = `Iskor: ${score} / 15`;
+            levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Generate next buttons based on score
+            generateNextButtons(score);
             
             // Mark as submitted
             isSubmitted = true;
@@ -568,15 +484,6 @@
                 });
             }
             
-            // Keep local cache copy for offline/quick restore behavior.
-            submitToLocalStorage(score, answers);
-
-            try {
-                await savePretestToDatabase(score, answers);
-            } catch (error) {
-                console.error('Failed to save Module 4 pretest:', error);
-            }
-            
             // Change button text and disable it
             checkBtn.textContent = '✓ Naisumite na';
             checkBtn.disabled = true;
@@ -587,7 +494,7 @@
         // Initial render
         renderQuiz();
         
-        // Initialize status icons (no X's, just empty)
+        // Initialize status icons
         setTimeout(() => {
             for (let i = 0; i < quizItems.length; i++) {
                 updateQuestionStatus(i);

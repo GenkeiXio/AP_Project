@@ -182,35 +182,38 @@
                 <div class="module-sub">Sanhi at Bunga</div>
 
                 <span class="badge blue">
-                    <i data-lucide="users"></i> 6 students
+                    <i data-lucide="users"></i> 
                 </span>
             </div>
         </a>
 
-        <div class="module-card green">
-            <div class="stat-icon" style="background:#dcfce7;">
-                <i data-lucide="book-open"></i>
+        <a href="{{ route('teacher.module3.results') }}" style="text-decoration:none; color:inherit;">
+            <div class="module-card green">
+                <div class="stat-icon" style="background:#dcfce7;">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div class="module-title">Module 3</div>
+                <div class="module-sub">Pag-unawa sa Teksto</div>
+
+                <span class="badge green">
+                    <i data-lucide="users"></i> 
+                </span>
             </div>
-            <div class="module-title">Module 3</div>
-            <div class="module-sub">Pag-unawa sa Teksto</div>
+        </a>
 
-            <span class="badge green">
-                <i data-lucide="users"></i> 6 students
-            </span>
-        </div>
+        <a href="{{ route('teacher.module4.results') }}" style="text-decoration:none; color:inherit;">
+            <div class="module-card purple">
+                <div class="stat-icon" style="background:#ede9fe;">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div class="module-title">Module 4</div>
+                <div class="module-sub">Pagsusuri ng Datos</div>
 
-        <div class="module-card purple">
-            <div class="stat-icon" style="background:#ede9fe;">
-                <i data-lucide="book-open"></i>
+                <span class="badge purple">
+                    <i data-lucide="users"></i> 
+                </span>
             </div>
-            <div class="module-title">Module 4</div>
-            <div class="module-sub">Pagsusuri ng Datos</div>
-
-            <span class="badge purple">
-                <i data-lucide="users"></i> 6 students
-            </span>
-        </div>
-
+        </a>
     </div>
 
     @endsection

@@ -2,7 +2,7 @@
 
   <div class="story-header" style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px dashed #dce3ec;">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-      <h4 style="font-size: 1.8rem; font-weight: 700; color: #1e2f4b; margin: 0;">⛰️ Landslide sa Albay</h4>
+      <h4 style="font-size: 1.8rem; font-weight: 700; color: #1e2f4b; margin: 0;">⛰️ Pagguho ng Lupa sa Albay</h4>
     </div>
     <p style="margin: 0;">
       <small>
@@ -17,7 +17,7 @@
 
   <!-- CARD 1: ANO ANG NANGYARI? -->
   <div class="step active" id="landslide-step1">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 1: ANO ANG NANGYARI?</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 1: ANO ANG NANGYARI?</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C1 - 1.png') }}" alt="Landslide sa Burabod">
@@ -41,7 +41,7 @@
 
   <!-- CARD 2: LAWAK NG PINSALA -->
   <div class="step" id="landslide-step2">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 2: LAWAK NG PINSALA</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 2: LAWAK NG PINSALA</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C2 - 1.jpg') }}" alt="Mga bahay na natabunan">
@@ -66,7 +66,7 @@
 
   <!-- CARD 3: KALAGAYAN NG MGA RESIDENTE -->
   <div class="step" id="landslide-step3">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 3: KALAGAYAN NG MGA RESIDENTE</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 3: KALAGAYAN NG MGA RESIDENTE</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C3 - 1.jpg') }}" alt="Evacuation center">
@@ -91,7 +91,7 @@
 
   <!-- CARD 4: KARAGDAGANG PANGYAYARI -->
   <div class="step" id="landslide-step4">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 4: KARAGDAGANG PANGYAYARI</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 4: KARAGDAGANG PANGYAYARI</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C4 - 1.jpg') }}" alt="Clearing operations">
@@ -116,7 +116,7 @@
 
   <!-- CARD 5: MGA NAWAWALA AT RESCUE -->
   <div class="step" id="landslide-step5">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 5: MGA NAWAWALA AT RESCUE</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 5: MGA NAWAWALA AT RESCUE</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C5.jpg') }}" alt="Search and rescue">
@@ -140,7 +140,7 @@
 
   <!-- CARD 6: MAHALAGANG PAALALA -->
   <div class="step" id="landslide-step6">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 6: MAHALAGANG PAALALA</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 6: MAHALAGANG PAALALA</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C6 - 1.jpg') }}" alt="Babala sa landslide">
@@ -165,7 +165,7 @@
 
   <!-- CARD 7: BUOD -->
   <div class="step" id="landslide-step7">
-    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 CARD 7: BUOD</h5>
+    <h5 style="font-size: 1.4rem; font-weight: 700; color: #1e3a5f; margin-bottom: 16px; border-left: 6px solid #8B4513; padding-left: 16px;">🧩 KARD 7: BUOD</h5>
 
     <div class="img-grid">
       <img src="{{ asset('pictures/Module4/landslide/C7.png') }}" alt="Buod ng landslide">
@@ -184,7 +184,7 @@
 
     <div style="display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end;">
       <button class="btn" onclick="landslidePrevStep(6)" style="padding: 10px 20px; font-size: 1rem; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; background: #6c757d; color: white;">← Nakaraan</button>
-      <button class="btn btn-success" onclick="landslideFinishStory()" style="padding: 10px 20px; font-size: 1rem; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; background: #2e7d32; color: white;">🎮 Tapusin at Pumunta sa Laro</button>
+      <a href="{{ route('module4.landslide.game') }}" onclick="awardStepXP(currentStory+'-step7', 200)" class="btn btn-success" style="padding: 10px 20px; font-size: 1rem; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; background: #2e7d32; color: white; text-decoration: none; display: inline-flex; align-items: center;">🎮 Tapusin at Pumunta sa Laro</a>
     </div>
   </div>
 

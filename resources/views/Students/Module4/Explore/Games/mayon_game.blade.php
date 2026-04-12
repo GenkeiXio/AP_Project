@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Mayon Alert: Disaster Response Mission</title>
   <style>
@@ -408,10 +409,47 @@
   let answerLock = false;             // already answered current level?
   let selectedOptionIndex = null;     // store which option was selected (for styling)
   let userAnswers = new Array(levels.length).fill(null); // store correct status (bool)
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+  const gameSaveUrl = "{{ route('student.module4.games.save') }}";
 
   // DOM elements
   const quizPanel = document.getElementById('quizPanel');
   const resultArea = document.getElementById('resultArea');
+
+  async function saveGameResult(rank) {
+    try {
+      await fetch(gameSaveUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          game_type: 'mayon',
+          score: score,
+          total_items: levels.length,
+          rank: rank,
+          is_completed: true
+        })
+      });
+    } catch (error) {
+      console.error('Failed to save Mayon game result:', error);
+    }
+  }
+
+  function getLevelTheme(levelId) {
+    const themes = {
+      1: { accent: '#D9480F', softBg: '#FFF1E8', badgeBg: '#FFE2CC', text: '#7A2E0E' },
+      2: { accent: '#B65A00', softBg: '#FFF4E6', badgeBg: '#FFE7C2', text: '#704100' },
+      3: { accent: '#CC3F2D', softBg: '#FFF0EE', badgeBg: '#FFDCD7', text: '#7A261B' },
+      4: { accent: '#C53A3A', softBg: '#FFF0F0', badgeBg: '#FFD9D9', text: '#7D2525' },
+      5: { accent: '#9C2F45', softBg: '#FFF0F5', badgeBg: '#FFD7E5', text: '#612032' },
+      6: { accent: '#4B5BA8', softBg: '#EEF1FF', badgeBg: '#DCE3FF', text: '#2F3B77' },
+      7: { accent: '#1F8A70', softBg: '#EAFBF6', badgeBg: '#D2F4E9', text: '#145B4A' }
+    };
+    return themes[levelId] || themes[1];
+  }
 
   // helper: render current level
   function renderCurrentLevel() {
@@ -422,6 +460,7 @@
     }
 
     const level = levels[currentLevelIndex];
+    const theme = getLevelTheme(level.id);
     const isAnswered = userAnswers[currentLevelIndex] !== undefined && userAnswers[currentLevelIndex] !== null;
     const userWasCorrect = userAnswers[currentLevelIndex];
 
@@ -457,8 +496,11 @@
     if (isAnswered) {
       const feedbackMsg = level.feedback;
       const correctnessMsg = userWasCorrect ? '✅ Tamang sagot! ' : '❌ Mali. ';
+      const feedbackBg = userWasCorrect ? theme.softBg : '#FFEFEF';
+      const feedbackText = userWasCorrect ? theme.text : '#9A2E2A';
+      const feedbackBorder = userWasCorrect ? theme.accent : '#D9534F';
       feedbackHtml = `
-        <div class="feedback-message">
+        <div class="feedback-message" style="background:${feedbackBg}; color:${feedbackText}; border-left-color:${feedbackBorder};">
           ${correctnessMsg} ${feedbackMsg}
         </div>
       `;
@@ -467,16 +509,16 @@
     // next button only if answered and not final level (or final but we show after)
     let nextButtonHtml = '';
     if (isAnswered && currentLevelIndex < levels.length - 1) {
-      nextButtonHtml = `<div class="next-btn-wrapper"><button class="next-btn" id="nextLevelBtn">➡️ Susunod na Antas</button></div>`;
+      nextButtonHtml = `<div class="next-btn-wrapper"><button class="next-btn" id="nextLevelBtn" style="background:${theme.accent};">➡️ Susunod na Antas</button></div>`;
     } else if (isAnswered && currentLevelIndex === levels.length - 1) {
-      nextButtonHtml = `<div class="next-btn-wrapper"><button class="next-btn" id="finishGameBtn">🏁 Tapusin ang Misyon</button></div>`;
+      nextButtonHtml = `<div class="next-btn-wrapper"><button class="next-btn" id="finishGameBtn" style="background:${theme.accent};">🏁 Tapusin ang Misyon</button></div>`;
     }
 
     const progressText = `Antas ${currentLevelIndex+1} ng ${levels.length}`;
 
     const fullHtml = `
-      <div class="level-badge">🎯 ${progressText} | DRR Officer</div>
-      <div class="scenario">
+      <div class="level-badge" style="background:${theme.badgeBg}; border-color:${theme.accent}; color:${theme.text};">🎯 ${progressText} | DRR Officer</div>
+      <div class="scenario" style="background:${theme.softBg}; border-left-color:${theme.accent};">
         <div class="scenario-text">${level.title}</div>
         <div class="scenario-desc">${level.situation}</div>
         <div style="margin-top: 12px; font-weight: 500;">❓ ${level.question}</div>
@@ -572,8 +614,14 @@
       <p style="margin: 1rem 0 0.5rem; background:#FFF3E6; padding: 10px; border-radius: 28px;">
         📋 <strong>Mission debrief:</strong> ${getFeedbackMessageByScore(correctCount)}
       </p>
-      <button class="restart-btn" id="restartGameBtn">🔄 Mag-restart ng Misyon</button>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px;">
+        <button class="restart-btn" id="restartGameBtn">🔄 Mag-restart ng Misyon</button>
+        <a href="{{ route('module4.explore', ['completed' => 'mayon']) }}" class="restart-btn" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#E67E22;">📚 Balik sa Explore</a>
+      </div>
     `;
+
+    saveGameResult(rank);
+
     document.getElementById('restartGameBtn').addEventListener('click', () => {
       resetGame();
     });
