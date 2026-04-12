@@ -203,7 +203,10 @@ Route::get('/module2/buod', function () {
     return view('Students.module2.mod2_buod');
 })->name('module2.buod');
 
-//Module 3 Routes//
+/////////////////////
+///Module 3 Routes///
+/////////////////////
+
 // MODULE 3 HOME
 Route::get('/module3', function () {
     return view('Students.Module3.Home');
@@ -245,7 +248,7 @@ Route::get('/module3/node3', function () {
     return view('Students.Module3.Nodes.mod3_node3');
 })->name('module3.node3');
 
-Route::view('/module4', 'Students.Module 4.Home')->name('module4.home');
+
 Route::get('/apply-activity', function () {
     return view('Students.Module3.Activities.apply');
 })->name('apply.activity');
@@ -286,6 +289,22 @@ Route::get('/module3/closing', function () {
     return view('Students.Module3.Activities.closing');
 })->name('module3.closing');
 
+
+/////////////////////
+///Module 4 Routes///
+/////////////////////
+
+Route::view('/module4', 'Students.Module4.Home')->name('module4.home');
+
 Route::get('/module4/pretest', function () {
-    return view('Students.Module 4.Pretest');
+    return view('Students.Module4.Pretest');
 })->name('module4.pretest');
+
+Route::view('/module4/balik-aral', 'Students.Module4.mod4_balikaral')
+    ->name('module4.balikaral');
+
+Route::view('/module4/welcome', 'Students.Module4.mod4_welcome')
+    ->name('module4.welcome');
+
+Route::view('/module4/explore', 'Students.Module4.mod4_explore')
+    ->name('module4.explore');

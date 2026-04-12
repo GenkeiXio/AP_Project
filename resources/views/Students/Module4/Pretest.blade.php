@@ -243,7 +243,9 @@
             <p class="mod4-level" id="levelText"></p>
             <p class="mod4-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
             <div class="mod4-next">
-                <a class="mod4-btn mod4-btn-primary" href="" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
+                <a class="mod4-btn mod4-btn-primary" href="{{ route('module4.balikaral') }}">
+                    Magpatuloy sa Balik-Aral →
+                </a>
             </div>
         </section>
     </div>
