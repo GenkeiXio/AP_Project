@@ -36,12 +36,14 @@ use App\Http\Controllers\Student\Module3\Module3PosttestController;
 use App\Http\Controllers\Student\Module3\Module3LindolController;
 use App\Http\Controllers\Student\Module3\Module3BalikAralController;
 use App\Http\Controllers\Student\Module3\Module3ExploreController;
+use App\Http\Controllers\Teacher\Module3ResultsController;
 use App\Http\Controllers\Student\Module4\Module4HomeController;
 use App\Http\Controllers\Student\Module4\Module4PretestController;
 use App\Http\Controllers\Student\Module4\Module4BalikAralController;
 use App\Http\Controllers\Student\Module4\Module4ExploreController;
 use App\Http\Controllers\Student\Module4\Module4GameResultController;
 use App\Http\Controllers\Teacher\ModulesController;
+use App\Http\Controllers\Teacher\Module4ResultsController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -154,6 +156,10 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::get('/module3/student/{id}',                   [Module3ResultsController::class, 'show'])->name('module3.student');
     Route::get('/teacher/module3/student/{id}/export',    [Module3ResultsController::class, 'export'])->name('module3.export');
     Route::get('/teacher/modules',                        [ModulesController::class, 'index'])->name('modules');
+    Route::get('/module4/results',                        [Module4ResultsController::class, 'index'])->name('module4.results');
+    Route::get('/module4/student/{id}',                   [Module4ResultsController::class, 'show'])->name('module4.student');
+    Route::get('/module4/student/{id}/export',            [Module4ResultsController::class, 'export'])
+    ->name('module4.export');
 
     Route::post('/logout',                                [StaffAuthController::class, 'logoutTeacher'])->name('logout');
 });

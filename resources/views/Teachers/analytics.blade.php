@@ -193,10 +193,6 @@
         <button id="btn-monthly" class="btn btn-primary time-btn"onclick="switchView('monthly', this)">Monthly</button>
         <button class="btn btn-outline time-btn" onclick="switchView('quarterly', this)">Quarterly</button>
         <button class="btn btn-outline time-btn" onclick="switchView('yearly', this)">Yearly</button>
-
-        <a href="{{ route('teacher.analytics') }}" class="btn btn-primary">
-            <i data-lucide="download"></i> Export CSV
-        </a>
     </div>
 </div>
 
@@ -252,46 +248,6 @@
         <div class="chart-wrap">
             <canvas id="donutChart"></canvas>
         </div>
-    </div>
-
-</div>
-
-<!-- TABLE -->
-<div class="grid-2">
-
-    <div class="card">
-        <h2>Detailed Analytics</h2>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Module</th>
-                    <th>Attempts</th>
-                    <th>Student</th>
-                    <th>Avg Score</th>
-                    <th>Completion</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach($topStudents as $ts)
-                    <tr>
-                        <td>Module 2</td>
-                        <td>{{ $ts->attempts }}</td>
-                        <td>{{ $ts->username }}</td> {{-- ✅ FIXED --}}
-                        <td>{{ round($ts->avg_pct) }}%</td>
-                        <td>
-                            <span class="badge badge-green">82%</span>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-    </div>
-
-    <div class="card donut-card">
-        <canvas id="donutChart2"></canvas>
     </div>
 
 </div>
