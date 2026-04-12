@@ -240,7 +240,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Alamin ang biglaang pagragasa ng baha at lahar mula sa Mayon Volcano
+        <strong>📖 Layuning Pangkatuto:</strong> Alamin ang biglaang pagragasa ng baha at lahar mula sa Bulkang Mayon
     </div>
 
     <div class="img-grid">
@@ -249,12 +249,12 @@
     </div>
 
     <div class="fact-box">
-        <strong>💡 Observation:</strong>
+        <strong>💡 Obserbasyon:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px;">Ipinapakita dito ang biglaang pagragasa ng baha na naging parang ilog ang kalsada dahil sa malakas na ulan at lahar mula sa Mayon Volcano.</p>
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Quick Insight</div>
+        <div class="quick-check-title">❓ Mabilis na Pagsusuri</div>
         <p style="margin: 8px 0; font-size: 14px;">Paano nagiging peligro ang paglabas ng baha sa kalsada?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Nagiging daan ang kalsada para sa malaki at mabilis na agos ng putik at bato.')">Sagutin</button>
     </div>
@@ -276,7 +276,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Ipakita ang panganib ng maputik na baha at lahar sa tao at sasakyan
+        <strong>📖 Layuning Pangkatuto:</strong> Ipakita ang panganib ng maputik na baha at lahar sa tao at sasakyan
     </div>
 
     <div class="img-grid">
@@ -291,7 +291,7 @@
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Critical Thinking</div>
+        <div class="quick-check-title">❓ Kritikal na Pag-iisip</div>
         <p style="margin: 8px 0; font-size: 14px;">Ano ang dapat iwasan kapag may baha na may halong lahar?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Iwasan ang pagpunta sa baha at putik dahil sa madulas at mabigat na agos.')">Sagutin</button>
     </div>
@@ -313,7 +313,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Tuklasin kung paano nagsimula ang flashflood sa sobrang pag-ulan
+        <strong>📖 Layuning Pangkatuto:</strong> Tuklasin kung paano nagsimula ang flashflood sa sobrang pag-ulan
     </div>
 
     <div class="img-grid">
@@ -328,7 +328,7 @@
     </div>
 
     <div class="quick-check">
-        <div class="quick-check-title">❓ Lesson</div>
+        <div class="quick-check-title">❓ Aral</div>
         <p style="margin: 8px 0; font-size: 14px;">Ano ang tumulong magpasimula ng flashflood dito?</p>
         <button class="quick-check-btn" onclick="alert('✅ Tama! Ang matinding ulan at lahar mula sa bulkan ay bumuo ng delubyong baha.')">Sagutin</button>
     </div>
@@ -350,7 +350,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Tingnan ang epekto ng flashflood sa mga residente at kabuhayan
+        <strong>📖 Layuning Pangkatuto:</strong> Tingnan ang epekto ng flashflood sa mga residente at kabuhayan
     </div>
 
     <div class="img-grid">
@@ -359,7 +359,7 @@
     </div>
 
     <div class="fact-box">
-        <strong>💡 Community Impact:</strong>
+        <strong>💡 Epekto sa Komunidad:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px;">Ipinapakita ang epekto sa mga residente—hirap sa paglikas at panganib sa tahanan at kabuhayan.</p>
     </div>
 
@@ -386,7 +386,7 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Ipakita ang mga ginawa ng pamahalaan at kung paano nag-ingat ang komunidad
+        <strong>📖 Layuning Pangkatuto:</strong> Ipakita ang mga ginawa ng pamahalaan at kung paano nag-ingat ang komunidad
     </div>
 
     <div class="img-grid">
@@ -396,7 +396,7 @@
     </div>
 
     <div class="fact-box">
-        <strong>💡 Response Actions:</strong>
+        <strong>💡 Mga Tugon:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px;">Ipinapakita ang pagtugon ng pamahalaan—clearing operations, relief goods, at pagbibigay babala sa mga residente.</p>
     </div>
 
@@ -423,24 +423,24 @@
     </div>
 
     <div class="learning-objective">
-        <strong>📖 Final Goal:</strong> Ibuod ang flashflood at ang kahalagahan ng paghahanda at pagtutulungan
+        <strong>📖 Pangwakas na Layunin:</strong> Ibuod ang flashflood at ang kahalagahan ng paghahanda at pagtutulungan
     </div>
 
     <div class="fact-box" style="background: linear-gradient(135deg, #d4f1e8, #bde7d5); border-left-color: #28a745;">
-        <strong style="color: #155724;">📚 Summary:</strong>
+        <strong style="color: #155724;">📚 Buod:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px; color: #155724;">
             Ang flashflood sa Guinobatan ay dulot ng matinding pag-ulan na tumagal ng halos isa’t kalahating oras, na nagpasimula ng rumaragasang baha na may kasamang lahar mula sa Mayon Volcano. Dahil dito, ang mga kalsada ay naging parang ilog na may dalang putik, bato, at buhangin na nagdulot ng panganib sa mga residente, bahay, at kabuhayan. Agad namang kumilos ang mga awtoridad sa pamamagitan ng clearing operations, pagbibigay ng babala, at paghahanda ng tulong para sa mga apektado. Ipinapakita ng pangyayaring ito ang kahalagahan ng maagap na paghahanda, pagsunod sa babala, at pagtutulungan ng komunidad upang maiwasan ang mas matinding pinsala at mapanatili ang kaligtasan ng lahat.
         </p>
     </div>
 
     <div class="fact-box" style="background: #fff9e6; border-left-color: #ff9800;">
-        <strong>🎥 Optional Video:</strong>
+        <strong>🎥 Opsyonal na Video:</strong>
         <p style="margin: 8px 0 0 0; font-size: 14px;">Panoorin lamang kung may libreng data. Kung wala, maaari ka nang magpatuloy sa susunod na bahagi.</p>
     </div>
 
     <iframe width="100%" height="315"
             src="https://www.youtube.com/embed/RzG1kbeyS-g"
-            title="Optional Video"
+            title="Opsyonal na Video"
             allowfullscreen></iframe>
 
     <div class="step-nav final-summary" style="margin-top: 30px;">
