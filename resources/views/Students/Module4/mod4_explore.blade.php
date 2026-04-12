@@ -35,6 +35,11 @@ h2{text-align:center;font-weight:800;}
     overflow:hidden;
     box-shadow:0 10px 25px rgba(0,0,0,.1);
     cursor:pointer;
+    transition: transform 0.2s;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
 }
 
 .news-card img{
@@ -50,6 +55,7 @@ h2{text-align:center;font-weight:800;}
     background:rgba(0,0,0,.7);
     justify-content:center;
     align-items:center;
+    z-index: 1000;
 }
 
 .modal.show{display:flex;}
@@ -62,6 +68,34 @@ h2{text-align:center;font-weight:800;}
     width:95%;
     max-height:90vh;
     overflow:auto;
+}
+
+/* Close button in modal header */
+.modal-close {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px 0;
+    text-align: right;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.modal-close .btn-close-modal {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.modal-close .btn-close-modal:hover {
+    background: #c82333;
+    transform: translateY(-1px);
 }
 
 .story{display:none;}
@@ -110,12 +144,12 @@ h2{text-align:center;font-weight:800;}
 </div>
 
 <div class="news-card" onclick="openStory('mayon')">
-<img src="{{ asset('pictures/Module4/mayon/card1_1.jpg') }}">
+<img src="{{ asset('pictures/Module4/mayon/Mayon.jpg') }}">
 <h5 class="text-center p-2">🌋 Bulkang Mayon</h5>
 </div>
 
 <div class="news-card" onclick="openStory('landslide')">
-<img src="{{ asset('pictures/Module4/landslide/card1_1.jpg') }}">
+<img src="{{ asset('pictures/Module4/landslide/landslide.png') }}">
 <h5 class="text-center p-2">⛰️ Landslide sa Albay</h5>
 </div>
 
@@ -126,86 +160,35 @@ h2{text-align:center;font-weight:800;}
 <!-- MODAL -->
 <div class="modal" id="modal">
 <div class="modal-box">
+    
+    <!-- Modal close button -->
+    <div class="modal-close">
+        <button class="btn-close-modal" onclick="closeModal()">✕ Isara</button>
+    </div>
 
-<!-- ================= STORIES ================= -->
-@include('Students.Module4.Explore.rolly_story')
-@include('Students.Module4.Explore.baha_story')
-@include('Students.Module4.Explore.lindol_story')
+    <!-- ================= STORIES ================= -->
+    @include('Students.Module4.Explore.rolly_story')
+    @include('Students.Module4.Explore.baha_story')
+    @include('Students.Module4.Explore.lindol_story')
+    @include('Students.Module4.Explore.mayon_story')
+    @include('Students.Module4.Explore.landslide_story')
 
-<!-- OTHER STORIES PLACEHOLDER -->
-<div class="story" id="mayon"><div class="step active"><h4>🌋 Mayon</h4><button onclick="finishStory()" class="btn btn-success">Tapusin</button></div></div>
-<div class="story" id="landslide"><div class="step active"><h4>⛰️ Landslide</h4><button onclick="finishStory()" class="btn btn-success">Tapusin</button></div></div>
+    <!-- OTHER STORIES PLACEHOLDER -->
+    <div class="story" id="landslide">
+        <div class="step active">
+            <h4>⛰️ Landslide sa Albay</h4>
+            <p>Content to be added</p>
+            <button onclick="finishStory()" class="btn btn-success mt-3">Tapusin</button>
+        </div>
+    </div>
 
 </div>
 </div>
 
 <script>
 let progress = 0;
-const completed = {};
-const storyCount = document.querySelectorAll('.news-card').length;
-const progressPerStory = storyCount > 0 ? 100 / storyCount : 20;
+let completed = {};
 let currentStory = "";
-
-// Load completed stories from localStorage
-function loadCompletedStories() {
-    const saved = localStorage.getItem('module4_completed_stories');
-    if (saved) {
-        const parsed = JSON.parse(saved);
-        Object.assign(completed, parsed);
-        // Recalculate progress
-        progress = Object.keys(completed).length * progressPerStory;
-    }
-}
-
-// Save completed stories to localStorage
-function saveCompletedStories() {
-    localStorage.setItem('module4_completed_stories', JSON.stringify(completed));
-}
-
-function updateProgress() {
-    progress = Math.min(progress, 100);
-    const bar = document.getElementById('progressBar');
-    bar.style.width = progress + "%";
-    bar.innerText = Math.round(progress) + "%";
-    saveCompletedStories(); // Save after updating
-}
-
-const storyStepCounts = {
-    rolly: 8,
-    baha: 6,
-    lindol: 8
-};
-
-const awardedSteps = new Set();
-
-function updateXP(points) {
-    const xpElement = document.getElementById('totalXP');
-    if (!xpElement) return;
-
-    const xpText = xpElement.textContent.replace('Total XP: ', '');
-    const currentXP = Number(xpText) || 0;
-    xpElement.textContent = 'Total XP: ' + (currentXP + points);
-}
-
-function awardStepXP(stepId, points) {
-    if (!awardedSteps.has(stepId)) {
-        awardedSteps.add(stepId);
-        updateXP(points);
-    }
-}
-
-function updateStoryProgress(storyId, stepNumber) {
-    const stepCount = storyStepCounts[storyId] || 1;
-    const bar = document.getElementById(`${storyId}ProgressBar`);
-    const label = document.getElementById(`${storyId}ProgressLabel`);
-    if (bar) {
-        const percent = Math.round((stepNumber / stepCount) * 100);
-        bar.style.width = percent + "%";
-    }
-    if (label) {
-        label.textContent = `Step ${stepNumber} / ${stepCount}`;
-    }
-}
 
 // Check URL parameter for completed stories
 function checkCompletedFromURL() {
@@ -222,30 +205,41 @@ function checkCompletedFromURL() {
     }
 }
 
-function openStory(id){
-    currentStory=id;
+function openStory(id) {
+    currentStory = id;
     document.getElementById('modal').classList.add('show');
-    document.querySelectorAll('.story').forEach(s=>s.style.display='none');
-    document.getElementById(id).style.display='block';
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-    document.querySelector('#'+id+' .step').classList.add('active');
-    updateStoryProgress(id, 1);
+    document.querySelectorAll('.story').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector('#' + id + ' .step').classList.add('active');
 }
 
-function nextStep(step){
-    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-    document.getElementById(currentStory+'-step'+step).classList.add('active');
-    updateStoryProgress(currentStory, step);
-}
-
-function finishStory(){
+function closeModal() {
     document.getElementById('modal').classList.remove('show');
-    if(!completed[currentStory]){
-        completed[currentStory]=true;
-        progress += progressPerStory;
-        updateProgress();
+}
+
+function nextStep(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(currentStory + '-step' + step).classList.add('active');
+}
+
+function finishStory() {
+    document.getElementById('modal').classList.remove('show');
+    if (!completed[currentStory]) {
+        completed[currentStory] = true;
+        progress += 20;
+        let bar = document.getElementById('progressBar');
+        bar.style.width = progress + "%";
+        bar.innerText = progress + "%";
     }
 }
+
+// Close modal when clicking outside
+document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
 
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', function() {

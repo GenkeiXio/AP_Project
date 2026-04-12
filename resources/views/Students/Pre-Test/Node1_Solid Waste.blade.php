@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<title>Node 1: Gawain sa Solid Waste</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+@extends('Students.studentslayout')
+@section('title', 'Module 2 : Node 1')
+
+@push('styles')
 <style>
     :root {
     --bg-1: #eefaf1;
@@ -39,18 +35,19 @@
         z-index: -1;
     }
 
-    html { scroll-behavior: smooth; }
+    html, body{
+        scroll-behavior:smooth;
+        background:
+            radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+            radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+            radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+            linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+    }
 
-    body {
-    margin: 0;
-    font-family: "Nunito", sans-serif;
-    color: var(--text);
-    background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 48%, var(--bg-3) 100%);
-    min-height: 100vh;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    padding: 20px 14px 34px;
-    background: none !important;
+    body{
+        overflow-x:hidden;
+        color:var(--text);
+        font-family:'Poppins', sans-serif;
     }
 
     .page {
@@ -991,465 +988,460 @@
         }
     }
 </style>
-</head>
 
-<body>
-
-<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
-<div class="page">
-    <div class="quest-shell">
-        <div class="topbar">
-            <a class="back-link" href="{{ route('node1.solid-waste') }}">⬅ Bumalik</a>
-            <div class="xp-rack">
-                <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
-                <div class="xp-chip" id="missionCount">0 / 6 Tama</div>
-            </div>
-        </div>
-
-        <section class="hero" id="introStage">
-            <div class="hero-main" style="display:flex; flex-direction:column; align-items:center; gap:20px;">
-                <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
-                <div style="text-align:center; width:100%;">
-                    <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
-                    <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Gabay sa <span>Solid Waste</span></h1>
-                    <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
-                    <div class="actions" style="justify-content:center; margin-top:20px;">
-                        <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
-                    </div>
+@section('content')
+    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <div class="page">
+        <div class="quest-shell">
+            <div class="topbar">
+                <a class="back-link" href="{{ route('node1.solid-waste') }}">⬅ Bumalik</a>
+                <div class="xp-rack">
+                    <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
+                    <div class="xp-chip" id="missionCount">0 / 6 Tama</div>
                 </div>
             </div>
 
-            <aside class="hero-side" style="margin-top:10px;">
-                <div class="quest-card">
-                    <h3>🎯 Layunin</h3>
-                    <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> gamit ang dating daloy ng gawain.</p>
-                </div>
-
-                <div class="quest-card">
-                    <h3>📌 Paalala</h3>
-                    <p>I-drag ang kasalukuyang card papunta sa tamang zone. May image cards at hiwalay na text cards.</p>
-                </div>
-            </aside>
-        </section>
-
-        <section class="mission-grid" id="gameStage" style="display:none;">
-            <div class="panel">
-                <div class="board-header">
-                    <h2 class="board-title">Sanhi → Bunga → Solusyon</h2>
-                    <div class="board-sub">Bilang <span id="itemCount">1</span> / 6</div>
-                </div>
-
-                <div style="display:flex; justify-content:center; margin:0 0 16px;">
-                    <div class="drag-item image-item" id="activeImageCard" draggable="true" data-label="Larawang Kard" style="width:min(380px, 100%);">
-                        <div class="thumb-wrap" style="min-height:180px;">
-                            <img class="thumb" id="activeCardImg" alt="Larawang kard ng gawain" src="">
-                            <div class="image-glow"></div>
-                            <div class="image-caption" id="activeCardCaption"></div>
+            <section class="hero" id="introStage">
+                <div class="hero-main" style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
+                    <div style="text-align:center; width:100%;">
+                        <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
+                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Gabay sa <span>Solid Waste</span></h1>
+                        <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
+                        <div class="actions" style="justify-content:center; margin-top:20px;">
+                            <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
                         </div>
                     </div>
-
-                    <div class="drag-item text-item" id="activeTextCard" draggable="true" data-label="Tekstong Kard" style="width:min(480px, 100%); display:none;"></div>
                 </div>
 
-                <div class="flow-layout">
-                    <div class="flow-line one"></div>
-                    <div class="flow-line two"></div>
-                    <div class="zone-wrap">
-                        <div class="zone-card">
-                            <div class="zone-head">
-                                <div class="zone-badge cause"><strong>🌟 Sanhi</strong><span></span></div>
-                                <div class="zone-status" id="status-cause">Naghihintay...</div>
+                <aside class="hero-side" style="margin-top:10px;">
+                    <div class="quest-card">
+                        <h3>🎯 Layunin</h3>
+                        <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> gamit ang dating daloy ng gawain.</p>
+                    </div>
+
+                    <div class="quest-card">
+                        <h3>📌 Paalala</h3>
+                        <p>I-drag ang kasalukuyang card papunta sa tamang zone. May image cards at hiwalay na text cards.</p>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="mission-grid" id="gameStage" style="display:none;">
+                <div class="panel">
+                    <div class="board-header">
+                        <h2 class="board-title">Sanhi → Bunga → Solusyon</h2>
+                        <div class="board-sub">Bilang <span id="itemCount">1</span> / 6</div>
+                    </div>
+
+                    <div style="display:flex; justify-content:center; margin:0 0 16px;">
+                        <div class="drag-item image-item" id="activeImageCard" draggable="true" data-label="Larawang Kard" style="width:min(380px, 100%);">
+                            <div class="thumb-wrap" style="min-height:180px;">
+                                <img class="thumb" id="activeCardImg" alt="Larawang kard ng gawain" src="">
+                                <div class="image-glow"></div>
+                                <div class="image-caption" id="activeCardCaption"></div>
                             </div>
-                            <div class="drop-zone" data-zone="cause"></div>
                         </div>
+
+                        <div class="drag-item text-item" id="activeTextCard" draggable="true" data-label="Tekstong Kard" style="width:min(480px, 100%); display:none;"></div>
                     </div>
 
-                    <div class="zone-wrap">
-                        <div class="zone-card">
-                            <div class="zone-head">
-                                <div class="zone-badge effect"><strong>🔥 Bunga</strong><span></span></div>
-                                <div class="zone-status" id="status-effect">Naghihintay...</div>
+                    <div class="flow-layout">
+                        <div class="flow-line one"></div>
+                        <div class="flow-line two"></div>
+                        <div class="zone-wrap">
+                            <div class="zone-card">
+                                <div class="zone-head">
+                                    <div class="zone-badge cause"><strong>🌟 Sanhi</strong><span></span></div>
+                                    <div class="zone-status" id="status-cause">Naghihintay...</div>
+                                </div>
+                                <div class="drop-zone" data-zone="cause"></div>
                             </div>
-                            <div class="drop-zone" data-zone="effect"></div>
                         </div>
-                    </div>
 
-                    <div class="zone-wrap">
-                        <div class="zone-card">
-                            <div class="zone-head">
-                                <div class="zone-badge solution"><strong>🌿 Solusyon</strong><span></span></div>
-                                <div class="zone-status" id="status-solution">Naghihintay...</div>
+                        <div class="zone-wrap">
+                            <div class="zone-card">
+                                <div class="zone-head">
+                                    <div class="zone-badge effect"><strong>🔥 Bunga</strong><span></span></div>
+                                    <div class="zone-status" id="status-effect">Naghihintay...</div>
+                                </div>
+                                <div class="drop-zone" data-zone="effect"></div>
                             </div>
-                            <div class="drop-zone" data-zone="solution"></div>
+                        </div>
+
+                        <div class="zone-wrap">
+                            <div class="zone-card">
+                                <div class="zone-head">
+                                    <div class="zone-badge solution"><strong>🌿 Solusyon</strong><span></span></div>
+                                    <div class="zone-status" id="status-solution">Naghihintay...</div>
+                                </div>
+                                <div class="drop-zone" data-zone="solution"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-</div>
-
-<!-- MODAL for completion -->
-<div id="completionModal" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-header">
-            <div class="modal-title">🎉 Tagumpay!</div>
-            <button class="modal-close" id="closeModalBtn">✕</button>
-        </div>
-
-        <div class="modal-body">
-            <div class="modal-feedback-text" id="modalFeedbackText"></div>
-            <div class="modal-actions">
-                <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
-                <a href="{{ route('node2') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
-            </div>
+            </section>
         </div>
     </div>
-</div>
 
+    <!-- MODAL for completion -->
+    <div id="completionModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">🎉 Tagumpay!</div>
+                <button class="modal-close" id="closeModalBtn">✕</button>
+            </div>
 
+            <div class="modal-body">
+                <div class="modal-feedback-text" id="modalFeedbackText"></div>
+                <div class="modal-actions">
+                    <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
+                    <a href="{{ route('node2') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="confetti" id="confettiLayer"></div>
-<audio id="summaryAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/node1_summary.mp3') }}"></audio>
-<audio id="errorAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/error.mp3') }}"></audio>
+    <div class="confetti" id="confettiLayer"></div>
+    <audio id="summaryAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/node1_summary.mp3') }}"></audio>
+    <audio id="errorAudio" class="hidden-audio" preload="auto" src="{{ asset('audio/error.mp3') }}"></audio>
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<script>
-    const introStage = document.getElementById('introStage');
-    const gameStage = document.getElementById('gameStage');
-    const introText = document.getElementById('introText');
-    const introNextBtn = document.getElementById('introNextBtn');
-    const itemCount = document.getElementById('itemCount');
-    const missionCount = document.getElementById('missionCount');
-    const activeImageCard = document.getElementById('activeImageCard');
-    const activeTextCard = document.getElementById('activeTextCard');
-    const activeCardImg = document.getElementById('activeCardImg');
-    const activeCardCaption = document.getElementById('activeCardCaption');
-    const confettiLayer = document.getElementById('confettiLayer');
-    const summaryAudio = document.getElementById('summaryAudio');
-    const errorAudio = document.getElementById('errorAudio');
-    const dropZones = Array.from(document.querySelectorAll('.drop-zone'));
+    <script>
+        const introStage = document.getElementById('introStage');
+        const gameStage = document.getElementById('gameStage');
+        const introText = document.getElementById('introText');
+        const introNextBtn = document.getElementById('introNextBtn');
+        const itemCount = document.getElementById('itemCount');
+        const missionCount = document.getElementById('missionCount');
+        const activeImageCard = document.getElementById('activeImageCard');
+        const activeTextCard = document.getElementById('activeTextCard');
+        const activeCardImg = document.getElementById('activeCardImg');
+        const activeCardCaption = document.getElementById('activeCardCaption');
+        const confettiLayer = document.getElementById('confettiLayer');
+        const summaryAudio = document.getElementById('summaryAudio');
+        const errorAudio = document.getElementById('errorAudio');
+        const dropZones = Array.from(document.querySelectorAll('.drop-zone'));
 
-    // Modal elements
-    const completionModal = document.getElementById('completionModal');
-    const modalFeedbackText = document.getElementById('modalFeedbackText');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const modalBackToMapBtn = document.getElementById('modalBackToMapBtn');
-    const modalContinueBtn = document.getElementById('modalContinueBtn');
+        // Modal elements
+        const completionModal = document.getElementById('completionModal');
+        const modalFeedbackText = document.getElementById('modalFeedbackText');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalBackToMapBtn = document.getElementById('modalBackToMapBtn');
+        const modalContinueBtn = document.getElementById('modalContinueBtn');
 
-    function showCompletionModal(message) {
-        modalFeedbackText.innerText = message;
-        completionModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        completionModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    closeModalBtn.addEventListener('click', closeModal);
-    completionModal.addEventListener('click', (e) => {
-        if (e.target === completionModal) closeModal();
-    });
-
-    const lines = [
-        'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa solid waste.',
-        'Sa komunidad, maling pagtatapon ng basura ang madalas na sanhi ng problema.',
-        'Kapag barado ang kanal, nagkakaroon ng pagbaha at pagdami ng sakit.',
-        'Ngayon, i-drag ang bawat card sa tamang zone: Sanhi, Bunga, o Solusyon.'
-    ];
-
-    const items = [
-        { type: 'image', src: "{{ asset('pictures/node1sanhi.png') }}", label: 'Larawang kard', zone: 'cause' },
-        { type: 'image', src: "{{ asset('pictures/node1bunga.png') }}", label: 'Larawang kard', zone: 'effect' },
-        { type: 'image', src: "{{ asset('pictures/node1solution.png') }}", label: 'Larawang kard', zone: 'solution' },
-    ];
-
-    let completedRecords = [];
-
-    const zoneNameFil = {
-        cause: 'Sanhi',
-        effect: 'Bunga',
-        solution: 'Solusyon'
-    };
-
-    const summaryMessage = `Magaling! Natukoy mo ang tamang ugnayan ng sanhi, bunga, at solusyon.\nAng mga suliraning pangkapaligiran ay kadalasang nagsisimula sa kawalan ng disiplina, tulad ng maling pagtatapon ng basura at hindi pagsunod sa wastong paghihiwalay nito.\nDahil dito, nagkakaroon ng pagbaha, polusyon, at paglaganap ng sakit.\nNgunit may magagawa tayo. Sa pamamagitan ng waste segregation, recycling, at pakikilahok sa clean-up drives, makakatulong tayo sa pangangalaga ng ating kapaligiran.\nTandaan—ang pagbabago ay nagsisimula sa iyo.`;
-
-    const statusMap = {
-        cause: document.getElementById('status-cause'),
-        effect: document.getElementById('status-effect'),
-        solution: document.getElementById('status-solution')
-    };
-
-    let lineIndex = 0;
-    let itemIndex = 0;
-    let correctCount = 0;
-    let dragged = false;
-    let typingTimer = null;
-    let isTyping = false;
-
-    function getActiveElement() {
-        const current = items[itemIndex];
-        return current.type === 'image' ? activeImageCard : activeTextCard;
-    }
-
-    function typeLine(text) {
-        // Clear any existing typing
-        if (typingTimer) {
-            clearInterval(typingTimer);
-            typingTimer = null;
+        function showCompletionModal(message) {
+            modalFeedbackText.innerText = message;
+            completionModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        introText.textContent = '';
-        let i = 0;
-        isTyping = true;
+        function closeModal() {
+            completionModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-        typingTimer = setInterval(() => {
-            if (i < text.length) {
-                introText.textContent += text[i];
-                i++;
-            } else {
+        closeModalBtn.addEventListener('click', closeModal);
+        completionModal.addEventListener('click', (e) => {
+            if (e.target === completionModal) closeModal();
+        });
+
+        const lines = [
+            'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa solid waste.',
+            'Sa komunidad, maling pagtatapon ng basura ang madalas na sanhi ng problema.',
+            'Kapag barado ang kanal, nagkakaroon ng pagbaha at pagdami ng sakit.',
+            'Ngayon, i-drag ang bawat card sa tamang zone: Sanhi, Bunga, o Solusyon.'
+        ];
+
+        const items = [
+            { type: 'image', src: "{{ asset('pictures/node1sanhi.png') }}", label: 'Larawang kard', zone: 'cause' },
+            { type: 'image', src: "{{ asset('pictures/node1bunga.png') }}", label: 'Larawang kard', zone: 'effect' },
+            { type: 'image', src: "{{ asset('pictures/node1solution.png') }}", label: 'Larawang kard', zone: 'solution' },
+        ];
+
+        let completedRecords = [];
+
+        const zoneNameFil = {
+            cause: 'Sanhi',
+            effect: 'Bunga',
+            solution: 'Solusyon'
+        };
+
+        const summaryMessage = `Magaling! Natukoy mo ang tamang ugnayan ng sanhi, bunga, at solusyon.\nAng mga suliraning pangkapaligiran ay kadalasang nagsisimula sa kawalan ng disiplina, tulad ng maling pagtatapon ng basura at hindi pagsunod sa wastong paghihiwalay nito.\nDahil dito, nagkakaroon ng pagbaha, polusyon, at paglaganap ng sakit.\nNgunit may magagawa tayo. Sa pamamagitan ng waste segregation, recycling, at pakikilahok sa clean-up drives, makakatulong tayo sa pangangalaga ng ating kapaligiran.\nTandaan—ang pagbabago ay nagsisimula sa iyo.`;
+
+        const statusMap = {
+            cause: document.getElementById('status-cause'),
+            effect: document.getElementById('status-effect'),
+            solution: document.getElementById('status-solution')
+        };
+
+        let lineIndex = 0;
+        let itemIndex = 0;
+        let correctCount = 0;
+        let dragged = false;
+        let typingTimer = null;
+        let isTyping = false;
+
+        function getActiveElement() {
+            const current = items[itemIndex];
+            return current.type === 'image' ? activeImageCard : activeTextCard;
+        }
+
+        function typeLine(text) {
+            // Clear any existing typing
+            if (typingTimer) {
                 clearInterval(typingTimer);
                 typingTimer = null;
-                isTyping = false;
             }
-        }, 18);
-    }
 
-    function updateCard() {
-        const item = items[itemIndex];
-        if (item.type === 'image') {
-            activeImageCard.style.display = 'block';
-            activeTextCard.style.display = 'none';
-            activeCardImg.src = item.src;
-            activeCardCaption.textContent = '';
-        } else {
-            activeImageCard.style.display = 'none';
-            activeTextCard.style.display = 'block';
-            activeTextCard.textContent = item.text;
-        }
-        itemCount.textContent = String(itemIndex + 1);
-    }
+            introText.textContent = '';
+            let i = 0;
+            isTyping = true;
 
-    function resetZoneStatus() {
-        Object.values(statusMap).forEach(el => {
-            el.textContent = 'Naghihintay...';
-            el.classList.remove('complete');
-        });
-    }
-
-    function completeZone(zoneName) {
-        const statusEl = statusMap[zoneName];
-        statusEl.textContent = 'Tama ✓';
-        statusEl.classList.add('complete');
-    }
-
-    function basahinAngBuod(text) {
-        if (!('speechSynthesis' in window)) return;
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text.replace(/\n/g, ' '));
-        utterance.lang = 'fil-PH';
-        utterance.rate = 0.92;
-        window.speechSynthesis.speak(utterance);
-    }
-
-    function burstConfetti() {
-        confettiLayer.innerHTML = '';
-        const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e', '#ffffff'];
-        for (let i = 0; i < 26; i++) {
-            const piece = document.createElement('span');
-            piece.className = 'confetti-piece';
-            piece.style.left = `${Math.random() * 100}%`;
-            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-            piece.style.animationDelay = `${Math.random() * 0.35}s`;
-            piece.style.transform = `translateY(0) rotate(${Math.random() * 120}deg)`;
-            confettiLayer.appendChild(piece);
+            typingTimer = setInterval(() => {
+                if (i < text.length) {
+                    introText.textContent += text[i];
+                    i++;
+                } else {
+                    clearInterval(typingTimer);
+                    typingTimer = null;
+                    isTyping = false;
+                }
+            }, 18);
         }
 
-        setTimeout(() => {
+        function updateCard() {
+            const item = items[itemIndex];
+            if (item.type === 'image') {
+                activeImageCard.style.display = 'block';
+                activeTextCard.style.display = 'none';
+                activeCardImg.src = item.src;
+                activeCardCaption.textContent = '';
+            } else {
+                activeImageCard.style.display = 'none';
+                activeTextCard.style.display = 'block';
+                activeTextCard.textContent = item.text;
+            }
+            itemCount.textContent = String(itemIndex + 1);
+        }
+
+        function resetZoneStatus() {
+            Object.values(statusMap).forEach(el => {
+                el.textContent = 'Naghihintay...';
+                el.classList.remove('complete');
+            });
+        }
+
+        function completeZone(zoneName) {
+            const statusEl = statusMap[zoneName];
+            statusEl.textContent = 'Tama ✓';
+            statusEl.classList.add('complete');
+        }
+
+        function basahinAngBuod(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text.replace(/\n/g, ' '));
+            utterance.lang = 'fil-PH';
+            utterance.rate = 0.92;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function burstConfetti() {
             confettiLayer.innerHTML = '';
-        }, 2200);
-    }
+            const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e', '#ffffff'];
+            for (let i = 0; i < 26; i++) {
+                const piece = document.createElement('span');
+                piece.className = 'confetti-piece';
+                piece.style.left = `${Math.random() * 100}%`;
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = `${Math.random() * 0.35}s`;
+                piece.style.transform = `translateY(0) rotate(${Math.random() * 120}deg)`;
+                confettiLayer.appendChild(piece);
+            }
 
-    function playErrorSound() {
-        if (errorAudio) {
-            errorAudio.currentTime = 0;
-            errorAudio.play().catch(() => {});
-        }
-    }
-
-    introNextBtn.addEventListener('click', () => {
-        if (lineIndex >= lines.length - 1) {
-            introStage.style.display = 'none';
-            gameStage.style.display = 'grid';
-            updateCard();
-            return;
+            setTimeout(() => {
+                confettiLayer.innerHTML = '';
+            }, 2200);
         }
 
-        lineIndex += 1;
-        typeLine(lines[lineIndex]);
-        if (lineIndex === lines.length - 1) {
-            introNextBtn.textContent = 'Simulan ang Gawain';
+        function playErrorSound() {
+            if (errorAudio) {
+                errorAudio.currentTime = 0;
+                errorAudio.play().catch(() => {});
+            }
         }
-    });
 
-    [activeImageCard, activeTextCard].forEach((cardEl) => {
-        cardEl.addEventListener('dragstart', () => {
-            dragged = true;
-            cardEl.classList.add('dragging');
+        introNextBtn.addEventListener('click', () => {
+            if (lineIndex >= lines.length - 1) {
+                introStage.style.display = 'none';
+                gameStage.style.display = 'grid';
+                updateCard();
+                return;
+            }
+
+            lineIndex += 1;
+            typeLine(lines[lineIndex]);
+            if (lineIndex === lines.length - 1) {
+                introNextBtn.textContent = 'Simulan ang Gawain';
+            }
         });
 
-        cardEl.addEventListener('dragend', () => {
-            cardEl.classList.remove('dragging');
-        });
-    });
+        [activeImageCard, activeTextCard].forEach((cardEl) => {
+            cardEl.addEventListener('dragstart', () => {
+                dragged = true;
+                cardEl.classList.add('dragging');
+            });
 
-    dropZones.forEach(zone => {
-        zone.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            zone.classList.add('over');
-        });
-
-        zone.addEventListener('dragleave', () => {
-            zone.classList.remove('over');
+            cardEl.addEventListener('dragend', () => {
+                cardEl.classList.remove('dragging');
+            });
         });
 
-        zone.addEventListener('drop', (event) => {
-            event.preventDefault();
-            zone.classList.remove('over');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                zone.classList.add('over');
+            });
 
-            if (!dragged) return;
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('over');
+            });
 
-            const current = items[itemIndex];
-            const droppedZone = zone.dataset.zone;
+            zone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                zone.classList.remove('over');
 
-            if (droppedZone === current.zone) {
-                correctCount += 1;
-                missionCount.textContent = `${correctCount} / 6 Tama`;
+                if (!dragged) return;
 
-                completeZone(droppedZone);
+                const current = items[itemIndex];
+                const droppedZone = zone.dataset.zone;
 
-                // ✅ STORE DATA (ADD THIS PART ONLY)
-                let currentRecordIndex = Math.floor(itemIndex / 2);
-                let value = current.type === 'image'
-                    ? current.src.replace(window.location.origin + '/', '')
-                    : current.text;
-                if (!completedRecords[currentRecordIndex]) {
-                    completedRecords[currentRecordIndex] = {
-                        problem_number: currentRecordIndex + 1,
-                        sanhi_image: '',
-                        sanhi_text: '',
-                        bunga_image: '',
-                        bunga_text: '',
-                        solusyon_image: '',
-                        solusyon_text: ''
-                    };
-                }
+                if (droppedZone === current.zone) {
+                    correctCount += 1;
+                    missionCount.textContent = `${correctCount} / 6 Tama`;
 
-                if (current.zone === 'cause') {
-                    if (current.type === 'image') {
-                        completedRecords[currentRecordIndex].sanhi_image = value;
-                    } else {
-                        completedRecords[currentRecordIndex].sanhi_text = value;
+                    completeZone(droppedZone);
+
+                    // ✅ STORE DATA (ADD THIS PART ONLY)
+                    let currentRecordIndex = Math.floor(itemIndex / 2);
+                    let value = current.type === 'image'
+                        ? current.src.replace(window.location.origin + '/', '')
+                        : current.text;
+                    if (!completedRecords[currentRecordIndex]) {
+                        completedRecords[currentRecordIndex] = {
+                            problem_number: currentRecordIndex + 1,
+                            sanhi_image: '',
+                            sanhi_text: '',
+                            bunga_image: '',
+                            bunga_text: '',
+                            solusyon_image: '',
+                            solusyon_text: ''
+                        };
                     }
-                }
 
-                if (current.zone === 'effect') {
-                    if (current.type === 'image') {
-                        completedRecords[currentRecordIndex].bunga_image = value;
-                    } else {
-                        completedRecords[currentRecordIndex].bunga_text = value;
-                    }
-                }
-
-                if (current.zone === 'solution') {
-                    if (current.type === 'image') {
-                        completedRecords[currentRecordIndex].solusyon_image = value;
-                    } else {
-                        completedRecords[currentRecordIndex].solusyon_text = value;
-                    }
-                }
-
-                // 🔽 KEEP YOUR ORIGINAL CODE BELOW (UNCHANGED)
-                const activeEl = getActiveElement();
-                const snapCard = activeEl.cloneNode(true);
-                snapCard.removeAttribute('id');
-                snapCard.classList.remove('dragging');
-                snapCard.style.cursor = 'default';
-                snapCard.setAttribute('draggable', 'false');
-                zone.innerHTML = '';
-                zone.appendChild(snapCard);
-                zone.classList.add('filled', 'drop-pop', 'spark');
-
-                setTimeout(() => {
-                    itemIndex += 1;
-                    dragged = false;
-                    if (itemIndex < items.length) {
-                        zone.classList.remove('drop-pop', 'spark', 'filled');
-                        zone.innerHTML = '';
-                        resetZoneStatus();
-                        updateCard();
-                    } else {
-                        sessionStorage.setItem('node1_done', 'true');
-
-                        // ✅ SEND TO BACKEND
-                        fetch("{{ route('student.module2.node1.save') }}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-
-                            body: JSON.stringify({
-                                records: completedRecords
-                            })
-                        })
-
-                        .then(async res => {
-                            const data = await res.json();
-
-                            if (!res.ok) {
-                                console.error("Server Error:", data);
-                                alert("Error saving data!");
-                                return;
-                            }
-
-                            console.log("Saved Node1:", data);
-                        })
-
-                        .catch(err => {
-                            console.error("Fetch Error:", err);
-                        });
-
-                        burstConfetti();
-                        showCompletionModal(summaryMessage);
-                        activeImageCard.style.display = 'none';
-                        activeTextCard.style.display = 'none';
-
-                        if (summaryAudio) {
-                            summaryAudio.currentTime = 0;
-                            summaryAudio.play().catch(() => {
-                                basahinAngBuod(summaryMessage);
-                            });
+                    if (current.zone === 'cause') {
+                        if (current.type === 'image') {
+                            completedRecords[currentRecordIndex].sanhi_image = value;
                         } else {
-                            basahinAngBuod(summaryMessage);
+                            completedRecords[currentRecordIndex].sanhi_text = value;
                         }
                     }
-                }, 750);
-            } else {
-                const activeEl = getActiveElement();
-                activeEl.classList.add('wrong-card');
-                playErrorSound();
-                setTimeout(() => {
-                    activeEl.classList.remove('wrong-card');
-                }, 420);
-                dragged = false;
-            }
+
+                    if (current.zone === 'effect') {
+                        if (current.type === 'image') {
+                            completedRecords[currentRecordIndex].bunga_image = value;
+                        } else {
+                            completedRecords[currentRecordIndex].bunga_text = value;
+                        }
+                    }
+
+                    if (current.zone === 'solution') {
+                        if (current.type === 'image') {
+                            completedRecords[currentRecordIndex].solusyon_image = value;
+                        } else {
+                            completedRecords[currentRecordIndex].solusyon_text = value;
+                        }
+                    }
+
+                    // 🔽 KEEP YOUR ORIGINAL CODE BELOW (UNCHANGED)
+                    const activeEl = getActiveElement();
+                    const snapCard = activeEl.cloneNode(true);
+                    snapCard.removeAttribute('id');
+                    snapCard.classList.remove('dragging');
+                    snapCard.style.cursor = 'default';
+                    snapCard.setAttribute('draggable', 'false');
+                    zone.innerHTML = '';
+                    zone.appendChild(snapCard);
+                    zone.classList.add('filled', 'drop-pop', 'spark');
+
+                    setTimeout(() => {
+                        itemIndex += 1;
+                        dragged = false;
+                        if (itemIndex < items.length) {
+                            zone.classList.remove('drop-pop', 'spark', 'filled');
+                            zone.innerHTML = '';
+                            resetZoneStatus();
+                            updateCard();
+                        } else {
+                            sessionStorage.setItem('node1_done', 'true');
+
+                            // ✅ SEND TO BACKEND
+                            fetch("{{ route('student.module2.node1.save') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+
+                                body: JSON.stringify({
+                                    records: completedRecords
+                                })
+                            })
+
+                            .then(async res => {
+                                const data = await res.json();
+
+                                if (!res.ok) {
+                                    console.error("Server Error:", data);
+                                    alert("Error saving data!");
+                                    return;
+                                }
+
+                                console.log("Saved Node1:", data);
+                            })
+
+                            .catch(err => {
+                                console.error("Fetch Error:", err);
+                            });
+
+                            burstConfetti();
+                            showCompletionModal(summaryMessage);
+                            activeImageCard.style.display = 'none';
+                            activeTextCard.style.display = 'none';
+
+                            if (summaryAudio) {
+                                summaryAudio.currentTime = 0;
+                                summaryAudio.play().catch(() => {
+                                    basahinAngBuod(summaryMessage);
+                                });
+                            } else {
+                                basahinAngBuod(summaryMessage);
+                            }
+                        }
+                    }, 750);
+                } else {
+                    const activeEl = getActiveElement();
+                    activeEl.classList.add('wrong-card');
+                    playErrorSound();
+                    setTimeout(() => {
+                        activeEl.classList.remove('wrong-card');
+                    }, 420);
+                    dragged = false;
+                }
+            });
         });
-    });
-    typeLine(lines[0]);
-</script>
-</body>
-</html>
+        typeLine(lines[0]);
+    </script>
+@endsection
