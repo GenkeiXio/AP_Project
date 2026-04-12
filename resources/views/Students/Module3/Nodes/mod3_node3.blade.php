@@ -340,24 +340,59 @@ function runSim() {
         log.innerHTML += "<br>🌊 <i>Tumataas na ang tubig sa mababang bahagi...</i>";
         
         setTimeout(() => {
+            
+            let status = "not_ready";
+
+
             if (safety >= 100) {
+                status = "ready";
                 log.innerHTML = "🏆 <b>TAGUMPAY!</b> Maiibaba ang epekto ng kalamidad dahil kumpleto ang iyong CBDRRM pillars. Ligtas ang buong komunidad!";
                 document.getElementById('meter').style.background = "#2ecc71";
                 sessionStorage.setItem('m3_node3', 'true');
                 document.getElementById('nextBtn').style.display = 'block';
             } else if (safety >= 75) {
+                status = "partially_ready";
                 log.innerHTML = "⚠️ <b>BAHAGYANG HANDA.</b> May ilang nasaktan dahil kulang ang kooperasyon o pagsasanay. Kailangan ng buong pakikilahok.";
                 document.getElementById('meter').style.background = "#f39c12";
                 sessionStorage.setItem('m3_node3', 'true');
                 document.getElementById('nextBtn').style.display = 'block';
             } else {
+                status = "not_ready";
                 log.innerHTML = "❌ <b>HINDI HANDA.</b> Masyadong malaki ang nagastos sa dekorasyon kaysa sa kaligtasan. Kailangan ng masusing CBDRRM approach.";
                 document.getElementById('meter').style.background = "#e74c3c";
                 sessionStorage.removeItem('m3_node3');
             }
+
+            //SAVE TO DATABASE
+            fetch("{{ route('student.module3.node3.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    final_budget: budget,
+                    safety_score: Math.min(safety, 100),
+                    status: status,
+                    selected_strategies: getSelectedStrategies()
+                })
+            });
+
             document.getElementById('resetBtn').style.display = 'block';
+
         }, 1500);
     }, 1500);
+}
+
+// helper
+function getSelectedStrategies() {
+    let selected = [];
+
+    document.querySelectorAll('.strategy-card.selected').forEach(card => {
+        selected.push(card.querySelector('h3').innerText);
+    });
+
+    return selected;
 }
 </script>
 

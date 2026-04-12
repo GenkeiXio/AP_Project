@@ -236,6 +236,23 @@ Ilagay ang mga salita na magbibigay ng  tamang gabay sa ganitong pangyayari.
         let count = 0;
         for(let z in correct) { if(score[z] === correct[z]) count++; }
         if(count === 5) document.getElementById('successBox').style.display = 'block';
+
+        // 🔥 SAVE TO DATABASE
+        fetch("{{ route('student.module3.elnino.save') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                score: count,
+                zone1: score.zone1 || null,
+                zone2: score.zone2 || null,
+                zone3: score.zone3 || null,
+                zone4: score.zone4 || null,
+                zone5: score.zone5 || null
+            })
+        });
     }
 </script>
 

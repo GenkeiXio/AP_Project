@@ -303,6 +303,19 @@ function showModal() {
     else rating = "⭐ Mabuti! Praktis pa para sa kaligtasan.";
     
     document.getElementById('rating-text').innerText = rating;
+
+    //SAVE TO DATABASE
+    fetch("{{ route('student.module3.gobag.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            score: score,
+            time_taken: time
+        })
+    });
 }
 </script>
 </body>

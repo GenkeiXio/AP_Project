@@ -275,6 +275,8 @@
     function checkAnswers() {
         const cards = document.querySelectorAll('.image-card');
         let allCorrect = true;
+        let score = 0;
+        let selected = [];
 
         cards.forEach(card => {
             const isSelected = card.classList.contains('selected');
@@ -298,6 +300,20 @@
         if (allCorrect) {
             document.getElementById('feedback').classList.remove('d-none');
             document.getElementById('nextActivity').classList.remove('d-none');
+
+            // 🔥 SAVE TO DATABASE
+            fetch("{{ route('student.module3.bulkan.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    score: score,
+                    selected_answers: selected
+                })
+            });
+
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         } else {
             alert("May kulang o maling napili. Subukan muli!");

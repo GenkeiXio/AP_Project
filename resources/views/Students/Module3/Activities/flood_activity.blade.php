@@ -265,9 +265,14 @@ Tandaan: Ang tamang kaalaman ay susi sa kaligtasan! 🌧️</p>
     let current = 0;
     let score = 0;
     let hp = 100;
+    let answers = [];
 
     function refreshUI() {
         if (current >= quizData.length) {
+
+            // SAVE COMPLETED GAME
+            saveGame(false);
+
             document.getElementById('game-play').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             document.getElementById('final-score').innerText = score;
@@ -279,8 +284,15 @@ Tandaan: Ang tamang kaalaman ay susi sa kaligtasan! 🌧️</p>
     }
 
     function processAnswer(choice) {
+        // save answer
+        answers.push({
+            question: current,
+            selected: choice,
+            correct: quizData[current].a
+        });
+
         if (choice === quizData[current].a) {
-            score += 1; // FIXED: Changed from 10 to 1
+            score += 1; 
             document.getElementById('game-score').innerText = score;
             playSound('correct');
         } else {
@@ -289,6 +301,10 @@ Tandaan: Ang tamang kaalaman ay susi sa kaligtasan! 🌧️</p>
             document.getElementById('card').classList.add('damage-shake');
             playSound('wrong');
             if (hp <= 0) { 
+
+                //SAVE GAME OVER
+                saveGame(true);
+
                 alert("GAME OVER! Naubos ang iyong HP. Subukan muli."); 
                 location.reload(); 
                 return;
@@ -298,6 +314,21 @@ Tandaan: Ang tamang kaalaman ay susi sa kaligtasan! 🌧️</p>
         setTimeout(refreshUI, 400);
     }
 
+    function saveGame(isGameOver = false) {
+        fetch("{{ route('student.module3.flood.save') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                score: score,
+                hp_remaining: hp,
+                answers: answers,
+                is_game_over: isGameOver
+            })
+        });
+    }
     refreshUI();
 </script>
 

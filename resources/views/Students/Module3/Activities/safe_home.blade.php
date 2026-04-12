@@ -288,12 +288,30 @@
             document.getElementById('resultTitle').innerText = title;
             document.getElementById('resultText').innerText = text;
             document.getElementById('resultImage').src = img;
+
             const btn = document.getElementById('resultBtn');
             btn.innerText = btnText; btn.className = `btn-game ${btnClass}`;
             btn.onclick = btnAction;
 
             document.getElementById('mainImage').style.display = "none";
             document.getElementById('result').style.display = "block";
+
+            // 🔥 SAVE DATA TO DATABASE
+            fetch("{{ route('student.module3.safehome.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    correct_count: correctCount,
+                    wrong_count: wrongCount,
+                    total_clicks: totalClicks,
+                    selected_options: Array.from(document.querySelectorAll('.option.selected'))
+                        .map(el => el.innerText.trim())
+                })
+            });
+            
         }, 800);
     }
 </script>
