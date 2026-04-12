@@ -357,12 +357,35 @@ h2{
 </div>
 </div>
 
+<!-- COMPLETION MODAL -->
+<div class="modal" id="completionModal">
+<div class="modal-box" style="text-align: center; max-width: 500px;">
+    
+    <div class="modal-heading" style="margin-bottom: 30px;">
+        <h3 style="color: #7ce7ff; font-size: 28px;">🎉 Natapos Na!</h3>
+        <p>Matagumpay mong natapos ang lahat ng laro at paksa sa Galugarin.</p>
+    </div>
+
+    <div style="background: rgba(124, 231, 255, 0.1); border: 2px solid rgba(124, 231, 255, 0.3); border-radius: 15px; padding: 20px; margin-bottom: 30px;">
+        <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
+        <div style="color: #9dfdba; font-weight: 700; font-size: 18px;">100% Kumpleto!</div>
+        <div style="color: #b8d4e8; font-size: 14px;">Handa ka nang magpatuloy sa susunod na hakbang</div>
+    </div>
+
+    <button onclick="proceedToAlamin()" style="background: linear-gradient(135deg, #7ce7ff, #9dfdba); color: #0b1b2b; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 8px 25px rgba(124, 231, 255, 0.3);">
+        Magpatuloy →
+    </button>
+
+</div>
+</div>
+
 <script>
 let progress = 0;
 let completed = {};
 let currentStory = "";
-const progressPerStory = 20;
-const totalStories = 5;
+const progressPerGame = 20;
+const totalGames = 5;
+const completedGamesKey = 'module4_completedGames';
 const progressText = document.getElementById('progressText');
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 const exploreSaveUrl = "{{ route('student.module4.explore.save') }}";
@@ -375,18 +398,24 @@ function updateProgress() {
     progressText.innerText = value + "%";
 }
 
-function loadCompletedStories() {
+function loadCompletedGames() {
     try {
-        completed = JSON.parse(localStorage.getItem('module4_completedStories') || '{}') || {};
+        completed = JSON.parse(localStorage.getItem(completedGamesKey) || '{}') || {};
     } catch (e) {
         completed = {};
     }
-    progress = Math.min(Object.keys(completed).length * progressPerStory, 100);
+    progress = Math.min(Object.keys(completed).length * progressPerGame, 100);
     updateProgress();
+
+    if (Object.keys(completed).length >= totalGames) {
+        setTimeout(() => {
+            document.getElementById('completionModal').classList.add('show');
+        }, 300);
+    }
 }
 
-function saveCompletedStories() {
-    localStorage.setItem('module4_completedStories', JSON.stringify(completed));
+function saveCompletedGames() {
+    localStorage.setItem(completedGamesKey, JSON.stringify(completed));
 }
 
 async function saveExploreProgress() {
@@ -400,8 +429,9 @@ async function saveExploreProgress() {
             },
             body: JSON.stringify({
                 completed_stories: Object.keys(completed),
+                completed_games: Object.keys(completed),
                 progress_percent: Math.min(progress, 100),
-                is_completed: Object.keys(completed).length >= totalStories
+                is_completed: Object.keys(completed).length >= totalGames
             })
         });
     } catch (error) {
@@ -431,14 +461,20 @@ function updateStoryProgress(storyId, stepNumber) {
 // Check URL parameter for completed stories
 function checkCompletedFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    const completedStory = urlParams.get('completed');
+    const completedGame = urlParams.get('completed');
 
-    if (completedStory && !completed[completedStory]) {
-        completed[completedStory] = true;
-        progress = Math.min(Object.keys(completed).length * progressPerStory, 100);
+    if (completedGame && !completed[completedGame]) {
+        completed[completedGame] = true;
+        progress = Math.min(Object.keys(completed).length * progressPerGame, 100);
         updateProgress();
-        saveCompletedStories();
+        saveCompletedGames();
         saveExploreProgress();
+
+        if (Object.keys(completed).length >= totalGames) {
+            setTimeout(() => {
+                document.getElementById('completionModal').classList.add('show');
+            }, 300);
+        }
 
         // Clean up the URL
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -467,15 +503,15 @@ function finishStory() {
     document.getElementById('modal').classList.remove('show');
     if (!completed[currentStory]) {
         completed[currentStory] = true;
-        progress = Math.min(Object.keys(completed).length * progressPerStory, 100);
+        progress = Math.min(Object.keys(completed).length * progressPerGame, 100);
         updateProgress();
-        saveCompletedStories();
+        saveCompletedGames();
         saveExploreProgress();
 
-        if (Object.keys(completed).length >= totalStories) {
+        if (Object.keys(completed).length >= totalGames) {
             setTimeout(() => {
-                window.location.href = "{{ route('module4.welcome') }}";
-            }, 300);
+                document.getElementById('completionModal').classList.add('show');
+            }, 500);
         }
     }
 }
@@ -487,11 +523,20 @@ document.getElementById('modal').addEventListener('click', function(e) {
     }
 });
 
+document.getElementById('completionModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        // Don't close completion modal when clicking outside
+    }
+});
+
+function proceedToAlamin() {
+    window.location.href = "{{ route('module4.alamin') }}";
+}
+
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', function() {
-    loadCompletedStories();
+    loadCompletedGames();
     checkCompletedFromURL();
-    updateProgress();
 });
 </script>
 

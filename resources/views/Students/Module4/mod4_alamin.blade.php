@@ -471,6 +471,28 @@ h2 {
 </div>
 </div>
 
+<!-- COMPLETION MODAL -->
+<div class="modal" id="completionModal">
+<div class="modal-box" style="text-align: center; max-width: 500px;">
+    
+    <div class="modal-heading" style="margin-bottom: 30px;">
+        <h3 style="color: #7ce7ff; font-size: 28px;">🎉 Natapos Na!</h3>
+        <p>Matagumpay mong natapos ang lahat ng kartas sa Alamin.</p>
+    </div>
+
+    <div style="background: rgba(124, 231, 255, 0.1); border: 2px solid rgba(124, 231, 255, 0.3); border-radius: 15px; padding: 20px; margin-bottom: 30px;">
+        <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
+        <div style="color: #9dfdba; font-weight: 700; font-size: 18px;">100% Kumpleto!</div>
+        <div style="color: #b8d4e8; font-size: 14px;">Handa ka nang magpatuloy sa Post-Test</div>
+    </div>
+
+    <button onclick="proceedToPosttest()" style="background: linear-gradient(135deg, #7ce7ff, #9dfdba); color: #0b1b2b; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 8px 25px rgba(124, 231, 255, 0.3);">
+        Magpatuloy sa Post-Test →
+    </button>
+
+</div>
+</div>
+
 <script>
 let currentCard = 0;
 const totalCards = 11;
@@ -480,6 +502,11 @@ function updateProgress() {
     const percentage = Math.round((visitedCards.size / totalCards) * 100);
     document.getElementById('progressBar').style.width = percentage + '%';
     document.getElementById('progressText').innerText = visitedCards.size + '/' + totalCards;
+    
+    // Check if all cards are completed
+    if (visitedCards.size >= totalCards) {
+        showCompletionModal();
+    }
 }
 
 function openCard(num) {
@@ -895,9 +922,28 @@ function checkAnswer() {
     }
 }
 
+function showCompletionModal() {
+    // Only show once
+    if (document.getElementById('completionModal').classList.contains('show')) return;
+    
+    setTimeout(() => {
+        document.getElementById('completionModal').classList.add('show');
+    }, 500);
+}
+
+function proceedToPosttest() {
+    window.location.href = "{{ route('module4.posttest') }}";
+}
+
 document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeCard();
+    }
+});
+
+document.getElementById('completionModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        // Don't close completion modal when clicking outside
     }
 });
 </script>

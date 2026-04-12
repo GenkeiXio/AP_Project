@@ -146,7 +146,11 @@ ul{
 
 <div class="final-message" id="finalMsg">
 👉 “Ang tunay na lider ay hindi naghihintay ng sakuna—siya ay naghahanda, gumagabay, at kumikilos para sa kaligtasan ng lahat.”
-</div>
+<div style="margin-top: 20px;">
+<a href="{{ route('module4.buod') }}" class="btn-submit" style="text-decoration: none; display: inline-block;">
+📖 Proceed to Buod ng Aralin →
+</a>
+</div></div>
 
 </div>
 
