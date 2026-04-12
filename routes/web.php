@@ -350,3 +350,14 @@ Route::view('/module4/explore/games/mayon', 'Students.Module4.Explore.Games.mayo
 Route::view('/module4/explore/games/landslide', 'Students.Module4.Explore.Games.landslide_game')
     ->name('module4.landslide.game');
 
+Route::view('/module4/alamin', 'Students.Module4.mod4_alamin')
+    ->name('module4.alamin');
+
+Route::view('/module4/posttest', 'Students.Module4.mod4_posttest')
+    ->name('module4.posttest');
+
+Route::view('/module4/performance', 'Students.Module4.mod4_performance')
+    ->name('module4.performance');
+
+Route::view('/module4/buod', 'Students.Module4.mod4_buod')
+    ->name('module4.buod');
