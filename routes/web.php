@@ -300,6 +300,7 @@ Route::get('/module3/activity/bulkan', function () {
 })->name('bulkan.activity');
 
 Route::get('/module3/activity/flood', function () {
+
     return view('Students.Module3.Activities.flood_activity');
 })->name('flood.activity');
 
@@ -326,3 +327,7 @@ Route::view('/module4/welcome', 'Students.Module4.mod4_welcome')
 
 Route::view('/module4/explore', 'Students.Module4.mod4_explore')
     ->name('module4.explore');
+
+Route::view('/module4/explore/games/rolly', 'Students.Module4.Explore.Games.rolly_game')
+    ->name('module4.rolly.game');
+

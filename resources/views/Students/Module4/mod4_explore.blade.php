@@ -127,203 +127,12 @@ h2{text-align:center;font-weight:800;}
 <div class="modal" id="modal">
 <div class="modal-box">
 
-<!-- ================= ROLLY ================= -->
-<div class="story" id="rolly">
-
-<h4>🌀 Super Typhoon Rolly (Tabaco, Albay)</h4>
-<p>
-    <small>
-        Source: 
-        <a href="https://www.gmanetwork.com/news/topstories/nation/762951/rolly-worst-to-hit-tabaco-in-albay-since-1952-says-mayor/story/" 
-           target="_blank" 
-           style="color:#0d6efd; text-decoration:underline;">
-            GMA News Online (2020)
-        </a>
-    </small>
-</p>
-<!-- CARD 1 -->
-<div class="step active" id="rolly-step1">
-    <h5>🧩 ANO ANG NANGYARI?</h5>
-
-    <div class="img-grid">
-        <img src="{{ asset('pictures/Module4/rolly/card1_1.jpg') }}">
-        <img src="{{ asset('pictures/Module4/rolly/card1_2.jpg') }}">
-        <img src="{{ asset('pictures/Module4/rolly/card1_3.jpg') }}">
-    </div>
-
-    <p>
-        <strong>
-            📌 Mahahalagang Punto:
-        </strong>
-    </p>
-    <ul>
-        <li>Pinakamalakas na bagyo sa Tabaco mula 1952</li>
-        <li>Mas malakas kaysa Reming at Niña</li>
-    </ul>
-
-    <p>
-        <strong>
-            🧠 Mabilis na Ideya:
-        </strong><br>
-            👉 Isang makasaysayan at napakalakas na sakuna
-    </p>
-
-    <button class="btn btn-primary" onclick="nextStep(2)">
-        Next
-    </button>
-</div>
-
-<!-- CARD 2 -->
-<div class="step" id="rolly-step2">
-<h5>🧩 ULAT NG PINSALA</h5>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card2_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card2_2.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card2_3.jpg') }}">
-</div>
-
-<ul>
-<li>₱2.5 bilyon ang pinsala</li>
-<li>3,500 bahay ang nawasak</li>
-<li>15,500 bahay ang napinsala</li>
-<li>90% ng mga bangka ang nasira</li>
-</ul>
-
-<p><strong>🧠 Mabilis na Ideya:</strong><br>
-👉 Malubhang naapektuhan ang tirahan at kabuhayan</p>
-
-<button class="btn btn-primary" onclick="nextStep(3)">Next</button>
-</div>
-
-<!-- CARD 3 -->
-<div class="step" id="rolly-step3">
-<h5>🧩 KAKULANGAN SA PANGANGAILANGAN</h5>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card3_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card3_2.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card3_3.jpg') }}">
-</div>
-
-<ul>
-<li>Walang kuryente sa buong lungsod</li>
-<li>15 barangay ang kulang sa tubig</li>
-</ul>
-
-<p><strong>🧠 Mabilis na Ideya:</strong><br>
-👉 Naging mahirap ang pamumuhay at kaligtasan</p>
-
-<button class="btn btn-primary" onclick="nextStep(4)">Next</button>
-</div>
-
-<!-- CARD 4 -->
-<div class="step" id="rolly-step4">
-<h5>🧩 KARANASAN SA BAHA</h5>
-
-<div class="img-grid">
-    <img src="{{ asset('pictures/Module4/rolly/card4_1.png') }}">
-    <img src="{{ asset('pictures/Module4/rolly/card4_2.png') }}">
-    <img src="{{ asset('pictures/Module4/rolly/card4_3.png') }}">
-</div>
-
-<ul>
-    <li>Abot leeg ang baha</li>
-    <li>Napilitang lumangoy ang mga tao</li>
-    <li>Maraming bahay ang tinangay</li>
-</ul>
-
-<p><strong>🧠 Mabilis na Ideya:</strong><br>
-👉 Mapanganib na sitwasyon sa buhay</p>
-
-<button class="btn btn-primary" onclick="nextStep(5)">Next</button>
-</div>
-
-<!-- CARD 5 -->
-<div class="step" id="rolly-step5">
-<h5>🧩 EPEKTO SA MGA TAO</h5>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card5_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card5_2.jpg') }}">
-</div>
-
-<ul>
-<li>Hirap ang mga residente</li>
-<li>Kulang ang suplay</li>
-<li>✅ Walang naitalang namatay</li>
-</ul>
-
-<p><strong>🧠 Mabilis na Ideya:</strong><br>
-👉 Ang kahandaan ay nakapagliligtas ng buhay</p>
-
-<button class="btn btn-primary" onclick="nextStep(6)">Next</button>
-</div>
-
-<!-- CARD 6 -->
-<div class="step" id="rolly-step6">
-<h5>🧩 PINSALA SA PAMANA</h5>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card6_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card6_2.png') }}">
-<img src="{{ asset('pictures/Module4/rolly/card6_3.png') }}">
-</div>
-
-<ul>
-<li>Nasira ang 160 taong gulang na simbahan</li>
-<li>Nasira ang makasaysayang bahay</li>
-</ul>
-
-<p><strong>🧠 Mabilis na Ideya:</strong><br>
-👉 Apektado ang kultura at kasaysayan</p>
-
-<button class="btn btn-primary" onclick="nextStep(7)">Next</button>
-</div>
-
-<!-- CARD 7 -->
-<div class="step" id="rolly-step7">
-<h5>🧩 PAGTUGON NG KOMUNIDAD</h5>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card7_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card7_2.jpg') }}">
-</div>
-
-<ul>
-<li>Pagkakaisa at pagtutulungan</li>
-<li>Itinuring na pagsubok ng pananampalataya</li>
-</ul>
-
-<p><strong>🧠 Mabilis na Ideya:</strong><br>
-👉 Lakas ng komunidad ang susi</p>
-
-<button class="btn btn-primary" onclick="nextStep(8)">Next</button>
-</div>
-
-<!-- CARD 8 -->
-<div class="step" id="rolly-step8">
-<h5>🧩 BUOD</h5>
-
-<p>
-Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, walang naitalang nasawi, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa kalamidad.
-</p>
-
-<!-- OPTIONAL VIDEO -->
-<p><strong>🎥 Optional Video:</strong></p>
-<iframe width="100%" height="315"
-src="https://www.youtube.com/embed/mtf1JAQ2hq4"
-title="YouTube video"
-allowfullscreen></iframe>
-
-<button class="btn btn-success" onclick="finishStory()">Tapusin</button>
-</div>
-
-</div>
+<!-- ================= STORIES ================= -->
+@include('Students.Module4.Explore.rolly_story')
+@include('Students.Module4.Explore.baha_story')
+@include('Students.Module4.Explore.lindol_story')
 
 <!-- OTHER STORIES PLACEHOLDER -->
-<div class="story" id="baha"><div class="step active"><h4>🌊 Baha</h4><button onclick="finishStory()" class="btn btn-success">Tapusin</button></div></div>
-<div class="story" id="lindol"><div class="step active"><h4>🌍 Lindol</h4><button onclick="finishStory()" class="btn btn-success">Tapusin</button></div></div>
 <div class="story" id="mayon"><div class="step active"><h4>🌋 Mayon</h4><button onclick="finishStory()" class="btn btn-success">Tapusin</button></div></div>
 <div class="story" id="landslide"><div class="step active"><h4>⛰️ Landslide</h4><button onclick="finishStory()" class="btn btn-success">Tapusin</button></div></div>
 
@@ -334,6 +143,23 @@ allowfullscreen></iframe>
 let progress=0;
 let completed={};
 let currentStory="";
+
+// Check URL parameter for completed stories
+function checkCompletedFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const completedStory = urlParams.get('completed');
+    
+    if (completedStory && !completed[completedStory]) {
+        completed[completedStory] = true;
+        progress += 20;
+        let bar = document.getElementById('progressBar');
+        bar.style.width = progress + "%";
+        bar.innerText = progress + "%";
+        
+        // Clean up the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
 
 function openStory(id){
 currentStory=id;
@@ -359,6 +185,9 @@ bar.style.width=progress+"%";
 bar.innerText=progress+"%";
 }
 }
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', checkCompletedFromURL);
 </script>
 
 </body>
