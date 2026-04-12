@@ -119,9 +119,8 @@
         padding: 15px 10px;
         min-height: 250px;
         background: rgba(255,255,240,0.6);
-        transition: all 0.2s;
+        transition: none;
     }
-    .zone:hover { background: rgba(255,255,210,0.85); transform: translateY(-3px); }
 
     .before { border-color: #4f90ff; background: rgba(79,144,255,0.08); }
     .during { border-color: #ffc107; background: rgba(255,193,7,0.08); }
@@ -154,19 +153,29 @@
         text-align: center;
         font-weight: 600;
         font-size: 1rem;
-        box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-        transition: 0.1s linear;
-        border-left: 6px solid #2c7a4d;
+        border: 2px solid #ddd;
         user-select: none;
+        /* REMOVED: box-shadow, transition, border-left */
     }
     .item:active { cursor: grabbing; }
+    
+    /* Remove any drag visual effects */
+    .item:active, .item:focus, .item:focus-visible {
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Remove default drag image glow */
+    .item::-moz-selection,
+    .item::selection {
+        background: transparent;
+    }
 
     .correct {
         background: #d4edda;
         border: 2px solid #28a745;
         opacity: 0.9;
         cursor: default;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
     .wrong {
         background: #f8d7da;
@@ -272,7 +281,7 @@
         </div>
     </div>
 
-    <!-- DRAGGABLE ITEMS (choices) -->
+    <!-- DRAGGABLE ITEMS (choices) - NO SHADOWS/HIGHLIGHTS -->
     <div class="items" id="choices">
         <div class="item" draggable="true" data-type="before">🧰 Emergency Kit</div>
         <div class="item" draggable="true" data-type="before">📢 Makinig sa Babala</div>
@@ -282,7 +291,7 @@
         <div class="item" draggable="true" data-type="after">🔌 Suriin ang Kuryente</div>
     </div>
 
-    <!-- CONTROLS - MAS MALAKING BUTTON -->
+    <!-- CONTROLS -->
     <div class="controls">
         <button class="btn btn-reset" onclick="resetGame()">🔄 SUBUKAN MULI</button>
     </div>
