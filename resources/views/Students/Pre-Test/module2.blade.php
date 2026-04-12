@@ -837,6 +837,9 @@
 	const submitBtn = document.getElementById('submitBtn');
 	const confirmBtn = document.getElementById('confirmBtn');
 
+	const correctSfx = new Audio('/audio/mod2correct.mp3');
+	const wrongSfx = new Audio('/audio/mod2wrong.mp3');
+
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
 	let currentQuestionIndex = 0;
@@ -977,7 +980,16 @@
 		
 		if (isCorrect) {
 			launchConfetti();
+
+			correctSfx.currentTime = 0; 
+        	correctSfx.play().catch(e => console.error("Playback failed:", e));
 		}
+
+		else {
+		
+			wrongSfx.currentTime = 0;
+			wrongSfx.play().catch(e => console.log("No wrong.mp3 found yet"));
+   		}
 		
 		renderCurrentQuestion();
 	}
