@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Module4ResultsController extends Controller
 {
     public function index()
     {
         $students = DB::table('students')->get();
-
         return view('Teachers.results.module4_results', compact('students'));
     }
 
@@ -22,13 +19,10 @@ class Module4ResultsController extends Controller
 
         // PRETEST
         $pretest = DB::table('module4_pretest_table')
-            ->where('student_id', $id)
-            ->latest()
-            ->first();
+            ->where('student_id', $id)->latest()->first();
 
         $pretestAnswers = DB::table('module4_pretest_answers_table')
-            ->where('module4_pretest_id', $pretest->id ?? 0)
-            ->get();
+            ->where('module4_pretest_id', $pretest->id ?? 0)->get();
 
         // BALIK ARAL
         $balikaral = DB::table('module4_balikaral_table')
@@ -46,6 +40,14 @@ class Module4ResultsController extends Controller
         $poll = DB::table('module4_poll_table')
             ->where('student_id', $id)->latest()->first();
 
+        // ✅ PERFORMANCE
+        $performance = DB::table('module4_performance_table')
+            ->where('student_id', $id)->latest()->first();
+
+        // ✅ POSTTEST
+        $posttest = DB::table('module4_posttest_table')
+            ->where('student_id', $id)->latest()->first();
+
         return view('Teachers.results.module4_student', compact(
             'student',
             'pretest',
@@ -53,7 +55,9 @@ class Module4ResultsController extends Controller
             'balikaral',
             'explore',
             'games',
-            'poll'
+            'poll',
+            'performance',
+            'posttest'
         ));
     }
 
@@ -66,8 +70,7 @@ class Module4ResultsController extends Controller
             ->where('student_id', $id)->latest()->first();
 
         $pretestAnswers = DB::table('module4_pretest_answers_table')
-            ->where('module4_pretest_id', $pretest->id ?? 0)
-            ->get();
+            ->where('module4_pretest_id', $pretest->id ?? 0)->get();
 
         // BALIK ARAL
         $balikaral = DB::table('module4_balikaral_table')
@@ -85,6 +88,13 @@ class Module4ResultsController extends Controller
         $poll = DB::table('module4_poll_table')
             ->where('student_id', $id)->latest()->first();
 
+        // ✅ ADD THESE (FIX)
+        $performance = DB::table('module4_performance_table')
+            ->where('student_id', $id)->latest()->first();
+
+        $posttest = DB::table('module4_posttest_table')
+            ->where('student_id', $id)->latest()->first();
+
         $headers = [
             "Content-type" => "text/csv",
             "Content-Disposition" => "attachment; filename=module4_{$student->username}.csv",
@@ -92,7 +102,8 @@ class Module4ResultsController extends Controller
 
         $callback = function () use (
             $student, $pretest, $pretestAnswers,
-            $balikaral, $explore, $games, $poll
+            $balikaral, $explore, $games, $poll,
+            $performance, $posttest
         ) {
             $file = fopen('php://output', 'w');
 
@@ -120,7 +131,7 @@ class Module4ResultsController extends Controller
                 ]);
             }
 
-            // BALIKARAL
+            // BALIK ARAL
             fputcsv($file, []);
             fputcsv($file, ['BALIK ARAL']);
             fputcsv($file, ['Score', $balikaral->score ?? 0]);
@@ -152,6 +163,41 @@ class Module4ResultsController extends Controller
             fputcsv($file, ['POLL']);
             fputcsv($file, ['Selected Count', $poll->selected_count ?? 0]);
             fputcsv($file, ['Options', $poll ? json_encode($poll->selected_options) : 'N/A']);
+
+            // ✅ PERFORMANCE
+            fputcsv($file, []);
+            fputcsv($file, ['PERFORMANCE TASK']);
+
+            if ($performance) {
+                fputcsv($file, ['Status', $performance->is_submitted ? 'Submitted' : 'Not Submitted']);
+                fputcsv($file, ['Format', $performance->format ?? 'N/A']);
+                fputcsv($file, ['Reflection', $performance->reflection ?? 'N/A']);
+                fputcsv($file, ['File', $performance->file_path ?? 'N/A']);
+                fputcsv($file, ['Submitted At', $performance->created_at]);
+            } else {
+                fputcsv($file, ['No performance task submitted']);
+            }
+
+            // ✅ POST TEST
+            fputcsv($file, []);
+            fputcsv($file, ['POST TEST']);
+
+            if ($posttest) {
+                fputcsv($file, ['Score', $posttest->score . ' / ' . $posttest->total_items]);
+                fputcsv($file, ['Status', strtoupper($posttest->status)]);
+                fputcsv($file, ['Attempt', $posttest->attempt]);
+                fputcsv($file, ['Date Taken', $posttest->created_at]);
+
+                fputcsv($file, []);
+                fputcsv($file, ['Answers']);
+                fputcsv($file, ['#', 'Selected']);
+
+                foreach (json_decode($posttest->answers ?? '[]') as $i => $ans) {
+                    fputcsv($file, [$i + 1, $ans]);
+                }
+            } else {
+                fputcsv($file, ['No post-test record']);
+            }
 
             fclose($file);
         };

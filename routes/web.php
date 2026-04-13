@@ -390,3 +390,6 @@ Route::view('/module4/performance', 'Students.Module4.mod4_performance')
 
 Route::view('/module4/buod', 'Students.Module4.mod4_buod')
     ->name('module4.buod');
+
+Route::view('/certificate', 'certificate')
+    ->name('certificate');
