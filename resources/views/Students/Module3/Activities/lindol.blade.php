@@ -156,7 +156,14 @@
 
     <div id="intro-layer">
         <div class="row g-3 mb-4 mt-2">
-            <div class="col-md-6"><iframe width="100%" height="280" src="https://www.youtube.com/embed/dJpIU1rSOFY" frameborder="0" style="border-radius:15px; border:2px solid #333;" allowfullscreen></iframe></div>
+            <div class="col-md-6">
+                <iframe width="100%" height="280"
+                        src="https://www.youtube.com/embed/dJpIU1rSOFY"
+                        frameborder="0"
+                        style="border-radius:15px; border:2px solid #333;"
+                        allowfullscreen>
+                </iframe>
+            </div>
             <div class="col-md-6"><iframe width="100%" height="280" src="https://www.youtube.com/embed/AxpSZSsxvf8" frameborder="0" style="border-radius:15px; border:2px solid #333;" allowfullscreen></iframe></div>
         </div>
         <div class="text-center">

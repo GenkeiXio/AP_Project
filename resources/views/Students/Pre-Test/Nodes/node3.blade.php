@@ -317,9 +317,8 @@
                     <div class="preview-icon">📰</div>
                     <div class="preview-text">"Mas masahol po ito sa Reming" – Panawagan ng Tabaco City para sa pagkain at materyales matapos ang sunod-sunod na bagyo.</div>
                 </div>
-                <button class="source-link source-open" type="button" 
-                        data-title="ABS-CBN News: Bagyong Rolly at Quinta sa Tabaco City" 
-                        data-embed="https://www.abs-cbn.com/news/11/05/20/mas-masahol-po-ito-sa-reming-typhoon-battered-tabaco-city-seeks-food-housing-materials">
+                <button class="source-link" type="button"
+                        onclick="window.open('https://www.abs-cbn.com/news/11/05/20/mas-masahol-po-ito-sa-reming-typhoon-battered-tabaco-city-seeks-food-housing-materials', '_blank')">
                     <span class="btn-icon">📖</span> Basahin ang Balita
                 </button>
             </div>

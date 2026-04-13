@@ -340,12 +340,12 @@
 			</article>
 
 			<article class="source-card">
-				<div class="source-title">🗑️ Tambak na basura sa Purok 9, Tagas, Daraga, Albay</div>
+				<div class="source-title">🗑️ Mga Basura sa may Dike ng Pawa, Legazpi</div>
 				<div class="source-preview">
 					<div class="preview-icon">⚠️</div>
-					<div class="preview-text">Dokumentasyon ng problema sa tambak na basura sa Daraga</div>
+					<div class="preview-text">Dokumentasyon ng problema sa  basura sa Pawa</div>
 				</div>
-				<button class="source-link source-open" type="button" data-title="Tambak na basura sa Tagas, Daraga" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftagkarotv%2Fposts%2Ftambak-na-basura-sa-purok-9-tagas-daraga-albay-dakula-nang-problema-renz-luna-dz%2F513408732626558%2F&show_text=true">
+				<button class="source-link source-open" type="button" data-title="Mga Basura sa may Dike ng Pawa, Legazpi" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D939689839020670%26set%3Da.105820365740959%26type%3D3&show_text=true&width=500" width="500" height="773" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
 					<span class="btn-icon">📋</span> Tingnan ang Post
 				</button>
 			</article>
