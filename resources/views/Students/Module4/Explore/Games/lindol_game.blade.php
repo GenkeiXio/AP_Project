@@ -305,8 +305,8 @@
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px;">
-            <button id="restartBtn" class="btn-restart" onclick="restartGame()">🔄 RE-START MISSION</button>
-            <a id="backBtn" href="{{ route('module4.explore', ['completed' => 'lindol']) }}" class="btn-restart" style="background: var(--safety-red); display: flex; align-items: center; justify-content: center; display: none;">📚 EXIT TO HQ</a>
+            <button class="btn-restart" onclick="restartGame()">🔄 RE-START MISSION</button>
+            <a href="{{ route('module4.explore', ['completed' => 'lindol']) }}" class="btn-restart" style="background: var(--safety-red); display: flex; align-items: center; justify-content: center;">📚 EXIT TO HQ</a>
         </div>
     </div>
 
@@ -535,14 +535,6 @@
         document.getElementById('rankBadge').className = 'rank-badge ' + badgeClass;
 
         saveGameResult(rank);
-
-        if (score === 7) {
-            document.getElementById('restartBtn').style.display = 'none';
-            document.getElementById('backBtn').style.display = 'flex';
-        } else {
-            document.getElementById('restartBtn').style.display = 'block';
-            document.getElementById('backBtn').style.display = 'none';
-        }
     }
 
     function restartGame() {

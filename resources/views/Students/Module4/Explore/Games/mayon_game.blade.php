@@ -616,7 +616,7 @@
       </p>
       <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px;">
         <button class="restart-btn" id="restartGameBtn">🔄 Mag-restart ng Misyon</button>
-        <a id="backBtn" href="{{ route('module4.explore', ['completed' => 'mayon']) }}" class="restart-btn" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#E67E22; display: none;">📚 Balik sa Explore</a>
+        <a href="{{ route('module4.explore', ['completed' => 'mayon']) }}" class="restart-btn" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#E67E22;">📚 Balik sa Explore</a>
       </div>
     `;
 
@@ -625,14 +625,6 @@
     document.getElementById('restartGameBtn').addEventListener('click', () => {
       resetGame();
     });
-
-    if (correctCount === 7) {
-      document.getElementById('restartGameBtn').style.display = 'none';
-      document.getElementById('backBtn').style.display = 'inline-flex';
-    } else {
-      document.getElementById('restartGameBtn').style.display = 'inline-flex';
-      document.getElementById('backBtn').style.display = 'none';
-    }
   }
 
   function getFeedbackMessageByScore(scoreCount) {

@@ -51,7 +51,8 @@ ul{
     border-radius:10px;
 }
 
-.reflection-box textarea{
+.reflection-box textarea,
+select{
     width:100%;
     padding:10px;
     border-radius:10px;
@@ -69,7 +70,6 @@ ul{
 }
 
 .final-message{
-    display:none;
     margin-top:20px;
     padding:15px;
     background:#e6ffed;
@@ -106,15 +106,12 @@ ul{
 
 <p class="highlight">📌 1. KAHANDAAN (Preparedness Plan)</p>
 <p>Ano ang iyong gagawin bago ang sakuna?</p>
-<p>Halimbawa: emergency kit, evacuation plan</p>
 
 <p class="highlight">📌 2. DISIPLINA (Rules & Protocols)</p>
 <p>Anong mga patakaran ang ipatutupad mo?</p>
-<p>Paano mo sisiguraduhin na susunod ang mga tao?</p>
 
 <p class="highlight">📌 3. KOOPERASYON (Community Action)</p>
 <p>Paano mo hihikayatin ang bayanihan?</p>
-<p>Ano ang papel ng bawat miyembro ng komunidad?</p>
 
 <p class="highlight">📌 4. PAGTUGON (Response Plan)</p>
 <p>Ano ang gagawin habang may sakuna?</p>
@@ -124,14 +121,21 @@ ul{
 
 </div>
 
+<!-- ✅ FORM START -->
+<form method="POST" action="{{ route('module4.performance.submit') }}">
+@csrf
+
 <div class="section format-box">
 <div class="title">🎨 FORMAT (PUMILI NG ISA):</div>
-<ul>
-<li>📄 Written Plan (1–2 pahina)</li>
-<li>📊 Poster / Infographic</li>
-<li>🎥 Maikling Video (1–2 minuto)</li>
-<li>📱 Digital Slide (Canva / PowerPoint)</li>
-</ul>
+
+<select name="format" required>
+    <option value="">-- Pili ng Format --</option>
+    <option value="written">📄 Written Plan</option>
+    <option value="poster">📊 Poster / Infographic</option>
+    <option value="video">🎥 Video</option>
+    <option value="slides">📱 Slides</option>
+</select>
+
 </div>
 
 <div class="section reflection-box">
@@ -140,27 +144,40 @@ ul{
 <p>👉 Sagutin sa 2–3 pangungusap:</p>
 <p><strong>“Ano ang pinakamahalagang natutunan mo sa gawaing ito bilang isang lider?”</strong></p>
 
-<textarea rows="4" placeholder="Isulat ang iyong sagot dito..."></textarea>
+<textarea name="reflection" rows="4" required placeholder="Isulat ang iyong sagot dito...">{{ old('reflection') }}</textarea>
 
-<button class="btn-submit" onclick="submitTask()">Ipasa ang Gawain</button>
-
-<div class="final-message" id="finalMsg">
-👉 “Ang tunay na lider ay hindi naghihintay ng sakuna—siya ay naghahanda, gumagabay, at kumikilos para sa kaligtasan ng lahat.”
-<div style="margin-top: 20px;">
-<a href="{{ route('module4.buod') }}" class="btn-submit" style="text-decoration: none; display: inline-block;">
-📖 Proceed to Buod ng Aralin →
-</a>
-</div></div>
+<button type="submit" class="btn-submit">Ipasa ang Gawain</button>
 
 </div>
 
-</div>
+</form>
+<!-- ✅ FORM END -->
 
-<script>
-function submitTask(){
-document.getElementById('finalMsg').style.display = 'block';
-}
-</script>
+<!-- ✅ SUCCESS MESSAGE -->
+@if(session('success'))
+<div class="final-message">
+    ✅ {{ session('success') }}
+
+    <div style="margin-top: 20px;">
+        <a href="{{ route('module4.buod') }}" class="btn-submit" style="text-decoration: none; display:inline-block;">
+            📖 Proceed to Buod ng Aralin →
+        </a>
+    </div>
+</div>
+@endif
+
+<!-- ✅ VALIDATION ERRORS -->
+@if($errors->any())
+<div class="alert alert-danger mt-3">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+</div>
 
 </body>
 </html>

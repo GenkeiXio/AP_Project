@@ -417,6 +417,16 @@
             return score;
         }
 
+        function getAnswers() {
+            let answers = [];
+
+            for (let i = 0; i < quizItems.length; i++) {
+                answers.push(getChosenValue(i));
+            }
+
+            return answers;
+        }
+
         function generateNextButtons(score) {
             let nextHTML = "";
             
@@ -463,6 +473,35 @@
             
             // Calculate score
             const score = calculateScore();
+            const answers = getAnswers();
+
+            fetch("{{ route('module4.posttest.submit') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    score: score,
+                    total_items: quizItems.length,
+                    answers: answers
+                })
+            })
+            .then(async res => {
+                const data = await res.json();
+
+                if (!res.ok) {
+                    console.error("ERROR:", data);
+                    alert("Failed to save!");
+                    return;
+                }
+
+                console.log("Saved:", data);
+            })
+            .catch(err => {
+                console.error("FETCH ERROR:", err);
+                alert("Something went wrong!");
+            });
             
             // Display score and feedback (NO ANSWER REVELATION)
             scoreText.textContent = `Iskor: ${score} / 15`;
