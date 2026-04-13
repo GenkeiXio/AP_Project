@@ -497,20 +497,12 @@
       <h2 style="color:var(--emergency-orange); text-transform:uppercase;">${rank}</h2>
       <p style="margin: 1.5rem 0; font-weight:500;">${msg}</p>
       <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
-        <button id="restartBtn" class="restart-btn" onclick="location.reload()">🔄 Restart Mission</button>
-        <a id="backBtn" href="{{ route('module4.explore', ['completed' => 'landslide']) }}" class="restart-btn" style="background: var(--emergency-orange); display: none;">📚 Back to Explore</a>
+        <button class="restart-btn" onclick="location.reload()">🔄 Restart Mission</button>
+        <a href="{{ route('module4.explore', ['completed' => 'landslide']) }}" class="restart-btn" style="background: var(--emergency-orange);">📚 Back to Explore</a>
       </div>
     `;
 
     saveGameResult(rank);
-
-    if (score === 7) {
-      document.getElementById('restartBtn').style.display = 'none';
-      document.getElementById('backBtn').style.display = 'inline-block';
-    } else {
-      document.getElementById('restartBtn').style.display = 'inline-block';
-      document.getElementById('backBtn').style.display = 'none';
-    }
   }
 
   renderLevel();

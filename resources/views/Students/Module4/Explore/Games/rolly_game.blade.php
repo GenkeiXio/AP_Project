@@ -276,8 +276,8 @@
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
-            <button id="restartBtn" class="btn-restart" onclick="restartGame()">🔄 RE-RUN MISSION</button>
-            <a id="backBtn" href="{{ route('module4.explore', ['completed' => 'rolly']) }}" class="btn-restart" style="background: var(--warning-yellow); color: black; display: none;">📚 BACK TO HQ</a>
+            <button class="btn-restart" onclick="restartGame()">🔄 RE-RUN MISSION</button>
+            <a href="{{ route('module4.explore', ['completed' => 'rolly']) }}" class="btn-restart" style="background: var(--warning-yellow); color: black;">📚 BACK TO HQ</a>
         </div>
     </div>
 </div>
@@ -486,14 +486,6 @@
         document.getElementById('rankBadge').className = 'rank-badge ' + badgeClass;
 
         saveGameResult(rank);
-
-        if (score === 6) {
-            document.getElementById('restartBtn').style.display = 'none';
-            document.getElementById('backBtn').style.display = 'block';
-        } else {
-            document.getElementById('restartBtn').style.display = 'block';
-            document.getElementById('backBtn').style.display = 'none';
-        }
     }
 
     function restartGame() {
