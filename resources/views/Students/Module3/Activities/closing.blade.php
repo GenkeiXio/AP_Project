@@ -165,7 +165,6 @@
         
         <div class="closing-image">
             <img src="/pictures/Module 3/closing.png" alt="Mission Completed">
-            <div class="image-badge">✨ MODULE COMPLETE</div>
         </div>
 
         <div class="closing-content">

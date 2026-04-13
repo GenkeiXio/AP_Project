@@ -44,6 +44,7 @@ use App\Http\Controllers\Student\Module4\Module4ExploreController;
 use App\Http\Controllers\Student\Module4\Module4GameResultController;
 use App\Http\Controllers\Teacher\ModulesController;
 use App\Http\Controllers\Teacher\Module4ResultsController;
+use App\Http\Controllers\Student\Module4\Module4PerformanceController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -107,8 +108,9 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module4/balik-aral/save', [Module4BalikAralController::class, 'store'])->name('student.module4.balikaral.save');
     Route::post('/student/module4/explore/save', [Module4ExploreController::class, 'store'])->name('student.module4.explore.save');
     Route::post('/student/module4/games/save', [Module4GameResultController::class, 'store'])->name('student.module4.games.save');
-
-
+    Route::get('/student/module4/performance', [Module4PerformanceController::class, 'index'])->name('student.module4.performance');
+    Route::post('/student/module4/performance/save', [Module4PerformanceController::class, 'store'])->name('student.module4.performance.save');
+    Route::post('/module4/performance/submit', [Module4PerformanceController::class, 'store'])->name('module4.performance.submit');
 
 });
 
