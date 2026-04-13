@@ -310,7 +310,7 @@ h2{
 </div>
 
 <div class="news-card" onclick="openStory('baha')">
-<img src="{{ asset('pictures/Module4/baha/card1_1.jpg') }}">
+<img src="{{ asset('pictures/Module4/baha/card1_1.png') }}">
 <h5 class="text-center p-2">🌊 Baha sa Guinobatan</h5>
 </div>
 
@@ -385,7 +385,7 @@ let completed = {};
 let currentStory = "";
 const progressPerGame = 20;
 const totalGames = 5;
-const completedGamesKey = 'module4_completedGames';
+const completedGamesKey = 'module4_completedGames_v2';
 const progressText = document.getElementById('progressText');
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 const exploreSaveUrl = "{{ route('student.module4.explore.save') }}";

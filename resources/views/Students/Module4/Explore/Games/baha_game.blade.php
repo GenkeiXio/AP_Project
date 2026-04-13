@@ -211,8 +211,8 @@
         <p id="resDesc" class="mb-5" style="color: #94a3b8; max-width: 500px; margin: 0 auto;">...</p>
         
         <div class="d-flex gap-2 justify-content-center">
-            <button class="btn btn-outline-light px-4 py-3" onclick="restartGame()">🔄 Maglaro Muli</button>
-            <a href="{{ route('module4.explore', ['completed' => 'baha']) }}" class="btn btn-info px-4 py-3" style="font-weight: 700;">📚 Balik sa Explore</a>
+            <button id="restartBtn" class="btn btn-outline-light px-4 py-3" onclick="restartGame()">🔄 Maglaro Muli</button>
+            <a id="backBtn" href="{{ route('module4.explore', ['completed' => 'baha']) }}" class="btn btn-info px-4 py-3" style="font-weight: 700; display: none;">📚 Balik sa Explore</a>
         </div>
     </div>
 </div>
@@ -422,6 +422,14 @@
         }
 
         saveGameResult(badge.textContent);
+
+        if (score === 6) {
+            document.getElementById('restartBtn').style.display = 'none';
+            document.getElementById('backBtn').style.display = 'inline-block';
+        } else {
+            document.getElementById('restartBtn').style.display = 'inline-block';
+            document.getElementById('backBtn').style.display = 'none';
+        }
     }
 
     function restartGame() {
