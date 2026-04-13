@@ -148,7 +148,7 @@ body {
 
 <!-- SEARCH -->
 <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search students...">
+    <input type="text" id="" placeholder="">
 </div>
 
 <!-- STUDENTS -->

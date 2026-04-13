@@ -916,6 +916,9 @@
         const modalFeedbackText = document.getElementById('modalFeedbackText');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
+        // audio
+        const nodeCompleteSfx = new Audio('/audio/nodecomplete.mp3');
+
         const lines = [
             'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa climate change o pagbabago ng klima.',
             'Ang climate change ay ang patuloy na pagtaas ng temperatura ng mundo dulot ng mga gawain ng tao.',
@@ -1110,6 +1113,9 @@
                             updateCard();
                         } else {
                             sessionStorage.setItem('node3_done', 'true');
+
+                            nodeCompleteSfx.currentTime = 0;
+                            nodeCompleteSfx.play().catch(e => console.log("Audio playback delayed or blocked"));
 
                             // ✅ SAVE TO DATABASE
                             fetch("{{ route('student.module2.node3.save') }}", {

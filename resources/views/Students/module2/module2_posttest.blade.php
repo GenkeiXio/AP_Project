@@ -745,18 +745,23 @@
 			}
 		}
 
+		@keyframes rewardPop {
+			0% { transform: scale(0.5); opacity: 0; }
+			100% { transform: scale(1); opacity: 1; }
+		}
+
 		.modal-overlay {
 			position: fixed;
 			inset: 0;
-			background: rgba(0,0,0,0.5);
+			background: rgba(61, 42, 26, 0.4); /* Matches your --text color for a warmer dim */
+			backdrop-filter: blur(8px); /* Blurs the background map for focus */
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			z-index: 9999;
-
 			opacity: 0;
 			pointer-events: none;
-			transition: opacity 0.3s ease;
+			transition: all 0.3s ease;
 		}
 
 		.modal-overlay.show {
@@ -765,13 +770,54 @@
 		}
 
 		.modal-box {
-			background: #fff;
-			padding: 24px;
-			border-radius: 20px;
+			background: #ffffff;
+			padding: 30px;
+			border-radius: 28px;
 			max-width: 500px;
+			width: 90%;
 			text-align: center;
-			box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-			animation: fadePop 0.4s ease;
+			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+			border: 1px solid rgba(230, 208, 175, 0.5);
+		}
+
+		.reward-container {
+			background: #f0fdf4; /* Very light green */
+			border: 2px dashed #6dbf7e;
+			border-radius: 20px;
+			padding: 20px;
+			margin: 20px 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.reward-label {
+			display: block;
+			font-size: 0.75rem;
+			font-weight: 800;
+			color: var(--accent-dark);
+			text-transform: uppercase;
+			margin-bottom: 8px;
+			letter-spacing: 1px;
+		}
+
+		.reward-image {
+			width: 100%;
+			max-width: 200px; /* Adjust based on your image aspect ratio */
+			height: auto;
+			border-radius: var(--radius-md);
+			box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+			transition: transform 0.3s ease;
+			animation: rewardPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+		}
+
+		.reward-image:hover {
+			transform: scale(1.05) rotate(2deg);
+		}
+
+		.modal-box {
+			max-width: 450px; /* Keeps it tight and focused */
+			width: 90%;
 		}
 
 		.modal-box h2 {
@@ -781,8 +827,10 @@
 
 		.modal-box p {
 			font-size: 0.95rem;
-			color: #4c3a26;
-			margin-bottom: 16px;
+			line-height: 1.6;
+			color: #5b472f;
+			margin-bottom: 25px;
+			text-align: justify; /* Cleaner look for long paragraphs */
 		}
 	</style>
 </head>
@@ -848,18 +896,24 @@
 	</div>
 	<!-- PASS MODAL -->
 	<div id="passModal" class="modal-overlay">
-		<div class="modal-box">
-			<h2>🎉 Mahusay!</h2>
-			<p>
-				Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
-				Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
-			</p>
+    <div class="modal-box">
+        <h2>🎉 Mahusay!</h2>
+        
+        <div class="reward-container">
+            <span class="reward-label">Nakuha mo ang isang bahagi!</span>
+            <img src="{{ asset('pictures/Mod2_FinalAct/mod2housepart.png') }}" alt="Reward Piece" class="reward-image" style="box-shadow: none;">
+        </div>
 
-			<a href="{{ route('module2.essay') }}" class="btn-primary">
-				Magpatuloy sa Essay ✍️
-			</a>
-		</div>
-	</div>
+        <p>
+            Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
+			Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
+        </p>
+
+        <a href="{{ route('module2.essay') }}" class="btn-primary">
+            Magpatuloy sa Essay ✍️
+        </a>
+    </div>
+</div>
 </div>
 
 
