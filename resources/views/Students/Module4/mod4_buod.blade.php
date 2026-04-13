@@ -399,6 +399,89 @@ body {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 15px 35px rgba(124, 231, 255, 0.5);
 }
+
+.animation-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10001;
+    display: none; /* Controlled by JS */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.anim-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.house-part {
+    position: absolute;
+    height: auto;
+    transition: opacity 0.6s ease, transform 0.8s ease-out;
+    opacity: 0;
+    pointer-events: none; /* Prevents images from blocking button clicks */
+}
+
+/* Specific Sizes for Module 4 Pieces */
+#finalWalls { 
+    width: 50%; 
+    transform: scale(0.9); 
+    opacity: 0;
+}
+
+#mod4Roof { 
+    width: 42%; 
+    /* Start offset to the right and slightly up */
+    transform: translate(150px, -40px); 
+    opacity: 0;
+}
+
+#completeHouse {
+    width: 50% !important;
+    transform: scale(0.8);
+    opacity: 0;
+    z-index: 10;
+}
+
+#completeHouse.fade-in-center {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+/* Animation States */
+.fade-in-center { 
+    opacity: 1 !important; 
+    transform: scale(1) !important; 
+}
+
+.slide-in-roof { 
+    opacity: 1 !important; 
+    /* This moves it to the horizontal center while keeping the vertical alignment */
+    transform: translate(0, -40px) !important; 
+}
+
+.fade-out-all { opacity: 0 !important; transform: scale(1.1) !important; }
+
+/* Final Text/Button Container */
+.final-text-container {
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    padding: 0 20px;
+}
+
+.visible-text { opacity: 1 !important; }
+
+.final-title { color: #fcc419; font-weight: 900; font-size: 32px; margin-bottom: 10px; }
+.final-desc { color: #ffffff; font-size: 18px; max-width: 500px; margin-bottom: 25px; }
 </style>
 </head>
 
@@ -478,10 +561,84 @@ body {
     </div>
 </div>
 
+<div id="finalAnimOverlay" class="animation-overlay">
+    <div class="anim-wrapper">
+        <img src="{{ asset('pictures/Module 3/finalhousewalls.png') }}" id="finalWalls" class="house-part">
+        
+        <img src="{{ asset('pictures/Module4/mod4housepart.png') }}" id="mod4Roof" class="house-part">
+        
+        <img src="{{ asset('pictures/Module4/finalrewardhouse.png') }}" id="completeHouse" class="house-part">
+    </div>
+
+    <div id="finalText" class="final-text-container">
+        <h2 class="final-title">Ang Bahay ay Ganap na!</h2>
+        <p class="final-desc">
+            Ang <strong>bubong</strong> ang simbolo ng iyong proteksyon at ganap na kaalaman. 
+            Ngayon, ang iyong tahanan ay matatag na laban sa anumang sakuna.
+        </p>
+        <button class="btn-primary" onclick="window.location.href='http://ap_project.test/demo-map'">
+            Tapusin ang Aralin
+        </button>
+    </div>
+</div>
+
 <script>
     function closeModal() {
         document.getElementById('rewardModal').classList.remove('active');
+        
+        const overlay = document.getElementById('finalAnimOverlay');
+        const walls = document.getElementById('finalWalls');
+        const roof = document.getElementById('mod4Roof');
+        const completeHouse = document.getElementById('completeHouse');
+        const finalText = document.getElementById('finalText');
+
+        overlay.style.display = 'flex';
+
+        setTimeout(() => {
+            // Step A: Walls appear
+            walls.classList.add('fade-in-center');
+            
+            setTimeout(() => {
+                // Step B: Roof slides in
+                roof.classList.add('slide-in-roof');
+                
+                setTimeout(() => {
+                    // ==========================================
+                    // STEP C: THIS IS WHERE THE CODE GOES
+                    // ==========================================
+                    walls.classList.remove('fade-in-center');
+                    roof.classList.remove('slide-in-roof');
+
+                    walls.style.opacity = '0';
+                    walls.style.transform = 'scale(1.1)';
+                    roof.style.opacity = '0';
+                    roof.style.transform = 'translate(0, -40px) scale(1.1)'; 
+                    
+                    setTimeout(() => {
+                        // Step D: Physical removal and show final reward
+                        walls.style.display = 'none';
+                        roof.style.display = 'none';
+
+                        completeHouse.classList.add('fade-in-center');
+                        finalText.classList.add('visible-text');
+                        
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 }
+                        });
+                    }, 600); 
+                }, 2000); // Step C timing
+            }, 1000); // Step B timing
+        }, 300); // Step A timing
     }
+
+    // Initial confetti when page loads (your existing code)
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            document.getElementById('rewardModal').classList.add('active');
+        }, 1000);
+    });
 
     function launchFinalConfetti() {
         var duration = 5 * 1000;
