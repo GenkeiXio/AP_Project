@@ -482,6 +482,28 @@ body {
 
 .final-title { color: #fcc419; font-weight: 900; font-size: 32px; margin-bottom: 10px; }
 .final-desc { color: #ffffff; font-size: 18px; max-width: 500px; margin-bottom: 25px; }
+
+.btn-cert {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    /* Gold/Yellow Gradient for the Certificate feel */
+    background: linear-gradient(135deg, #fcc419, #ffdd59);
+    color: #0b1b2b;
+    box-shadow: 0 12px 30px rgba(252, 196, 25, 0.25);
+}
+
+.btn-cert:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(252, 196, 25, 0.45);
+    color: #000;
+}
 </style>
 </head>
 
@@ -576,9 +598,12 @@ body {
             Ang <strong>bubong</strong> ang simbolo ng iyong proteksyon at ganap na kaalaman. 
             Ngayon, ang iyong tahanan ay matatag na laban sa anumang sakuna.
         </p>
-        <button class="btn-primary" onclick="window.location.href='http://ap_project.test/demo-map'">
-            Tapusin ang Aralin
-        </button>
+        <a href="{{ route('certificate.view') }}" class="btn-cert">
+            📜 Kunin ang iyong Sertipiko →
+        </a>
+       <a href="{{ route('module4.references') }}" class="btn-cert" style="background: linear-gradient(135deg, #6c757d, #495057); color: white; margin-left: 10px;">
+            📚 View references
+        </a>
     </div>
 </div>
 
@@ -616,6 +641,8 @@ body {
                     
                     setTimeout(() => {
                         // Step D: Physical removal and show final reward
+
+                    
                         walls.style.display = 'none';
                         roof.style.display = 'none';
 

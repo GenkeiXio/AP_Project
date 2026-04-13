@@ -46,6 +46,8 @@ use App\Http\Controllers\Teacher\ModulesController;
 use App\Http\Controllers\Teacher\Module4ResultsController;
 use App\Http\Controllers\Student\Module4\Module4PerformanceController;
 use App\Http\Controllers\Student\Module4\Module4PosttestController;
+use App\Http\Controllers\Student\CertificateController;
+use App\Http\Controllers\Student\Module4\Module4ViewReferencesController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -113,7 +115,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module4/performance/save', [Module4PerformanceController::class, 'store'])->name('student.module4.performance.save');
     Route::post('/module4/performance/submit', [Module4PerformanceController::class, 'store'])->name('module4.performance.submit');
     Route::post('/module4/posttest/submit', [Module4PosttestController::class, 'store'])->name('module4.posttest.submit');
-
+    
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
@@ -393,3 +395,8 @@ Route::view('/module4/buod', 'Students.Module4.mod4_buod')
 
 Route::view('/certificate', 'certificate')
     ->name('certificate');
+
+/// certificate route
+Route::get('/get-certificate', [CertificateController::class, 'show'])->name('certificate.view');
+/// references route
+Route::get('/module-4/references', [Module4ViewReferencesController::class, 'index'])->name('module4.references');
