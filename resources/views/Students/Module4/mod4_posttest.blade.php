@@ -420,8 +420,11 @@
         function getAnswers() {
             let answers = [];
 
+            const map = ['A', 'B', 'C', 'D'];
+
             for (let i = 0; i < quizItems.length; i++) {
-                answers.push(getChosenValue(i));
+                const val = getChosenValue(i);
+                answers.push(val !== -1 ? map[val] : null);
             }
 
             return answers;

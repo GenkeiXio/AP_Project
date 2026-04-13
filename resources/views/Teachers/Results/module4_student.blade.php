@@ -253,6 +253,8 @@ tbody tr:hover {
     <div class="tab" data-tab="explore">Explore</div>
     <div class="tab" data-tab="games">Games</div>
     <div class="tab" data-tab="poll">Poll</div>
+    <div class="tab" data-tab="performance">Performance Task</div>
+    <div class="tab" data-tab="posttest">Post Test</div>
 </div>
 
 <!-- PRETEST -->
@@ -351,6 +353,81 @@ tbody tr:hover {
         </table>
     </div>
 </div>
+
+<!-- PERFORMANCE TASK -->
+<div class="content" id="performance">
+    <div class="table-box">
+        @if($performance)
+        <table>
+            <tr><th>Status</th>
+                <td>{{ $performance->is_submitted ? 'Submitted' : 'Not Submitted' }}</td>
+            </tr>
+            <tr><th>Format</th><td>{{ $performance->format ?? 'N/A' }}</td></tr>
+            <tr><th>Reflection</th><td>{{ $performance->reflection ?? 'N/A' }}</td></tr>
+            <tr><th>File</th>
+                <td>
+                    @if($performance->file_path)
+                        <a href="{{ asset('storage/' . $performance->file_path) }}" target="_blank">View File</a>
+                    @else
+                        N/A
+                    @endif
+                </td>
+            </tr>
+            <tr><th>Submitted At</th><td>{{ $performance->created_at ?? 'N/A' }}</td></tr>
+        </table>
+        @else
+        <div class="empty">No performance task submitted</div>
+        @endif
+    </div>
+</div>
+
+<!-- POST TEST -->
+<div class="content" id="posttest">
+    <div class="table-box">
+        @if($posttest)
+        <table>
+            <tr><th>Score</th><td>{{ $posttest->score }} / {{ $posttest->total_items }}</td></tr>
+            <tr><th>Status</th>
+                <td>
+                    @if($posttest->status === 'passed')
+                        ✅ Passed
+                    @else
+                        ❌ Failed
+                    @endif
+                </td>
+            </tr>
+            <tr><th>Attempt</th><td>{{ $posttest->attempt }}</td></tr>
+            <tr><th>Date Taken</th><td>{{ $posttest->created_at }}</td></tr>
+        </table>
+        @else
+        <div class="empty">No post-test record</div>
+        @endif
+    </div>
+
+    <div class="table-box">
+        <h4>Answers</h4>
+
+        @if($posttest && $posttest->answers)
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Selected Answer</th>
+            </tr>
+
+            @foreach(json_decode($posttest->answers) as $index => $ans)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $ans }}</td>
+            </tr>
+            @endforeach
+        </table>
+        @else
+        <div class="empty">No answers recorded</div>
+        @endif
+    </div>
+</div>
+
+
 
 @endsection
 
