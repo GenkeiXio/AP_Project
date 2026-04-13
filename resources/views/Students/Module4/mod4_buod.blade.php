@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
 <meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <title>Module 4 - Buod ng Aralin</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -322,6 +323,82 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 27, 43, 0.95); /* Dark blue match */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* REWARD MODAL BOX */
+.reward-modal {
+    background: #03121e;
+    padding: 40px;
+    border-radius: 25px;
+    max-width: 550px;
+    width: 90%;
+    text-align: center;
+    border: 3px solid #7ce7ff;
+    box-shadow: 0 0 50px rgba(124, 231, 255, 0.3);
+    transform: scale(0.8);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .reward-modal {
+    transform: scale(1);
+}
+
+.reward-image {
+    width: 250px;
+    height: auto;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 0 20px rgba(157, 253, 186, 0.5));
+}
+
+.reward-title {
+    color: #9dfdba;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(157, 253, 186, 0.3);
+}
+
+.reward-desc {
+    color: #d8eefb;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.complete-house-btn {
+    background: linear-gradient(135deg, #7ce7ff, #9dfdba);
+    color: #0b1b2b;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(124, 231, 255, 0.3);
+}
+
+.complete-house-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(124, 231, 255, 0.5);
+}
 </style>
 </head>
 
@@ -385,10 +462,56 @@ body {
 
 </div>
 
+<div class="modal-overlay" id="rewardModal">
+    <div class="reward-modal">
+        <h2 class="reward-title">🏠 Kumpleto na ang Bahay!</h2>
+        
+        <img src="{{ asset('pictures/Module4/mod4housepart.png') }}" alt="Roof Reward" class="reward-image">
+        
+        <div class="reward-desc">
+            Kamangha-mangha! Nakuha mo na ang huling bahagi: <strong>Ang Bubong</strong>. 
+            <br><br>
+            Ang bubong na ito ang kumakatawan sa iyong <strong>ganap na kahandaan</strong>. Ngayon, ang iyong <strong>Bahay</strong> ay tapos na—simbolo na ikaw ay may sapat na kaalaman at kasanayan upang maprotektahan ang iyong sarili at komunidad mula sa anumang sakuna.
+        </div>
+
+        <button class="complete-house-btn" onclick="closeModal()">Tapusin ang Konstruksyon</button>
+    </div>
+</div>
+
 <script>
-    // Play celebration animation on page load
+    function closeModal() {
+        document.getElementById('rewardModal').classList.remove('active');
+    }
+
+    function launchFinalConfetti() {
+        var duration = 5 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            var particleCount = 50 * (timeLeft / duration);
+            // Confetti cannons from left and right
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    }
+
+    // Trigger on load
     window.addEventListener('load', function() {
-        // Could add confetti or additional animations here
+        setTimeout(() => {
+            launchFinalConfetti();
+            document.getElementById('rewardModal').classList.add('active');
+        }, 1000);
     });
 </script>
 

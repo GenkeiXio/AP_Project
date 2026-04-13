@@ -103,6 +103,80 @@
     .center {
         text-align: center;
     }
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* MODAL CONTENT */
+    .reward-modal {
+        background: #1e293b; /* Darker theme to match your page */
+        padding: 40px;
+        border-radius: 30px;
+        max-width: 500px;
+        width: 85%;
+        text-align: center;
+        transform: translateY(30px);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 3px solid #00f2ff;
+        box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+    }
+
+    .modal-overlay.active .reward-modal {
+        transform: translateY(0);
+    }
+
+    .reward-image {
+        width: 220px;
+        height: auto;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 5px 15px rgba(0,242,255,0.4));
+    }
+
+    .reward-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 26px;
+        font-weight: 900;
+        color: #39ff14;
+        margin-bottom: 10px;
+    }
+
+    .reward-desc {
+        font-size: 15px;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    .close-reward-btn {
+        margin-top: 25px;
+        background: linear-gradient(135deg, #00f2ff, #39ff14);
+        color: #000;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .close-reward-btn:hover {
+        transform: scale(1.1);
+    }
 </style>
 
 <div class="buod-container">
@@ -156,5 +230,63 @@
 
     </div>
 </div>
+
+<div class="modal-overlay" id="rewardModal">
+    <div class="reward-modal">
+        <h2 class="reward-title">🛠️ Bagong Materyales!</h2>
+        
+        <img src="{{ asset('pictures/Module 3/mod3housepart.png') }}" alt="Wall Materials" class="reward-image">
+        
+        <div class="reward-desc">
+            Magaling! Dahil sa iyong pagsisikap na matapos ang araling ito, nakuha mo ang mga <strong>Materyales para sa Dingding</strong> 
+            <br><br>
+            Ang mga ito ang magsisilbing <strong>proteksyon</strong> ng iyong bahay. Tulad ng kaalamang natutunan mo, ang matibay na dingding ay simbolo ng ating kakayahang harapin at lagpasan ang anumang hagupit ng sakuna.
+        </div>
+
+        <button class="close-reward-btn" onclick="closeModal()">Ipagpatuloy ang Pagbuo</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+    function closeModal() {
+        document.getElementById('rewardModal').classList.remove('active');
+    }
+
+    function launchConfetti() {
+        let duration = 3000;
+        let end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 7,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#00f2ff', '#39ff14', '#ffffff']
+            });
+            confetti({
+                particleCount: 7,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#00f2ff', '#39ff14', '#ffffff']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    }
+
+    window.onload = function() {
+        // Bahagyang delay para mas maganda ang dating ng popup
+        setTimeout(() => {
+            launchConfetti();
+            document.getElementById('rewardModal').classList.add('active');
+        }, 800);
+    };
+</script>
 
 @endsection

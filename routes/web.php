@@ -360,7 +360,7 @@ Route::view('/module4/balik-aral', 'Students.Module4.mod4_balikaral')
 Route::view('/module4/welcome', 'Students.Module4.mod4_welcome')
     ->name('module4.welcome');
 
-Route::view('/module4/explore', 'Students.Module4.mod4_explore')
+Route::get('/module4/explore', [Module4ExploreController::class, 'index'])
     ->name('module4.explore');
 
 Route::view('/module4/explore/games/rolly', 'Students.Module4.Explore.Games.rolly_game')

@@ -312,9 +312,10 @@
                     <div class="preview-icon">📹</div>
                     <div class="preview-text">Maikling video (reel) na nagpapakita ng epekto ng deforestation sa komunidad.</div>
                 </div>
-                <button class="source-link" type="button"
-                        onclick="window.open('https://www.rappler.com/philippines/220275-expert-says-declare-no-build-zones-landslide-hit-roads-albay/', '_blank')">
-                    <span class="btn-icon">📖</span> Basahin ang Artikulo
+                <button class="source-link source-open" type="button" 
+                        data-title="Facebook Reel: Kamakailang Video tungkol sa Deforestation" 
+                        data-embed="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/reel/25161448763539025&show_text=false">
+                    <span class="btn-icon">🎥</span> Tingnan ang Video
                 </button>
             </div>
 
