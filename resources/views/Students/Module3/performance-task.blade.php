@@ -524,8 +524,14 @@
                     <div class="result-badges" id="resultBadgesDisplay"></div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="gap:10px; flex-wrap:wrap;">
                 <button class="save-btn" id="saveResultBtn">Save & Continue</button>
+
+                <a href="{{ route('module3.buod') }}" 
+                class="save-btn" 
+                style="text-decoration:none;">
+                    ➡️ Pumunta sa Buod
+                </a>
             </div>
         </div>
     </div>

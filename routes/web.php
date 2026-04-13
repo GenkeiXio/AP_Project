@@ -333,6 +333,10 @@ Route::get('/module3/activity/flood', function () {
     return view('Students.Module3.Activities.flood_activity');
 })->name('flood.activity');
 
+Route::get('/module3/buod', function () {
+    return view('Students.Module3.buod');
+})->name('module3.buod');
+
 Route::get('/module3/closing', function () {
     return view('Students.Module3.Activities.closing');
 })->name('module3.closing');
