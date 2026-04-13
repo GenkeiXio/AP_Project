@@ -105,6 +105,30 @@ h2{
     color:#9dfdba;
 }
 
+.next-step-wrap{
+    display:none;
+    margin-top:24px;
+    padding:18px;
+    border-radius:16px;
+    background:rgba(124,231,255,.10);
+    border:1px solid rgba(124,231,255,.28);
+    text-align:center;
+}
+
+.next-step-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    background:linear-gradient(135deg, #7ce7ff, #9dfdba);
+    color:#0b1b2b;
+    border:none;
+    padding:12px 24px;
+    border-radius:12px;
+    font-weight:800;
+    box-shadow:0 8px 25px rgba(124, 231, 255, 0.3);
+}
+
 .card-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
@@ -329,6 +353,11 @@ h2{
 <h5 class="text-center p-2">⛰️ Landslide sa Albay</h5>
 </div>
 
+<div id="nextStepWrap" class="next-step-wrap">
+    <div style="color:#dff7ff; margin-bottom:10px; font-weight:700;">Kumpleto na ang lahat ng cards at quiz games.</div>
+    <a href="{{ route('module4.alamin') }}" class="next-step-btn">Magpatuloy sa Alamin →</a>
+</div>
+
 </div>
 
 </div>
@@ -382,10 +411,12 @@ h2{
 <script>
 let progress = 0;
 let completed = {};
+let unlockedCards = {};
 let currentStory = "";
 const progressPerGame = 20;
 const totalGames = 5;
 const completedGamesKey = 'module4_completedGames_v2';
+const unlockedCardsKey = 'module4_unlockedCards';
 const progressText = document.getElementById('progressText');
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 const exploreSaveUrl = "{{ route('student.module4.explore.save') }}";
@@ -406,8 +437,30 @@ function loadCompletedGames() {
     }
     progress = Math.min(Object.keys(completed).length * progressPerGame, 100);
     updateProgress();
+    syncCompletionUI();
+}
 
-    if (Object.keys(completed).length >= totalGames) {
+function loadUnlockedCards() {
+    try {
+        unlockedCards = JSON.parse(localStorage.getItem(unlockedCardsKey) || '{}') || {};
+    } catch (e) {
+        unlockedCards = {};
+    }
+    syncCompletionUI();
+}
+
+function saveUnlockedCards() {
+    localStorage.setItem(unlockedCardsKey, JSON.stringify(unlockedCards));
+}
+
+function isReadyForAlamin() {
+    return Object.keys(unlockedCards).length >= totalGames && Object.keys(completed).length >= totalGames;
+}
+
+function syncCompletionUI() {
+    const canProceed = isReadyForAlamin();
+    document.getElementById('nextStepWrap').style.display = canProceed ? 'block' : 'none';
+    if (canProceed) {
         setTimeout(() => {
             document.getElementById('completionModal').classList.add('show');
         }, 300);
@@ -470,11 +523,7 @@ function checkCompletedFromURL() {
         saveCompletedGames();
         saveExploreProgress();
 
-        if (Object.keys(completed).length >= totalGames) {
-            setTimeout(() => {
-                document.getElementById('completionModal').classList.add('show');
-            }, 300);
-        }
+        syncCompletionUI();
 
         // Clean up the URL
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -483,6 +532,11 @@ function checkCompletedFromURL() {
 
 function openStory(id) {
     currentStory = id;
+    if (!unlockedCards[id]) {
+        unlockedCards[id] = true;
+        saveUnlockedCards();
+        syncCompletionUI();
+    }
     document.getElementById('modal').classList.add('show');
     document.querySelectorAll('.story').forEach(s => s.style.display = 'none');
     document.getElementById(id).style.display = 'block';
@@ -508,11 +562,7 @@ function finishStory() {
         saveCompletedGames();
         saveExploreProgress();
 
-        if (Object.keys(completed).length >= totalGames) {
-            setTimeout(() => {
-                document.getElementById('completionModal').classList.add('show');
-            }, 500);
-        }
+        syncCompletionUI();
     }
 }
 
@@ -535,8 +585,10 @@ function proceedToAlamin() {
 
 // Initialize on page load
 window.addEventListener('DOMContentLoaded', function() {
+    loadUnlockedCards();
     loadCompletedGames();
     checkCompletedFromURL();
+    syncCompletionUI();
 });
 </script>
 
