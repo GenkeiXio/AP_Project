@@ -173,7 +173,9 @@ body {
 
     <div>
         <div class="student-name">{{ $s->username }}</div>
-        <div class="student-sub">ID: {{ $s->id }}</div>
+        <p>Last played: 
+            {{ $s->last_played ? \Carbon\Carbon::parse($s->last_played)->diffForHumans() : 'N/A' }}
+        </p>
     </div>
 
     <div class="arrow">›</div>

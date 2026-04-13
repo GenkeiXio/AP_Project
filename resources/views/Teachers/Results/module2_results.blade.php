@@ -222,12 +222,12 @@ body {
             </div>
             <div>
                 <div class="student-name">{{ $s->username }}</div>
-
-                <div class="student-sub">
-                    Pre: {{ $s->pre_score ?? '-' }} 
-                    | Post: {{ $s->post_score ?? '-' }} 
-                    | XP: {{ $s->total_xp ?? '-' }}
-                </div>
+                <p>Last played: 
+                    {{ isset($s->last_played) && $s->last_played 
+                        ? \Carbon\Carbon::parse($s->last_played)->diffForHumans() 
+                        : 'N/A' 
+                    }}
+                </p>
             </div>
         </div>
 

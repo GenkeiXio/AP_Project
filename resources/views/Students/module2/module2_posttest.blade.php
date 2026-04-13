@@ -899,11 +899,6 @@
     <div class="modal-box">
         <h2>🎉 Mahusay!</h2>
         
-        <div class="reward-container">
-            <span class="reward-label">Nakuha mo ang isang bahagi!</span>
-            <img src="{{ asset('pictures/Mod2_FinalAct/mod2housepart.png') }}" alt="Reward Piece" class="reward-image" style="box-shadow: none;">
-        </div>
-
         <p>
             Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
 			Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
