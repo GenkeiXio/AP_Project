@@ -312,10 +312,9 @@
                     <div class="preview-icon">📹</div>
                     <div class="preview-text">Maikling video (reel) na nagpapakita ng epekto ng deforestation sa komunidad.</div>
                 </div>
-                <button class="source-link source-open" type="button" 
-                        data-title="Facebook Reel: Epekto ng Deforestation" 
-                        data-embed="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F25161448763539025&show_text=true">
-                    <span class="btn-icon">▶️</span> Panoorin ang Reel
+                <button class="source-link" type="button"
+                        onclick="window.open('https://www.rappler.com/philippines/220275-expert-says-declare-no-build-zones-landslide-hit-roads-albay/', '_blank')">
+                    <span class="btn-icon">📖</span> Basahin ang Artikulo
                 </button>
             </div>
 
@@ -326,9 +325,8 @@
                     <div class="preview-icon">📄</div>
                     <div class="preview-text">"Declare landslide-hit Albay roads as no-build zones" – ekspertong panawagan matapos ang bagyong Usman.</div>
                 </div>
-                <button class="source-link source-open" type="button" 
-                        data-title="Rappler: No-build zones sa Albay" 
-                        data-embed="https://www.rappler.com/philippines/220275-expert-says-declare-no-build-zones-landslide-hit-roads-albay/">
+                <button class="source-link" type="button"
+                        onclick="window.open('https://www.rappler.com/philippines/220275-expert-says-declare-no-build-zones-landslide-hit-roads-albay/', '_blank')">
                     <span class="btn-icon">📖</span> Basahin ang Artikulo
                 </button>
             </div>

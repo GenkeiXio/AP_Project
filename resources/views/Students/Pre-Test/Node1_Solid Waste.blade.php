@@ -1131,6 +1131,9 @@
         const modalBackToMapBtn = document.getElementById('modalBackToMapBtn');
         const modalContinueBtn = document.getElementById('modalContinueBtn');
 
+        // audio
+        const nodeCompleteSfx = new Audio('/audio/nodecomplete.mp3');
+
         function showCompletionModal(message) {
             modalFeedbackText.innerText = message;
             completionModal.classList.add('active');
@@ -1239,14 +1242,6 @@
             statusEl.classList.add('complete');
         }
 
-        function basahinAngBuod(text) {
-            if (!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text.replace(/\n/g, ' '));
-            utterance.lang = 'fil-PH';
-            utterance.rate = 0.92;
-            window.speechSynthesis.speak(utterance);
-        }
 
         function burstConfetti() {
             confettiLayer.innerHTML = '';
@@ -1387,6 +1382,9 @@
                         } else {
                             sessionStorage.setItem('node1_done', 'true');
 
+                            nodeCompleteSfx.currentTime = 0;
+                            nodeCompleteSfx.play().catch(e => console.log("Audio playback delayed or blocked"));
+
                             // ✅ SEND TO BACKEND
                             fetch("{{ route('student.module2.node1.save') }}", {
                                 method: "POST",
@@ -1417,18 +1415,12 @@
                             });
 
                             burstConfetti();
+
                             showCompletionModal(summaryMessage);
                             activeImageCard.style.display = 'none';
                             activeTextCard.style.display = 'none';
 
-                            if (summaryAudio) {
-                                summaryAudio.currentTime = 0;
-                                summaryAudio.play().catch(() => {
-                                    basahinAngBuod(summaryMessage);
-                                });
-                            } else {
-                                basahinAngBuod(summaryMessage);
-                            }
+                            
                         }
                     }, 750);
                 } else {

@@ -225,9 +225,9 @@
                         ← Bumalik sa Explore
                     </a>
 
-                    <a href="{{ route('inner.map3') }}"
+                    <a href="{{ route('module3.node1') }}"
                        class="inline-flex items-center px-5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold hover:bg-cyan-700 transition">
-                        🗺️ Pumunta sa Inner Map 3
+                        🗺️ Pumunta sa Node 1
                     </a>
                 </div>
 

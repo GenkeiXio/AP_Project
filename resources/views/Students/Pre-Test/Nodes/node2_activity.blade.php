@@ -941,6 +941,9 @@
         const modalFeedbackText = document.getElementById('modalFeedbackText');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
+        // audio
+        const nodeCompleteSfx = new Audio('/audio/nodecomplete.mp3');
+
         const lines = [
             'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa deforestation o pagkakalbo ng kagubatan.',
             'Ang deforestation ay ang patuloy na pagputol ng mga puno nang walang sapat na kapalit.',
@@ -1150,6 +1153,9 @@
                             updateCard();
                         } else {
                             sessionStorage.setItem('node2_done', 'true');
+
+                            nodeCompleteSfx.currentTime = 0;
+                            nodeCompleteSfx.play().catch(e => console.log("Audio playback delayed or blocked"));
 
                             // ✅ SEND TO BACKEND (IMPORTANT PART)
                             fetch("{{ route('student.module2.node2.save') }}", {
