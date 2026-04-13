@@ -183,6 +183,113 @@ h1{
         opacity:1;
     }
 }
+
+.animation-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease;
+}
+
+.animation-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.animation-content {
+    text-align: center;
+    background: transparent;
+}
+
+.transform-container {
+    position: relative;
+    width: 600px; /* Inadjust para sa lapad ng foundation */
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+
+/* THE SLIDING HOUSE PART */
+.house-part-slide {
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.5s ease-in-out; /* 0.5s lang para mabilis mawala */
+}
+
+.house-part-img {
+    position: absolute;
+    max-width: 100%;
+    height: auto;
+    transition: opacity 0.5s ease-in-out; /* Smooth fade out */
+}
+
+.animation-overlay.active .house-part-slide {
+    animation: slideAndScale 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.final-foundation {
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.8s ease-in-out; 
+    transition-delay: 0.0s; /* Hintayin muna mawala ang bricks */
+}
+
+.transformed .house-part-slide {
+    opacity: 0 !important;
+}
+.transformed .final-foundation {
+    opacity: 1;
+}
+
+@keyframes slideAndScale {
+    0% { 
+        transform: translateX(-150%) scale(0.5); 
+        opacity: 0; 
+    }
+    100% { 
+        transform: translateX(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+/* FADE IN TEXT BELOW */
+.reward-status-text {
+    margin-top: 20px;
+    color: white;
+    opacity: 0;
+    text-align: center;
+}
+
+.animation-overlay.active .reward-status-text {
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 2.5s; /* Lalabas pagkatapos ng transformation */
+}
+
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-finish {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: #5eae4e;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+}
 </style>
 </head>
 
@@ -238,63 +345,79 @@ h1{
         </div>
     </div>
 
+    <div class="animation-overlay" id="animationModal">
+        <div class="animation-content">
+            
+            <div class="transform-container" id="imageWrapper">
+                <img src="{{ asset('pictures/Mod2_FinalAct/mod2housepart.png') }}" class="house-part-img house-part-slide">
+                
+                <img src="{{ asset('pictures/Mod2_FinalAct/finalhousefoundation.png') }}" class="house-part-img final-foundation">
+            </div>
+            
+            <div class="reward-status-text">
+                <h2 id="statusTitle" style="font-family: 'Baloo 2'; color: #f1c40f; font-size: 35px;">Matibay na Pundasyon!</h2>
+                <p style="font-size: 18px;">Ang iyong mga materyales ay naging bahagi na ng iyong tahanan.</p>
+                <button class="btn-finish" onclick="goMap()">Ipagpatuloy ang Paglalakbay 🗺️</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
-// 🎉 CONFETTI BURST
-function launchConfetti(){
-    let duration = 3000;
-    let end = Date.now() + duration;
+function closeModal() {
+    // 1. Itago ang card
+    const firstModal = document.getElementById('rewardModal');
+    if(firstModal) firstModal.classList.remove('active');
 
+    // 2. Ipakita ang animation overlay
+    setTimeout(() => {
+        const animModal = document.getElementById('animationModal');
+        if(animModal) {
+            animModal.classList.add('active');
+            
+            // 3. Transformation Sequence
+            setTimeout(() => {
+                const wrapper = document.getElementById('imageWrapper');
+                wrapper.classList.add('transformed');
+                
+                // Optional: Update status title exactly when foundation appears
+                setTimeout(() => {
+                    document.getElementById('statusTitle').innerText = "Matatag na Pundasyon!";
+                }, 500); // Sasabay sa transition-delay ng CSS
+                
+            }, 1800); // Hintayin matapos ang slide-in animation
+        }
+    }, 300);
+}
+
+// 🎉 CONFETTI (Sa simula lang ng page load ito gaya ng dati)
+function launchConfetti(){
+    let duration = 1500;
+    let end = Date.now() + duration;
     (function frame(){
         confetti({
-            particleCount:10,
-            spread:90,
-            origin:{y:0.6}
+            particleCount: 15,
+            spread: 90,
+            origin: { y: 0.6 },
+            zIndex: 20000 
         });
-
         if(Date.now() < end){
             requestAnimationFrame(frame);
         }
     })();
 }
 
-// 🚀 BUTTON
 function goMap(){
     window.location.href = "{{ route('student.map') }}";
 }
 
-function closeModal() {
-    const modal = document.getElementById('rewardModal');
-    modal.classList.remove('active');
-}
-
 window.onload = function(){
-    // 1. Launch Confetti
     launchConfetti();
-    
-    // 2. Show Modal with a slight delay for better effect
     setTimeout(() => {
-        document.getElementById('rewardModal').classList.add('active');
+        const firstModal = document.getElementById('rewardModal');
+        if(firstModal) firstModal.classList.add('active');
     }, 500);
-}
-
-function launchConfetti(){
-    let duration = 3000;
-    let end = Date.now() + duration;
-
-    (function frame(){
-        confetti({
-            particleCount: 10,
-            spread: 90,
-            origin: { y: 0.6 },
-            zIndex: 10000 // Higher than modal
-        });
-
-        if(Date.now() < end){
-            requestAnimationFrame(frame);
-        }
-    })();
 }
 </script>
 
