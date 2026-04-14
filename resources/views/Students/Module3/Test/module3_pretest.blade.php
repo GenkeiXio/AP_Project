@@ -251,81 +251,98 @@
     <script>
         const quizItems = [
             {
-                q: '1) Ano ang pinakaangkop na paglalarawan ng banta?',
+                q: 'Ano ang pinakaangkop na paglalarawan ng banta?',
                 options: ['A. Pangyayaring nakalipas na', 'B. Banta na maaaring magdulot ng pinsala', 'C. Plano ng pamahalaan', 'D. Uri ng komunidad'],
                 answer: 1
             },
             {
-                q: '2) Kailan nagiging sakuna ang isang banta?',
+                q: 'Kailan nagiging sakuna ang isang banta?',
                 options: ['A. Kapag may ulan', 'B. Kapag may tao sa lugar', 'C. Kapag may pinsala dahil sa kahinaan ng komunidad', 'D. Kapag gabi'],
                 answer: 2
             },
             {
-                q: '3) Ano ang ibig sabihin ng kahinaan?',
+                q: 'Ano ang ibig sabihin ng kahinaan?',
                 options: ['A. Kakayahang tumulong', 'B. Kahinaan ng tao o lugar sa panganib', 'C. Uri ng banta', 'D. Plano ng barangay'],
                 answer: 1
             },
             {
-                q: '4) Kung ang isang komunidad ay matibay ang bahay ngunit nasa lugar na madalas bahain, ano ito?',
+                q: 'Kung ang isang komunidad ay matibay ang bahay ngunit nasa lugar na madalas bahain, ano ito?',
                 options: ['A. Walang banta', 'B. Mataas na kahinaan pa rin', 'C. Walang panganib', 'D. Ligtas na lugar'],
                 answer: 1
             },
             {
-                q: '5) Ano ang layunin ng paghahanda sa sakuna?',
+                q: 'Ano ang layunin ng paghahanda sa sakuna?',
                 options: ['A. Maghintay ng tulong', 'B. Mabawasan ang epekto ng sakuna', 'C. Maglaro', 'D. Magtago'],
                 answer: 1
             },
             {
-                q: '6) Alin ang pinakamahalagang gawin bago ang bagyo?',
+                q: 'Alin ang pinakamahalagang gawin bago ang bagyo?',
                 options: ['A. Lumabas', 'B. Maghanda ng kagamitang pang-emergency at makinig sa balita', 'C. Matulog', 'D. Mag-video'],
                 answer: 1
             },
             {
-                q: '7) Ano ang pinakaangkop na gawin kapag may utos ng paglikas?',
+                q: 'Ano ang pinakaangkop na gawin kapag may utos ng paglikas?',
                 options: ['A. Maghintay muna', 'B. Sumunod agad upang maiwasan ang panganib', 'C. Huwag pansinin', 'D. Lumabas mag-isa'],
                 answer: 1
             },
             {
-                q: '8) Bakit mahalaga ang maagang babala?',
+                q: 'Bakit mahalaga ang maagang babala?',
                 options: ['A. Para sa ingay', 'B. Para mabigyan ng oras ang tao na maghanda', 'C. Para maglibang', 'D. Para maghintay'],
                 answer: 1
             },
             {
-                q: '9) Ano ang katangian ng lapit na mula sa itaas?',
+                q: 'Ano ang katangian ng lapit na mula sa itaas?',
                 options: ['A. Komunidad ang lider', 'B. Pamahalaan ang pangunahing nagdedesisyon', 'C. Walang plano', 'D. Walang aksyon'],
                 answer: 1
             },
             {
-                q: '10) Ano ang limitasyon ng lapit na mula sa itaas?',
+                q: 'Ano ang limitasyon ng lapit na mula sa itaas?',
                 options: ['A. Mabilis', 'B. Hindi isinasaalang-alang ang lokal na pangangailangan', 'C. Malakas', 'D. Kumpleto'],
                 answer: 1
             },
             {
-                q: '11) Ano ang pangunahing ideya ng lapit na mula sa ibaba?',
+                q: 'Ano ang pangunahing ideya ng lapit na mula sa ibaba?',
                 options: ['A. Walang lider', 'B. Aktibong pakikilahok ng komunidad', 'C. Walang plano', 'D. Mabagal'],
                 answer: 1
             },
             {
-                q: '12) Ano ang layunin ng pamamahalang nakabatay sa komunidad sa pagbawas ng panganib sa sakuna?',
+                q: 'Ano ang layunin ng pamamahalang nakabatay sa komunidad sa pagbawas ng panganib sa sakuna?',
                 options: ['A. Maghintay ng tulong', 'B. Palakasin ang kakayahan ng komunidad sa sakuna', 'C. Magtago', 'D. Maglaro'],
                 answer: 1
             },
             {
-                q: '13) Ano ang tamang gawin habang lumilindol?',
+                q: 'Ano ang tamang gawin habang lumilindol?',
                 options: ['A. Tumakbo palabas agad', 'B. Magtago sa ilalim ng matibay na mesa', 'C. Tumalon', 'D. Sumigaw'],
                 answer: 1
             },
             {
-                q: '14) Ano ang pinakamainam gawin pagkatapos ng baha?',
+                q: 'Ano ang pinakamainam gawin pagkatapos ng baha?',
                 options: ['A. Pumasok agad', 'B. Suriin muna ang kuryente at paligid', 'C. Matulog', 'D. Maglaro'],
                 answer: 1
             },
             {
-                q: '15) Ano ang ibig sabihin ng katatagan?',
+                q: 'Ano ang ibig sabihin ng katatagan?',
                 options: ['A. Kahinaan', 'B. Kakayahang makabangon at makapag-angkop', 'C. Uri ng sakuna', 'D. Uri ng lupa'],
                 answer: 1
             }
         ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function shuffleQuestionsAndChoices() {
+            shuffleArray(quizItems);
+            quizItems.forEach(item => {
+                const originalCorrectIndex = item.answer;
+                const originalCorrectOption = item.options[originalCorrectIndex];
+                shuffleArray(item.options);
+                item.answer = item.options.indexOf(originalCorrectOption);
+            });
+        }
 
         const root = document.getElementById('questionsRoot');
         const checkBtn = document.getElementById('checkBtn');
@@ -548,6 +565,7 @@
         });
 
         // Initial render
+        shuffleQuestionsAndChoices();
         renderQuiz();
         
         // Initialize status icons (no X's, just empty)

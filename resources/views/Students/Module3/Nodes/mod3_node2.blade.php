@@ -708,7 +708,7 @@ function renderRound(){
     r.options.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.className = 'arg-btn';
-        btn.innerHTML = `${opt.side === 'bottom' ? '🌱' : '🔥'} ${opt.text}`;
+        btn.innerHTML = `${opt.side === 'bottom' ? '' : ''} ${opt.text}`;
         btn.onclick = () => answer(i);
         argGrid.appendChild(btn);
     });

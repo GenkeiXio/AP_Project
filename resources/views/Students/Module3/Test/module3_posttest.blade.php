@@ -202,6 +202,23 @@
         { q: "Ano ang pinakamahalagang aral sa disaster preparedness?", o: ["Umasa sa 'Bahala Na' system", "Maging handa, maingat, at makiisa sa lahat", "Maghintay na lang ng mangyayari", "Huwag makinig sa mga payo"], a: 1 }
     ];
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function shuffleQuestionsAndChoices() {
+        shuffleArray(questions);
+        questions.forEach(q => {
+            const originalCorrectIndex = q.a;
+            const originalCorrectOption = q.o[originalCorrectIndex];
+            shuffleArray(q.o);
+            q.a = q.o.indexOf(originalCorrectOption);
+        });
+    }
+
     let currentQ = 0;
     let score = 0;
     let selectedIdx = null;
@@ -318,6 +335,7 @@
         .catch(err => console.error(err));
     }
 
+    shuffleQuestionsAndChoices();
     loadQuestion();
 </script>
 
