@@ -1,3 +1,8 @@
+@php
+    session(['module3_completed' => true]);
+    session(['module4_unlocked' => true]);
+@endphp
+
 @extends('Students.studentslayout')
 
 @section('title', 'Buod ng Aralin')
