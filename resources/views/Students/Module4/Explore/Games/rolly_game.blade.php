@@ -292,9 +292,9 @@
             scenario: 'May paparating na super typhoon.',
             question: 'Ano ang uunahin mong gawin?',
             options: [
-                { text: 'A. Maghintay muna ng update', correct: false },
-                { text: 'B. Mag-evacuate agad ng mga residente sa danger zone', correct: true },
-                { text: 'C. Mag-post lang sa social media', correct: false }
+                { text: 'Maghintay muna ng update', correct: false },
+                { text: 'Mag-evacuate agad ng mga residente sa danger zone', correct: true },
+                { text: 'Mag-post lang sa social media', correct: false }
             ],
             feedback: '✅ Correct! Ang maagap na paglikas ay nakapagliligtas ng buhay.',
             wrongFeedback: '❌ Hindi ito ang pinakamahusay na unang hakbang sa ganitong sitwasyon.'
@@ -306,9 +306,9 @@
             scenario: 'Tumataas na ang baha (abot leeg)',
             question: 'Ano ang gagawin mo?',
             options: [
-                { text: 'A. Hayaan ang mga tao sa bahay', correct: false },
-                { text: 'B. Mag-rescue operation gamit ang bangka', correct: true },
-                { text: 'C. Isara ang barangay hall', correct: false }
+                { text: 'Hayaan ang mga tao sa bahay', correct: false },
+                { text: 'Mag-rescue operation gamit ang bangka', correct: true },
+                { text: 'Isara ang barangay hall', correct: false }
             ],
             feedback: '✅ Correct! Ang agarang pagtugon ay mahalaga sa oras ng panganib.',
             wrongFeedback: '❌ Sa tumataas na baha, kailangan ang aktibong rescue at mabilis na pag-aksyon.'
@@ -320,9 +320,9 @@
             scenario: 'Walang kuryente, kulang ang tubig',
             question: 'Ano ang solusyon?',
             options: [
-                { text: 'A. Maghintay ng tulong', correct: false },
-                { text: 'B. Mag-organize ng relief distribution', correct: true },
-                { text: 'C. Magpahinga muna', correct: false }
+                { text: 'Maghintay ng tulong', correct: false },
+                { text: 'Mag-organize ng relief distribution', correct: true },
+                { text: 'Magpahinga muna', correct: false }
             ],
             feedback: '✅ Correct! Ang organisadong tulong ay susi sa kaligtasan.',
             wrongFeedback: '❌ Sa kakulangan ng suplay, mahalaga ang maayos at agarang pamamahagi ng relief.'
@@ -334,9 +334,9 @@
             scenario: 'Libo-libong bahay ang nasira',
             question: 'Ano ang susunod mong hakbang?',
             options: [
-                { text: 'A. I-ignore muna', correct: false },
-                { text: 'B. Mag-assess ng damage at pangangailangan', correct: true },
-                { text: 'C. Umuwi na lang', correct: false }
+                { text: 'I-ignore muna', correct: false },
+                { text: 'Mag-assess ng damage at pangangailangan', correct: true },
+                { text: 'Umuwi na lang', correct: false }
             ],
             feedback: '✅ Correct! Mahalaga ang tamang assessment para sa epektibong tulong.',
             wrongFeedback: '❌ Bago tumulong nang malawakan, dapat munang malinaw ang lawak ng pinsala at pangangailangan.'
@@ -348,9 +348,9 @@
             scenario: 'Nasira ang simbahan at makasaysayang bahay',
             question: 'Ano ang dapat gawin?',
             options: [
-                { text: 'A. Kalimutan na', correct: false },
-                { text: 'B. I-dokumento at planuhin ang restoration', correct: true },
-                { text: 'C. Gibain lahat', correct: false }
+                { text: 'Kalimutan na', correct: false },
+                { text: 'I-dokumento at planuhin ang restoration', correct: true },
+                { text: 'Gibain lahat', correct: false }
             ],
             feedback: '✅ Correct! Ang kultura at kasaysayan ay dapat pinapahalagahan.',
             wrongFeedback: '❌ Ang makasaysayang pook ay kailangang idokumento at maibalik, hindi basta isinasantabi.'
@@ -362,14 +362,21 @@
             scenario: 'Kailangan ng bayan ang pagkakaisa',
             question: 'Ano ang gagawin mo?',
             options: [
-                { text: 'A. Sariling pamilya lang ang tulungan', correct: false },
-                { text: 'B. Hikayatin ang bayanihan', correct: true },
-                { text: 'C. Umalis sa lugar', correct: false }
+                { text: 'Sariling pamilya lang ang tulungan', correct: false },
+                { text: 'Hikayatin ang bayanihan', correct: true },
+                { text: 'Umalis sa lugar', correct: false }
             ],
             feedback: '✅ Correct! Ang lakas ng komunidad ang susi sa pagbangon.',
             wrongFeedback: '❌ Sa pagbangon mula sa sakuna, kailangan ang pagtutulungan ng buong komunidad.'
         }
     ];
+
+    function shuffleOptions(options) {
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+    }
 
     let currentLevel = 0;
     let score = 0;
@@ -401,14 +408,23 @@
 
     function renderLevel() {
         const level = gameData[currentLevel];
+
+        // ✅ Shuffle ONLY ONCE per level
+        if (!level.shuffled) {
+            shuffleOptions(level.options);
+            level.shuffled = true;
+        }
+
         document.getElementById('levelBadge').textContent = `PHASE 0${level.level} / 06`;
         document.getElementById('progressBar').style.width = ((currentLevel + 1) / 6 * 100) + '%';
         document.getElementById('scenarioIcon').textContent = level.icon;
         document.getElementById('scenarioTitle').textContent = level.phase;
         document.getElementById('scenarioText').textContent = level.scenario;
         document.getElementById('questionText').textContent = level.question;
+
         const optionsContainer = document.getElementById('optionsContainer');
         optionsContainer.innerHTML = '';
+
         level.options.forEach((option, index) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
@@ -416,9 +432,11 @@
             btn.onclick = () => selectOption(index);
             optionsContainer.appendChild(btn);
         });
+
         document.getElementById('feedbackBox').style.display = 'none';
         document.getElementById('feedbackBox').classList.remove('feedback-correct', 'feedback-incorrect');
         document.getElementById('nextBtn').disabled = true;
+
         answered = false;
     }
 

@@ -323,9 +323,9 @@
       situation: "📢 Sitwasyon: May balita ng pag-agos ng lava mula sa Mayon",
       question: "Ano ang iyong unang gagawin?",
       options: [
-        { text: "A. I-ignore dahil normal lang", correct: false },
-        { text: "B. I-report agad sa awtoridad at mag-monitor", correct: true },
-        { text: "C. Maghintay na lang", correct: false }
+        { text: "I-ignore dahil normal lang", correct: false },
+        { text: "I-report agad sa awtoridad at mag-monitor", correct: true },
+        { text: "Maghintay na lang", correct: false }
       ],
       feedback: "💡 Ang maagang pag-monitor ay mahalaga upang maiwasan ang sakuna."
     },
@@ -335,9 +335,9 @@
       situation: "📢 Sitwasyon: May nagliliyab na batong bumabagsak mula sa bulkan",
       question: "Ano ang ibig sabihin nito?",
       options: [
-        { text: "A. Ligtas pa rin", correct: false },
-        { text: "B. Aktibong paggalaw ng magma", correct: true },
-        { text: "C. Wala lang epekto", correct: false }
+        { text: "Ligtas pa rin", correct: false },
+        { text: "Aktibong paggalaw ng magma", correct: true },
+        { text: "Wala lang epekto", correct: false }
       ],
       feedback: "💡 Senyal ito ng aktibong bulkan na maaaring lumala."
     },
@@ -347,9 +347,9 @@
       situation: "📢 Sitwasyon: Umaagos ang lava pababa",
       question: "Ano ang dapat mong gawin?",
       options: [
-        { text: "A. Papuntahin ang tao sa paanan ng bulkan", correct: false },
-        { text: "B. Ilikas ang mga residente sa danger zone", correct: true },
-        { text: "C. Maghintay muna", correct: false }
+        { text: "Papuntahin ang tao sa paanan ng bulkan", correct: false },
+        { text: "Ilikas ang mga residente sa danger zone", correct: true },
+        { text: "Maghintay muna", correct: false }
       ],
       feedback: "💡 Ang paglikas ay susi sa pag-iwas sa panganib."
     },
@@ -359,9 +359,9 @@
       situation: "📢 Sitwasyon: Itinaas sa Alert Level 3",
       question: "Ano ang ibig sabihin nito?",
       options: [
-        { text: "A. Wala pang panganib", correct: false },
-        { text: "B. May pagputok at maaaring lumakas", correct: true },
-        { text: "C. Tapos na ang panganib", correct: false }
+        { text: "Wala pang panganib", correct: false },
+        { text: "May pagputok at maaaring lumakas", correct: true },
+        { text: "Tapos na ang panganib", correct: false }
       ],
       feedback: "💡 Kailangan ang mataas na kahandaan sa ganitong alert level."
     },
@@ -371,9 +371,9 @@
       situation: "📢 Sitwasyon: May banta ng lava flow, ashfall, at pyroclastic flow",
       question: "Ano ang pinaka-dapat gawin ng komunidad?",
       options: [
-        { text: "A. Manatili sa bahay kahit delikado", correct: false },
-        { text: "B. Sumunod sa evacuation plan", correct: true },
-        { text: "C. Mag-selfie sa bulkan", correct: false }
+        { text: "Manatili sa bahay kahit delikado", correct: false },
+        { text: "Sumunod sa evacuation plan", correct: true },
+        { text: "Mag-selfie sa bulkan", correct: false }
       ],
       feedback: "💡 Ang pagsunod sa babala ay nagliligtas ng buhay."
     },
@@ -383,9 +383,9 @@
       situation: "📢 Sitwasyon: Mas maliwanag ang lava sa gabi",
       question: "Ano ang tamang interpretasyon?",
       options: [
-        { text: "A. Mas ligtas sa gabi", correct: false },
-        { text: "B. Mas malinaw lang ang panganib", correct: true },
-        { text: "C. Walang epekto", correct: false }
+        { text: "Mas ligtas sa gabi", correct: false },
+        { text: "Mas malinaw lang ang panganib", correct: true },
+        { text: "Walang epekto", correct: false }
       ],
       feedback: "💡 Hindi ibig sabihin ng maganda ay ligtas."
     },
@@ -395,13 +395,20 @@
       situation: "📢 Sitwasyon: Inihahanda ang evacuation",
       question: "Ano ang papel mo?",
       options: [
-        { text: "A. Balewalain ang utos", correct: false },
-        { text: "B. Tumulong sa maayos na paglikas", correct: true },
-        { text: "C. Umuwi na lang", correct: false }
+        { text: "Balewalain ang utos", correct: false },
+        { text: "Tumulong sa maayos na paglikas", correct: true },
+        { text: "Umuwi na lang", correct: false }
       ],
       feedback: "💡 Ang organisadong pagtugon ay nagbabawas ng panganib."
     }
   ];
+
+  function shuffleOptions(options) {
+      for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+      }
+  }
 
   // game state
   let currentLevelIndex = 0;          // 0-index
@@ -454,14 +461,20 @@
   // helper: render current level
   function renderCurrentLevel() {
     if (currentLevelIndex >= levels.length) {
-      // game finished, show results
       showFinalResults();
       return;
     }
 
     const level = levels[currentLevelIndex];
+
+    // ✅ FIX: shuffle only once
+    if (!level.shuffled) {
+      shuffleOptions(level.options);
+      level.shuffled = true;
+    }
+
     const theme = getLevelTheme(level.id);
-    const isAnswered = userAnswers[currentLevelIndex] !== undefined && userAnswers[currentLevelIndex] !== null;
+    const isAnswered = userAnswers[currentLevelIndex] !== null;
     const userWasCorrect = userAnswers[currentLevelIndex];
 
     // Build options html with dynamic classes (if answered, mark correct/wrong style)
@@ -640,10 +653,16 @@
     answerLock = false;
     selectedOptionIndex = null;
     userAnswers = new Array(levels.length).fill(null);
+
+    // ✅ FIX: reset shuffle state
+    levels.forEach(level => {
+      level.shuffled = false;
+    });
+
     quizPanel.style.display = 'block';
     resultArea.style.display = 'none';
     renderCurrentLevel();
-    // scroll to top
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

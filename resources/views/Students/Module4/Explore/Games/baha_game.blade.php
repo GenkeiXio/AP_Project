@@ -226,9 +226,9 @@
             scenario: 'Biglang rumagasa ang baha at naging parang ilog ang kalsada.',
             question: 'Ano ang una mong gagawin?',
             options: [
-                { text: 'A. Manood muna ng balita', correct: false },
-                { text: 'B. Magbigay agad ng babala at pa-evacuate', correct: true },
-                { text: 'C. Maghintay ng utos', correct: false }
+                { text: 'Manood muna ng balita', correct: false },
+                { text: 'Magbigay agad ng babala at pa-evacuate', correct: true },
+                { text: 'Maghintay ng utos', correct: false }
             ],
             feedback: '✅ Correct! Ang maagap na babala ay nakapagliligtas ng buhay.'
         },
@@ -239,9 +239,9 @@
             scenario: 'Ang baha ay may kasamang lahar (putik, bato, buhangin).',
             question: 'Ano ang tamang aksyon?',
             options: [
-                { text: 'A. Patawirin ang mga tao', correct: false },
-                { text: 'B. Iwasan ang daluyan at i-block ang access', correct: true },
-                { text: 'C. Maglaro sa baha', correct: false }
+                { text: 'Patawirin ang mga tao', correct: false },
+                { text: 'Iwasan ang daluyan at i-block ang access', correct: true },
+                { text: 'Maglaro sa baha', correct: false }
             ],
             feedback: '✅ Correct! Ang lahar ay mas mapanganib kaysa ordinaryong baha.'
         },
@@ -252,9 +252,9 @@
             scenario: 'Malakas ang ulan nang higit isang oras.',
             question: 'Ano ang dapat mong ipaliwanag sa komunidad?',
             options: [
-                { text: 'A. Normal lang ito', correct: false },
-                { text: 'B. Posibleng magdulot ng flashflood lalo na malapit sa bulkan', correct: true },
-                { text: 'C. Walang epekto', correct: false }
+                { text: 'Normal lang ito', correct: false },
+                { text: 'Posibleng magdulot ng flashflood lalo na malapit sa bulkan', correct: true },
+                { text: 'Walang epekto', correct: false }
             ],
             feedback: '✅ Correct! Ang kaalaman sa sanhi ay susi sa pag-iwas sa panganib.'
         },
@@ -265,9 +265,9 @@
             scenario: 'Nahihirapan ang mga tao sa paglikas.',
             question: 'Ano ang gagawin mo?',
             options: [
-                { text: 'A. Hayaan sila', correct: false },
-                { text: 'B. Mag-organize ng rescue at evacuation', correct: true },
-                { text: 'C. Isara ang barangay', correct: false }
+                { text: 'Hayaan sila', correct: false },
+                { text: 'Mag-organize ng rescue at evacuation', correct: true },
+                { text: 'Isara ang barangay', correct: false }
             ],
             feedback: '✅ Correct! Ang mabilis na pagtugon ay nakababawas ng pinsala.'
         },
@@ -278,9 +278,9 @@
             scenario: 'Maraming debris sa kalsada.',
             question: 'Ano ang susunod na hakbang?',
             options: [
-                { text: 'A. Iwanan', correct: false },
-                { text: 'B. Magsagawa ng clearing operations at magbigay ng relief', correct: true },
-                { text: 'C. Maghintay ng tulong', correct: false }
+                { text: 'Iwanan', correct: false },
+                { text: 'Magsagawa ng clearing operations at magbigay ng relief', correct: true },
+                { text: 'Maghintay ng tulong', correct: false }
             ],
             feedback: '✅ Correct! Ang organisadong pagtugon ay nagpapabilis ng pagbangon.'
         },
@@ -291,13 +291,20 @@
             scenario: 'May babala ang awtoridad.',
             question: 'Ano ang dapat gawin ng komunidad?',
             options: [
-                { text: 'A. Balewalain', correct: false },
-                { text: 'B. Sumunod at makiisa', correct: true },
-                { text: 'C. Maghintay muna', correct: false }
+                { text: 'Balewalain', correct: false },
+                { text: 'Sumunod at makiisa', correct: true },
+                { text: 'Maghintay muna', correct: false }
             ],
             feedback: '✅ Correct! Ang disiplina at pagtutulungan ay nagliligtas ng buhay.'
         }
     ];
+
+    function shuffleOptions(options) {
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+    }
 
     let currentLevel = 0;
     let score = 0;
@@ -330,6 +337,13 @@
 
     function renderLevel() {
         const level = gameData[currentLevel];
+
+        // ✅ Shuffle ONLY ONCE per level
+        if (!level.shuffled) {
+            shuffleOptions(level.options);
+            level.shuffled = true;
+        }
+
         document.getElementById('lvlDisplay').textContent = `LEVEL ${level.level}/6`;
         document.getElementById('phaseTag').textContent = level.phase;
         document.getElementById('scenarioText').textContent = level.scenario;
@@ -348,6 +362,7 @@
 
         document.getElementById('feedbackBox').style.display = 'none';
         document.getElementById('nextBtn').disabled = true;
+
         answered = false;
     }
 

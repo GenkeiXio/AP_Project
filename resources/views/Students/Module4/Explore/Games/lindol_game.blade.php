@@ -321,9 +321,9 @@
             scenario: 'Malakas na lindol ang tumama sa lungsod.',
             question: 'Ano ang unang gagawin mo?',
             options: [
-                { text: 'A. Tumakbo palabas agad', correct: false },
-                { text: 'B. Mag "Duck, Cover, and Hold"', correct: true },
-                { text: 'C. Mag-panic', correct: false }
+                { text: 'Tumakbo palabas agad', correct: false },
+                { text: 'Mag "Duck, Cover, and Hold"', correct: true },
+                { text: 'Mag-panic', correct: false }
             ],
             feedback: '✅ Correct! Ang tamang kilos habang lumilindol ay nakapagliligtas ng buhay.',
             wrongFeedback: '❌ Hindi ito ligtas habang lumilindol.'
@@ -335,9 +335,9 @@
             scenario: 'Maraming nasawi at nasugatan',
             question: 'Ano ang uunahin mo?',
             options: [
-                { text: 'A. Maghintay', correct: false },
-                { text: 'B. Magbigay ng first aid at unahin ang kritikal', correct: true },
-                { text: 'C. Mag-record ng video', correct: false }
+                { text: 'Maghintay', correct: false },
+                { text: 'Magbigay ng first aid at unahin ang kritikal', correct: true },
+                { text: 'Mag-record ng video', correct: false }
             ],
             feedback: '✅ Correct! Ang agarang tulong ay kritikal sa oras ng sakuna.',
             wrongFeedback: '❌ Hindi ito ang pinakamabilis na paraan para makaligtas ng buhay.'
@@ -349,9 +349,9 @@
             scenario: 'Maraming gusali ang gumuho',
             question: 'Ano ang tamang aksyon?',
             options: [
-                { text: 'A. Pumasok agad', correct: false },
-                { text: 'B. Mag-inspect muna kung ligtas', correct: true },
-                { text: 'C. Balewalain', correct: false }
+                { text: 'Pumasok agad', correct: false },
+                { text: 'Mag-inspect muna kung ligtas', correct: true },
+                { text: 'Balewalain', correct: false }
             ],
             feedback: '✅ Correct! Ang safety assessment ay mahalaga bago kumilos.',
             wrongFeedback: '❌ Delikado ang kumilos nang walang safety assessment.'
@@ -363,9 +363,9 @@
             scenario: 'Punuan ang ospital',
             question: 'Ano ang gagawin mo?',
             options: [
-                { text: 'A. Pauwiin ang pasyente', correct: false },
-                { text: 'B. Mag-set up ng temporary treatment area', correct: true },
-                { text: 'C. Isara ang ospital', correct: false }
+                { text: 'Pauwiin ang pasyente', correct: false },
+                { text: 'Mag-set up ng temporary treatment area', correct: true },
+                { text: 'Isara ang ospital', correct: false }
             ],
             feedback: '✅ Correct! Ang flexibility sa response ay nakakatulong sa mas maraming buhay.',
             wrongFeedback: '❌ Kailangan ng alternatibong setup para magpatuloy ang gamutan.'
@@ -377,9 +377,9 @@
             scenario: 'Maraming evacuees',
             question: 'Ano ang dapat tiyakin?',
             options: [
-                { text: 'A. Walang sistema', correct: false },
-                { text: 'B. Organisado at ligtas na evacuation center', correct: true },
-                { text: 'C. Bahala na', correct: false }
+                { text: 'Walang sistema', correct: false },
+                { text: 'Organisado at ligtas na evacuation center', correct: true },
+                { text: 'Bahala na', correct: false }
             ],
             feedback: '✅ Correct! Ang maayos na evacuation ay nagbabawas ng panganib.',
             wrongFeedback: '❌ Kailangan ng organisadong evacuation para maiwasan ang panic at aksidente.'
@@ -391,9 +391,9 @@
             scenario: 'May patuloy na aftershocks',
             question: 'Ano ang tamang gawin?',
             options: [
-                { text: 'A. Bumalik agad sa bahay', correct: false },
-                { text: 'B. Manatili sa open at ligtas na lugar', correct: true },
-                { text: 'C. Maglakad-lakad', correct: false }
+                { text: 'Bumalik agad sa bahay', correct: false },
+                { text: 'Manatili sa open at ligtas na lugar', correct: true },
+                { text: 'Maglakad-lakad', correct: false }
             ],
             feedback: '✅ Correct! Ang aftershocks ay maaaring mas mapanganib.',
             wrongFeedback: '❌ Delikado pa rin ang paligid habang may aftershocks.'
@@ -405,14 +405,21 @@
             scenario: 'Kailangan ng rescue at relief',
             question: 'Ano ang gagawin mo?',
             options: [
-                { text: 'A. Sarili lang', correct: false },
-                { text: 'B. Makipagtulungan sa rescue teams', correct: true },
-                { text: 'C. Umalis', correct: false }
+                { text: 'Sarili lang', correct: false },
+                { text: 'Makipagtulungan sa rescue teams', correct: true },
+                { text: 'Umalis', correct: false }
             ],
             feedback: '✅ Correct! Ang bayanihan ang susi sa pagbangon.',
             wrongFeedback: '❌ Sa sakuna, mahalaga ang koordinasyon at pagtutulungan.'
         }
     ];
+
+    function shuffleOptions(options) {
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+    }
 
     let currentLevel = 0;
     let score = 0;
@@ -444,6 +451,13 @@
 
     function renderLevel() {
         const level = gameData[currentLevel];
+
+        // ✅ Shuffle only once
+        if (!level.shuffled) {
+            shuffleOptions(level.options);
+            level.shuffled = true;
+        }
+
         document.getElementById('levelBadge').textContent = `Phase ${level.level} of 7`;
         document.getElementById('progressBar').style.width = ((currentLevel + 1) / 7 * 100) + '%';
         document.getElementById('scenarioIcon').textContent = level.icon;
@@ -465,6 +479,7 @@
         const fb = document.getElementById('feedbackBox');
         fb.style.display = 'none';
         fb.className = 'feedback-box';
+
         document.getElementById('nextBtn').disabled = true;
         answered = false;
     }
@@ -538,6 +553,7 @@
     }
 
     function restartGame() {
+        gameData.forEach(level => delete level.shuffled);
         currentLevel = 0; score = 0; answered = false;
         document.querySelector('.game-screen').style.display = 'block';
         document.getElementById('resultsScreen').style.display = 'none';

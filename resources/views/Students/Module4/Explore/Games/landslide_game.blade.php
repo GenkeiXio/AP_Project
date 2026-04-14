@@ -319,9 +319,9 @@
       situation: "Patuloy ang malakas na ulan dulot ng bagyo.",
       question: "Ano ang unang hakbang mo?",
       options: [
-        { text: "A. Maghintay muna", correct: false },
-        { text: "B. Maghanda at magbabala sa mga residente", correct: true },
-        { text: "C. Matulog na lang", correct: false }
+        { text: "Maghintay muna", correct: false },
+        { text: "Maghanda at magbabala sa mga residente", correct: true },
+        { text: "Matulog na lang", correct: false }
       ],
       feedback: "PROMPT ACTION: Ang maagang babala ang pinakamahalagang depensa laban sa sakuna."
     },
@@ -331,9 +331,9 @@
       situation: "May lupa at putik na gumuho mula sa bundok.",
       question: "Ano ang ibig sabihin nito?",
       options: [
-        { text: "A. Ligtas pa rin", correct: false },
-        { text: "B. May landslide na nagaganap", correct: true },
-        { text: "C. Normal lang", correct: false }
+        { text: "Ligtas pa rin", correct: false },
+        { text: "May landslide na nagaganap", correct: true },
+        { text: "Normal lang", correct: false }
       ],
       feedback: "SENSORY DATA: Ito ay isang visual confirmation ng gumuguhong slope."
     },
@@ -343,9 +343,9 @@
       situation: "May mga bahay na natatabunan na ng lupa.",
       question: "Ano ang dapat gawin?",
       options: [
-        { text: "A. Pabayaan muna", correct: false },
-        { text: "B. Ilikas agad ang mga residente", correct: true },
-        { text: "C. Mag-video lang", correct: false }
+        { text: "Pabayaan muna", correct: false },
+        { text: "Ilikas agad ang mga residente", correct: true },
+        { text: "Mag-video lang", correct: false }
       ],
       feedback: "LIFE SAFETY: Sa yugtong ito, bawat segundo ay mahalaga para sa evacuation."
     },
@@ -355,9 +355,9 @@
       situation: "Ililipat ang mga residente sa ligtas na lugar.",
       question: "Saan sila dapat dalhin?",
       options: [
-        { text: "A. Sa delikadong lugar", correct: false },
-        { text: "B. Sa evacuation center (paaralan)", correct: true },
-        { text: "C. Sa tabi ng bundok", correct: false }
+        { text: "Sa delikadong lugar", correct: false },
+        { text: "Sa evacuation center (paaralan)", correct: true },
+        { text: "Sa tabi ng bundok", correct: false }
       ],
       feedback: "STRATEGIC BASE: Ang mga pre-designated centers ay may supply at proteksyon."
     },
@@ -367,9 +367,9 @@
       situation: "May panibagong landslide habang may clearing operations.",
       question: "Ano ang gagawin mo?",
       options: [
-        { text: "A. Ipagpatuloy kahit delikado", correct: false },
-        { text: "B. Itigil muna at tiyakin ang kaligtasan", correct: true },
-        { text: "C. Balewalain", correct: false }
+        { text: "Ipagpatuloy kahit delikado", correct: false },
+        { text: "Itigil muna at tiyakin ang kaligtasan", correct: true },
+        { text: "Balewalain", correct: false }
       ],
       feedback: "OPERATIONAL SAFETY: Huwag hayaang maging biktima ang mga responders."
     },
@@ -379,9 +379,9 @@
       situation: "May nawawalang 60-anyos na lalaki sa impact zone.",
       question: "Ano ang tamang aksyon?",
       options: [
-        { text: "A. Huwag pansinin", correct: false },
-        { text: "B. Maglunsad ng search and rescue", correct: true },
-        { text: "C. Umuwi na lang", correct: false }
+        { text: "Huwag pansinin", correct: false },
+        { text: "Maglunsad ng search and rescue", correct: true },
+        { text: "Umuwi na lang", correct: false }
       ],
       feedback: "MISSION PRIORITY: Walang maiiwan. Bawat buhay ay may halaga."
     },
@@ -391,13 +391,20 @@
       situation: "Nais mong maiwasan ang sakuna sa susunod na panahon.",
       question: "Ano ang dapat gawin ng komunidad?",
       options: [
-        { text: "A. Huwag makinig sa babala", correct: false },
-        { text: "B. Sumunod sa abiso at lumikas agad", correct: true },
-        { text: "C. Manatili sa bahay", correct: false }
+        { text: "Huwag makinig sa babala", correct: false },
+        { text: "Sumunod sa abiso at lumikas agad", correct: true },
+        { text: "Manatili sa bahay", correct: false }
       ],
       feedback: "CULTURE OF SAFETY: Ang disiplina ang pinakamabisang kagamitan sa kaligtasan."
     }
   ];
+
+  function shuffleOptions(options) {
+      for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+      }
+  }
 
   let currentLevelIndex = 0;
   let score = 0;
@@ -437,6 +444,13 @@
     }
 
     const level = levels[currentLevelIndex];
+
+    // ✅ shuffle only once per level
+    if (!level.shuffled) {
+      shuffleOptions(level.options);
+      level.shuffled = true;
+    }
+
     const answered = userAnswers[currentLevelIndex] !== null;
 
     let optionsHtml = level.options.map((opt, idx) => {
@@ -504,6 +518,8 @@
 
     saveGameResult(rank);
   }
+
+  levels.forEach(level => level.shuffled = false);
 
   renderLevel();
 </script>
