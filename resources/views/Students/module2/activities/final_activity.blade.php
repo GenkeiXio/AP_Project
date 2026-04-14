@@ -435,7 +435,7 @@ button:disabled{
                         {t:"Makilahok sa disaster drills",c:true, img:"/pictures/Mod2_FinalAct/disaster_drill.png"},
                         {t:"Sumunod sa early warning system",c:true, img:"/pictures/Mod2_FinalAct/warning_system.png"},
                         {t:"Maghihintay na lamang",c:false, img:"/pictures/Mod2_FinalAct/waiting.png"},
-                        {t:"Lumikas sa evacuation center",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"}
+                        {t:"Lumikas papunta sa evacuation center",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"}
                     ]
                 },
 
@@ -458,7 +458,7 @@ button:disabled{
                     desc:"Mausok na lugar",
                     question:"Ano ang solusyon?",
                     choices:[
-                        {t:"Public transport",c:true, img:"/pictures/Mod2_FinalAct/public_transport.png"},
+                        {t:"Pag gamit ng public transport",c:true, img:"/pictures/Mod2_FinalAct/public_transport.png"},
                         {t:"Tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
                         {t:"Reduce burning",c:true, img:"/pictures/Mod2_FinalAct/reduce_burning.png"},
                         {t:"Mag-sunog pa",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"}

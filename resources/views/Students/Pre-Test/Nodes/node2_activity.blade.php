@@ -913,7 +913,7 @@
                 <div class="modal-feedback-text" id="modalFeedbackText"></div>
                 <div class="modal-actions">
                     <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
-                    <a href="{{ route('node3') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
+                    <!-- <a href="{{ route('node3') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a> -->
                 </div>
             </div>
         </div>

@@ -626,7 +626,7 @@
 <div class="mobile-nav" id="mobileNav">
     <ul>
         <li><a href="{{ url('/') }}">🏠 Home</a></li>
-        <li><a href="{{ route('module.home') }}">📘 Module 2</a></li>
+        <li><a href="{{ route('module.home') }}">📘 Kalagayan, Suliranin At Pagtugon Sa Isyung Pangkapaligiran Ng Pilipinas</a></li>
         <li><a href="{{ route('module3.home') }}">📗 Module 3</a></li>
         <li><a href="{{ route('module4.home') }}">📙 Module 4</a></li>
         <li><a href="#" onclick="showIntroModal()">ℹ️ About Mission</a></li>
@@ -677,15 +677,15 @@
         <img src="{{ asset('pictures/main_map2.png') }}" class="background-map" alt="Main Map">
 
         <button class="pin location-1" onclick="enterModule(this, '{{ route('module.home') }}')">
-            <span class="tooltip">Module 2</span>
+            <span class="tooltip">PAKSA 1:<br> Kalagayan, Suliranin <br>At Pagtugon Sa Isyung<br> Pangkapaligiran Ng Pilipinas</span>
         </button>
 
         <button class="pin location-2" onclick="enterModule(this, '{{ route('module3.home') }}')">
-             <span class="tooltip">Module 3</span>
+             <span class="tooltip">PAKSA 2:<br> Paghahandang Nararapat Gawin <br>sa Harap ng Panganib na Dulot <br>ng Suliraning Pangkapaligiran</span>
         </button>
 
         <button class="pin location-3" onclick="enterModule(this, '{{ route('module4.home') }}')">
-            <span class="tooltip">Module 4</span>
+            <span class="tooltip">PAKSA 3:<br> Kahalagahan ng Kahandaan, <br> Disiplina at Kooperasyon sa Pagtugon <br> sa mga Hamong Pangkapaligiran</span>
         </button>
 
     </div> 

@@ -913,22 +913,36 @@
 
 
 <script>
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+
+	function shuffleQuestionsAndChoices() {
+		shuffleArray(questions);
+		questions.forEach(q => {
+			shuffleArray(q.options);
+		});
+	}
+
 	const questions = [
-        { question:'1. Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?', options:{ a:'Mga yamang likas sa kagubatan', b:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo', c:'Mga anyong tubig sa kapaligiran', d:'Mga produktong agrikultural' }, answer:'b' },
-        { question:'2. Ano ang pangunahing suliraning nagdudulot ng pagdami ng basura sa bansa?', options:{ a:'Kakulangan ng ulan', b:'Kawalan ng disiplina sa pagtatapon ng basura', c:'Pagdami ng puno', d:'Malinis na kapaligiran' }, answer:'b' },
-        { question:'3. Ano ang posibleng mangyari kung patuloy ang maling pamamahala ng basura?', options:{ a:'Pag-unlad ng kalikasan', b:'Pagbaha at pagkalat ng sakit', c:'Pagdami ng likas na yaman', d:'Paglilinis ng hangin' }, answer:'b' },
-        { question:'4. Ano ang tinutukoy kapag sinabing pagkakalbo ng kagubatan?', options:{ a:'Reforestation', b:'Deforestation', c:'Urbanisasyon', d:'Industrialisasyon' }, answer:'b' },
-        { question:'5. Alin sa mga sumusunod ang halimbawa ng gawaing nakasisira sa kagubatan?', options:{ a:'Tree planting', b:'Illegal logging', c:'Recycling', d:'Waste segregation' }, answer:'b' },
-        { question:'6. Ano ang epekto ng patuloy na pagputol ng mga puno?', options:{ a:'Pagdami ng biodiversity', b:'Pagbaha at soil erosion', c:'Paglamig ng panahon', d:'Pagdami ng hayop' }, answer:'b' },
-        { question:'7. Paano mailalarawan ang climate change?', options:{ a:'Pagbabago sa anyong lupa', b:'Pagbabago sa pangmatagalang kondisyon ng klima', c:'Pagtaas ng populasyon', d:'Pagdami ng kagubatan' }, answer:'b' },
-        { question:'8. Alin sa mga sumusunod ang nagpapalala sa climate change?', options:{ a:'Paggamit ng renewable energy', b:'Pagsusunog ng fossil fuels', c:'Pagtatanim ng puno', d:'Paglilinis ng kapaligiran' }, answer:'b' },
-        { question:'9. Ano ang isa sa mga epekto ng patuloy na pag-init ng mundo?', options:{ a:'Mas mahinang bagyo', b:'Mas malalakas na kalamidad', c:'Mas malamig na klima', d:'Mas maraming kagubatan' }, answer:'b' },
-        { question:'10. Ano ang pangunahing layunin ng Ecological Solid Waste Management Act (RA 9003)?', options:{ a:'Palakihin ang produksyon ng basura', b:'Isulong ang wastong pamamahala ng basura', c:'Magtayo ng pabrika', d:'Putulin ang mga puno' }, answer:'b' },
-        { question:'11. Ano ang kahalagahan ng early warning system sa komunidad?', options:{ a:'Para magtanim ng puno', b:'Para makapagbigay ng paunang babala sa sakuna', c:'Para mangolekta ng basura', d:'Para magpatupad ng batas' }, answer:'b' },
-        { question:'12. Bakit mahalaga ang agarang paglikas sa panahon ng sakuna?', options:{ a:'Para makapasyal', b:'Para maiwasan ang panganib at makaligtas', c:'Para kumita', d:'Para magtapon ng basura' }, answer:'b' },
-        { question:'13. Ano ang ipinapakita ng pakikiisa ng mamamayan sa mga programang pangkalikasan?', options:{ a:'Kawalan ng interes', b:'Pansariling layunin', c:'Pananagutang panlipunan', d:'Pagiging tamad' }, answer:'c' },
-        { question:'14. Alin sa sumusunod ang pinakaepektibong paraan ng pangangalaga sa kapaligiran?', options:{ a:'Pagtapon ng basura kung saan-saan', b:'Pagsusunog ng basura', c:'Paghihiwalay ng basura (waste segregation)', d:'Pagputol ng puno' }, answer:'c' },
-        { question:'15. Bilang kabataan, alin ang pinakamainam na hakbang upang makatulong sa kalikasan?', options:{ a:'Manahimik lamang', b:'Makilahok sa mga programang pangkalikasan', c:'Magtapon ng basura sa ilog', d:'Sirain ang mga halaman' }, answer:'b' }
+        { question:'Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?', options:[{key:'a', text:'Mga yamang likas sa kagubatan'}, {key:'b', text:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo'}, {key:'c', text:'Mga anyong tubig sa kapaligiran'}, {key:'d', text:'Mga produktong agrikultural'}], answer:'b' },
+        { question:'Ano ang pangunahing suliraning nagdudulot ng pagdami ng basura sa bansa?', options:[{key:'a', text:'Kakulangan ng ulan'}, {key:'b', text:'Kawalan ng disiplina sa pagtatapon ng basura'}, {key:'c', text:'Pagdami ng puno'}, {key:'d', text:'Malinis na kapaligiran'}], answer:'b' },
+        { question:'Ano ang posibleng mangyari kung patuloy ang maling pamamahala ng basura?', options:[{key:'a', text:'Pag-unlad ng kalikasan'}, {key:'b', text:'Pagbaha at pagkalat ng sakit'}, {key:'c', text:'Pagdami ng likas na yaman'}, {key:'d', text:'Paglilinis ng hangin'}], answer:'b' },
+        { question:'Ano ang tinutukoy kapag sinabing pagkakalbo ng kagubatan?', options:[{key:'a', text:'Reforestation'}, {key:'b', text:'Deforestation'}, {key:'c', text:'Urbanisasyon'}, {key:'d', text:'Industrialisasyon'}], answer:'b' },
+        { question:'Alin sa mga sumusunod ang halimbawa ng gawaing nakasisira sa kagubatan?', options:[{key:'a', text:'Tree planting'}, {key:'b', text:'Illegal logging'}, {key:'c', text:'Recycling'}, {key:'d', text:'Waste segregation'}], answer:'b' },
+        { question:'Ano ang epekto ng patuloy na pagputol ng mga puno?', options:[{key:'a', text:'Pagdami ng biodiversity'}, {key:'b', text:'Pagbaha at soil erosion'}, {key:'c', text:'Paglamig ng panahon'}, {key:'d', text:'Pagdami ng hayop'}], answer:'b' },
+        { question:'Paano mailalarawan ang climate change?', options:[{key:'a', text:'Pagbabago sa anyong lupa'}, {key:'b', text:'Pagbabago sa pangmatagalang kondisyon ng klima'}, {key:'c', text:'Pagtaas ng populasyon'}, {key:'d', text:'Pagdami ng kagubatan'}], answer:'b' },
+        { question:'Alin sa mga sumusunod ang nagpapalala sa climate change?', options:[{key:'a', text:'Paggamit ng renewable energy'}, {key:'b', text:'Pagsusunog ng fossil fuels'}, {key:'c', text:'Pagtatanim ng puno'}, {key:'d', text:'Paglilinis ng kapaligiran'}], answer:'b' },
+        { question:'Ano ang isa sa mga epekto ng patuloy na pag-init ng mundo?', options:[{key:'a', text:'Mas mahinang bagyo'}, {key:'b', text:'Mas malalakas na kalamidad'}, {key:'c', text:'Mas malamig na klima'}, {key:'d', text:'Mas maraming kagubatan'}], answer:'b' },
+        { question:'Ano ang pangunahing layunin ng Ecological Solid Waste Management Act (RA 9003)?', options:[{key:'a', text:'Palakihin ang produksyon ng basura'}, {key:'b', text:'Isulong ang wastong pamamahala ng basura'}, {key:'c', text:'Magtayo ng pabrika'}, {key:'d', text:'Putulin ang mga puno'}], answer:'b' },
+        { question:'Ano ang kahalagahan ng early warning system sa komunidad?', options:[{key:'a', text:'Para magtanim ng puno'}, {key:'b', text:'Para makapagbigay ng paunang babala sa sakuna'}, {key:'c', text:'Para mangolekta ng basura'}, {key:'d', text:'Para magpatupad ng batas'}], answer:'b' },
+        { question:'Bakit mahalaga ang agarang paglikas sa panahon ng sakuna?', options:[{key:'a', text:'Para makapasyal'}, {key:'b', text:'Para maiwasan ang panganib at makaligtas'}, {key:'c', text:'Para kumita'}, {key:'d', text:'Para magtapon ng basura'}], answer:'b' },
+        { question:'Ano ang ipinapakita ng pakikiisa ng mamamayan sa mga programang pangkalikasan?', options:[{key:'a', text:'Kawalan ng interes'}, {key:'b', text:'Pansariling layunin'}, {key:'c', text:'Pananagutang panlipunan'}, {key:'d', text:'Pagiging tamad'}], answer:'c' },
+        { question:'Alin sa sumusunod ang pinakaepektibong paraan ng pangangalaga sa kapaligiran?', options:[{key:'a', text:'Pagtapon ng basura kung saan-saan'}, {key:'b', text:'Pagsusunog ng basura'}, {key:'c', text:'Paghihiwalay ng basura (waste segregation)'}, {key:'d', text:'Pagputol ng puno'}], answer:'c' },
+        { question:'Bilang kabataan, alin ang pinakamainam na hakbang upang makatulong sa kalikasan?', options:[{key:'a', text:'Manahimik lamang'}, {key:'b', text:'Makilahok sa mga programang pangkalikasan'}, {key:'c', text:'Magtapon ng basura sa ilog'}, {key:'d', text:'Sirain ang mga halaman'}], answer:'b' }
     ];
 
 	const questionList = document.getElementById('questionList');
@@ -1007,7 +1021,9 @@
 		const isCorrect = selectedValue && selectedValue === item.answer;
 		const animationClass = getCardAnimationClass();
 
-		const choicesHtml = Object.entries(item.options).map(([key, text]) => {
+		const choicesHtml = item.options.map(option => {
+			const key = option.key;
+			const text = option.text;
 			let classNames = ['choice'];
 			if (selectedValue === key) classNames.push('selected');
 			if (isConfirmed && key === item.answer) classNames.push('correct-reveal');
@@ -1215,6 +1231,7 @@
 
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+		shuffleQuestionsAndChoices();
 		renderCurrentQuestion();
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});

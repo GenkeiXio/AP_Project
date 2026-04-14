@@ -1096,7 +1096,7 @@
                 <div class="modal-feedback-text" id="modalFeedbackText"></div>
                 <div class="modal-actions">
                     <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
-                    <a href="{{ route('node2') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
+                    <!-- <a href="{{ route('node2') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a> -->
                 </div>
             </div>
         </div>
@@ -1164,6 +1164,18 @@
         ];
 
         let completedRecords = [];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initializeAndShuffleItems() {
+            shuffleArray(items);
+        }
 
         const zoneNameFil = {
             cause: 'Sanhi',
@@ -1375,8 +1387,7 @@
                         itemIndex += 1;
                         dragged = false;
                         if (itemIndex < items.length) {
-                            zone.classList.remove('drop-pop', 'spark', 'filled');
-                            zone.innerHTML = '';
+                            zone.classList.remove('drop-pop', 'spark');
                             resetZoneStatus();
                             updateCard();
                         } else {
@@ -1434,6 +1445,7 @@
                 }
             });
         });
+        initializeAndShuffleItems();
         typeLine(lines[0]);
     </script>
 @endsection
