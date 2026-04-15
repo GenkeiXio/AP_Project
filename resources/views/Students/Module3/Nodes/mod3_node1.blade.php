@@ -310,10 +310,10 @@ body {
 .hidden { display: none !important; }
 </style>
 
-<a href="{{ route('inner.map3') }}" class="back-button">
+<!-- <a href="{{ route('inner.map3') }}" class="back-button">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Bumalik sa Mapa
-</a>
+</a> -->
 
 <div class="main-wrapper">
     <div class="game-container">
@@ -348,7 +348,23 @@ body {
                 </div>
             </div>
 
-            <div id="playArea">
+            <div style="text-align:center; margin-bottom:20px;" id="startWrapper">
+                <button id="startBtn" style="
+                    padding: 15px 30px;
+                    font-weight: 800;
+                    border-radius: 15px;
+                    border: none;
+                    background: var(--primary);
+                    color: white;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+                ">
+                    ▶ Simulan ang Laro
+                </button>
+            </div>
+
+            <div id="playArea" class="hidden">
                 <div class="target-area" id="dropZone">
                     <div class="drop-hint">
                         IPATALASTAS ANG LARAWAN DITO
@@ -735,7 +751,13 @@ function endMission() {
     sessionStorage.setItem("m3_node1", "true");
 }
 
-initRound();
+document.getElementById('startBtn').addEventListener('click', () => {
+    document.getElementById('startWrapper').classList.add('hidden');
+    document.getElementById('playArea').classList.remove('hidden');
+    initRound();
+});
+
+// initRound();
 
 function saveGameResult(){
     fetch("{{ route('module3.node1.save') }}", {
