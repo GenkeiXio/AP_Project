@@ -493,86 +493,76 @@
         }
     }
 
-    /* For mobile phones (portrait) - Show burger, hide back button */
     @media (max-width: 768px) {
-        /* Hide desktop back button on mobile */
+
+        /* Allow scroll only on mobile */
+        body, html {
+            overflow: auto !important;
+        }
+
+        /* Keep full screen but fix mobile viewport */
+        .map-wrapper,
+        .map-container {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+        }
+
+        /* KEEP cover so pins stay aligned */
+        .background-map {
+            object-fit: cover;
+        }
+
+        /* Show burger / hide back */
         .back-button {
             display: none;
         }
-        
-        /* Show burger menu */
+
         .burger-menu {
             display: flex;
         }
-        
+
+        /* Smaller pins (safe size) */
         .pin {
-            width: 65px;
-            height: 85px;
+            width: 70px;
+            height: 95px;
         }
-        
+
+        /* Tooltip fix */
         .pin .tooltip {
-            bottom: 70px;
-            font-size: 11px;
-            padding: 3px 8px;
-            white-space: nowrap;
-        }
-        
-        /* Adjust pin positions for better visibility on mobile */
-        .location-1 { top: 48%; left: 22%; }
-        .location-2 { top: 51%; left: 48%; }
-        .location-3 { top: 57%; left: 80%; }
-        
-        .modal-content {
-            width: 92%;
-            max-width: none;
-            padding: 16px;
-            border-radius: 18px;
-            max-height: 80vh;
-        }
-        
-        .modal-section {
-            padding: 12px;
-            margin-bottom: 12px;
-            border-left-width: 4px;
-        }
-        
-        .modal-section h3 {
-            font-size: 0.95rem;
-            margin-bottom: 6px;
-        }
-        
-        .modal-section p {
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-        
-        .modal-content .btn-primary {
-            padding: 12px;
-            font-size: 0.9rem;
-        }
-        
-        /* Tooltip visibility on tap for mobile */
-        .pin:active .tooltip {
-            background-color: #ffa502;
-            color: #000;
-        }
-        
-        /* Adjust modal for better mobile viewing */
-        .modal {
-            align-items: center;
-            padding: 10px;
+            bottom: 75px;
+            font-size: 12px;
+            padding: 4px 8px;
+            white-space: normal;
+            max-width: 140px;
+            text-align: center;
         }
 
+        /* KEEP ORIGINAL POSITIONS (important!) */
+        .location-1 { top: 50%; left: 25%; }
+        .location-2 { top: 53%; left: 50%; }
+        .location-3 { top: 59%; left: 82%; }
+
+        /* Disable zoom glitch on mobile */
+        .map-container {
+            transform: none !important;
+        }
+
+        /* Tap feedback */
+        .pin:active {
+            transform: translate(-50%, -100%) scale(1.15);
+        }
+
+        /* Lock icon */
         .lock-icon {
-            bottom: 55px;
+            bottom: 60px;
             font-size: 16px;
-            padding: 3px 7px;
         }
 
+        /* Notification */
         .locked-notification {
-            font-size: 11px;
-            padding: 8px 16px;
-            white-space: nowrap;
+            font-size: 12px;
+            padding: 8px 14px;
         }
     }
 
@@ -714,6 +704,8 @@
         -webkit-text-size-adjust: 100%;
         text-size-adjust: 100%;
     }
+
+    
 </style>
 @endpush
 
@@ -836,9 +828,14 @@
     }
     
     function enterModule(pin, url) {
+
+        if (window.innerWidth <= 768) {
+            window.location.href = url;
+            return;
+        }
+
         const map = document.querySelector('.map-container');
 
-        // 🎯 get pin position relative to map
         const rect = map.getBoundingClientRect();
         const pinRect = pin.getBoundingClientRect();
 
@@ -848,21 +845,17 @@
         const mapCenterX = rect.left + rect.width / 2;
         const mapCenterY = rect.top + rect.height / 2;
 
-        // 🧠 calculate offset
         const offsetX = mapCenterX - pinCenterX;
         const offsetY = mapCenterY - pinCenterY;
 
-        // 🎮 apply zoom + pan
         map.style.transform = `
             translate(${offsetX}px, ${offsetY}px)
             scale(2)
         `;
         map.style.transition = "transform 0.7s ease";
 
-        // 🎯 highlight pin
         pin.classList.add("active");
 
-        // 🌫 fade then redirect
         setTimeout(() => {
             document.body.classList.add("screen-fade");
         }, 400);
