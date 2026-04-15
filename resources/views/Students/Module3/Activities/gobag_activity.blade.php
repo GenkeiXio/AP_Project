@@ -85,9 +85,17 @@
         cursor: grab;
         transition: transform 0.2s;
         filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        user-select: none;
+        -webkit-user-drag: element;
+        touch-action: none;
+    }
+
+    .item:active {
+        cursor: grabbing;
     }
 
     .item:hover { transform: scale(1.1); }
+    .item.dragging { opacity: 0.75; transform: scale(0.95); }
 
     /* BAG AREA & FITTING LOGIC */
     .bag-area {
@@ -118,6 +126,12 @@
         z-index: 5;
         gap: 5px;
         pointer-events: auto;
+    }
+
+    #drop-zone.active {
+        background: rgba(30, 136, 229, 0.12);
+        border: 2px dashed rgba(30, 136, 229, 0.6);
+        border-radius: 20px;
     }
 
     .dropped-item {
@@ -177,6 +191,222 @@
     .btn-next { background: var(--success); color: white; }
     .btn-retry { background: #64748b; color: white; }
     .btn:hover { transform: translateY(-3px); opacity: 0.9; }
+
+    .touch-ghost {
+        position: fixed;
+        width: 76px;
+        height: auto;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
+    }
+
+    @media (max-width: 992px) {
+        body {
+            background-attachment: scroll;
+        }
+
+        .header-section {
+            padding: 12px 10px 8px;
+        }
+
+        .game-wrapper {
+            padding: 10px 10px 24px;
+        }
+
+        .game-card {
+            border-radius: 20px;
+            padding: 16px;
+        }
+
+        .game-container {
+            gap: 14px;
+        }
+
+        .items-grid {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        .stat-pill {
+            padding: 8px 14px;
+            font-size: 0.9rem;
+        }
+
+        .bag-visual {
+            max-width: 360px;
+        }
+
+        #drop-zone {
+            width: 58%;
+            height: 52%;
+            gap: 4px;
+        }
+
+        .dropped-item {
+            width: clamp(34px, 9.6vw, 52px);
+        }
+
+        .modal-content {
+            border-radius: 18px;
+            padding: 22px 18px;
+            max-width: 360px;
+        }
+
+        .btn {
+            min-height: 48px;
+            font-size: 0.9rem;
+            padding: 12px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .items-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .bag-visual {
+            max-width: 320px;
+        }
+
+        .game-card {
+            padding: 12px;
+        }
+
+        .stats-container {
+            gap: 8px;
+        }
+
+        .stat-pill {
+            font-size: 0.82rem;
+            padding: 7px 10px;
+        }
+
+        #drop-zone {
+            width: 60%;
+            height: 52%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h2 {
+            font-size: 1.28rem;
+        }
+
+        .header-section {
+            padding: 10px 8px 6px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            gap: 6px;
+        }
+
+        .stat-pill {
+            text-align: center;
+            border-width: 1px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .game-wrapper {
+            padding: 8px 8px 16px;
+        }
+
+        .items-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .bag-visual {
+            max-width: 280px;
+        }
+
+        #drop-zone {
+            top: 24%;
+            width: 62%;
+            height: 54%;
+            gap: 3px;
+        }
+
+        .dropped-item {
+            width: clamp(30px, 11vw, 42px);
+        }
+
+        .modal-content {
+            max-width: 320px;
+            padding: 18px 14px;
+        }
+
+        .modal-content h3 {
+            font-size: 1rem;
+        }
+
+        .rating-badge {
+            padding: 10px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .items-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .bag-visual {
+            max-width: 250px;
+        }
+
+        .btn {
+            font-size: 0.82rem;
+            padding: 10px;
+            min-height: 44px;
+        }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+        .header-section {
+            padding: 6px;
+        }
+
+        .stats-container {
+            margin: 8px 0;
+        }
+
+        .game-wrapper {
+            padding-bottom: 10px;
+        }
+
+        .game-card {
+            padding: 10px;
+        }
+
+        .game-container {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .items-grid {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+
+        .bag-visual {
+            max-width: 260px;
+        }
+
+        .modal-content {
+            max-width: 420px;
+            padding: 14px;
+        }
+    }
 
     @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 </style>
@@ -239,6 +469,9 @@
 let score = 0;
 let time = 0;
 let placedItems = new Set();
+let activeTouchItem = null;
+let touchGhost = null;
+let suppressClickUntil = 0;
 let timerInterval = setInterval(() => { 
     time++; 
     document.getElementById('timer').innerText = time + "s"; 
@@ -246,51 +479,151 @@ let timerInterval = setInterval(() => {
 
 const items = document.querySelectorAll('.item');
 const dropZone = document.getElementById('drop-zone');
+const totalItems = items.length;
 
-items.forEach(item => {
-    item.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('id', item.dataset.id);
-        e.dataTransfer.setData('src', item.src);
-    });
-});
+function vibrate(pattern) {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+        navigator.vibrate(pattern);
+    }
+}
 
-dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.style.backgroundColor = "rgba(30, 136, 229, 0.1)";
-    dropZone.style.borderRadius = "20px";
-});
+function pointInsideDropZone(x, y) {
+    const rect = dropZone.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
 
-dropZone.addEventListener('dragleave', () => {
-    dropZone.style.backgroundColor = "transparent";
-});
+function setDropZoneActive(active) {
+    dropZone.classList.toggle('active', active);
+}
 
-dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.style.backgroundColor = "transparent";
-    
-    const id = e.dataTransfer.getData('id');
-    const src = e.dataTransfer.getData('src');
+function showTouchGhost(src, x, y) {
+    removeTouchGhost();
+    touchGhost = document.createElement('img');
+    touchGhost.src = src;
+    touchGhost.className = 'touch-ghost';
+    document.body.appendChild(touchGhost);
+    moveTouchGhost(x, y);
+}
 
+function moveTouchGhost(x, y) {
+    if (!touchGhost) return;
+    touchGhost.style.left = x + 'px';
+    touchGhost.style.top = y + 'px';
+}
+
+function removeTouchGhost() {
+    if (touchGhost && touchGhost.parentNode) {
+        touchGhost.parentNode.removeChild(touchGhost);
+    }
+    touchGhost = null;
+}
+
+function placeItem(id, src) {
     if (!id || placedItems.has(id)) return;
 
     placedItems.add(id);
     score++;
-    
-    // Create the item inside the bag
+
     const img = document.createElement('img');
     img.src = src;
     img.classList.add('dropped-item');
     dropZone.appendChild(img);
+    vibrate(30);
 
-    // Update UI
-    document.getElementById('progress').innerText = score + " / 10";
-    document.querySelector(`[data-id="${id}"]`).style.visibility = "hidden";
+    document.getElementById('progress').innerText = score + " / " + totalItems;
+    const sourceItem = document.querySelector(`[data-id="${id}"]`);
+    if (sourceItem) {
+        sourceItem.style.visibility = 'hidden';
+        sourceItem.style.pointerEvents = 'none';
+    }
 
-    // Win Check
-    if (score === 10) {
+    if (score === totalItems) {
         clearInterval(timerInterval);
+        vibrate([60, 40, 80]);
         showModal();
     }
+}
+
+items.forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+        if (placedItems.has(item.dataset.id)) {
+            e.preventDefault();
+            return;
+        }
+        item.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', item.dataset.id);
+        e.dataTransfer.setData('id', item.dataset.id);
+        e.dataTransfer.setData('src', item.src);
+        e.dataTransfer.effectAllowed = 'move';
+    });
+
+    item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        setDropZoneActive(false);
+    });
+
+    item.addEventListener('touchstart', (e) => {
+        if (placedItems.has(item.dataset.id)) return;
+        const touch = e.changedTouches[0];
+        if (!touch) return;
+
+        activeTouchItem = item;
+        item.classList.add('dragging');
+        showTouchGhost(item.src, touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    item.addEventListener('touchmove', (e) => {
+        if (!activeTouchItem || activeTouchItem !== item) return;
+        const touch = e.changedTouches[0];
+        if (!touch) return;
+
+        e.preventDefault();
+        moveTouchGhost(touch.clientX, touch.clientY);
+        setDropZoneActive(pointInsideDropZone(touch.clientX, touch.clientY));
+    }, { passive: false });
+
+    item.addEventListener('touchend', (e) => {
+        if (!activeTouchItem || activeTouchItem !== item) return;
+        const touch = e.changedTouches[0];
+        const inside = touch ? pointInsideDropZone(touch.clientX, touch.clientY) : false;
+
+        suppressClickUntil = Date.now() + 350;
+        item.classList.remove('dragging');
+        activeTouchItem = null;
+        removeTouchGhost();
+        setDropZoneActive(false);
+
+        if (inside) {
+            e.preventDefault();
+            placeItem(item.dataset.id, item.src);
+        }
+    }, { passive: false });
+
+    item.addEventListener('touchcancel', () => {
+        if (activeTouchItem !== item) return;
+        item.classList.remove('dragging');
+        activeTouchItem = null;
+        removeTouchGhost();
+        setDropZoneActive(false);
+    }, { passive: true });
+});
+
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    setDropZoneActive(true);
+});
+
+dropZone.addEventListener('dragleave', () => {
+    setDropZoneActive(false);
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    setDropZoneActive(false);
+    
+    const id = e.dataTransfer.getData('id');
+    const src = e.dataTransfer.getData('src');
+    placeItem(id, src);
 });
 
 function showModal() {

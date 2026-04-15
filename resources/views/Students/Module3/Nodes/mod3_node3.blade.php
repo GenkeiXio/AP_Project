@@ -40,6 +40,17 @@ body {
     backdrop-filter: blur(8px);
 }
 
+.header-hero h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.header-hero p {
+    margin-top: 10px;
+    font-size: 1.3rem;
+    opacity: 0.9;
+}
+
 .back-link {
     position: fixed;
     top: 88px;
@@ -209,8 +220,211 @@ body {
 }
 
 @media (max-width: 950px) {
-    .main-grid { grid-template-columns: 1fr; }
+    .game-container {
+        margin: 24px 14px;
+        border-radius: 22px;
+    }
+
+    .header-hero {
+        padding: 38px 22px;
+    }
+
+    .header-hero h1 {
+        font-size: 2rem;
+    }
+
+    .header-hero p {
+        font-size: 1.05rem;
+    }
+
+    .lesson-card,
+    .instruction-box {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .lesson-card {
+        margin-top: -20px;
+        padding: 22px;
+    }
+
+    .instruction-box {
+        padding: 16px 18px;
+    }
+
+    .hud {
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .hud-pill {
+        flex: 1 1 220px;
+        text-align: center;
+        padding: 12px 18px;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 20px 28px;
+    }
+
     .blueprint-grid { grid-template-columns: 1fr; }
+
+    .sim-panel {
+        padding: 22px;
+        border-radius: 20px;
+    }
+
+    #simLog {
+        min-height: 96px;
+        padding: 14px;
+    }
+
+    .action-btn {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .back-link {
+        position: sticky;
+        top: 10px;
+        left: auto;
+        margin: 10px 10px 0;
+        display: inline-flex;
+    }
+
+    .header-hero {
+        padding: 26px 16px;
+    }
+
+    .header-hero h1 {
+        font-size: 1.55rem;
+        line-height: 1.25;
+    }
+
+    .header-hero p {
+        font-size: 0.92rem;
+        margin-top: 8px;
+    }
+
+    .lesson-card,
+    .instruction-box,
+    .hud,
+    .main-grid {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+    .lesson-card {
+        border-left-width: 6px;
+        border-radius: 16px;
+        padding: 16px;
+    }
+
+    .instruction-box {
+        gap: 10px;
+        border-radius: 14px;
+        align-items: flex-start;
+    }
+
+    .instruction-text h4 {
+        font-size: 1rem;
+    }
+
+    .instruction-text ol {
+        font-size: 0.85rem;
+        padding-left: 18px;
+    }
+
+    .hud {
+        margin-bottom: 18px;
+    }
+
+    .hud-pill {
+        font-size: 0.96rem;
+        padding: 10px 14px;
+    }
+
+    .main-grid {
+        padding: 0 0 18px;
+        gap: 14px;
+    }
+
+    .blueprint-grid {
+        gap: 12px;
+    }
+
+    .strategy-card {
+        border-radius: 14px;
+        padding: 16px 14px;
+    }
+
+    .strategy-card h3 {
+        margin: 4px 0 8px;
+        font-size: 1rem;
+        line-height: 1.35;
+        padding-right: 56px;
+    }
+
+    .strategy-card p {
+        margin: 0;
+        font-size: 0.88rem;
+        line-height: 1.45;
+    }
+
+    .cost-tag {
+        top: 8px;
+        right: 8px;
+        font-size: 0.68rem;
+        padding: 3px 8px;
+    }
+
+    .sim-panel {
+        border-radius: 14px;
+        padding: 14px;
+    }
+
+    .sim-panel h2 {
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    #simLog {
+        font-size: 0.86rem;
+        line-height: 1.45;
+        min-height: 88px;
+    }
+
+    .action-btn {
+        margin-top: 12px;
+        font-size: 0.95rem;
+        padding: 14px;
+        border-radius: 12px;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 400px) {
+    .header-hero h1 {
+        font-size: 1.35rem;
+    }
+
+    .header-hero p {
+        font-size: 0.85rem;
+    }
+
+    .strategy-card h3 {
+        font-size: 0.93rem;
+    }
+
+    .strategy-card p,
+    #simLog {
+        font-size: 0.82rem;
+    }
 }
 </style>
 

@@ -97,6 +97,10 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.5);
             border: 4px solid transparent;
         }
+        .item-card.selected-card {
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 0 3px rgba(0, 242, 255, 0.35), 0 10px 20px rgba(0,0,0,0.45);
+        }
         .item-card img {
             width: 100%;
             aspect-ratio: 4/3;
@@ -139,6 +143,262 @@
             transition: 0.3s;
         }
         .btn-action:hover { box-shadow: 0 0 20px var(--primary-glow); transform: scale(1.05); }
+
+        @media (max-width: 992px) {
+            body {
+                padding: 10px;
+            }
+
+            .game-container {
+                padding: 16px;
+                border-radius: 14px;
+                border-width: 2px;
+                margin-top: 6px !important;
+            }
+
+            .text-center > h1 {
+                font-size: clamp(2rem, 8vw, 3rem) !important;
+                line-height: 1.05;
+            }
+
+            .text-center > p {
+                font-size: 1rem !important;
+                line-height: 1.4;
+                margin-bottom: 0.5rem;
+            }
+
+            #intro-layer .row {
+                row-gap: 12px;
+            }
+
+            #intro-layer .col-md-6 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .hud-bar {
+                padding: 12px;
+                border-left-width: 5px;
+            }
+
+            #phase-title {
+                font-size: 1.2rem;
+            }
+
+            .dropzone {
+                min-height: 210px;
+                border-radius: 14px;
+                padding: 12px;
+                gap: 10px;
+                margin-bottom: 16px;
+            }
+
+            .item-card {
+                width: min(45vw, 190px);
+                padding: 8px;
+            }
+
+            #cards-pool {
+                gap: 10px !important;
+            }
+
+            #placeholder {
+                font-size: 1rem !important;
+                text-align: center;
+            }
+
+            #intro-layer .row iframe {
+                height: auto;
+                aspect-ratio: 16 / 9;
+            }
+
+            .btn-action {
+                font-size: 1.25rem;
+                padding: 10px 24px;
+            }
+
+            #game-layer {
+                margin-top: 6px;
+            }
+
+            #end-layer > div {
+                padding: 20px 14px !important;
+                border-radius: 14px !important;
+            }
+
+            #end-layer h2 {
+                font-size: clamp(1.8rem, 7vw, 2.5rem) !important;
+            }
+
+            #end-layer .fs-5 {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .game-container {
+                padding: 12px 10px;
+            }
+
+            #game-layer {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .text-center > h1 {
+                font-size: clamp(1.7rem, 10vw, 2.4rem) !important;
+            }
+
+            .text-center > p {
+                font-size: 0.9rem !important;
+            }
+
+            .container.game-container.mt-5 {
+                margin-top: 0.5rem !important;
+            }
+
+            .d-flex.justify-content-between.align-items-center {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 6px;
+            }
+
+            .d-flex.justify-content-between.align-items-center .fs-4 {
+                font-size: 1.1rem !important;
+            }
+
+            .dropzone {
+                min-height: 140px;
+                border-width: 2px;
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+
+            .item-card {
+                width: 100%;
+                min-width: 0;
+                padding: 4px;
+                border-radius: 10px;
+                border-width: 2px;
+            }
+
+            .item-card img {
+                aspect-ratio: 1 / 1;
+                border-radius: 7px;
+            }
+
+            .item-card p {
+                font-size: 0.6rem;
+                margin-top: 4px;
+                line-height: 1.05;
+            }
+
+            #cards-pool {
+                display: grid !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 6px !important;
+                align-items: start;
+            }
+
+            #intro-layer .row iframe {
+                border-radius: 12px !important;
+                border-width: 1px !important;
+            }
+
+            .btn-action {
+                width: 100%;
+                font-size: 1.1rem;
+                padding: 10px 14px;
+            }
+
+            #end-layer .btn-action {
+                width: 100%;
+                display: inline-flex;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 6px;
+            }
+
+            .game-container {
+                padding: 10px 8px;
+            }
+
+            .text-center > h1 {
+                font-size: 1.6rem !important;
+            }
+
+            .text-center > p {
+                font-size: 0.82rem !important;
+            }
+
+            .item-card {
+                padding: 4px;
+            }
+
+            .item-card p {
+                font-size: 0.58rem;
+            }
+
+            #phase-title {
+                font-size: 1rem;
+            }
+
+            .dropzone {
+                min-height: 118px;
+                padding: 6px;
+            }
+
+            #placeholder {
+                font-size: 0.85rem !important;
+                line-height: 1.2;
+            }
+
+            #cards-pool {
+                gap: 5px !important;
+            }
+
+            .btn-action {
+                font-size: 1rem;
+                padding: 9px 12px;
+            }
+
+            #end-layer h2 {
+                font-size: 1.5rem !important;
+            }
+
+            #end-layer .fs-5 {
+                font-size: 0.9rem !important;
+            }
+        }
+
+        @media (max-height: 560px) and (orientation: landscape) {
+            body {
+                padding: 6px;
+            }
+
+            .game-container {
+                padding: 10px;
+            }
+
+            #intro-layer .row iframe {
+                height: auto;
+                aspect-ratio: 16 / 9;
+            }
+
+            .dropzone {
+                min-height: 120px;
+            }
+
+            #cards-pool {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+            }
+        }
     </style>
 </head>
 <body id="game-body">
@@ -224,6 +484,8 @@
     let score = 0;
     let itemsInZone = 0;
     let draggedData = null;
+    let selectedCard = null;
+    let selectedData = null;
     let totalItems = 9; // 3 per phase x 3 phases
 
     function startGame() {
@@ -245,6 +507,8 @@
         pool.innerHTML = '';
         dz.innerHTML = '<div id="placeholder" class="text-white-50 fs-5">I-DRAG ANG 3 TAMANG HAKBANG DITO</div>';
         itemsInZone = 0;
+        selectedCard = null;
+        selectedData = null;
 
         body.classList.remove('active-emergency');
         document.getElementById('sfx-alarm').pause();
@@ -275,21 +539,30 @@
             card.draggable = true;
             card.innerHTML = `<img src="${imgFolder}${item.img}"><p>${item.text}</p>`;
             
-            card.addEventListener('dragstart', () => { draggedData = item; card.id = "dragging-now"; });
+            card.addEventListener('dragstart', () => {
+                draggedData = item;
+                card.id = "dragging-now";
+            });
+            card.addEventListener('dragend', () => {
+                card.id = "";
+            });
+
+            // Mobile-friendly: tap to select, then tap dropzone.
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.item-card').forEach(c => c.classList.remove('selected-card'));
+                selectedCard = card;
+                selectedData = item;
+                card.classList.add('selected-card');
+            });
+
             pool.appendChild(card);
         });
     }
 
-    const dz = document.getElementById('drop-zone');
-    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
-    dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+    function handleDrop(card, itemData) {
+        if (!card || !itemData) return;
 
-    dz.addEventListener('drop', e => {
-        e.preventDefault();
-        dz.classList.remove('drag-over');
-        const card = document.getElementById('dragging-now');
-
-        if (draggedData.phase === currentPhase) {
+        if (itemData.phase === currentPhase) {
 
             correctItems++; // ✅ TRACK
 
@@ -303,9 +576,13 @@
             document.getElementById('progress-bar').style.width = score + "%";
             
             if (document.getElementById('placeholder')) document.getElementById('placeholder').remove();
+            card.classList.remove('selected-card');
             card.classList.add('correct-glow');
             card.draggable = false;
             dz.appendChild(card);
+
+            selectedCard = null;
+            selectedData = null;
 
             if (itemsInZone === 3) setTimeout(nextPhase, 1200);
         } else {
@@ -316,7 +593,24 @@
             card.classList.add('wrong-shake');
             setTimeout(() => card.classList.remove('wrong-shake'), 400);
         }
+
         card.id = "";
+    }
+
+    const dz = document.getElementById('drop-zone');
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+
+    dz.addEventListener('drop', e => {
+        e.preventDefault();
+        dz.classList.remove('drag-over');
+        const card = document.getElementById('dragging-now');
+        handleDrop(card, draggedData);
+    });
+
+    dz.addEventListener('click', () => {
+        if (!selectedCard || !selectedData) return;
+        handleDrop(selectedCard, selectedData);
     });
 
     function nextPhase() {
@@ -362,7 +656,6 @@
         .then(res => res.json())
         .then(data => {
             console.log("SAVED:", data);
-            alert("Saved successfully!");
         })
         .catch(err => console.error("ERROR:", err));
     }

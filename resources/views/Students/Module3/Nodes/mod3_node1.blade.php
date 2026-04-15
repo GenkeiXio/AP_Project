@@ -132,6 +132,28 @@ body {
 .target-area.correct { border-color: #22c55e; background: #f0fdf4; box-shadow: 0 0 20px rgba(34, 197, 94, 0.2); }
 .target-area.wrong { border-color: var(--accent); background: #fef2f2; animation: shake 0.4s; }
 
+.drop-hint {
+    opacity: 0.6;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.locked-preview {
+    width: min(260px, 100%);
+    margin-top: 16px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #22c55e;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+}
+
+.locked-preview img {
+    width: 100%;
+    display: block;
+}
+
 /* Drag Items */
 .options-grid {
     display: grid;
@@ -146,9 +168,121 @@ body {
     cursor: grab;
     transition: 0.3s;
     border: 2px solid transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 .drag-item:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); }
 .drag-item img { width: 100%; border-radius: 15px; display: block; pointer-events: none; }
+.drag-item.dragging { opacity: 0.75; transform: scale(0.98); }
+.drag-item.selected { border-color: var(--secondary); box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.25); }
+.drag-item.locked { border-color: #22c55e; opacity: 1; }
+.drag-item.disabled { opacity: 0.5; cursor: not-allowed; }
+
+.drag-ghost {
+    position: fixed;
+    width: 120px;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.25);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    border: 2px solid rgba(78, 205, 196, 0.75);
+    background: #ffffff;
+    padding: 4px;
+}
+
+.drag-ghost img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+    .game-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 24px 20px;
+    }
+
+    .hud-group {
+        width: 100%;
+    }
+
+    .hud-card {
+        flex: 1;
+    }
+
+    .game-content {
+        padding: 24px 20px;
+    }
+
+    .target-area {
+        padding: 24px 16px;
+    }
+
+    .target-area h2 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+}
+
+@media (max-width: 640px) {
+    .back-button {
+        top: 76px;
+        left: 12px;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+
+    .main-wrapper {
+        padding: 14px;
+    }
+
+    .game-container {
+        border-radius: 18px;
+    }
+
+    .header-info h1 {
+        font-size: 1.2rem;
+        line-height: 1.3;
+    }
+
+    .header-info p {
+        font-size: 0.82rem;
+    }
+
+    .target-area {
+        min-height: 100px;
+        margin-bottom: 18px;
+    }
+
+    .target-area h2 {
+        font-size: 1.4rem;
+    }
+
+    .options-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .drag-item {
+        border-radius: 14px;
+        padding: 8px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-final {
+        justify-content: center;
+    }
+}
 
 /* Result Screen */
 .result-screen { text-align: center; padding: 40px 20px; }
@@ -216,7 +350,7 @@ body {
 
             <div id="playArea">
                 <div class="target-area" id="dropZone">
-                    <div style="opacity:0.6; font-size:0.75rem; font-weight:800; margin-bottom:10px; letter-spacing:2px;">
+                    <div class="drop-hint">
                         IPATALASTAS ANG LARAWAN DITO
                     </div>
                     <h2 id="conceptLabel">HAZARD</h2>
@@ -264,22 +398,108 @@ let score = 0;
 let timeLeft = 10;
 let timerInterval;
 let warningTriggered = false;
+let selectedImg = null;
+let roundResolved = false;
+let activeTouchCard = null;
+let touchMoved = false;
+let dragGhost = null;
+let desktopGhost = null;
+
+const timerFill = document.getElementById('timerFill');
+const dropZone = document.getElementById('dropZone');
+const optionsGrid = document.getElementById('optionsGrid');
+const conceptLabel = document.getElementById('conceptLabel');
 
 // Audio Elements
 const warningSound = document.getElementById('warningSound');
 const errorSound = document.getElementById('errorSound');
 const successSound = document.getElementById('successSound');
 
+function renderDropPrompt() {
+    dropZone.innerHTML = `
+        <div class="drop-hint">IPATALASTAS ANG LARAWAN DITO</div>
+        <h2 id="conceptLabel">${items[current].label.toUpperCase()}</h2>
+    `;
+}
+
+function updateSelectedState() {
+    const cards = optionsGrid.querySelectorAll('.drag-item');
+    cards.forEach(card => {
+        card.classList.toggle('selected', card.dataset.img === selectedImg);
+    });
+}
+
+function attemptDrop(imgName, sourceCard) {
+    if (roundResolved || !imgName) return;
+    handleResult(imgName === items[current].img, imgName, sourceCard);
+}
+
+function isPointInsideDropZone(clientX, clientY) {
+    const rect = dropZone.getBoundingClientRect();
+    return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+}
+
+function getTouchCoords(event) {
+    const touch = event.changedTouches && event.changedTouches[0];
+    if (!touch) return null;
+    return { x: touch.clientX, y: touch.clientY };
+}
+
+function showDragGhost(imgName, clientX, clientY) {
+    removeDragGhost();
+    dragGhost = document.createElement('div');
+    dragGhost.className = 'drag-ghost';
+    dragGhost.innerHTML = `<img src="${imgBase}${imgName}" alt="drag preview">`;
+    document.body.appendChild(dragGhost);
+    moveDragGhost(clientX, clientY);
+}
+
+function moveDragGhost(clientX, clientY) {
+    if (!dragGhost) return;
+    dragGhost.style.left = `${clientX}px`;
+    dragGhost.style.top = `${clientY}px`;
+}
+
+function removeDragGhost() {
+    if (dragGhost && dragGhost.parentNode) {
+        dragGhost.parentNode.removeChild(dragGhost);
+    }
+    dragGhost = null;
+}
+
+function buildDesktopGhost(imgName) {
+    if (desktopGhost && desktopGhost.parentNode) {
+        desktopGhost.parentNode.removeChild(desktopGhost);
+    }
+    desktopGhost = document.createElement('div');
+    desktopGhost.className = 'drag-ghost';
+    desktopGhost.style.left = '-9999px';
+    desktopGhost.style.top = '-9999px';
+    desktopGhost.innerHTML = `<img src="${imgBase}${imgName}" alt="drag preview">`;
+    document.body.appendChild(desktopGhost);
+    return desktopGhost;
+}
+
+function clearDesktopGhost() {
+    if (desktopGhost && desktopGhost.parentNode) {
+        desktopGhost.parentNode.removeChild(desktopGhost);
+    }
+    desktopGhost = null;
+}
+
 function initRound() {
     if (current >= items.length) return endMission();
     
     // Reset Round State
     warningTriggered = false;
+    roundResolved = false;
+    selectedImg = null;
     timeLeft = 10;
     document.getElementById('statusLabel').innerText = "ESTADO NG SIGNAL: STABLE";
     document.getElementById('statusLabel').style.color = "inherit";
     document.getElementById('roundTxt').innerText = `${current + 1}/${items.length}`;
-    document.getElementById('conceptLabel').innerText = items[current].label.toUpperCase();
+    document.getElementById('timerTxt').innerText = `${timeLeft}s`;
+    renderDropPrompt();
     
     timerFill.className = 'timer-bar-fill';
     timerFill.style.width = '100%';
@@ -293,12 +513,120 @@ function initRound() {
         const div = document.createElement('div');
         div.className = 'drag-item';
         div.draggable = true;
-        div.innerHTML = `<img src="${imgBase}${imgName}">`;
+        div.dataset.img = imgName;
+        div.innerHTML = `<img src="${imgBase}${imgName}" draggable="false" alt="${imgName}">`;
         div.addEventListener('dragstart', (e) => {
+            if (roundResolved) {
+                e.preventDefault();
+                return;
+            }
+            div.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', imgName);
+            const ghost = buildDesktopGhost(imgName);
+            e.dataTransfer.setDragImage(ghost, 60, 60);
         });
+        div.addEventListener('dragend', () => {
+            div.classList.remove('dragging');
+            clearDesktopGhost();
+        });
+        div.addEventListener('click', () => {
+            if (roundResolved) return;
+            selectedImg = imgName;
+            updateSelectedState();
+        });
+        div.addEventListener('dblclick', () => {
+            if (roundResolved) return;
+            attemptDrop(imgName, div);
+        });
+        div.addEventListener('pointerdown', (e) => {
+            if (roundResolved || e.pointerType !== 'touch') return;
+            activeTouchCard = div;
+            touchMoved = false;
+            div.classList.add('dragging');
+            showDragGhost(imgName, e.clientX, e.clientY);
+        });
+        div.addEventListener('pointermove', (e) => {
+            if (!activeTouchCard || activeTouchCard !== div || roundResolved) return;
+            touchMoved = true;
+            moveDragGhost(e.clientX, e.clientY);
+            dropZone.classList.toggle('drag-over', isPointInsideDropZone(e.clientX, e.clientY));
+        });
+        div.addEventListener('pointerup', (e) => {
+            if (!activeTouchCard || activeTouchCard !== div || roundResolved) return;
+            const shouldDrop = isPointInsideDropZone(e.clientX, e.clientY);
+            div.classList.remove('dragging');
+            activeTouchCard = null;
+            removeDragGhost();
+            dropZone.classList.remove('drag-over');
+            if (shouldDrop) {
+                attemptDrop(imgName, div);
+            }
+        });
+        div.addEventListener('pointercancel', () => {
+            if (activeTouchCard !== div) return;
+            div.classList.remove('dragging');
+            activeTouchCard = null;
+            removeDragGhost();
+            dropZone.classList.remove('drag-over');
+        });
+
+        // Safari/older mobile fallback: explicit touch events.
+        div.addEventListener('touchstart', (e) => {
+            if (roundResolved) return;
+            activeTouchCard = div;
+            touchMoved = false;
+            div.classList.add('dragging');
+            const coords = getTouchCoords(e);
+            if (coords) showDragGhost(imgName, coords.x, coords.y);
+        }, { passive: true });
+
+        div.addEventListener('touchmove', (e) => {
+            if (!activeTouchCard || activeTouchCard !== div || roundResolved) return;
+            const coords = getTouchCoords(e);
+            if (!coords) return;
+            touchMoved = true;
+            // Prevent page scroll while dragging card.
+            e.preventDefault();
+            moveDragGhost(coords.x, coords.y);
+            dropZone.classList.toggle('drag-over', isPointInsideDropZone(coords.x, coords.y));
+        }, { passive: false });
+
+        div.addEventListener('touchend', (e) => {
+            if (!activeTouchCard || activeTouchCard !== div || roundResolved) return;
+            const coords = getTouchCoords(e);
+            const shouldDrop = coords ? isPointInsideDropZone(coords.x, coords.y) : false;
+
+            div.classList.remove('dragging');
+            activeTouchCard = null;
+            removeDragGhost();
+            dropZone.classList.remove('drag-over');
+
+            if (shouldDrop) {
+                e.preventDefault();
+                attemptDrop(imgName, div);
+                return;
+            }
+
+            // If no drag motion happened, keep tap-to-select behavior.
+            if (!touchMoved) {
+                selectedImg = imgName;
+                updateSelectedState();
+            }
+        }, { passive: false });
+
+        div.addEventListener('touchcancel', () => {
+            if (activeTouchCard !== div) return;
+            div.classList.remove('dragging');
+            activeTouchCard = null;
+            removeDragGhost();
+            dropZone.classList.remove('drag-over');
+        }, { passive: true });
         optionsGrid.appendChild(div);
     });
+
+    // Mobile-friendly: choose image by tap, then tap drop zone to submit.
+    updateSelectedState();
 
     startTimer();
 }
@@ -331,6 +659,7 @@ function startTimer() {
 
 // Drag & Drop
 dropZone.addEventListener('dragover', (e) => {
+    if (roundResolved) return;
     e.preventDefault();
     dropZone.classList.add('drag-over');
 });
@@ -338,20 +667,49 @@ dropZone.addEventListener('dragover', (e) => {
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 
 dropZone.addEventListener('drop', (e) => {
+    if (roundResolved) return;
     e.preventDefault();
     const droppedImg = e.dataTransfer.getData('text/plain');
-    handleResult(droppedImg === items[current].img);
+    const sourceCard = optionsGrid.querySelector(`[data-img="${droppedImg}"]`);
+    attemptDrop(droppedImg, sourceCard);
 });
 
-function handleResult(isCorrect) {
+dropZone.addEventListener('click', () => {
+    if (roundResolved || !selectedImg) return;
+    const sourceCard = optionsGrid.querySelector(`[data-img="${selectedImg}"]`);
+    attemptDrop(selectedImg, sourceCard);
+});
+
+function handleResult(isCorrect, imgName = null, sourceCard = null) {
+    if (roundResolved) return;
+    roundResolved = true;
     clearInterval(timerInterval);
     dropZone.classList.remove('drag-over');
+    selectedImg = null;
+    updateSelectedState();
+    optionsGrid.querySelectorAll('.drag-item').forEach(card => {
+        card.draggable = false;
+        card.classList.add('disabled');
+    });
     
     if (isCorrect) {
         score++;
         successSound.play();
         document.getElementById('scoreTxt').innerText = score;
         dropZone.classList.add('correct');
+
+        dropZone.innerHTML = `
+            <div class="drop-hint">TAMANG TUGMA</div>
+            <h2>${items[current].label.toUpperCase()}</h2>
+            <div class="locked-preview">
+                <img src="${imgBase}${imgName || items[current].img}" alt="${items[current].label}">
+            </div>
+        `;
+
+        if (sourceCard) {
+            sourceCard.classList.remove('disabled');
+            sourceCard.classList.add('locked');
+        }
     } else {
         errorSound.play();
         dropZone.classList.add('wrong');
