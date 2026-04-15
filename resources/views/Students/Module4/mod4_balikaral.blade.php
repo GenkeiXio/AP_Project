@@ -29,6 +29,7 @@
         color: var(--ink-1);
         font-family: 'Poppins', sans-serif;
         overflow-x: hidden;
+        touch-action: pan-y;
     }
 
     .container-box {
@@ -75,12 +76,156 @@
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.12);
         text-align: center;
-        min-width: 108px;
+        max-width: 500px;
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
-    .stat-label { font-size: 0.64rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.6px; }
-    .stat-value { font-size: 1.2rem; font-weight: 700; color: #fff; }
+    .stat-label { 
+        font-size: 0.64rem; 
+        font-weight: 700;
+        text-transform: uppercase; 
+        letter-spacing: 0.6px; 
+    }
+
+    .stat-value { 
+        font-size: 0.64rem; 
+        font-weight: 700; 
+        color: #fff; 
+        letter-spacing: 0.5px;
+    }
+
+    /* Make the Rank/Antas wider - targeting the specific element */
+    #missionRank {
+        display: inline-block;
+        min-width: 110px;
+        font-size: 0.64rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff, #8ed3ff);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    /* Make the container wider */
+    .stat-display:has(#missionRank) {
+        min-width: 140px;
+        padding: 8px 12px;
+    }
+    
+    /* Timer Progress Bar */
+    .timer-container {
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .timer-bar-bg {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    .timer-bar-fill {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+        border-radius: 10px;
+        transition: width 0.3s linear;
+    }
+    .timer-bar-fill.warning {
+        background: linear-gradient(90deg, var(--neon-yellow), #ff8800);
+    }
+    .timer-bar-fill.danger {
+        background: linear-gradient(90deg, var(--neon-red), #ff6600);
+    }
+    .timer-text {
+        position: absolute;
+        right: 0;
+        top: -20px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+
+    /* Current Card Display - One by One */
+    .current-card-container {
+        background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 24px;
+        text-align: center;
+        border: 1px solid rgba(90, 200, 255, 0.3);
+        position: relative;
+    }
+    
+    .current-card-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--neon-cyan);
+        margin-bottom: 10px;
+    }
+    
+    .current-card {
+        display: inline-block;
+        cursor: grab;
+        transition: transform 0.2s;
+        touch-action: none;
+    }
+    
+    .current-card:active {
+        cursor: grabbing;
+    }
+    
+    .current-card img {
+        width: 220px;
+        height: 180px;
+        object-fit: contain;
+        background: linear-gradient(180deg, #ffffff, #f5f8fc);
+        border-radius: 16px;
+        padding: 10px;
+        border: 2px solid rgba(90, 200, 255, 0.5);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .current-card p {
+        margin-top: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #edf4ff;
+    }
+    
+    .cards-remaining {
+        margin-top: 10px;
+        font-size: 0.75rem;
+        color: var(--ink-2);
+    }
+    
+    /* Drag Clone (visual feedback while dragging) */
+    .drag-clone {
+        position: fixed;
+        z-index: 9999;
+        opacity: 0.85;
+        pointer-events: none;
+        transform: scale(0.95) rotate(5deg);
+        transition: none;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        width: 200px;
+    }
+    
+    .drag-clone img {
+        width: 100%;
+        height: 160px;
+        object-fit: contain;
+        background: linear-gradient(180deg, #ffffff, #f5f8fc);
+        border-radius: 16px;
+        border: 2px solid var(--neon-cyan);
+    }
+    
+    .drag-clone p {
+        text-align: center;
+        font-size: 0.75rem;
+        margin-top: 5px;
+        color: #edf4ff;
+    }
 
     /* MISSION SECTORS */
     .mission-grid {
@@ -94,7 +239,7 @@
         background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
         border: 1px dashed rgba(180, 205, 236, 0.35);
         border-radius: 16px;
-        min-height: 232px;
+        min-height: 200px;
         padding: 10px;
         transition: 0.2s ease;
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
@@ -111,7 +256,7 @@
         padding: 8px;
         border-radius: 10px;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 0.6px;
@@ -122,60 +267,61 @@
     .pagkatapos { background: rgba(71, 198, 132, 0.14); color: #9af0c3; border: 1px solid rgba(84, 219, 147, 0.58); }
 
     .drop-target {
-        min-height: 168px;
+        min-height: 140px;
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
-
-    /* CARD STYLING */
-    .deck-container {
-        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-        padding: 16px;
-        border-radius: 16px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        border: 1px solid var(--stroke-1);
-    }
-
-    .action-card {
+    
+    .placed-card {
         background: var(--card-bg);
-        width: 200px;
-        border-radius: 14px;
-        padding: 10px;
-        cursor: grab;
-        border: 1px solid rgba(176, 206, 238, 0.2);
-        transition: transform 0.2s, box-shadow 0.2s;
-        touch-action: none;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        border-radius: 12px;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid rgba(84, 219, 147, 0.5);
     }
-
-    .action-card:hover {
-        background: var(--card-hover);
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(90, 200, 255, 0.24);
-        transform: translateY(-2px);
-    }
-    .action-card:active { cursor: grabbing; transform: scale(0.95); }
-
-    .action-card img {
-        width: 100%;
-        height: 160px;
+    
+    .placed-card img {
+        width: 50px;
+        height: 50px;
         object-fit: contain;
-        background: linear-gradient(180deg, #ffffff, #f5f8fc);
-        border-radius: 10px;
-        margin-bottom: 8px;
-        border: 1px solid rgba(16, 35, 64, 0.12);
+        background: white;
+        border-radius: 8px;
+        padding: 4px;
     }
-
-    .action-card p {
-        font-size: 0.74rem;
-        font-weight: 600;
-        text-align: center;
-        line-height: 1.24;
+    
+    .placed-card p {
+        font-size: 0.7rem;
         margin: 0;
         color: #edf4ff;
+        flex: 1;
+    }
+
+    /* Feedback Message */
+    .feedback-toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.9);
+        color: var(--neon-yellow);
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        z-index: 1000;
+        animation: fadeInOut 3s ease;
+        border: 1px solid var(--neon-yellow);
+        white-space: nowrap;
+    }
+    
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
     }
 
     /* CUSTOM MODAL */
@@ -207,17 +353,6 @@
         to { transform: translateY(0); opacity: 1; }
     }
 
-    /* UTILITIES */
-    .correct-drop { width: 100% !important; margin-bottom: 8px; border-color: rgba(84, 219, 147, 0.85) !important; box-shadow: 0 0 0 1px rgba(84, 219, 147, 0.35), 0 10px 20px rgba(0,0,0,0.22); }
-    .shake { animation: shake-ani 0.3s; border-color: var(--neon-red) !important; }
-    @keyframes shake-ani { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-    .timer-pulse { animation: timerPulse 0.8s ease-in-out infinite; color: var(--neon-red); }
-    @keyframes timerPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-
-    .timer-safe { color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.35); }
-    .timer-warning { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(244, 234, 20, 0.35); }
-    .timer-danger { color: var(--neon-red); text-shadow: 0 0 12px rgba(255, 49, 49, 0.45); }
-
     .btn-deploy {
         margin-top: 20px;
         background: linear-gradient(135deg, #63c9ff 0%, #68e2a9 100%);
@@ -230,30 +365,27 @@
         text-transform: uppercase;
         box-shadow: 0 6px 0 #2d8ec2, 0 14px 22px rgba(0, 0, 0, 0.28);
         transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-    }
-
-    .btn-deploy:hover {
-        color: #001724;
-        filter: brightness(1.06);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 0 #2d8ec2, 0 18px 28px rgba(0, 0, 0, 0.32);
+        cursor: pointer;
+        touch-action: manipulation;
     }
 
     .btn-deploy:active {
         transform: translateY(4px);
         box-shadow: 0 3px 0 #2d8ec2, 0 8px 12px rgba(0, 0, 0, 0.28);
     }
-
+    
+    /* Mobile Optimizations */
     @media (max-width: 992px) {
         .container-box {
-            padding: 20px;
-            margin: 14px;
+            padding: 16px;
+            margin: 10px;
         }
 
         .hud-header {
             flex-direction: column;
             align-items: stretch;
-            gap: 14px;
+            gap: 12px;
+            padding: 12px;
         }
 
         .hud-header .d-flex.gap-2 {
@@ -264,7 +396,11 @@
 
         .stat-display {
             min-width: 0;
-            padding: 8px 10px;
+            padding: 6px 8px;
+        }
+        
+        .stat-value {
+            font-size: 1rem;
         }
 
         .mission-grid {
@@ -277,81 +413,65 @@
         }
 
         .drop-target {
-            min-height: 140px;
+            min-height: 100px;
+        }
+        
+        .current-card img {
+            width: 180px;
+            height: 150px;
+        }
+        
+        .drag-clone {
+            width: 160px;
+        }
+        
+        .drag-clone img {
+            height: 130px;
+        }
+        
+        .btn-deploy {
+            width: 100%;
+            padding: 12px;
+            font-size: 0.9rem;
         }
     }
 
     @media (max-width: 576px) {
-        .container-box {
-            padding: 16px;
-            border-radius: 18px;
-            margin: 10px;
-        }
-
         .game-title h2 {
-            font-size: 1.1rem;
-        }
-
-        .game-title p {
-            font-size: 0.72rem;
-        }
-
-        .hud-header {
-            padding: 12px;
-            border-radius: 12px;
-        }
-
-        .hud-header .d-flex.gap-2 {
-            grid-template-columns: 1fr;
-        }
-
-        .stat-label {
-            font-size: 0.62rem;
-        }
-
-        .stat-value {
             font-size: 1rem;
         }
-
-        .deck-container {
-            padding: 12px;
-            gap: 10px;
-        }
-
-        .action-card {
-            width: calc(50% - 10px);
-            min-width: 156px;
-            padding: 8px;
-        }
-
-        .action-card img {
-            height: 132px;
-        }
-
-        .action-card p {
+        
+        .game-title p {
             font-size: 0.7rem;
         }
-
-        .btn-deploy {
-            width: 100%;
-            padding: 11px 14px;
-            font-size: 0.9rem;
-            letter-spacing: 0.4px;
+        
+        .current-card img {
+            width: 150px;
+            height: 130px;
         }
-
+        
+        .drag-clone {
+            width: 130px;
+        }
+        
+        .drag-clone img {
+            height: 110px;
+        }
+        
+        .sector-title {
+            font-size: 0.7rem;
+        }
+        
         .modal-content {
-            width: 94%;
-            padding: 22px 16px;
-            border-radius: 18px;
+            padding: 20px;
         }
-
-        #modalTitle {
-            font-size: 1.25rem;
-        }
-
-        #modalMessage {
-            font-size: 0.92rem;
-            margin-bottom: 18px;
+        
+        .feedback-toast {
+            font-size: 0.75rem;
+            padding: 8px 16px;
+            white-space: normal;
+            text-align: center;
+            max-width: 90%;
         }
     }
 </style>
@@ -362,13 +482,9 @@
     <div class="hud-header">
         <div class="game-title">
             <h2>OPERASYON: KALAMIDAD</h2>
-            <p class="m-0 text-muted small">AYUSIN ANG MGA HAKBANG SA KALIGTASAN</p>
+            <p class="m-0 text-muted small">I-DRAG ANG LARAWAN SA TAMANG KAHON</p>
         </div>
         <div class="d-flex gap-2">
-            <div class="stat-display">
-                <div class="stat-label">Oras</div>
-                <div class="stat-value timer-safe" id="timerBigDisplay">30s</div>
-            </div>
             <div class="stat-display">
                 <div class="stat-label">Iskor</div>
                 <div class="stat-value"><span id="score">0</span>/6</div>
@@ -380,47 +496,41 @@
         </div>
     </div>
 
+    <!-- Timer Progress Bar -->
+    <div class="timer-container">
+        <div class="timer-bar-bg">
+            <div class="timer-bar-fill" id="timerBarFill"></div>
+        </div>
+        <div class="timer-text" id="timerText">30s</div>
+    </div>
+
     <div style="height: 10px; background: #0f172a; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
         <div id="missionXpBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green)); transition: 0.5s; border-radius: 10px;"></div>
     </div>
 
-    <div id="warningMessage" style="display:none; text-align:center; color:var(--neon-yellow); font-weight:bold; margin-bottom:10px;">⚠️ 5 segundo na lang!</div>
-    <div id="sfxMessage" style="min-height: 25px; text-align:center; font-weight:bold; margin-bottom:10px;"></div>
+    <!-- Current Card to Drag (One by One) -->
+    <div class="current-card-container">
+        <div class="current-card-label">📦 KASALUKUYANG GAWAIN</div>
+        <div id="currentCard" class="current-card" draggable="false">
+            <img id="currentImg" src="" alt="Gawain">
+            <p id="currentText"></p>
+        </div>
+        <div class="cards-remaining" id="cardsRemaining"></div>
+    </div>
 
     <div class="mission-grid">
         <div class="sector" id="before">
             <div class="sector-title bago">BAGO (Paghahanda)</div>
-            <div class="drop-target"></div>
+            <div class="drop-target" id="beforeTarget"></div>
         </div>
         <div class="sector" id="during">
             <div class="sector-title habang">HABANG (Aksyon)</div>
-            <div class="drop-target"></div>
+            <div class="drop-target" id="duringTarget"></div>
         </div>
         <div class="sector" id="after">
             <div class="sector-title pagkatapos">PAGKATAPOS (Pagbangon)</div>
-            <div class="drop-target"></div>
+            <div class="drop-target" id="afterTarget"></div>
         </div>
-    </div>
-
-    <div class="deck-container" id="choices">
-        @php
-            $cards = [
-                ['type' => 'before', 'img' => 'mod4_emergencykit.png', 'text' => 'Maghanda ng emergency kit.'],
-                ['type' => 'before', 'img' => 'mod4_newsbabala.png', 'text' => 'Makinig sa balita at babala.'],
-                ['type' => 'during', 'img' => 'mod4_evacuating.png', 'text' => 'Lumikas sa ligtas na lugar.'],
-                ['type' => 'during', 'img' => 'mod4_duckcoverhold.png', 'text' => 'Yumuko, magkubli, at kumapit.'],
-                ['type' => 'after', 'img' => 'mod4_cleanupdrive.png', 'text' => 'Tumulong sa paglilinis.'],
-                ['type' => 'after', 'img' => 'mod4_suriinkuryente.png', 'text' => 'Suriin ang linya ng kuryente.']
-            ];
-            shuffle($cards);
-        @endphp
-
-        @foreach($cards as $card)
-        <div class="action-card" draggable="true" data-type="{{ $card['type'] }}">
-            <img src="{{ asset('pictures/'.$card['img']) }}" alt="Gawain">
-            <p>{{ $card['text'] }}</p>
-        </div>
-        @endforeach
     </div>
 
     <div class="text-center">
@@ -438,74 +548,93 @@
 </div>
 
 <script>
-    let dragged = null;
+    // Game Data
+    const allCards = [
+        { type: 'before', img: 'mod4_emergencykit.png', text: 'Maghanda ng emergency kit.' },
+        { type: 'before', img: 'mod4_newsbabala.png', text: 'Makinig sa balita at babala.' },
+        { type: 'during', img: 'mod4_evacuating.png', text: 'Lumikas sa ligtas na lugar.' },
+        { type: 'during', img: 'mod4_duckcoverhold.png', text: 'Yumuko, magkubli, at kumapit.' },
+        { type: 'after', img: 'mod4_cleanupdrive.png', text: 'Tumulong sa paglilinis.' },
+        { type: 'after', img: 'mod4_suriinkuryente.png', text: 'Suriin ang linya ng kuryente.' }
+    ];
+    
+    // Shuffle cards
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    let remainingCards = [];
+    let currentCardData = null;
     let score = 0;
     const total = 6;
     let time = 30;
     const initialTime = 30;
     let timer;
     let isActive = true;
-    let warningShown = false;
     let hasEnded = false;
-    const placedCards = new Set();
+    let dragClone = null;
+    let isDragging = false;
+    let startX, startY;
+    
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const balikAralSaveUrl = "{{ route('student.module4.balikaral.save') }}";
-
+    
     const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
     const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
-
-    function initGame() {
-        const cards = document.querySelectorAll('.action-card');
-        const sectors = document.querySelectorAll('.sector');
-
-        cards.forEach(card => {
-            card.addEventListener('dragstart', function(e) {
-                if(!isActive) return;
-                dragged = this;
-                e.dataTransfer.setData('text/plain', null);
-                this.style.opacity = '0.4';
-            });
-            card.addEventListener('dragend', function() {
-                this.style.opacity = '1';
-                dragged = null;
-            });
-        });
-
-        sectors.forEach(sector => {
-            sector.addEventListener('dragover', (e) => {
-                if(!isActive) return;
-                e.preventDefault();
-                sector.classList.add('drag-over');
-            });
-            sector.addEventListener('dragleave', () => sector.classList.remove('drag-over'));
-            sector.addEventListener('drop', function(e) {
-                if(!isActive) return;
-                e.preventDefault();
-                sector.classList.remove('drag-over');
-                if(!dragged) return;
-
-                // Prevent scoring the same card more than once.
-                if (placedCards.has(dragged)) return;
-
-                if(dragged.dataset.type === this.id) {
-                    this.querySelector('.drop-target').appendChild(dragged);
-                    dragged.setAttribute('draggable', 'false');
-                    dragged.classList.add('correct-drop');
-                    placedCards.add(dragged);
-                    correctSound.play().catch(()=>{});
-                    score++;
-                    updateUI();
-                    if(score === total) endGame(true);
-                } else {
-                    wrongSound.play().catch(()=>{});
-                    dragged.classList.add('shake');
-                    setTimeout(() => dragged.classList.remove('shake'), 400);
-                }
-            });
-        });
-        startTimer();
+    
+    // DOM Elements
+    const currentCardEl = document.getElementById('currentCard');
+    const currentImg = document.getElementById('currentImg');
+    const currentText = document.getElementById('currentText');
+    const cardsRemainingEl = document.getElementById('cardsRemaining');
+    
+    // Show feedback message
+    function showFeedback(message, isError = false) {
+        const existingToast = document.querySelector('.feedback-toast');
+        if(existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = 'feedback-toast';
+        toast.style.color = isError ? 'var(--neon-red)' : 'var(--neon-green)';
+        toast.style.borderColor = isError ? 'var(--neon-red)' : 'var(--neon-green)';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            if(toast) toast.remove();
+        }, 3000);
     }
-
+    
+    // Update timer progress bar
+    function updateTimerBar() {
+        const percentage = (time / initialTime) * 100;
+        const fill = document.getElementById('timerBarFill');
+        const timerText = document.getElementById('timerText');
+        
+        fill.style.width = percentage + '%';
+        timerText.textContent = time + 's';
+        
+        fill.classList.remove('warning', 'danger');
+        if(time <= 5) {
+            fill.classList.add('danger');
+            timerText.style.color = 'var(--neon-red)';
+            timerText.style.fontWeight = 'bold';
+        } else if(time <= 15) {
+            fill.classList.add('warning');
+            timerText.style.color = 'var(--neon-yellow)';
+        } else {
+            timerText.style.color = 'var(--neon-green)';
+        }
+        
+        if(time === 5) {
+            showFeedback('⚠️ 5 segundo na lang! ⚠️', true);
+        }
+    }
+    
     function updateUI() {
         document.getElementById('score').innerText = score;
         const xp = (score / total) * 100;
@@ -515,44 +644,254 @@
         if(score >= 6) { rank.innerText = "HEPE"; rank.style.color = "var(--neon-green)"; }
         else if(score >= 4) { rank.innerText = "OPISYAL"; rank.style.color = "var(--neon-cyan)"; }
         else if(score >= 2) { rank.innerText = "REKRUT"; rank.style.color = "var(--neon-yellow)"; }
+        
+        // Update remaining count
+        // cardsRemainingEl.textContent = `📋 Natitira: ${remainingCards.length} gawain`;
     }
-
+    
     function startTimer() {
-        const timerEl = document.getElementById('timerBigDisplay');
         timer = setInterval(() => {
-            if(time <= 0) { endGame(false); return; }
+            if(time <= 0 || !isActive) { 
+                if(time <= 0) endGame(false);
+                return; 
+            }
             time--;
-            timerEl.innerText = time + 's';
-
-            timerEl.classList.remove('timer-safe', 'timer-warning', 'timer-danger');
-            if (time > 15) {
-                timerEl.classList.add('timer-safe');
-            } else if (time > 5) {
-                timerEl.classList.add('timer-warning');
-            } else {
-                timerEl.classList.add('timer-danger');
-            }
-
-            if (time <= 5) {
-                timerEl.classList.add('timer-pulse');
-                if (!warningShown) {
-                    document.getElementById('warningMessage').style.display = 'block';
-                    warningShown = true;
-                }
-            }
-
-            if (time === 0) {
+            updateTimerBar();
+            
+            if(time === 0) {
                 endGame(false);
             }
         }, 1000);
     }
-
+    
+    // Load next card
+    function loadNextCard() {
+        if(remainingCards.length === 0 && score === total) {
+            endGame(true);
+            return;
+        }
+        
+        if(remainingCards.length > 0) {
+            currentCardData = remainingCards.shift();
+            currentImg.src = "{{ asset('pictures') }}/" + currentCardData.img;
+            currentText.textContent = currentCardData.text;
+            updateUI();
+        }
+    }
+    
+    // Add placed card to drop zone as visual
+    function addPlacedCardToZone(cardData, zoneId) {
+        const zone = document.getElementById(zoneId + 'Target');
+        const placedCardDiv = document.createElement('div');
+        placedCardDiv.className = 'placed-card';
+        placedCardDiv.setAttribute('data-type', cardData.type);
+        placedCardDiv.innerHTML = `
+            <img src="{{ asset('pictures') }}/${cardData.img}" alt="Placed">
+            <p>${cardData.text}</p>
+        `;
+        zone.appendChild(placedCardDiv);
+    }
+    
+    // Handle drop on sector
+    function handleDrop(cardData, sectorId) {
+        if(!isActive) return false;
+        
+        if(cardData.type === sectorId) {
+            // Correct placement
+            addPlacedCardToZone(cardData, sectorId);
+            score++;
+            updateUI();
+            correctSound.play().catch(()=>{});
+            showFeedback('✓ Tamang sagot!', false);
+            
+            // Load next card
+            loadNextCard();
+            return true;
+        } else {
+            // Wrong placement
+            wrongSound.play().catch(()=>{});
+            showFeedback(`✗ Mali! Ang "${cardData.text}" ay kabilang sa ${getCategoryName(cardData.type)}`, true);
+            
+            // Shake the current card
+            currentCardEl.classList.add('shake');
+            setTimeout(() => currentCardEl.classList.remove('shake'), 400);
+            return false;
+        }
+    }
+    
+    function getCategoryName(type) {
+        const categories = {
+            'before': 'BAGO (Paghahanda)',
+            'during': 'HABANG (Aksyon)',
+            'after': 'PAGKATAPOS (Pagbangon)'
+        };
+        return categories[type] || type;
+    }
+    
+    // Get drop zone from point
+    function getDropZoneFromPoint(x, y) {
+        const sectors = document.querySelectorAll('.sector');
+        for(let sector of sectors) {
+            const rect = sector.getBoundingClientRect();
+            if(x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                return sector.id;
+            }
+        }
+        return null;
+    }
+    
+    // Create drag clone (the floating image while dragging)
+    function createDragClone(cardData, clientX, clientY) {
+        const clone = document.createElement('div');
+        clone.className = 'drag-clone';
+        clone.innerHTML = `
+            <img src="{{ asset('pictures') }}/${cardData.img}" alt="Dragging">
+            <p>${cardData.text}</p>
+        `;
+        clone.style.left = (clientX - 100) + 'px';
+        clone.style.top = (clientY - 80) + 'px';
+        document.body.appendChild(clone);
+        return clone;
+    }
+    
+    // Touch/Mouse Drag Implementation for current card
+    function onDragStart(e) {
+        if(!isActive || !currentCardData) return;
+        e.preventDefault();
+        
+        let clientX, clientY;
+        if(e.type === 'touchstart') {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+        
+        startX = clientX;
+        startY = clientY;
+        isDragging = false;
+        
+        // Create visual clone
+        dragClone = createDragClone(currentCardData, clientX, clientY);
+        
+        // NO pre-drag color highlighting on sectors!
+        // The correct target zone is NOT indicated with green beforehand
+        
+        // Add event listeners for move/end
+        if(e.type === 'touchstart') {
+            document.addEventListener('touchmove', onDragMove);
+            document.addEventListener('touchend', onDragEnd);
+        } else {
+            document.addEventListener('mousemove', onDragMove);
+            document.addEventListener('mouseup', onDragEnd);
+        }
+    }
+    
+    function onDragMove(e) {
+        if(!dragClone) return;
+        e.preventDefault();
+        
+        let clientX, clientY;
+        if(e.type === 'touchmove') {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+        
+        const deltaX = Math.abs(clientX - startX);
+        const deltaY = Math.abs(clientY - startY);
+        
+        if(deltaX > 10 || deltaY > 10) {
+            isDragging = true;
+        }
+        
+        // Update clone position
+        dragClone.style.left = (clientX - (dragClone.offsetWidth / 2)) + 'px';
+        dragClone.style.top = (clientY - (dragClone.offsetHeight / 2)) + 'px';
+        
+        // Highlight drop zone under cursor (only during drag, not beforehand)
+        const dropZoneId = getDropZoneFromPoint(clientX, clientY);
+        document.querySelectorAll('.sector').forEach(sector => {
+            if(dropZoneId === sector.id) {
+                sector.classList.add('drag-over');
+            } else {
+                sector.classList.remove('drag-over');
+            }
+        });
+    }
+    
+    function onDragEnd(e) {
+        if(!dragClone) {
+            cleanupDrag();
+            return;
+        }
+        
+        e.preventDefault();
+        
+        let clientX, clientY;
+        if(e.type === 'touchend') {
+            clientX = e.changedTouches[0].clientX;
+            clientY = e.changedTouches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+        
+        if(isDragging) {
+            const dropZoneId = getDropZoneFromPoint(clientX, clientY);
+            if(dropZoneId && currentCardData) {
+                handleDrop(currentCardData, dropZoneId);
+            } else if(currentCardData) {
+                showFeedback('I-drop sa tamang kahon', true);
+                // Shake the current card
+                currentCardEl.classList.add('shake');
+                setTimeout(() => currentCardEl.classList.remove('shake'), 400);
+            }
+        } else {
+            // Just a tap - show hint without revealing correct zone
+            if(currentCardData) {
+                showFeedback(`I-drag ang larawan sa tamang kahon`, false);
+            }
+        }
+        
+        cleanupDrag();
+    }
+    
+    function cleanupDrag() {
+        if(dragClone) {
+            dragClone.remove();
+            dragClone = null;
+        }
+        
+        isDragging = false;
+        
+        // Reset sector highlights
+        document.querySelectorAll('.sector').forEach(sector => {
+            sector.style.border = '';
+            sector.style.background = '';
+            sector.classList.remove('drag-over');
+        });
+        
+        // Remove event listeners
+        document.removeEventListener('touchmove', onDragMove);
+        document.removeEventListener('touchend', onDragEnd);
+        document.removeEventListener('mousemove', onDragMove);
+        document.removeEventListener('mouseup', onDragEnd);
+    }
+    
     function endGame(win) {
-        if (hasEnded) return;
+        if(hasEnded) return;
         hasEnded = true;
         clearInterval(timer);
         isActive = false;
-
+        
+        // Remove drag listeners
+        currentCardEl.removeEventListener('touchstart', onDragStart);
+        currentCardEl.removeEventListener('mousedown', onDragStart);
+        
         const timeSpent = Math.max(0, initialTime - Math.max(time, 0));
         saveBalikAralResult(score, total, timeSpent, win);
         
@@ -561,9 +900,9 @@
         const title = document.getElementById('modalTitle');
         const msg = document.getElementById('modalMessage');
         const action = document.getElementById('modalAction');
-
+        
         modal.style.display = 'flex';
-
+        
         if(win) {
             icon.innerHTML = "🎉";
             title.innerText = "Magaling!";
@@ -578,7 +917,7 @@
             action.innerHTML = `<button class="btn btn-deploy" onclick="resetGame()">SUBUKAN MULI</button>`;
         }
     }
-
+    
     async function saveBalikAralResult(currentScore, totalItems, timeSpent, completed) {
         try {
             await fetch(balikAralSaveUrl, {
@@ -600,11 +939,27 @@
             console.error('Failed to save Module 4 Balik-Aral result:', error);
         }
     }
-
+    
     function resetGame() {
-        location.reload(); // Pinakamalinis na paraan para i-reset ang lahat ng states at positions
+        location.reload();
     }
-
+    
+    // Initialize game
+    function initGame() {
+        // Shuffle and set up remaining cards
+        remainingCards = shuffleArray([...allCards]);
+        
+        // Load first card
+        loadNextCard();
+        
+        // Add drag listeners to current card
+        currentCardEl.addEventListener('touchstart', onDragStart, { passive: false });
+        currentCardEl.addEventListener('mousedown', onDragStart);
+        
+        startTimer();
+        updateTimerBar();
+    }
+    
     initGame();
 </script>
 @endsection
