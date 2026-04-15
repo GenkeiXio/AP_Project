@@ -927,9 +927,9 @@
         ];
 
         const items = [
-            { text: 'Pagsusunog ng fossil fuels, deforestation, at polusyon', zone: 'cause' },
-            { text: 'Pagbaha, pagguho ng lupa, at pagkawala ng biodiversity', zone: 'effect' },
-            { text: 'Pagtatanim ng puno, disaster preparedness, at renewable energy', zone: 'solution' }
+            { type: 'image', src: "pictures/node3sanhi.png", zone: 'cause' },
+            { type: 'image', src: "pictures/node3bunga.png", zone: 'effect' },
+            { type: 'image', src: "pictures/node3solusyon.png", zone: 'solution' },
         ];
 
         let completedRecords = [];
@@ -996,7 +996,11 @@
 
         function updateCard() {
             const item = items[itemIndex];
-            activeCard.textContent = item.text;
+            
+            if (item.type === 'image') {
+                activeCard.innerHTML = `<img src="/${item.src}" style="width:100%; border-radius:12px;">`;
+            }
+
             itemCount.textContent = String(itemIndex + 1);
         }
 
@@ -1098,15 +1102,15 @@
                     }
 
                     if (current.zone === 'cause') {
-                        completedRecords[currentRecordIndex].sanhi = current.text;
+                        completedRecords[currentRecordIndex].sanhi = current.src;
                     }
 
                     if (current.zone === 'effect') {
-                        completedRecords[currentRecordIndex].bunga = current.text;
+                        completedRecords[currentRecordIndex].bunga = current.src;
                     }
 
                     if (current.zone === 'solution') {
-                        completedRecords[currentRecordIndex].solusyon = current.text;
+                        completedRecords[currentRecordIndex].solusyon = current.src;
                     }
 
                     // 🔽 ORIGINAL UI
