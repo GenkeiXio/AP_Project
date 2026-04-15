@@ -93,21 +93,21 @@
     .pin .tooltip {
         visibility: visible;
         position: absolute;
-        /* FIXED: Reduced from 145px to 125px to sit right above the pin head */
-        bottom: 125px; 
+        bottom: 125px;
         left: 50%;
         transform: translateX(-50%);
-        
-        background-color: rgba(26, 26, 26, 0.9);
-        color: #fff;
-        padding: 5px 15px;
-        border-radius: 8px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 18px;
-        font-weight: bold;
+        background: none;        /* remove dark background */
+        padding: 0;              /* remove padding */
+        border-radius: 0;
+        box-shadow: none;
         white-space: nowrap;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        transition: all 0.2s ease;
+    }
+
+    .pin .tooltip img {
+        width: 350px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
     }
 
     .pin:hover .tooltip {
@@ -529,13 +529,28 @@
         }
 
         /* Tooltip fix */
-        .pin .tooltip {
-            bottom: 75px;
-            font-size: 12px;
-            padding: 4px 8px;
-            white-space: normal;
-            max-width: 140px;
-            text-align: center;
+       .pin .tooltip {
+            visibility: visible;
+            position: absolute;
+            bottom: 125px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            white-space: nowrap;
+        }
+
+        .pin .tooltip img {
+            width: 250px;   /* ← change this for desktop */
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+        }
+
+        .pin:hover .tooltip img {
+            transform: scale(1.05);  /* slight zoom on hover instead of color change */
         }
 
         /* KEEP ORIGINAL POSITIONS (important!) */
@@ -705,6 +720,29 @@
         text-size-adjust: 100%;
     }
 
+    @media (max-width: 1024px) {
+        .pin .tooltip img {
+            width: 120px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .pin .tooltip img {
+            width: 90px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pin .tooltip img {
+            width: 65px;
+        }
+    }
+
+    @media (max-width: 900px) and (orientation: landscape) {
+        .pin .tooltip img {
+            width: 80px;
+        }
+    }
     
 </style>
 @endpush
@@ -773,14 +811,18 @@
 
         <!-- MODULE 2 PIN (PAKSA 1) - Always Unlocked -->
         <button class="pin location-1" onclick="enterModule(this, '{{ route('module.home') }}')">
-            <span class="tooltip">PAKSA 1:<br> Kalagayan, Suliranin <br>At Pagtugon Sa Isyung<br> Pangkapaligiran Ng Pilipinas</span>
+            <span class="tooltip">
+                <img src="{{ asset('pictures/mod2titleimage.png') }}" alt="Paksa 1">
+            </span>
         </button>
 
         <!-- MODULE 3 PIN (PAKSA 2) - Locked until Module 2 is completed -->
         <button class="pin location-2 <?php echo !$module3_unlocked ? 'locked-pin' : ''; ?>" 
             onclick="<?php echo $module3_unlocked ? "enterModule(this, '" . route('module3.home') . "')" : "showLockedMessage('PAKSA 2')"; ?>"
             <?php echo !$module3_unlocked ? 'disabled style="cursor:not-allowed;"' : ''; ?>>
-            <span class="tooltip">PAKSA 2:<br> Paghahandang Nararapat Gawin <br>sa Harap ng Panganib na Dulot <br>ng Suliraning Pangkapaligiran</span>
+            <span class="tooltip">
+                <img src="{{ asset('pictures/mod3titleimage.png') }}" alt="Paksa 2">
+            </span>
             <?php if(!$module3_unlocked): ?>
                 <span class="lock-icon">🔒</span>
             <?php endif; ?>
@@ -790,7 +832,9 @@
         <button class="pin location-3 <?php echo !$module4_unlocked ? 'locked-pin' : ''; ?>" 
             onclick="<?php echo $module4_unlocked ? "enterModule(this, '" . route('module4.home') . "')" : "showLockedMessage('PAKSA 3')"; ?>"
             <?php echo !$module4_unlocked ? 'disabled style="cursor:not-allowed;"' : ''; ?>>
-            <span class="tooltip">PAKSA 3:<br> Kahalagahan ng Kahandaan, <br> Disiplina at Kooperasyon sa Pagtugon <br> sa mga Hamong Pangkapaligiran</span>
+            <span class="tooltip">
+                <img src="{{ asset('pictures/mod4titleimage.png') }}" alt="Paksa 3">
+            </span>
             <?php if(!$module4_unlocked): ?>
                 <span class="lock-icon">🔒</span>
             <?php endif; ?>
