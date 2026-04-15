@@ -259,7 +259,7 @@
 <!-- 🎮 GAME AREA -->
 <div class="game-area">
     <div class="scene-placeholder">
-        <img src="{{ asset('pictures/Boy Walking.png') }}" class="character" alt="Walking Character">
+        <img src="{{ asset('pictures/studentAvatarWalking.png') }}" class="character" alt="Walking Character">
         <div class="path-text">
             Naglalakbay ka sa Albay<span class="dots"></span>
         </div>

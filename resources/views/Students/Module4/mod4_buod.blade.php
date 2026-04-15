@@ -579,6 +579,8 @@ body {
             Ang bubong na ito ang kumakatawan sa iyong <strong>ganap na kahandaan</strong>. Ngayon, ang iyong <strong>Bahay</strong> ay tapos na—simbolo na ikaw ay may sapat na kaalaman at kasanayan upang maprotektahan ang iyong sarili at komunidad mula sa anumang sakuna.
         </div>
 
+
+
         <button class="complete-house-btn" onclick="closeModal()">Tapusin ang Konstruksyon</button>
     </div>
 </div>
@@ -604,6 +606,15 @@ body {
        <a href="{{ route('module4.references') }}" class="btn-cert" style="background: linear-gradient(135deg, #6c757d, #495057); color: white; margin-left: 10px;">
             📚 View references
         </a>
+
+        <br><br>
+
+       <button onclick="closeFinalOverlay()" 
+            style="background: none; border: 2px solid rgba(124,231,255,0.4); color: #7ce7ff; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s;"
+            onmouseover="this.style.borderColor='rgba(124,231,255,0.9)'"
+            onmouseout="this.style.borderColor='rgba(124,231,255,0.4)'">
+            ↶ Bumalik sa Buod
+        </button>
     </div>
 </div>
 
@@ -697,6 +708,11 @@ body {
             document.getElementById('rewardModal').classList.add('active');
         }, 1000);
     });
+
+    function closeFinalOverlay() {
+        const overlay = document.getElementById('finalAnimOverlay');
+        overlay.style.display = 'none';
+    }
 </script>
 
 </body>

@@ -361,7 +361,7 @@ h1{
             <div class="reward-status-text">
                 <h2 id="statusTitle" style="font-family: 'Baloo 2'; color: #f1c40f; font-size: 35px;">Matibay na Pundasyon!</h2>
                 <p style="font-size: 18px;">Ang iyong mga materyales ay naging bahagi na ng iyong tahanan.</p>
-                <button class="btn-finish" onclick="goMap()">Ipagpatuloy ang Paglalakbay 🗺️</button>
+                <button class="btn-finish" onclick="exitAnimation()">Bumalik sa Buod ↩️</button>
             </div>
         </div>
     </div>
@@ -422,6 +422,13 @@ window.onload = function(){
         const firstModal = document.getElementById('rewardModal');
         if(firstModal) firstModal.classList.add('active');
     }, 500);
+}
+
+function exitAnimation() {
+    const animModal = document.getElementById('animationModal');
+    if(animModal) {
+        animModal.classList.remove('active');
+    }
 }
 </script>
 
