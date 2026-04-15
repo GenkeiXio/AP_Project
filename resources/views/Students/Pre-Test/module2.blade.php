@@ -810,21 +810,21 @@
 
 <script>
 	const questions = [
-		{ question: '1. Ano ang tinutukoy ng solid waste?', options: { a: 'Mga likas na yaman', b: 'Mga basurang mula sa tahanan at negosyo', c: 'Mga hayop sa kagubatan', d: 'Mga anyong tubig' }, answer: 'b' },
-		{ question: '2. Ano ang pangunahing dahilan ng suliranin sa basura sa Pilipinas?', options: { a: 'Kawalan ng disiplina sa pagtatapon', b: 'Malakas na ulan', c: 'Kakulangan sa tubig', d: 'Pagdami ng bundok' }, answer: 'a' },
-		{ question: '3. Ano ang maaaring maging epekto ng maling pagtatapon ng basura?', options: { a: 'Pag-unlad ng ekonomiya', b: 'Pagbaha at paglaganap ng sakit', c: 'Pagdami ng puno', d: 'Paglinis ng hangin' }, answer: 'b' },
-		{ question: '4. Ano ang deforestation?', options: { a: 'Pagtatanim ng puno', b: 'Paglilinis ng ilog', c: 'Pagputol ng mga puno sa kagubatan', d: 'Pag-aalaga ng hayop' }, answer: 'c' },
-		{ question: '5. Alin sa mga sumusunod ang sanhi ng deforestation?', options: { a: 'Recycling', b: 'Illegal logging', c: 'Pagtatanim ng puno', d: 'Clean-up drive' }, answer: 'b' },
-		{ question: '6. Ano ang maaaring epekto ng pagkakalbo ng kagubatan?', options: { a: 'Pagdami ng hayop', b: 'Pagbaha at pagguho ng lupa', c: 'Paglamig ng klima', d: 'Pagdami ng isda' }, answer: 'b' },
-		{ question: '7. Ano ang climate change?', options: { a: 'Pagbabago ng anyo ng lupa', b: 'Pagtaas ng populasyon', c: 'Pagbabago ng temperatura at klima ng mundo', d: 'Pagdami ng kagubatan' }, answer: 'c' },
-		{ question: '8. Ano ang pangunahing sanhi ng climate change?', options: { a: 'Pagtatanim ng puno', b: 'Paggamit ng fossil fuels', c: 'Paglilinis ng kapaligiran', d: 'Pag-recycle' }, answer: 'b' },
-		{ question: '9. Alin sa mga sumusunod ang epekto ng climate change?', options: { a: 'Mas malamig na panahon', b: 'Mas malalakas na bagyo', c: 'Pagdami ng kagubatan', d: 'Pagliit ng populasyon' }, answer: 'b' },
-		{ question: '10. Ano ang layunin ng Republic Act 9003?', options: { a: 'Pagpapatupad ng pagmimina', b: 'Wastong pamamahala ng basura', c: 'Pagputol ng puno', d: 'Pagpaparami ng sasakyan' }, answer: 'b' },
-		{ question: '11. Ano ang pangunahing tungkulin ng early warning system?', options: { a: 'Magtanim ng puno', b: 'Magbigay ng babala bago ang sakuna', c: 'Mangolekta ng basura', d: 'Magpatupad ng batas' }, answer: 'b' },
-		{ question: '12. Ano ang layunin ng evacuation program?', options: { a: 'Magtayo ng bahay', b: 'Ilipat ang tao sa ligtas na lugar', c: 'Maglinis ng kalsada', d: 'Magtanim ng halaman' }, answer: 'b' },
-		{ question: '13. Bakit mahalaga ang pakikiisa ng mamamayan sa pangangalaga ng kalikasan?', options: { a: 'Para maging sikat', b: 'Para sa pansariling interes', c: 'Dahil ito ay pananagutang panlahat', d: 'Para kumita ng pera' }, answer: 'c' },
-		{ question: '14. Alin sa mga sumusunod ang tamang hakbang sa pangangalaga ng kapaligiran?', options: { a: 'Pagsusunog ng basura', b: 'Waste segregation', c: 'Pagtapon sa ilog', d: 'Pagputol ng puno' }, answer: 'b' },
-		{ question: '15. Bilang isang mag-aaral, paano ka makakatulong sa kalikasan?', options: { a: 'Huwag makialam', b: 'Makilahok sa clean-up drive', c: 'Magtapon ng basura kahit saan', d: 'Sumira ng halaman' }, answer: 'b' }
+		{ question: 'Ano ang tinutukoy ng solid waste?', options: { a: 'Mga likas na yaman', b: 'Mga basurang mula sa tahanan at negosyo', c: 'Mga hayop sa kagubatan', d: 'Mga anyong tubig' }, answer: 'b' },
+		{ question: 'Ano ang pangunahing dahilan ng suliranin sa basura sa Pilipinas?', options: { a: 'Kawalan ng disiplina sa pagtatapon', b: 'Malakas na ulan', c: 'Kakulangan sa tubig', d: 'Pagdami ng bundok' }, answer: 'a' },
+		{ question: 'Ano ang maaaring maging epekto ng maling pagtatapon ng basura?', options: { a: 'Pag-unlad ng ekonomiya', b: 'Pagbaha at paglaganap ng sakit', c: 'Pagdami ng puno', d: 'Paglinis ng hangin' }, answer: 'b' },
+		{ question: 'Ano ang deforestation?', options: { a: 'Pagtatanim ng puno', b: 'Paglilinis ng ilog', c: 'Pagputol ng mga puno sa kagubatan', d: 'Pag-aalaga ng hayop' }, answer: 'c' },
+		{ question: 'Alin sa mga sumusunod ang sanhi ng deforestation?', options: { a: 'Recycling', b: 'Illegal logging', c: 'Pagtatanim ng puno', d: 'Clean-up drive' }, answer: 'b' },
+		{ question: 'Ano ang maaaring epekto ng pagkakalbo ng kagubatan?', options: { a: 'Pagdami ng hayop', b: 'Pagbaha at pagguho ng lupa', c: 'Paglamig ng klima', d: 'Pagdami ng isda' }, answer: 'b' },
+		{ question: 'Ano ang climate change?', options: { a: 'Pagbabago ng anyo ng lupa', b: 'Pagtaas ng populasyon', c: 'Pagbabago ng temperatura at klima ng mundo', d: 'Pagdami ng kagubatan' }, answer: 'c' },
+		{ question: 'Ano ang pangunahing sanhi ng climate change?', options: { a: 'Pagtatanim ng puno', b: 'Paggamit ng fossil fuels', c: 'Paglilinis ng kapaligiran', d: 'Pag-recycle' }, answer: 'b' },
+		{ question: 'Alin sa mga sumusunod ang epekto ng climate change?', options: { a: 'Mas malamig na panahon', b: 'Mas malalakas na bagyo', c: 'Pagdami ng kagubatan', d: 'Pagliit ng populasyon' }, answer: 'b' },
+		{ question: 'Ano ang layunin ng Republic Act 9003?', options: { a: 'Pagpapatupad ng pagmimina', b: 'Wastong pamamahala ng basura', c: 'Pagputol ng puno', d: 'Pagpaparami ng sasakyan' }, answer: 'b' },
+		{ question: 'Ano ang pangunahing tungkulin ng early warning system?', options: { a: 'Magtanim ng puno', b: 'Magbigay ng babala bago ang sakuna', c: 'Mangolekta ng basura', d: 'Magpatupad ng batas' }, answer: 'b' },
+		{ question: 'Ano ang layunin ng evacuation program?', options: { a: 'Magtayo ng bahay', b: 'Ilipat ang tao sa ligtas na lugar', c: 'Maglinis ng kalsada', d: 'Magtanim ng halaman' }, answer: 'b' },
+		{ question: 'Bakit mahalaga ang pakikiisa ng mamamayan sa pangangalaga ng kalikasan?', options: { a: 'Para maging sikat', b: 'Para sa pansariling interes', c: 'Dahil ito ay pananagutang panlahat', d: 'Para kumita ng pera' }, answer: 'c' },
+		{ question: 'Alin sa mga sumusunod ang tamang hakbang sa pangangalaga ng kapaligiran?', options: { a: 'Pagsusunog ng basura', b: 'Waste segregation', c: 'Pagtapon sa ilog', d: 'Pagputol ng puno' }, answer: 'b' },
+		{ question: 'Bilang isang mag-aaral, paano ka makakatulong sa kalikasan?', options: { a: 'Huwag makialam', b: 'Makilahok sa clean-up drive', c: 'Magtapon ng basura kahit saan', d: 'Sumira ng halaman' }, answer: 'b' }
 	];
 
 	const questionList = document.getElementById('questionList');
@@ -845,6 +845,41 @@
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
 	let pendingSelection = null;
+
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+		return array;
+	}
+
+	function shuffleQuestionsAndChoices() {
+		// Shuffle the questions array
+		shuffleArray(questions);
+		
+		// Shuffle choices for each question
+		questions.forEach(q => {
+			const optionKeys = Object.keys(q.options); // ['a', 'b', 'c', 'd']
+			const optionTexts = optionKeys.map(key => q.options[key]);
+			
+			// Shuffle the option texts
+			shuffleArray(optionTexts);
+			
+			// Create new options object with shuffled order
+			const newOptions = {};
+			optionKeys.forEach((key, index) => {
+				newOptions[key] = optionTexts[index];
+			});
+			
+			// Find which key now contains the correct answer
+			const correctAnswerText = q.options[q.answer];
+			const newAnswerKey = Object.keys(newOptions).find(key => newOptions[key] === correctAnswerText);
+			
+			q.options = newOptions;
+			q.answer = newAnswerKey;
+		});
+	}
 
 	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Nice one! Tuloy lang!', '🌟 Sakto! Good job!', '🎊 Ayos! Nakuha mo!', '🧠 Correct! Malakas!'];
 	const gentleMessages = ['🌱 Okay lang iyan — learning moment ito.', '💛 Good try! Bawi tayo sa next card.', '✨ Ayos lang — part ito ng pagkatuto.', '🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.', '📘 Nice try! Tuloy lang, nandito lang ang aralin.'];
@@ -1107,6 +1142,7 @@
 
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+		shuffleQuestionsAndChoices();
 		renderCurrentQuestion();
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});

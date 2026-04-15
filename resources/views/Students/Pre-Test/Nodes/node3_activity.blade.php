@@ -888,7 +888,7 @@
                 <div class="modal-feedback-text" id="modalFeedbackText"></div>
                 <div class="modal-actions">
                     <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
-                    <a href="{{ route('node4') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a>
+                    <!-- <a href="{{ route('node4') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a> -->
                 </div>
             </div>
         </div>
@@ -952,6 +952,8 @@
         let itemIndex = 0;
         let correctCount = 0;
         let dragged = false;
+        let typingTimer = null;
+        let isTyping = false;
 
         function showCompletionModal(message) {
             modalFeedbackText.innerText = message;
@@ -970,12 +972,25 @@
         });
 
         function typeLine(text) {
+            // Clear any existing typing
+            if (typingTimer) {
+                clearInterval(typingTimer);
+                typingTimer = null;
+            }
+
             introText.textContent = '';
             let i = 0;
-            const timer = setInterval(() => {
-                introText.textContent += text[i] ?? '';
-                i += 1;
-                if (i >= text.length) clearInterval(timer);
+            isTyping = true;
+
+            typingTimer = setInterval(() => {
+                if (i < text.length) {
+                    introText.textContent += text[i];
+                    i++;
+                } else {
+                    clearInterval(typingTimer);
+                    typingTimer = null;
+                    isTyping = false;
+                }
             }, 18);
         }
 
@@ -1023,6 +1038,8 @@
         }
 
         introNextBtn.addEventListener('click', () => {
+            if (isTyping) return;
+
             if (lineIndex >= lines.length - 1) {
                 introStage.style.display = 'none';
                 gameStage.style.display = 'grid';

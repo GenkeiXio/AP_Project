@@ -158,7 +158,33 @@
             color: white;
             box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
         }
-    </style>
+
+        .btn-continue.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .btn-continue:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* PROGRESS INDICATOR */
+        .progress-indicator {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .progress-indicator.complete {
+            background: #dcfce7;
+            color: #166534;
+        }    </style>
 </head>
 <body>
 
@@ -193,33 +219,37 @@
         <h4 class="panel-title">Gabay sa mga Signal ng Bagyo</h4>
         <p class="text-muted mb-4">Pindutin ang bawat icon sa ibaba upang makita ang mga dapat gawin at mahalagang impormasyon para sa bawat signal.</p>
 
+        <div class="progress-indicator" id="progressIndicator">
+            Binuksan ang Modal: 0/5
+        </div>
+
         <div class="row g-4 justify-content-center">
             <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
+                <div class="wind-signal-item" data-signal="1" data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
                     <img src="{{ asset('pictures/Module 3/Apply/wind1.png') }}" class="wind-img">
                     <div class="mt-2 fw-bold small text-secondary">Signal No. 1</div>
                 </div>
             </div>
             <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
+                <div class="wind-signal-item" data-signal="2" data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
                     <img src="{{ asset('pictures/Module 3/Apply/wind2.png') }}" class="wind-img">
                     <div class="mt-2 fw-bold small text-secondary">Signal No. 2</div>
                 </div>
             </div>
             <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
+                <div class="wind-signal-item" data-signal="3" data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
                     <img src="{{ asset('pictures/Module 3/Apply/wind3.png') }}" class="wind-img">
                     <div class="mt-2 fw-bold small text-secondary">Signal No. 3</div>
                 </div>
             </div>
             <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
+                <div class="wind-signal-item" data-signal="4" data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
                     <img src="{{ asset('pictures/Module 3/Apply/wind4.png') }}" class="wind-img">
                     <div class="mt-2 fw-bold small text-secondary">Signal No. 4</div>
                 </div>
             </div>
             <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
+                <div class="wind-signal-item" data-signal="5" data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
                     <img src="{{ asset('pictures/Module 3/Apply/wind5.png') }}" class="wind-img">
                     <div class="mt-2 fw-bold small text-secondary">Signal No. 5</div>
                 </div>
@@ -242,7 +272,7 @@
     </section>
 
     <div class="text-center py-4">
-        <a href="{{ route('gobag.activity') }}" class="btn btn-continue shadow">
+        <a href="{{ route('gobag.activity') }}" id="continueBtn" class="btn btn-continue shadow disabled">
             SUSUNOD NA BAHAGI <i class="fa-solid fa-arrow-right ms-2"></i>
         </a>
     </div>
@@ -267,12 +297,59 @@
 <script>
     const modal = new bootstrap.Modal(document.getElementById('popupModal'));
     const popupImg = document.getElementById('popupImage');
+    const progressIndicator = document.getElementById('progressIndicator');
+    const continueBtn = document.getElementById('continueBtn');
+
+    const viewedSignals = new Set();
+    const totalSignals = 5;
+
+    function updateProgress() {
+        const viewedCount = viewedSignals.size;
+        progressIndicator.textContent = `Binuksan ang Modal: ${viewedCount}/${totalSignals}`;
+        
+        if (viewedCount === totalSignals) {
+            progressIndicator.classList.add('complete');
+            continueBtn.classList.remove('disabled');
+        } else {
+            progressIndicator.classList.remove('complete');
+            continueBtn.classList.add('disabled');
+        }
+    }
+
+    // Track when modal is hidden (exited)
+    document.getElementById('popupModal').addEventListener('hidden.bs.modal', function() {
+        // Find which signal was last clicked
+        const lastClicked = document.querySelector('.wind-signal-item[data-signal]');
+        // Since modal is shown on click, we can assume the last clicked is the one viewed
+        // But to be precise, we can store the current signal
+        // Actually, since each click shows the modal, and we want to mark when exited, we need to know which one was shown
+        // So, add a variable for currentSignal
+    });
+
+    // Better way: set currentSignal on click, then mark on hide
+    let currentSignal = null;
 
     document.querySelectorAll('.wind-signal-item').forEach(el => {
         el.addEventListener('click', function() {
+            currentSignal = this.getAttribute('data-signal');
             popupImg.src = this.getAttribute('data-img');
             modal.show();
         });
+    });
+
+    document.getElementById('popupModal').addEventListener('hidden.bs.modal', function() {
+        if (currentSignal) {
+            viewedSignals.add(currentSignal);
+            updateProgress();
+            currentSignal = null;
+        }
+    });
+
+    // Prevent clicking disabled button
+    continueBtn.addEventListener('click', function(e) {
+        if (this.disabled) {
+            e.preventDefault();
+        }
     });
 </script>
 

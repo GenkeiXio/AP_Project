@@ -236,51 +236,74 @@
 
     <script>
         const quizItems = [
-            {q:"1. May paparating na bagyo at may sapat pang oras. Ano ang pinakamahusay na unang hakbang?",
+            {q:"May paparating na bagyo at may sapat pang oras. Ano ang pinakamahusay na unang hakbang?",
             options:["A. Maghintay ng anunsyo","B. Maghanda ng emergency kit at magbigay babala","C. Magpahinga muna","D. Maglaro"],answer:1},
 
-            {q:"2. Sa isang evacuation center, may kakulangan sa koordinasyon. Ano ang dapat gawin?",
+            {q:"Sa isang evacuation center, may kakulangan sa koordinasyon. Ano ang dapat gawin?",
             options:["A. Hayaan ang sitwasyon","B. Magtalaga ng lider at sistema ng pamamahala","C. Itigil ang operasyon","D. Maghintay ng tulong"],answer:1},
 
-            {q:"3. Matapos ang baha, maraming kable ng kuryente ang nakakalat. Ano ang tamang aksyon?",
+            {q:"Matapos ang baha, maraming kable ng kuryente ang nakakalat. Ano ang tamang aksyon?",
             options:["A. Hawakan agad","B. Iwasan at ipagbigay-alam sa awtoridad","C. Lakaran lamang","D. Balewalain"],answer:1},
 
-            {q:"4. Sa gitna ng lindol, alin ang tamang kilos?",
+            {q:"Sa gitna ng lindol, alin ang tamang kilos?",
             options:["A. Tumakbo agad palabas","B. Drop, Cover, and Hold","C. Magpanic","D. Sumigaw"],answer:1},
 
-            {q:"5. Sa isang komunidad, may mga hindi sumusunod sa babala. Ano ang dapat gawin ng lider?",
+            {q:"Sa isang komunidad, may mga hindi sumusunod sa babala. Ano ang dapat gawin ng lider?",
             options:["A. Iwanan sila","B. Magpatuloy sa pagbibigay ng impormasyon at paalala","C. Maghintay","D. Umalis"],answer:1},
 
-            {q:"6. Sa panahon ng sakuna, bakit mahalaga ang kooperasyon?",
+            {q:"Sa panahon ng sakuna, bakit mahalaga ang kooperasyon?",
             options:["A. Para sa kasikatan","B. Para mapabilis ang pagtugon at pagbangon","C. Para kumita","D. Para maglibang"],answer:1},
 
-            {q:"7. Sa isang sitwasyon, may sapat na kagamitan ngunit walang disiplina. Ano ang magiging resulta?",
+            {q:"Sa isang sitwasyon, may sapat na kagamitan ngunit walang disiplina. Ano ang magiging resulta?",
             options:["A. Maayos ang operasyon","B. Magiging magulo at delikado ang sitwasyon","C. Walang epekto","D. Mas mabilis ang aksyon"],answer:1},
 
-            {q:"8. Sa pagputok ng bulkan, bakit mahalaga ang maagang paglikas?",
+            {q:"Sa pagputok ng bulkan, bakit mahalaga ang maagang paglikas?",
             options:["A. Para makapaglakbay","B. Para maiwasan ang panganib at masave ang buhay","C. Para sa aliwan","D. Para makakita ng lava"],answer:1},
 
-            {q:"9. Sa Guinobatan flashflood, alin ang nagpapakita ng kahandaan?",
+            {q:"Sa Guinobatan flashflood, alin ang nagpapakita ng kahandaan?",
             options:["A. Pagtawid sa baha","B. Pagsunod sa babala at paglikas","C. Paglalaro sa tubig","D. Pananatili sa bahay kahit delikado"],answer:1},
 
-            {q:"10. Sa isang lindol, maraming sugatan. Ano ang dapat unahin?",
+            {q:"Sa isang lindol, maraming sugatan. Ano ang dapat unahin?",
             options:["A. Mag-record ng video","B. Magbigay ng agarang tulong sa mga kritikal","C. Maghintay","D. Umalis"],answer:1},
 
-            {q:"11. Ano ang pinakamahalagang papel ng tamang impormasyon?",
+            {q:"Ano ang pinakamahalagang papel ng tamang impormasyon?",
             options:["A. Magdulot ng kaba","B. Magbigay ng gabay sa tamang desisyon","C. Magpalaganap ng tsismis","D. Walang silbi"],answer:1},
 
-            {q:"12. Sa isang barangay, may kahandaan at disiplina ngunit walang kooperasyon. Ano ang epekto?",
+            {q:"Sa isang barangay, may kahandaan at disiplina ngunit walang kooperasyon. Ano ang epekto?",
             options:["A. Mas magiging maayos","B. Hindi magiging ganap ang pagtugon","C. Walang epekto","D. Mas mabilis ang aksyon"],answer:1},
 
-            {q:"13. Sa panahon ng sakuna, bakit mahalaga ang pagsunod sa awtoridad?",
+            {q:"Sa panahon ng sakuna, bakit mahalaga ang pagsunod sa awtoridad?",
             options:["A. Dahil utos lamang","B. Dahil nakabatay ito sa kaligtasan ng lahat","C. Dahil tradisyon","D. Dahil uso"],answer:1},
 
-            {q:"14. Ang lider ay may plano ngunit hindi ipinatupad. Ano ang kakulangan?",
+            {q:"Ang lider ay may plano ngunit hindi ipinatupad. Ano ang kakulangan?",
             options:["A. Kahandaan","B. Disiplina","C. Kooperasyon","D. Aksyon"],answer:3},
 
-            {q:"15. Bilang mamamayan, alin ang pinakamainam na kontribusyon?",
+            {q:"Bilang mamamayan, alin ang pinakamainam na kontribusyon?",
             options:["A. Maghintay lamang","B. Maging handa, sumunod, at makiisa","C. Umalis agad","D. Sarili lamang ang isipin"],answer:1}
         ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function shuffleQuestionsAndChoices() {
+            // Shuffle questions
+            shuffleArray(quizItems);
+
+            // Shuffle choices inside each question
+            quizItems.forEach(item => {
+                const originalCorrectIndex = item.answer;
+                const originalCorrectOption = item.options[originalCorrectIndex];
+
+                shuffleArray(item.options);
+
+                // Update correct answer index after shuffle
+                item.answer = item.options.indexOf(originalCorrectOption);
+            });
+        }
 
         const root = document.getElementById('questionsRoot');
         const checkBtn = document.getElementById('checkBtn');
@@ -533,7 +556,8 @@
             checkBtn.style.cursor = 'not-allowed';
         });
 
-        // Initial render
+        // Shuffle first, then render
+        shuffleQuestionsAndChoices();
         renderQuiz();
         
         // Initialize status icons

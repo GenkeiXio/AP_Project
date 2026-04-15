@@ -167,7 +167,7 @@
             <div class="final-score-circle" id="final-score">0</div>
             <p id="feedback-text" class="fs-5 mt-3 px-md-5"></p>
 
-            <div class="synthesis-box animate__animated animate__fadeInUp animate__delay-1s">
+            <div id="synthesisBox" class="synthesis-box animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="synthesis-title">VII. SYNTHESIS</div>
                 <div class="synthesis-content">
                     <p><strong>BUOD NG ARALIN:</strong></p>
@@ -201,6 +201,23 @@
         { q: "Pagkatapos ng sakuna, ano ang unang hakbang bago pumasok sa bahay?", o: ["Pumasok agad para matulog", "Suriin ang kaligtasan ng istraktura at kuryente", "Maglaro sa loob", "Huwag nang tignan ang paligid"], a: 1 },
         { q: "Ano ang pinakamahalagang aral sa disaster preparedness?", o: ["Umasa sa 'Bahala Na' system", "Maging handa, maingat, at makiisa sa lahat", "Maghintay na lang ng mangyayari", "Huwag makinig sa mga payo"], a: 1 }
     ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function shuffleQuestionsAndChoices() {
+        shuffleArray(questions);
+        questions.forEach(q => {
+            const originalCorrectIndex = q.a;
+            const originalCorrectOption = q.o[originalCorrectIndex];
+            shuffleArray(q.o);
+            q.a = q.o.indexOf(originalCorrectOption);
+        });
+    }
 
     let currentQ = 0;
     let score = 0;
@@ -289,12 +306,17 @@
         
         const badgeDisplay = document.getElementById('badge-display');
         const feedback = document.getElementById('feedback-text');
+        const synthesisBox = document.getElementById('synthesisBox');
 
         if (score >= 12) {
+            synthesisBox.style.display = 'block'; // ✅ SHOW if passed
+
             badgeDisplay.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/6198/6198527.png" style="width: 120px;" class="animate__animated animate__tada">`;
             feedback.innerText = "Napakahusay! Nakatala ka bilang isang Disaster Commander. Ipagpatuloy ang pagiging handa!";
             document.getElementById('result-actions').innerHTML = `<a href="{{ route('student.module3.performance-task') }}" class="btn-action">MAGPATULOY SA SUSUNOD →</a>`;
         } else {
+            synthesisBox.style.display = 'none'; // ❌ HIDE if failed
+
             badgeDisplay.innerHTML = `<div class="display-1">🔁</div>`;
             feedback.innerText = "Kailangan mo pa ng kaunting paghahanda. Balikan ang mga aralin at subukan muli.";
             document.getElementById('result-actions').innerHTML = `<button onclick="location.reload()" class="btn-action">ULITIN ANG MISYON</button>`;
@@ -318,6 +340,7 @@
         .catch(err => console.error(err));
     }
 
+    shuffleQuestionsAndChoices();
     loadQuestion();
 </script>
 

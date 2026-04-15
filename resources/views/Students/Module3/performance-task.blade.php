@@ -487,16 +487,6 @@
                 <p class="submit-info">Complete all sections to unlock the final submission!</p>
             </div>
         </div>
-
-        <!-- Right Sidebar - Leaderboard -->
-        <div class="leaderboard-sidebar">
-            <div class="leaderboard-card">
-                <h3>🏅 Leaderboard</h3>
-                <div class="leaderboard-list" id="leaderboard">
-                    <!-- Leaderboard entries will be added here -->
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Results Modal -->
@@ -715,7 +705,7 @@
 
 .game-content {
     display: grid;
-    grid-template-columns: 260px 1fr 260px;
+    grid-template-columns: 260px 1fr;
     gap: 20px;
     margin-bottom: 30px;
 }
@@ -1527,7 +1517,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setupItemSelection();
     setupRadioButtons();
     setupTimer();
-    updateLeaderboard();
     updateScore();
 });
 
@@ -1821,32 +1810,6 @@ function submitTask(timeoutSubmit) {
             modal.classList.remove('show');
         })
         .catch(err => console.error(err));
-    });
-}
-
-// Leaderboard
-function updateLeaderboard() {
-    const leaderboard = document.getElementById('leaderboard');
-    const sampleLeaderboard = [
-        { rank: 1, name: 'Maria Santos', score: 98 },
-        { rank: 2, name: 'Juan Dela Cruz', score: 95 },
-        { rank: 3, name: 'Grace Lee', score: 92 },
-        { rank: 4, name: 'Miguel Reyes', score: 88 },
-        { rank: 5, name: 'Ana Garcia', score: 85 }
-    ];
-
-    leaderboard.innerHTML = '';
-    sampleLeaderboard.forEach(entry => {
-        const div = document.createElement('div');
-        div.className = 'leaderboard-entry';
-        div.innerHTML = `
-            <div class="leaderboard-rank rank-${entry.rank}">${entry.rank}</div>
-            <div class="leaderboard-info">
-                <div class="leaderboard-name">${entry.name}</div>
-            </div>
-            <div class="leaderboard-score">${entry.score}</div>
-        `;
-        leaderboard.appendChild(div);
     });
 }
 </script>

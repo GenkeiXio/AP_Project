@@ -1,3 +1,7 @@
+@php
+    session(['module3_unlocked' => true]);
+@endphp
+
 <!DOCTYPE html>
 <html lang="fil">
 <head>

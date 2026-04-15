@@ -6,6 +6,7 @@
 <title>Modyul 4 - Alamin</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
 * {
@@ -119,7 +120,21 @@ h2 {
     text-align: center;
 }
 
-.card-btn:hover {
+.card-btn.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: rgba(124, 231, 255, 0.15);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.05), rgba(57, 255, 20, 0.03));
+    filter: grayscale(0.5);
+}
+
+.card-btn.locked:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: rgba(124, 231, 255, 0.15);
+}
+
+.card-btn:not(.locked):hover {
     border-color: rgba(124, 231, 255, 0.6);
     background: linear-gradient(135deg, rgba(124, 231, 255, 0.18), rgba(57, 255, 20, 0.12));
     transform: translateY(-4px);
@@ -137,7 +152,34 @@ h2 {
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin: 0 auto 8px;
+}
+
+.card-btn.locked .number {
+    background: linear-gradient(135deg, #6c757d, #8a939d);
+    color: #1a1a2e;
+}
+
+.card-btn .lock-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: #ffd700;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.card-btn.locked .lock-icon {
+    color: #6c757d;
+}
+
+.card-btn .check-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: #28a745;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .modal {
@@ -183,6 +225,7 @@ h2 {
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    z-index: 10;
 }
 
 .modal-close-btn:hover {
@@ -277,56 +320,6 @@ h2 {
     cursor: pointer;
 }
 
-.short-answer {
-    background: #fff9e6;
-    border-left: 4px solid #ff9800;
-    padding: 16px;
-    border-radius: 12px;
-    margin: 14px 0;
-}
-
-.short-answer textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    margin-top: 10px;
-    resize: vertical;
-    min-height: 80px;
-}
-
-.rubric {
-    background: #f8f9fa;
-    padding: 14px;
-    border-radius: 10px;
-    margin-top: 14px;
-}
-
-.rubric-item {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.rubric-item.low {
-    background: #ffe0e0;
-    color: #8b0000;
-}
-
-.rubric-item.mid {
-    background: #fff9e6;
-    color: #8b7500;
-}
-
-.rubric-item.high {
-    background: #e0ffe0;
-    color: #006600;
-}
-
 .btn-nav {
     display: flex;
     gap: 10px;
@@ -369,12 +362,39 @@ h2 {
     cursor: not-allowed;
 }
 
+.btn-proceed {
+    background: linear-gradient(135deg, #7ce7ff, #9dfdba);
+    color: #0b1b2b;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-proceed:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(124, 231, 255, 0.35);
+}
+
 .counter {
     text-align: center;
     padding: 10px;
     color: #60758a;
     font-size: 14px;
     font-weight: 600;
+}
+
+.answer-option {
+    display: block;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.answer-feedback {
+    margin-top: 14px;
+    display: none;
 }
 
 @media (max-width: 768px) {
@@ -409,61 +429,16 @@ h2 {
     </div>
 </div>
 
-<div class="card-grid">
-    <button class="card-btn" onclick="openCard(1)">
-        <div class="number">1</div>
-        Panimula
-    </button>
-    <button class="card-btn" onclick="openCard(2)">
-        <div class="number">2</div>
-        Kahandaan
-    </button>
-    <button class="card-btn" onclick="openCard(3)">
-        <div class="number">3</div>
-        Disiplina
-    </button>
-    <button class="card-btn" onclick="openCard(4)">
-        <div class="number">4</div>
-        Kooperasyon
-    </button>
-    <button class="card-btn" onclick="openCard(5)">
-        <div class="number">5</div>
-        Sistema ng DRRM
-    </button>
-    <button class="card-btn" onclick="openCard(6)">
-        <div class="number">6</div>
-        Pagtugon sa Sakuna
-    </button>
-    <button class="card-btn" onclick="openCard(7)">
-        <div class="number">7</div>
-        Tunay na Buhay
-    </button>
-    <button class="card-btn" onclick="openCard(8)">
-        <div class="number">8</div>
-        Buod
-    </button>
-    <button class="card-btn" onclick="openCard(9)">
-        <div class="number">9</div>
-        Mabilis na Pagsusuri
-    </button>
-    <button class="card-btn" onclick="openCard(10)">
-        <div class="number">10</div>
-        Checklist
-    </button>
-    <button class="card-btn" onclick="openCard(11)">
-        <div class="number">11</div>
-        Maikling Sagot
-    </button>
-</div>
+<div class="card-grid" id="cardGrid"></div>
 
 </div>
 
-<!-- MODAL -->
+<!-- MAIN MODAL -->
 <div class="modal" id="modal">
 <div class="modal-box" id="modalContent">
     <button class="modal-close-btn" onclick="closeCard()">✕</button>
     <div id="cardContent"></div>
-    <div class="btn-nav">
+    <div class="btn-nav" id="btnNav">
         <button class="btn-prev" id="prevBtn" onclick="previousCard()">← Nakaraan</button>
         <div class="counter"><span id="cardCounter">1</span>/11</div>
         <button class="btn-next" id="nextBtn" onclick="nextCard()">Susunod →</button>
@@ -471,56 +446,124 @@ h2 {
 </div>
 </div>
 
-<!-- COMPLETION MODAL -->
-<div class="modal" id="completionModal">
-<div class="modal-box" style="text-align: center; max-width: 500px;">
-    
-    <div class="modal-heading" style="margin-bottom: 30px;">
-        <h3 style="color: #7ce7ff; font-size: 28px;">🎉 Natapos Na!</h3>
-        <p>Matagumpay mong natapos ang lahat ng kartas sa Alamin.</p>
-    </div>
-
-    <div style="background: rgba(124, 231, 255, 0.1); border: 2px solid rgba(124, 231, 255, 0.3); border-radius: 15px; padding: 20px; margin-bottom: 30px;">
-        <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
-        <div style="color: #9dfdba; font-weight: 700; font-size: 18px;">100% Kumpleto!</div>
-        <div style="color: #b8d4e8; font-size: 14px;">Handa ka nang magpatuloy sa Post-Test</div>
-    </div>
-
-    <button onclick="proceedToPosttest()" style="background: linear-gradient(135deg, #7ce7ff, #9dfdba); color: #0b1b2b; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 8px 25px rgba(124, 231, 255, 0.3);">
-        Magpatuloy sa Post-Test →
-    </button>
-
-</div>
-</div>
-
 <script>
+// Card data
+const cardTitles = [
+    "Panimula",
+    "Kahandaan",
+    "Disiplina",
+    "Kooperasyon",
+    "Sistema ng DRRM",
+    "Pagtugon sa Sakuna",
+    "Tunay na Buhay",
+    "Buod",
+    "Mabilis na Pagsusuri",
+    "Checklist",
+    "Maikling Sagot"
+];
+
 let currentCard = 0;
 const totalCards = 11;
 let visitedCards = new Set();
+let highestUnlockedCard = 1;
+let card9AnswerSubmitted = false;
+let card11AnswerSubmitted = false;
+
+function initializeCards() {
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '';
+    
+    for (let i = 1; i <= totalCards; i++) {
+        const isLocked = i > highestUnlockedCard;
+        const isCompleted = visitedCards.has(i);
+        
+        const card = document.createElement('button');
+        card.className = `card-btn ${isLocked ? 'locked' : ''}`;
+        card.onclick = () => openCard(i);
+        
+        const numberDiv = document.createElement('div');
+        numberDiv.className = 'number';
+        numberDiv.textContent = i;
+        card.appendChild(numberDiv);
+        
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = cardTitles[i-1];
+        card.appendChild(titleSpan);
+        
+        if (isCompleted) {
+            const checkIcon = document.createElement('i');
+            checkIcon.className = 'fas fa-check-circle check-icon';
+            card.appendChild(checkIcon);
+        } else if (isLocked) {
+            const lockIcon = document.createElement('i');
+            lockIcon.className = 'fas fa-lock lock-icon';
+            card.appendChild(lockIcon);
+        }
+        
+        grid.appendChild(card);
+    }
+}
 
 function updateProgress() {
     const percentage = Math.round((visitedCards.size / totalCards) * 100);
     document.getElementById('progressBar').style.width = percentage + '%';
     document.getElementById('progressText').innerText = visitedCards.size + '/' + totalCards;
+}
+
+function updateNavButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const counterSpan = document.getElementById('cardCounter');
     
-    // Check if all cards are completed
-    if (visitedCards.size >= totalCards) {
-        showCompletionModal();
+    prevBtn.disabled = currentCard === 1;
+    
+    if (currentCard === 11) {
+        // For Card 11: show "Nakaraan" and "Magpatuloy sa Post-Test"
+        nextBtn.textContent = 'Magpatuloy sa Post-Test →';
+        nextBtn.className = 'btn-proceed';
+        nextBtn.onclick = () => proceedToPosttest();
+        nextBtn.disabled = false;
+    } else {
+        nextBtn.textContent = 'Susunod →';
+        nextBtn.className = 'btn-next';
+        nextBtn.onclick = () => nextCard();
+        
+        if (currentCard === 9) {
+            nextBtn.disabled = !card9AnswerSubmitted;
+        } else {
+            nextBtn.disabled = currentCard === totalCards || (currentCard + 1) > highestUnlockedCard;
+        }
     }
+    
+    counterSpan.innerText = currentCard;
 }
 
 function openCard(num) {
+    if (num > highestUnlockedCard) {
+        alert(`Hindi mo pa maa-access ang Card ${num}. Tapusin muna ang mga naunang card.`);
+        return;
+    }
+    
     currentCard = num;
     visitedCards.add(num);
+    
+    if (num === highestUnlockedCard && highestUnlockedCard < totalCards) {
+        highestUnlockedCard = num + 1;
+    }
+    
     updateProgress();
+    initializeCards();
     
     const content = getCardContent(num);
     document.getElementById('cardContent').innerHTML = content;
     document.getElementById('modal').classList.add('show');
-    document.getElementById('cardCounter').innerText = num;
     
-    document.getElementById('prevBtn').disabled = num === 1;
-    document.getElementById('nextBtn').disabled = num === totalCards;
+    updateNavButtons();
+    
+    setTimeout(() => {
+        if (num === 9) attachCard9Listeners();
+        if (num === 11) attachCard11Listeners();
+    }, 50);
 }
 
 function closeCard() {
@@ -528,7 +571,7 @@ function closeCard() {
 }
 
 function nextCard() {
-    if (currentCard < totalCards) {
+    if (currentCard < totalCards && currentCard + 1 <= highestUnlockedCard) {
         openCard(currentCard + 1);
     }
 }
@@ -537,6 +580,85 @@ function previousCard() {
     if (currentCard > 1) {
         openCard(currentCard - 1);
     }
+}
+
+function attachCard9Listeners() {
+    const submitBtn = document.getElementById('card9SubmitBtn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', checkCard9Answer);
+    }
+}
+
+function attachCard11Listeners() {
+    const submitBtn = document.getElementById('card11SubmitBtn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', checkCard11Answer);
+    }
+}
+
+function checkCard9Answer() {
+    const selected = document.querySelector('input[name="card9Answer"]:checked');
+    const resultDiv = document.getElementById('card9Result');
+    
+    if (selected) {
+        if (selected.value === 'B') {
+            resultDiv.innerHTML = `
+                <h5 style="color: #28a745;">✅ Tama ang iyong sagot!</h5>
+                <div class="message-box">
+                    💡 <strong>Paliwanag:</strong> Bilang lider, dapat mong ihanda ang buong komunidad at magbigay ng maagang babala para maiwasan ang malaking pinsala.
+                </div>
+            `;
+        } else {
+            resultDiv.innerHTML = `
+                <h5 style="color: #dc3545;">❌ Hindi tama. Subukang muli.</h5>
+                <div class="message-box">
+                    💡 <strong>Paliwanag:</strong> Ang tamang sagot ay B. Bilang lider, dapat mong ihanda ang buong komunidad at magbigay ng maagang babala.
+                </div>
+            `;
+        }
+        resultDiv.style.display = 'block';
+        card9AnswerSubmitted = true;
+        
+        document.querySelectorAll('input[name="card9Answer"]').forEach(radio => radio.disabled = true);
+        document.getElementById('card9SubmitBtn').disabled = true;
+        document.getElementById('nextBtn').disabled = false;
+    } else {
+        alert('Pumili muna ng sagot.');
+    }
+}
+
+function checkCard11Answer() {
+    const selected = document.querySelector('input[name="card11Answer"]:checked');
+    const resultDiv = document.getElementById('card11Result');
+    
+    if (selected) {
+        if (selected.value === 'B') {
+            resultDiv.innerHTML = `
+                <h5 style="color: #28a745;">✅ Tama ang iyong sagot!</h5>
+                <div class="message-box">
+                    💡 <strong>Paliwanag:</strong> Ang kahandaan, disiplina, at kooperasyon ay mahalaga upang mabawasan ang pinsala na maaaring idulot ng kalamidad at mapabilis ang pagbangon ng komunidad.
+                </div>
+            `;
+        } else {
+            resultDiv.innerHTML = `
+                <h5 style="color: #dc3545;">❌ Hindi tama.</h5>
+                <div class="message-box">
+                    💡 <strong>Tamang Sagot: B</strong> - Upang mabawasan ang pinsala at mapabilis ang pagbangon
+                </div>
+            `;
+        }
+        resultDiv.style.display = 'block';
+        card11AnswerSubmitted = true;
+        
+        document.querySelectorAll('input[name="card11Answer"]').forEach(radio => radio.disabled = true);
+        document.getElementById('card11SubmitBtn').disabled = true;
+    } else {
+        alert('Pumili muna ng sagot.');
+    }
+}
+
+function proceedToPosttest() {
+    window.location.href = "{{ route('module4.posttest') }}";
 }
 
 function getCardContent(num) {
@@ -726,16 +848,28 @@ function getCardContent(num) {
                     👉 "Kung ikaw ay lider ng barangay, ano ang iyong uunahin?"
                 </div>
                 
-                <ul>
-                    <li>A. Maghintay ng tulong</li>
-                    <li>B. Maghanda at magbigay babala</li>
-                    <li>C. Sariling pamilya lamang ang tulungan</li>
-                </ul>
-                
-                <h5>✅ Tamang Sagot: B</h5>
-                <div class="message-box">
-                    💡 <strong>Paliwanag:</strong> Bilang lider, dapat mong ihanda ang buong komunidad at magbigay ng maagang babala para maiwasan ang malaking pinsala.
+                <div style="margin: 14px 0;">
+                    <label class="answer-option">
+                        <input type="radio" name="card9Answer" value="A" style="margin-right: 8px;">
+                        <strong>A.</strong> Maghintay ng tulong
+                    </label>
+                    <label class="answer-option">
+                        <input type="radio" name="card9Answer" value="B" style="margin-right: 8px;">
+                        <strong>B.</strong> Maghanda at magbigay babala
+                    </label>
+                    <label class="answer-option">
+                        <input type="radio" name="card9Answer" value="C" style="margin-right: 8px;">
+                        <strong>C.</strong> Sariling pamilya lamang ang tulungan
+                    </label>
                 </div>
+                
+                <button type="button" id="card9SubmitBtn" style="padding: 10px 20px; background: linear-gradient(135deg, #28a745, #45b358); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Suriin ang Sagot</button>
+                
+                <div id="card9Result" class="answer-feedback"></div>
+                
+                <p style="margin-top: 14px; font-size: 14px; color: #60758a;">
+                    <strong>💬 Paalala:</strong> Piliin ang opsyon na sa tingin mo ay pinaka-tama.
+                </p>
             </div>
         `,
         10: `
@@ -857,35 +991,28 @@ function getCardContent(num) {
                     👉 Piliin ang pinaka-tamang sagot sa mga sumusunod na opsyon.
                 </div>
                 
-                <form id="mcqForm">
-                    <div style="margin: 14px 0;">
-                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
-                            <input type="radio" name="answer" value="A" style="margin-right: 8px;">
-                            <strong>A.</strong> Upang mapigilan ang kalamidad
-                        </label>
-                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
-                            <input type="radio" name="answer" value="B" style="margin-right: 8px;">
-                            <strong>B.</strong> Upang mabawasan ang pinsala at mapabilis ang pagbangon
-                        </label>
-                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
-                            <input type="radio" name="answer" value="C" style="margin-right: 8px;">
-                            <strong>C.</strong> Upang maging masaya ang lahat
-                        </label>
-                        <label style="display: block; margin-bottom: 8px; cursor: pointer;">
-                            <input type="radio" name="answer" value="D" style="margin-right: 8px;">
-                            <strong>D.</strong> Upang magkaroon ng trabaho
-                        </label>
-                    </div>
-                    
-                    <button type="button" onclick="checkAnswer()" style="padding: 10px 20px; background: linear-gradient(135deg, #28a745, #45b358); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Suriin ang Sagot</button>
-                </form>
-                
-                <div id="result" style="margin-top: 14px; display: none;">
-                    <h5>✅ Tamang Sagot: B</h5>
-                    <div class="message-box">
-                        💡 <strong>Paliwanag:</strong> Ang kahandaan, disiplina, at kooperasyon ay mahalaga upang mabawasan ang pinsala na maaaring idulot ng kalamidad at mapabilis ang pagbangon ng komunidad.
-                    </div>
+                <div style="margin: 14px 0;">
+                    <label class="answer-option">
+                        <input type="radio" name="card11Answer" value="A" style="margin-right: 8px;">
+                        <strong>A.</strong> Upang mapigilan ang kalamidad
+                    </label>
+                    <label class="answer-option">
+                        <input type="radio" name="card11Answer" value="B" style="margin-right: 8px;">
+                        <strong>B.</strong> Upang mabawasan ang pinsala at mapabilis ang pagbangon
+                    </label>
+                    <label class="answer-option">
+                        <input type="radio" name="card11Answer" value="C" style="margin-right: 8px;">
+                        <strong>C.</strong> Upang maging masaya ang lahat
+                    </label>
+                    <label class="answer-option">
+                        <input type="radio" name="card11Answer" value="D" style="margin-right: 8px;">
+                        <strong>D.</strong> Upang magkaroon ng trabaho
+                    </label>
                 </div>
+                
+                <button type="button" id="card11SubmitBtn" style="padding: 10px 20px; background: linear-gradient(135deg, #28a745, #45b358); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Suriin ang Sagot</button>
+                
+                <div id="card11Result" class="answer-feedback"></div>
                 
                 <p style="margin-top: 14px; font-size: 14px; color: #60758a;">
                     <strong>💬 Paalala:</strong> Piliin ang opsyon na sa tingin mo ay pinaka-tama.
@@ -897,443 +1024,17 @@ function getCardContent(num) {
     return cards[num] || '<p>Card not found</p>';
 }
 
-function checkAnswer() {
-    const selected = document.querySelector('input[name="answer"]:checked');
-    const resultDiv = document.getElementById('result');
-    if (selected) {
-        if (selected.value === 'B') {
-            resultDiv.innerHTML = `
-                <h5>✅ Tama ang iyong sagot!</h5>
-                <div class="message-box">
-                    💡 <strong>Paliwanag:</strong> Ang kahandaan, disiplina, at kooperasyon ay mahalaga upang mabawasan ang pinsala na maaaring idulot ng kalamidad at mapabilis ang pagbangon ng komunidad.
-                </div>
-            `;
-        } else {
-            resultDiv.innerHTML = `
-                <h5>❌ Hindi tama. Subukang muli.</h5>
-                <div class="message-box">
-                    💡 <strong>Tamang Sagot: B</strong> - Upang mabawasan ang pinsala at mapabilis ang pagbangon
-                </div>
-            `;
-        }
-        resultDiv.style.display = 'block';
-    } else {
-        alert('Pumili muna ng sagot.');
-    }
-}
-
-function showCompletionModal() {
-    // Only show once
-    if (document.getElementById('completionModal').classList.contains('show')) return;
-    
-    setTimeout(() => {
-        document.getElementById('completionModal').classList.add('show');
-    }, 500);
-}
-
-function proceedToPosttest() {
-    window.location.href = "{{ route('module4.posttest') }}";
-}
-
 document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeCard();
     }
 });
 
-document.getElementById('completionModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        // Don't close completion modal when clicking outside
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCards();
+    updateProgress();
 });
 </script>
 
 </body>
-</html>
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modyul 4 - Alamin</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0b1b2b 0%, #11384f 45%, #173d2c 100%);
-    color: #eaf4ff;
-    min-height: 100vh;
-}
-
-.container-box {
-    max-width: 1100px;
-    margin: auto;
-    padding: 28px;
-}
-
-h2 {
-    text-align: center;
-    font-weight: 900;
-    letter-spacing: 1px;
-    color: #f8fdff;
-    text-shadow: 0 4px 18px rgba(0,0,0,.35);
-    margin-bottom: 24px;
-}
-
-.page-banner {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    border-radius: 22px;
-    background: rgba(3, 18, 30, 0.72);
-    border: 1px solid rgba(255,255,255,.10);
-    box-shadow: 0 16px 35px rgba(0,0,0,.25);
-    backdrop-filter: blur(10px);
-}
-
-.page-banner .brief {
-    max-width: 760px;
-}
-
-.page-banner .brief .eyebrow {
-    display: inline-block;
-    font-size: .78rem;
-    font-weight: 800;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    color: #7ce7ff;
-    margin-bottom: 6px;
-}
-
-.page-banner .brief p {
-    margin: 0;
-    color: #d8eefb;
-    line-height: 1.6;
-}
-
-.progress-wrap {
-    margin-bottom: 24px;
-    padding: 14px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 18px;
-}
-
-.progress-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-weight: 700;
-    color: #e7f7ff;
-}
-
-.progress {
-    height: 12px;
-    border-radius: 10px;
-    background: rgba(255,255,255,.08);
-}
-
-.progress-bar {
-    background: linear-gradient(90deg, #7ce7ff, #9dfdba);
-    border-radius: 10px;
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-top: 24px;
-}
-
-.card-btn {
-    position: relative;
-    padding: 16px;
-    background: linear-gradient(135deg, rgba(124, 231, 255, 0.12), rgba(57, 255, 20, 0.08));
-    border: 2px solid rgba(124, 231, 255, 0.28);
-    border-radius: 18px;
-    color: #e7f7ff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.card-btn:hover {
-    border-color: rgba(124, 231, 255, 0.6);
-    background: linear-gradient(135deg, rgba(124, 231, 255, 0.18), rgba(57, 255, 20, 0.12));
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(124, 231, 255, 0.18);
-}
-
-.card-btn .number {
-    display: inline-block;
-    background: linear-gradient(135deg, #7ce7ff, #9dfdba);
-    color: #0b1b2b;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    margin-bottom: 8px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    background: linear-gradient(180deg, #fdfefe 0%, #eef7fb 100%);
-    padding: 28px;
-    border-radius: 22px;
-    max-width: 900px;
-    width: 95%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 24px 60px rgba(0,0,0,.45);
-    border: 1px solid rgba(255,255,255,.35);
-    position: relative;
-}
-
-.modal-close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: linear-gradient(135deg, #dc3545, #ff6b6b);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.modal-close-btn:hover {
-    background: #c82333;
-    transform: scale(1.1);
-}
-
-.modal-header {
-    text-align: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #e0e0e0;
-}
-
-.card-title {
-    color: #0b1b2b;
-    font-weight: 900;
-    font-size: 24px;
-    margin-bottom: 8px;
-}
-
-.card-subtitle {
-    color: #60758a;
-    font-size: 14px;
-}
-
-.card-content {
-    color: #334455;
-    line-height: 1.8;
-}
-
-.card-content h5 {
-    color: #153b55;
-    font-weight: 800;
-    margin-top: 16px;
-    margin-bottom: 10px;
-}
-
-.card-content ul, .card-content ol {
-    margin: 10px 0 10px 24px;
-    color: #334455;
-}
-
-.card-content li {
-    margin-bottom: 6px;
-}
-
-.card-content strong {
-    color: #0b1b2b;
-}
-
-.message-box {
-    background: linear-gradient(135deg, #e7f5ff, #f0f9ff);
-    border-left: 4px solid #0d6efd;
-    padding: 14px;
-    border-radius: 10px;
-    margin: 14px 0;
-    color: #0c3a66;
-    font-weight: 600;
-}
-
-.checklist-section {
-    background: #f8f9fa;
-    padding: 16px;
-    border-radius: 12px;
-    margin: 14px 0;
-}
-
-.checklist-section table {
-    width: 100%;
-    border-collapse: collapse;
-    color: #334455;
-}
-
-.checklist-section th {
-    background: #e7f5ff;
-    color: #0c3a66;
-    padding: 10px;
-    text-align: left;
-    font-weight: 700;
-}
-
-.checklist-section td {
-    padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.checklist-section input[type="checkbox"] {
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.short-answer {
-    background: #fff9e6;
-    border-left: 4px solid #ff9800;
-    padding: 16px;
-    border-radius: 12px;
-    margin: 14px 0;
-}
-
-.short-answer textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    margin-top: 10px;
-    resize: vertical;
-    min-height: 80px;
-}
-
-.rubric {
-    background: #f8f9fa;
-    padding: 14px;
-    border-radius: 10px;
-    margin-top: 14px;
-}
-
-.rubric-item {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.rubric-item.low {
-    background: #ffe0e0;
-    color: #8b0000;
-}
-
-.rubric-item.mid {
-    background: #fff9e6;
-    color: #8b7500;
-}
-
-.rubric-item.high {
-    background: #e0ffe0;
-    color: #006600;
-}
-
-.btn-nav {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 2px solid #e0e0e0;
-}
-
-.btn-prev, .btn-next {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-prev {
-    background: #e0e0e0;
-    color: #333;
-}
-
-.btn-prev:hover:not(:disabled) {
-    background: #d0d0d0;
-}
-
-.btn-next {
-    background: linear-gradient(135deg, #28a745, #45b358);
-    color: white;
-}
-
-.btn-next:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(40, 167, 69, 0.25);
-}
-
-.btn-prev:disabled, .btn-next:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.counter {
-    text-align: center;
-    padding: 10px;
-    color: #60758a;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-@media (max-width: 768px) {
-    .container-box { padding: 16px; }
-    .modal-box { padding: 16px; }
-    .card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-    .card-btn { padding: 12px; }
-}
-</style>
 </html>

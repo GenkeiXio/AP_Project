@@ -253,81 +253,98 @@
     <script>
         const quizItems = [
             {
-                q: '1) May paparating na bagyo ngunit ayaw lumikas ng mga residente. Ano ang pinakamainam na gawin bilang lider?',
+                q: 'May paparating na bagyo ngunit ayaw lumikas ng mga residente. Ano ang pinakamainam na gawin bilang lider?',
                 options: ['A. Hayaan sila', 'B. Magbigay ng malinaw na babala at ipaliwanag ang panganib', 'C. Pilitin agad nang walang paliwanag', 'D. Maghintay ng utos'],
                 answer: 1
             },
             {
-                q: '2) Sa isang barangay, maraming tao ang hindi sumusunod sa evacuation plan. Ano ang pangunahing problema?',
+                q: 'Sa isang barangay, maraming tao ang hindi sumusunod sa evacuation plan. Ano ang pangunahing problema?',
                 options: ['A. Kakulangan sa pera', 'B. Kakulangan sa disiplina', 'C. Kakulangan sa bahay', 'D. Kakulangan sa pagkain'],
                 answer: 1
             },
             {
-                q: '3) Sa gitna ng baha, may mga taong gustong bumalik sa bahay para kumuha ng gamit. Ano ang dapat mong gawin?',
+                q: 'Sa gitna ng baha, may mga taong gustong bumalik sa bahay para kumuha ng gamit. Ano ang dapat mong gawin?',
                 options: ['A. Payagan sila', 'B. Ipaliwanag ang panganib at pigilan sila', 'C. Sumama sa kanila', 'D. Iwanan sila'],
                 answer: 1
             },
             {
-                q: '4) Matapos ang lindol, may bitak ang gusali ngunit may gustong pumasok. Ano ang tamang desisyon?',
+                q: 'Matapos ang lindol, may bitak ang gusali ngunit may gustong pumasok. Ano ang tamang desisyon?',
                 options: ['A. Pahintulutan', 'B. I-inspect muna ang kaligtasan bago papasukin', 'C. Balewalain', 'D. Ipagpatuloy ang normal na gawain'],
                 answer: 1
             },
             {
-                q: '5) Sa isang komunidad, may maling balita tungkol sa sakuna. Ano ang epekto nito?',
+                q: 'Sa isang komunidad, may maling balita tungkol sa sakuna. Ano ang epekto nito?',
                 options: ['A. Nagiging kalmado ang tao', 'B. Nagdudulot ng takot at kalituhan', 'C. Walang epekto', 'D. Nakakatulong sa paghahanda'],
                 answer: 1
             },
             {
-                q: '6) Sa panahon ng bagyo, may mga taong hindi nakikinig sa babala. Ano ang dapat gawin ng lider?',
+                q: 'Sa panahon ng bagyo, may mga taong hindi nakikinig sa babala. Ano ang dapat gawin ng lider?',
                 options: ['A. Huwag na silang pansinin', 'B. Palakasin ang information drive at babala', 'C. Iwanan sila', 'D. Maghintay'],
                 answer: 1
             },
             {
-                q: '7) Sa isang lugar, may sapat na kagamitan ngunit kulang ang koordinasyon. Ano ang magiging epekto?',
+                q: 'Sa isang lugar, may sapat na kagamitan ngunit kulang ang koordinasyon. Ano ang magiging epekto?',
                 options: ['A. Mas mabilis ang pagtugon', 'B. Magiging magulo ang operasyon', 'C. Walang epekto', 'D. Mas magiging maayos'],
                 answer: 1
             },
             {
-                q: '8) Sa isang evacuation center, may kaguluhan sa pamamahagi ng relief goods. Ano ang solusyon?',
+                q: 'Sa isang evacuation center, may kaguluhan sa pamamahagi ng relief goods. Ano ang solusyon?',
                 options: ['A. Magbigay agad nang walang sistema', 'B. Magpatupad ng maayos na organisasyon at listahan', 'C. Itigil ang pamamahagi', 'D. Hayaan ang kaguluhan'],
                 answer: 1
             },
             {
-                q: '9) Sa Guinobatan flashflood, ano ang pinakaunang hakbang upang maiwasan ang pinsala?',
+                q: 'Sa Guinobatan flashflood, ano ang pinakaunang hakbang upang maiwasan ang pinsala?',
                 options: ['A. Maghintay', 'B. Magbigay agad ng babala at magpa-evacuate', 'C. Mag-record ng video', 'D. Magpahinga'],
                 answer: 1
             },
             {
-                q: '10) Sa pagputok ng bulkan, bakit mahalaga ang pagsunod sa alert level?',
+                q: 'Sa pagputok ng bulkan, bakit mahalaga ang pagsunod sa alert level?',
                 options: ['A. Para sa dokumento', 'B. Dahil ito ay base sa siyentipikong pagsusuri ng panganib', 'C. Para sa media', 'D. Walang dahilan'],
                 answer: 1
             },
             {
-                q: '11) Kung may aftershock matapos ang lindol, ano ang tamang kilos?',
+                q: 'Kung may aftershock matapos ang lindol, ano ang tamang kilos?',
                 options: ['A. Bumalik agad sa bahay', 'B. Manatili sa ligtas na lugar', 'C. Maglakad-lakad', 'D. Magpahinga'],
                 answer: 1
             },
             {
-                q: '12) Sa isang barangay, may kahandaan ngunit walang kooperasyon. Ano ang posibleng mangyari?',
+                q: 'Sa isang barangay, may kahandaan ngunit walang kooperasyon. Ano ang posibleng mangyari?',
                 options: ['A. Magiging ligtas lahat', 'B. Hindi magiging epektibo ang plano', 'C. Walang epekto', 'D. Mas magiging mabilis'],
                 answer: 1
             },
             {
-                q: '13) Bakit mahalaga ang emergency kit kahit hindi pa dumarating ang sakuna?',
+                q: 'Bakit mahalaga ang emergency kit kahit hindi pa dumarating ang sakuna?',
                 options: ['A. Para sa display', 'B. Para sa agarang pangangailangan kung may sakuna', 'C. Para sa laro', 'D. Para sa dekorasyon'],
                 answer: 1
             },
             {
-                q: '14) Sa isang sitwasyon, may sapat na kaalaman ngunit walang aksyon. Ano ang kakulangan?',
+                q: 'Sa isang sitwasyon, may sapat na kaalaman ngunit walang aksyon. Ano ang kakulangan?',
                 options: ['A. Kahandaan', 'B. Disiplina', 'C. Kooperasyon', 'D. Lahat ng nabanggit'],
                 answer: 3
             },
             {
-                q: '15) Bilang lider, alin ang nagpapakita ng pinakamataas na antas ng kahandaan, disiplina, at kooperasyon?',
+                q: 'Bilang lider, alin ang nagpapakita ng pinakamataas na antas ng kahandaan, disiplina, at kooperasyon?',
                 options: ['A. Maghintay ng tulong', 'B. Magbigay ng plano, sumunod sa protocol, at hikayatin ang komunidad', 'C. Umalis sa lugar', 'D. Sariling pamilya lang ang tulungan'],
                 answer: 1
             }
         ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function shuffleQuestionsAndChoices() {
+            shuffleArray(quizItems);
+            quizItems.forEach(item => {
+                const originalCorrectIndex = item.answer;
+                const originalCorrectOption = item.options[originalCorrectIndex];
+                shuffleArray(item.options);
+                item.answer = item.options.indexOf(originalCorrectOption);
+            });
+        }
 
         const root = document.getElementById('questionsRoot');
         const checkBtn = document.getElementById('checkBtn');
@@ -585,6 +602,7 @@
         });
 
         // Initial render
+        shuffleQuestionsAndChoices();
         renderQuiz();
         
         // Initialize status icons (no X's, just empty)

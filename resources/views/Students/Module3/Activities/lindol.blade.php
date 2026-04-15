@@ -41,13 +41,13 @@
         /* EMERGENCY BUZZING EFFECT PARA SA MITHIIN 2 */
         .active-emergency {
             background-color: #2b0000 !important;
-            animation: buzz 0.1s infinite;
+            /* animation: buzz 0.1s infinite; */
         }
-        @keyframes buzz {
+        /* @keyframes buzz {
             0% { transform: translate(1px, 1px); }
             50% { transform: translate(-1px, -1px); }
             100% { transform: translate(1px, -1px); }
-        }
+        } */
 
         .hud-bar {
             background: rgba(255, 255, 255, 0.05);
@@ -258,7 +258,7 @@
             title.style.color = "var(--danger-glow)";
             body.classList.add('active-emergency');
             hud.style.borderLeftColor = "var(--danger-glow)";
-            document.getElementById('sfx-alarm').play();
+            // document.getElementById('sfx-alarm').play();
         } else {
             title.innerText = "MITHIIN 3: PAGLIKAS (PAGKATAPOS)";
             title.style.color = "var(--success-glow)";

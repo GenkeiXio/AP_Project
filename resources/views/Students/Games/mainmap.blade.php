@@ -2,6 +2,23 @@
 
 @section('title', 'World Map')
 
+@php
+    // Get module unlock status from session
+    // Module 2 is always unlocked (starting point)
+    $module2_unlocked = true;
+    
+    // Module 3 unlocks after completing Module 2
+    $module3_unlocked = session('module3_unlocked', false);
+    
+    // Module 4 unlocks after completing Module 3
+    $module4_unlocked = session('module4_unlocked', false);
+    
+    // For debugging - you can remove this later
+    // Uncomment to test locked states:
+    // session(['module3_unlocked' => false]);
+    // session(['module4_unlocked' => false]);
+@endphp
+
 @push('styles')
 <style>
     body, html {
@@ -96,6 +113,64 @@
     .pin:hover .tooltip {
         background-color: #ffa502; /* Turns orange on hover */
         color: #000;
+    }
+
+    /* ===== LOCKED PIN STYLES ===== */
+    .pin.locked-pin {
+        opacity: 0.6;
+        filter: grayscale(0.3);
+        cursor: not-allowed !important;
+    }
+
+    .pin.locked-pin:hover {
+        transform: translate(-50%, -100%) scale(1);
+        opacity: 0.6;
+    }
+
+    .lock-icon {
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        background: rgba(0, 0, 0, 0.75);
+        padding: 5px 10px;
+        border-radius: 50%;
+        color: #ffd700;
+        z-index: 20;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+    /* Locked message notification */
+    .locked-notification {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffa502;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        z-index: 10000;
+        text-align: center;
+        animation: fadeInUp 0.3s ease;
+        pointer-events: none;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     }
 
     /* Back Button - Desktop */
@@ -411,6 +486,11 @@
         .modal-section p {
             font-size: 0.9rem;
         }
+
+        .lock-icon {
+            bottom: 80px;
+            font-size: 20px;
+        }
     }
 
     /* For mobile phones (portrait) - Show burger, hide back button */
@@ -482,6 +562,18 @@
             align-items: center;
             padding: 10px;
         }
+
+        .lock-icon {
+            bottom: 55px;
+            font-size: 16px;
+            padding: 3px 7px;
+        }
+
+        .locked-notification {
+            font-size: 11px;
+            padding: 8px 16px;
+            white-space: nowrap;
+        }
     }
 
     /* For very small mobile devices (<=480px) */
@@ -551,6 +643,12 @@
             padding: 12px 18px;
             font-size: 14px;
         }
+
+        .lock-icon {
+            bottom: 45px;
+            font-size: 14px;
+            padding: 2px 6px;
+        }
     }
 
     /* Landscape orientation on mobile */
@@ -584,6 +682,11 @@
         /* Ensure map still covers screen in landscape */
         .background-map {
             object-fit: cover;
+        }
+
+        .lock-icon {
+            bottom: 50px;
+            font-size: 14px;
         }
     }
 
@@ -626,9 +729,9 @@
 <div class="mobile-nav" id="mobileNav">
     <ul>
         <li><a href="{{ url('/') }}">🏠 Home</a></li>
-        <li><a href="{{ route('module.home') }}">📘 Module 2</a></li>
-        <li><a href="{{ route('module3.home') }}">📗 Module 3</a></li>
-        <li><a href="{{ route('module4.home') }}">📙 Module 4</a></li>
+        <li><a href="{{ route('module.home') }}">📘 Kalagayan, Suliranin At Pagtugon Sa Isyung Pangkapaligiran Ng Pilipinas</a></li>
+        <li><a href="#" onclick="return false;" style="opacity: 0.6; cursor: not-allowed;">📗 Module 3 <?php if(!$module3_unlocked): ?>🔒<?php endif; ?></a></li>
+        <li><a href="#" onclick="return false;" style="opacity: 0.6; cursor: not-allowed;">📙 Module 4 <?php if(!$module4_unlocked): ?>🔒<?php endif; ?></a></li>
         <li><a href="#" onclick="showIntroModal()">ℹ️ About Mission</a></li>
     </ul>
 </div>
@@ -676,16 +779,29 @@
     <div class="map-container" style="position: relative; display: inline-block;">
         <img src="{{ asset('pictures/main_map2.png') }}" class="background-map" alt="Main Map">
 
+        <!-- MODULE 2 PIN (PAKSA 1) - Always Unlocked -->
         <button class="pin location-1" onclick="enterModule(this, '{{ route('module.home') }}')">
-            <span class="tooltip">Module 2</span>
+            <span class="tooltip">PAKSA 1:<br> Kalagayan, Suliranin <br>At Pagtugon Sa Isyung<br> Pangkapaligiran Ng Pilipinas</span>
         </button>
 
-        <button class="pin location-2" onclick="enterModule(this, '{{ route('module3.home') }}')">
-             <span class="tooltip">Module 3</span>
+        <!-- MODULE 3 PIN (PAKSA 2) - Locked until Module 2 is completed -->
+        <button class="pin location-2 <?php echo !$module3_unlocked ? 'locked-pin' : ''; ?>" 
+            onclick="<?php echo $module3_unlocked ? "enterModule(this, '" . route('module3.home') . "')" : "showLockedMessage('PAKSA 2')"; ?>"
+            <?php echo !$module3_unlocked ? 'disabled style="cursor:not-allowed;"' : ''; ?>>
+            <span class="tooltip">PAKSA 2:<br> Paghahandang Nararapat Gawin <br>sa Harap ng Panganib na Dulot <br>ng Suliraning Pangkapaligiran</span>
+            <?php if(!$module3_unlocked): ?>
+                <span class="lock-icon">🔒</span>
+            <?php endif; ?>
         </button>
 
-        <button class="pin location-3" onclick="enterModule(this, '{{ route('module4.home') }}')">
-            <span class="tooltip">Module 4</span>
+        <!-- MODULE 4 PIN (PAKSA 3) - Locked until Module 3 is completed -->
+        <button class="pin location-3 <?php echo !$module4_unlocked ? 'locked-pin' : ''; ?>" 
+            onclick="<?php echo $module4_unlocked ? "enterModule(this, '" . route('module4.home') . "')" : "showLockedMessage('PAKSA 3')"; ?>"
+            <?php echo !$module4_unlocked ? 'disabled style="cursor:not-allowed;"' : ''; ?>>
+            <span class="tooltip">PAKSA 3:<br> Kahalagahan ng Kahandaan, <br> Disiplina at Kooperasyon sa Pagtugon <br> sa mga Hamong Pangkapaligiran</span>
+            <?php if(!$module4_unlocked): ?>
+                <span class="lock-icon">🔒</span>
+            <?php endif; ?>
         </button>
 
     </div> 
@@ -720,7 +836,6 @@
     }
     
     function enterModule(pin, url) {
-
         const map = document.querySelector('.map-container');
 
         // 🎯 get pin position relative to map
@@ -755,6 +870,21 @@
         setTimeout(() => {
             window.location.href = url;
         }, 900);
+    }
+
+    // Show message when clicking on locked module
+    function showLockedMessage(moduleName) {
+        // Create temporary notification
+        const notification = document.createElement('div');
+        notification.className = 'locked-notification';
+        notification.innerHTML = `🔒 Naka-lock pa ang ${moduleName}. Kumpletuhin muna ang nakaraang paksa.`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
     }
 
     function goToModule2() {
