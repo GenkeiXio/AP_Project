@@ -932,6 +932,12 @@
             { type: 'image', src: "pictures/node3solusyon.png", zone: 'solution' },
         ];
 
+        // 🔀 SHUFFLE ITEMS ON PAGE LOAD
+        for (let i = items.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [items[i], items[j]] = [items[j], items[i]];
+        }
+
         let completedRecords = [];
 
         const zoneNameFil = {
@@ -1128,8 +1134,9 @@
                         dragged = false;
 
                         if (itemIndex < items.length) {
-                            zone.classList.remove('drop-pop', 'spark', 'filled');
-                            zone.innerHTML = '';
+                            // ✅ KEEP the dropped card
+                            zone.classList.remove('drop-pop', 'spark');
+
                             resetZoneStatus();
                             updateCard();
                         } else {
