@@ -104,6 +104,66 @@ h2{
     font-weight:bold;
     box-shadow:0 4px 8px rgba(0,0,0,0.2);
 }
+
+/* ===== MOBILE RESPONSIVE FIX ===== */
+@media (max-width: 768px){
+
+    body{
+        overflow:auto; /* allow scroll on mobile */
+    }
+
+    .page{
+        padding:15px;
+        max-width:100%;
+    }
+
+    /* Card adjustments */
+    .card{
+        padding:18px;
+        border-radius:14px;
+    }
+
+    /* Titles scale properly */
+    h1{
+        font-size:1.3rem;
+        line-height:1.4;
+    }
+
+    h2{
+        font-size:1.1rem;
+    }
+
+    /* Paragraph readability */
+    p{
+        font-size:0.9rem;
+        line-height:1.6;
+    }
+
+    .section-title{
+        font-size:0.95rem;
+    }
+
+    /* Button fix */
+    .btn{
+        padding:12px;
+        font-size:14px;
+    }
+
+    /* BACK BUTTON FIX */
+    .back-button{
+        position:fixed;
+        top:15px;
+        left:10px;
+        padding:8px 12px;
+        font-size:13px;
+        border-radius:6px;
+    }
+
+    /* Prevent overlap with content */
+    .page{
+        margin-top:50px;
+    }
+}
 </style>
 </head>
 

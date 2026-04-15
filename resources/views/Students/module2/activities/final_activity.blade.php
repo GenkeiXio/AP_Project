@@ -277,7 +277,7 @@ button:disabled{
     display:flex;
     justify-content:center;
     gap:20px;
-    margin-bottom:25px;
+    flex-wrap:wrap;
 }
 
 .stat-box{
@@ -344,6 +344,150 @@ button:disabled{
     background:linear-gradient(135deg,#b8f1a1,#7ed957);
     padding:15px;
     box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ===== MOBILE RESPONSIVE FIX ===== */
+@media (max-width: 768px){
+
+    body{
+        overflow:auto;
+    }
+
+    .page{
+        margin:10px;
+        padding:15px;
+        margin-top:20px;
+        margin-bottom:20px;
+        border-radius:14px;
+    }
+
+    h1{
+        font-size:1.3rem;
+        line-height:1.4;
+    }
+
+    /* TOP BAR STACK */
+    .topbar{
+        flex-direction:column;
+        gap:8px;
+        align-items:center;
+        text-align:center;
+    }
+
+    .topbar span{
+        font-size:13px;
+        padding:5px 10px;
+    }
+
+    .progress{
+        font-size:14px;
+    }
+
+    /* CARD */
+    .card{
+        padding:16px;
+        margin-top:15px;
+    }
+
+    /* SCENARIO IMAGE */
+    .scenario-img{
+        border-radius:10px;
+    }
+
+    /* TEXT BLOCKS */
+    .situation{
+        font-size:14px;
+        padding:8px;
+    }
+
+    .question{
+        font-size:14px;
+        padding:10px;
+    }
+
+    /* GRID → 1 COLUMN */
+    .choices-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    /* CHOICE BOX */
+    .choice-box{
+        min-height:auto;
+        padding:10px;
+    }
+
+    .choice-img{
+        height:130px;
+    }
+
+    .choice-text{
+        font-size:16px;
+    }
+
+    /* CHECKBOX (tap friendly) */
+    .choice-box input{
+        transform:scale(1.6);
+        top:8px;
+        right:8px;
+    }
+
+    /* BUTTONS STACK */
+    .btn-container{
+        flex-direction:column;
+        gap:10px;
+        margin-top:20px;
+    }
+
+    .primary-btn,
+    .next-btn{
+        width:100%;
+        font-size:16px;
+        padding:14px;
+        margin-left:0;
+    }
+
+    /* FEEDBACK TEXT */
+    #feedback{
+        font-size:15px;
+        padding:10px;
+    }
+
+    /* FINAL SCREEN */
+    .final-header{
+        font-size:22px;
+    }
+
+    .final-stats{
+        flex-direction:column;
+        gap:12px;
+        align-items:stretch;
+    }
+
+    .stat-box{
+        width:100%;
+        padding:14px;
+        border-radius:12px;
+        text-align:center;
+    }
+
+    .stat-box span{
+        font-size:20px;
+    }
+
+    .stat-box small{
+        font-size:12px;
+    }
+
+    .rank-img{
+        width:100px;
+    }
+
+    .final-btn{
+        width:100%;
+        padding:14px;
+        font-size:16px;
+    }
 }
 
 </style>

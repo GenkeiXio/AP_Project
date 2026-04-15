@@ -210,6 +210,72 @@ body, html {
     font-size: 18px;
     cursor: pointer;
 }
+
+/* ===== MOBILE RESPONSIVE FIX (SAFE) ===== */
+@media (max-width: 768px) {
+
+    /* ✅ Allow scrolling on mobile */
+    body, html {
+        overflow: auto;
+    }
+
+    /* ✅ Scale nodes down proportionally */
+    .node {
+        width: 140px;
+        height: 100px;
+    }
+
+    /* ✅ Center node smaller */
+    .center-node {
+        width: 260px;
+        height: 180px;
+    }
+
+    /* ✅ Reposition nodes (avoid overlap) */
+    .node-top-left     { top: 18%; left: 10%; }
+    .node-top-right    { top: 18%; right: 10%; }
+    .node-bottom-left  { top: 65%; left: 10%; }
+    .node-bottom-right { top: 65%; right: 10%; }
+
+    /* ✅ Lock icon smaller */
+    .lock-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+
+    /* ✅ Modal responsive */
+    .modal-content {
+        width: 85%;
+        max-width: none;
+        padding: 20px;
+    }
+
+    #percentText {
+        font-size: 36px;
+    }
+
+    .modal-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* ✅ Final button mobile-friendly */
+    .final-key {
+        bottom: 20px;
+        right: 15px;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    /* ✅ Back button smaller */
+    .back-button {
+        top: 70px;
+        left: 10px;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
 </style>
 @endpush
 
