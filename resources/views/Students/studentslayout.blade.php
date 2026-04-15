@@ -88,6 +88,67 @@
         .deco-2 { top: 60%; right: 2%; font-size: 2rem; animation-delay: 1.5s; }
         .deco-3 { bottom: 10%; left: 5%; font-size: 1.8rem; animation-delay: 1s; }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* ===== MOBILE NAVBAR ===== */
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .burger span {
+            width: 22px;
+            height: 3px;
+            background: #3d2a1a;
+            border-radius: 2px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+
+            .topnav {
+                padding: 0 16px;
+            }
+
+            /* Show burger */
+            .burger {
+                display: flex;
+            }
+
+            /* Hide menu by default */
+            .topnav-right {
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                background: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+                display: none;
+                min-width: 180px;
+                gap: 10px;
+            }
+
+            /* Show when active */
+            .topnav-right.active {
+                display: flex;
+            }
+
+            /* Make profile full width */
+            .profile-chip {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            /* Make logout full width */
+            .logout-btn {
+                width: 100%;
+                text-align: left;
+            }
+        }
     </style>
     @stack('styles')
 </head>
@@ -106,6 +167,12 @@
     @endphp
 
     <nav class="topnav">
+        <div class="burger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
         <a href="{{ route('student.map') }}" class="brand">
             Araling <span>Panlipunan</span> 10 🧭
         </a>
@@ -121,7 +188,7 @@
             </a>
         </div> -->
 
-        <div class="topnav-right">
+        <div class="topnav-right" id="mobileMenu">
             {{-- Profile chip — shows avatar + username, links to profile --}}
             <a href="{{ route('student.profile') }}" class="profile-chip">
                 <span class="chip-avatar">{{ $avatarEmoji }}</span>
@@ -139,5 +206,12 @@
     </div>
 
     @stack('scripts')
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

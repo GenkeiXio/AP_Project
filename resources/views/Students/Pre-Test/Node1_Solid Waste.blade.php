@@ -420,7 +420,7 @@
     display: grid;
     grid-template-columns: 1fr;
     align-content: start;
-    gap: 10px;
+    gap: 14px;
     transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
     position: relative;
     overflow: hidden;
@@ -985,6 +985,88 @@
         .intro-illustration {
             max-width: 90px;
             justify-self: center;
+        }
+    }
+
+    /* ===== MOBILE DRAG FIX (CRITICAL) ===== */
+    @media (max-width: 768px) {
+
+        /* Allow vertical scrolling */
+        body, html {
+            overflow-y: auto !important;
+        }
+
+        .page {
+            padding: 10px;
+        }
+
+        /* STACK EVERYTHING */
+        .hero {
+            grid-template-columns: 1fr !important;
+        }
+
+        .mission-grid {
+            grid-template-columns: 1fr !important;
+            padding: 0 10px 20px;
+        }
+
+        /* BIGGER ACTIVE CARD */
+        #activeImageCard,
+        #activeTextCard {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .thumb-wrap {
+            min-height: 160px !important;
+        }
+
+        /* DROP ZONES FULL WIDTH */
+        .flow-layout {
+            grid-template-columns: 1fr !important;
+            gap: 12px;
+        }
+
+        .drop-zone {
+            min-height: 140px !important;
+            padding: 14px;
+        }
+
+        /* BIGGER DRAG ITEMS */
+        .drag-item {
+            touch-action: none; /* improves drag feel */
+            min-height: 80px;
+        }
+
+        .drag-item.text-item {
+            font-size: 0.9rem !important;
+            padding: 34px 12px 12px;
+        }
+
+        .drag-item.image-item {
+            min-height: 140px !important;
+        }
+
+        /* MAKE ZONES MORE SPACED */
+        .zone-card {
+            padding: 14px;
+        }
+
+        /* BUTTON STICKY (important for UX) */
+        .actions {
+            position: sticky;
+            bottom: 0;
+            background: rgba(255,255,255,0.95);
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            z-index: 10;
+        }
+
+        /* MODAL FIX */
+        .modal-container {
+            width: 95%;
+            max-height: 85vh;
+            overflow-y: auto;
         }
     }
 </style>
