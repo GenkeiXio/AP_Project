@@ -190,7 +190,7 @@
 
 <header class="page-header text-center">
     <div class="container">
-        <span class="breadcrumb-label">MODYUL SA PAGHAHANDA SA SAKUNA 3.1</span>
+        
         <h1 class="main-title">Gabay sa Pag-unawa sa Bagyo</h1>
     </div>
 </header>
