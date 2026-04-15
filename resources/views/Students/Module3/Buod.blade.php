@@ -404,7 +404,7 @@
             <div class="white-matched-desc">
                 Ang mga <strong>dingding</strong> na ito ay simbolo ng iyong <strong>resilience</strong>—ang kakayahang manatiling matatag at protektado laban sa anumang hamon ng sakuna. Ang iyong kaalaman ay nagiging bahagi na ng iyong tahanan.
             </div>
-            <button class="btn-capsule-green" onclick="goMap()">Ipagpatuloy ang Paglalakbay 🗺️</button>
+            <button class="btn-capsule-green" onclick="exitAnimation()">Bumalik sa Buod ↩️</button>
         </div>
     </div>
 </div>
@@ -494,6 +494,26 @@
             document.getElementById('rewardModal').classList.add('active');
         }, 800);
     };
+
+    function exitAnimation() {
+        const overlay = document.getElementById('animationOverlay');
+        if(overlay) {
+            // 1. Remove the active class (fades it out)
+            overlay.classList.remove('active');
+            
+            // 2. Completely remove it from the click-path after the fade animation
+            setTimeout(() => {
+                overlay.style.display = 'none'; 
+            }, 500); // 500ms matches your CSS transition time
+        }
+
+        // Ensure the reward modal is also gone so the main map button is reachable
+        const rewardModal = document.getElementById('rewardModal');
+        if(rewardModal) {
+            rewardModal.style.display = 'none';
+            rewardModal.classList.remove('active');
+        }
+    }
 </script>
 
 @endsection
