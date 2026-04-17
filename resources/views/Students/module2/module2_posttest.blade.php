@@ -153,6 +153,12 @@
 			margin-bottom: 8px;
 			flex-wrap: wrap;
 		}
+		
+		.progress-center {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 15px;
+		}
 
 		.progress-label {
 			font-size: 0.84rem;
@@ -281,16 +287,17 @@
 
 		.question-item h4 {
 			color: var(--text);
-			margin-bottom: 14px;
-			line-height: 1.5;
-			font-size: 1.02rem;
+			margin-bottom: 16px;
+			margin-top: 8px; /* ADD THIS */
+			line-height: 1.6; /* slightly more breathing room */
+			font-size: 1.05rem;
 			font-weight: 900;
 			padding-right: 18px;
 		}
 
 		.choices {
 			display: grid;
-			gap: 10px;
+			gap: 12px;
 		}
 
 		.choice {
@@ -832,6 +839,17 @@
 			margin-bottom: 25px;
 			text-align: justify; /* Cleaner look for long paragraphs */
 		}
+
+		.single-question {
+			margin-bottom: 28px; /* increased spacing */
+			padding-bottom: 18px;
+			border-bottom: 1px dashed #e7d7bf;
+		}
+
+		.single-question:last-child {
+			border-bottom: none;
+			margin-bottom: 0;
+		}
 	</style>
 </head>
 <body>
@@ -859,8 +877,12 @@
 					<div class="quiz-progress">
 						<div class="progress-topline">
 							<div class="progress-label" id="quizProgressLabel"></div>
+						</div>
+
+						<div class="progress-center">
 							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
 						</div>
+
 						<div class="progress-dots" id="progressDots"></div>
 					</div>
 
@@ -870,7 +892,7 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
-						<button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button>
+						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Post-Test 🚀</button>
 					</div>
 				</div>
@@ -921,85 +943,320 @@
 	}
 
 	function shuffleQuestionsAndChoices() {
+		// Shuffle questions
 		shuffleArray(questions);
+
+		// Shuffle choices BUT keep a,b,c,d fixed
 		questions.forEach(q => {
-			shuffleArray(q.options);
+			const optionKeys = Object.keys(q.options); // ['a','b','c','d']
+			const optionTexts = optionKeys.map(key => q.options[key]);
+
+			// Shuffle only the TEXTS
+			shuffleArray(optionTexts);
+
+			// Reassign shuffled texts back to a,b,c,d
+			const newOptions = {};
+			optionKeys.forEach((key, index) => {
+				newOptions[key] = optionTexts[index];
+			});
+
+			// Preserve correct answer
+			const correctAnswerText = q.options[q.answer];
+			const newAnswerKey = Object.keys(newOptions).find(
+				key => newOptions[key] === correctAnswerText
+			);
+
+			q.options = newOptions;
+			q.answer = newAnswerKey;
 		});
 	}
 
 	const questions = [
-        { question:'Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?', options:[{key:'a', text:'Mga yamang likas sa kagubatan'}, {key:'b', text:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo'}, {key:'c', text:'Mga anyong tubig sa kapaligiran'}, {key:'d', text:'Mga produktong agrikultural'}], answer:'b' },
-        { question:'Ano ang pangunahing suliraning nagdudulot ng pagdami ng basura sa bansa?', options:[{key:'a', text:'Kakulangan ng ulan'}, {key:'b', text:'Kawalan ng disiplina sa pagtatapon ng basura'}, {key:'c', text:'Pagdami ng puno'}, {key:'d', text:'Malinis na kapaligiran'}], answer:'b' },
-        { question:'Ano ang posibleng mangyari kung patuloy ang maling pamamahala ng basura?', options:[{key:'a', text:'Pag-unlad ng kalikasan'}, {key:'b', text:'Pagbaha at pagkalat ng sakit'}, {key:'c', text:'Pagdami ng likas na yaman'}, {key:'d', text:'Paglilinis ng hangin'}], answer:'b' },
-        { question:'Ano ang tinutukoy kapag sinabing pagkakalbo ng kagubatan?', options:[{key:'a', text:'Reforestation'}, {key:'b', text:'Deforestation'}, {key:'c', text:'Urbanisasyon'}, {key:'d', text:'Industrialisasyon'}], answer:'b' },
-        { question:'Alin sa mga sumusunod ang halimbawa ng gawaing nakasisira sa kagubatan?', options:[{key:'a', text:'Tree planting'}, {key:'b', text:'Illegal logging'}, {key:'c', text:'Recycling'}, {key:'d', text:'Waste segregation'}], answer:'b' },
-        { question:'Ano ang epekto ng patuloy na pagputol ng mga puno?', options:[{key:'a', text:'Pagdami ng biodiversity'}, {key:'b', text:'Pagbaha at soil erosion'}, {key:'c', text:'Paglamig ng panahon'}, {key:'d', text:'Pagdami ng hayop'}], answer:'b' },
-        { question:'Paano mailalarawan ang climate change?', options:[{key:'a', text:'Pagbabago sa anyong lupa'}, {key:'b', text:'Pagbabago sa pangmatagalang kondisyon ng klima'}, {key:'c', text:'Pagtaas ng populasyon'}, {key:'d', text:'Pagdami ng kagubatan'}], answer:'b' },
-        { question:'Alin sa mga sumusunod ang nagpapalala sa climate change?', options:[{key:'a', text:'Paggamit ng renewable energy'}, {key:'b', text:'Pagsusunog ng fossil fuels'}, {key:'c', text:'Pagtatanim ng puno'}, {key:'d', text:'Paglilinis ng kapaligiran'}], answer:'b' },
-        { question:'Ano ang isa sa mga epekto ng patuloy na pag-init ng mundo?', options:[{key:'a', text:'Mas mahinang bagyo'}, {key:'b', text:'Mas malalakas na kalamidad'}, {key:'c', text:'Mas malamig na klima'}, {key:'d', text:'Mas maraming kagubatan'}], answer:'b' },
-        { question:'Ano ang pangunahing layunin ng Ecological Solid Waste Management Act (RA 9003)?', options:[{key:'a', text:'Palakihin ang produksyon ng basura'}, {key:'b', text:'Isulong ang wastong pamamahala ng basura'}, {key:'c', text:'Magtayo ng pabrika'}, {key:'d', text:'Putulin ang mga puno'}], answer:'b' },
-        { question:'Ano ang kahalagahan ng early warning system sa komunidad?', options:[{key:'a', text:'Para magtanim ng puno'}, {key:'b', text:'Para makapagbigay ng paunang babala sa sakuna'}, {key:'c', text:'Para mangolekta ng basura'}, {key:'d', text:'Para magpatupad ng batas'}], answer:'b' },
-        { question:'Bakit mahalaga ang agarang paglikas sa panahon ng sakuna?', options:[{key:'a', text:'Para makapasyal'}, {key:'b', text:'Para maiwasan ang panganib at makaligtas'}, {key:'c', text:'Para kumita'}, {key:'d', text:'Para magtapon ng basura'}], answer:'b' },
-        { question:'Ano ang ipinapakita ng pakikiisa ng mamamayan sa mga programang pangkalikasan?', options:[{key:'a', text:'Kawalan ng interes'}, {key:'b', text:'Pansariling layunin'}, {key:'c', text:'Pananagutang panlipunan'}, {key:'d', text:'Pagiging tamad'}], answer:'c' },
-        { question:'Alin sa sumusunod ang pinakaepektibong paraan ng pangangalaga sa kapaligiran?', options:[{key:'a', text:'Pagtapon ng basura kung saan-saan'}, {key:'b', text:'Pagsusunog ng basura'}, {key:'c', text:'Paghihiwalay ng basura (waste segregation)'}, {key:'d', text:'Pagputol ng puno'}], answer:'c' },
-        { question:'Bilang kabataan, alin ang pinakamainam na hakbang upang makatulong sa kalikasan?', options:[{key:'a', text:'Manahimik lamang'}, {key:'b', text:'Makilahok sa mga programang pangkalikasan'}, {key:'c', text:'Magtapon ng basura sa ilog'}, {key:'d', text:'Sirain ang mga halaman'}], answer:'b' }
-    ];
+		{
+			question:'Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?',
+			options:{
+				a:'Mga materyal na maaaring mabulok at maging bahagi ng lupa',
+				b:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo',
+				c:'Mga likidong basura mula sa industriya at pabrika',
+				d:'Mga kemikal na ginagamit sa agrikultura'
+			},
+			answer:'b'
+		},
+		{
+			question:'Ano ang pangunahing suliraning nagdudulot ng pagdami ng basura sa bansa?',
+			options:{
+				a:'Kakulangan sa maayos na sistema ng koleksyon ng basura',
+				b:'Kawalan ng disiplina sa pagtatapon ng basura',
+				c:'Hindi sapat na espasyo para sa landfill',
+				d:'Pagtaas ng produksyon ng mga produkto'
+			},
+			answer:'b'
+		},
 
+		{
+			question:'Ano ang posibleng mangyari kung patuloy ang maling pamamahala ng basura?',
+			options:{
+				a:'Paglala ng polusyon sa hangin at tubig',
+				b:'Pagbaha at pagkalat ng sakit',
+				c:'Pagtaas ng produksyon ng enerhiya mula sa basura',
+				d:'Pagdami ng recycling facilities'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Ano ang tinutukoy kapag sinabing pagkakalbo ng kagubatan?',
+			options:{
+				a:'Pagpapalit ng kagubatan ng pananim',
+				b:'Deforestation',
+				c:'Pagbabago ng klima sa kagubatan',
+				d:'Paglilipat ng mga puno sa ibang lugar'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Alin sa mga sumusunod ang halimbawa ng gawaing nakasisira sa kagubatan?',
+			options:{
+				a:'Pagpuputol ng puno nang walang pahintulot',
+				b:'Illegal logging',
+				c:'Paglilinis ng kagubatan para sa pagtatanim',
+				d:'Pagkolekta ng tuyong kahoy'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Ano ang epekto ng patuloy na pagputol ng mga puno?',
+			options:{
+				a:'Pagbabago sa balanse ng ecosystem',
+				b:'Pagbaha at soil erosion',
+				c:'Pagtaas ng produksyon ng oxygen',
+				d:'Pagdami ng tirahan ng hayop sa ibang lugar'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Paano mailalarawan ang climate change?',
+			options:{
+				a:'Biglaang pagbabago ng panahon sa loob ng isang araw',
+				b:'Pagbabago sa pangmatagalang kondisyon ng klima',
+				c:'Pagbabago sa direksyon ng hangin',
+				d:'Pagtaas ng temperatura sa isang rehiyon lamang'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Alin sa mga sumusunod ang nagpapalala sa climate change?',
+			options:{
+				a:'Pagtaas ng paggamit ng enerhiya sa bahay',
+				b:'Pagsusunog ng fossil fuels',
+				c:'Pagdami ng sasakyang gumagamit ng kuryente',
+				d:'Pagkakaroon ng mas maraming puno sa lungsod'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Ano ang isa sa mga epekto ng patuloy na pag-init ng mundo?',
+			options:{
+				a:'Pagtaas ng lebel ng dagat',
+				b:'Mas malalakas na kalamidad',
+				c:'Mas maikling tag-init',
+				d:'Paglamig ng ilang bahagi ng mundo'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Ano ang pangunahing layunin ng Ecological Solid Waste Management Act (RA 9003)?',
+			options:{
+				a:'Pagkontrol sa dami ng produksyon ng basura',
+				b:'Isulong ang wastong pamamahala ng basura',
+				c:'Pagpaparami ng landfill sites',
+				d:'Pagpapataw ng buwis sa mga produktong plastik'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Ano ang kahalagahan ng early warning system sa komunidad?',
+			options:{
+				a:'Para makapagplano ng rescue operations',
+				b:'Para makapagbigay ng paunang babala sa sakuna',
+				c:'Para makapaghanda ng evacuation center',
+				d:'Para mabawasan ang pinsala sa imprastruktura'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Bakit mahalaga ang agarang paglikas sa panahon ng sakuna?',
+			options:{
+				a:'Upang maprotektahan ang ari-arian',
+				b:'Para maiwasan ang panganib at makaligtas',
+				c:'Upang maiwasan ang trapiko sa kalsada',
+				d:'Para makasunod sa utos ng pamahalaan'
+			},
+			answer:'b'
+		},
+
+		{
+			question:'Ano ang ipinapakita ng pakikiisa ng mamamayan sa mga programang pangkalikasan?',
+			options:{
+				a:'Pagiging responsable sa sarili',
+				b:'Pagsunod sa batas ng pamahalaan',
+				c:'Pananagutang panlipunan',
+				d:'Pagkakaroon ng interes sa kalikasan'
+			},
+			answer:'c'
+		},
+
+		{
+			question:'Alin sa sumusunod ang pinakaepektibong paraan ng pangangalaga sa kapaligiran?',
+			options:{
+				a:'Pagbabawas ng paggamit ng plastik',
+				b:'Pagsusunog ng basura sa tamang lugar',
+				c:'Paghihiwalay ng basura (waste segregation)',
+				d:'Paglilinis ng kapaligiran isang beses sa isang buwan'
+			},
+			answer:'c'
+		},
+
+		{
+			question:'Bilang kabataan, alin ang pinakamainam na hakbang upang makatulong sa kalikasan?',
+			options:{
+				a:'Pagsunod sa mga batas pangkalikasan',
+				b:'Makilahok sa mga programang pangkalikasan',
+				c:'Pagbabawas ng paggamit ng plastik sa bahay',
+				d:'Pagtuturo sa iba tungkol sa kalikasan'
+			},
+			answer:'b'
+		}
+	];
+
+	// ================= DOM ELEMENTS =================
 	const questionList = document.getElementById('questionList');
 	const progressDots = document.getElementById('progressDots');
 	const quizProgressLabel = document.getElementById('quizProgressLabel');
 	const answeredCountLabel = document.getElementById('answeredCountLabel');
 	const quizPage = document.getElementById('quizPage');
 	const resultPage = document.getElementById('resultPage');
-	const nextBtn = document.getElementById('nextBtn');
 	const submitBtn = document.getElementById('submitBtn');
 	const confirmBtn = document.getElementById('confirmBtn');
 
+	// ================= STATE =================
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
-	let currentQuestionIndex = 0;
-	let lastDirection = 'right';
-	let pendingSelection = null;
 
-	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Nice one! Tuloy lang!', '🌟 Sakto! Good job!', '🎊 Ayos! Nakuha mo!', '🧠 Correct! Malakas!'];
-	const gentleMessages = ['🌱 Okay lang iyan — learning moment ito.', '💛 Good try! Bawi tayo sa next card.', '✨ Ayos lang — part ito ng pagkatuto.', '🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.', '📘 Nice try! Tuloy lang, nandito lang ang aralin.'];
+	let retryCount = 0;
+	const maxRetries = 2;
 
-	function randomFrom(array) { return array[Math.floor(Math.random() * array.length)]; }
+	// ================= MESSAGES =================
+	const correctMessages = [
+		'🎉 Tama! Galing mo!',
+		'✨ Nice one! Tuloy lang!',
+		'🌟 Sakto! Good job!',
+		'🎊 Ayos! Nakuha mo!',
+		'🧠 Correct! Malakas!'
+	];
 
-	function getAnsweredCount() { return confirmedAnswers.filter(confirmed => confirmed === true).length; }
+	const gentleMessages = [
+		'🌱 Okay lang iyan — learning moment ito.',
+		'💛 Good try! Bawi tayo sa next card.',
+		'✨ Ayos lang — part ito ng pagkatuto.',
+		'🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.',
+		'📘 Nice try! Tuloy lang, nandito lang ang aralin.'
+	];
 
-	function updateProgress() {
-		const answeredCount = getAnsweredCount();
-		quizProgressLabel.textContent = `Card ${currentQuestionIndex + 1} of ${questions.length}`;
+	// ================= HELPERS =================
+	function randomFrom(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
+
+	// ================= PROGRESS =================
+	function updateProgressAll() {
+		const answeredCount = selectedAnswers.filter(a => a !== '').length;
+
 		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} answered`;
-		
+
 		progressDots.innerHTML = questions.map((_, idx) => `
-			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''} ${idx === currentQuestionIndex ? 'active' : ''}"></div>
+			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''}"></div>
 		`).join('');
-		
-		const isLast = currentQuestionIndex === questions.length - 1;
-		const isConfirmed = confirmedAnswers[currentQuestionIndex];
-		
-		if (isLast) {
-			nextBtn.style.display = 'none';
-			submitBtn.style.display = 'inline-flex';
-			submitBtn.disabled = !isConfirmed;
-		} else {
-			nextBtn.style.display = 'inline-flex';
-			submitBtn.style.display = 'none';
-			nextBtn.disabled = !isConfirmed;
+	}
+
+	// ================= RENDER =================
+	function renderAllQuestions() {
+		let questionsHtml = '';
+
+		questions.forEach((item, index) => {
+			const selectedValue = selectedAnswers[index];
+			const isConfirmed = confirmedAnswers[index];
+
+			const choicesHtml = Object.entries(item.options).map(([key, text]) => {
+				let classNames = ['choice'];
+
+				if (selectedValue === key) classNames.push('selected');
+				if (isConfirmed && key === item.answer) classNames.push('correct-reveal');
+				if (isConfirmed && selectedValue === key && selectedValue !== item.answer) classNames.push('soft-wrong');
+				if (isConfirmed && selectedValue === key) classNames.push('confirmed');
+
+				return `
+					<label class="${classNames.join(' ')}" onclick="selectAnswer(${index}, '${key}')">
+						<input type="radio" name="q${index}" value="${key}"
+							${selectedValue === key ? 'checked' : ''}
+							${isConfirmed ? 'disabled' : ''}>
+						<span>${key}. ${text}</span>
+					</label>
+				`;
+			}).join('');
+
+			questionsHtml += `
+				<div class="single-question">
+					<h4>${index + 1}. ${item.question}</h4>
+					<div class="choices">${choicesHtml}</div>
+				</div>
+			`;
+		});
+
+		questionList.innerHTML = `
+			<div class="question-item">
+				${questionsHtml}
+			</div>
+		`;
+
+		updateProgressAll();
+	}
+
+	// ================= INTERACTION =================
+	window.selectAnswer = function(index, key) {
+		if (confirmedAnswers[index]) return;
+
+		selectedAnswers[index] = key;
+		renderAllQuestions();
+	};
+
+	function confirmAnswer() {
+		if (selectedAnswers.includes('')) {
+			alert('Sagutan muna lahat bago kumpirmahin.');
+			return;
 		}
-		
-		confirmBtn.disabled = pendingSelection === null || confirmedAnswers[currentQuestionIndex];
+
+		questions.forEach((_, index) => {
+			confirmedAnswers[index] = true;
+		});
+
+		renderAllQuestions();
+
+		submitBtn.style.display = 'inline-flex';
 	}
 
-	function getCardAnimationClass() {
-		if (currentQuestionIndex === 0) return 'card-slide-in-up';
-		return lastDirection === 'left' ? 'card-slide-in-left' : 'card-slide-in-right';
-	}
-
+	// ================= CONFETTI =================
 	function launchConfetti() {
 		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
+
 		for (let i = 0; i < 42; i++) {
 			const piece = document.createElement('div');
 			piece.className = 'confetti-piece';
@@ -1007,149 +1264,25 @@
 			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
 			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
 			piece.style.animationDelay = `${Math.random() * 0.15}s`;
-			piece.style.width = `${8 + Math.random() * 6}px`;
-			piece.style.height = `${10 + Math.random() * 10}px`;
 			document.body.appendChild(piece);
+
 			setTimeout(() => piece.remove(), 4200);
 		}
 	}
 
-	function renderCurrentQuestion() {
-		const item = questions[currentQuestionIndex];
-		const selectedValue = selectedAnswers[currentQuestionIndex];
-		const isConfirmed = confirmedAnswers[currentQuestionIndex];
-		const isCorrect = selectedValue && selectedValue === item.answer;
-		const animationClass = getCardAnimationClass();
-
-		const choicesHtml = item.options.map(option => {
-			const key = option.key;
-			const text = option.text;
-			let classNames = ['choice'];
-			if (selectedValue === key) classNames.push('selected');
-			if (isConfirmed && key === item.answer) classNames.push('correct-reveal');
-			if (isConfirmed && selectedValue === key && selectedValue !== item.answer) classNames.push('soft-wrong');
-			if (isConfirmed && selectedValue === key) classNames.push('confirmed');
-
-			return `
-				<label class="${classNames.join(' ')}" onclick="selectAnswer('${key}')">
-					<input type="radio" name="q${currentQuestionIndex}" value="${key}" ${selectedValue === key ? 'checked' : ''} ${isConfirmed ? 'disabled' : ''}>
-					<span>${key}. ${text}</span>
-				</label>
-			`;
-		}).join('');
-
-		let reactionBoxHtml = '';
-		if (isConfirmed && selectedValue) {
-			if (isCorrect) {
-				reactionBoxHtml = `<div class="reaction-box correct show pulse-pop"><div class="reaction-emoji">🎉</div><div>${randomFrom(correctMessages)}</div></div>`;
-			} else {
-				reactionBoxHtml = `<div class="reaction-box gentle show pulse-pop"><div class="reaction-emoji">🌱</div><div>${randomFrom(gentleMessages)}</div></div>`;
-			}
-		} else if (pendingSelection === null && !isConfirmed) {
-			reactionBoxHtml = `<div class="reaction-box show"><div class="reaction-emoji">✨</div><div>Pumili ng sagot, pagkatapos pindutin ang "✓ Kumpirmahin".</div></div>`;
-		} else if (pendingSelection !== null && !isConfirmed) {
-			reactionBoxHtml = `<div class="reaction-box show pulse-pop"><div class="reaction-emoji">📝</div><div>Napili mo na ang sagot. Pindutin ang "✓ Kumpirmahin" kung tama ang sagot.</div></div>`;
-		} else {
-			reactionBoxHtml = `<div class="reaction-box"><div class="reaction-emoji">✨</div><div>Pumili ng sagot.</div></div>`;
-		}
-
-		questionList.innerHTML = `
-			<div class="question-item ${animationClass}">
-				<div class="card-chip-row">
-					<div class="card-chip">🎴 Flashcard ${currentQuestionIndex + 1}</div>
-					
-				</div>
-				<h4>${item.question}</h4>
-				<div class="choices">${choicesHtml}</div>
-				${reactionBoxHtml}
-			</div>
-		`;
-
-		updateProgress();
-	}
-
-	window.selectAnswer = function(selectedKey) {
-		if (confirmedAnswers[currentQuestionIndex]) {
-			alert('Ang sagot ay nakumpirma na. Hindi na ito mababago.');
-			return;
-		}
-		pendingSelection = selectedKey;
-		selectedAnswers[currentQuestionIndex] = selectedKey;
-		renderCurrentQuestion();
-	};
-
-	function confirmAnswer() {
-		if (confirmedAnswers[currentQuestionIndex]) {
-			alert('Ang sagot ay nakumpirma na.');
-			return;
-		}
-		
-		if (pendingSelection === null && !selectedAnswers[currentQuestionIndex]) {
-			alert('Pumili muna ng sagot bago kumpirmahin.');
-			return;
-		}
-		
-		const selectedValue = selectedAnswers[currentQuestionIndex];
-		const item = questions[currentQuestionIndex];
-		const isCorrect = selectedValue === item.answer;
-		
-		confirmedAnswers[currentQuestionIndex] = true;
-		
-		if (isCorrect) {
-			launchConfetti();
-		}
-		
-		renderCurrentQuestion();
-	}
-
-	function goNextQuestion() {
-		if (!confirmedAnswers[currentQuestionIndex]) {
-			alert('Kailangan munang kumpirmahin ang sagot bago magpatuloy sa susunod.');
-			return;
-		}
-		
-		if (currentQuestionIndex >= questions.length - 1) return;
-		
-		lastDirection = 'right';
-		currentQuestionIndex += 1;
-		pendingSelection = null;
-		renderCurrentQuestion();
-		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-	}
-
-	function animateResultRing(resultRing, targetPercent, duration = 1100) {
-		const startTime = performance.now();
-		function frame(currentTime) {
-			const elapsed = currentTime - startTime;
-			const progress = Math.min(elapsed / duration, 1);
-			const eased = 1 - Math.pow(1 - progress, 3);
-			const value = Math.round(targetPercent * eased);
-			resultRing.style.setProperty('--progress', value);
-			if (progress < 1) requestAnimationFrame(frame);
-		}
-		resultRing.style.setProperty('--progress', 0);
-		requestAnimationFrame(frame);
-	}
-
-	function getFeedbackByScore(score) {
-		if (score >= 11) return { badge: '🏆 Napakahusay!', feedback: 'Ang ganda ng iyong pundasyon. Ready ka na sa susunod na bahagi!', interpretation: 'Handa' };
-		if (score >= 6) return { badge: '👏 Magaling!', feedback: 'May kaalaman ka na, patuloy pa ang pag-unlad.', interpretation: 'May kaalaman' };
-		return { badge: '🌱 Warm-up pa lang!', feedback: 'Kailangan ng gabay pa. Gamitin ito bilang panimulang lakas.', interpretation: 'Kailangan ng gabay' };
-	}
-
+	// ================= RESULT =================
 	function submitPreTest() {
-		if (!confirmedAnswers.every(confirmed => confirmed === true)) {
-			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+		if (!confirmedAnswers.every(c => c)) {
+			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong.');
 			return;
 		}
 
-		const score = questions.reduce((total, item, index) => {
-			return total + (selectedAnswers[index] === item.answer ? 1 : 0);
-		}, 0);
+		const score = questions.reduce((total, item, index) =>
+			total + (selectedAnswers[index] === item.answer ? 1 : 0), 0);
 
 		const percentage = Math.round((score / questions.length) * 100);
 
-		// PREPARE ANSWERS DATA
+		// ===== SEND TO BACKEND (UNCHANGED) =====
 		const answers = questions.map((q, index) => ({
 			question_number: index + 1,
 			selected_answer: selectedAnswers[index],
@@ -1157,27 +1290,16 @@
 			is_correct: selectedAnswers[index] === q.answer
 		}));
 
-		// 🔥 SEND TO BACKEND
 		fetch("{{ route('student.module2.posttest.save') }}", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 				"X-CSRF-TOKEN": "{{ csrf_token() }}"
 			},
-			body: JSON.stringify({
-				score: score,
-				percentage: percentage,
-				answers: answers
-			})
-		})
-		.then(res => res.json())
-		.then(data => {
-			console.log("Saved:", data);
-		})
-		.catch(err => console.error(err));
+			body: JSON.stringify({ score, percentage, answers })
+		});
 
-		// ================= EXISTING UI =================
-
+		// ===== UI =====
 		const resultRing = document.getElementById('resultRing');
 		const resultPercent = document.getElementById('resultPercent');
 		const resultScoreText = document.getElementById('resultScoreText');
@@ -1185,7 +1307,6 @@
 		const resultFeedback = document.getElementById('resultFeedback');
 		const resultActions = document.getElementById('resultActions');
 
-		animateResultRing(resultRing, percentage);
 		resultPercent.textContent = `${score}/${questions.length}`;
 		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
 
@@ -1193,47 +1314,56 @@
 
 		if (score >= 13) {
 			resultBadge.textContent = "🏆 Mahusay!";
-
 			setTimeout(() => {
 				document.getElementById('passModal').classList.add('show');
 			}, 800);
-
 		} else {
 			resultBadge.textContent = "❌ Hindi pa sapat";
-			resultFeedback.textContent = "Too bad, try again.";
+			resultFeedback.textContent = "Subukan muli.";
 
-			resultActions.innerHTML = `
-				<button type="button" class="btn-secondary" onclick="restartQuiz()">
-					Ulitin ang Post-Test
-				</button>
-			`;
+			if (retryCount < maxRetries) {
+				resultActions.innerHTML = `
+					<button class="btn-secondary" onclick="restartQuiz()">
+						Ulitin (${maxRetries - retryCount} natitira)
+					</button>
+				`;
+			} else {
+				resultActions.innerHTML = `
+					<div style="font-weight:800;color:#7a2e2e;">
+						Naabot na ang maximum retries.
+					</div>
+				`;
+			}
 		}
 
 		quizPage.style.display = 'none';
 		resultPage.classList.add('show');
 
 		if (percentage >= 80) launchConfetti();
-
-		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	// ================= RETRY =================
 	function restartQuiz() {
+		if (retryCount >= maxRetries) {
+			alert('Maximum retries reached.');
+			return;
+		}
+
+		retryCount++;
+
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
-		pendingSelection = null;
-		currentQuestionIndex = 0;
-		lastDirection = 'right';
+
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
-		renderCurrentQuestion();
-		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+		renderAllQuestions();
 	}
 
+	// ================= INIT =================
 	window.addEventListener('load', () => {
-		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 		shuffleQuestionsAndChoices();
-		renderCurrentQuestion();
-		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+		renderAllQuestions();
 	});
 </script>
 
