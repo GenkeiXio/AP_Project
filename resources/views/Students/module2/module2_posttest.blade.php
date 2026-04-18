@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>Hamon at Tugon: Module 2 Post-Test</title>
-
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
-
+@extends('Students.studentslayout')
+@section('title', 'Hamon at Tugon: Module 2 Post-Test')
+@push('styles')
 	<style>
 		:root {
 			--bg-1: #fffaf3;
@@ -32,15 +24,18 @@
 			box-sizing: border-box;
 		}
 
-		body {
-			display: block;
-			min-height: 100vh;
-			padding: 28px 20px 40px;
+		html, body {
+			background: #060b16;
+			background-image: 
+				radial-gradient(circle at 8% 8%, rgba(0, 242, 255, 0.1), transparent 24%),
+				radial-gradient(circle at 90% 14%, rgba(57, 255, 20, 0.08), transparent 20%),
+				linear-gradient(rgba(160, 190, 230, 0.04) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(160, 190, 230, 0.04) 1px, transparent 1px);
+			background-size: auto, auto, 34px 34px, 34px 34px;
+			color: var(--ink-1);
+			font-family: 'Poppins', sans-serif;
 			overflow-x: hidden;
-			background:
-				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
-				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
-				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+			touch-action: pan-y;
 		}
 
 		.background-map {
@@ -583,19 +578,16 @@
 		}
 
 		.back-button {
-			position: fixed;
-			top: 20px;
-			left: 20px;
-			z-index: 100;
-			background-color: rgba(255, 255, 255, 0.9);
-			padding: 10px 15px;
-			border-radius: 8px;
-			text-decoration: none;
-			color: #1a1a1a;
-			font-weight: bold;
-			font-family: 'Courier New', Courier, monospace;
-			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-			transition: transform 0.2s;
+			position:fixed;
+			top: 80px; 
+			left:20px;
+			z-index: 999; 
+			background:white;
+			padding:10px 15px;
+			border-radius:8px;
+			text-decoration:none;
+			font-weight:bold;
+			box-shadow:0 4px 8px rgba(0,0,0,0.2);
 		}
 
 		.back-button:hover {
@@ -613,7 +605,7 @@
 
 		@media (max-width: 768px) {
 			body {
-				padding: 14px 10px 20px;
+				overflow: auto;
 			}
 
 			.pretest-card {
@@ -851,8 +843,9 @@
 			margin-bottom: 0;
 		}
 	</style>
-</head>
-<body>
+@endpush
+
+@section('content')
 
 <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
 
@@ -1367,5 +1360,4 @@
 	});
 </script>
 
-</body>
-</html>
+@endsection
