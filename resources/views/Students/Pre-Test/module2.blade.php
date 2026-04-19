@@ -786,7 +786,7 @@
 			</div>
 
 			<div class="pretest-note">
-				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin". Kapag nakumpirma na, pwede nang pumunta sa susunod na tanong.
+				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
 			</div>
 
 			<form id="preTestForm">
