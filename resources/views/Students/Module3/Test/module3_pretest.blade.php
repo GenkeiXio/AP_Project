@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 3 Pre-Test</title>
+	<title>Hamon at Tugon: Module 3 Paunang Pagsusulit</title>
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -781,13 +781,13 @@
 			<div class="pretest-header">
 				<div class="header-icons">🧭 🗺️ ✨</div>
 				<div class="subtitle">Module 3</div>
-				<h1>Paunang Pagtataya</h1>
+				<h1>PAUNANG PAGSUSULIT</h1>
 				<p>Pumili ng sagot, pagkatapos kumpirmahin bago magpatuloy.</p>
 			</div>
 
-			<div class="pretest-note">
+			<!-- <div class="pretest-note">
 				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
-			</div>
+			</div> -->
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">

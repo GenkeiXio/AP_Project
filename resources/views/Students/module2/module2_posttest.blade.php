@@ -857,13 +857,13 @@
 			<div class="pretest-header">
 				<div class="header-icons">🧭 🗺️ ✨</div>
 				<div class="subtitle">Module 2</div>
-				<h1>Post-Test</h1>
-                <p>Basahin at unawain ang bawat tanong. Piliin ang tamang sagot at kumpirmahin bago magpatuloy.</p>
+				<h1>PANGHULING PAGSUSULIT</h1>
+                <p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
 
-			<div class="pretest-note">
+			<!-- <div class="pretest-note">
 				💡 Sagutin ang bawat tanong at i-click ang "✓ Kumpirmahin". <br> <br>Kailangang makakuha ng 13/15 upang makapasa.
-			</div>
+			</div> -->
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
@@ -886,13 +886,13 @@
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
 						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Post-Test 🚀</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Panghuling Pagsusulit 🚀</button>
 					</div>
 				</div>
 
 				<div class="result-page" id="resultPage" aria-live="polite">
 					<div class="result-box show" id="resultBox">
-						<div class="result-title">Resulta ng Post-Test</div>
+						<div class="result-title">Resulta ng Panghuling Pagsusulit</div>
 						<div class="result-ring" id="resultRing" style="--progress:0;">
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
@@ -901,7 +901,7 @@
 						<div class="result-feedback" id="resultFeedback"></div>
 						
 						<div class="result-actions" id="resultActions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Post-Test</button>
+							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Panghuling Pagsusulit</button>
 							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -966,167 +966,154 @@
 
 	const questions = [
 		{
-			question:'Alin sa sumusunod ang pinakamahusay na paglalarawan ng solid waste?',
-			options:{
-				a:'Mga materyal na maaaring mabulok at maging bahagi ng lupa',
-				b:'Mga basurang nagmumula sa tahanan, paaralan, at negosyo',
-				c:'Mga likidong basura mula sa industriya at pabrika',
-				d:'Mga kemikal na ginagamit sa agrikultura'
+			question: 'Matapos ang clean-up drive sa isang barangay, nabawasan ang pagbaha ngunit bumalik ito makalipas ang ilang linggo. Ano ang pinakaangkop na paliwanag?',
+			options: {
+				a: 'Hindi tuloy-tuloy ang pagpapatupad ng wastong pamamahala ng basura',
+				b: 'Biglang lumakas ang ulan kaya bumaha muli ang buong lugar',
+				c: 'Dumami ang mga tao kaya nagkaroon ng mas maraming aktibidad',
+				d: 'Nagbago ang direksyon ng hangin kaya naapektuhan ang tubig'
 			},
-			answer:'b'
+			answer: 'a'
 		},
 		{
-			question:'Ano ang pangunahing suliraning nagdudulot ng pagdami ng basura sa bansa?',
-			options:{
-				a:'Kakulangan sa maayos na sistema ng koleksyon ng basura',
-				b:'Kawalan ng disiplina sa pagtatapon ng basura',
-				c:'Hindi sapat na espasyo para sa landfill',
-				d:'Pagtaas ng produksyon ng mga produkto'
+			question: 'Sa isang paaralan, may programa sa waste segregation ngunit hindi ito sinusunod ng karamihan. Ano ang pinakamabisang solusyon?',
+			options: {
+				a: 'Magpatupad ng mahigpit na monitoring at information campaign',
+				b: 'Magdagdag ng mas maraming basurahan sa loob ng paaralan',
+				c: 'Bawasan ang oras ng klase upang magkaroon ng paglilinis',
+				d: 'Ipagbawal ang pagdadala ng pagkain sa loob ng silid-aralan'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang posibleng mangyari kung patuloy ang maling pamamahala ng basura?',
-			options:{
-				a:'Paglala ng polusyon sa hangin at tubig',
-				b:'Pagbaha at pagkalat ng sakit',
-				c:'Pagtaas ng produksyon ng enerhiya mula sa basura',
-				d:'Pagdami ng recycling facilities'
+			question: 'Napansin na dumadami ang kaso ng dengue sa isang lugar na maraming tambak na basura. Ano ang pinakaangkop na ugnayan?',
+			options: {
+				a: 'Ang basura ay nagiging breeding ground ng mga lamok na may sakit',
+				b: 'Ang basura ay nagpapababa ng resistensya ng mga tao sa lugar',
+				c: 'Ang basura ay nagdudulot ng pag-init ng temperatura sa paligid',
+				d: 'Ang basura ay nagiging sanhi ng kakulangan sa pagkain ng tao'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang tinutukoy kapag sinabing pagkakalbo ng kagubatan?',
-			options:{
-				a:'Pagpapalit ng kagubatan ng pananim',
-				b:'Deforestation',
-				c:'Pagbabago ng klima sa kagubatan',
-				d:'Paglilipat ng mga puno sa ibang lugar'
+			question: 'Sa isang komunidad, pinutol ang maraming puno upang gawing sakahan. Ano ang pangmatagalang epekto nito?',
+			options: {
+				a: 'Paglala ng soil erosion at pagbaha sa mga mabababang lugar',
+				b: 'Pagdami ng produksyon ng pagkain sa buong komunidad',
+				c: 'Pagbaba ng temperatura sa kagubatan at kapaligiran',
+				d: 'Pagtaas ng bilang ng hayop sa mga kalapit na lugar'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Alin sa mga sumusunod ang halimbawa ng gawaing nakasisira sa kagubatan?',
-			options:{
-				a:'Pagpuputol ng puno nang walang pahintulot',
-				b:'Illegal logging',
-				c:'Paglilinis ng kagubatan para sa pagtatanim',
-				d:'Pagkolekta ng tuyong kahoy'
+			question: 'Bakit mahalaga ang reforestation sa mga lugar na nakaranas ng deforestation?',
+			options: {
+				a: 'Naibabalik nito ang kakayahan ng lupa na sumipsip ng tubig',
+				b: 'Nadadagdagan nito ang bilang ng gusali sa komunidad dahil sa pagputol ng puno',
+				c: 'Napapabilis nito ang pag-unlad ng mga negosyo sa lugar',
+				d: 'Nababawasan nito ang dami ng ulan sa kapaligiran'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang epekto ng patuloy na pagputol ng mga puno?',
-			options:{
-				a:'Pagbabago sa balanse ng ecosystem',
-				b:'Pagbaha at soil erosion',
-				c:'Pagtaas ng produksyon ng oxygen',
-				d:'Pagdami ng tirahan ng hayop sa ibang lugar'
+			question: 'Sa konteksto ng climate change, bakit mas nagiging matindi ang epekto ng bagyo sa Albay?',
+			options: {
+				a: 'Mas mainit ang karagatan kaya mas malakas ang enerhiya ng bagyo',
+				b: 'Mas kaunti ang ulan kaya nagiging malakas ang hangin',
+				c: 'Mas malamig ang klima kaya bumabagal ang paggalaw ng bagyo sa lugar na ito',
+				d: 'Mas kaunti ang puno kaya nababawasan ang ulan sa lugar'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Paano mailalarawan ang climate change?',
-			options:{
-				a:'Biglaang pagbabago ng panahon sa loob ng isang araw',
-				b:'Pagbabago sa pangmatagalang kondisyon ng klima',
-				c:'Pagbabago sa direksyon ng hangin',
-				d:'Pagtaas ng temperatura sa isang rehiyon lamang'
+			question: 'Alin sa mga sumusunod ang nagpapakita ng climate change mitigation?',
+			options: {
+				a: 'Paggamit ng renewable energy at pagbawas ng carbon emissions',
+				b: 'Paglikas ng mga tao sa oras ng bagyo sa komunidad',
+				c: 'Pagtatayo ng evacuation centers sa mga barangay',
+				d: 'Paghahanda ng go bag bago dumating ang sakuna'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Alin sa mga sumusunod ang nagpapalala sa climate change?',
-			options:{
-				a:'Pagtaas ng paggamit ng enerhiya sa bahay',
-				b:'Pagsusunog ng fossil fuels',
-				c:'Pagdami ng sasakyang gumagamit ng kuryente',
-				d:'Pagkakaroon ng mas maraming puno sa lungsod'
+			question: 'Alin ang pinakamabisang paraan upang mabawasan ang epekto ng climate change sa araw-araw?',
+			options: {
+				a: 'Pagtitipid ng enerhiya at paggamit ng environment-friendly practices',
+				b: 'Pag-iwas sa pakikilahok sa mga gawaing pangkomunidad',
+				c: 'Pagsusunog ng basura upang mabawasan ang tambak nito',
+				d: 'Pagputol ng puno upang mapalawak ang mga tirahan'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang isa sa mga epekto ng patuloy na pag-init ng mundo?',
-			options:{
-				a:'Pagtaas ng lebel ng dagat',
-				b:'Mas malalakas na kalamidad',
-				c:'Mas maikling tag-init',
-				d:'Paglamig ng ilang bahagi ng mundo'
+			question: 'Sa pagpapatupad ng disaster preparedness, bakit mahalaga ang early warning system?',
+			options: {
+				a: 'Nagbibigay ito ng sapat na oras upang makapaghanda ang komunidad',
+				b: 'Pinapabagal nito ang pagdating ng bagyo sa isang lugar',
+				c: 'Pinipigilan nito ang pagbuo ng sakuna sa kapaligiran',
+				d: 'Binabawasan nito ang lakas ng ulan sa komunidad'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang pangunahing layunin ng Ecological Solid Waste Management Act (RA 9003)?',
-			options:{
-				a:'Pagkontrol sa dami ng produksyon ng basura',
-				b:'Isulong ang wastong pamamahala ng basura',
-				c:'Pagpaparami ng landfill sites',
-				d:'Pagpapataw ng buwis sa mga produktong plastik'
+			question: 'Ano ang pangunahing layunin ng Republic Act 9729?',
+			options: {
+				a: 'Maglatag ng mga hakbang upang matugunan ang epekto ng climate change',
+				b: 'Magbigay ng ayuda sa mga nasalanta ng kalamidad sa bansa',
+				c: 'Magpatupad ng buwis para sa mga industriyang polusyon at iba pang katulad nito',
+				d: 'Magkontrol ng populasyon sa mga lungsod sa bansa'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang kahalagahan ng early warning system sa komunidad?',
-			options:{
-				a:'Para makapagplano ng rescue operations',
-				b:'Para makapagbigay ng paunang babala sa sakuna',
-				c:'Para makapaghanda ng evacuation center',
-				d:'Para mabawasan ang pinsala sa imprastruktura'
+			question: 'Alin ang nagpapakita ng aktibong pakikiisa ng mamamayan sa disaster risk reduction?',
+			options: {
+				a: 'Pakikilahok sa disaster drills at pagsunod sa mga babala',
+				b: 'Pananatili sa bahay kahit may utos ng paglikas',
+				c: 'Pagbabahagi ng maling impormasyon sa social media',
+				d: 'Pag-iwas sa pakikilahok sa mga gawaing pangkomunidad'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Bakit mahalaga ang agarang paglikas sa panahon ng sakuna?',
-			options:{
-				a:'Upang maprotektahan ang ari-arian',
-				b:'Para maiwasan ang panganib at makaligtas',
-				c:'Upang maiwasan ang trapiko sa kalsada',
-				d:'Para makasunod sa utos ng pamahalaan'
+			question: 'Sa isang barangay, mayroong Materials Recovery Facility (MRF). Ano ang pangunahing layunin nito?',
+			options: {
+				a: 'Iproseso at paghiwalayin ang mga recyclable at biodegradable waste',
+				b: 'Magtapon ng lahat ng uri ng basura sa iisang lugar',
+				c: 'Sunugin ang basura upang mabawasan ang dami nito',
+				d: 'Mag-imbak ng basura nang matagal sa komunidad'
 			},
-			answer:'b'
+			answer: 'a'
 		},
-
 		{
-			question:'Ano ang ipinapakita ng pakikiisa ng mamamayan sa mga programang pangkalikasan?',
-			options:{
-				a:'Pagiging responsable sa sarili',
-				b:'Pagsunod sa batas ng pamahalaan',
-				c:'Pananagutang panlipunan',
-				d:'Pagkakaroon ng interes sa kalikasan'
+			question: 'Bakit mahalaga ang preemptive evacuation sa mga lugar malapit sa Bulkang Mayon?',
+			options: {
+				a: 'Naiiwasan nito ang panganib bago pa lumala ang sitwasyon',
+				b: 'Pinipigilan nito ang pagputok ng bulkan sa lugar',
+				c: 'Binabawasan nito ang init na nagmumula sa bulkan',
+				d: 'Pinapabagal nito ang pagdaloy ng lava sa komunidad'
 			},
-			answer:'c'
+			answer: 'a'
 		},
-
 		{
-			question:'Alin sa sumusunod ang pinakaepektibong paraan ng pangangalaga sa kapaligiran?',
-			options:{
-				a:'Pagbabawas ng paggamit ng plastik',
-				b:'Pagsusunog ng basura sa tamang lugar',
-				c:'Paghihiwalay ng basura (waste segregation)',
-				d:'Paglilinis ng kapaligiran isang beses sa isang buwan'
+			question: 'Ano ang pinakaangkop na papel ng pamahalaan sa pagtugon sa suliraning pangkapaligiran?',
+			options: {
+				a: 'Magpatupad ng batas at programang pangkalikasan sa komunidad',
+				b: 'Hayaan ang mga mamamayan na magdesisyon para sa sarili',
+				c: 'Magbigay lamang ng impormasyon nang walang aksyon',
+				d: 'Ituon ang pansin sa ekonomiya kaysa sa kalikasan'
 			},
-			answer:'c'
+			answer: 'a'
 		},
-
 		{
-			question:'Bilang kabataan, alin ang pinakamainam na hakbang upang makatulong sa kalikasan?',
-			options:{
-				a:'Pagsunod sa mga batas pangkalikasan',
-				b:'Makilahok sa mga programang pangkalikasan',
-				c:'Pagbabawas ng paggamit ng plastik sa bahay',
-				d:'Pagtuturo sa iba tungkol sa kalikasan'
+			question: 'Kung ikaw ay lider ng kabataan sa inyong barangay, alin ang pinakaepektibong hakbang?',
+			options: {
+				a: 'Maglunsad ng clean-up drive at information campaign sa komunidad',
+				b: 'Maghintay ng aksyon mula sa pamahalaan bago kumilos',
+				c: 'Iwasan ang pakikilahok sa mga gawaing pangkapaligiran',
+				d: 'Ituon lamang ang pansin sa personal na gawain'
 			},
-			answer:'b'
+			answer: 'a'
 		}
 	];
 
