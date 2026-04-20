@@ -885,6 +885,9 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
 						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Panghuling Pagsusulit 🚀</button>
 					</div>
@@ -1133,6 +1136,8 @@
 
 	let retryCount = 0;
 	const maxRetries = 2;
+	const questionsPerCard = 5;
+	let currentCard = 0;
 
 	// ================= MESSAGES =================
 	const correctMessages = [
@@ -1169,9 +1174,14 @@
 
 	// ================= RENDER =================
 	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
 		let questionsHtml = '';
 
-		questions.forEach((item, index) => {
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
 			const selectedValue = selectedAnswers[index];
 			const isConfirmed = confirmedAnswers[index];
 
@@ -1193,21 +1203,52 @@
 				`;
 			}).join('');
 
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ ${randomFrom(correctMessages)}</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ ${randomFrom(gentleMessages)}<br>Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
 			questionsHtml += `
 				<div class="single-question">
 					<h4>${index + 1}. ${item.question}</h4>
 					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
 				</div>
 			`;
 		});
 
 		questionList.innerHTML = `
 			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
 				${questionsHtml}
 			</div>
 		`;
 
 		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		// BUTTON LOGIC
+
+		// Confirm button (only if not yet confirmed)
+		confirmBtn.style.display = allConfirmed ? 'none' : 'inline-flex';
+
+		// Next button (only after confirming, and NOT last card)
+		const nextCardBtn = document.getElementById('nextCardBtn');
+		nextCardBtn.style.display = (allConfirmed && currentCard < 2) ? 'inline-flex' : 'none';
+
+		// Submit button (only last card and confirmed)
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
 	// ================= INTERACTION =================
@@ -1219,18 +1260,42 @@
 	};
 
 	function confirmAnswer() {
-		if (selectedAnswers.includes('')) {
-			alert('Sagutan muna lahat bago kumpirmahin.');
-			return;
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// check unanswered
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				return;
+			}
 		}
 
-		questions.forEach((_, index) => {
-			confirmedAnswers[index] = true;
-		});
+		// confirm only current card
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
 
 		renderAllQuestions();
+	}
 
-		submitBtn.style.display = 'inline-flex';
+	function goNextCard() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// ensure current card is confirmed
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				alert('I-confirm muna ang card bago magpatuloy.');
+				return;
+			}
+		}
+
+		if (currentCard >= 2) return;
+
+		currentCard++;
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	// ================= CONFETTI =================
@@ -1300,11 +1365,12 @@
 		} else {
 			resultBadge.textContent = "❌ Hindi pa sapat";
 			resultFeedback.textContent = "Subukan muli.";
+			retryCount++; // ✅ MOVE IT HERE
 
-			if (retryCount < maxRetries) {
+			if (retryCount <= maxRetries) {
 				resultActions.innerHTML = `
 					<button class="btn-secondary" onclick="restartQuiz()">
-						Ulitin (${maxRetries - retryCount} natitira)
+						Ulitin (${maxRetries - retryCount >= 0 ? maxRetries - retryCount : 0} natitira)
 					</button>
 				`;
 			} else {
@@ -1324,20 +1390,30 @@
 
 	// ================= RETRY =================
 	function restartQuiz() {
+
+		// ✅ ADD THIS HERE (VERY TOP)
 		if (retryCount >= maxRetries) {
-			alert('Maximum retries reached.');
+			alert('Naabot mo na ang maximum retries.');
 			return;
 		}
 
-		retryCount++;
-
+		// (your existing code below)
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
+		currentCard = 0;
+
+		shuffleQuestionsAndChoices();
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
+		confirmBtn.style.display = 'inline-flex';
+		document.getElementById('nextCardBtn').style.display = 'none';
+		submitBtn.style.display = 'none';
+
 		renderAllQuestions();
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	// ================= INIT =================
