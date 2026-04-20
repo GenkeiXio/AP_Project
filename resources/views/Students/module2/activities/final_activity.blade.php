@@ -494,26 +494,26 @@
         <div class="overlay"></div>
 
         <div class="page">
-            <h1>🎮 Environmental Decision Game</h1>
+            <h1>🎮 Laro sa Tamang Desisyon sa Kapaligiran</h1>
 
             <div class="topbar">
-                <div>⏱ Timer: <span id="timer">00:00</span></div>
-                <div>⭐ XP: <span id="xp">0</span></div>
+                <div>⏱ Oras: <span id="timer">00:00</span></div>
+                <div>⭐ Puntos: <span id="xp">0</span></div>
             </div>
 
             <div class="progress">
-                Scenario <span id="current">1</span> / 6
+                Sitwasyon <span id="current">1</span> / 6
             </div>
 
             <div id="game"></div>
 
             <div class="btn-container">
                 <button class="btn primary-btn" onclick="submitAnswer()">
-                    🚀 Submit Answer
+                    🚀 Isumite ang Sagot
                 </button>
 
                 <button class="btn next-btn" onclick="nextScenario()" id="nextBtn" style="display:none;">
-                    ▶ Next Scenario
+                    ▶ Susunod na Sitwasyon
                 </button>
             </div>
 
@@ -613,9 +613,10 @@
             let current = 0;
             let streak = 0;
             let answered = false;
-            let time = 0;
+            let oras = 20 * 60; // 20 minutes in seconds
             let allAnswers = [];
             let totalCorrectSelected = 0;
+            let totalPossibleCorrect = 0;
             let isSaving = false;
 
             /* ===============================
@@ -629,8 +630,20 @@
             }
 
             let timerInterval = setInterval(() => {
-                time++;
-                document.getElementById("timer").innerText = formatTime(time);
+
+                oras--;
+
+                document.getElementById("timer").innerText = formatTime(oras);
+
+                if(oras <= 0){
+                    clearInterval(timerInterval);
+
+                    document.getElementById("feedback").innerHTML =
+                        "⏰ Naubos na ang oras! Awtomatikong tatapusin ang aktibidad.";
+
+                    tapusinNa(); // 🔥 auto end
+                }
+
             }, 1000);
 
             /* ===============================
@@ -638,6 +651,7 @@
             ================================ */
             scenarios.forEach(s => {
                 s.choices.sort(() => Math.random() - 0.5);
+                totalPossibleCorrect += s.choices.filter(c => c.c).length;
             });
 
             loadScenario();
@@ -689,11 +703,25 @@
             ================================ */
             function submitAnswer(){
                 if(answered) return;
+
+                let anyChecked = false;
+                document.querySelectorAll(".choice-box input").forEach(cb => {
+                    if(cb.checked) anyChecked = true;
+                });
+
+                if(!anyChecked){
+                    document.getElementById("feedback").innerHTML =
+                        "⚠️ Pumili muna ng kahit isang sagot bago isumite!";
+                    return;
+                }
+
                 answered = true;
 
                 let s = scenarios[current];
                 let correct = 0;
+                let wrong = 0;
                 let totalCorrect = s.choices.filter(c => c.c).length;
+
                 let scenarioAnswers = [];
 
                 document.querySelectorAll(".choice-box").forEach((el, i) => {
@@ -705,8 +733,11 @@
                         el.classList.add("correct");
                         correct++;
                         totalCorrectSelected++;
-                    } else if(selected && !isCorrect){
+                    } 
+                    else if(selected && !isCorrect){
                         el.classList.add("wrong");
+                        wrong++;
+                        totalCorrectSelected--; // 🔥 penalty
                     }
 
                     scenarioAnswers.push({
@@ -734,22 +765,38 @@
                 document.getElementById("xp").innerText = xp;
 
                 let feedback = "";
-                let ratio = totalCorrect > 0 ? (correct / totalCorrect) : 0;
+                let ratio = (correct - wrong) / totalCorrect;
+                if(ratio < 0) ratio = 0;
 
                 if(ratio === 1){
-                    feedback = `🔥 PERFECT! Kumpleto ang tamang sagot — nakatulong ka talaga sa kalikasan! +${gainedXP} XP (Streak x${streak})`;
+                    feedback = `🔥 PERPEKTO!
+                    <br>Kumpleto ang lahat ng tamang sagot.
+                    <br>Malaking tulong ito sa kalikasan.
+                    <br>+${gainedXP} puntos (Sunod-sunod x${streak})`;
                 }
                 else if(ratio >= 0.75){
-                    feedback = `👍 HALOS TAMANG-TAMA! May ilang pagkukulang — maaaring may maliit na epekto sa kapaligiran.<br>+${gainedXP} XP`;
+                    feedback = `👍 MAAYOS!
+                    <br>Karamihan sa iyong sagot ay tama.
+                    <br>May ilang kulang ngunit maayos pa rin ang epekto.
+                    <br>+${gainedXP} puntos`;
                 }
                 else if(ratio >= 0.5){
-                    feedback = `⚠️ KATAMTAMAN! May ilang maling desisyon na maaaring magdulot ng problema sa kapaligiran.<br>+${gainedXP} XP`;
+                    feedback = `⚠️ KATAMTAMAN!
+                    <br>May sapat na tamang sagot ngunit may mga mali rin.
+                    <br>Maaaring magdulot ito ng problema sa kapaligiran.
+                    <br>+${gainedXP} puntos`;
                 }
                 else if(ratio > 0){
-                    feedback = `🚨 MARAMING MALI! Malaki ang posibleng epekto ng iyong mga desisyon sa kalikasan.<br>+${gainedXP} XP`;
+                    feedback = `🚨 MARAMING MALI!
+                    <br>Kakaunti lamang ang tamang sagot.
+                    <br>Malaki ang negatibong epekto sa kapaligiran.
+                    <br>+${gainedXP} puntos`;
                 }
                 else{
-                    feedback = `💀 WALANG TAMANG SAGOT! Maaaring lumala nang husto ang sitwasyon sa kapaligiran.<br>+${gainedXP} XP`;
+                    feedback = `💀 WALANG TAMANG SAGOT!
+                    <br>Lahat ng napili ay mali.
+                    <br>Lubhang mapanganib ang epekto nito sa kapaligiran.
+                    <br>+${gainedXP} puntos`;
                 }
 
                 document.getElementById("feedback").innerHTML = feedback;
@@ -773,16 +820,28 @@
                         score: xp,
                         total_questions: scenarios.length,
                         correct_answers: totalCorrectSelected,
-                        time_taken: time,
+                        time_taken: (20 * 60) - oras,
                         answers: allAnswers
                     })
                 });
+            }
+
+            function tapusinNa(){
+                current = scenarios.length - 1; // last index
+                nextScenario(); // now +1 = exact end
             }
 
             /* ===============================
             ▶ NEXT SCENARIO
             ================================ */
             function nextScenario(){
+
+                if(!answered){
+                    document.getElementById("feedback").innerHTML =
+                        "⚠️ Isumite muna ang iyong sagot bago magpatuloy!";
+                    return;
+                }
+
                 current++;
 
                 if(current >= scenarios.length){
@@ -801,7 +860,10 @@
                     else if(xp >= 150) rank = "🌿 ECO WARRIOR";
                     else rank = "🌱 ECO LEARNER";
 
-                    let finalTime = formatTime(time);
+                    let nagamitNaOras = (20 * 60) - oras;
+                    let finalTime = formatTime(nagamitNaOras);
+                    let percentage = Math.round((totalCorrectSelected / totalPossibleCorrect) * 100);
+                    let passed = percentage >= 75;
 
                     saveFinalActivity()
                         .then(async response => {
@@ -819,18 +881,23 @@
                             document.getElementById("game").innerHTML = `
                                 <div class="final-card">
                                     <div class="final-header">
-                                        🎉 MISSION COMPLETE!
+                                        ${passed ? "🎉 NAKAPASA KA!" : "❌ HINDI KA NAKAPASA"}
                                     </div>
 
                                     <div class="final-stats">
                                         <div class="stat-box">
+                                            📊 <span>${percentage}%</span>
+                                            <small>Iskor</small>
+                                        </div>
+
+                                        <div class="stat-box">
                                             ⏱ <span>${finalTime}</span>
-                                            <small>Time</small>
+                                            <small>Oras</small>
                                         </div>
 
                                         <div class="stat-box">
                                             ⭐ <span>${xp}</span>
-                                            <small>Total XP</small>
+                                            <small>Kabuuang Puntos</small>
                                         </div>
                                     </div>
 
@@ -839,9 +906,15 @@
                                             ${rank}
                                         </div>
 
-                                        <a href="{{ route('module2.posttest') }}" class="final-btn">
-                                            📝 Take Post Test
-                                        </a>
+                                        ${
+                                            passed
+                                            ? `<a href="{{ route('module2.posttest') }}" class="final-btn">
+                                                    📝 Sagutin ang Panghuling Pagsusulit
+                                            </a>`
+                                            : `<button class="final-btn" onclick="location.reload()">
+                                                    🔄 Ulitin ang Aktibidad
+                                            </button>`
+                                        }
                                     </div>
                                 </div>
                             `;
@@ -873,7 +946,7 @@
                                         </div>
 
                                         <p style="color:red; margin: 15px 0;">
-                                            Failed to save activity result.
+                                            Hindi na-save ang resulta ng aktibidad.
                                         </p>
 
                                         <a href="{{ route('module2.posttest') }}" class="final-btn">

@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'Hamon at Tugon: Module 2 Post-Test')
+@section('title', 'Hamon at Tugon: Module 2 Panghuling Pagsusulit')
 @push('styles')
 	<style>
 		:root {
