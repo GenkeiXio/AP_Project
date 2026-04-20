@@ -743,6 +743,214 @@
             width: 80px;
         }
     }
+
+   /* ===== VISUAL NOVEL STYLE (FIXED) ===== */
+
+.vn-container {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.80);
+    z-index: 20000;
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Teacher LEFT */
+.vn-character {
+    position: absolute;
+    bottom: 0;
+    left: 60px;
+    height: 70vh;
+    max-height: 520px;
+    object-fit: contain;
+    animation: fadeInVN 0.5s ease, teacherIdle 3s ease-in-out infinite;
+}
+
+/* Dialogue box BESIDE teacher */
+.vn-dialogue-box {
+    position: absolute;
+    left: 44%;
+    bottom: 340px;
+    transform: translateX(-50%);
+
+    width: min(760px, 78vw);
+    max-width: 78vw;
+
+    background: linear-gradient(180deg, rgba(20, 24, 34, 0.96), rgba(11, 13, 20, 0.98));
+    padding: 26px 32px;
+    border-radius: 18px;
+
+    border: 2px solid rgba(255, 255, 255, 0.88);
+    box-shadow: 0 20px 52px rgba(0,0,0,0.5);
+
+    cursor: pointer;
+}
+
+/* Tail pointing to teacher */
+.vn-dialogue-box::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    bottom: -20px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 24px solid rgba(11, 13, 20, 0.98);
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+}
+
+.vn-dialogue-box::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    bottom: -18px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 24px solid rgba(255,255,255,0.10);
+    transform: translateY(1px);
+}
+
+/* Text styles */
+.vn-name {
+    font-weight: bold;
+    color: #8fd18f;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 13px;
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(143, 209, 143, 0.08);
+}
+
+.vn-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #f4f7fb;
+    min-height: 2.4em;
+}
+
+.vn-continue {
+    margin-top: 14px;
+    font-size: 12px;
+    opacity: 0.72;
+    text-align: right;
+    color: rgba(255,255,255,0.78);
+}
+
+.vn-dialogue-box:hover {
+    transform: translateX(-50%) translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeInVN {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes teacherIdle {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+    .vn-container {
+        align-items: flex-end;
+        overflow: hidden;
+    }
+
+    .vn-character {
+        left: 16px;
+        height: 52vh;
+        max-height: 420px;
+    }
+
+    .vn-dialogue-box {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 132px;
+        width: min(92vw, 760px);
+        padding: 18px 20px;
+        border-radius: 16px;
+    }
+
+    .vn-dialogue-box::after {
+        left: 20px;
+        bottom: -16px;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 16px solid rgba(11, 13, 20, 0.98);
+    }
+
+    .vn-dialogue-box::before {
+        left: 19px;
+        bottom: -14px;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 16px solid rgba(255,255,255,0.10);
+    }
+
+    .vn-text {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .vn-continue {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .vn-character {
+        left: 8px;
+        height: 46vh;
+        max-height: 340px;
+    }
+
+    .vn-dialogue-box {
+        bottom: 108px;
+        width: 94vw;
+        padding: 16px 16px;
+        border-radius: 14px;
+    }
+
+    .vn-dialogue-box::after {
+        left: 14px;
+        bottom: -15px;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 14px solid rgba(11, 13, 20, 0.98);
+    }
+
+    .vn-dialogue-box::before {
+        left: 13px;
+        bottom: -13px;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 14px solid rgba(255,255,255,0.10);
+    }
+
+    .vn-name {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .vn-text {
+        font-size: 15px;
+        line-height: 1.65;
+        min-height: 2.2em;
+    }
+
+    .vn-continue {
+        font-size: 11px;
+        margin-top: 8px;
+    }
+}
     
 </style>
 @endpush
@@ -762,46 +970,20 @@
         <li><a href="{{ route('module.home') }}">📘 Kalagayan, Suliranin At Pagtugon Sa Isyung Pangkapaligiran Ng Pilipinas</a></li>
         <li><a href="#" onclick="return false;" style="opacity: 0.6; cursor: not-allowed;">📗 Module 3 <?php if(!$module3_unlocked): ?>🔒<?php endif; ?></a></li>
         <li><a href="#" onclick="return false;" style="opacity: 0.6; cursor: not-allowed;">📙 Module 4 <?php if(!$module4_unlocked): ?>🔒<?php endif; ?></a></li>
-        <li><a href="#" onclick="showIntroModal()">ℹ️ About Mission</a></li>
     </ul>
 </div>
 
 <!-- OVERLAY -->
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 
-<!-- INTRO MODAL - Scrollable on mobile -->
-<div id="introModal" class="modal show">
-    <div class="modal-content">
+<!-- VISUAL NOVEL INTRO -->
+<div id="vnIntro" class="vn-container">
+    <img src="{{ asset('pictures/teacher.png') }}" class="vn-character">
 
-        <div class="modal-section">
-            <h3>🌋 Maligayang Pagdating sa Albay!</h3>
-            <p>
-                Ikaw ay papasok sa isang misyon kung saan iyong tutuklasin ang mga suliraning 
-                pangkapaligiran at matututuhan kung paano makakatulong bilang isang responsableng mamamayan.
-            </p>
-        </div>
-
-        <div class="modal-section">
-            <h3>🧭 Iyong Gagawin</h3>
-            <p>
-                Galugarin ang mapa ng Albay, tuklasin ang bawat lokasyon, at alamin ang mga 
-                isyung kinakaharap ng kapaligiran. Sa bawat hakbang, ikaw ay matututo at 
-                makakagawa ng mga tamang desisyon.
-            </p>
-        </div>
-
-        <div class="modal-section">
-            <h3>🎯 Iyong Layunin</h3>
-            <p>
-                Unawain ang kalagayan ng kapaligiran at mag-isip ng mga paraan upang makatulong 
-                sa pangangalaga ng kalikasan para sa kinabukasan.
-            </p>
-        </div>
-
-        <button onclick="closeIntro()" class="btn-primary" style="width:100%; margin-top:10px;">
-            Simulan ang Paglalakbay 🚀
-        </button>
-
+    <div class="vn-dialogue-box">
+        <div class="vn-name">Guro JC</div>
+        <div class="vn-text" id="vnText"></div>
+        <div class="vn-continue">▶ I-click upang magpatuloy</div>
     </div>
 </div>
 
@@ -817,7 +999,7 @@
         </button>
 
         <!-- MODULE 3 PIN (PAKSA 2) - Locked until Module 2 is completed -->
-        <button class="pin location-2 <?php echo !$module3_unlocked ? 'locked-pin' : ''; ?>" 
+        <button class="pin location-2 <?php echo !$module3_unlocked ? 'locked-pin' : ''; ?>"
             onclick="<?php echo $module3_unlocked ? "enterModule(this, '" . route('module3.home') . "')" : "showLockedMessage('PAKSA 2')"; ?>"
             <?php echo !$module3_unlocked ? 'disabled style="cursor:not-allowed;"' : ''; ?>>
             <span class="tooltip">
@@ -829,7 +1011,7 @@
         </button>
 
         <!-- MODULE 4 PIN (PAKSA 3) - Locked until Module 3 is completed -->
-        <button class="pin location-3 <?php echo !$module4_unlocked ? 'locked-pin' : ''; ?>" 
+        <button class="pin location-3 <?php echo !$module4_unlocked ? 'locked-pin' : ''; ?>"
             onclick="<?php echo $module4_unlocked ? "enterModule(this, '" . route('module4.home') . "')" : "showLockedMessage('PAKSA 3')"; ?>"
             <?php echo !$module4_unlocked ? 'disabled style="cursor:not-allowed;"' : ''; ?>>
             <span class="tooltip">
@@ -840,7 +1022,7 @@
             <?php endif; ?>
         </button>
 
-    </div> 
+    </div>
 </div>
 
 <script>
@@ -849,30 +1031,23 @@
         const mobileNav = document.getElementById('mobileNav');
         const overlay = document.getElementById('navOverlay');
         const burger = document.getElementById('burgerMenu');
-        
+
         mobileNav.classList.toggle('open');
         overlay.classList.toggle('show');
         burger.classList.toggle('open');
     }
-    
+
     function closeMobileNav() {
         const mobileNav = document.getElementById('mobileNav');
         const overlay = document.getElementById('navOverlay');
         const burger = document.getElementById('burgerMenu');
-        
+
         mobileNav.classList.remove('open');
         overlay.classList.remove('show');
         burger.classList.remove('open');
     }
-    
-    // Show intro modal again (from burger menu)
-    function showIntroModal() {
-        closeMobileNav();
-        document.getElementById("introModal").classList.add("show");
-    }
-    
-    function enterModule(pin, url) {
 
+    function enterModule(pin, url) {
         if (window.innerWidth <= 768) {
             window.location.href = url;
             return;
@@ -896,12 +1071,12 @@
             translate(${offsetX}px, ${offsetY}px)
             scale(2)
         `;
-        map.style.transition = "transform 0.7s ease";
+        map.style.transition = 'transform 0.7s ease';
 
-        pin.classList.add("active");
+        pin.classList.add('active');
 
         setTimeout(() => {
-            document.body.classList.add("screen-fade");
+            document.body.classList.add('screen-fade');
         }, 400);
 
         setTimeout(() => {
@@ -909,40 +1084,89 @@
         }, 900);
     }
 
+    // ===== VISUAL NOVEL FLOW =====
+    const vnLines = [
+        '🌋 Maligayang pagdating sa Albay!',
+        'Ikaw ay papasok sa isang misyon kung saan tutuklasin mo ang mga suliraning pangkapaligiran.',
+        'Matututuhan mo rin kung paano makakatulong bilang isang responsableng mamamayan.',
+        '🧭 Ang iyong gawain ay galugarin ang mapa ng Albay.',
+        'Tuklasin ang bawat lokasyon at alamin ang mga isyung kinakaharap ng kapaligiran.',
+        'Sa bawat hakbang, ikaw ay matututo at makakagawa ng tamang desisyon.',
+        '🎯 Ang iyong layunin ay unawain ang kalagayan ng kapaligiran.',
+        'Mag-isip ng mga paraan upang makatulong sa pangangalaga ng kalikasan.',
+        'Handa ka na ba? Simulan na natin ang iyong paglalakbay.'
+    ];
+
+    const vnText = document.getElementById('vnText');
+    const vnContainer = document.getElementById('vnIntro');
+
+    let vnIndex = 0;
+    let isTyping = false;
+    let typingTimeout = null;
+
+    function typeWriter(text, element, speed = 25) {
+        let i = 0;
+        element.innerHTML = '';
+        isTyping = true;
+
+        if (typingTimeout) clearTimeout(typingTimeout);
+
+        function typing() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                typingTimeout = setTimeout(typing, speed);
+            } else {
+                isTyping = false;
+                typingTimeout = null;
+            }
+        }
+
+        typing();
+    }
+
+    typeWriter(vnLines[vnIndex], vnText);
+
+    vnContainer.addEventListener('click', () => {
+        if (isTyping) {
+            if (typingTimeout) clearTimeout(typingTimeout);
+            vnText.innerHTML = vnLines[vnIndex];
+            isTyping = false;
+            return;
+        }
+
+        vnIndex++;
+
+        if (vnIndex < vnLines.length) {
+            typeWriter(vnLines[vnIndex], vnText);
+
+            const box = document.querySelector('.vn-dialogue-box');
+            box.classList.remove('pop');
+            void box.offsetWidth;
+            box.classList.add('pop');
+        } else {
+            vnContainer.style.opacity = '0';
+            vnContainer.style.transition = 'opacity 0.5s';
+
+            setTimeout(() => {
+                vnContainer.style.display = 'none';
+            }, 500);
+        }
+    });
+
     // Show message when clicking on locked module
     function showLockedMessage(moduleName) {
-        // Create temporary notification
         const notification = document.createElement('div');
         notification.className = 'locked-notification';
         notification.innerHTML = `🔒 Naka-lock pa ang ${moduleName}. Kumpletuhin muna ang nakaraang paksa.`;
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.opacity = '0';
             notification.style.transition = 'opacity 0.3s';
             setTimeout(() => notification.remove(), 300);
         }, 3000);
     }
-
-    function goToModule2() {
-        window.location.href = '{{ route("module.home") }}';
-    }
-
-    function showDetails(locationName) {
-        alert("This module is not yet available");
-    }
-
-    // CLOSE INTRO MODAL
-    function closeIntro() {
-        document.getElementById("introModal").classList.remove("show");
-    }
-
-    // Close modal when clicking outside content (optional)
-    document.getElementById('introModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('show');
-        }
-    });
 
     document.querySelector('.map-wrapper').addEventListener('click', function(e) {
         const rect = this.getBoundingClientRect();
