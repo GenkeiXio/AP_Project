@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 2 Pre-Test</title>
+	<title>Hamon at Tugon: Module 2 Paunang Pagsusulit</title>
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -781,13 +781,13 @@
 			<div class="pretest-header">
 				<div class="header-icons">🧭 🗺️ ✨</div>
 				<div class="subtitle">Module 2</div>
-				<h1>Paunang Pagtataya</h1>
-				<p>Pumili ng sagot, pagkatapos kumpirmahin bago magpatuloy.</p>
+				<h1>PAUNANG PAGSUSULIT</h1>
+				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
 
-			<div class="pretest-note">
-				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin". Kapag nakumpirma na, pwede nang pumunta sa susunod na tanong.
-			</div>
+			<!-- <div class="pretest-note">
+				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
+			</div> -->
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
@@ -804,14 +804,17 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
 						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Pre-Test 🚀</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Paunang Pagsusulit 🚀</button>
 					</div>
 				</div>
 
 				<div class="result-page" id="resultPage" aria-live="polite">
 					<div class="result-box show" id="resultBox">
-						<div class="result-title">Resulta ng Pre-Test</div>
+						<div class="result-title">Resulta ng Paunang Pagsusulit</div>
 						<div class="result-ring" id="resultRing" style="--progress:0;">
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
@@ -825,7 +828,7 @@
 						</div>
 
 						<div class="result-actions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Paunang Pagsusulit</button>
 							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -837,155 +840,155 @@
 
 <script>
 	const questions = [
-		{ 
-			question: 'Ano ang tinutukoy ng solid waste?', 
-			options: { 
-				a: 'Mga materyal na maaaring gamitin muli sa produksyon', 
-				b: 'Mga basurang nagmumula sa tahanan at komersyal na gawain', 
-				c: 'Mga likas na yaman na matatagpuan sa kapaligiran', 
-				d: 'Mga sangkap na ginagamit sa industriyal na proseso' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Sa isang barangay sa Albay, napansin na mas mabilis ang pagbaha matapos ang ulan dahil sa naipong basura sa mga kanal. Ano ang pinakaangkop na paliwanag?',
+			options: {
+				a: 'Ang basura ay humaharang sa maayos na daloy ng tubig sa kanal',
+				b: 'Ang basura ay nagpapataas ng temperatura ng tubig sa paligid',
+				c: 'Ang basura ay nagpapabagal sa pagsipsip ng tubig sa lupa',
+				d: 'Ang basura ay nagiging dahilan ng pagtaas ng lebel ng dagat'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Ano ang pangunahing dahilan ng suliranin sa basura sa Pilipinas?', 
-			options: { 
-				a: 'Kakulangan sa disiplina sa wastong pagtatapon ng basura', 
-				b: 'Pagbabago ng klima sa iba’t ibang rehiyon', 
-				c: 'Pagtaas ng produksyon ng agrikultura', 
-				d: 'Pagdami ng likas na yaman sa bansa' 
-			}, 
-			answer: 'a' 
+		{
+			question: 'Alin sa mga sumusunod ang pinakamalalim na sanhi ng patuloy na problema sa solid waste sa Albay?',
+			options: {
+				a: 'Kakulangan ng sapat na basurahan sa bawat komunidad',
+				b: 'Kawalan ng disiplina at pagsunod sa tamang pamamahala',
+				c: 'Pagdami ng populasyon sa mga urban na lugar lamang',
+				d: 'Pagbabago ng klima na nagdudulot ng mas maraming basura'
+			},
+			answer: 'b'
 		},
-		{ 
-			question: 'Ano ang maaaring maging epekto ng maling pagtatapon ng basura?', 
-			options: { 
-				a: 'Pagtaas ng antas ng kabuhayan sa komunidad', 
-				b: 'Pagbaha at paglaganap ng mga sakit sa kapaligiran', 
-				c: 'Pagdami ng likas na yaman sa kalikasan', 
-				d: 'Pagbuti ng kalidad ng hangin sa lungsod' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Bakit nagiging public health issue ang maling pamamahala ng basura?',
+			options: {
+				a: 'Nagdudulot ito ng pagdami ng insektong nagdadala ng sakit',
+				b: 'Nagiging sanhi ito ng pagtaas ng presyo ng mga bilihin',
+				c: 'Nakaaapekto ito sa pagdami ng negosyo sa komunidad',
+				d: 'Nakababawas ito sa bilang ng mga taong nagtatrabaho'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Ano ang deforestation?', 
-			options: { 
-				a: 'Proseso ng pagtatanim ng mga puno sa kagubatan', 
-				b: 'Paglilinis ng mga anyong tubig sa kapaligiran', 
-				c: 'Malawakang pagputol at pagkawala ng mga puno sa kagubatan', 
-				d: 'Pagpapanatili ng biodiversity sa isang lugar' 
-			}, 
-			answer: 'c' 
+		{
+			question: 'Sa konteksto ng deforestation, alin ang hindi direktang epekto ng pagkawala ng kagubatan?',
+			options: {
+				a: 'Pagkakaroon ng soil erosion sa mga bulubunduking lugar',
+				b: 'Pagdami ng pagbaha sa mabababang bahagi ng komunidad',
+				c: 'Pagtaas ng produksyon ng oxygen sa kapaligiran',
+				d: 'Pagkawala ng tirahan ng iba’t ibang uri ng hayop'
+			},
+			answer: 'c'
 		},
-		{ 
-			question: 'Alin sa mga sumusunod ang sanhi ng deforestation?', 
-			options: { 
-				a: 'Malawakang recycling ng mga materyales', 
-				b: 'Ilegal na pagtotroso at walang kontrol na pagputol ng puno', 
-				c: 'Pagtatanim ng mga bagong puno sa komunidad', 
-				d: 'Pagpapatupad ng environmental protection programs' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Isang lugar sa Libon, Albay ang nakaranas ng landslide matapos ang tuloy-tuloy na pagputol ng puno. Ano ang lohikal na paliwanag?',
+			options: {
+				a: 'Nawawala ang kapit ng ugat ng puno sa lupa at nagiging malambot',
+				b: 'Tumitigas ang lupa dahil sa kakulangan ng mga puno sa paligid',
+				c: 'Lumalalim ang lupa dahil sa patuloy na pag-ulan sa lugar',
+				d: 'Nagiging magaan ang lupa dahil sa pagkawala ng mga halaman'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Ano ang maaaring epekto ng pagkakalbo ng kagubatan?', 
-			options: { 
-				a: 'Pagdami ng mga hayop sa natural na tirahan', 
-				b: 'Pagbaha at pagguho ng lupa sa mga apektadong lugar', 
-				c: 'Pagbuti ng kalidad ng lupa sa kabundukan', 
-				d: 'Paglakas ng produksyon ng agrikultura' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Alin sa mga sumusunod ang nagpapakita ng sustainable land use sa isang komunidad?',
+			options: {
+				a: 'Patuloy na pagputol ng puno upang madagdagan ang kita',
+				b: 'Pagtatanim ng kapalit na puno sa bawat pinutol na halaman',
+				c: 'Pagsusunog ng kagubatan upang gawing sakahan ang lupa',
+				d: 'Pagpapalit ng kagubatan ng mga gusali at establisyemento'
+			},
+			answer: 'b'
 		},
-		{ 
-			question: 'Ano ang climate change?', 
-			options: { 
-				a: 'Pagbabago sa anyo ng lupa dulot ng kalikasan', 
-				b: 'Pagtaas ng populasyon sa iba’t ibang bansa', 
-				c: 'Pangmatagalang pagbabago sa temperatura at klima ng mundo', 
-				d: 'Pagdami ng kagubatan sa iba’t ibang rehiyon' 
-			}, 
-			answer: 'c' 
+		{
+			question: 'Alin ang pinakaangkop na ugnayan ng climate change sa mas malalakas na bagyo?',
+			options: {
+				a: 'Nagdaragdag ito ng enerhiya sa atmospera na nagpapalakas ng bagyo',
+				b: 'Nagpapabagal ito ng hangin kaya humihina ang mga bagyo',
+				c: 'Pinapalamig nito ang karagatan kaya nababawasan ang ulan',
+				d: 'Pinipigilan nito ang pagbuo ng ulap sa himpapawid'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Ano ang pangunahing sanhi ng climate change?', 
-			options: { 
-				a: 'Pagpapalawak ng mga kagubatan sa bansa', 
-				b: 'Paggamit ng fossil fuels at paglabas ng greenhouse gases', 
-				c: 'Paglilinis ng kapaligiran sa mga lungsod', 
-				d: 'Pagdami ng recycling programs sa komunidad' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Bakit ang deforestation ay may kaugnayan din sa climate change?',
+			options: {
+				a: 'Nabawasan ang kakayahan ng kagubatan na sumipsip ng carbon dioxide',
+				b: 'Dumadami ang ulan sa kagubatan kaya lumalamig ang klima',
+				c: 'Tumataas ang produksyon ng oxygen kaya umiinit ang mundo',
+				d: 'Nabubuo ang mas maraming ulap sa mga kalbong kagubatan'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Alin sa mga sumusunod ang epekto ng climate change?', 
-			options: { 
-				a: 'Paglamig ng temperatura sa buong mundo', 
-				b: 'Mas malalakas at mas madalas na mga bagyo', 
-				c: 'Pagdami ng kagubatan sa iba’t ibang bansa', 
-				d: 'Pagbaba ng populasyon ng tao sa lungsod' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Alin sa mga sumusunod ang pinakamabisang indibidwal na aksyon laban sa climate change?',
+			options: {
+				a: 'Pagsusunog ng basura upang mabawasan ang tambak nito',
+				b: 'Pagtitipid ng enerhiya at paggamit ng malilinis na pinagkukunan',
+				c: 'Pagputol ng puno upang magamit ang lupa sa ibang gawain',
+				d: 'Paggamit ng mga single-use plastic sa pang-araw-araw'
+			},
+			answer: 'b'
 		},
-		{ 
-			question: 'Ano ang layunin ng Republic Act 9003?', 
-			options: { 
-				a: 'Pagpapaunlad ng pagmimina sa bansa', 
-				b: 'Wastong pamamahala at segregasyon ng solid waste', 
-				c: 'Pagkontrol sa pagputol ng mga puno', 
-				d: 'Pagpaparami ng sasakyan sa lungsod' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Ano ang pangunahing layunin ng Republic Act 10121?',
+			options: {
+				a: 'Paghahanda at pagtugon sa mga sakuna sa iba’t ibang lugar',
+				b: 'Pagpapataas ng produksyon ng mga industriya sa bansa',
+				c: 'Pagkontrol sa dami ng populasyon sa mga lungsod',
+				d: 'Pagpapababa ng presyo ng mga pangunahing bilihin'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Ano ang pangunahing tungkulin ng early warning system?', 
-			options: { 
-				a: 'Pagpaparami ng mga puno sa kagubatan', 
-				b: 'Pagbibigay ng babala bago mangyari ang sakuna', 
-				c: 'Pagkolekta ng basura sa komunidad', 
-				d: 'Pagpapatupad ng mga batas pangkalikasan' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Alin sa mga sumusunod ang hindi bahagi ng isang early warning system?',
+			options: {
+				a: 'Pagpapadala ng text alerts mula sa mga awtoridad',
+				b: 'Pagtunog ng sirena bilang babala sa komunidad',
+				c: 'Biglaang paglikas nang walang paunang abiso',
+				d: 'Pagbibigay ng weather advisory sa publiko'
+			},
+			answer: 'c'
 		},
-		{ 
-			question: 'Ano ang layunin ng evacuation program?', 
-			options: { 
-				a: 'Pagtatayo ng mga bagong tirahan', 
-				b: 'Paglipat ng mga tao sa mas ligtas na lugar', 
-				c: 'Paglilinis ng mga lansangan', 
-				d: 'Pagtatanim ng mga halaman sa komunidad' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Paano nakatutulong ang Republic Act 9003 sa komunidad?',
+			options: {
+				a: 'Nagpapatupad ito ng wastong pamamahala ng basura sa barangay',
+				b: 'Nagbibigay ito ng libreng pabahay sa mga mamamayan',
+				c: 'Nagpapataas ito ng kita ng mga lokal na negosyo',
+				d: 'Naglilimita ito sa paggamit ng mga pampublikong lugar'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Bakit mahalaga ang pakikiisa ng mamamayan sa pangangalaga ng kalikasan?', 
-			options: { 
-				a: 'Upang makilala sa lipunan', 
-				b: 'Para sa pansariling kapakinabangan', 
-				c: 'Dahil ito ay kolektibong responsibilidad ng lahat', 
-				d: 'Upang magkaroon ng karagdagang kita' 
-			}, 
-			answer: 'c' 
+		{
+			question: 'Alin ang pinakaangkop na aksyon kapag may babala ng pagputok ng Bulkang Mayon?',
+			options: {
+				a: 'Manatili sa bahay kahit may inilabas na opisyal na babala',
+				b: 'Sumunod sa evacuation protocol at pumunta sa ligtas na lugar',
+				c: 'Maghintay muna ng kumpirmasyon mula sa mga kapitbahay',
+				d: 'Balewalain ang abiso dahil hindi pa tiyak ang mangyayari'
+			},
+			answer: 'b'
 		},
-		{ 
-			question: 'Alin sa mga sumusunod ang tamang hakbang sa pangangalaga ng kapaligiran?', 
-			options: { 
-				a: 'Pagsusunog ng mga basura sa bakuran', 
-				b: 'Maayos na paghihiwalay ng basura ayon sa uri', 
-				c: 'Pagtatapon ng basura sa ilog o dagat', 
-				d: 'Pagputol ng mga puno para sa gamit' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Ano ang pangunahing papel ng Albay Public Safety and Emergency Management Office (APSEMO) sa lalawigan ng Albay?',
+			options: {
+				a: 'Manguna sa paghahanda at pagtugon sa mga sakuna sa lalawigan',
+				b: 'Mangolekta ng buwis para sa mga proyekto ng pamahalaan',
+				c: 'Magpatupad ng mga negosyo sa iba’t ibang bayan',
+				d: 'Magbigay ng serbisyong pang-edukasyon sa mga paaralan'
+			},
+			answer: 'a'
 		},
-		{ 
-			question: 'Bilang isang mag-aaral, paano ka makakatulong sa kalikasan?', 
-			options: { 
-				a: 'Hindi pakikialam sa mga isyu sa kapaligiran', 
-				b: 'Aktibong pakikilahok sa clean-up drive at environmental programs', 
-				c: 'Pagtatapon ng basura kung saan-saan', 
-				d: 'Pagsira sa mga halaman sa paligid' 
-			}, 
-			answer: 'b' 
+		{
+			question: 'Isang estudyante ang gustong makatulong sa paglutas ng suliraning pangkapaligiran. Alin ang pinakamahusay na kombinasyon ng aksyon?',
+			options: {
+				a: 'Pagtapon ng basura kung saan-saan at pagtatanim ng puno',
+				b: 'Pagsasagawa ng waste segregation at pakikilahok sa clean-up drive',
+				c: 'Pag-iwas sa pakikilahok sa mga gawaing pangkomunidad',
+				d: 'Pagsusunog ng basura at pagtitipid lamang ng tubig'
+			},
+			answer: 'b'
 		}
 	];
 
@@ -1008,7 +1011,9 @@
 	let lastDirection = 'right';
 	let pendingSelection = null;
 	let retryCount = 0;
-	const maxRetries = 2;
+	const maxRetries = 3;
+	const questionsPerCard = 5;
+	let currentCard = 0;
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1084,9 +1089,14 @@
 	}
 
 	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
 		let questionsHtml = '';
 
-		questions.forEach((item, index) => {
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
 			const selectedValue = selectedAnswers[index];
 			const isConfirmed = confirmedAnswers[index];
 
@@ -1108,22 +1118,43 @@
 				`;
 			}).join('');
 
+			// ✅ FEEDBACK
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
 			questionsHtml += `
 				<div class="single-question">
 					<h4>${index + 1}. ${item.question}</h4>
 					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
 				</div>
 			`;
 		});
 
-		// 🔥 ONE CARD ONLY
 		questionList.innerHTML = `
 			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
 				${questionsHtml}
 			</div>
 		`;
 
 		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
@@ -1134,20 +1165,42 @@
 	};
 
 	function confirmAnswer() {
-		// Check if all answered
-		if (selectedAnswers.includes('')) {
-			alert('Sagutan muna lahat bago kumpirmahin.');
-			return;
+
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// check only current card
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				return;
+			}
 		}
 
-		questions.forEach((item, index) => {
-			confirmedAnswers[index] = true;
-		});
+		// confirm answers
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
 
 		renderAllQuestions();
 
-		// enable submit
-		submitBtn.style.display = 'inline-flex';
+		// ✅ SHOW NEXT BUTTON INSTEAD OF AUTO MOVE
+		if (currentCard < 2) {
+			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+		}
+		
+	}
+
+	function goNextCard() {
+		if (currentCard >= 2) return;
+
+		currentCard++;
+
+		// hide button again
+		document.getElementById('nextCardBtn').style.display = 'none';
+
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function goNextQuestion() {
@@ -1264,8 +1317,8 @@
 	}
 
 	function restartQuiz() {
-		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 2 retries.');
+		if (retryCount >= maxRetries - 1) {
+			alert('Naabot mo na ang maximum na 3 attempts.');
 			return;
 		}
 
@@ -1273,6 +1326,7 @@
 
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
+		currentCard = 0;
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';

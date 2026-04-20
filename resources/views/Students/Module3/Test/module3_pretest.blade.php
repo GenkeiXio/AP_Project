@@ -1,579 +1,1347 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 3\Pre-Test_mod3.blade.php --}}
-@extends('Students.studentslayout')
-@section('title', 'Paunang Pagsusulit Modyul 3')
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hamon at Tugon: Module 3 Paunang Pagsusulit</title>
 
-@push('styles')
-<style>
-.mod3-pretest-wrap {
-    max-width: 1000px;
-    margin: 24px auto;
-    padding: 0 16px 28px;
-}
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
-.mod3-head {
-    background: #ffffff;
-    border: 2px solid #d8eadb;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 10px 22px rgba(29, 92, 52, 0.1);
-}
+	<style>
+		:root {
+			--bg-1: #fffaf3;
+			--bg-2: #fff3df;
+			--card: rgba(255, 255, 255, 0.94);
+			--text: #3d2a1a;
+			--muted: #7a6143;
+			--accent: #6dbf7e;
+			--accent-dark: #4da862;
+			--accent-soft: #eefaf1;
+			--warm: #f4c97a;
+			--wrong-soft: #fff3e6;
+			--wrong-border: #efc48f;
+			--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
+			--radius-xl: 24px;
+			--radius-lg: 18px;
+			--radius-md: 14px;
+		}
 
-.mod3-head h1 {
-    margin: 0;
-    color: #1f4f32;
-    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
-}
+		* {
+			box-sizing: border-box;
+		}
 
-.mod3-head p {
-    margin: 8px 0 0;
-    color: #40624b;
-    line-height: 1.5;
-}
+		body {
+			display: block;
+			min-height: 100vh;
+			padding: 28px 20px 40px;
+			overflow-x: hidden;
+			background:
+				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
+				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
+				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+		}
 
-.mod3-score-guide {
-    margin-top: 12px;
-    padding: 12px;
-    border-radius: 12px;
-    background: #f6fff7;
-    border: 1px solid #d7e7da;
-    color: #305942;
-}
+		.background-map {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			object-fit: cover;
+			z-index: -1;
+		}
 
-.mod3-questions {
-    margin-top: 16px;
-    display: grid;
-    gap: 12px;
-}
+		.main-wrapper {
+			display: block;
+			width: 100%;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
 
-.mod3-q {
-    background: #fff;
-    border: 1px solid #dfece1;
-    border-radius: 14px;
-    padding: 14px;
-    transition: all 0.2s ease;
-}
+		.pretest-wrap {
+			width: 100%;
+			max-width: 880px;
+			margin: 0 auto;
+		}
 
-.mod3-q.missing {
-    border: 2px solid #d94141;
-    background: #fff8f8;
-    box-shadow: 0 0 0 2px rgba(217, 65, 65, 0.2);
-}
+		.pretest-card {
+			position: relative;
+			background: var(--card);
+			backdrop-filter: blur(10px);
+			border-radius: 28px;
+			box-shadow: var(--shadow);
+			padding: 22px;
+			border: 1px solid rgba(230, 208, 175, 0.7);
+			overflow: hidden;
+		}
 
-.mod3-q-title {
-    margin: 0 0 10px;
-    color: #214a33;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
+		.pretest-card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background:
+				linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+			pointer-events: none;
+		}
 
-.mod3-q-title .status-icon {
-    font-size: 0.9rem;
-}
+		.pretest-header {
+			text-align: center;
+			margin-bottom: 16px;
+			position: relative;
+			z-index: 2;
+		}
 
-.mod3-opt {
-    display: block;
-    padding: 8px 10px;
-    border: 1px solid #dde9e0;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: 0.15s;
-}
+		.pretest-header .header-icons {
+			font-size: 1.2rem;
+			letter-spacing: 3px;
+			margin-bottom: 4px;
+		}
 
-.mod3-opt:hover {
-    background: #f6fff7;
-}
+		.pretest-header .subtitle {
+			font-size: 0.85rem;
+			font-weight: 800;
+			color: var(--muted);
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+		}
 
-.mod3-opt.correct {
-    border-color: #3ca75e;
-    background: #ebfff0;
-}
+		.pretest-header h1 {
+			font-family: "Baloo 2", cursive;
+			font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+			margin: 6px 0 4px;
+			color: var(--text);
+			line-height: 1.1;
+		}
 
-.mod3-opt.wrong {
-    border-color: #d94141;
-    background: #fff0f0;
-}
+		.pretest-header p {
+			color: var(--muted);
+			font-weight: 700;
+			margin-top: 6px;
+			font-size: 0.94rem;
+		}
 
-.mod3-opt input[type="radio"] {
-    margin-right: 10px;
-    cursor: pointer;
-}
+		.pretest-note {
+			background: linear-gradient(180deg, #fffaf0 0%, #fff4df 100%);
+			border: 1px solid #efd9b3;
+			color: #6e5233;
+			border-radius: 16px;
+			padding: 12px 14px;
+			font-size: 0.92rem;
+			margin-bottom: 16px;
+			font-weight: 700;
+			text-align: center;
+		}
 
-.mod3-actions {
-    margin-top: 16px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+		.quiz-page {
+			display: block;
+			position: relative;
+			z-index: 2;
+		}
 
-.mod3-btn {
-    border: none;
-    border-radius: 12px;
-    padding: 11px 16px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+		.quiz-progress {
+			max-width: 520px;
+			margin: 0 auto 18px;
+		}
 
-.mod3-btn-primary {
-    background: linear-gradient(180deg, #7fd46a, #59ab44);
-    color: #11351f;
-}
+		.progress-topline {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 15px;
+			flex-wrap: wrap;
+		}
 
-.mod3-btn-primary:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(89, 171, 68, 0.3);
-}
+		.progress-label {
+			font-size: 0.84rem;
+			font-weight: 900;
+			color: var(--muted);
+			letter-spacing: 0.4px;
+		}
 
-.mod3-btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+		.progress-mini-badge {
+			font-size: 0.85rem;
+			font-weight: 900;
+			padding: 6px 14px;
+			color: #5b472f;
+			background: #fff7ea;
+			border: 1px solid #efd9b3;
+			/* padding: 5px 10px; */
+			border-radius: 999px;
+		}
 
-.mod3-btn-ghost {
-    background: #eef8ef;
-    color: #2f5a40;
-    border: 1px solid #c9dfcd;
-}
+		.progress-dots {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 6px;
+			flex-wrap: wrap;
+			margin-bottom: 10px;
+		}
 
-.mod3-btn-ghost:hover {
-    background: #e2f0e4;
-}
+		.progress-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #dfd2c3;
+			transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
 
-.mod3-result {
-    margin-top: 16px;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #d8eadb;
-    background: #fff;
-    display: none;
-}
+		.progress-dot.completed {
+			background: var(--accent);
+			transform: scale(1.15);
+		}
 
-.mod3-result.show {
-    display: block;
-}
+		.progress-dot.active {
+			background: #57ba77;
+			transform: scale(1.45);
+			box-shadow: 0 0 10px rgba(109, 191, 126, 0.45);
+		}
 
-.mod3-score {
-    margin: 0;
-    font-weight: 900;
-    color: #1e4d31;
-}
+		.progress-track {
+			width: 100%;
+			height: 10px;
+			border-radius: 999px;
+			background: #eadfcd;
+			overflow: hidden;
+		}
 
-.mod3-level {
-    margin: 8px 0 0;
-    font-weight: 800;
-}
+		.progress-fill {
+			height: 100%;
+			width: 0%;
+			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+			border-radius: inherit;
+			transition: width 0.35s ease;
+		}
 
-.mod3-feedback {
-    margin: 10px 0 0;
-    color: #3f604a;
-}
+		.flashcard-stage {
+			position: relative;
+			min-height: 360px;
+			perspective: 1200px;
+		}
 
-.mod3-next {
-    margin-top: 14px;
-}
+		.question-list {
+			display: block;
+			position: relative;
+			min-height: 360px;
+		}
 
-.mod3-error-message {
-    margin-top: 12px;
-    padding: 10px;
-    background: #fff0f0;
-    border: 1px solid #d94141;
-    border-radius: 10px;
-    color: #b33;
-    font-weight: 600;
-    display: none;
-}
+		.question-item {
+			position: relative;
+			background:
+				linear-gradient(180deg, #ffffff 0%, #fffdf9 100%);
+			border: 1px solid #eadcc5;
+			border-radius: 24px;
+			padding: 18px;
+			min-height: 360px;
+			box-shadow: 0 12px 30px rgba(91, 66, 33, 0.08);
+			overflow: hidden;
+		}
 
-.mod3-error-message.show {
-    display: block;
-}
+		.question-item::after {
+			content: "";
+			position: absolute;
+			top: -60px;
+			right: -60px;
+			width: 160px;
+			height: 160px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(109,191,126,0.13) 0%, rgba(109,191,126,0) 68%);
+			pointer-events: none;
+		}
 
-.mod3-progress {
-    margin-top: 16px;
-    padding: 10px;
-    background: #f0f7f2;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: 600;
-    color: #2f5a40;
-}
+		.card-chip-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			flex-wrap: wrap;
+			margin-bottom: 12px;
+		}
 
-.mod3-progress span {
-    color: #1f7a47;
-    font-size: 1.2rem;
-    font-weight: 800;
-}
-</style>
-@endpush
+		.card-chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			border-radius: 999px;
+			font-size: 0.8rem;
+			font-weight: 900;
+			background: #fff7ea;
+			color: #694d30;
+			border: 1px solid #efd9b3;
+		}
 
-@section('content')
-    <div class="mod3-pretest-wrap">
-        <section class="mod3-head">
-            <h1>🎮 PRE-TEST: Gaano Ka Kahanda? (Mas Mataas na Antas)</h1>
-            <p><strong>Panuto:</strong> Basahin at unawain ang bawat sitwasyon. Piliin ang pinakaangkop na sagot.</p>
+		.card-tip {
+			font-size: 0.78rem;
+			font-weight: 800;
+			color: var(--muted);
+		}
 
-            <div class="mod3-score-guide">
-                <strong>Pagpapakahulugan ng Iskor:</strong><br>
-                0–5 → 🔴 Kailangan ng gabay<br>
-                6–10 → 🟡 May kaalaman<br>
-                11–15 → 🟢 Handa sa sakuna
-            </div>
-        </section>
+		.question-item h4 {
+			color: var(--text);
+			margin-bottom: 14px;
+			line-height: 1.5;
+			font-size: 1.02rem;
+			font-weight: 900;
+			padding-right: 18px;
+		}
 
-        <section class="mod3-questions" id="questionsRoot"></section>
+		.choices {
+			display: grid;
+			gap: 10px;
+		}
 
-        <div class="mod3-progress" id="progressBar">
-            Nasagot na: <span id="answeredCount">0</span> / <span id="totalCount">15</span> na tanong
-        </div>
+		.choice {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			border: 1px solid #e7d7bf;
+			border-radius: 16px;
+			padding: 11px 12px;
+			cursor: pointer;
+			transition: border-color 0.22s, background-color 0.22s, transform 0.18s, box-shadow 0.18s;
+			background: #fff;
+			position: relative;
+		}
 
-        <div class="mod3-error-message" id="errorMessage">
-            ⚠️ Pakisagutan muna ang lahat ng tanong bago ipasa ang pagsusulit.
-        </div>
+		.choice:hover {
+			border-color: #d4a574;
+			background: #fffaf1;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 18px rgba(170, 124, 67, 0.08);
+		}
 
-        <div class="mod3-actions">
-            <button class="mod3-btn mod3-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Iskor at Tamang Sagot</button>
-            <a class="mod3-btn mod3-btn-ghost" href="{{ route('module3.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
-        </div>
+		.choice.selected {
+			border-color: var(--accent);
+			background: #f3fbf5;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 22px rgba(109, 191, 126, 0.12);
+		}
 
-        <section class="mod3-result" id="resultBox">
-            <p class="mod3-score" id="scoreText"></p>
-            <p class="mod3-level" id="levelText"></p>
-            <p class="mod3-feedback">Ang iyong paunang pagsusulit ay magsisilbing panimulang batayan ng iyong kaalaman. Handa ka na bang mas pagyamanin pa ito?</p>
-            <div class="mod3-next">
-                <a class="mod3-btn mod3-btn-primary" href="{{ route('module3.balik_aral') }}" style="text-decoration:none;display:inline-flex;align-items:center;">Magpatuloy sa Susunod na Pahina →</a>
-            </div>
-        </section>
-    </div>
+		.choice.confirmed {
+			border-color: var(--accent);
+			background: #e8f5eb;
+			position: relative;
+		}
 
-    <script>
-        const quizItems = [
-            {
-                q: 'Ano ang pinakaangkop na paglalarawan ng banta?',
-                options: ['A. Pangyayaring nakalipas na', 'B. Banta na maaaring magdulot ng pinsala', 'C. Plano ng pamahalaan', 'D. Uri ng komunidad'],
-                answer: 1
-            },
-            {
-                q: 'Kailan nagiging sakuna ang isang banta?',
-                options: ['A. Kapag may ulan', 'B. Kapag may tao sa lugar', 'C. Kapag may pinsala dahil sa kahinaan ng komunidad', 'D. Kapag gabi'],
-                answer: 2
-            },
-            {
-                q: 'Ano ang ibig sabihin ng kahinaan?',
-                options: ['A. Kakayahang tumulong', 'B. Kahinaan ng tao o lugar sa panganib', 'C. Uri ng banta', 'D. Plano ng barangay'],
-                answer: 1
-            },
-            {
-                q: 'Kung ang isang komunidad ay matibay ang bahay ngunit nasa lugar na madalas bahain, ano ito?',
-                options: ['A. Walang banta', 'B. Mataas na kahinaan pa rin', 'C. Walang panganib', 'D. Ligtas na lugar'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang layunin ng paghahanda sa sakuna?',
-                options: ['A. Maghintay ng tulong', 'B. Mabawasan ang epekto ng sakuna', 'C. Maglaro', 'D. Magtago'],
-                answer: 1
-            },
-            {
-                q: 'Alin ang pinakamahalagang gawin bago ang bagyo?',
-                options: ['A. Lumabas', 'B. Maghanda ng kagamitang pang-emergency at makinig sa balita', 'C. Matulog', 'D. Mag-video'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang pinakaangkop na gawin kapag may utos ng paglikas?',
-                options: ['A. Maghintay muna', 'B. Sumunod agad upang maiwasan ang panganib', 'C. Huwag pansinin', 'D. Lumabas mag-isa'],
-                answer: 1
-            },
-            {
-                q: 'Bakit mahalaga ang maagang babala?',
-                options: ['A. Para sa ingay', 'B. Para mabigyan ng oras ang tao na maghanda', 'C. Para maglibang', 'D. Para maghintay'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang katangian ng lapit na mula sa itaas?',
-                options: ['A. Komunidad ang lider', 'B. Pamahalaan ang pangunahing nagdedesisyon', 'C. Walang plano', 'D. Walang aksyon'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang limitasyon ng lapit na mula sa itaas?',
-                options: ['A. Mabilis', 'B. Hindi isinasaalang-alang ang lokal na pangangailangan', 'C. Malakas', 'D. Kumpleto'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang pangunahing ideya ng lapit na mula sa ibaba?',
-                options: ['A. Walang lider', 'B. Aktibong pakikilahok ng komunidad', 'C. Walang plano', 'D. Mabagal'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang layunin ng pamamahalang nakabatay sa komunidad sa pagbawas ng panganib sa sakuna?',
-                options: ['A. Maghintay ng tulong', 'B. Palakasin ang kakayahan ng komunidad sa sakuna', 'C. Magtago', 'D. Maglaro'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang tamang gawin habang lumilindol?',
-                options: ['A. Tumakbo palabas agad', 'B. Magtago sa ilalim ng matibay na mesa', 'C. Tumalon', 'D. Sumigaw'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang pinakamainam gawin pagkatapos ng baha?',
-                options: ['A. Pumasok agad', 'B. Suriin muna ang kuryente at paligid', 'C. Matulog', 'D. Maglaro'],
-                answer: 1
-            },
-            {
-                q: 'Ano ang ibig sabihin ng katatagan?',
-                options: ['A. Kahinaan', 'B. Kakayahang makabangon at makapag-angkop', 'C. Uri ng sakuna', 'D. Uri ng lupa'],
-                answer: 1
-            }
-        ];
+		.choice.confirmed::after {
+			content: "✓";
+			position: absolute;
+			right: 12px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--accent);
+			font-weight: bold;
+			font-size: 1.2rem;
+		}
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
+		.choice.correct-reveal {
+			border-color: var(--accent);
+			background: #f1fbf4;
+			box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.12);
+		}
 
-        function shuffleQuestionsAndChoices() {
-            shuffleArray(quizItems);
-            quizItems.forEach(item => {
-                const originalCorrectIndex = item.answer;
-                const originalCorrectOption = item.options[originalCorrectIndex];
-                shuffleArray(item.options);
-                item.answer = item.options.indexOf(originalCorrectOption);
-            });
-        }
+		.choice.soft-wrong {
+			border-color: var(--wrong-border);
+			background: var(--wrong-soft);
+		}
 
-        const root = document.getElementById('questionsRoot');
-        const checkBtn = document.getElementById('checkBtn');
-        const resultBox = document.getElementById('resultBox');
-        const scoreText = document.getElementById('scoreText');
-        const levelText = document.getElementById('levelText');
-        const errorMessage = document.getElementById('errorMessage');
-        const answeredCountSpan = document.getElementById('answeredCount');
-        const totalCountSpan = document.getElementById('totalCount');
-        
-        totalCountSpan.textContent = quizItems.length;
+		.choice input {
+			margin-top: 4px;
+			accent-color: var(--accent);
+			cursor: pointer;
+			transform: scale(1.05);
+		}
 
-        // Store submitted flag to prevent double submission
-        let isSubmitted = false;
-        let answeredStatus = new Array(quizItems.length).fill(false);
+		.choice span {
+			color: #4e3823;
+			font-size: 0.93rem;
+			line-height: 1.45;
+			font-weight: 700;
+		}
 
-        function updateProgress() {
-            const answered = answeredStatus.filter(status => status === true).length;
-            answeredCountSpan.textContent = answered;
-            
-            // Enable button only when all questions are answered AND not yet submitted
-            if (answered === quizItems.length && !isSubmitted) {
-                checkBtn.disabled = false;
-            } else if (answered !== quizItems.length) {
-                checkBtn.disabled = true;
-            }
-        }
+		.reaction-box {
+			margin-top: 14px;
+			min-height: 64px;
+			border-radius: 16px;
+			padding: 12px 14px;
+			font-weight: 800;
+			font-size: 0.92rem;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			opacity: 0;
+			transform: translateY(8px);
+			pointer-events: none;
+			transition: opacity 0.25s ease, transform 0.25s ease;
+		}
 
-        function renderQuiz() {
-            root.innerHTML = quizItems.map((item, index) => {
-                const optionsHtml = item.options.map((opt, optIndex) => `
-                    <label class="mod3-opt" data-q="${index}" data-opt="${optIndex}">
-                        <input type="radio" name="q_${index}" value="${optIndex}"> ${opt}
-                    </label>
-                `).join('');
+		.reaction-box.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
 
-                return `
-                    <article class="mod3-q" id="q_${index}" data-q-index="${index}">
-                        <p class="mod3-q-title">
-                            <span>${item.q}</span>
-                            <span class="status-icon" id="status_${index}"></span>
-                        </p>
-                        <div class="options-container">${optionsHtml}</div>
-                    </article>
-                `;
-            }).join('');
+		.reaction-box.correct {
+			background: linear-gradient(180deg, #eefaf1 0%, #e4f7ea 100%);
+			border: 1px solid #bfe3c8;
+			color: #2f6c44;
+		}
 
-            // Add event listeners to each radio button to update status
-            quizItems.forEach((_, index) => {
-                const radios = document.querySelectorAll(`input[name="q_${index}"]`);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', () => {
-                        answeredStatus[index] = true;
-                        updateQuestionStatus(index);
-                        updateProgress();
-                        // Hide error message when user starts answering
-                        errorMessage.classList.remove('show');
-                    });
-                });
-            });
-        }
+		.reaction-box.gentle {
+			background: linear-gradient(180deg, #fff8ef 0%, #fff2df 100%);
+			border: 1px solid #efd2a7;
+			color: #7a5a2e;
+		}
 
-        function updateQuestionStatus(qIndex) {
-            const selected = getChosenValue(qIndex);
-            const statusIcon = document.getElementById(`status_${qIndex}`);
-            const questionCard = document.getElementById(`q_${qIndex}`);
-            
-            if (selected !== -1) {
-                // Question is answered - show green check
-                statusIcon.innerHTML = '✅';
-                statusIcon.style.color = '#3ca75e';
-                questionCard.classList.remove('missing');
-            } else {
-                // Question is unanswered - show nothing (no red X)
-                statusIcon.innerHTML = '';
-                questionCard.classList.add('missing');
-            }
-        }
+		.reaction-emoji {
+			font-size: 1.25rem;
+			line-height: 1;
+			flex-shrink: 0;
+		}
 
-        function checkAllQuestionsAnswered() {
-            let allAnswered = true;
-            const missingQuestions = [];
+		.action-row {
+			margin-top: 16px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
 
-            for (let i = 0; i < quizItems.length; i++) {
-                const selected = getChosenValue(i);
-                if (selected === -1) {
-                    allAnswered = false;
-                    missingQuestions.push(i + 1);
-                    updateQuestionStatus(i);
-                } else {
-                    answeredStatus[i] = true;
-                    updateQuestionStatus(i);
-                }
-            }
+		.btn-primary,
+		.btn-secondary,
+		.btn-confirm {
+			border: none;
+			outline: none;
+			text-decoration: none;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			gap: 8px;
+			min-width: 160px;
+			padding: 11px 16px;
+			border-radius: 14px;
+			font-size: 0.92rem;
+			font-family: "Baloo 2", cursive;
+			font-weight: 800;
+			cursor: pointer;
+			transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+		}
 
-            return { allAnswered, missingQuestions };
-        }
+		.btn-primary {
+			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+			color: #fff;
+			box-shadow: 0 10px 22px rgba(77, 168, 98, 0.22);
+		}
 
-        function scrollToFirstMissing() {
-            for (let i = 0; i < quizItems.length; i++) {
-                const selected = getChosenValue(i);
-                if (selected === -1) {
-                    const questionElement = document.getElementById(`q_${i}`);
-                    if (questionElement) {
-                        questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        questionElement.style.transition = 'all 0.3s ease';
-                        setTimeout(() => {
-                            questionElement.style.borderColor = '#d94141';
-                        }, 300);
-                        setTimeout(() => {
-                            questionElement.style.borderColor = '';
-                        }, 2000);
-                    }
-                    break;
-                }
-            }
-        }
+		.btn-primary:hover:not([disabled]),
+		.btn-secondary:hover:not([disabled]),
+		.btn-confirm:hover:not([disabled]) {
+			transform: translateY(-2px);
+		}
 
-        function getChosenValue(qIndex) {
-            const selected = document.querySelector(`input[name="q_${qIndex}"]:checked`);
-            return selected ? Number(selected.value) : -1;
-        }
+		.btn-primary[disabled],
+		.btn-secondary[disabled],
+		.btn-confirm[disabled] {
+			opacity: 0.5;
+			cursor: not-allowed;
+			transform: none;
+			box-shadow: none;
+		}
 
-        function interpretScore(score) {
-            if (score <= 5) return '🔴 Kailangan ng gabay';
-            if (score <= 10) return '🟡 may kaalaman';
-            return '🟢 Handa sa sakuna';
-        }
+		.btn-secondary {
+			background: #fff;
+			color: #4c3a26;
+			border: 2px solid #d7c4a3;
+			box-shadow: 0 8px 18px rgba(120, 90, 50, 0.08);
+		}
 
-        function revealAnswersAndScore() {
-            let score = 0;
+		.btn-confirm {
+			background: linear-gradient(135deg, #f4c97a, #e5b55c);
+			color: #4a2f14;
+			box-shadow: 0 10px 22px rgba(244, 201, 122, 0.3);
+		}
 
-            quizItems.forEach((item, index) => {
-                const selectedValue = getChosenValue(index);
-                if (selectedValue === item.answer) score += 1;
+		.result-page {
+			display: none;
+			max-width: 560px;
+			margin: 12px auto 0;
+		}
 
-                const optionLabels = root.querySelectorAll(`label[data-q="${index}"]`);
-                optionLabels.forEach((label) => {
-                    const opt = Number(label.dataset.opt);
-                    label.classList.remove('correct', 'wrong');
-                    if (opt === item.answer) {
-                        label.classList.add('correct');
-                    }
-                    if (selectedValue === opt && selectedValue !== item.answer) {
-                        label.classList.add('wrong');
-                    }
-                });
-            });
+		.result-page.show {
+			display: block;
+			animation: fadePop 0.45s ease;
+		}
 
-            scoreText.textContent = `Iskor: ${score} / 15`;
-            levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
-            resultBox.classList.add('show');
-            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            return score;
-        }
+		.result-box {
+			display: none;
+			margin-top: 14px;
+			border-radius: 24px;
+			border: 2px solid rgba(109, 191, 126, 0.28);
+			background: linear-gradient(180deg, #fffdf7 0%, #f6efe2 100%);
+			color: var(--text);
+			padding: 18px 16px;
+			text-align: center;
+			font-weight: 800;
+			box-shadow: 0 14px 32px rgba(91, 66, 33, 0.1);
+		}
 
-        function submitToServer(score, answers) {
-            fetch("{{ route('student.module3.pretest.store') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ answers, score: score })
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log("Saved:", data);
-            })
-            .catch(err => console.error("Save error:", err));
-        }
+		.result-box.show {
+			display: block;
+		}
 
-        // Main check button handler
-        checkBtn.addEventListener('click', () => {
-            // Prevent multiple submissions
-            if (isSubmitted) {
-                return;
-            }
-            
-            // Check if all questions are answered
-            const { allAnswered, missingQuestions } = checkAllQuestionsAnswered();
-            
-            if (!allAnswered) {
-                // Show error message
-                errorMessage.classList.add('show');
-                // Scroll to first missing question
-                scrollToFirstMissing();
-                return;
-            }
-            
-            // Hide error message if all are answered
-            errorMessage.classList.remove('show');
-            
-            // Get all answers
-            const answers = quizItems.map((_, index) => getChosenValue(index));
-            
-            // Calculate score and reveal answers
-            const score = revealAnswersAndScore();
-            
-            // Mark as submitted
-            isSubmitted = true;
-            
-            // Disable all radio buttons after submission
-            for (let i = 0; i < quizItems.length; i++) {
-                const radios = document.querySelectorAll(`input[name="q_${i}"]`);
-                radios.forEach(radio => {
-                    radio.disabled = true;
-                });
-            }
-            
-            // Save to database
-            submitToServer(score, answers);
-            
-            // Change button text and disable it
-            checkBtn.textContent = '✓ Naisumite na';
-            checkBtn.disabled = true;
-            checkBtn.style.opacity = '0.7';
-            checkBtn.style.cursor = 'not-allowed';
-        });
+		.result-title {
+			font-family: "Baloo 2", cursive;
+			font-size: clamp(1.55rem, 3.4vw, 2rem);
+			color: var(--text);
+			margin-bottom: 10px;
+		}
 
-        // Initial render
-        shuffleQuestionsAndChoices();
-        renderQuiz();
-        
-        // Initialize status icons (no X's, just empty)
-        setTimeout(() => {
-            for (let i = 0; i < quizItems.length; i++) {
-                updateQuestionStatus(i);
-            }
-            updateProgress();
-        }, 100);
-    </script>
-@endsection
+		.result-ring {
+			--progress: 0;
+			width: 160px;
+			height: 160px;
+			margin: 0 auto 10px;
+			border-radius: 50%;
+			background: conic-gradient(#57ba77 calc(var(--progress) * 1%), #d9e8dc 0);
+			display: grid;
+			place-items: center;
+			position: relative;
+			box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
+		}
+
+		.result-ring::before {
+			content: "";
+			width: 122px;
+			height: 122px;
+			border-radius: 50%;
+			background: linear-gradient(180deg, #fffdf8 0%, #f2eadf 100%);
+			position: absolute;
+			inset: 0;
+			margin: auto;
+		}
+
+		.result-percent {
+			position: relative;
+			z-index: 1;
+			font-size: 1.7rem;
+			font-weight: 900;
+			color: #2f6c44;
+		}
+
+		.result-score {
+			font-size: 1rem;
+			font-weight: 800;
+			color: #4c3a26;
+			margin-top: 4px;
+		}
+
+		.result-subtext {
+			margin-top: 6px;
+			font-size: 0.85rem;
+			font-weight: 700;
+			color: var(--muted);
+		}
+
+		.result-feedback {
+			margin-top: 6px;
+			font-size: 0.9rem;
+			font-weight: 800;
+			color: #6f5538;
+		}
+
+		.badge-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			border-radius: 999px;
+			font-size: 0.8rem;
+			font-weight: 900;
+			margin-top: 8px;
+			background: #eefaf1;
+			color: #2f6c44;
+			border: 1px solid #bfe3c8;
+		}
+
+		.result-actions {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 12px;
+		}
+
+		.back-button {
+			position: fixed;
+			top: 20px;
+			left: 20px;
+			z-index: 100;
+			background-color: rgba(255, 255, 255, 0.9);
+			padding: 10px 15px;
+			border-radius: 8px;
+			text-decoration: none;
+			color: #1a1a1a;
+			font-weight: bold;
+			font-family: 'Courier New', Courier, monospace;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+			transition: transform 0.2s;
+		}
+
+		.back-button:hover {
+			transform: scale(1.06);
+		}
+
+		.confirm-pending {
+			animation: pulseBorder 1.5s ease-in-out infinite;
+		}
+
+		@keyframes pulseBorder {
+			0%, 100% { border-color: #e7d7bf; }
+			50% { border-color: #f4c97a; }
+		}
+
+		@media (max-width: 768px) {
+			body {
+				padding: 14px 10px 20px;
+			}
+
+			.pretest-card {
+				padding: 14px;
+				border-radius: 22px;
+			}
+
+			.question-item {
+				padding: 15px;
+				min-height: 340px;
+			}
+
+			.flashcard-stage,
+			.question-list {
+				min-height: 340px;
+			}
+
+			.action-row {
+				flex-direction: column;
+			}
+
+			.btn-primary,
+			.btn-secondary,
+			.btn-confirm {
+				width: 100%;
+			}
+
+			.result-ring {
+				width: 140px;
+				height: 140px;
+			}
+
+			.result-ring::before {
+				width: 106px;
+				height: 106px;
+			}
+
+			.result-percent {
+				font-size: 1.42rem;
+			}
+
+			.back-button {
+				top: 12px;
+				left: 12px;
+				padding: 8px 12px;
+				font-size: 0.85rem;
+			}
+		}
+
+		.card-slide-in-right {
+			animation: slideInRight 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.card-slide-in-left {
+			animation: slideInLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.card-slide-in-up {
+			animation: slideInUp 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.pulse-pop {
+			animation: pulsePop 0.45s ease;
+		}
+
+		@keyframes slideInRight {
+			from {
+				opacity: 0;
+				transform: translateX(60px) rotate(0.7deg) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0) rotate(0) scale(1);
+			}
+		}
+
+		@keyframes slideInLeft {
+			from {
+				opacity: 0;
+				transform: translateX(-60px) rotate(-0.7deg) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0) rotate(0) scale(1);
+			}
+		}
+
+		@keyframes slideInUp {
+			from {
+				opacity: 0;
+				transform: translateY(42px) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@keyframes fadePop {
+			from {
+				opacity: 0;
+				transform: translateY(18px) scale(0.98);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@keyframes pulsePop {
+			0% { transform: scale(0.98); }
+			50% { transform: scale(1.015); }
+			100% { transform: scale(1); }
+		}
+
+		.confetti-piece {
+			position: fixed;
+			top: -20px;
+			width: 10px;
+			height: 16px;
+			border-radius: 3px;
+			opacity: 0.95;
+			z-index: 9999;
+			pointer-events: none;
+			animation: confettiFall linear forwards;
+		}
+
+		@keyframes confettiFall {
+			0% {
+				transform: translateY(0) rotate(0deg);
+				opacity: 1;
+			}
+			100% {
+				transform: translateY(110vh) rotate(720deg);
+				opacity: 0;
+			}
+		}
+
+		.single-question {
+			margin-bottom: 18px;
+			padding-bottom: 12px;
+			border-bottom: 1px dashed #e7d7bf;
+		}
+
+		.single-question:last-child {
+			border-bottom: none;
+		}
+
+		.retry-indicator {
+			text-align: center;
+			font-size: 0.85rem;
+			font-weight: 900;
+			color: #5b472f;
+			background: #fff7ea;
+			border: 1px solid #efd9b3;
+			padding: 6px 12px;
+			border-radius: 999px;
+			margin-top: 10px;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+
+<img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
+
+<a href="{{ route('module3.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
+
+<div class="main-wrapper">
+	<div class="pretest-wrap">
+		<div class="pretest-card">
+			<div class="pretest-header">
+				<div class="header-icons">🔥 🛡️ 🌊</div>
+				<div class="subtitle">Module 3</div>
+				<h1>PAUNANG PAGSUSULIT</h1>
+				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinaka angkop na sagot.</p>
+			</div>
+
+			<!-- <div class="pretest-note">
+				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
+			</div> -->
+
+			<form id="preTestForm">
+				<div class="quiz-page" id="quizPage">
+					<div class="quiz-progress">
+						<div class="progress-topline">
+							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
+						</div>
+						<div class="progress-dots" id="progressDots"></div>
+					</div>
+
+					<div class="flashcard-stage">
+						<div class="question-list" id="questionList"></div>
+					</div>
+
+					<div class="action-row">
+						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
+
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">
+							Tapusin ang Paunang Pagsusulit 🚀
+						</button>
+					</div>
+				</div>
+
+				<div class="result-page" id="resultPage" aria-live="polite">
+					<div class="result-box show" id="resultBox">
+						<div class="result-title">Resulta ng Paunang Pagsusulit</div>
+						<div class="result-ring" id="resultRing" style="--progress:0;">
+							<div class="result-percent" id="resultPercent">0/0</div>
+						</div>
+						<div class="result-score" id="resultScoreText"></div>
+						<div class="badge-pill" id="resultBadge">🌟 Mahusay!</div>
+						<div class="result-feedback" id="resultFeedback"></div>
+						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
+
+						<div class="retry-indicator" id="retryIndicator">
+							🔁 Natitirang pagsubok: 3 / 3
+						</div>
+
+						<div class="result-actions">
+							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+							<a href="{{ route('inner.map3') }}" class="btn-primary">Magpatuloy →</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	const questions = [
+		{
+			question: 'Ayon sa konsepto ng disaster management, alin ang pinakaangkop na paglalarawan nito?',
+			options: {
+				a: 'Proseso ng paghahanda, pagtugon, at pagbangon mula sa sakuna',
+				b: 'Paraan ng pag-iwas lamang sa mga sakuna sa komunidad',
+				c: 'Sistema ng pagtulong pagkatapos lamang ng kalamidad',
+				d: 'Aktibidad ng pamahalaan sa panahon ng sakuna lamang'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa isang komunidad, may paparating na bagyo at may babala ang PAGASA. Ano ang pinakaangkop na unang hakbang?',
+			options: {
+				a: 'Balewalain ang babala at maghintay ng karagdagang impormasyon',
+				b: 'Makinig sa balita at magsimula ng paghahanda sa pamilya',
+				c: 'Maghintay ng aksyon mula sa kapitbahay bago kumilos',
+				d: 'Ipagpatuloy ang normal na gawain kahit may babala'
+			},
+			answer: 'b'
+		},
+		{
+			question: 'Alin sa mga sumusunod ang pinakamalinaw na halimbawa ng hazard?',
+			options: {
+				a: 'Malakas na bagyo na maaaring magdulot ng pagbaha',
+				b: 'Mahinang bahay na madaling masira ng hangin',
+				c: 'Kakulangan ng kaalaman ng mga tao sa komunidad',
+				d: 'Pinsalang natamo matapos ang isang sakuna'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin ang pinakamahusay na paglalarawan ng vulnerability?',
+			options: {
+				a: 'Kahinaan ng tao o lugar na madaling maapektuhan ng hazard',
+				b: 'Banta na dulot ng kalikasan o gawain ng tao',
+				c: 'Pinsalang dulot ng kalamidad sa komunidad',
+				d: 'Kakayahan ng komunidad na makabangon sa sakuna'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Kailan nagiging disaster ang isang hazard?',
+			options: {
+				a: 'Kapag nagdulot ito ng malaking pinsala sa tao at kapaligiran',
+				b: 'Kapag may babala mula sa mga awtoridad',
+				c: 'Kapag ito ay nangyari sa isang urban na lugar',
+				d: 'Kapag ito ay inaasahan ng mga tao sa komunidad'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Bakit mas mataas ang risk sa mga pamilyang nakatira malapit sa ilog?',
+			options: {
+				a: 'Mas mataas ang kanilang exposure sa posibleng pagbaha',
+				b: 'Mas marami silang mapagkukunan ng tubig sa araw-araw',
+				c: 'Mas malamig ang klima sa mga lugar na malapit sa ilog',
+				d: 'Mas mabilis ang transportasyon sa mga lugar na ito'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin ang nagpapakita ng resilience ng isang komunidad?',
+			options: {
+				a: 'Kakayahan nitong makabangon at makapag-adjust matapos ang sakuna',
+				b: 'Pagkakaroon ng maraming hazard sa isang lugar',
+				c: 'Pagtaas ng bilang ng populasyon sa komunidad',
+				d: 'Pagkakaroon ng mahihinang istruktura sa lugar'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin sa mga sumusunod ang halimbawa ng anthropogenic hazard?',
+			options: {
+				a: 'Polusyon mula sa pabrika at maling pagtatapon ng basura',
+				b: 'Lindol na dulot ng paggalaw ng tectonic plates',
+				c: 'Bagyong nabubuo sa karagatan',
+				d: 'Landslide na dulot ng malakas na ulan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Ano ang pinakamahalagang dahilan kung bakit kailangang maghanda bago ang sakuna?',
+			options: {
+				a: 'Upang mabawasan ang pinsala sa buhay at ari-arian',
+				b: 'Upang mapabilis ang pagdating ng tulong mula sa pamahalaan',
+				c: 'Upang maiwasan ang pagdating ng sakuna sa komunidad',
+				d: 'Upang makontrol ang lakas ng mga natural na hazard'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin ang nagpapakita ng tamang aksyon habang may bagyo?',
+			options: {
+				a: 'Lumikas sa evacuation center kung kinakailangan at may babala',
+				b: 'Manatili sa bahay kahit mataas na ang tubig sa paligid',
+				c: 'Lumabas upang obserbahan ang sitwasyon sa komunidad at paligid',
+				d: 'Maghintay ng rescue bago gumawa ng aksyon'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Ano ang pinakaangkop na gawain pagkatapos ng sakuna?',
+			options: {
+				a: 'Makilahok sa clean-up drive at tumulong sa komunidad',
+				b: 'Umalis agad at iwanan ang mga apektadong lugar',
+				c: 'Manood lamang at maghintay ng tulong mula sa iba',
+				d: 'Iwasan ang pakikilahok sa anumang gawain'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin ang nagpapakita ng mataas na risk sa isang komunidad?',
+			options: {
+				a: 'Mataas ang vulnerability at mababa ang kapasidad ng komunidad',
+				b: 'Mababa ang vulnerability at mataas ang kahandaan ng komunidad',
+				c: 'Mataas ang resilience at sapat ang kaalaman ng mga tao',
+				d: 'Mababa ang exposure at handa ang mga mamamayan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa dalawang approach sa disaster management, alin ang katangian ng bottom-up approach?',
+			options: {
+				a: 'Aktibong pakikilahok ng komunidad sa pagpaplano at desisyon',
+				b: 'Pagdedesisyon lamang ng pambansang pamahalaan',
+				c: 'Pag-asa sa utos ng mga opisyal sa lahat ng sitwasyon',
+				d: 'Limitadong partisipasyon ng mga mamamayan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Ano ang pangunahing kahinaan ng top-down approach sa disaster management?',
+			options: {
+				a: 'Hindi nito agad natutugunan ang tunay na pangangailangan ng komunidad',
+				b: 'Sobra ang partisipasyon ng mga mamamayan sa ganitong proseso',
+				c: 'Masyadong mabilis ang implementasyon ng mga programa para sa mga mamamayan',
+				d: 'Nakabatay ito sa karanasan ng mga lokal na residente'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Paano nakatutulong ang Community-Based Disaster Risk Reduction and Management (CBDRRM)?',
+			options: {
+				a: 'Pinapalakas nito ang partisipasyon ng komunidad sa paghahanda sa sakuna',
+				b: 'Pinapasa nito ang responsibilidad sa pambansang pamahalaan',
+				c: 'Nililimitahan nito ang pakikilahok ng mga mamamayan',
+				d: 'Binabawasan nito ang papel ng lokal na komunidad'
+			},
+			answer: 'a'
+		}
+	];
+
+	const questionList = document.getElementById('questionList');
+	const progressDots = document.getElementById('progressDots');
+	const quizProgressLabel = document.getElementById('quizProgressLabel');
+	const answeredCountLabel = document.getElementById('answeredCountLabel');
+	const quizPage = document.getElementById('quizPage');
+	const resultPage = document.getElementById('resultPage');
+	const nextBtn = document.getElementById('nextBtn');
+	const submitBtn = document.getElementById('submitBtn');
+	const confirmBtn = document.getElementById('confirmBtn');
+
+	const correctSfx = new Audio('/audio/mod2correct.mp3');
+	const wrongSfx = new Audio('/audio/mod2wrong.mp3');
+
+	const selectedAnswers = Array(questions.length).fill('');
+	const confirmedAnswers = Array(questions.length).fill(false);
+	let currentQuestionIndex = 0;
+	let lastDirection = 'right';
+	let pendingSelection = null;
+	let retryCount = 0;
+	const maxRetries = 3;
+
+	const questionsPerCard = 5;
+	let currentCard = 0;
+
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+		return array;
+	}
+
+	function shuffleQuestionsAndChoices() {
+		// Shuffle the questions array
+		shuffleArray(questions);
+		
+		// Shuffle choices for each question
+		questions.forEach(q => {
+			const optionKeys = Object.keys(q.options); // ['a', 'b', 'c', 'd']
+			const optionTexts = optionKeys.map(key => q.options[key]);
+			
+			// Shuffle the option texts
+			shuffleArray(optionTexts);
+			
+			// Create new options object with shuffled order
+			const newOptions = {};
+			optionKeys.forEach((key, index) => {
+				newOptions[key] = optionTexts[index];
+			});
+			
+			// Find which key now contains the correct answer
+			const correctAnswerText = q.options[q.answer];
+			const newAnswerKey = Object.keys(newOptions).find(key => newOptions[key] === correctAnswerText);
+			
+			q.options = newOptions;
+			q.answer = newAnswerKey;
+		});
+	}
+
+	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Ayos! Tuloy lang!', '🌟 Sakto! Magaling!', '🎊 Husay! Nakuha mo!', '🧠 Tama! Ang galing!'];
+	const gentleMessages = ['🌱 Ayos lang — bahagi ito ng pagkatuto.', '💛 Mabuti ang pagsubok! Bawi tayo sa susunod na bahagi.', '✨ Okay lang — matututo ka pa rito.', '🌤️ Hindi pa tama ngayon, pero matutunan mo rin ito.', '📘 Subok lang nang subok, nandito lang ang aralin.'];
+
+	function randomFrom(array) { return array[Math.floor(Math.random() * array.length)]; }
+
+	function getAnsweredCount() { return confirmedAnswers.filter(confirmed => confirmed === true).length; }
+
+	function updateProgressAll() {
+		const answeredCount = selectedAnswers.filter(a => a !== '').length;
+
+		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} nasagutan`;
+
+		progressDots.innerHTML = questions.map((_, idx) => `
+			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''}"></div>
+		`).join('');
+	}
+
+	function getCardAnimationClass() {
+		if (currentQuestionIndex === 0) return 'card-slide-in-up';
+		return lastDirection === 'left' ? 'card-slide-in-left' : 'card-slide-in-right';
+	}
+
+	function launchConfetti() {
+		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
+		for (let i = 0; i < 42; i++) {
+			const piece = document.createElement('div');
+			piece.className = 'confetti-piece';
+			piece.style.left = `${Math.random() * 100}vw`;
+			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
+			piece.style.animationDelay = `${Math.random() * 0.15}s`;
+			piece.style.width = `${8 + Math.random() * 6}px`;
+			piece.style.height = `${10 + Math.random() * 10}px`;
+			document.body.appendChild(piece);
+			setTimeout(() => piece.remove(), 4200);
+		}
+	}
+
+	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
+		let questionsHtml = '';
+
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
+			const selectedValue = selectedAnswers[index];
+			const isConfirmed = confirmedAnswers[index];
+
+			const choicesHtml = Object.entries(item.options).map(([key, text]) => {
+				let classNames = ['choice'];
+
+				if (selectedValue === key) classNames.push('selected');
+				if (isConfirmed && key === item.answer) classNames.push('correct-reveal');
+				if (isConfirmed && selectedValue === key && selectedValue !== item.answer) classNames.push('soft-wrong');
+				if (isConfirmed && selectedValue === key) classNames.push('confirmed');
+
+				return `
+					<label class="${classNames.join(' ')}" onclick="selectAnswer(${index}, '${key}')">
+						<input type="radio" name="q${index}" value="${key}"
+							${selectedValue === key ? 'checked' : ''}
+							${isConfirmed ? 'disabled' : ''}>
+						<span>${key}. ${text}</span>
+					</label>
+				`;
+			}).join('');
+
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Ang tamang sagot ay: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
+			questionsHtml += `
+				<div class="single-question">
+					<h4>${index + 1}. ${item.question}</h4>
+					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
+				</div>
+			`;
+		});
+
+		questionList.innerHTML = `
+			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
+				${questionsHtml}
+			</div>
+		`;
+
+		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
+	}
+
+	window.selectAnswer = function(index, selectedKey) {
+		if (confirmedAnswers[index]) return;
+
+		selectedAnswers[index] = selectedKey;
+		renderAllQuestions();
+	};
+
+	function confirmAnswer() {
+
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+				return;
+			}
+		}
+
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
+
+		renderAllQuestions();
+
+		if (currentCard < 2) {
+			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+		}
+	}
+
+	function goNextCard() {
+		if (currentCard >= 2) return;
+
+		currentCard++;
+
+		document.getElementById('nextCardBtn').style.display = 'none';
+
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	function goNextQuestion() {
+		if (!confirmedAnswers[currentQuestionIndex]) {
+			alert('Kailangan munang kumpirmahin ang sagot bago magpatuloy sa susunod.');
+			return;
+		}
+		
+		if (currentQuestionIndex >= questions.length - 1) return;
+		
+		lastDirection = 'right';
+		currentQuestionIndex += 1;
+		pendingSelection = null;
+		renderAllQuestions();
+		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+	}
+
+	function animateResultRing(resultRing, targetPercent, duration = 1100) {
+		const startTime = performance.now();
+		function frame(currentTime) {
+			const elapsed = currentTime - startTime;
+			const progress = Math.min(elapsed / duration, 1);
+			const eased = 1 - Math.pow(1 - progress, 3);
+			const value = Math.round(targetPercent * eased);
+			resultRing.style.setProperty('--progress', value);
+			if (progress < 1) requestAnimationFrame(frame);
+		}
+		resultRing.style.setProperty('--progress', 0);
+		requestAnimationFrame(frame);
+	}
+
+	function getFeedbackByScore(score) {
+		if (score >= 11) return { badge: '🏆 Napakahusay!', feedback: 'Ang ganda ng iyong pundasyon. Ready ka na sa susunod na bahagi!', interpretation: 'Handa' };
+		if (score >= 6) return { badge: '👏 Magaling!', feedback: 'May kaalaman ka na, patuloy pa ang pag-unlad.', interpretation: 'May kaalaman' };
+		return { badge: '🌱 Warm-up pa lang!', feedback: 'Kailangan ng gabay pa. Gamitin ito bilang panimulang lakas.', interpretation: 'Kailangan ng gabay' };
+	}
+
+	function submitPreTest() {
+		if (!confirmedAnswers.every(confirmed => confirmed === true)) {
+			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+			return;
+		}
+
+		const score = questions.reduce((total, item, index) => {
+			return total + (selectedAnswers[index] === item.answer ? 1 : 0);
+		}, 0);
+
+		const percentage = Math.round((score / questions.length) * 100);
+
+		// Prepare answers for backend
+		const answersPayload = questions.map((q, index) => ({
+			question_number: index + 1,
+			selected: selectedAnswers[index],
+			correct: q.answer,
+			is_correct: selectedAnswers[index] === q.answer
+		}));
+
+		// 🔥 SEND TO BACKEND
+		fetch("{{ route('student.module3.pretest.store') }}", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRF-TOKEN": "{{ csrf_token() }}"
+			},
+			body: JSON.stringify({
+				score: score,
+				percentage: percentage,
+				answers: answersPayload
+			})
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(err => {
+			console.error("Error saving pretest:", err);
+		});
+
+		// ===== EXISTING RESULT LOGIC =====
+		const resultRing = document.getElementById('resultRing');
+		const resultPercent = document.getElementById('resultPercent');
+		const resultScoreText = document.getElementById('resultScoreText');
+		const resultBadge = document.getElementById('resultBadge');
+		const resultFeedback = document.getElementById('resultFeedback');
+
+		const level = getFeedbackByScore(score);
+
+		animateResultRing(resultRing, percentage);
+		resultPercent.textContent = `${score}/${questions.length}`;
+		resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length}`;
+		resultBadge.textContent = level.badge;
+		resultFeedback.textContent = level.feedback;
+		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
+
+		quizPage.style.display = 'none';
+		resultPage.classList.add('show');
+
+		if (percentage >= 80) launchConfetti();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	function updateRetryIndicator() {
+		const remaining = maxRetries - retryCount;
+		const retryIndicator = document.getElementById('retryIndicator');
+
+		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
+
+		// Optional: visual warning when 0
+		if (remaining === 0) {
+			retryIndicator.style.background = '#ffe5e5';
+			retryIndicator.style.border = '1px solid #e5a5a5';
+			retryIndicator.style.color = '#7a2e2e';
+		}
+	}
+
+	function restartQuiz() {
+		if (retryCount >= maxRetries) {
+			alert('Naabot mo na ang maximum na 3 pagsubok.');
+			return;
+		}
+
+		retryCount++;
+
+		selectedAnswers.fill('');
+		confirmedAnswers.fill(false);
+		currentCard = 0;
+
+		resultPage.classList.remove('show');
+		quizPage.style.display = 'block';
+
+		updateRetryIndicator(); // 🔥 ADD THIS
+
+		renderAllQuestions();
+	}
+
+	window.addEventListener('load', () => {
+		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+		shuffleQuestionsAndChoices();
+		renderAllQuestions();
+		updateRetryIndicator();
+		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+	});
+</script>
+
+</body>
+</html>

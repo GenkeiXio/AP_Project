@@ -167,12 +167,6 @@ body, html {
             <span class="lock-icon">🔒</span>
         </button>
 
-        <!-- NODE 4 -->
-        <button class="node node-bottom-right locked" id="node4" onclick="goNode4()">
-            <img src="{{ asset('pictures/node4.png') }}" alt="Node 4">
-            <span class="lock-icon">🔒</span>
-        </button>
-
         <a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
     </div>
 </div>
