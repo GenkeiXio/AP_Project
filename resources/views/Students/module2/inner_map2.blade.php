@@ -303,7 +303,7 @@ body, html {
         </div>
     </div>
 
-    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
     <div class="node center-node">
         <img src="{{ asset('pictures/isyualbay_node.png') }}">

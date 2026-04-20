@@ -217,7 +217,7 @@ textarea:focus {
 
 <div class="map-wrapper">
 
-    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
     <a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
 
