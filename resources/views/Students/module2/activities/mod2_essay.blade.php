@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Module 2 Essay</title>
+<title>Sanaysay – Modyul 2</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -56,10 +56,12 @@ body, html {
     border: 2px solid #e7d7bf;
 }
 
-.essay-card h2 {
+.essay-card h1 {
     font-family: "Baloo 2", cursive;
     color: #3d2a1a;
+    margin-top: -10px;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .essay-card p {
@@ -215,35 +217,35 @@ textarea:focus {
 
 <div class="map-wrapper">
 
-    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
     <a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
 
     <div class="essay-container">
         <div class="essay-card">
 
-            <h2>Short Answer Essay</h2>
+            <h1 class="contn">MAIKLING SANAYSAY</h1>
 
-            <p><strong>Panuto:</strong> Ano ang iyong opinyon? Ilagay ang sagot sa ibaba.</p>
+            <p><strong>Panuto:</strong> Ibigay ang iyong opinyon at isulat ang sagot sa ibaba.</p>
 
             <p class="question">
                 Bilang isang mag-aaral at miyembro ng komunidad, paano ka makatutulong sa pagtugon sa mga suliraning pangkapaligiran tulad ng 
-                <strong>solid waste, deforestation, at climate change</strong>?
+                <strong>basurang solido, pagkakalbo ng kagubatan, at pagbabago ng klima</strong>?
             </p>
 
             <p>
-                Magbigay ng ebidensya ng iyong gawa (hal. clean-up, pagtatanim) sa pamamagitan ng larawan o video.
+                Magbigay ng ebidensya ng iyong mga gawain (hal. paglilinis ng kapaligiran, pagtatanim ng puno) sa pamamagitan ng larawan o video.
             </p>
 
             <form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- FIXED TEXTAREA ID -->
-                <textarea id="essay_answer" name="essay_answer" rows="8" placeholder="Isulat ang iyong sagot dito..." required></textarea>
+                <textarea id="essay_answer" name="essay_answer" rows="8" placeholder="Ilagay dito ang iyong sagot..." required></textarea>
 
                 <div style="display:flex; justify-content:center; margin-top:10px;">
                     <button type="submit" class="btn-primary">
-                        📤 Submit Essay
+                        📤 Isumite ang Sanaysay
                     </button>
                 </div>
             </form>
@@ -256,7 +258,7 @@ textarea:focus {
 
             <p class="submission-note">
                 📩 <strong>Paraan ng Pagsusumite:</strong><br><br>
-                I-copy ang iyong sagot at ipadala ito sa Gmail ng iyong guro.<br><br>
+                Kopyahin ang iyong sagot at ipadala ito sa email ng iyong guro.<br><br>
                 <strong>Email:</strong> teacher@gmail.com
             </p>
 
@@ -264,7 +266,7 @@ textarea:focus {
                 <button class="btn-primary" onclick="copyAnswer()">📋 Kopyahin ang Sagot</button>
 
                 <a href="https://mail.google.com/" target="_blank" class="btn-primary">
-                    📧 Buksan ang Gmail
+                    📧 Buksan ang Email
                 </a>
             </div>
 
@@ -274,7 +276,7 @@ textarea:focus {
 
             <div style="text-align:center; margin-top:15px;">
                 <a href="{{ route('module2.buod') }}" class="btn-primary">
-                    👉 Magpatuloy
+                    👉 Magpatuloy sa Susunod
                 </a>
             </div>
 
@@ -288,7 +290,7 @@ function copyAnswer() {
     const text = document.getElementById("essay_answer").value;
 
     if (!text.trim()) {
-        alert("⚠️ Wala pang laman ang iyong sagot.");
+        alert("⚠️ Wala pang nakalagay na sagot.");
         return;
     }
 

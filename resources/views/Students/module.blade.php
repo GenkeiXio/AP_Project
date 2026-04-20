@@ -249,7 +249,7 @@
 <div class="map-wrapper">
 
     <!-- 🌍 BACKGROUND -->
-    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
     <!-- 🌫️ OVERLAY -->
     <div class="overlay"></div>

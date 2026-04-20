@@ -162,7 +162,7 @@
 
 @section('content')
 <!-- 🌍 BACKGROUND -->
-<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+<img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
 <!-- 🌫 OVERLAY -->
 <div class="overlay"></div>
@@ -173,7 +173,7 @@
 
 <div class="card">
 
-<h1><b>IKAW ANG TAGAPAMAHALA NG SAKUNA</b> <br>🎮Environmental Decision Game🎮</h1>
+<h1><b>IKAW ANG TAGAPAMAHALA NG SAKUNA</b> <br>🎮Laro sa Tamang Desisyon sa Kapaligiran🎮</h1>
 
 <!-- <h2>🎮 Environmental Decision Game</h2> -->
 
