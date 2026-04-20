@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 2 Pre-Test</title>
+	<title>Hamon at Tugon: Module 2 Paunang Pagsusulit</title>
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -804,14 +804,17 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
 						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Pre-Test 🚀</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Paunang Pagsusulit 🚀</button>
 					</div>
 				</div>
 
 				<div class="result-page" id="resultPage" aria-live="polite">
 					<div class="result-box show" id="resultBox">
-						<div class="result-title">Resulta ng Pre-Test</div>
+						<div class="result-title">Resulta ng Paunang Pagsusulit</div>
 						<div class="result-ring" id="resultRing" style="--progress:0;">
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
@@ -825,7 +828,7 @@
 						</div>
 
 						<div class="result-actions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Paunang Pagsusulit</button>
 							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -1008,7 +1011,9 @@
 	let lastDirection = 'right';
 	let pendingSelection = null;
 	let retryCount = 0;
-	const maxRetries = 2;
+	const maxRetries = 3;
+	const questionsPerCard = 5;
+	let currentCard = 0;
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1084,9 +1089,14 @@
 	}
 
 	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
 		let questionsHtml = '';
 
-		questions.forEach((item, index) => {
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
 			const selectedValue = selectedAnswers[index];
 			const isConfirmed = confirmedAnswers[index];
 
@@ -1108,22 +1118,43 @@
 				`;
 			}).join('');
 
+			// ✅ FEEDBACK
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
 			questionsHtml += `
 				<div class="single-question">
 					<h4>${index + 1}. ${item.question}</h4>
 					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
 				</div>
 			`;
 		});
 
-		// 🔥 ONE CARD ONLY
 		questionList.innerHTML = `
 			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
 				${questionsHtml}
 			</div>
 		`;
 
 		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
@@ -1134,20 +1165,42 @@
 	};
 
 	function confirmAnswer() {
-		// Check if all answered
-		if (selectedAnswers.includes('')) {
-			alert('Sagutan muna lahat bago kumpirmahin.');
-			return;
+
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// check only current card
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				return;
+			}
 		}
 
-		questions.forEach((item, index) => {
-			confirmedAnswers[index] = true;
-		});
+		// confirm answers
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
 
 		renderAllQuestions();
 
-		// enable submit
-		submitBtn.style.display = 'inline-flex';
+		// ✅ SHOW NEXT BUTTON INSTEAD OF AUTO MOVE
+		if (currentCard < 2) {
+			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+		}
+		
+	}
+
+	function goNextCard() {
+		if (currentCard >= 2) return;
+
+		currentCard++;
+
+		// hide button again
+		document.getElementById('nextCardBtn').style.display = 'none';
+
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function goNextQuestion() {
@@ -1264,8 +1317,8 @@
 	}
 
 	function restartQuiz() {
-		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 2 retries.');
+		if (retryCount >= maxRetries - 1) {
+			alert('Naabot mo na ang maximum na 3 attempts.');
 			return;
 		}
 
@@ -1273,6 +1326,7 @@
 
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
+		currentCard = 0;
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
