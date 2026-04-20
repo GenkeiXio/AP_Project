@@ -771,7 +771,7 @@
 </head>
 <body>
 
-<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+<img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
 <a href="{{ route('module.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
