@@ -1007,8 +1007,6 @@
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
 	let pendingSelection = null;
-	let retryCount = 0;
-	const maxRetries = 2;
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1220,7 +1218,12 @@
 		})
 		.then(res => res.json())
 		.then(data => {
-			console.log(data);
+			if (data.status === 'error') {
+				alert(data.message);
+				return;
+			}
+
+			updateRetryUI(data.remaining_attempts);
 		})
 		.catch(err => {
 			console.error("Error saving pretest:", err);
@@ -1249,27 +1252,13 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	function updateRetryIndicator() {
-		const remaining = maxRetries - retryCount;
-		const retryIndicator = document.getElementById('retryIndicator');
-
-		retryIndicator.textContent = `🔁 Natitirang retries: ${remaining} / ${maxRetries}`;
-
-		// Optional: visual warning when 0
-		if (remaining === 0) {
-			retryIndicator.style.background = '#ffe5e5';
-			retryIndicator.style.border = '1px solid #e5a5a5';
-			retryIndicator.style.color = '#7a2e2e';
-		}
-	}
+	
 
 	function restartQuiz() {
-		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 2 retries.');
-			return;
-		}
+		const retryBtn = document.querySelector('.btn-secondary');
 
-		retryCount++;
+		// 🚫 Prevent click if disabled
+		if (retryBtn.disabled) return;
 
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
@@ -1277,18 +1266,36 @@
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
-		updateRetryIndicator(); // 🔥 ADD THIS
-
 		renderAllQuestions();
 	}
 
 	window.addEventListener('load', () => {
-		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
-		updateRetryIndicator();
+
+		fetch("{{ url('/module2/pretest/attempts') }}")
+		.then(res => res.json())
+		.then(data => {
+			updateRetryUI(data.remaining);
+		});
+
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});
+
+	function updateRetryUI(remaining) {
+		const retryIndicator = document.getElementById('retryIndicator');
+		const retryBtn = document.querySelector('.btn-secondary');
+
+		retryIndicator.textContent = `🔁 Natitirang attempts: ${remaining} / 3`;
+
+		if (remaining <= 0) {
+			retryBtn.disabled = true;
+			retryBtn.innerText = 'Wala nang Attempts';
+		} else {
+			retryBtn.disabled = false;
+			retryBtn.innerText = 'Ulitin ang Pre-Test';
+		}
+	}
 </script>
 
 </body>

@@ -24,14 +24,26 @@ class Module2PretestController extends Controller
             'answers' => 'required|array',
         ]);
 
-        // Save main result
+        // 🔥 COUNT ATTEMPTS
+        $attemptCount = Module2Pretest::where('student_id', $studentId)->count();
+
+        // 🚫 BLOCK IF MAX REACHED
+        if ($attemptCount >= 3) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Naabot mo na ang maximum na 3 attempts.'
+            ], 403);
+        }
+
+        // ✅ SAVE PRETEST
         $pretest = Module2Pretest::create([
             'student_id' => $studentId,
+            'attempt' => $attemptCount + 1,
             'score' => $request->score,
             'percentage' => $request->percentage,
         ]);
 
-        // Save answers
+        // ✅ SAVE ANSWERS
         foreach ($request->answers as $answer) {
             Module2PretestAnswer::create([
                 'module2_pretest_id' => $pretest->id,
@@ -45,6 +57,19 @@ class Module2PretestController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Pretest saved successfully!',
+            'attempt' => $attemptCount + 1,
+            'remaining_attempts' => 3 - ($attemptCount + 1)
         ]);
     }
+
+    public function checkAttempts()
+	{
+		$studentId = Session::get('student_id');
+
+		$attemptCount = Module2Pretest::where('student_id', $studentId)->count();
+
+		return response()->json([
+			'remaining' => 3 - $attemptCount
+		]);
+	}
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('student_id')
                 ->constrained('students')
                 ->cascadeOnDelete();
-
+                
             $table->integer('score');
             $table->float('percentage');
             $table->timestamps();
