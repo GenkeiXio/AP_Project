@@ -218,22 +218,20 @@
         .poll-top{
             position:relative;
             z-index:1;
-            display:grid;
-            grid-template-columns:1.2fr .8fr;
-            gap:12px;
-            margin-bottom:12px;
+            margin-bottom:16px;
         }
 
         .poll-title-box{
             border:1px solid #d8ebdf;
             border-radius:14px;
             background:linear-gradient(135deg,#ffffff,#f2fff8);
-            padding:12px;
+            padding:16px 18px;
+            width:100%;
         }
 
         .poll-title{
             margin:0 0 6px;
-            font-size:1.2rem;
+            font-size:1.3rem;
             font-family:'Fredoka','Nunito',sans-serif;
             color:#1f4f36;
         }
@@ -243,53 +241,6 @@
             color:#315744;
             line-height:1.5;
             font-size:.94rem;
-        }
-
-        .poll-score{
-            border:1px solid #ebddb0;
-            border-radius:14px;
-            background:linear-gradient(135deg,#fffdf5,#fff7d9);
-            padding:12px;
-        }
-
-        .score-line{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:8px;
-            color:#735900;
-            font-size:.88rem;
-            font-weight:800;
-            font-family:'Nunito',sans-serif;
-        }
-
-        .star-row{
-            display:flex;
-            gap:4px;
-            margin-bottom:8px;
-            font-size:1.18rem;
-            line-height:1;
-        }
-
-        .star{ color:#d4d4d4; transition:.2s ease; }
-        .star.on{
-            color:var(--gold);
-            text-shadow:0 0 10px rgba(255,196,0,.35);
-        }
-
-        .progress-track{
-            width:100%;
-            height:10px;
-            border-radius:999px;
-            background:#eee3be;
-            overflow:hidden;
-        }
-
-        .progress-fill{
-            width:0%;
-            height:100%;
-            background:linear-gradient(90deg,#ffdb72,#ffb92f);
-            transition:width .25s ease;
         }
 
         .poll-toolbar{
@@ -462,6 +413,11 @@
             font-weight:700;
         }
 
+        /* Hidden elements */
+        .hidden-score {
+            display: none;
+        }
+
         /* Modal */
         .modal{
             position:fixed;
@@ -578,7 +534,6 @@
         @media (max-width:860px){
             .cards{ grid-template-columns:1fr; }
             .poll-grid{ grid-template-columns:1fr; }
-            .poll-top{ grid-template-columns:1fr; }
             .poll-media{ height:230px; }
         }
     </style>
@@ -625,21 +580,20 @@
                         <h1 class="poll-title">🎯 Tanong</h1>
                         <p class="poll-q">Sa iyong komunidad, alin sa mga sumusunod ang pinakamahalagang ginagawa upang makatulong sa pagtugon sa mga suliraning pangkapaligiran?</p>
                     </div>
+                </div>
 
-                    <div class="poll-score">
-                        <div class="score-line">
-                            <span id="selectedCount">Napili: 0/4</span>
-                            <span id="selectedPercent">0%</span>
-                        </div>
-                        <div class="star-row" id="starRow" aria-label="stars">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill" id="pollMeterFill"></div>
-                        </div>
+                <!-- Hidden score elements for JavaScript -->
+                <div class="hidden-score">
+                    <span id="selectedCount">Napili: 0/4</span>
+                    <span id="selectedPercent">0%</span>
+                    <div id="starRow" aria-label="stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="pollMeterFill"></div>
                     </div>
                 </div>
 
@@ -803,13 +757,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const checks = document.querySelectorAll('.poll-check');
     const pollItems = document.querySelectorAll('.poll-item');
-    const selectedCount = document.getElementById('selectedCount');
-    const selectedPercent = document.getElementById('selectedPercent');
-    const pollMeterFill = document.getElementById('pollMeterFill');
     const pollHint = document.getElementById('pollHint');
     const selectAllPollBtn = document.getElementById('selectAllPollBtn');
     const clearPollBtn = document.getElementById('clearPollBtn');
-    const stars = document.querySelectorAll('#starRow .star');
 
     function showView(view) {
         homeView.classList.remove('active');
@@ -819,22 +769,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updatePollState() {
-        const total = checks.length;
         const checked = Array.from(checks).filter(c => c.checked).length;
-        const pct = Math.round((checked / total) * 100);
-
-        selectedCount.textContent = `Napili: ${checked}/${total}`;
-        selectedPercent.textContent = `${pct}%`;
-        pollMeterFill.style.width = `${pct}%`;
-
-        stars.forEach((star, index) => {
-            star.classList.toggle('on', index < checked);
-        });
 
         proceedBtn.disabled = checked === 0;
-        if (checked === 0) pollHint.textContent = 'Pumili ng kahit isa para magpatuloy.';
-        else if (checked < total) pollHint.textContent = `Maganda! ${checked} na ang napili mo.`;
-        else pollHint.textContent = 'Kumpleto! Lahat ng mahahalagang gawain ay napili.';
+        if (checked === 0) {
+            pollHint.textContent = 'Pumili ng kahit isa para magpatuloy.';
+        } else {
+            pollHint.textContent = `Nakapili ka ng ${checked} na gawain. I-click ang Magpatuloy.`;
+        }
 
         pollItems.forEach(item => {
             const input = item.querySelector('.poll-check');
