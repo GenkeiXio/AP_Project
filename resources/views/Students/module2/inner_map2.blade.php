@@ -23,12 +23,25 @@ body, html {
     left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: 1;
+}
+
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Adjust 0.3 (30%) to make it darker/lighter */
+    z-index: 1; /* Sits between BG image and Nodes */
+    pointer-events: none; /* Allows clicks to pass through to buttons below */
 }
 
 .background-map {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 0;
 }
 
 .node {
@@ -54,6 +67,10 @@ body, html {
 /* ❌ REMOVE HOVER MOVEMENT */
 .node:hover {
     transform: scale(1.1);
+}
+
+.node, .center-node, .back-button, .final-key {
+    z-index: 5 !important; 
 }
 
 .label {
@@ -305,27 +322,29 @@ body, html {
 
     <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
+    <div class="map-overlay"></div>
+
     <div class="node center-node">
         <img src="{{ asset('pictures/isyualbay_node.png') }}">
     </div>
 
     <button class="node node-top-left"
         onclick="window.location.href='{{ route('node1.solid-waste') }}'">
-        <img src="{{ asset('pictures/basura_node.png') }}">
+        <img src="{{ asset('pictures/mod2_basura_node.png') }}">
     </button>
 
     <button class="node node-top-right locked" id="node2" onclick="goNode2()">
-        <img src="{{ asset('pictures/kagubatan_node.png') }}">
+        <img src="{{ asset('pictures/mod2_kagubatan_node.png') }}">
         <span class="lock-icon">🔒</span>
     </button>
 
     <button class="node node-bottom-left locked" id="node3" onclick="goNode3()">
-        <img src="{{ asset('pictures/klima_node.png') }}">
+        <img src="{{ asset('pictures/mod2_klima_node.png') }}">
         <span class="lock-icon">🔒</span>
     </button>
 
     <button class="node node-bottom-right locked" id="node4" onclick="goNode4()">
-        <img src="{{ asset('pictures/tugon_node.png') }}">
+        <img src="{{ asset('pictures/mod2_tugon_node.png') }}">
         <span class="lock-icon">🔒</span>
     </button>
 
