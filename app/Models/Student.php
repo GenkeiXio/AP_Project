@@ -29,19 +29,27 @@ class Student extends Model
 
     public function getAvatarEmojiAttribute(): string
     {
-        return match($this->avatar) {
-            'boy_uniform'  => '🧑‍🎓',
+        return match ($this->avatar) {
+            'boy_uniform' => '🧑‍🎓',
             'girl_uniform' => '👩‍🎓',
-            default        => '🎒',
+            'rizal' => '📜',
+            'bonifacio' => '🔥',
+            'gabriela' => '🛡️',
+            'neutral_hero' => '🧩',
+            default => '🎒',
         };
     }
 
     public function getAvatarNameAttribute(): string
     {
-        return match($this->avatar) {
-            'boy_uniform'  => 'Juan',
+        return match ($this->avatar) {
+            'boy_uniform' => 'Juan',
             'girl_uniform' => 'Maria',
-            default        => 'Explorer',
+            'rizal' => 'Rizal',
+            'bonifacio' => 'Bonifacio',
+            'gabriela' => 'Gabriela',
+            'neutral_hero' => 'Lihim',
+            default => 'Explorer',
         };
     }
 }

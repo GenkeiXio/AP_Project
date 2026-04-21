@@ -30,7 +30,7 @@ class StudentController extends Controller
     public function saveCharacter(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|in:boy_uniform,girl_uniform',
+            'avatar' => 'required|in:rizal,bonifacio,gabriela,boy_uniform,girl_uniform,neutral_hero',
         ]);
 
         $student = $this->student();
@@ -64,7 +64,9 @@ class StudentController extends Controller
     // ── Update avatar from profile (AJAX) ──
     public function updateAvatar(Request $request)
     {
-        $request->validate(['avatar' => 'required|in:boy_uniform,girl_uniform']);
+        $request->validate([
+            'avatar' => 'required|in:rizal,bonifacio,gabriela,boy_uniform,girl_uniform,neutral_hero',
+        ]);
         $student = $this->student();
         if (!$student) return response()->json(['success' => false], 401);
         $student->update(['avatar' => $request->avatar]);
