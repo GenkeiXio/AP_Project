@@ -5,6 +5,150 @@
 @section('content')
 
 <style>
+@media (max-width: 900px) {
+    .book-container {
+        width: 100vw;
+        height: auto;
+        min-height: unset;
+        max-width: 100vw;
+    }
+    .ap-wrapper {
+        padding: 0;
+        min-height: 100vh;
+        height: auto;
+    }
+    .book-spine {
+        flex-direction: column;
+        padding: 6px;
+        border-radius: 0;
+        min-height: unset;
+        height: auto;
+    }
+    .page {
+        padding: 12px 6px;
+        min-height: unset;
+        font-size: 1rem;
+    }
+    .left-page, .right-page {
+        border-radius: 0;
+        border: none;
+    }
+    .flip-layer {
+        padding: 18px 6px;
+        width: 100vw;
+        left: 0;
+        right: 0;
+        border-radius: 0;
+        min-width: unset;
+        max-width: 100vw;
+        height: auto;
+        min-height: unset;
+        top: 0;
+    }
+    .timer-container {
+        width: 100vw;
+        min-width: unset;
+        margin-bottom: 10px;
+    }
+    #gameHUD {
+        width: 100vw !important;
+        font-size: 0.95rem;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-start;
+        padding: 0 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .book-container {
+        width: 100vw;
+        min-width: unset;
+        height: auto;
+        min-height: unset;
+        max-width: 100vw;
+    }
+    .book-spine {
+        flex-direction: column;
+        padding: 2px;
+        border-radius: 0;
+        min-height: unset;
+        height: auto;
+        box-shadow: none;
+        border-width: 1px;
+    }
+    .page {
+        padding: 8px 2vw;
+        min-height: unset;
+        font-size: 0.97rem;
+        box-shadow: none;
+    }
+    .left-page, .right-page {
+        border-radius: 0;
+        border: none;
+    }
+    .flip-layer {
+        padding: 10px 2vw;
+        width: 100vw;
+        left: 0;
+        right: 0;
+        border-radius: 0;
+        min-width: unset;
+        max-width: 100vw;
+        height: auto;
+        min-height: unset;
+        top: 0;
+        font-size: 0.97rem;
+    }
+    .timer-container {
+        width: 100vw;
+        min-width: unset;
+        margin-bottom: 8px;
+    }
+    #gameHUD {
+        width: 100vw !important;
+        font-size: 0.93rem;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-start;
+        padding: 0 4px;
+    }
+    .drop-placeholder {
+        width: 98vw;
+        max-width: 320px;
+        height: 38vw;
+        max-height: 180px;
+        min-width: 120px;
+        min-height: 80px;
+        margin-top: 6px;
+    }
+    .inner-inventory {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+    .completed-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+    .completed-grid img {
+        height: 80px;
+    }
+    .card-item img {
+        height: 70px;
+    }
+    .card-item {
+        padding: 3px;
+        font-size: 0.95rem;
+    }
+    .attempt-indicator {
+        font-size: 0.85rem;
+    }
+    h1, h2, h3 {
+        font-size: 1.1em !important;
+    }
+}
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@700;800&display=swap');
 
 :root {
