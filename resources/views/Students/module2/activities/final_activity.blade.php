@@ -507,6 +507,8 @@
 
             <div id="game"></div>
 
+            <p id="feedback"></p>
+
             <div class="btn-container">
                 <button class="btn primary-btn" onclick="submitAnswer()">
                     🚀 Isumite ang Sagot
@@ -517,7 +519,7 @@
                 </button>
             </div>
 
-            <p id="feedback"></p>
+            
         </div>
 
         <script>

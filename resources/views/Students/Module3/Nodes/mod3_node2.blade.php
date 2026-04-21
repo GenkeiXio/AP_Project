@@ -1,6 +1,6 @@
 {{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module3\Nodes\mod3_node2.blade.php --}}
 @extends('Students.studentslayout')
-@section('title', 'Module 3 - Node 2')
+@section('title', 'Modyul 3 - Yugto 2')
 
 @section('content')
 
@@ -8,28 +8,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@700;800&display=swap');
 
 :root{
-    --brown-1:#4b3729;
-    --brown-2:#6a4c3a;
-    --paper:#fffdf9;
-    --paper-2:#f8f4ee;
-    --mint:#6fb7a8;
-    --mint-dark:#3f8e7f;
-    --mint-soft:#e8f6f2;
-    --line:#dccfbe;
-    --text:#3d2f26;
-    --muted:#726459;
-    --ok:#2f8f71;
-    --bad:#b44a3f;
-    --gold:#c9972f;
+    --brown-1:#3e2818;
+    --brown-2:#6b452a;
+    --paper:#f7f0e3;
+    --paper-2:#efe4d2;
+    --mint:#8ea97b;
+    --mint-dark:#5f7f58;
+    --mint-soft:#e9efdf;
+    --line:#cdbda6;
+    --text:#342417;
+    --muted:#665647;
+    --ok:#3f7b4b;
+    --bad:#934038;
+    --gold:#b88b33;
+}
+
+.sr-only{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
 }
 
 body{
     margin:0;
     font-family:'Poppins',sans-serif;
     background:
-        radial-gradient(circle at 8% 10%, rgba(111,183,168,.18), transparent 28%),
-        radial-gradient(circle at 92% 88%, rgba(201,151,47,.18), transparent 30%),
-        linear-gradient(145deg,var(--brown-1),var(--brown-2));
+        linear-gradient(rgba(10, 8, 7, 0.62), rgba(10, 8, 7, 0.62)),
+        url("{{ asset('pictures/mod3_innermap.png') }}") center center / cover no-repeat fixed;
     min-height:100vh;
 }
 
@@ -39,13 +50,13 @@ body{
     left:20px;
     z-index:30;
     text-decoration:none;
-    color:#3b2d23;
+    color:#f7efdf;
     font-weight:800;
-    background:linear-gradient(135deg,#fff,#ecf8f4);
-    border:1px solid #bee4da;
+    background:linear-gradient(135deg,#5f3f24,#7e5532);
+    border:1px solid #a8834c;
     border-radius:12px;
     padding:10px 14px;
-    box-shadow:0 10px 20px rgba(0,0,0,.2);
+    box-shadow:0 10px 20px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.2);
     transition:.2s ease;
 }
 .back-btn:hover{ transform:translateY(-2px); }
@@ -57,37 +68,53 @@ body{
 }
 
 .card{
-    background:linear-gradient(180deg,var(--paper),var(--paper-2));
+    background:
+        repeating-linear-gradient(135deg, rgba(140,105,66,.05) 0 8px, rgba(255,255,255,0) 8px 16px),
+        linear-gradient(180deg,var(--paper),var(--paper-2));
     border-radius:24px;
-    border:1px solid rgba(255,255,255,.4);
-    box-shadow:0 25px 55px rgba(0,0,0,.26);
+    border:1px solid #d7c4ab;
+    box-shadow:0 26px 58px rgba(0,0,0,.34);
     overflow:hidden;
 }
 
 .top{
     padding:20px;
-    border-bottom:1px solid #e8dccb;
-    background:linear-gradient(135deg,#fff,#eef8f5);
+    border-bottom:1px solid #d7c7b4;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,0)),
+        linear-gradient(135deg,#f4eadb,#ecdfca);
 }
 .title{
     font-size:1.8rem;
     font-weight:800;
+    font-family:'Poppins',sans-serif;
     margin:0;
-    background:linear-gradient(90deg,#5d3f2f,#3f8e7f,#72bba9);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    letter-spacing:.04em;
+    color:#51361f;
+    text-shadow:0 1px 0 rgba(255,255,255,.5);
 }
 .subtitle{
     margin:6px 0 0;
     color:var(--muted);
     font-size:.92rem;
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
 }
 
 .hud{
-    margin-top:12px;
-    display:flex;
+    margin:10px auto 12px;
+    display:inline-flex;
+    justify-content:center;
     gap:8px;
     flex-wrap:wrap;
+    position:relative;
+    z-index:2;
+    padding:8px;
+    background:linear-gradient(135deg,rgba(70,48,30,.95),rgba(97,66,42,.95));
+    border:1px solid #9f7a4a;
+    border-radius:999px;
+    box-shadow:0 10px 24px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.14);
+    backdrop-filter:blur(6px);
 }
 .pill{
     border-radius:999px;
@@ -95,14 +122,23 @@ body{
     font-size:.8rem;
     font-weight:800;
     font-family:'Nunito',sans-serif;
-    border:1px solid #d4ebe4;
-    background:#f3fbf8;
-    color:#2f6559;
+    border:1px solid #b49670;
+    background:linear-gradient(135deg,#f7e9d2,#ecd7b6);
+    color:#4e351f;
 }
 .pill.gold{
-    border-color:#e5d39d;
-    background:linear-gradient(135deg,#fff9e7,#f7edd0);
-    color:#6e4f14;
+    border-color:#d3ae62;
+    background:linear-gradient(135deg,#f8e5b9,#eacb89);
+    color:#5f430e;
+}
+
+@media (max-width:760px){
+    .hud{
+        width:auto;
+        max-width:100%;
+        justify-content:center;
+        border-radius:16px;
+    }
 }
 
 .body{
@@ -114,10 +150,12 @@ body{
     grid-template-columns:180px 1fr;
     gap:14px;
     align-items:start;
-    border:1px solid var(--line);
+    border:1px solid #d4c2ab;
     border-radius:16px;
     padding:14px;
-    background:linear-gradient(135deg,#fff,#f0faf7);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,0)),
+        linear-gradient(135deg,#fbf2e3,#f2e5d2);
 }
 @media (max-width:760px){
     .hero{
@@ -137,8 +175,8 @@ body{
     height:140px;  /* bigger */
     object-fit:contain;
     border-radius:50%;
-    background:linear-gradient(135deg,#f2fffb,#e7f6f1);
-    border:1px solid #cde9e0;
+    background:linear-gradient(135deg,#f7efdf,#e9dcc7);
+    border:1px solid #cdb89a;
     padding:10px;
     box-shadow:0 8px 14px rgba(0,0,0,.14);
 }
@@ -150,8 +188,8 @@ body{
 }
 
 .speech{
-    background:#fff;
-    border:1px solid #dcefe8;
+    background:linear-gradient(180deg,#fffdf8,#f7eddc);
+    border:1px solid #d5c2a3;
     border-radius:14px;
     padding:12px 14px;
     color:#4f4138;
@@ -181,9 +219,12 @@ body{
 
 .section-title{
     margin:18px 0 8px;
-    color:#4a3a2f;
+    color:#4b2f1b;
     font-size:1.02rem;
     font-weight:800;
+    font-family:'Poppins',sans-serif;
+    border-left:4px solid #b68b4b;
+    padding-left:10px;
 }
 
 .choice-container{
@@ -197,8 +238,8 @@ body{
 
 .choice-card{
     border-radius:16px;
-    border:1px solid #d9ece6;
-    background:linear-gradient(135deg,#fff,#f5fbf9);
+    border:1px solid #d0bca1;
+    background:linear-gradient(135deg,#fffdf8,#f4e8d5);
     padding:14px;
     transition:.22s ease;
     position:relative;
@@ -208,8 +249,8 @@ body{
     box-shadow:0 14px 24px rgba(0,0,0,.10);
 }
 .choice-card.active{
-    border-color:#9ed5c7;
-    box-shadow:0 0 0 4px rgba(111,183,168,.16);
+    border-color:#b99058;
+    box-shadow:0 0 0 4px rgba(185,144,88,.2);
 }
 
 .choice-head{
@@ -229,8 +270,8 @@ body{
     padding:8px 11px;
     cursor:pointer;
     font-weight:700;
-    background:#e9f7f2;
-    color:#2b6759;
+    background:linear-gradient(135deg,#735131,#8d633c);
+    color:#f8efe2;
     transition:.18s;
 }
 .read-btn:hover{ transform:translateY(-1px); }
@@ -274,10 +315,10 @@ body{
     display:none;
     margin-top:14px;
     text-align:center;
-    border:1px dashed #bfded5;
-    border-radius:14px;
-    background:#f5fbf9;
-    padding:14px;
+    border:1px dashed #b99564;
+    border-radius:18px;
+    background:linear-gradient(135deg,#fbf2e3,#f2e5d2);
+    padding:18px;
     animation:popIn .35s ease;
 }
 @keyframes popIn{
@@ -285,15 +326,128 @@ body{
     to{ opacity:1; transform:scale(1); }
 }
 
-.game-btn{
+/* Pinahusay na ayos para sa Hakbang 2 */
+
+.step-title{
+    margin:0 0 12px;
+    font-weight:800;
+    font-size:1.1rem;
+    color:#3d2f26;
+}
+
+.elegant-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+@media (max-width:760px){
+    .elegant-grid{ grid-template-columns:1fr; }
+}
+
+.elegant-btn{
     position:relative;
     border:none;
-    border-radius:12px;
-    padding:11px 14px;
-    margin:6px;
+    border-radius:20px;
+    padding:20px;
+    cursor:pointer;
+    overflow:hidden;
+    transition:all .25s ease;
+    backdrop-filter: blur(10px);
+    background:rgba(255,247,232,0.82);
+    box-shadow:0 15px 35px rgba(0,0,0,0.18);
+}
+
+.elegant-btn:hover{
+    transform:translateY(-6px) scale(1.02);
+    box-shadow:0 25px 50px rgba(0,0,0,0.18);
+}
+
+.elegant-btn:active{
+    transform:scale(.98);
+}
+
+.btn-content{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+}
+
+.icon-wrap{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#fff9ee,#f2e2c8);
+    box-shadow:inset 0 2px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(153,113,64,.25);
+}
+
+.icon-svg{
+    width:30px;
+    height:30px;
+    display:block;
+}
+
+.icon-svg path,
+.icon-svg circle,
+.icon-svg rect,
+.icon-svg line{
+    stroke:currentColor;
+}
+
+.text-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    text-align:left;
+}
+
+.btn-title{
+    font-size:1.1rem;
+    font-weight:800;
+}
+
+.btn-desc{
+    font-size:.9rem;
+    opacity:.85;
+    font-weight:600;
+    line-height:1.4;
+}
+
+.top-style{
+    background:linear-gradient(135deg,#f9e4da,#efd0c2);
+    color:#7e342c;
+}
+
+.bottom-style{
+    background:linear-gradient(135deg,#edf4e2,#dce8cf);
+    color:#45633e;
+}
+
+.btn-glow{
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6), transparent 60%);
+    opacity:.6;
+    z-index:1;
+}
+
+.game-btn{
+    position:relative;
+    width:100%;
+    border:none;
+    border-radius:18px;
+    padding:16px 16px;
+    margin:0;
     cursor:pointer;
     font-weight:800;
-    transition:.18s;
+    transition:.18s, transform .18s ease, box-shadow .18s ease;
+    box-shadow:0 12px 24px rgba(0,0,0,.08);
+    text-align:left;
 }
 .game-btn:hover{ transform:translateY(-2px); }
 .btn-top{
@@ -305,12 +459,65 @@ body{
     color:#23685a;
 }
 
+.choice-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:14px;
+}
+@media (max-width:760px){
+    .choice-grid{ grid-template-columns:1fr; }
+}
+
+.choice-card-btn{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    justify-content:flex-start;
+}
+
+.choice-badge{
+    flex:0 0 56px;
+    width:56px;
+    height:56px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.5rem;
+    background:rgba(255,255,255,.72);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.choice-copy{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.choice-title{
+    font-size:1.02rem;
+    font-weight:800;
+}
+
+.choice-desc{
+    font-size:.9rem;
+    line-height:1.45;
+    font-weight:600;
+    opacity:.9;
+}
+
+.btn-top .choice-desc,
+.btn-bottom .choice-desc{
+    color:inherit;
+}
+
 .challenge{
     display:none;
     margin-top:16px;
-    border:1px solid var(--line);
+    border:1px solid #ccb79c;
     border-radius:16px;
-    background:#fff;
+    background:linear-gradient(180deg,#fffcf5,#f4e7d2);
     padding:14px;
     animation:fadeIn .35s ease;
 }
@@ -322,14 +529,14 @@ body{
 .progress{
     height:10px;
     border-radius:999px;
-    border:1px solid #d9ccb9;
-    background:#f2e8d8;
+    border:1px solid #c5aa84;
+    background:#e9d8be;
     overflow:hidden;
 }
 .progress-fill{
     width:0%;
     height:100%;
-    background:linear-gradient(90deg,#c9972f,#59ad9b);
+    background:linear-gradient(90deg,#b57d2c,#5a7c4b);
     transition:width .35s ease;
 }
 
@@ -355,8 +562,8 @@ body{
     .arg-grid{ grid-template-columns:1fr; }
 }
 .arg-btn{
-    border:1px solid #dceee8;
-    background:linear-gradient(135deg,#fff,#eef8f5);
+    border:1px solid #d1bea3;
+    background:linear-gradient(135deg,#fffcf6,#f1e4d0);
     color:#3f2f24;
     text-align:left;
     border-radius:12px;
@@ -383,14 +590,14 @@ body{
     display:none;
     margin-top:16px;
     border-radius:14px;
-    border:1px solid #cbe7dd;
-    background:linear-gradient(135deg,#effbf7,#e4f6f0);
+    border:1px solid #ccb79b;
+    background:linear-gradient(135deg,#f8efdf,#efe0c8);
     padding:14px;
     text-align:center;
 }
 .result h3{
     margin:0 0 6px;
-    color:#2a6b5d;
+    color:#5f4627;
 }
 
 .cons-wrap{
@@ -398,16 +605,16 @@ body{
     margin-top:12px;
     border-radius:12px;
     padding:12px;
-    border:1px solid #d7e9e3;
-    background:#f8fffc;
+    border:1px solid #d7c3a5;
+    background:#fff8eb;
 }
 .cons-wrap.bad{
-    border-color:#f0d0cb;
-    background:#fff8f6;
+    border-color:#d9a9a2;
+    background:#fff1ee;
 }
 .cons-wrap.good{
-    border-color:#c8e7dd;
-    background:#f4fcf8;
+    border-color:#b7cba8;
+    background:#f4f8ee;
 }
 .cons-wrap h4{
     margin:0 0 8px;
@@ -432,9 +639,9 @@ body{
     padding:10px 12px;
     border-radius:10px;
 }
-.act-retry{ background:#edf8f5; border:1px solid #c8e8de; color:#2d6d5f; }
-.act-map{ background:#f5f1ea; border:1px solid #e0d2be; color:#5f4f3f; }
-.act-next{ background:linear-gradient(135deg,#5cae9d,#3f8e7f); color:#fff; }
+.act-retry{ background:linear-gradient(135deg,#8e643d,#6e4d2e); border:1px solid #a98353; color:#f8efe2; }
+.act-map{ background:linear-gradient(135deg,#f6ead8,#e8d8bf); border:1px solid #c9b08a; color:#59422c; }
+.act-next{ background:linear-gradient(135deg,#587a4a,#3f5f36); color:#fff; }
 
 .modal-overlay{
     position:fixed;
@@ -447,8 +654,9 @@ body{
 }
 .modal-box{
     width:min(420px,92vw);
-    background:#fff;
+    background:linear-gradient(180deg,#fff7e9,#f2e3cc);
     border-radius:16px;
+    border:1px solid #cdb596;
     padding:18px;
     text-align:center;
     animation:pop .25s ease;
@@ -465,8 +673,8 @@ body{
     font-weight:700;
     cursor:pointer;
 }
-.btn-close{ background:#f0f0f0; color:#333; }
-.btn-next{ background:#2f8f71; color:#fff; }
+.btn-close{ background:linear-gradient(135deg,#efe0cb,#e2cfb2); color:#4f3a26; }
+.btn-next{ background:linear-gradient(135deg,#597b4a,#416236); color:#fff; }
 
 #confettiLayer{
     position:fixed;
@@ -491,15 +699,10 @@ body{
 <div class="wrapper">
     <div class="card">
         <div class="top">
-            <h1 class="title">🟦 APPROACHES → DEBATE GAME</h1>
+            <h1 class="title">🟦 MGA PAMAMARAAN → LARO NG PAGTATALO</h1>
             <p class="subtitle">
-                Guiding Question: Paano nakaaapekto ang hazard, vulnerability, at risk sa pagkakaroon ng disaster?
+                Tanong na Gabay: Paano nakaaapekto ang panganib, kahinaan, at banta sa paglitaw ng sakuna?
             </p>
-            <div class="hud">
-                <div class="pill" id="roundPill">Round 1/3</div>
-                <div class="pill gold" id="scorePill">Score: 0</div>
-                <div class="pill" id="lifePill">Buhay: ❤️❤️❤️</div>
-            </div>
         </div>
 
         <div class="body">
@@ -507,7 +710,7 @@ body{
                 <div class="mayor-wrap">
                     <img
                         class="mayor-icon"
-                        alt="Mayor icon"
+                        alt="Larawan ng punong-bayan"
                         src="{{ asset('pictures/mayor.png') }}"
                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22%3E%3Ccircle cx=%2264%22 cy=%2264%22 r=%2262%22 fill=%22%23e9f7f2%22/%3E%3Ccircle cx=%2264%22 cy=%2242%22 r=%2220%22 fill=%22%23f1c27d%22/%3E%3Crect x=%2238%22 y=%2264%22 width=%2252%22 height=%2238%22 rx=%2212%22 fill=%22%233f8e7f%22/%3E%3C/svg%3E';"
                     />
@@ -517,54 +720,105 @@ body{
                 </div>
             </div>
 
-            <h3 class="section-title">📘 Step 1: Basahin muna ang dalawang approach</h3>
+            <h3 class="section-title">📘 Hakbang 1: Basahin muna ang dalawang pamamaraan</h3>
 
             <div class="choice-container">
                 <div class="choice-card active" id="topCard">
                     <div class="choice-head">
-                        <h3>🔥 Top-down Approach</h3>
+                        <h3>Top-down Approach</h3>
                         <button class="read-btn" onclick="reveal('top')">Basahin</button>
                     </div>
                     <div id="topText" class="hidden-text show">
-                        Ang sistemang ito ay nakatuon sa pag-asa ng mga komunidad sa mas mataas na antas ng pamahalaan
-                        (pambayan, panlungsod, o pambansa) sa lahat ng aspeto ng disaster management, mula pagpaplano hanggang
-                        pagtugon. Gayunpaman, madalas itong nababatikos dahil nagiging mabagal ang aksyon at hindi agad
-                        natutugunan ang pangangailangan ng mga mamamayan, lalo na ang mga pinakaapektado. Karaniwan ding
-                        limitado ang mga plano dahil nakabatay lamang sa pananaw ng mga namumuno, habang napapabayaan ang
-                        karanasan at boses ng komunidad. Bukod dito, ang hindi pagkakasundo ng pambansa at lokal na
-                        pamahalaan ay nagiging sanhi ng pagkaantala sa epektibong pagtugon sa kalamidad.
+                        Ang pamamaraang ito ay umaasa sa mas mataas na antas ng pamahalaan sa lahat ng aspeto ng pagharap sa sakuna,
+                        mula pagpaplano hanggang pagtugon. Gayunman, madalas itong mabagal dahil hindi agad natutugunan ang
+                        pangangailangan ng mga mamamayan, lalo na ang mga pinakaapektado. Karaniwan ding limitado ang mga plano dahil
+                        nakabatay lamang ito sa pananaw ng mga pinuno, habang napapabayaan ang karanasan at boses ng komunidad. Bukod dito,
+                        ang hindi pagkakasundo ng pambansa at lokal na pamahalaan ay nagiging sanhi ng pagkaantala sa maayos na pagtugon.
                     </div>
                 </div>
 
                 <div class="choice-card active" id="bottomCard">
                     <div class="choice-head">
-                        <h3>🌱 Bottom-up Approach</h3>
+                        <h3>Bottom-up Approach</h3>
                         <button class="read-btn" onclick="reveal('bottom')">Basahin</button>
                     </div>
                     <div id="bottomText" class="hidden-text show">
-                        Ang bottom-up approach sa pagtugon sa mga suliraning pangkapaligiran ay nakatuon sa aktibong
-                        partisipasyon ng mga mamamayan at iba’t ibang sektor ng pamayanan sa pagtukoy, pag-aanalisa, at
-                        paglutas ng mga problema. Mahalaga ang pamumuno ng lokal na komunidad, kasama ang lokal na
-                        pamahalaan, pribadong sektor, at mga NGO, upang maisulong ang epektibong grassroots development.
-                        Sa paraang ito, nabibigyang-halaga ang iba’t ibang pananaw at karanasan ng mga taong nakatira sa
-                        disaster-prone areas, na nagsisilbing batayan ng mas angkop at makabuluhang plano. Nakatutulong din
-                        ang maayos na pamamahala ng pondo at pagkilala sa matagumpay na implementasyon upang mapanatili ang
-                        bisa ng programa, kung saan ang tagumpay ay nakasalalay sa malawakang pakikilahok ng komunidad sa
-                        pagpaplano at pagdedesisyon.
+                        Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba’t ibang sektor ng pamayanan
+                        sa pagtukoy, pag-aanalisa, at paglutas ng mga suliranin. Mahalaga ang pamumuno ng lokal na komunidad, kasama
+                        ang lokal na pamahalaan, pribadong sektor, at mga organisasyong hindi pangkalakalan, upang maisulong ang
+                        epektibong pag-unlad mula sa ibaba. Sa paraang ito, nabibigyang-halaga ang iba’t ibang pananaw at karanasan
+                        ng mga taong nakatira sa mga lugar na madalas tamaan ng sakuna, na nagsisilbing batayan ng mas angkop at
+                        makabuluhang plano. Nakatutulong din ang maayos na pamamahala ng pondo at pagkilala sa matagumpay na pagpapatupad
+                        upang mapanatili ang bisa ng programa, kung saan ang tagumpay ay nakasalalay sa malawakang pakikilahok ng
+                        komunidad sa pagpaplano at pagdedesisyon.
                     </div>
                 </div>
             </div>
 
             <div class="choose-section" id="chooseSection" style="display:block;">
-                <h3 style="margin:0 0 6px;">👉 Step 2: Piliin ang debate side mo</h3>
-                <button class="game-btn btn-top" onclick="chooseSide('top')">🔥 I-defend ang Top-down</button>
-                <button class="game-btn btn-bottom" onclick="chooseSide('bottom')">🌱 I-defend ang Bottom-up</button>
+                <h3 class="step-title">👉 Hakbang 2: Piliin ang iyong panig</h3>
+
+                <div class="choice-grid elegant-grid">
+
+                    <!-- TOP DOWN -->
+                    <button class="elegant-btn top-style" onclick="chooseSide('top')">
+                        <div class="btn-glow"></div>
+
+                        <div class="btn-content">
+                            <div class="icon-wrap" aria-hidden="true">
+                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none">
+                                    <rect x="4" y="4" width="16" height="4" rx="2" fill="currentColor" opacity="0.2"></rect>
+                                    <rect x="4" y="10" width="10" height="4" rx="2" fill="currentColor" opacity="0.35"></rect>
+                                    <rect x="4" y="16" width="6" height="4" rx="2" fill="currentColor" opacity="0.5"></rect>
+                                    <path d="M18 8V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M16 10L18 8L20 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <div class="text-wrap">
+                                <span class="btn-title">Top-down Approach</span>
+                                <span class="btn-desc">
+                                    Mabilis ang utos mula sa taas, pero sapat ba ito?
+                                </span>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- BOTTOM UP -->
+                    <button class="elegant-btn bottom-style" onclick="chooseSide('bottom')">
+                        <div class="btn-glow"></div>
+
+                        <div class="btn-content">
+                            <div class="icon-wrap" aria-hidden="true">
+                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 19V8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+                                    <path d="M12 8C12 5.8 10.2 4 8 4C8 6.2 9.8 8 12 8Z" fill="currentColor" opacity="0.45"></path>
+                                    <path d="M12 8C12 5.8 13.8 4 16 4C16 6.2 14.2 8 12 8Z" fill="currentColor" opacity="0.65"></path>
+                                    <path d="M7 19H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M12 15L10 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M12 15L14 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
+                            <div class="text-wrap">
+                                <span class="btn-title">Bottom-up Approach</span>
+                                <span class="btn-desc">
+                                    Komunidad ang sentro ng desisyon — mas epektibo ba?
+                                </span>
+                            </div>
+                        </div>
+                    </button>
+
+                </div>
             </div>
 
             <div class="challenge" id="challengeBox">
-                <h3 style="margin:0;">⚖️ Step 3: Debate Rounds</h3>
+                <h3 style="margin:0;">⚖️ Hakbang 3: Mga Ikot ng Pagtatalo</h3>
+                <div class="hud">
+                    <div class="pill" id="roundPill">Ikot 1/3</div>
+                    <div class="pill gold" id="scorePill">Iskor: 0</div>
+                    <div class="pill" id="lifePill">Buhay: ❤️❤️❤️</div>
+                </div>
                 <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-                <div class="timer" id="timerLabel">⏱ 15s</div>
+                <div class="timer" id="timerLabel">⏱ 15 segundo</div>
                 <div class="prompt" id="promptText"></div>
                 <div class="arg-grid" id="argGrid"></div>
                 <div class="status" id="statusText"></div>
@@ -577,17 +831,19 @@ body{
 
 <div id="wrongModal" class="modal-overlay">
     <div class="modal-box">
-        <h3>❌ Oops!</h3>
-        <p id="wrongText">Nauubos ang oras. Sa debate, mahalaga ang bilis at linaw.</p>
-        <button class="modal-btn btn-close" onclick="closeModal('wrongModal')">Subukan muli</button>
+        <h3>❌ Naku!</h3>
+                <p id="wrongText">Naubos ang oras. Sa pagtatalo, mahalaga ang bilis at linaw.</p>
+        <button class="modal-btn btn-close" onclick="closeModal('wrongModal')">Subukang muli</button>
     </div>
 </div>
 
 <div id="successModal" class="modal-overlay">
     <div class="modal-box">
-        <h3>🎉 Congrats, Mayor!</h3>
-        <p>Naipakita mo ang mas matibay na argumento sa DRRM approaches.</p>
-        <a href="{{ route('module3.node3') }}"><button class="modal-btn btn-next">Magpatuloy ➡</button></a>
+        <h3>🎉 Binabati Ka, Punong-Bayan!</h3>
+        <p>Naipakita mo ang mas matibay na argumento sa mga pamamaraang pangkahandaan sa sakuna.</p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <a href="{{ route('inner.map3') }}"><button class="modal-btn btn-close">🗺 Bumalik sa Mapa</button></a>
+        </div>
     </div>
 </div>
 
@@ -602,43 +858,43 @@ let roundIndex = 0;
 let timeLeft = 15;
 let timer = null;
 
-const narratorMessage = "Mayor ka ngayon. Basahin ang dalawang approach, piliin ang panig, at manalo sa debate rounds.";
+    const narratorMessage = "Ikaw ang punong-bayan ngayon. Basahin ang dalawang pamamaraan, piliin ang panig, at manalo sa mga ikot ng pagtatalo.";
 
 const approachConsequences = {
     top: [
-        "❌ Hindi narinig ang komunidad kaya hindi tugma ang plano sa kanilang tunay na pangangailangan.",
+        "❌ Hindi narinig ang komunidad kaya hindi tugma ang plano sa tunay nilang pangangailangan.",
         "❌ Mabagal ang pagtugon dahil nakaasa sa desisyon ng mas mataas na pamahalaan.",
-        "❌ Kulang sa partisipasyon ng mamamayan kaya mahina ang implementasyon.",
+        "❌ Kulang sa pakikilahok ng mamamayan kaya mahina ang pagpapatupad.",
         "❌ Mas mataas ang pinsala dahil hindi handa ang komunidad."
     ],
     bottom: [
         "✅ Mas naging epektibo ang plano dahil nakabatay sa karanasan ng komunidad.",
         "✅ Mabilis ang pagtugon dahil aktibo ang mga mamamayan.",
-        "✅ Mas mataas ang partisipasyon kaya mas maayos ang implementasyon.",
+        "✅ Mas mataas ang pakikilahok kaya mas maayos ang pagpapatupad.",
         "✅ Mas nababawasan ang pinsala dahil handa at may kaalaman ang komunidad."
     ]
 };
 
 const rounds = [
     {
-        prompt: "May bagyo na paparating sa coastal barangay. Ano ang mas epektibong unang hakbang?",
+        prompt: "May paparating na bagyo sa baybaying barangay. Ano ang mas epektibong unang hakbang?",
         options: [
-            { side: "top", text: "Hintayin muna ang central order bago kumilos ang barangay.", points: 0, feedback: "Mabagal ang initial response." },
-            { side: "bottom", text: "I-activate agad ang barangay volunteers at local evacuation plan.", points: 2, feedback: "Tama: mabilis at context-based ang aksyon." }
+            { side: "top", text: "Hintayin muna ang utos mula sa itaas bago kumilos ang barangay.", points: 0, feedback: "Mabagal ang unang pagtugon." },
+            { side: "bottom", text: "Agad na buhayin ang mga boluntaryo ng barangay at ang planong paglilikas.", points: 2, feedback: "Tama: mabilis at angkop sa sitwasyon ang aksyon." }
         ]
     },
     {
-        prompt: "Pagkatapos ng flood, anong approach ang mas makakatulong sa long-term recovery?",
+        prompt: "Pagkatapos ng baha, alin ang mas makakatulong sa pangmatagalang pagbangon?",
         options: [
-            { side: "top", text: "Iisang plano lang mula taas para sa lahat ng lugar.", points: 0, feedback: "Maaaring hindi tugma sa iba't ibang local needs." },
-            { side: "bottom", text: "Community mapping + participatory planning sa pinakaapektadong purok.", points: 2, feedback: "Tama: inclusive at mas sustainable." }
+            { side: "top", text: "Iisang plano lamang mula sa taas para sa lahat ng lugar.", points: 0, feedback: "Maaaring hindi tugma sa iba’t ibang pangangailangan ng mga lugar." },
+            { side: "bottom", text: "Pagmamapa ng komunidad at sama-samang pagpaplano sa pinakaapektadong purok.", points: 2, feedback: "Tama: mas inklusibo at mas pangmatagalan." }
         ]
     },
     {
-        prompt: "Sa budgeting ng DRRM, ano ang mas may mataas na ownership?",
+        prompt: "Sa paglalaan ng badyet para sa kahandaan sa sakuna, alin ang mas may mataas na pag-aari ng komunidad?",
         options: [
-            { side: "top", text: "Budget priorities na purely centralized at one-way.", points: 0, feedback: "Mababa ang community ownership." },
-            { side: "bottom", text: "May public consultation bago i-finalize ang local DRRM spending.", points: 2, feedback: "Tama: mas transparent at mas suportado." }
+            { side: "top", text: "Mga prayoridad sa badyet na puro sentralisado at isang direksiyon lamang.", points: 0, feedback: "Mababa ang pagmamay-ari ng komunidad." },
+            { side: "bottom", text: "May pampublikong konsultasyon bago pinal ang paggasta sa lokal na kahandaan sa sakuna.", points: 2, feedback: "Tama: mas malinaw at mas sinusuportahan." }
         ]
     }
 ];
@@ -684,7 +940,7 @@ function chooseSide(side){
     chooseSection.style.display = 'none';
     challengeBox.style.display = 'block';
     statusText.className = 'status';
-    statusText.textContent = `✅ Side selected: ${side === 'bottom' ? 'Bottom-up' : 'Top-down'}. Simulan ang debate rounds.`;
+    statusText.textContent = `✅ Napili ang panig: ${side === 'bottom' ? 'Bottom-up Approach' : 'Top-down Approach'}. Simulan ang mga ikot ng pagtatalo.`;
     roundIndex = 0;
     score = 0;
     lives = 3;
@@ -702,13 +958,13 @@ function renderRound(){
     updateHUD();
 
     const r = rounds[roundIndex];
-    promptText.textContent = `Round ${roundIndex + 1}: ${r.prompt}`;
+    promptText.textContent = `Ikot ${roundIndex + 1}: ${r.prompt}`;
     argGrid.innerHTML = '';
 
     r.options.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.className = 'arg-btn';
-        btn.innerHTML = `${opt.side === 'bottom' ? '' : ''} ${opt.text}`;
+        btn.textContent = opt.text;
         btn.onclick = () => answer(i);
         argGrid.appendChild(btn);
     });
@@ -719,14 +975,14 @@ function renderRound(){
 }
 
 function startTimer(){
-    timerLabel.textContent = `⏱ ${timeLeft}s`;
+    timerLabel.textContent = `⏱ ${timeLeft} segundo`;
     timer = setInterval(() => {
         timeLeft--;
-        timerLabel.textContent = `⏱ ${timeLeft}s`;
+        timerLabel.textContent = `⏱ ${timeLeft} segundo`;
         if (timeLeft <= 5) timerLabel.style.color = '#a7392f';
         if (timeLeft <= 0){
             clearInterval(timer);
-            loseLife("⏰ Time out! Walang naipiling argumento.");
+            loseLife("⏰ Naubos ang oras! Walang naipiling argumento.");
             nextRound();
         }
     }, 1000);
@@ -744,11 +1000,11 @@ function answer(index){
 
     if (pick.points > 0){
         statusText.className = 'status ok';
-        statusText.textContent = `✅ ${pick.feedback} (+${gained} pts)`;
+        statusText.textContent = `✅ ${pick.feedback} (+${gained} puntos)`;
     } else {
         statusText.className = 'status bad';
-        statusText.textContent = `❌ ${pick.feedback} (+${gained} pts)`;
-        loseLife("Mas mahina ang napiling argumento sa round na ito.");
+        statusText.textContent = `❌ ${pick.feedback} (+${gained} puntos)`;
+        loseLife("Mas mahina ang napiling argumento sa ikot na ito.");
     }
 
     updateHUD();
@@ -759,7 +1015,7 @@ function loseLife(msg){
     lives = Math.max(0, lives - 1);
     updateHUD();
     if (lives === 0){
-        document.getElementById('wrongText').textContent = msg + " Wala ka nang lives.";
+        document.getElementById('wrongText').textContent = msg + " Wala ka nang natitirang buhay.";
         document.getElementById('wrongModal').style.display = 'flex';
         clearInterval(timer);
         setTimeout(endGame, 350);
@@ -776,20 +1032,20 @@ function nextRound(){
 }
 
 function updateHUD(){
-    roundPill.textContent = `Round ${Math.min(roundIndex + 1, rounds.length)}/${rounds.length}`;
-    scorePill.textContent = `Score: ${score}`;
-    lifePill.textContent = `Lives: ${'❤️'.repeat(lives)}${'🖤'.repeat(3 - lives)}`;
+    roundPill.textContent = `Ikot ${Math.min(roundIndex + 1, rounds.length)}/${rounds.length}`;
+    scorePill.textContent = `Iskor: ${score}`;
+    lifePill.textContent = `Buhay: ${'❤️'.repeat(lives)}${'🖤'.repeat(3 - lives)}`;
     timerLabel.style.color = '#7a4d2b';
 }
 
 function getConsequencesHTML(side){
     const isBottom = side === 'bottom';
-    const label = isBottom ? 'Bottom-up' : 'Top-down';
+    const label = isBottom ? 'Bottom-up Approach' : 'Top-down Approach';
     const list = approachConsequences[side] ?? [];
 
     return `
         <div class="cons-wrap ${isBottom ? 'good' : 'bad'}">
-            <h4>👉 If ${label}:</h4>
+            <h4>👉 Kung ${label}:</h4>
             <ul>
                 ${list.map(item => `<li>${item}</li>`).join('')}
             </ul>
@@ -805,14 +1061,14 @@ function endGame(){
     const maxScore = rounds.length * 3;
     const passed = score >= 5;
 
-    // ✅ SAVE TO DATABASE
+    // ✅ I-save ang progreso sa talaan
     saveGameProgress(passed);
     
     const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
 
-    if (passed) {
-        sessionStorage.setItem('m3_node2', 'true');
-    }
+    // Mark node as completed once end-game screen is reached.
+    sessionStorage.setItem('m3v2_node2', 'true');
+    localStorage.setItem('m3v2_node2', 'true');
 
     if (passed){
         burstConfetti();
@@ -820,18 +1076,17 @@ function endGame(){
     }
 
     resultBox.innerHTML = `
-        <h3>${passed ? '🏆 Debate Won!' : '📌 Debate Review Needed'}</h3>
-        <p style="margin:0 0 8px;">Final Score: <b>${score}</b> / ${maxScore}</p>
+        <h3>${passed ? '🏆 Napanalunan ang Pagtatalo!' : '📌 Kailangan Pa ng Pagsusuri sa Pagtatalo'}</h3>
+        <p style="margin:0 0 8px;">Huling Iskor: <b>${score}</b> / ${maxScore}</p>
         <p style="margin:0; color:#5b4e44;">
             ${passed
                 ? 'Magaling! Naipakita mo ang matibay na argumento.'
-                : 'Subukan muli. Basahin ulit ang dalawang approach at piliin ang mas context-based na argumento.'}
+                : 'Subukan muli. Basahin uli ang dalawang pamamaraan at piliin ang mas akma sa sitwasyon.'}
         </p>
         ${getConsequencesHTML(reviewSide)}
         <div class="actions">
             <a class="act-retry" href="{{ route('module3.node2') }}">🔁 Ulitin</a>
-            <a class="act-map" href="{{ route('inner.map3') }}">🗺 Bumalik sa Map</a>
-            <a class="act-next" href="{{ route('module3.node3') }}">➡ Magpatuloy</a>
+            <a class="act-map" href="{{ route('inner.map3') }}">🗺 Bumalik sa Mapa</a>
         </div>
     `;
     progressFill.style.width = '100%';

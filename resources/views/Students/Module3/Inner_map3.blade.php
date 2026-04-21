@@ -167,6 +167,67 @@ body, html {
     font-weight: bold;
 }
 
+/* FINAL ACTIVITY BUTTON (MODULE 2-STYLE) */
+.final-key {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 20px;
+    background: gold;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+}
+
+/* FINAL MODAL (MODULE 2-STYLE) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    width: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.modal-btn {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #5eae4e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
 .node.locked {
     transform: translate(-50%, -50%) scale(0.8); /* ← include translate! */
 }
@@ -179,6 +240,16 @@ body, html {
 
 @section('content')
 <div class="map-wrapper">
+
+    <div id="finalModal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 Mission Complete!</h2>
+            <p>Kumpleto mo na ang lahat ng node sa Module 3.</p>
+            <button class="modal-btn" onclick="goToActivities()">🚀 Pumunta sa Mga Gawain</button>
+            <button class="modal-close" onclick="closeModal()">✖</button>
+        </div>
+    </div>
+
     <div class="map-container">
 
         <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map" alt="Mapa ng Module 3">
@@ -200,31 +271,56 @@ body, html {
             <span class="lock-icon">🔒</span>
         </button>
 
+        <button id="final-key" class="final-key" onclick="goFinal()">🔑 Unlock Mga Gawain</button>
+
         <a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
     </div>
 </div>
 
 <script>
+const M3_PROGRESS_KEYS = {
+    node1: "m3v2_node1",
+    node2: "m3v2_node2",
+    node3: "m3v2_node3"
+};
+
 function getDone(key){
-    return sessionStorage.getItem(key) === "true";
+    const sessionDone = sessionStorage.getItem(key) === "true";
+    const localDone = localStorage.getItem(key) === "true";
+
+    // Sync from localStorage so map unlock survives page/session reloads.
+    if (!sessionDone && localDone) {
+        sessionStorage.setItem(key, "true");
+    }
+
+    return sessionDone || localDone;
+}
+
+function getM3Done(nodeKey) {
+    return getDone(M3_PROGRESS_KEYS[nodeKey]);
 }
 
 function updateMapProgress(){
     const node2 = document.getElementById("node2");
     const node3 = document.getElementById("node3");
-    const node4 = document.getElementById("node4");
+    const finalBtn = document.getElementById("final-key");
 
     lockNode(node2);
     lockNode(node3);
-    lockNode(node4);
 
-    const n1 = getDone("m3_node1");
-    const n2 = getDone("m3_node2");
-    const n3 = getDone("m3_node3");
+    const n1 = getM3Done("node1");
+    const n2 = getM3Done("node2");
+    const n3 = getM3Done("node3");
 
     if(n1) unlockNode(node2);
     if(n1 && n2) unlockNode(node3);
-    if(n1 && n2 && n3) unlockNode(node4);
+
+    // Module 2-style final activity unlock button.
+    if(n1 && n2 && n3) {
+        finalBtn.style.display = "block";
+    } else {
+        finalBtn.style.display = "none";
+    }
 }
 
 function lockNode(node){
@@ -250,7 +346,7 @@ function goNode1(){
 }
 
 function goNode2(){
-    if(getDone("m3_node1")){
+    if(getM3Done("node1")){
         window.location.href = "{{ route('module3.node2') }}";
     } else {
         alert("Tapusin muna ang Node 1!");
@@ -258,19 +354,23 @@ function goNode2(){
 }
 
 function goNode3(){
-    if(getDone("m3_node2")){
+    if(getM3Done("node2")){
         window.location.href = "{{ route('module3.node3') }}";
     } else {
         alert("Tapusin muna ang Node 2!");
     }
 }
 
-function goNode4(){
-    if(getDone("m3_node3")){
-        window.location.href = "{{ route('apply.activity') }}";
-    } else {
-        alert("Tapusin muna ang Node 3!");
-    }
+function goFinal(){
+    document.getElementById("finalModal").style.display = "flex";
+}
+
+function closeModal(){
+    document.getElementById("finalModal").style.display = "none";
+}
+
+function goToActivities(){
+    window.location.href = "{{ route('apply.activity') }}";
 }
 
 function moduleTransition(target, url) {

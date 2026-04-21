@@ -1010,10 +1010,17 @@
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
 	let pendingSelection = null;
-	let retryCount = 0;
-	const maxRetries = 3;
 	const questionsPerCard = 5;
 	let currentCard = 0;
+	const maxRetries = 3;
+
+	function getRetryCount() {
+		return parseInt(localStorage.getItem('mod2_retry') || '0');
+	}
+
+	function setRetryCount(count) {
+		localStorage.setItem('mod2_retry', count);
+	}
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1303,26 +1310,32 @@
 	}
 
 	function updateRetryIndicator() {
+		const retryCount = getRetryCount();
 		const remaining = maxRetries - retryCount;
+
 		const retryIndicator = document.getElementById('retryIndicator');
 
-		retryIndicator.textContent = `🔁 Natitirang retries: ${remaining} / ${maxRetries}`;
+		retryIndicator.textContent = `🔁 Natitirang attempts: ${remaining} / ${maxRetries}`;
 
-		// Optional: visual warning when 0
-		if (remaining === 0) {
+		if (remaining <= 0) {
 			retryIndicator.style.background = '#ffe5e5';
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
+
+			document.querySelector('.btn-secondary').disabled = true;
 		}
 	}
 
 	function restartQuiz() {
-		if (retryCount >= maxRetries - 1) {
+		let retryCount = getRetryCount();
+
+		if (retryCount >= maxRetries) {
 			alert('Naabot mo na ang maximum na 3 attempts.');
 			return;
 		}
 
 		retryCount++;
+		setRetryCount(retryCount);
 
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
@@ -1331,17 +1344,14 @@
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
-		updateRetryIndicator(); // 🔥 ADD THIS
-
+		updateRetryIndicator();
 		renderAllQuestions();
 	}
 
 	window.addEventListener('load', () => {
-		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
-		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});
 </script>
 

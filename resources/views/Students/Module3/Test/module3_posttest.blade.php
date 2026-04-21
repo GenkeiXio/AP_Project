@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 3 Panghuling Pagsusulit</title>
-
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
-
+@extends('Students.studentslayout')
+@section('title', 'Hamon at Tugon: Module 3 Panghuling Pagsusulit')
+@push('styles')
 	<style>
 		:root {
 			--bg-1: #fffaf3;
@@ -31,15 +24,18 @@
 			box-sizing: border-box;
 		}
 
-		body {
-			display: block;
-			min-height: 100vh;
-			padding: 28px 20px 40px;
+		html, body {
+			background: #060b16;
+			background-image: 
+				radial-gradient(circle at 8% 8%, rgba(0, 242, 255, 0.1), transparent 24%),
+				radial-gradient(circle at 90% 14%, rgba(57, 255, 20, 0.08), transparent 20%),
+				linear-gradient(rgba(160, 190, 230, 0.04) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(160, 190, 230, 0.04) 1px, transparent 1px);
+			background-size: auto, auto, 34px 34px, 34px 34px;
+			color: var(--ink-1);
+			font-family: 'Poppins', sans-serif;
 			overflow-x: hidden;
-			background:
-				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
-				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
-				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+			touch-action: pan-y;
 		}
 
 		.background-map {
@@ -146,11 +142,17 @@
 
 		.progress-topline {
 			display: flex;
-			justify-content: center;
+			justify-content: space-between;
 			align-items: center;
 			gap: 10px;
-			margin-bottom: 15px;
+			margin-bottom: 8px;
 			flex-wrap: wrap;
+		}
+		
+		.progress-center {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 15px;
 		}
 
 		.progress-label {
@@ -161,13 +163,12 @@
 		}
 
 		.progress-mini-badge {
-			font-size: 0.85rem;
-			font-weight: 900;
-			padding: 6px 14px;
+			font-size: 0.78rem;
+			font-weight: 800;
 			color: #5b472f;
 			background: #fff7ea;
 			border: 1px solid #efd9b3;
-			/* padding: 5px 10px; */
+			padding: 5px 10px;
 			border-radius: 999px;
 		}
 
@@ -281,16 +282,17 @@
 
 		.question-item h4 {
 			color: var(--text);
-			margin-bottom: 14px;
-			line-height: 1.5;
-			font-size: 1.02rem;
+			margin-bottom: 16px;
+			margin-top: 8px; /* ADD THIS */
+			line-height: 1.6; /* slightly more breathing room */
+			font-size: 1.05rem;
 			font-weight: 900;
 			padding-right: 18px;
 		}
 
 		.choices {
 			display: grid;
-			gap: 10px;
+			gap: 12px;
 		}
 
 		.choice {
@@ -576,19 +578,16 @@
 		}
 
 		.back-button {
-			position: fixed;
-			top: 20px;
-			left: 20px;
-			z-index: 100;
-			background-color: rgba(255, 255, 255, 0.9);
-			padding: 10px 15px;
-			border-radius: 8px;
-			text-decoration: none;
-			color: #1a1a1a;
-			font-weight: bold;
-			font-family: 'Courier New', Courier, monospace;
-			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-			transition: transform 0.2s;
+			position:fixed;
+			top: 80px; 
+			left:20px;
+			z-index: 999; 
+			background:white;
+			padding:10px 15px;
+			border-radius:8px;
+			text-decoration:none;
+			font-weight:bold;
+			box-shadow:0 4px 8px rgba(0,0,0,0.2);
 		}
 
 		.back-button:hover {
@@ -606,7 +605,7 @@
 
 		@media (max-width: 768px) {
 			body {
-				padding: 14px 10px 20px;
+				overflow: auto;
 			}
 
 			.pretest-card {
@@ -745,56 +744,138 @@
 			}
 		}
 
+		@keyframes rewardPop {
+			0% { transform: scale(0.5); opacity: 0; }
+			100% { transform: scale(1); opacity: 1; }
+		}
+
+		.modal-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(61, 42, 26, 0.4); /* Matches your --text color for a warmer dim */
+			backdrop-filter: blur(8px); /* Blurs the background map for focus */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+			opacity: 0;
+			pointer-events: none;
+			transition: all 0.3s ease;
+		}
+
+		.modal-overlay.show {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.modal-box {
+			background: #ffffff;
+			padding: 30px;
+			border-radius: 28px;
+			max-width: 500px;
+			width: 90%;
+			text-align: center;
+			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+			border: 1px solid rgba(230, 208, 175, 0.5);
+		}
+
+		.reward-container {
+			background: #f0fdf4; /* Very light green */
+			border: 2px dashed #6dbf7e;
+			border-radius: 20px;
+			padding: 20px;
+			margin: 20px 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.reward-label {
+			display: block;
+			font-size: 0.75rem;
+			font-weight: 800;
+			color: var(--accent-dark);
+			text-transform: uppercase;
+			margin-bottom: 8px;
+			letter-spacing: 1px;
+		}
+
+		.reward-image {
+			width: 100%;
+			max-width: 200px; /* Adjust based on your image aspect ratio */
+			height: auto;
+			border-radius: var(--radius-md);
+			box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+			transition: transform 0.3s ease;
+			animation: rewardPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+		}
+
+		.reward-image:hover {
+			transform: scale(1.05) rotate(2deg);
+		}
+
+		.modal-box {
+			max-width: 450px; /* Keeps it tight and focused */
+			width: 90%;
+		}
+
+		.modal-box h2 {
+			font-family: "Baloo 2", cursive;
+			margin-bottom: 10px;
+		}
+
+		.modal-box p {
+			font-size: 0.95rem;
+			line-height: 1.6;
+			color: #5b472f;
+			margin-bottom: 25px;
+			text-align: justify; /* Cleaner look for long paragraphs */
+		}
+
 		.single-question {
-			margin-bottom: 18px;
-			padding-bottom: 12px;
+			margin-bottom: 28px; /* increased spacing */
+			padding-bottom: 18px;
 			border-bottom: 1px dashed #e7d7bf;
 		}
 
 		.single-question:last-child {
 			border-bottom: none;
-		}
-
-		.retry-indicator {
-			text-align: center;
-			font-size: 0.85rem;
-			font-weight: 900;
-			color: #5b472f;
-			background: #fff7ea;
-			border: 1px solid #efd9b3;
-			padding: 6px 12px;
-			border-radius: 999px;
-			margin-top: 10px;
-			display: inline-block;
+			margin-bottom: 0;
 		}
 	</style>
-</head>
-<body>
+@endpush
+
+@section('content')
 
 <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 
-<a href="{{ route('module3.closing') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
+<a href="{{ route('inner.map2') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
 <div class="main-wrapper">
 	<div class="pretest-wrap">
 		<div class="pretest-card">
 			<div class="pretest-header">
-				<div class="header-icons">🔥 🛡️ 🌊</div>
+				<div class="header-icons">🧭 🗺️ ✨</div>
 				<div class="subtitle">Module 3</div>
 				<h1>PANGHULING PAGSUSULIT</h1>
-				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
+                <p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
 
 			<!-- <div class="pretest-note">
-				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
+				💡 Sagutin ang bawat tanong at i-click ang "✓ Kumpirmahin". <br> <br>Kailangang makakuha ng 13/15 upang makapasa.
 			</div> -->
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
 					<div class="quiz-progress">
 						<div class="progress-topline">
+							<div class="progress-label" id="quizProgressLabel"></div>
+						</div>
+
+						<div class="progress-center">
 							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
 						</div>
+
 						<div class="progress-dots" id="progressDots"></div>
 					</div>
 
@@ -804,6 +885,9 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
 						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPostTest()" style="display:none;">Tapusin ang Panghuling Pagsusulit 🚀</button>
 					</div>
@@ -816,242 +900,268 @@
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
 						<div class="result-score" id="resultScoreText"></div>
-						<div class="badge-pill" id="resultBadge">🌟 Mahusay!</div>
+						<div class="badge-pill" id="resultBadge"></div>
 						<div class="result-feedback" id="resultFeedback"></div>
-						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
-
-						<div class="retry-indicator" id="retryIndicator">
-							🔁 Natitirang retries: 2 / 2
-						</div>
-
-						<div class="result-actions">
+						
+						<div class="result-actions" id="resultActions">
 							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Panghuling Pagsusulit</button>
-							<a href="{{ route('student.module3.performance-task') }}" class="btn-primary">Magpatuloy →</a>
+							<a href="{{ route('module3.closing') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+	<!-- PASS MODAL -->
+	<!-- <div id="passModal" class="modal-overlay">
+		<div class="modal-box">
+			<h2>🎉 Mahusay!</h2>
+			
+			<p>
+				Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
+				Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
+			</p>
+
+			<a href="{{ route('student.module3.performance-task') }}" class="btn-primary">
+				Magpatuloy sa Essay ✍️
+			</a>
+		</div>
+	</div> -->
 </div>
 
-<script>
-	const questions = [
-        {
-            question: 'Isang barangay ang madalas bahain dahil sa lokasyon nito malapit sa ilog. Ano ang pinakaangkop na paliwanag batay sa risk concept?',
-            options: {
-                a: 'Mataas ang exposure at vulnerability kaya tumataas ang risk',
-                b: 'Mababa ang hazard kaya hindi dapat mag-alala ang komunidad',
-                c: 'Mataas ang resilience kaya walang magiging pinsala',
-                d: 'Mababa ang population kaya hindi ito magiging problema'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Sa isang komunidad, may early warning system ngunit hindi ito pinapansin ng mga residente. Ano ang posibleng epekto?',
-            options: {
-                a: 'Tataas ang pinsala dahil hindi agad nakapaghahanda ang mga tao',
-                b: 'Bababa ang hazard dahil may sistema ng babala sa lugar',
-                c: 'Mawawala ang risk dahil may teknolohiya ang komunidad',
-                d: 'Mapipigilan ang sakuna dahil may warning system'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Alin sa mga sumusunod ang nagpapakita ng ugnayan ng hazard at vulnerability?',
-            options: {
-                a: 'Malakas na bagyo at mahihinang bahay sa komunidad',
-                b: 'Maraming puno at malinis na kapaligiran sa lugar',
-                c: 'Mataas na gusali at maayos na drainage system',
-                d: 'Sapat na kaalaman at kahandaan ng mamamayan'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Bakit mahalaga ang pagkakaroon ng emergency kit bago ang sakuna?',
-            options: {
-                a: 'Nakakatulong ito upang matugunan ang agarang pangangailangan sa oras ng sakuna',
-                b: 'Nakakapigil ito sa pagdating ng sakuna sa komunidad',
-                c: 'Nakakabawas ito sa lakas ng hazard sa kapaligiran',
-                d: 'Nakakapigil ito sa pagtaas ng tubig sa baha'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Sa panahon ng bagyo, bakit mahalaga ang maagang paglikas kung kinakailangan?',
-            options: {
-                a: 'Naiiwasan ang panganib bago pa lumala ang sitwasyon',
-                b: 'Napipigilan ang pagdating ng bagyo sa komunidad',
-                c: 'Nababawasan ang lakas ng hangin sa kapaligiran',
-                d: 'Napapahinto ang pagtaas ng tubig sa ilog'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Alin ang nagpapakita ng resilience ng isang pamilya matapos ang sakuna?',
-            options: {
-                a: 'Muling pagbangon at pag-aayos ng tahanan matapos ang pinsala',
-                b: 'Pag-alis sa komunidad at hindi na pagbabalik muli',
-                c: 'Pag-iwas sa pakikilahok sa mga gawaing pangkomunidad',
-                d: 'Pagdepende lamang sa tulong mula sa pamahalaan'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Isang komunidad ang aktibong nakikilahok sa disaster drills at planning. Ano ang ipinapakita nito?',
-            options: {
-                a: 'Mataas na kapasidad at kahandaan ng komunidad sa sakuna',
-                b: 'Mataas na vulnerability ng mga mamamayan sa lugar',
-                c: 'Mababang risk dahil walang hazard sa kanilang lugar',
-                d: 'Kawalan ng suporta mula sa pamahalaan'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Ano ang pinakaangkop na halimbawa ng structural risk?',
-            options: {
-                a: 'Mahinang gusali na madaling masira sa lindol',
-                b: 'Kakulangan ng kaalaman ng mga tao sa komunidad',
-                c: 'Pagkakaroon ng bagyo sa isang rehiyon',
-                d: 'Pagtaas ng tubig sa ilog matapos ang ulan'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Sa CBDRRM, bakit mahalaga ang partisipasyon ng komunidad?',
-            options: {
-                a: 'Nakakatulong ito sa pagbuo ng angkop at epektibong plano',
-                b: 'Napapalitan nito ang papel ng pamahalaan sa lahat ng gawain',
-                c: 'Nababawasan nito ang responsibilidad ng mga mamamayan',
-                d: 'Napipigilan nito ang pagdating ng hazard'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Alin sa mga sumusunod ang nagpapakita ng bottom-up approach?',
-            options: {
-                a: 'Aktibong pakikilahok ng komunidad sa pagpaplano at desisyon',
-                b: 'Pagdedesisyon ng pambansang pamahalaan lamang',
-                c: 'Pag-asa sa utos ng mas mataas na opisyal sa lahat ng oras',
-                d: 'Limitadong partisipasyon ng lokal na mamamayan'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Ano ang pangunahing layunin ng disaster preparedness activities tulad ng drills?',
-            options: {
-                a: 'Sanayin ang mga tao upang maging handa sa aktwal na sakuna',
-                b: 'Pigilan ang pagdating ng hazard sa isang lugar',
-                c: 'Bawasan ang lakas ng sakuna sa kapaligiran',
-                d: 'Palitan ang mga tungkulin ng pamahalaan'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Alin ang pinakaangkop na aksyon habang lumilindol?',
-            options: {
-                a: 'Magtago sa ilalim ng matibay na mesa at manatiling kalmado',
-                b: 'Tumakbo palabas agad kahit may mga bumabagsak na bagay',
-                c: 'Manatili sa tabi ng bintana upang makita ang sitwasyon',
-                d: 'Gumamit ng elevator upang makalabas agad'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Bakit mahalagang sundin ang early warning system at evacuation protocols?',
-            options: {
-                a: 'Nakakatulong ito upang maiwasan ang pinsala sa buhay at ari-arian',
-                b: 'Nakakapigil ito sa pagdating ng sakuna sa komunidad',
-                c: 'Nakakapagpahina ito sa lakas ng hazard',
-                d: 'Nakakapagpabagal ito sa pagdating ng bagyo'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Sa panahon ng baha, alin ang pinakaangkop na gawain?',
-            options: {
-                a: 'Iwasan ang paglusong sa baha lalo na kung hindi alam ang lalim',
-                b: 'Tumawid sa baha upang makita ang sitwasyon sa paligid',
-                c: 'Lumabas ng bahay upang obserbahan ang daloy ng tubig',
-                d: 'Ipagpatuloy ang normal na gawain kahit may baha'
-            },
-            answer: 'a'
-        },
-        {
-            question: 'Bilang Youth Disaster Leader, alin ang pinakaepektibong hakbang upang mabawasan ang risk sa komunidad?',
-            options: {
-                a: 'Mag-organisa ng preparedness training at information campaign',
-                b: 'Maghintay ng tulong mula sa pamahalaan bago kumilos',
-                c: 'Iwasan ang pakikilahok sa mga gawaing pangkomunidad',
-                d: 'Ituon lamang ang pansin sa sariling kaligtasan'
-            },
-            answer: 'a'
-        }
-    ];
 
+<script>
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+
+	function shuffleQuestionsAndChoices() {
+		// Shuffle questions
+		shuffleArray(questions);
+
+		// Shuffle choices BUT keep a,b,c,d fixed
+		questions.forEach(q => {
+			const optionKeys = Object.keys(q.options); // ['a','b','c','d']
+			const optionTexts = optionKeys.map(key => q.options[key]);
+
+			// Shuffle only the TEXTS
+			shuffleArray(optionTexts);
+
+			// Reassign shuffled texts back to a,b,c,d
+			const newOptions = {};
+			optionKeys.forEach((key, index) => {
+				newOptions[key] = optionTexts[index];
+			});
+
+			// Preserve correct answer
+			const correctAnswerText = q.options[q.answer];
+			const newAnswerKey = Object.keys(newOptions).find(
+				key => newOptions[key] === correctAnswerText
+			);
+
+			q.options = newOptions;
+			q.answer = newAnswerKey;
+		});
+	}
+
+	const questions = [
+		{
+			question: 'Isang barangay ang madalas bahain dahil sa lokasyon nito malapit sa ilog. Ano ang pinakaangkop na paliwanag batay sa risk concept?',
+			options: {
+				a: 'Mataas ang exposure at vulnerability kaya tumataas ang risk',
+				b: 'Mababa ang hazard kaya hindi dapat mag-alala ang komunidad',
+				c: 'Mataas ang resilience kaya walang magiging pinsala',
+				d: 'Mababa ang population kaya hindi ito magiging problema'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa isang komunidad, may early warning system ngunit hindi ito pinapansin ng mga residente. Ano ang posibleng epekto?',
+			options: {
+				a: 'Tataas ang pinsala dahil hindi agad nakapaghahanda ang mga tao',
+				b: 'Bababa ang hazard dahil may sistema ng babala sa lugar',
+				c: 'Mawawala ang risk dahil may teknolohiya ang komunidad',
+				d: 'Mapipigilan ang sakuna dahil may warning system'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin sa mga sumusunod ang nagpapakita ng ugnayan ng hazard at vulnerability?',
+			options: {
+				a: 'Malakas na bagyo at mahihinang bahay sa komunidad',
+				b: 'Maraming puno at malinis na kapaligiran sa lugar',
+				c: 'Mataas na gusali at maayos na drainage system',
+				d: 'Sapat na kaalaman at kahandaan ng mamamayan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Bakit mahalaga ang pagkakaroon ng emergency kit bago ang sakuna?',
+			options: {
+				a: 'Nakakatulong ito upang matugunan ang agarang pangangailangan sa oras ng sakuna',
+				b: 'Nakakapigil ito sa pagdating ng sakuna sa komunidad',
+				c: 'Nakakabawas ito sa lakas ng hazard sa kapaligiran',
+				d: 'Nakakapigil ito sa pagtaas ng tubig sa baha'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa panahon ng bagyo, bakit mahalaga ang maagang paglikas kung kinakailangan?',
+			options: {
+				a: 'Naiiwasan ang panganib bago pa lumala ang sitwasyon',
+				b: 'Napipigilan ang pagdating ng bagyo sa komunidad',
+				c: 'Nababawasan ang lakas ng hangin sa kapaligiran',
+				d: 'Napapahinto ang pagtaas ng tubig sa ilog'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin ang nagpapakita ng resilience ng isang pamilya matapos ang sakuna?',
+			options: {
+				a: 'Muling pagbangon at pag-aayos ng tahanan matapos ang pinsala',
+				b: 'Pag-alis sa komunidad at hindi na pagbabalik muli',
+				c: 'Pag-iwas sa pakikilahok sa mga gawaing pangkomunidad',
+				d: 'Pagdepende lamang sa tulong mula sa pamahalaan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Isang komunidad ang aktibong nakikilahok sa disaster drills at planning. Ano ang ipinapakita nito?',
+			options: {
+				a: 'Mataas na kapasidad at kahandaan ng komunidad sa sakuna',
+				b: 'Mataas na vulnerability ng mga mamamayan sa lugar',
+				c: 'Mababang risk dahil walang hazard sa kanilang lugar',
+				d: 'Kawalan ng suporta mula sa pamahalaan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Ano ang pinakaangkop na halimbawa ng structural risk?',
+			options: {
+				a: 'Mahinang gusali na madaling masira sa lindol',
+				b: 'Kakulangan ng kaalaman ng mga tao sa komunidad',
+				c: 'Pagkakaroon ng bagyo sa isang rehiyon',
+				d: 'Pagtaas ng tubig sa ilog matapos ang ulan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa CBDRRM, bakit mahalaga ang partisipasyon ng komunidad?',
+			options: {
+				a: 'Nakakatulong ito sa pagbuo ng angkop at epektibong plano',
+				b: 'Napapalitan nito ang papel ng pamahalaan sa lahat ng gawain',
+				c: 'Nababawasan nito ang responsibilidad ng mga mamamayan',
+				d: 'Napipigilan nito ang pagdating ng hazard'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin sa mga sumusunod ang nagpapakita ng bottom-up approach?',
+			options: {
+				a: 'Aktibong pakikilahok ng komunidad sa pagpaplano at desisyon',
+				b: 'Pagdedesisyon ng pambansang pamahalaan lamang',
+				c: 'Pag-asa sa utos ng mas mataas na opisyal sa lahat ng oras',
+				d: 'Limitadong partisipasyon ng lokal na mamamayan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Ano ang pangunahing layunin ng disaster preparedness activities tulad ng drills?',
+			options: {
+				a: 'Sanayin ang mga tao upang maging handa sa aktwal na sakuna',
+				b: 'Pigilan ang pagdating ng hazard sa isang lugar',
+				c: 'Bawasan ang lakas ng sakuna sa kapaligiran',
+				d: 'Palitan ang mga tungkulin ng pamahalaan'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Alin ang pinakaangkop na aksyon habang lumilindol?',
+			options: {
+				a: 'Magtago sa ilalim ng matibay na mesa at manatiling kalmado',
+				b: 'Tumakbo palabas agad kahit may mga bumabagsak na bagay',
+				c: 'Manatili sa tabi ng bintana upang makita ang sitwasyon',
+				d: 'Gumamit ng elevator upang makalabas agad'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Bakit mahalagang sundin ang early warning system at evacuation protocols?',
+			options: {
+				a: 'Nakakatulong ito upang maiwasan ang pinsala sa buhay at ari-arian',
+				b: 'Nakakapigil ito sa pagdating ng sakuna sa komunidad',
+				c: 'Nakakapagpahina ito sa lakas ng hazard',
+				d: 'Nakakapagpabagal ito sa pagdating ng bagyo'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa panahon ng baha, alin ang pinakaangkop na gawain?',
+			options: {
+				a: 'Iwasan ang paglusong sa baha lalo na kung hindi alam ang lalim',
+				b: 'Tumawid sa baha upang makita ang sitwasyon sa paligid',
+				c: 'Lumabas ng bahay upang obserbahan ang daloy ng tubig',
+				d: 'Ipagpatuloy ang normal na gawain kahit may baha'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Bilang Youth Disaster Leader, alin ang pinakaepektibong hakbang upang mabawasan ang risk sa komunidad?',
+			options: {
+				a: 'Mag-organisa ng preparedness training at information campaign',
+				b: 'Maghintay ng tulong mula sa pamahalaan bago kumilos',
+				c: 'Iwasan ang pakikilahok sa mga gawaing pangkomunidad',
+				d: 'Ituon lamang ang pansin sa sariling kaligtasan'
+			},
+			answer: 'a'
+		}
+	];
+
+	// ================= DOM ELEMENTS =================
 	const questionList = document.getElementById('questionList');
 	const progressDots = document.getElementById('progressDots');
 	const quizProgressLabel = document.getElementById('quizProgressLabel');
 	const answeredCountLabel = document.getElementById('answeredCountLabel');
 	const quizPage = document.getElementById('quizPage');
 	const resultPage = document.getElementById('resultPage');
-	const nextBtn = document.getElementById('nextBtn');
 	const submitBtn = document.getElementById('submitBtn');
 	const confirmBtn = document.getElementById('confirmBtn');
 
-	const correctSfx = new Audio('/audio/mod2correct.mp3');
-	const wrongSfx = new Audio('/audio/mod2wrong.mp3');
-
+	// ================= STATE =================
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
-	let currentQuestionIndex = 0;
-	let lastDirection = 'right';
-	let pendingSelection = null;
+
 	let retryCount = 0;
 	const maxRetries = 2;
+	const questionsPerCard = 5;
+	let currentCard = 0;
 
-	function shuffleArray(array) {
-		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
-		}
-		return array;
+	// ================= MESSAGES =================
+	const correctMessages = [
+		'🎉 Tama! Galing mo!',
+		'✨ Nice one! Tuloy lang!',
+		'🌟 Sakto! Good job!',
+		'🎊 Ayos! Nakuha mo!',
+		'🧠 Correct! Malakas!'
+	];
+
+	const gentleMessages = [
+		'🌱 Okay lang iyan — learning moment ito.',
+		'💛 Good try! Bawi tayo sa next card.',
+		'✨ Ayos lang — part ito ng pagkatuto.',
+		'🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.',
+		'📘 Nice try! Tuloy lang, nandito lang ang aralin.'
+	];
+
+	// ================= HELPERS =================
+	function randomFrom(array) {
+		return array[Math.floor(Math.random() * array.length)];
 	}
 
-	function shuffleQuestionsAndChoices() {
-		// Shuffle the questions array
-		shuffleArray(questions);
-		
-		// Shuffle choices for each question
-		questions.forEach(q => {
-			const optionKeys = Object.keys(q.options); // ['a', 'b', 'c', 'd']
-			const optionTexts = optionKeys.map(key => q.options[key]);
-			
-			// Shuffle the option texts
-			shuffleArray(optionTexts);
-			
-			// Create new options object with shuffled order
-			const newOptions = {};
-			optionKeys.forEach((key, index) => {
-				newOptions[key] = optionTexts[index];
-			});
-			
-			// Find which key now contains the correct answer
-			const correctAnswerText = q.options[q.answer];
-			const newAnswerKey = Object.keys(newOptions).find(key => newOptions[key] === correctAnswerText);
-			
-			q.options = newOptions;
-			q.answer = newAnswerKey;
-		});
-	}
-
-	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Nice one! Tuloy lang!', '🌟 Sakto! Good job!', '🎊 Ayos! Nakuha mo!', '🧠 Correct! Malakas!'];
-	const gentleMessages = ['🌱 Okay lang iyan — learning moment ito.', '💛 Good try! Bawi tayo sa next card.', '✨ Ayos lang — part ito ng pagkatuto.', '🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.', '📘 Nice try! Tuloy lang, nandito lang ang aralin.'];
-
-	function randomFrom(array) { return array[Math.floor(Math.random() * array.length)]; }
-
-	function getAnsweredCount() { return confirmedAnswers.filter(confirmed => confirmed === true).length; }
-
+	// ================= PROGRESS =================
 	function updateProgressAll() {
 		const answeredCount = selectedAnswers.filter(a => a !== '').length;
 
@@ -1062,31 +1172,16 @@
 		`).join('');
 	}
 
-	function getCardAnimationClass() {
-		if (currentQuestionIndex === 0) return 'card-slide-in-up';
-		return lastDirection === 'left' ? 'card-slide-in-left' : 'card-slide-in-right';
-	}
-
-	function launchConfetti() {
-		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
-		for (let i = 0; i < 42; i++) {
-			const piece = document.createElement('div');
-			piece.className = 'confetti-piece';
-			piece.style.left = `${Math.random() * 100}vw`;
-			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
-			piece.style.animationDelay = `${Math.random() * 0.15}s`;
-			piece.style.width = `${8 + Math.random() * 6}px`;
-			piece.style.height = `${10 + Math.random() * 10}px`;
-			document.body.appendChild(piece);
-			setTimeout(() => piece.remove(), 4200);
-		}
-	}
-
+	// ================= RENDER =================
 	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
 		let questionsHtml = '';
 
-		questions.forEach((item, index) => {
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
 			const selectedValue = selectedAnswers[index];
 			const isConfirmed = confirmedAnswers[index];
 
@@ -1108,221 +1203,230 @@
 				`;
 			}).join('');
 
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ ${randomFrom(correctMessages)}</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ ${randomFrom(gentleMessages)}<br>Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
 			questionsHtml += `
 				<div class="single-question">
 					<h4>${index + 1}. ${item.question}</h4>
 					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
 				</div>
 			`;
 		});
 
-		// 🔥 ONE CARD ONLY
 		questionList.innerHTML = `
 			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
 				${questionsHtml}
 			</div>
 		`;
 
 		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		// BUTTON LOGIC
+
+		// Confirm button (only if not yet confirmed)
+		confirmBtn.style.display = allConfirmed ? 'none' : 'inline-flex';
+
+		// Next button (only after confirming, and NOT last card)
+		const nextCardBtn = document.getElementById('nextCardBtn');
+		nextCardBtn.style.display = (allConfirmed && currentCard < 2) ? 'inline-flex' : 'none';
+
+		// Submit button (only last card and confirmed)
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
-	window.selectAnswer = function(index, selectedKey) {
+	// ================= INTERACTION =================
+	window.selectAnswer = function(index, key) {
 		if (confirmedAnswers[index]) return;
 
-		selectedAnswers[index] = selectedKey;
+		selectedAnswers[index] = key;
 		renderAllQuestions();
 	};
 
 	function confirmAnswer() {
-		// Check if all answered
-		if (selectedAnswers.includes('')) {
-			alert('Sagutan muna lahat bago kumpirmahin.');
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// check unanswered
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				return;
+			}
+		}
+
+		// confirm only current card
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
+
+		renderAllQuestions();
+	}
+
+	function goNextCard() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// ensure current card is confirmed
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				alert('I-confirm muna ang card bago magpatuloy.');
+				return;
+			}
+		}
+
+		if (currentCard >= 2) return;
+
+		currentCard++;
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	// ================= CONFETTI =================
+	function launchConfetti() {
+		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
+
+		for (let i = 0; i < 42; i++) {
+			const piece = document.createElement('div');
+			piece.className = 'confetti-piece';
+			piece.style.left = `${Math.random() * 100}vw`;
+			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
+			piece.style.animationDelay = `${Math.random() * 0.15}s`;
+			document.body.appendChild(piece);
+
+			setTimeout(() => piece.remove(), 4200);
+		}
+	}
+
+	// ================= RESULT =================
+	function submitPostTest() {
+		if (!confirmedAnswers.every(c => c)) {
+			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong.');
 			return;
 		}
 
-		questions.forEach((item, index) => {
-			confirmedAnswers[index] = true;
+		const score = questions.reduce((total, item, index) =>
+			total + (selectedAnswers[index] === item.answer ? 1 : 0), 0);
+
+		const percentage = Math.round((score / questions.length) * 100);
+
+		// ===== SEND TO BACKEND (UNCHANGED) =====
+		const answers = questions.map((q, index) => ({
+			question_number: index + 1,
+			selected_answer: selectedAnswers[index],
+			correct_answer: q.answer,
+			is_correct: selectedAnswers[index] === q.answer
+		}));
+
+		fetch("{{ route('student.module3.posttest.save') }}", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRF-TOKEN": "{{ csrf_token() }}"
+			},
+			body: JSON.stringify({ score, percentage, answers })
 		});
 
-		renderAllQuestions();
+		// ===== UI =====
+		const resultRing = document.getElementById('resultRing');
+		const resultPercent = document.getElementById('resultPercent');
+		const resultScoreText = document.getElementById('resultScoreText');
+		const resultBadge = document.getElementById('resultBadge');
+		const resultFeedback = document.getElementById('resultFeedback');
+		const resultActions = document.getElementById('resultActions');
 
-		// enable submit
-		submitBtn.style.display = 'inline-flex';
-	}
+		resultPercent.textContent = `${score}/${questions.length}`;
+		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
 
-	function goNextQuestion() {
-		if (!confirmedAnswers[currentQuestionIndex]) {
-			alert('Kailangan munang kumpirmahin ang sagot bago magpatuloy sa susunod.');
-			return;
+		resultActions.innerHTML = "";
+
+		if (score >= 13) {
+			resultBadge.textContent = "🏆 Mahusay!";
+			resultFeedback.textContent = "Nakamit mo ang passing score!";
+
+			resultActions.innerHTML = `
+				<a href="{{ route('student.module3.performance-task') }}" class="btn-primary">
+					Magpatuloy →
+				</a>
+			`;
+
+			if (percentage >= 80) launchConfetti();
+		} else {
+			resultBadge.textContent = "❌ Hindi pa sapat";
+			resultFeedback.textContent = "Subukan muli.";
+			retryCount++; // ✅ MOVE IT HERE
+
+			if (retryCount < maxRetries) {
+				resultActions.innerHTML = `
+					<button class="btn-secondary" onclick="restartQuiz()">
+						Ulitin (${maxRetries - retryCount >= 0 ? maxRetries - retryCount : 0} natitira)
+					</button>
+				`;
+			} else {
+				resultActions.innerHTML = `
+					<div style="font-weight:800;color:#7a2e2e;">
+						Naabot na ang maximum retries.
+					</div>
+				`;
+			}
 		}
-		
-		if (currentQuestionIndex >= questions.length - 1) return;
-		
-		lastDirection = 'right';
-		currentQuestionIndex += 1;
-		pendingSelection = null;
-		renderAllQuestions();
-		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+		quizPage.style.display = 'none';
+		resultPage.classList.add('show');
+
+		if (percentage >= 80) launchConfetti();
 	}
 
-	function animateResultRing(resultRing, targetPercent, duration = 1100) {
-		const startTime = performance.now();
-		function frame(currentTime) {
-			const elapsed = currentTime - startTime;
-			const progress = Math.min(elapsed / duration, 1);
-			const eased = 1 - Math.pow(1 - progress, 3);
-			const value = Math.round(targetPercent * eased);
-			resultRing.style.setProperty('--progress', value);
-			if (progress < 1) requestAnimationFrame(frame);
-		}
-		resultRing.style.setProperty('--progress', 0);
-		requestAnimationFrame(frame);
-	}
-
-	function getFeedbackByScore(score) {
-		if (score >= 11) return { badge: '🏆 Napakahusay!', feedback: 'Ang ganda ng iyong pundasyon. Ready ka na sa susunod na bahagi!', interpretation: 'Handa' };
-		if (score >= 6) return { badge: '👏 Magaling!', feedback: 'May kaalaman ka na, patuloy pa ang pag-unlad.', interpretation: 'May kaalaman' };
-		return { badge: '🌱 Warm-up pa lang!', feedback: 'Kailangan ng gabay pa. Gamitin ito bilang panimulang lakas.', interpretation: 'Kailangan ng gabay' };
-	}
-
-	function submitPostTest() {
-        if (!confirmedAnswers.every(confirmed => confirmed === true)) {
-            alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
-            return;
-        }
-
-        const score = questions.reduce((total, item, index) => {
-            return total + (selectedAnswers[index] === item.answer ? 1 : 0);
-        }, 0);
-
-        const percentage = Math.round((score / questions.length) * 100);
-
-        // Prepare answers for backend
-        const answersPayload = questions.map((q, index) => ({
-            question_number: index + 1,
-            selected: selectedAnswers[index],
-            correct: q.answer,
-            is_correct: selectedAnswers[index] === q.answer
-        }));
-
-        // 🔥 SEND TO BACKEND (UPDATED ROUTE)
-        fetch("{{ route('student.module3.posttest.save') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                score: score,
-                percentage: percentage,
-                answers: answersPayload
-            })
-        })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.error("Error saving posttest:", err));
-
-        // ===== UI RESULT =====
-        const resultRing = document.getElementById('resultRing');
-        const resultPercent = document.getElementById('resultPercent');
-        const resultScoreText = document.getElementById('resultScoreText');
-        const resultBadge = document.getElementById('resultBadge');
-        const resultFeedback = document.getElementById('resultFeedback');
-        const resultActions = document.querySelector('.result-actions');
-
-        animateResultRing(resultRing, percentage);
-
-        resultPercent.textContent = `${score}/${questions.length}`;
-        resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
-
-        // 🔥 CLEAR DEFAULT BUTTONS
-        resultActions.innerHTML = "";
-
-        // =========================
-        // ✅ PASSING LOGIC (13+ ONLY)
-        // =========================
-        if (score >= 13) {
-            resultBadge.textContent = '🏆 Mahusay!';
-            resultFeedback.textContent = 'Nakamit mo ang passing score! Maaari ka nang magpatuloy.';
-
-            resultActions.innerHTML = `
-                <a href="{{ route('student.module3.performance-task') }}" class="btn-primary">
-                    Magpatuloy →
-                </a>
-            `;
-
-            if (percentage >= 80) launchConfetti();
-
-        } else {
-            resultBadge.textContent = '❌ Hindi pa sapat';
-            resultFeedback.textContent = 'Kailangan mong makakuha ng hindi bababa sa 13 upang makapasa.';
-
-            // Retry logic (same as pretest)
-            if (retryCount < maxRetries) {
-                resultActions.innerHTML = `
-                    <button type="button" class="btn-secondary" onclick="restartQuiz()">
-                        Ulitin ang Panghuling Pagsusulit (${maxRetries - retryCount} natitira)
-                    </button>
-                `;
-            } else {
-                resultActions.innerHTML = `
-                    <div style="font-weight:800;color:#7a2e2e;">
-                        Naabot mo na ang maximum retries.
-                    </div>
-                `;
-            }
-        }
-
-        document.getElementById('resultInterpretation').textContent =
-            `Interpretasyon: ${score >= 13 ? 'Handa' : 'Hindi pa handa'} (${score} points)`;
-
-        quizPage.style.display = 'none';
-        resultPage.classList.add('show');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-	function updateRetryIndicator() {
-		const remaining = maxRetries - retryCount;
-		const retryIndicator = document.getElementById('retryIndicator');
-
-		retryIndicator.textContent = `🔁 Natitirang retries: ${remaining} / ${maxRetries}`;
-
-		// Optional: visual warning when 0
-		if (remaining === 0) {
-			retryIndicator.style.background = '#ffe5e5';
-			retryIndicator.style.border = '1px solid #e5a5a5';
-			retryIndicator.style.color = '#7a2e2e';
-		}
-	}
-
+	// ================= RETRY =================
 	function restartQuiz() {
+
+		// ✅ ADD THIS HERE (VERY TOP)
 		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 2 retries.');
+			alert('Naabot mo na ang maximum retries.');
 			return;
 		}
 
-		retryCount++;
-
+		// (your existing code below)
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
+		currentCard = 0;
+
+		shuffleQuestionsAndChoices();
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
-		updateRetryIndicator(); // 🔥 ADD THIS
+		confirmBtn.style.display = 'inline-flex';
+		document.getElementById('nextCardBtn').style.display = 'none';
+		submitBtn.style.display = 'none';
 
 		renderAllQuestions();
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	// ================= INIT =================
 	window.addEventListener('load', () => {
-		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
-		updateRetryIndicator();
-		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});
 </script>
 
-</body>
-</html>
+@endsection
