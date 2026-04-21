@@ -21,7 +21,7 @@
         body {
             font-family: 'Lexend', sans-serif;
             margin: 0;
-            background: url("{{ asset('pictures/Module 3/Bag_Activity/background.png') }}") no-repeat center center fixed;
+            background: url("{{ asset('pictures/mod3_innermap.png') }}") no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
         }
@@ -33,7 +33,7 @@
 
         h2 {
             font-family: 'Bungee', cursive;
-            color: var(--dark);
+            color: white;
             font-size: clamp(1.5rem, 5vw, 2.2rem);
             margin: 0;
         }

@@ -360,6 +360,10 @@ Route::get('/module4/pretest', function () {
 Route::view('/module4/balik-aral', 'Students.Module4.mod4_balikaral')
     ->name('module4.balikaral');
 
+Route::get('/inner-map4', function () {
+    return view('Students.Module4.inner_map4');
+});
+
 Route::view('/module4/welcome', 'Students.Module4.mod4_welcome')
     ->name('module4.welcome');
 
