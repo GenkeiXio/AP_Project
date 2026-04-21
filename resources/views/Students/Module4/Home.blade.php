@@ -664,6 +664,79 @@
             .acc-body{ padding-left:14px; }
             .progress-bar{ width:86px; }
         }
+
+        .goal-card {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+
+            background: linear-gradient(135deg, #f8fff8, #eef7ee);
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 15px;
+
+            border-left: 6px solid #2e7d32;
+
+            transition: 0.2s;
+            text-align: left;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .goal-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 1.5rem;
+
+            width: 45px;
+            height: 45px;
+
+            background: #2e7d32;
+            color: white;
+
+            border-radius: 12px;
+
+            flex-shrink: 0;
+        }
+
+        .goal-card h3 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1b5e20;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .goal-card p {
+            font-size: 0.95rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .goal-list {
+            padding-left: 0;
+            list-style: none;
+            margin: 5px 0 0;
+        }
+
+        .goal-list li {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .modal-title {
+            text-align: center;
+            font-family: 'Fredoka', 'Nunito', sans-serif;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            color: #1a4c32;
+        }
     </style>
 @endpush
 
@@ -810,136 +883,62 @@
 </div>
 
 <div class="modal" id="goalsModal">
-    <div class="modal-card">
-        <div class="goal-header">
-            <div class="goal-title-wrap">
-                <div class="goal-title-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2l2.3 4.66L19.5 7.5l-3.75 3.65.88 5.15L12 13.9l-4.63 2.4.88-5.15L4.5 7.5l5.2-.84L12 2z" fill="currentColor"/>
-                    </svg>
-                </div>
-                <div><h3 class="goal-title">Mga Layunin ng Aralin</h3></div>
-            </div>
+    <div class="modal-card" style="max-width:650px;">
+    <h2 class="modal-title" style="text-align:center; font-family:'Fredoka'; margin-bottom:20px; font-size:1.4rem;">🎯 Mga Layunin</h2>
 
-            <div class="progress-chip">
-                <span id="progressText">Nabasa: 1/5</span>
-                <div class="progress-bar"><div class="progress-fill-modal" id="progressFill"></div></div>
-            </div>
-        </div>
-
-        <div class="accordion-tools">
-            <button type="button" class="tool-btn" id="openAllBtn">📂 Buksan Lahat</button>
-            <button type="button" class="tool-btn" id="closeAllBtn">🗂️ Isara Lahat</button>
-        </div>
-
-        <div class="acc-item">
-            <button type="button" class="acc-btn" aria-expanded="true" data-target="acc1">
-                <span class="acc-main">
-                    <span class="acc-badge bg-a">A</span>
-                    <span class="acc-title">PAMANTAYANG PANGNILALAMAN (Content Standard)</span>
-                </span>
-                <span class="chev-wrap">
-                    <svg class="chev" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </button>
-            <div class="acc-panel" id="acc1">
-                <div class="acc-body">
-                    Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.
-                </div>
-            </div>
-        </div>
-
-        <div class="acc-item">
-            <button type="button" class="acc-btn" aria-expanded="false" data-target="acc2">
-                <span class="acc-main">
-                    <span class="acc-badge bg-b">B</span>
-                    <span class="acc-title">PAMANTAYAN SA PAGGANAP (Performance Standard)</span>
-                </span>
-                <span class="chev-wrap">
-                    <svg class="chev" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </button>
-            <div class="acc-panel" id="acc2">
-                <div class="acc-body">
-                    Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.
-                </div>
-            </div>
-        </div>
-
-        <div class="acc-item">
-            <button type="button" class="acc-btn" aria-expanded="false" data-target="acc3">
-                <span class="acc-main">
-                    <span class="acc-badge bg-c">C</span>
-                    <span class="acc-title">KASANAYAN SA PAGKATUTO</span>
-                </span>
-                <span class="chev-wrap">
-                    <svg class="chev" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </button>
-            <div class="acc-panel" id="acc3">
-                <div class="acc-body">
-                    Nasusuri ang kahalagahan ng kahandaan, disiplina at kooperasyon sa pagtugon sa mga hamong pangkapaligiran (MELC4).
-                </div>
-            </div>
-        </div>
-
-        <div class="acc-item">
-            <button type="button" class="acc-btn" aria-expanded="false" data-target="acc4">
-                <span class="acc-main">
-                    <span class="acc-badge bg-d">D</span>
-                    <span class="acc-title">TIYAK NA LAYUNIN</span>
-                </span>
-                <span class="chev-wrap">
-                    <svg class="chev" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </button>
-            <div class="acc-panel" id="acc4">
-                <div class="acc-body">
-                    <ul>
-                        <li>Nailalarawan ang kasalukuyang kalagayan, suliranin at mga pagtugon sa isyung pangkapaligiran ng Pilipinas;</li>
-                        <li>Nailalahad at nasusuri ang mga epekto ng mga suliranin at isyung pangkapaligirang kinakaharap ng Pilipinas at sa ibang panig ng daigdig sa kasalukuyang panahon;</li>
-                        <li>Napahahalagahan ang kahalagahan ng pakikiisa at pakikibahagi ng lahat sa pagsugpo sa mga hamong pangkapaligiran sa mga lokal na pamahalaan sa Pilipinas maging sa ibang panig ng daigdig;</li>
-                        <li>Nakabubuo ng isang malikhain at makabuluhang panukalang proyekto na makakatulong sa pangangalaga ng kalikasan.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="acc-item">
-            <button type="button" class="acc-btn" aria-expanded="false" data-target="acc5">
-                <span class="acc-main">
-                    <span class="acc-badge bg-e">E</span>
-                    <span class="acc-title">PAKSANG ARALIN</span>
-                </span>
-                <span class="chev-wrap">
-                    <svg class="chev" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </button>
-            <div class="acc-panel" id="acc5">
-                <div class="acc-body">
-                    <ol>
-                        <li>Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas</li>
-                        <li>Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-actions">
-            <button type="button" class="btn btn-soft" id="closeGoalsBtn">Isara</button>
-            <button type="button" class="btn btn-main" id="unlockStartBtn">Nabasa ko na ✅</button>
+    <!-- Goal Cards (same style as Module 3) -->
+    <div class="goal-card">
+        <div class="goal-icon">📘</div>
+        <div>
+            <h3>Pamantayang Pangnilalaman</h3>
+            <p>Ang mag-aaral ay nakapagsusuri ng mga sanhi at implikasyon ng mga hamong pangkapaligiran upang maging bahagi ng mga pagtugon na makapagpapabuti sa pamumuhay ng tao.</p>
         </div>
     </div>
+
+    <div class="goal-card">
+        <div class="goal-icon">📒</div>
+        <div>
+            <h3>Pamantayan sa Pagganap</h3>
+            <p>Ang mag-aaral ay nakabubuo ng angkop na plano sa pagtugon sa mga hamong pangkapaligiran tungo sa pagpapabuti ng pamumuhay ng tao.</p>
+        </div>
+    </div>
+
+    <div class="goal-card">
+        <div class="goal-icon">🌱</div>
+        <div>
+            <h3>Kasanayan sa Pagkatuto</h3>
+            <p>Nasusuri ang kahalagahan ng kahandaan, disiplina at kooperasyon sa pagtugon sa mga hamong pangkapaligiran. (MELC4)</p>
+        </div>
+    </div>
+
+    <div class="goal-card">
+        <div class="goal-icon">🎯</div>
+        <div>
+            <h3>Mga Tiyak na Layunin</h3>
+            <ul class="goal-list">
+                <li>✔ Nailalarawan ang kasalukuyang kalagayan, suliranin at mga pagtugon sa isyung pangkapaligiran ng Pilipinas;</li>
+                <li>✔ Nailalahad at nasusuri ang mga epekto ng mga suliranin at isyung pangkapaligirang kinakaharap ng Pilipinas at sa ibang panig ng daigdig sa kasalukuyang panahon;</li>
+                <li>✔ Napahahalagahan ang kahalagahan ng pakikiisa at pakikibahagi ng lahat sa pagsugpo sa mga hamong pangkapaligiran sa mga lokal na pamahalaan sa Pilipinas maging sa ibang panig ng daigdig;</li>
+                <li>✔ Nakabubuo ng isang malikhain at makabuluhang panukalang proyekto na makakatulong sa pangangalaga ng kalikasan.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="goal-card">
+        <div class="goal-icon">✅</div>
+        <div>
+            <h3>Paksang Aralin</h3>
+            <ul class="goal-list">
+                <li>1. Kalagayan at Suliranin sa mga Isyung Pangkapaligiran sa Pilipinas</li>
+                <li>2. Pagtugon sa mga Isyung Pangkapaligiran sa Pilipinas</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn btn-main" id="unlockStartBtn">Naintindihan ko ✅</button>
+    </div>
+</div>
 </div>
 
 <script>
@@ -954,10 +953,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const openGoalsBtn = document.getElementById('openGoalsBtn');
     const closeGoalsBtn = document.getElementById('closeGoalsBtn');
     const unlockStartBtn = document.getElementById('unlockStartBtn');
-    const openAllBtn = document.getElementById('openAllBtn');
-    const closeAllBtn = document.getElementById('closeAllBtn');
-    const progressText = document.getElementById('progressText');
-    const progressFill = document.getElementById('progressFill');
 
     const startBtn = document.getElementById('startBtn');
     const backToHomeBtn = document.getElementById('backToHomeBtn');
@@ -973,39 +968,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const clearPollBtn = document.getElementById('clearPollBtn');
     const stars = document.querySelectorAll('#starRow .star');
 
-    const accButtons = document.querySelectorAll('.acc-btn');
-
     function showView(view) {
         homeView.classList.remove('active');
         pollView.classList.remove('active');
         view.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openPanel(btn) {
-        const panel = document.getElementById(btn.dataset.target);
-        btn.setAttribute('aria-expanded', 'true');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-    }
-
-    function closePanel(btn) {
-        const panel = document.getElementById(btn.dataset.target);
-        btn.setAttribute('aria-expanded', 'false');
-        panel.style.maxHeight = '0px';
-    }
-
-    function updateProgress() {
-        const total = accButtons.length;
-        const opened = Array.from(accButtons).filter(b => b.getAttribute('aria-expanded') === 'true').length;
-        const pct = Math.round((opened / total) * 100);
-        progressText.textContent = `Nabasa: ${opened}/${total}`;
-        progressFill.style.width = `${pct}%`;
-    }
-
-    function togglePanel(btn) {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        expanded ? closePanel(btn) : openPanel(btn);
-        updateProgress();
     }
 
     function updatePollState() {
@@ -1065,23 +1032,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    accButtons.forEach((btn, index) => {
-        btn.addEventListener('click', () => togglePanel(btn));
-        if (index === 0) openPanel(btn);
-        else closePanel(btn);
-    });
-    updateProgress();
-
-    openAllBtn.addEventListener('click', () => {
-        accButtons.forEach(openPanel);
-        updateProgress();
-    });
-
-    closeAllBtn.addEventListener('click', () => {
-        accButtons.forEach(closePanel);
-        updateProgress();
-    });
-
+    // Modal controls
     openGoalsBtn.addEventListener('click', () => goalsModal.classList.add('show'));
     closeGoalsBtn.addEventListener('click', () => goalsModal.classList.remove('show'));
 
@@ -1124,15 +1075,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     goalsModal.addEventListener('click', function (e) {
         if (e.target === goalsModal) goalsModal.classList.remove('show');
-    });
-
-    window.addEventListener('resize', function () {
-        accButtons.forEach((btn) => {
-            if (btn.getAttribute('aria-expanded') === 'true') {
-                const panel = document.getElementById(btn.dataset.target);
-                panel.style.maxHeight = panel.scrollHeight + 'px';
-            }
-        });
     });
 
     updatePollState();

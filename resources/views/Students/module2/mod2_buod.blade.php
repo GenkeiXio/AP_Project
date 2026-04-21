@@ -302,7 +302,7 @@ h1{
 <div class="map-wrapper">
 
     <!-- 🌍 SAME BACKGROUND -->
-    <img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
     <div class="overlay"></div>
 
     <div class="container">

@@ -258,7 +258,7 @@
     <div class="ui-panel">
 
         <div class="header">
-            <div class="header-icons">🧭 🗺️ ✨</div>
+            <div class="header-icons">🔥 🛡️ 🌊</div>
             <div class="subtitle">Module 3</div>
 
             <h1 style="font-family:'Baloo 2';">

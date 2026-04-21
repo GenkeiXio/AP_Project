@@ -779,10 +779,10 @@
 	<div class="pretest-wrap">
 		<div class="pretest-card">
 			<div class="pretest-header">
-				<div class="header-icons">🧭 🗺️ ✨</div>
+				<div class="header-icons">🔥 🛡️ 🌊</div>
 				<div class="subtitle">Module 3</div>
 				<h1>PAUNANG PAGSUSULIT</h1>
-				<p>Pumili ng sagot, pagkatapos kumpirmahin bago magpatuloy.</p>
+				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinaka angkop na sagot.</p>
 			</div>
 
 			<!-- <div class="pretest-note">
@@ -804,14 +804,20 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
-						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Pre-Test 🚀</button>
+
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
+
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">
+							Tapusin ang Paunang Pagsusulit 🚀
+						</button>
 					</div>
 				</div>
 
 				<div class="result-page" id="resultPage" aria-live="polite">
 					<div class="result-box show" id="resultBox">
-						<div class="result-title">Resulta ng Pre-Test</div>
+						<div class="result-title">Resulta ng Paunang Pagsusulit</div>
 						<div class="result-ring" id="resultRing" style="--progress:0;">
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
@@ -821,7 +827,7 @@
 						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
 
 						<div class="retry-indicator" id="retryIndicator">
-							🔁 Natitirang retries: 2 / 2
+							🔁 Natitirang pagsubok: 3 / 3
 						</div>
 
 						<div class="result-actions">
@@ -1008,7 +1014,10 @@
 	let lastDirection = 'right';
 	let pendingSelection = null;
 	let retryCount = 0;
-	const maxRetries = 2;
+	const maxRetries = 3;
+
+	const questionsPerCard = 5;
+	let currentCard = 0;
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1045,8 +1054,8 @@
 		});
 	}
 
-	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Nice one! Tuloy lang!', '🌟 Sakto! Good job!', '🎊 Ayos! Nakuha mo!', '🧠 Correct! Malakas!'];
-	const gentleMessages = ['🌱 Okay lang iyan — learning moment ito.', '💛 Good try! Bawi tayo sa next card.', '✨ Ayos lang — part ito ng pagkatuto.', '🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.', '📘 Nice try! Tuloy lang, nandito lang ang aralin.'];
+	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Ayos! Tuloy lang!', '🌟 Sakto! Magaling!', '🎊 Husay! Nakuha mo!', '🧠 Tama! Ang galing!'];
+	const gentleMessages = ['🌱 Ayos lang — bahagi ito ng pagkatuto.', '💛 Mabuti ang pagsubok! Bawi tayo sa susunod na bahagi.', '✨ Okay lang — matututo ka pa rito.', '🌤️ Hindi pa tama ngayon, pero matutunan mo rin ito.', '📘 Subok lang nang subok, nandito lang ang aralin.'];
 
 	function randomFrom(array) { return array[Math.floor(Math.random() * array.length)]; }
 
@@ -1055,7 +1064,7 @@
 	function updateProgressAll() {
 		const answeredCount = selectedAnswers.filter(a => a !== '').length;
 
-		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} answered`;
+		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} nasagutan`;
 
 		progressDots.innerHTML = questions.map((_, idx) => `
 			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''}"></div>
@@ -1084,9 +1093,14 @@
 	}
 
 	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
 		let questionsHtml = '';
 
-		questions.forEach((item, index) => {
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
 			const selectedValue = selectedAnswers[index];
 			const isConfirmed = confirmedAnswers[index];
 
@@ -1108,22 +1122,42 @@
 				`;
 			}).join('');
 
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Ang tamang sagot ay: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
 			questionsHtml += `
 				<div class="single-question">
 					<h4>${index + 1}. ${item.question}</h4>
 					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
 				</div>
 			`;
 		});
 
-		// 🔥 ONE CARD ONLY
 		questionList.innerHTML = `
 			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
 				${questionsHtml}
 			</div>
 		`;
 
 		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
@@ -1134,20 +1168,37 @@
 	};
 
 	function confirmAnswer() {
-		// Check if all answered
-		if (selectedAnswers.includes('')) {
-			alert('Sagutan muna lahat bago kumpirmahin.');
-			return;
+
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+				return;
+			}
 		}
 
-		questions.forEach((item, index) => {
-			confirmedAnswers[index] = true;
-		});
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
 
 		renderAllQuestions();
 
-		// enable submit
-		submitBtn.style.display = 'inline-flex';
+		if (currentCard < 2) {
+			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+		}
+	}
+
+	function goNextCard() {
+		if (currentCard >= 2) return;
+
+		currentCard++;
+
+		document.getElementById('nextCardBtn').style.display = 'none';
+
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function goNextQuestion() {
@@ -1237,7 +1288,7 @@
 
 		animateResultRing(resultRing, percentage);
 		resultPercent.textContent = `${score}/${questions.length}`;
-		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
+		resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length}`;
 		resultBadge.textContent = level.badge;
 		resultFeedback.textContent = level.feedback;
 		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
@@ -1253,7 +1304,7 @@
 		const remaining = maxRetries - retryCount;
 		const retryIndicator = document.getElementById('retryIndicator');
 
-		retryIndicator.textContent = `🔁 Natitirang retries: ${remaining} / ${maxRetries}`;
+		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
 
 		// Optional: visual warning when 0
 		if (remaining === 0) {
@@ -1265,7 +1316,7 @@
 
 	function restartQuiz() {
 		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 2 retries.');
+			alert('Naabot mo na ang maximum na 3 pagsubok.');
 			return;
 		}
 
@@ -1273,6 +1324,7 @@
 
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
+		currentCard = 0;
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';

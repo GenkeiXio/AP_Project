@@ -266,7 +266,7 @@ Route::get('/module2/buod', function () {
 
 // MODULE 3 HOME
 Route::get('/module3', function () {
-    return view('Students.Module3.Home');
+    return view('Students.Module3.Home'); 
 })->name('module3.home');
 
 // PRETEST
@@ -304,7 +304,6 @@ Route::get('/module3/node2', function () {
 Route::get('/module3/node3', function () {
     return view('Students.Module3.Nodes.mod3_node3');
 })->name('module3.node3');
-
 
 Route::get('/apply-activity', function () {
     return view('Students.Module3.Activities.apply');

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 2 Pre-Test</title>
+	<title>Hamon at Tugon: Module 2 Paunang Pagsusulit</title>
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -771,7 +771,7 @@
 </head>
 <body>
 
-<img src="{{ asset('pictures/module2_inner_map2.png') }}" class="background-map">
+<img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
 <a href="{{ route('module.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
@@ -804,14 +804,17 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
 						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Pre-Test 🚀</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Paunang Pagsusulit 🚀</button>
 					</div>
 				</div>
 
 				<div class="result-page" id="resultPage" aria-live="polite">
 					<div class="result-box show" id="resultBox">
-						<div class="result-title">Resulta ng Pre-Test</div>
+						<div class="result-title">Resulta ng Paunang Pagsusulit</div>
 						<div class="result-ring" id="resultRing" style="--progress:0;">
 							<div class="result-percent" id="resultPercent">0/0</div>
 						</div>
@@ -825,7 +828,7 @@
 						</div>
 
 						<div class="result-actions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Paunang Pagsusulit</button>
 							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -1007,6 +1010,17 @@
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
 	let pendingSelection = null;
+	const questionsPerCard = 5;
+	let currentCard = 0;
+	const maxRetries = 3;
+
+	function getRetryCount() {
+		return parseInt(localStorage.getItem('mod2_retry') || '0');
+	}
+
+	function setRetryCount(count) {
+		localStorage.setItem('mod2_retry', count);
+	}
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1082,9 +1096,14 @@
 	}
 
 	function renderAllQuestions() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		let currentQuestions = questions.slice(start, end);
+
 		let questionsHtml = '';
 
-		questions.forEach((item, index) => {
+		currentQuestions.forEach((item, i) => {
+			let index = start + i;
 			const selectedValue = selectedAnswers[index];
 			const isConfirmed = confirmedAnswers[index];
 
@@ -1106,22 +1125,43 @@
 				`;
 			}).join('');
 
+			// ✅ FEEDBACK
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
+
 			questionsHtml += `
 				<div class="single-question">
 					<h4>${index + 1}. ${item.question}</h4>
 					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
 				</div>
 			`;
 		});
 
-		// 🔥 ONE CARD ONLY
 		questionList.innerHTML = `
 			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
 				${questionsHtml}
 			</div>
 		`;
 
 		updateProgressAll();
+
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				allConfirmed = false;
+				break;
+			}
+		}
+
+		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
@@ -1132,20 +1172,42 @@
 	};
 
 	function confirmAnswer() {
-		// Check if all answered
-		if (selectedAnswers.includes('')) {
-			alert('Sagutan muna lahat bago kumpirmahin.');
-			return;
+
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		// check only current card
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				return;
+			}
 		}
 
-		questions.forEach((item, index) => {
-			confirmedAnswers[index] = true;
-		});
+		// confirm answers
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
 
 		renderAllQuestions();
 
-		// enable submit
-		submitBtn.style.display = 'inline-flex';
+		// ✅ SHOW NEXT BUTTON INSTEAD OF AUTO MOVE
+		if (currentCard < 2) {
+			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+		}
+		
+	}
+
+	function goNextCard() {
+		if (currentCard >= 2) return;
+
+		currentCard++;
+
+		// hide button again
+		document.getElementById('nextCardBtn').style.display = 'none';
+
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function goNextQuestion() {
@@ -1218,12 +1280,7 @@
 		})
 		.then(res => res.json())
 		.then(data => {
-			if (data.status === 'error') {
-				alert(data.message);
-				return;
-			}
-
-			updateRetryUI(data.remaining_attempts);
+			console.log(data);
 		})
 		.catch(err => {
 			console.error("Error saving pretest:", err);
@@ -1252,50 +1309,50 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	
+	function updateRetryIndicator() {
+		const retryCount = getRetryCount();
+		const remaining = maxRetries - retryCount;
+
+		const retryIndicator = document.getElementById('retryIndicator');
+
+		retryIndicator.textContent = `🔁 Natitirang attempts: ${remaining} / ${maxRetries}`;
+
+		if (remaining <= 0) {
+			retryIndicator.style.background = '#ffe5e5';
+			retryIndicator.style.border = '1px solid #e5a5a5';
+			retryIndicator.style.color = '#7a2e2e';
+
+			document.querySelector('.btn-secondary').disabled = true;
+		}
+	}
 
 	function restartQuiz() {
-		const retryBtn = document.querySelector('.btn-secondary');
+		let retryCount = getRetryCount();
 
-		// 🚫 Prevent click if disabled
-		if (retryBtn.disabled) return;
+		if (retryCount >= maxRetries) {
+			alert('Naabot mo na ang maximum na 3 attempts.');
+			return;
+		}
+
+		retryCount++;
+		setRetryCount(retryCount);
 
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
+		currentCard = 0;
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
+		updateRetryIndicator();
 		renderAllQuestions();
 	}
 
 	window.addEventListener('load', () => {
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
-
-		fetch("{{ url('/module2/pretest/attempts') }}")
-		.then(res => res.json())
-		.then(data => {
-			updateRetryUI(data.remaining);
-		});
-
-		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+		updateRetryIndicator();
 	});
-
-	function updateRetryUI(remaining) {
-		const retryIndicator = document.getElementById('retryIndicator');
-		const retryBtn = document.querySelector('.btn-secondary');
-
-		retryIndicator.textContent = `🔁 Natitirang attempts: ${remaining} / 3`;
-
-		if (remaining <= 0) {
-			retryBtn.disabled = true;
-			retryBtn.innerText = 'Wala nang Attempts';
-		} else {
-			retryBtn.disabled = false;
-			retryBtn.innerText = 'Ulitin ang Pre-Test';
-		}
-	}
 </script>
 
 </body>
