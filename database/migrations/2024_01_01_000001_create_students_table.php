@@ -11,10 +11,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->enum('avatar', [
-                'boy_uniform',
-                'girl_uniform',
-            ])->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamp('last_played')->nullable();
             $table->timestamps();
         });

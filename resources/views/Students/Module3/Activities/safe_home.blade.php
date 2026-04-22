@@ -17,7 +17,8 @@
     body {
         font-family: 'Lexend', sans-serif;
         margin: 0; padding: 15px;
-        background-color: var(--bg-dark);
+        background: url("{{ asset('pictures/mod3_innermap.png') }}") no-repeat center center fixed;
+        background-size: cover;
         color: var(--text);
         min-height: 100vh;
     }

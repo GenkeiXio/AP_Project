@@ -43,35 +43,51 @@ body, html {
 /* NODE STYLE (CIRCLE) */
 .node {
     position: absolute;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: white;
-    border: 5px solid #fff;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    width: fit-content;      /* ← change this */
+    height: fit-content;     /* ← add this */
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
     cursor: pointer;
-    overflow: hidden;
-    z-index: 2;
+    z-index: 5;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
     transition: transform .2s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .node img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
+    width: clamp(120px, 18vw, 240px); /* scales down proportionally */
+    height: auto;
+    object-fit: contain;
+    transform: translateY(10px);
+}
+
+
+.node-tri-top-left  { top: 35%; left: 30%; }
+.node-tri-top-right { top: 35%; left: 70%; }
+.node-tri-bottom    { top: 80%; left: 50%; }
+
+.center-design {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(200px, 32vw, 480px); /* scales down on smaller screens */
+    z-index: 1; /* keep it behind nodes */
 }
 
 .node:hover {
-    transform: scale(1.08);
+    transform: translate(-50%, -50%) scale(1.1); /* ← include translate! */
 }
 
 /* POSITIONS */
-.node-top-left { top: 15%; left: 20%; }
-.node-top-right { top: 15%; left: 65%; }
-.node-bottom-left { top: 60%; left: 20%; }
-.node-bottom-right { top: 60%; left: 65%; }
+
 
 /* LOCK */
 .locked {
@@ -80,21 +96,26 @@ body, html {
     pointer-events: none;
 }
 
+.locked img {
+    filter: grayscale(100%) brightness(0.8) drop-shadow(0 8px 10px rgba(0,0,0,0.5));
+}
+
 .lock-icon {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 34px;
-    background: rgba(0,0,0,0.6);
+    font-size: 40px;
+    background: rgba(0,0,0,0.4);
     color: white;
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 15px; /* Square with rounded corners looks better for icons */
     z-index: 3;
+    pointer-events: none;
 }
 
 /* CENTER BUTTON */
@@ -112,6 +133,15 @@ body, html {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.92);
     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    
+}
+
+.node:focus {
+    outline: none;
+}
+
+.node:focus-visible {
+    outline: none;
 }
 
 .module-entry.active {
@@ -197,6 +227,14 @@ body, html {
     font-size: 18px;
     cursor: pointer;
 }
+
+.node.locked {
+    transform: translate(-50%, -50%) scale(0.8); /* ← include translate! */
+}
+
+.node.locked:hover {
+    transform: translate(-50%, -50%) scale(0.85); /* ← include translate! */
+}
 </style>
 @endpush
 
@@ -217,24 +255,19 @@ body, html {
         <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map" alt="Mapa ng Module 3">
 
         <!-- CENTER START -->
-        <button class="module-entry" onclick="moduleTransition(this, '{{ route('module3.home') }}')">
-            Simulan ang Module 3
+       <img src="{{ asset('pictures/mod3_center_node.png') }}" class="center-design" alt="Simulan">
+
+        <button class="node node-tri-top-left" onclick="goNode1()">
+            <img src="{{ asset('pictures/mod3_disaster_node.png') }}" alt="Node 1">
         </button>
 
-        <!-- NODE 1 -->
-        <button class="node node-top-left" onclick="goNode1()">
-            <img src="{{ asset('pictures/node1_innermap_mod3.png') }}" alt="Node 1">
-        </button>
-
-        <!-- NODE 2 -->
-        <button class="node node-top-right locked" id="node2" onclick="goNode2()">
-            <img src="{{ asset('pictures/node2.png') }}" alt="Node 2">
+        <button class="node node-tri-top-right locked" id="node2" onclick="goNode2()">
+            <img src="{{ asset('pictures/mod3_approaches_node.png') }}" alt="Node 2">
             <span class="lock-icon">🔒</span>
         </button>
 
-        <!-- NODE 3 -->
-        <button class="node node-bottom-left locked" id="node3" onclick="goNode3()">
-            <img src="{{ asset('pictures/node3.png') }}" alt="Node 3">
+        <button class="node node-tri-bottom locked" id="node3" onclick="goNode3()">
+            <img src="{{ asset('pictures/mod3_cbdrrm_node.png') }}" alt="Node 3">
             <span class="lock-icon">🔒</span>
         </button>
 
@@ -292,6 +325,8 @@ function updateMapProgress(){
 
 function lockNode(node){
     node.classList.add("locked");
+    const img = node.querySelector("img");
+    if(img) 
 
     if(!node.querySelector(".lock-icon")){
         const lock = document.createElement("span");
