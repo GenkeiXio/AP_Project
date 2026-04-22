@@ -131,24 +131,24 @@ body{
 
 @section('content')
 
-<div class="page">
+    <div class="page">
 
-    
-    <!-- CONTENT -->
-    <div class="content">
 
-        <div class="overlay">
-            Ngayon na alam mo na ang mga dapat gawin bago, habang, at pagkatapos ng kalamidad,
-            handa ka nang matutunan kung bakit mahalaga ang <strong>kahandaan</strong>, <strong>disiplina</strong>, at <strong>kooperasyon</strong>
-            sa pagharap sa mga hamong pangkapaligiran.
+        <!-- CONTENT -->
+        <div class="content">
+
+            <div class="overlay">
+                Ngayon na alam mo na ang mga dapat gawin bago, habang, at pagkatapos ng kalamidad,
+                handa ka nang matutunan kung bakit mahalaga ang <strong>kahandaan</strong>, <strong>disiplina</strong>, at <strong>kooperasyon</strong>
+                sa pagharap sa mga hamong pangkapaligiran.
+            </div>
+
+            <a href="{{ route('inner.map4') }}" class="btn-next">
+                Magpatuloy ➜
+            </a>
+
         </div>
 
-        <a href="{{ route('module4.explore') }}" class="btn-next">
-            Magpatuloy ➜
-        </a>
-
     </div>
-
-</div>
 
 @endsection
