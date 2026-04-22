@@ -1306,11 +1306,15 @@
 
 		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
 
-		// Optional: visual warning when 0
 		if (remaining === 0) {
 			retryIndicator.style.background = '#ffe5e5';
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
+
+			// 🔥 Disable retry button
+			document.querySelector('.btn-secondary').disabled = true;
+			document.querySelector('.btn-secondary').style.opacity = 0.5;
+			document.querySelector('.btn-secondary').style.cursor = 'not-allowed';
 		}
 	}
 
@@ -1329,17 +1333,22 @@
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
-		updateRetryIndicator(); // 🔥 ADD THIS
+		updateRetryIndicator();
 
 		renderAllQuestions();
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+		retryCount = 0;
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
 	});
 </script>
 

@@ -1414,7 +1414,7 @@
                     completeZone(droppedZone);
 
                     // ✅ STORE DATA (ADD THIS PART ONLY)
-                    let currentRecordIndex = Math.floor(itemIndex / 2);
+                    let currentRecordIndex = 0; // ONLY ONE PROBLEM
                     let value = current.type === 'image'
                         ? current.src.replace(window.location.origin + '/', '')
                         : current.text;
@@ -1422,35 +1422,26 @@
                         completedRecords[currentRecordIndex] = {
                             problem_number: currentRecordIndex + 1,
                             sanhi_image: '',
-                            sanhi_text: '',
                             bunga_image: '',
-                            bunga_text: '',
-                            solusyon_image: '',
-                            solusyon_text: ''
+                            solusyon_image: ''
                         };
                     }
 
                     if (current.zone === 'cause') {
                         if (current.type === 'image') {
                             completedRecords[currentRecordIndex].sanhi_image = value;
-                        } else {
-                            completedRecords[currentRecordIndex].sanhi_text = value;
                         }
                     }
 
                     if (current.zone === 'effect') {
                         if (current.type === 'image') {
                             completedRecords[currentRecordIndex].bunga_image = value;
-                        } else {
-                            completedRecords[currentRecordIndex].bunga_text = value;
                         }
                     }
 
                     if (current.zone === 'solution') {
                         if (current.type === 'image') {
                             completedRecords[currentRecordIndex].solusyon_image = value;
-                        } else {
-                            completedRecords[currentRecordIndex].solusyon_text = value;
                         }
                     }
 

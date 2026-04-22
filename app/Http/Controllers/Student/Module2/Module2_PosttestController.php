@@ -10,6 +10,23 @@ use App\Models\Module_2\Module2PosttestAnswer;
 
 class Module2_PosttestController extends Controller
 {
+    private function studentId()
+    {
+        return Session::get('student_id');
+    }
+
+    public function index()
+    {
+        if (!$this->studentId()) {
+            return redirect()->route('home');
+        }
+
+        // RESET attempts every visit
+        session()->forget('module2_posttest_attempts');
+
+        return view('module2_posttest');
+    }
+
     public function store(Request $request)
     {
         $studentId = Session::get('student_id');
@@ -17,6 +34,17 @@ class Module2_PosttestController extends Controller
         if (!$studentId) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        // 🔥 SESSION LIMIT
+        $attempts = session()->get('module2_posttest_attempts', 0);
+
+        if ($attempts >= 2) {
+            return response()->json([
+                'error' => 'Maximum attempts reached'
+            ], 403);
+        }
+
+        session()->put('module2_posttest_attempts', $attempts + 1);
 
         $request->validate([
             'score' => 'required|integer',
@@ -44,7 +72,9 @@ class Module2_PosttestController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Post-test saved successfully'
+            'message' => 'Post-test saved successfully',
+            'attempt_used' => $attempts + 1,
+            'remaining_attempts' => 2 - ($attempts + 1)
         ]);
     }
 }

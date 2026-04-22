@@ -21,16 +21,30 @@ class Module3_PretestController extends Controller
             return redirect()->route('home');
         }
 
+        // 🔥 Reset attempts every visit
+        session()->forget('module3_pretest_attempts');
+
         return view('module3_pretest');
     }
 
     public function store(Request $request)
     {
-        $studentId = $this->studentId();
+       $studentId = $this->studentId();
 
         if (!$studentId) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        // 🔥 OPTIONAL: Limit submissions per session (not DB)
+        $attempts = session()->get('module3_pretest_attempts', 0);
+
+        if ($attempts >= 3) {
+            return response()->json([
+                'error' => 'Maximum attempts reached'
+            ], 403);
+        }
+
+        session()->put('module3_pretest_attempts', $attempts + 1);
 
         $answers = $request->answers;
 
@@ -49,15 +63,17 @@ class Module3_PretestController extends Controller
             'percentage' => 0,
         ]);
 
-        foreach ($answers as $index => $selected) {
-            $correct = $correctAnswers[$index];
-            $isCorrect = $selected == $correct;
+        foreach ($answers as $answer) {
+            $selected = $answer['selected']; // 'a','b','c','d'
+            $correct = $answer['correct'];
+
+            $isCorrect = $selected === $correct;
 
             if ($isCorrect) $score++;
 
             Module3PretestAnswer::create([
                 'module3_pretest_id' => $pretest->id,
-                'question_number' => $index + 1,
+                'question_number' => $answer['question_number'],
                 'selected_answer' => $selected,
                 'correct_answer' => $correct,
                 'is_correct' => $isCorrect,

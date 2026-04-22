@@ -18,13 +18,10 @@ return new class extends Migration
             $table->integer('problem_number');
 
             $table->text('sanhi_image')->nullable();
-            $table->text('sanhi_text')->nullable();
 
             $table->text('bunga_image')->nullable();
-            $table->text('bunga_text')->nullable();
 
             $table->text('solusyon_image')->nullable();
-            $table->text('solusyon_text')->nullable();
 
             $table->timestamps();
         });

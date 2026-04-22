@@ -1134,10 +1134,10 @@
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
 
-	let retryCount = 0;
-	const maxRetries = 2;
 	const questionsPerCard = 5;
 	let currentCard = 0;
+	let retryCount = 0;
+	const maxRetries = 2;
 
 	// ================= MESSAGES =================
 	const correctMessages = [
@@ -1315,6 +1315,39 @@
 		}
 	}
 
+	// ================= RETRY CONFIG ================= //
+	function updateRetryIndicator() {
+		let indicator = document.getElementById('retryIndicator');
+
+		// create if not exists
+		if (!indicator) {
+			indicator = document.createElement('div');
+			indicator.id = 'retryIndicator';
+			indicator.className = 'retry-indicator';
+			document.getElementById('resultBox').insertBefore(
+				indicator,
+				document.getElementById('resultActions')
+			);
+		}
+
+		const remaining = maxRetries - retryCount;
+
+		indicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
+
+		if (remaining === 0) {
+			indicator.style.background = '#ffe5e5';
+			indicator.style.border = '1px solid #e5a5a5';
+			indicator.style.color = '#7a2e2e';
+
+			const retryBtn = document.querySelector('.btn-secondary');
+			if (retryBtn) {
+				retryBtn.disabled = true;
+				retryBtn.style.opacity = 0.5;
+				retryBtn.style.cursor = 'not-allowed';
+			}
+		}
+	}
+
 	// ================= RESULT =================
 	function submitPreTest() {
 		if (!confirmedAnswers.every(c => c)) {
@@ -1327,7 +1360,7 @@
 
 		const percentage = Math.round((score / questions.length) * 100);
 
-		// ===== SEND TO BACKEND (UNCHANGED) =====
+		// SEND TO BACKEND
 		const answers = questions.map((q, index) => ({
 			question_number: index + 1,
 			selected_answer: selectedAnswers[index],
@@ -1345,7 +1378,6 @@
 		});
 
 		// ===== UI =====
-		const resultRing = document.getElementById('resultRing');
 		const resultPercent = document.getElementById('resultPercent');
 		const resultScoreText = document.getElementById('resultScoreText');
 		const resultBadge = document.getElementById('resultBadge');
@@ -1359,24 +1391,28 @@
 
 		if (score >= 13) {
 			resultBadge.textContent = "🏆 Mahusay!";
+
 			setTimeout(() => {
 				document.getElementById('passModal').classList.add('show');
 			}, 800);
+
 		} else {
+			retryCount++; // ✅ ONLY HERE
+			updateRetryIndicator();
+
 			resultBadge.textContent = "❌ Hindi pa sapat";
 			resultFeedback.textContent = "Subukan muli.";
-			retryCount++; // ✅ MOVE IT HERE
 
-			if (retryCount <= maxRetries) {
+			if (retryCount < maxRetries) {
 				resultActions.innerHTML = `
 					<button class="btn-secondary" onclick="restartQuiz()">
-						Ulitin (${maxRetries - retryCount >= 0 ? maxRetries - retryCount : 0} natitira)
+						Ulitin ang Pagsusulit
 					</button>
 				`;
 			} else {
 				resultActions.innerHTML = `
 					<div style="font-weight:800;color:#7a2e2e;">
-						Naabot na ang maximum retries.
+						Naabot mo na ang maximum na 2 pagsubok.
 					</div>
 				`;
 			}
@@ -1390,14 +1426,11 @@
 
 	// ================= RETRY =================
 	function restartQuiz() {
-
-		// ✅ ADD THIS HERE (VERY TOP)
-		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum retries.');
+if (retryCount >= maxRetries) {
+			alert('Naabot mo na ang maximum na 2 pagsubok.');
 			return;
 		}
 
-		// (your existing code below)
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
 		currentCard = 0;
@@ -1407,19 +1440,25 @@
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
-		confirmBtn.style.display = 'inline-flex';
-		document.getElementById('nextCardBtn').style.display = 'none';
-		submitBtn.style.display = 'none';
-
 		renderAllQuestions();
 
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	// ================= RESET ON EXIT =================
+	window.addEventListener('beforeunload', () => {
+		retryCount = 0;
+	});
+
 	// ================= INIT =================
 	window.addEventListener('load', () => {
+		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+		retryCount = 0; // always 2/2
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
+
+		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});
 </script>
 

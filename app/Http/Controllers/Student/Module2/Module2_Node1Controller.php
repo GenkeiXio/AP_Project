@@ -28,19 +28,17 @@ class Module2_Node1Controller extends Controller
         }
 
         foreach ($request->records as $record) {
-            Module2Node1::create([
-                'student_id' => $studentId,
-                'problem_number' => $record['problem_number'],
-
-                'sanhi_image' => $record['sanhi_image'] ?? null,
-                'sanhi_text' => $record['sanhi_text'] ?? null,
-
-                'bunga_image' => $record['bunga_image'] ?? null,
-                'bunga_text' => $record['bunga_text'] ?? null,
-
-                'solusyon_image' => $record['solusyon_image'] ?? null,
-                'solusyon_text' => $record['solusyon_text'] ?? null,
-            ]);
+            Module2Node1::updateOrCreate(
+                [
+                    'student_id' => $studentId,
+                    'problem_number' => $record['problem_number']
+                ],
+                [
+                    'sanhi_image' => $record['sanhi_image'] ?? null,
+                    'bunga_image' => $record['bunga_image'] ?? null,
+                    'solusyon_image' => $record['solusyon_image'] ?? null,
+                ]
+            );
         }
 
         return response()->json([
