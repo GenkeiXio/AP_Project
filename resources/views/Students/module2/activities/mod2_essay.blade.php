@@ -1,309 +1,515 @@
 <!DOCTYPE html>
 <html lang="fil">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sanaysay – Modyul 2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanaysay – Modyul 2</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
 
-<style>
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Nunito', sans-serif;
-	overflow-x: hidden;
-}
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
 
-/* BACKGROUND */
-.map-wrapper {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-}
+        /* BACKGROUND */
+        .map-wrapper {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+        }
 
-.background-map {
-    position: fixed;   /* 🔥 move fixed here instead */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-}
+        .background-map {
+            position: fixed;
+            /* 🔥 move fixed here instead */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
 
-/* CENTER CARD (DESKTOP) */
-.essay-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 800px;
-    z-index: 10;
-}
+        /* CENTER CARD (DESKTOP) */
+        .essay-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            z-index: 10;
+        }
 
-.essay-card {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 24px;
-    padding: 28px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    border: 2px solid #e7d7bf;
-}
+        .essay-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 2px solid #e7d7bf;
+        }
 
-.essay-card h1 {
-    font-family: "Baloo 2", cursive;
-    color: #3d2a1a;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    text-align: center;
-}
+        .essay-card h1 {
+            font-family: "Baloo 2", cursive;
+            color: #3d2a1a;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
 
-.essay-card p {
-    font-weight: 700;
-    color: #5a4630;
-    margin-bottom: 10px;
-}
+        .essay-card p {
+            font-weight: 700;
+            color: #5a4630;
+            margin-bottom: 10px;
+        }
 
-.question {
-    font-weight: 900;
-    color: #3d2a1a;
-}
+        .question {
+            font-weight: 900;
+            color: #3d2a1a;
+        }
 
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 14px;
-    padding: 12px;
-    border: 1px solid #d7c4a3;
-    margin: 15px 0;
-    resize: none;
-    display: block;
-}
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 14px;
+            padding: 12px;
+            border: 1px solid #d7c4a3;
+            margin: 15px 0;
+            resize: none;
+            display: block;
+        }
 
-textarea:focus {
-    outline: none;
-    border: 2px solid #6dbf7e;
-    box-shadow: 0 0 0 3px rgba(109,191,126,0.2);
-}
+        textarea:focus {
+            outline: none;
+            border: 2px solid #6dbf7e;
+            box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.2);
+        }
 
-.submission-note {
-    font-size: 0.95rem;
-    color: #2f6c44;
-    font-weight: 800;
-    margin: 12px 0;
-    text-align: center;
-}
+        .submission-note {
+            font-size: 0.95rem;
+            color: #2f6c44;
+            font-weight: 800;
+            margin: 12px 0;
+            text-align: center;
+        }
 
-.btn-primary {
-    background: linear-gradient(135deg, #6dbf7e, #4da862);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
-    text-decoration: none;
-}
+        .btn-primary {
+            background: linear-gradient(135deg, #6dbf7e, #4da862);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
 
-.btn-primary:hover {
-    transform: scale(1.05);
-}
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
 
-.button-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-.back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 100;
-    background: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    color: black;
-}
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
+        }
 
-.success-message {
-    margin-top: 12px;
-    color: green;
-    font-weight: bold;
-    text-align: center;
-}
+        .success-message {
+            margin-top: 12px;
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
 
-/* ===== MOBILE FIX ===== */
-@media (max-width: 768px){
+        /* ===== MOBILE FIX ===== */
+        @media (max-width: 768px) {
 
-    body, html{
-        height:auto;
-        overflow:auto;
-    }
+            body,
+            html {
+                height: auto;
+                overflow: auto;
+            }
 
-    /* REMOVE CENTER LOCK */
-    .essay-container {
-		width: 100%;
-		max-width: 800px;
-		margin: 60px auto 30px;
-		padding: 15px;
-		box-sizing: border-box; /* 🔥 IMPORTANT */
-	}
+            /* REMOVE CENTER LOCK */
+            .essay-container {
+                width: 100%;
+                max-width: 800px;
+                margin: 60px auto 30px;
+                padding: 15px;
+                box-sizing: border-box;
+                /* 🔥 IMPORTANT */
+            }
 
-    .essay-card {
-		width: 100%;
-		box-sizing: border-box; /* 🔥 prevents overflow */
-	}
+            .essay-card {
+                width: 100%;
+                box-sizing: border-box;
+                /* 🔥 prevents overflow */
+            }
 
-    .essay-card h2{
-        font-size: 1.3rem;
-        text-align: center;
-    }
+            .essay-card h2 {
+                font-size: 1.3rem;
+                text-align: center;
+            }
 
-    .essay-card p{
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
+            .essay-card p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
 
-    .question{
-        font-size: 0.95rem;
-    }
+            .question {
+                font-size: 0.95rem;
+            }
 
-    textarea {
-		width: 100%;
-		max-width: 100%;
-	}
+            textarea {
+                width: 100%;
+                max-width: 100%;
+            }
 
-    .button-group{
-        flex-direction: column;
-        gap: 8px;
-    }
+            .button-group {
+                flex-direction: column;
+                gap: 8px;
+            }
 
-    .btn-primary{
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-    }
+            .btn-primary {
+                width: 100%;
+                padding: 12px;
+                font-size: 14px;
+            }
 
-    .back-button{
-        top: 10px;
-        left: 10px;
-        padding: 8px 12px;
-        font-size: 13px;
-    }
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 13px;
+            }
 
-    /* SAFE SPACE */
-    body::after{
-        content:"";
-        display:block;
-        height:80px;
-    }
-}
-</style>
+            /* SAFE SPACE */
+            body::after {
+                content: "";
+                display: block;
+                height: 80px;
+            }
+        }
+
+        /* ===== RUBRICS MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background: #fffaf2;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 18px;
+            width: 95%;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid #d6b98c;
+        }
+
+        .modal-title {
+            text-align: center;
+            font-family: "Baloo 2", cursive;
+            color: #5a3d1e;
+            margin-bottom: 15px;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        .rubric-table {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rubric-header,
+        .rubric-row {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 2fr;
+            gap: 10px;
+        }
+
+
+        .row {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 2fr;
+            /* 🔥 3 columns now */
+            gap: 8px;
+            /* better spacing */
+        }
+
+        .row div {
+            background: #f4e4c8;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .header div {
+            background: #c58b3a;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* CRITERIA COLUMN */
+        .criteria {
+            background: #e6c48a;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* BOXES */
+        .box {
+            padding: 14px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* COLORS (LIKE IMAGE) */
+        .box.good {
+            background: #d9c7a8;
+            /* light beige */
+        }
+
+        .box.low {
+            background: #e8d8bd;
+        }
+
+        /* HEADER STYLE */
+        .rubric-header div {
+            background: #c58b3a;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="map-wrapper">
+    <div class="map-wrapper">
 
-    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
+        <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
 
-    <a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
+        <a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
 
-    <div class="essay-container">
-        <div class="essay-card">
+        <div class="essay-container">
+            <div class="essay-card">
 
-            <h1 class="contn">MAIKLING SANAYSAY</h1>
+                <h1 class="contn">MAIKLING SANAYSAY</h1>
 
-            <p><strong>Panuto:</strong> Ibigay ang iyong opinyon at isulat ang sagot sa ibaba.</p>
+                <p><strong>Panuto:</strong> Ibigay ang iyong opinyon at isulat ang sagot sa ibaba.</p>
 
-            <p class="question">
-                Bilang isang mag-aaral at miyembro ng komunidad, paano ka makatutulong sa pagtugon sa mga suliraning pangkapaligiran tulad ng 
-                <strong>basurang solido, pagkakalbo ng kagubatan, at pagbabago ng klima</strong>?
-            </p>
+                <p class="question">
+                    Bilang isang mag-aaral at miyembro ng komunidad, paano ka makatutulong sa pagtugon sa mga suliraning
+                    pangkapaligiran tulad ng
+                    <strong>basurang solido, pagkakalbo ng kagubatan, at pagbabago ng klima</strong>?
+                </p>
 
-            <p>
-                Magbigay ng ebidensya ng iyong mga gawain (hal. paglilinis ng kapaligiran, pagtatanim ng puno) sa pamamagitan ng larawan o video.
-            </p>
+                <p>
+                    Magbigay ng ebidensya ng iyong mga gawain (hal. paglilinis ng kapaligiran, pagtatanim ng puno) sa
+                    pamamagitan ng larawan o video.
+                </p>
 
-            <form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+                <form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-                <!-- FIXED TEXTAREA ID -->
-                <textarea id="essay_answer" name="essay_answer" rows="8" placeholder="Ilagay dito ang iyong sagot..." required></textarea>
+                    <!-- FIXED TEXTAREA ID -->
+                    <textarea id="essay_answer" name="essay_answer" rows="8"
+                        placeholder="Ilagay dito ang iyong sagot..." required></textarea>
 
-                <div style="display:flex; justify-content:center; margin-top:10px;">
-                    <button type="submit" class="btn-primary">
-                        📤 Isumite ang Sanaysay
-                    </button>
+                    <div style="display:flex; justify-content:center; margin-top:10px;">
+                        <button type="submit" class="btn-primary">
+                            📤 Isumite ang Sanaysay
+                        </button>
+                    </div>
+                </form>
+
+                @if(session('success'))
+                    <div class="success-message">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <p class="submission-note">
+                    📩 <strong>Paraan ng Pagsusumite:</strong><br><br>
+                    Kopyahin ang iyong sagot at ipadala ito sa email ng iyong guro.<br><br>
+                    <strong>Email:</strong> teacher@gmail.com
+                </p>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="copyAnswer()">📋 Kopyahin ang Sagot</button>
+
+                    <a href="https://mail.google.com/" target="_blank" class="btn-primary">
+                        📧 Buksan ang Email
+                    </a>
                 </div>
-            </form>
 
-            @if(session('success'))
-                <div class="success-message">
-                    {{ session('success') }}
+                <div id="copyMessage" class="success-message" style="display:none;">
+                    ✅ Nakopya na ang sagot!
                 </div>
-            @endif
 
-            <p class="submission-note">
-                📩 <strong>Paraan ng Pagsusumite:</strong><br><br>
-                Kopyahin ang iyong sagot at ipadala ito sa email ng iyong guro.<br><br>
-                <strong>Email:</strong> teacher@gmail.com
-            </p>
+                <div style="text-align:center; margin-top:15px;">
+                    <a href="{{ route('module2.buod') }}" class="btn-primary">
+                        👉 Magpatuloy sa Susunod
+                    </a>
+                </div>
 
-            <div class="button-group">
-                <button class="btn-primary" onclick="copyAnswer()">📋 Kopyahin ang Sagot</button>
-
-                <a href="https://mail.google.com/" target="_blank" class="btn-primary">
-                    📧 Buksan ang Email
-                </a>
             </div>
+        </div>
 
-            <div id="copyMessage" class="success-message" style="display:none;">
-                ✅ Nakopya na ang sagot!
+        <!-- RUBRICS MODAL -->
+        <div id="rubricsModal" class="modal">
+            <div class="modal-content">
+
+                <!-- <span class="close-btn" onclick="closeModal()">&times;</span> -->
+
+                <h2 class="modal-title">Rubrics: <br>Pagtugon sa mga Suliraning Pangkapaligiran</h2>
+
+                <div class="rubric-table">
+
+                    <!-- HEADER -->
+                    <div class="rubric-header">
+                        <div>Pamantayan</div>
+                        <div class="box good">5 – Napakahusay<br>4 – Mahusay</div>
+                        <div class="box low">3 – Katamtaman<br>2 – Nangangailangan ng Pagbuti<br>1 – Di-Kasiya-siya
+                        </div>
+                    </div>
+
+                    <!-- ROW 1 -->
+                    <div class="rubric-row">
+                        <div class="criteria">Kaangkupan ng mga Ideya</div>
+
+                        <div class="box good">
+                            Mga ideya ay lubos na angkop sa pagtugon sa <i>solid waste</i>,
+                            <i>deforestation</i>, at <i>climate change</i>.
+                        </div>
+
+                        <div class="box low">
+                            Mga ideya ay bahagyang angkop at may ilang hindi tumutugma sa suliranin.
+                        </div>
+                    </div>
+
+                    <!-- ROW 2 -->
+                    <div class="rubric-row">
+                        <div class="criteria">Kongkretong Halimbawa</div>
+
+                        <div class="box good">
+                            Matatag at makabuluhang kongkretong halimbawa ang ibinigay.
+                        </div>
+
+                        <div class="box low">
+                            May halimbawa ngunit kulang sa detalye.
+                        </div>
+                    </div>
+
+                    <!-- ROW 3 -->
+                    <div class="rubric-row">
+                        <div class="criteria">Kalinawan ng Paliwanag</div>
+
+                        <div class="box good">
+                            Lubos na malinaw at organisado ang paliwanag.
+                        </div>
+
+                        <div class="box low">
+                            Kulang sa detalye o hindi malinaw.
+                        </div>
+                    </div>
+
+                    <!-- ROW 4 -->
+                    <div class="rubric-row">
+                        <div class="criteria">Pagkilos at Komunikasyon</div>
+
+                        <div class="box good">
+                            Malinaw na ipinakita ang pagkilos at nakapagbigay inspirasyon.
+                        </div>
+
+                        <div class="box low">
+                            Kakaunti ang pagkilos at hindi aktibo.
+                        </div>
+                    </div>
+
+                </div>
+                <div style="text-align:center; margin-top:20px;">
+                    <button class="btn-primary" onclick="closeModal()">✔ Naiintindihan ko</button>
+                </div>
+
             </div>
-
-            <div style="text-align:center; margin-top:15px;">
-                <a href="{{ route('module2.buod') }}" class="btn-primary">
-                    👉 Magpatuloy sa Susunod
-                </a>
-            </div>
-
         </div>
     </div>
 
-</div>
+    <script>
+        function copyAnswer() {
+            const text = document.getElementById("essay_answer").value;
 
-<script>
-function copyAnswer() {
-    const text = document.getElementById("essay_answer").value;
+            if (!text.trim()) {
+                alert("⚠️ Wala pang nakalagay na sagot.");
+                return;
+            }
 
-    if (!text.trim()) {
-        alert("⚠️ Wala pang nakalagay na sagot.");
-        return;
-    }
+            navigator.clipboard.writeText(text).then(() => {
+                const msg = document.getElementById("copyMessage");
+                msg.style.display = "block";
 
-    navigator.clipboard.writeText(text).then(() => {
-        const msg = document.getElementById("copyMessage");
-        msg.style.display = "block";
+                setTimeout(() => {
+                    msg.style.display = "none";
+                }, 2000);
+            });
+        }
 
-        setTimeout(() => {
-            msg.style.display = "none";
-        }, 2000);
-    });
-}
-</script>
+        window.onload = function () {
+            document.getElementById("rubricsModal").style.display = "block";
+        };
+
+        function closeModal() {
+            document.getElementById("rubricsModal").style.display = "none";
+        }
+    </script>
 
 </body>
+
 </html>
