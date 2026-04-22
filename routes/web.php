@@ -37,6 +37,7 @@ use App\Http\Controllers\Student\Module3\Module3LindolController;
 use App\Http\Controllers\Student\Module3\Module3BalikAralController;
 use App\Http\Controllers\Student\Module3\Module3ExploreController;
 use App\Http\Controllers\Teacher\Module3ResultsController;
+use App\Http\Controllers\Student\Module4\Module4_Node1Controller;
 use App\Http\Controllers\Student\Module4\Module4HomeController;
 use App\Http\Controllers\Student\Module4\Module4PretestController;
 use App\Http\Controllers\Student\Module4\Module4BalikAralController;
@@ -71,7 +72,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
 
     Route::post('/student/module2/pretest/save', [Module2PretestController::class, 'store']) ->name('student.module2.pretest.save');
     Route::get('/module2/pretest/attempts', [Module2PretestController::class, 'checkAttempts']);
-    Route::post('/module2/node1/save', [Module2_Node1Controller::class, 'store']) ->name('student.module2.node1.save');
+    Route::post('/student/module2/node1/save', [Module2_Node1Controller::class, 'store']) ->name('student.module2.node1.save');
     Route::post('/student/module2/node2/save', [Module2_Node2Controller::class, 'store']) ->name('student.module2.node2.save');
     Route::post('/student/module2/node3/save', [Module2_Node3Controller::class, 'store'] )->name('student.module2.node3.save');
     Route::post('/module2/final-activity/save', [Module2_FinalActivityController::class, 'store']) ->name('student.module2.final.save');
@@ -116,7 +117,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module4/performance/save', [Module4PerformanceController::class, 'store'])->name('student.module4.performance.save');
     Route::post('/module4/performance/submit', [Module4PerformanceController::class, 'store'])->name('module4.performance.submit');
     Route::post('/module4/posttest/submit', [Module4PosttestController::class, 'store'])->name('module4.posttest.submit');
-    
+    Route::post('/module4/node1/save', [Module4_Node1Controller::class, 'store'])->name('student.module4.node1.save');
 });
 
 Route::post('/staff/verify-credentials', [StaffAuthController::class, 'verifyCredentials'])->name('staff.verify-credentials');
@@ -360,8 +361,18 @@ Route::get('/module4/pretest', function () {
 Route::view('/module4/balik-aral', 'Students.Module4.mod4_balikaral')
     ->name('module4.balikaral');
 
-Route::get('/inner-map4', function () {
+Route::get('/module4/inner-map', function () {
     return view('Students.Module4.inner_map4');
+})->name('inner.map4');
+
+Route::prefix('module4')->name('module4.')->group(function () {
+
+    Route::get('/node1', fn() => view('Students.Module4.Nodes.mod4_node1'))->name('node1');
+    Route::get('/node2', fn() => view('Students.Module4.Nodes.mod4_node2'))->name('node2');
+    Route::get('/node3', fn() => view('Students.Module4.Nodes.mod4_node3'))->name('node3');
+    Route::get('/node4', fn() => view('Students.Module4.Nodes.mod4_node4'))->name('node4');
+    Route::get('/node5', fn() => view('Students.Module4.Nodes.mod4_node5'))->name('node5');
+
 });
 
 Route::view('/module4/welcome', 'Students.Module4.mod4_welcome')
@@ -396,6 +407,10 @@ Route::view('/module4/performance', 'Students.Module4.mod4_performance')
 
 Route::view('/module4/buod', 'Students.Module4.mod4_buod')
     ->name('module4.buod');
+
+Route::get('/module4/intro', function () {
+    return view('Students.Module4.mod4_intro');
+})->name('module4.intro');
 
 Route::view('/certificate', 'certificate')
     ->name('certificate');
