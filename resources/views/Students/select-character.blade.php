@@ -359,16 +359,6 @@
                 <h3>GABRIELA</h3>
             </div>
 
-            <div class="char-card juan-theme" data-avatar="boy_uniform" data-name="JUAN " data-bio='Ang masipag at madiskarteng Pilipino sa makabagong hamon ng buhay.' data-theme="juan-theme">
-                <img src="{{ asset('pictures/chibi_boy.png') }}">
-                <h3>JUAN</h3>
-            </div>
-
-            <div class="char-card maria-theme" data-avatar="girl_uniform" data-name="MARIA CLARA" data-bio='Simbolo ng dangal at malikhaing kaisipan ng kabataang Pilipina.' data-theme="maria-theme">
-                <img src="{{ asset('pictures/girl_pink.png') }}">
-                <h3>MARIA</h3>
-            </div>
-
             <div class="char-card lihim-theme" data-avatar="neutral_hero" data-name="LIHIM NA BAYANI" data-bio='Ang iyong kwento ay hindi pa naisusulat. Ikaw ang susunod na alamat.' data-theme="lihim-theme">
                 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M32 2C24.3 2 18 8.3 18 16C18 20.9 20.6 25.2 24.5 27.7C20 29.8 16.5 33.7 15 38.5C13.8 37.8 12.5 37.3 11 37.3C6.6 37.3 3 40.9 3 45.3C3 49.7 6.6 53.3 11 53.3C12.5 53.3 13.8 52.8 15 52.1V58C15 60.2 16.8 62 19 62H45C47.2 62 49 60.2 49 58V51.3C50.2 51.9 51.6 52.3 53 52.3C57.4 52.3 61 48.7 61 44.3C61 39.9 57.4 36.3 53 36.3C51.6 36.3 50.2 36.7 49 37.3C47.7 33.1 44.8 29.6 41 27.5C44.1 24.9 46 21 46 16C46 8.3 39.7 2 32 2ZM32 6C37.5 6 42 10.5 42 16C42 19.5 40.2 22.5 37.5 24.3C35.8 25.4 33.9 26 32 26C30.1 26 28.2 25.4 26.5 24.3C23.8 22.5 22 19.5 22 16C22 10.5 26.5 6 32 6Z" fill="#cdbca0"/>
