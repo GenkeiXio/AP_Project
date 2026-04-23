@@ -1079,7 +1079,7 @@
                 <a class="back-link" href="{{ route('node1.solid-waste') }}">⬅ Bumalik</a>
                 <div class="xp-rack">
                     <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
-                    <div class="xp-chip" id="missionCount">0 / 6 Tama</div>
+                    <div class="xp-chip" id="missionCount">0 / 3 Tama</div>
                 </div>
             </div>
 
@@ -1113,7 +1113,7 @@
                 <div class="panel">
                     <div class="board-header">
                         <h2 class="board-title">Sanhi → Bunga → Solusyon</h2>
-                        <div class="board-sub">Bilang <span id="itemCount">1</span> / 6</div>
+                        <div class="board-sub">Bilang <span id="itemCount">1</span> / 3</div>
                     </div>
 
                     <div style="display:flex; justify-content:center; margin:0 0 16px;">
@@ -1409,7 +1409,7 @@
 
                 if (droppedZone === current.zone) {
                     correctCount += 1;
-                    missionCount.textContent = `${correctCount} / 6 Tama`;
+                    missionCount.textContent = `${correctCount} / 3 Tama`;
 
                     completeZone(droppedZone);
 

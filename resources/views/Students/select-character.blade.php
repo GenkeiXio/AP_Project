@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="fil">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PILIIN ANG IYONG BAYANI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;700&family=Oswald:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <style>
         :root {
             --blue-rizal: #2980b9;
@@ -21,29 +24,37 @@
             --ink: #2c3e50;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            background-color: #d2b48c;
-            background-image: url('https://www.transparenttextures.com/patterns/p6.png');
-            color: var(--ink);
-            font-family: 'Montserrat', sans-serif;
-            height: 100vh;
+            min-height: 100vh;
+            font-family: "Nunito", sans-serif;
+
+            /* SAME AS HOME */
+            background: linear-gradient(135deg, #d4edaa 0%, #f5e8c0 45%, #fde3a3 100%);
+
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        body::before {
+        /* body::before {
             content: '';
             position: absolute;
-            top:0; left:0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
             opacity: 0.3;
             z-index: 1;
             pointer-events: none;
-        }
+        } */
 
         .game-container {
             position: relative;
@@ -55,7 +66,7 @@
             border: 8px double #8b4513;
             border-radius: 10px;
             display: flex;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 100px rgba(139,69,19,0.2);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(139, 69, 19, 0.2);
             overflow: hidden;
         }
 
@@ -82,7 +93,7 @@
             font-family: 'Cinzel', serif;
             font-size: clamp(2rem, 5vw, 3.5rem);
             color: var(--accent-color);
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
             line-height: 1;
             margin-bottom: 20px;
         }
@@ -120,16 +131,17 @@
             width: 100%;
             object-fit: contain;
             object-position: bottom right;
-            filter: drop-shadow(5px 15px 10px rgba(0,0,0,0.3));
+            filter: drop-shadow(5px 15px 10px rgba(0, 0, 0, 0.3));
             transition: all 0.5s ease;
         }
 
         /* Container for the Lihim SVG in the preview area */
         #lihimSvgPreview {
-            display: none; /* Hidden by default, shown by JS */
+            display: none;
+            /* Hidden by default, shown by JS */
             height: 90%;
             width: auto;
-            filter: drop-shadow(5px 15px 10px rgba(0,0,0,0.2));
+            filter: drop-shadow(5px 15px 10px rgba(0, 0, 0, 0.2));
             transition: all 0.5s ease;
             position: absolute;
             right: 0;
@@ -232,7 +244,8 @@
 
         /* Make selected Lihim SVG match the gray theme */
         .char-card.lihim-theme.selected svg path {
-            fill: #5d4037; /* Dark ink color when selected */
+            fill: #5d4037;
+            /* Dark ink color when selected */
         }
 
         /* --- MOBILE FIX --- */
@@ -254,7 +267,7 @@
             .hero-image-container {
                 position: relative;
                 width: 100%;
-                height: 180px; 
+                height: 180px;
                 right: 0;
                 margin: 10px 0;
                 justify-content: center;
@@ -301,37 +314,111 @@
         }
 
         /* Themes */
-        .rizal-theme { --accent-color: var(--blue-rizal); --accent-rgb: 41, 128, 185; }
-        .bonifacio-theme { --accent-color: var(--red-bonifacio); --accent-rgb: 192, 57, 43; }
-        .gabriela-theme { --accent-color: var(--gold-gabriela); --accent-rgb: 212, 175, 55; }
-        .juan-theme { --accent-color: var(--green-juan); --accent-rgb: 39, 174, 96; }
-        .maria-theme { --accent-color: var(--orange-maria); --accent-rgb: 211, 84, 0; }
-        .lihim-theme { --accent-color: var(--gray-hero); --accent-rgb: 127, 140, 141; }
+        .rizal-theme {
+            --accent-color: var(--blue-rizal);
+            --accent-rgb: 41, 128, 185;
+        }
+
+        .bonifacio-theme {
+            --accent-color: var(--red-bonifacio);
+            --accent-rgb: 192, 57, 43;
+        }
+
+        .gabriela-theme {
+            --accent-color: var(--gold-gabriela);
+            --accent-rgb: 212, 175, 55;
+        }
+
+        .juan-theme {
+            --accent-color: var(--green-juan);
+            --accent-rgb: 39, 174, 96;
+        }
+
+        .maria-theme {
+            --accent-color: var(--orange-maria);
+            --accent-rgb: 211, 84, 0;
+        }
+
+        .lihim-theme {
+            --accent-color: var(--gray-hero);
+            --accent-rgb: 127, 140, 141;
+        }
+
+        .deco {
+            position: fixed;
+            pointer-events: none;
+            user-select: none;
+            font-size: 2.2rem;
+            animation: float 5s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .deco-1 {
+            top: 3%;
+            left: 2%;
+        }
+
+        .deco-2 {
+            top: 6%;
+            right: 2%;
+        }
+
+        .deco-3 {
+            bottom: 8%;
+            left: 4%;
+        }
+
+        .deco-4 {
+            bottom: 5%;
+            right: 3%;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
     </style>
 </head>
+
 <body class="rizal-theme">
+    <span class="deco deco-1">🌿</span>
+    <span class="deco deco-2">🦋</span>
+    <span class="deco deco-3">🌸</span>
+    <span class="deco deco-4">🗺️</span>
 
     <div class="game-container animate__animated animate__fadeIn">
-        
+
         <div class="hero-display">
             <div class="header-group">
                 <p class="game-label">NAPILING BAYANI</p>
                 <h1 id="heroName">JOSE RIZAL</h1>
                 <div class="stat-box">
-                    <p id="heroBio">"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.</p>
+                    <p id="heroBio">"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.
+                    </p>
                 </div>
             </div>
 
             <div class="hero-image-container">
-                <img src="{{ asset('pictures/Jose Rizal.png') }}" id="heroMainImg" class="hero-main-img animate__animated animate__fadeInRight">
-                
+                <img src="{{ asset('pictures/Jose Rizal.png') }}" id="heroMainImg"
+                    class="hero-main-img animate__animated animate__fadeInRight">
+
                 <div id="lihimSvgPreview" class="animate__animated">
                     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M32 2C24.3 2 18 8.3 18 16C18 20.9 20.6 25.2 24.5 27.7C20 29.8 16.5 33.7 15 38.5C13.8 37.8 12.5 37.3 11 37.3C6.6 37.3 3 40.9 3 45.3C3 49.7 6.6 53.3 11 53.3C12.5 53.3 13.8 52.8 15 52.1V58C15 60.2 16.8 62 19 62H45C47.2 62 49 60.2 49 58V51.3C50.2 51.9 51.6 52.3 53 52.3C57.4 52.3 61 48.7 61 44.3C61 39.9 57.4 36.3 53 36.3C51.6 36.3 50.2 36.7 49 37.3C47.7 33.1 44.8 29.6 41 27.5C44.1 24.9 46 21 46 16C46 8.3 39.7 2 32 2ZM32 6C37.5 6 42 10.5 42 16C42 19.5 40.2 22.5 37.5 24.3C35.8 25.4 33.9 26 32 26C30.1 26 28.2 25.4 26.5 24.3C23.8 22.5 22 19.5 22 16C22 10.5 26.5 6 32 6ZM27 31H37C41.4 31 45 34.6 45 39V58H19V39C19 34.6 22.6 31 27 31ZM11 41.3C13.2 41.3 15 43.1 15 45.3C15 47.5 13.2 49.3 11 49.3C8.8 49.3 7 47.5 7 45.3C7 43.1 8.8 41.3 11 41.3ZM53 40.3C55.2 40.3 57 42.1 57 44.3C57 46.5 55.2 48.3 53 48.3C50.8 48.3 49 46.5 49 44.3C49 42.1 50.8 40.3 53 40.3Z" fill="#8b4513" fill-opacity="0.4"/>
-                        <rect x="13" y="44" width="4" height="10" rx="1" fill="#5d4037"/>
-                        <path d="M15 44V34C15 34 16 31 19 31C22 31 23 34 23 34V44H15Z" fill="#a0a0a0"/>
-                        <rect x="47" y="44" width="4" height="10" rx="1" fill="#5d4037"/>
-                        <path d="M49 44C49 44 47 38 47 34C47 30 49 27 49 27C49 27 51 30 51 34C51 38 49 44 49 44Z" fill="#e0e0e0"/>
+                        <path
+                            d="M32 2C24.3 2 18 8.3 18 16C18 20.9 20.6 25.2 24.5 27.7C20 29.8 16.5 33.7 15 38.5C13.8 37.8 12.5 37.3 11 37.3C6.6 37.3 3 40.9 3 45.3C3 49.7 6.6 53.3 11 53.3C12.5 53.3 13.8 52.8 15 52.1V58C15 60.2 16.8 62 19 62H45C47.2 62 49 60.2 49 58V51.3C50.2 51.9 51.6 52.3 53 52.3C57.4 52.3 61 48.7 61 44.3C61 39.9 57.4 36.3 53 36.3C51.6 36.3 50.2 36.7 49 37.3C47.7 33.1 44.8 29.6 41 27.5C44.1 24.9 46 21 46 16C46 8.3 39.7 2 32 2ZM32 6C37.5 6 42 10.5 42 16C42 19.5 40.2 22.5 37.5 24.3C35.8 25.4 33.9 26 32 26C30.1 26 28.2 25.4 26.5 24.3C23.8 22.5 22 19.5 22 16C22 10.5 26.5 6 32 6ZM27 31H37C41.4 31 45 34.6 45 39V58H19V39C19 34.6 22.6 31 27 31ZM11 41.3C13.2 41.3 15 43.1 15 45.3C15 47.5 13.2 49.3 11 49.3C8.8 49.3 7 47.5 7 45.3C7 43.1 8.8 41.3 11 41.3ZM53 40.3C55.2 40.3 57 42.1 57 44.3C57 46.5 55.2 48.3 53 48.3C50.8 48.3 49 46.5 49 44.3C49 42.1 50.8 40.3 53 40.3Z"
+                            fill="#8b4513" fill-opacity="0.4" />
+                        <rect x="13" y="44" width="4" height="10" rx="1" fill="#5d4037" />
+                        <path d="M15 44V34C15 34 16 31 19 31C22 31 23 34 23 34V44H15Z" fill="#a0a0a0" />
+                        <rect x="47" y="44" width="4" height="10" rx="1" fill="#5d4037" />
+                        <path d="M49 44C49 44 47 38 47 34C47 30 49 27 49 27C49 27 51 30 51 34C51 38 49 44 49 44Z"
+                            fill="#e0e0e0" />
                     </svg>
                 </div>
             </div>
@@ -344,24 +431,45 @@
         </div>
 
         <div class="hero-roster">
-            <div class="char-card selected rizal-theme" data-avatar="rizal" data-name="JOSE RIZAL" data-bio='"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.' data-theme="rizal-theme">
+            <div class="char-card selected rizal-theme" data-avatar="rizal" data-name="JOSE RIZAL"
+                data-bio='"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.'
+                data-theme="rizal-theme">
                 <img src="{{ asset('pictures/Jose Rizal.png') }}">
                 <h3>RIZAL</h3>
             </div>
 
-            <div class="char-card bonifacio-theme" data-avatar="bonifacio" data-name="ANDRES BONIFACIO" data-bio='"Alab ng puso sa gitna ng digmaan." Katapangan para sa inang bayan.' data-theme="bonifacio-theme">
+            <div class="char-card bonifacio-theme" data-avatar="bonifacio" data-name="ANDRES BONIFACIO"
+                data-bio='"Alab ng puso sa gitna ng digmaan." Katapangan para sa inang bayan.'
+                data-theme="bonifacio-theme">
                 <img src="{{ asset('pictures/Bonifacio.png') }}">
                 <h3>BONIFACIO</h3>
             </div>
 
-            <div class="char-card gabriela-theme" data-avatar="gabriela" data-name="GABRIELA SILANG" data-bio='"Henerala ng Ilocos." Lakas ng loob ng kababaihang manlalaban.' data-theme="gabriela-theme">
+            <div class="char-card gabriela-theme" data-avatar="gabriela" data-name="GABRIELA SILANG"
+                data-bio='"Henerala ng Ilocos." Lakas ng loob ng kababaihang manlalaban.' data-theme="gabriela-theme">
                 <img src="{{ asset('pictures/Gabriela silang (2).png') }}">
                 <h3>GABRIELA</h3>
             </div>
 
-            <div class="char-card lihim-theme" data-avatar="neutral_hero" data-name="LIHIM NA BAYANI" data-bio='Ang iyong kwento ay hindi pa naisusulat. Ikaw ang susunod na alamat.' data-theme="lihim-theme">
+            <div class="char-card juan-theme" data-avatar="boy_uniform" data-name="JUAN LUNA"
+                data-bio='Ang masipag at madiskarteng Pilipino sa makabagong hamon ng buhay.' data-theme="juan-theme">
+                <img src="{{ asset('pictures/chibi_boy.png') }}">
+                <h3>JUAN</h3>
+            </div>
+
+            <div class="char-card maria-theme" data-avatar="girl_uniform" data-name="MARIA CLARA"
+                data-bio='Simbolo ng dangal at malikhaing kaisipan ng kabataang Pilipina.' data-theme="maria-theme">
+                <img src="{{ asset('pictures/girl_pink.png') }}">
+                <h3>MARIA</h3>
+            </div>
+
+            <div class="char-card lihim-theme" data-avatar="neutral_hero" data-name="LIHIM NA BAYANI"
+                data-bio='Ang iyong kwento ay hindi pa naisusulat. Ikaw ang susunod na alamat.'
+                data-theme="lihim-theme">
                 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M32 2C24.3 2 18 8.3 18 16C18 20.9 20.6 25.2 24.5 27.7C20 29.8 16.5 33.7 15 38.5C13.8 37.8 12.5 37.3 11 37.3C6.6 37.3 3 40.9 3 45.3C3 49.7 6.6 53.3 11 53.3C12.5 53.3 13.8 52.8 15 52.1V58C15 60.2 16.8 62 19 62H45C47.2 62 49 60.2 49 58V51.3C50.2 51.9 51.6 52.3 53 52.3C57.4 52.3 61 48.7 61 44.3C61 39.9 57.4 36.3 53 36.3C51.6 36.3 50.2 36.7 49 37.3C47.7 33.1 44.8 29.6 41 27.5C44.1 24.9 46 21 46 16C46 8.3 39.7 2 32 2ZM32 6C37.5 6 42 10.5 42 16C42 19.5 40.2 22.5 37.5 24.3C35.8 25.4 33.9 26 32 26C30.1 26 28.2 25.4 26.5 24.3C23.8 22.5 22 19.5 22 16C22 10.5 26.5 6 32 6Z" fill="#cdbca0"/>
+                    <path
+                        d="M32 2C24.3 2 18 8.3 18 16C18 20.9 20.6 25.2 24.5 27.7C20 29.8 16.5 33.7 15 38.5C13.8 37.8 12.5 37.3 11 37.3C6.6 37.3 3 40.9 3 45.3C3 49.7 6.6 53.3 11 53.3C12.5 53.3 13.8 52.8 15 52.1V58C15 60.2 16.8 62 19 62H45C47.2 62 49 60.2 49 58V51.3C50.2 51.9 51.6 52.3 53 52.3C57.4 52.3 61 48.7 61 44.3C61 39.9 57.4 36.3 53 36.3C51.6 36.3 50.2 36.7 49 37.3C47.7 33.1 44.8 29.6 41 27.5C44.1 24.9 46 21 46 16C46 8.3 39.7 2 32 2ZM32 6C37.5 6 42 10.5 42 16C42 19.5 40.2 22.5 37.5 24.3C35.8 25.4 33.9 26 32 26C30.1 26 28.2 25.4 26.5 24.3C23.8 22.5 22 19.5 22 16C22 10.5 26.5 6 32 6Z"
+                        fill="#cdbca0" />
                 </svg>
                 <h3>LIHIM</h3>
             </div>
@@ -396,7 +504,7 @@
                     // Hide PNG, Show SVG
                     mainImg.style.display = 'none';
                     svgPreview.style.display = 'block';
-                    
+
                     // Trigger SVG animation
                     svgPreview.classList.remove('animate__fadeInRight');
                     void svgPreview.offsetWidth; // Trigger reflow
@@ -405,7 +513,7 @@
                     // Show PNG, Hide SVG
                     mainImg.style.display = 'block';
                     svgPreview.style.display = 'none';
-                    
+
                     // Change source and trigger PNG animation
                     mainImg.src = imgSource;
                     mainImg.classList.remove('animate__fadeInRight');
@@ -416,4 +524,5 @@
         });
     </script>
 </body>
+
 </html>

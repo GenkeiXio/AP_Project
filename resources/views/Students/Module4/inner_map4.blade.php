@@ -166,19 +166,30 @@
             left: 20%;
         }
 
-        .node-bottom-left {
-            top: 60%;
-            left: 20%;
+        .node-top-left {
+            top: 15vh;
+            left: 15vw;
         }
 
         .node-top-right {
-            top: 15%;
-            right: 20%;
+            top: 15vh;
+            right: 15vw;
         }
 
-        .node-bottom-right {
-            top: 60%;
-            right: 20%;
+        .node-mid-left {
+            top: 45vh;
+            left: 10vw;
+        }
+s
+        .node-mid-right {
+            top: 45vh;
+            right: 10vw;
+        }
+
+        .node-bottom-center {
+            top: 70vh;
+            left: 50vw;
+            transform: translateX(-50%);
         }
 
         .back-button {
@@ -393,35 +404,35 @@
 
         <!-- CENTER -->
         <div class="node center-node">
-            <img src="{{ asset('pictures/isyualbay_node.png') }}">
+            <img src="{{ asset('pictures/mod4_center_node.png') }}">
         </div>
 
         <!-- NODE 1 -->
-        <button class="node node-top-left" onclick="window.location.href='{{ route('module4.node1') }}'">
-            <img src="{{ asset('pictures/node1.png') }}">
+        <button class="node node-top-left" >
+            <img src="{{ asset('pictures/mod4_typhoon_node.png') }}">
         </button>
 
         <!-- NODE 2 -->
         <button class="node node-top-right locked" id="node2" onclick="goNode2()">
-            <img src="{{ asset('pictures/node2.png') }}">
+            <img src="{{ asset('pictures/mod4_baha_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
         <!-- NODE 3 -->
         <button class="node node-mid-left locked" id="node3" onclick="goNode3()">
-            <img src="{{ asset('pictures/node3.png') }}">
+            <img src="{{ asset('pictures/mod4_lindol_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
         <!-- NODE 4 -->
         <button class="node node-mid-right locked" id="node4" onclick="goNode4()">
-            <img src="{{ asset('pictures/node4.png') }}">
+            <img src="{{ asset('pictures/mod4_landslide_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
         <!-- NODE 5 -->
         <button class="node node-bottom-center locked" id="node5" onclick="goNode5()">
-            <img src="{{ asset('pictures/node5.png') }}">
+            <img src="{{ asset('pictures/mod4_mayon_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
