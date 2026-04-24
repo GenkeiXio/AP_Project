@@ -308,7 +308,7 @@ h1{
     <div class="container">
         <div class="card">
 
-            <h1>🎉 Congratulations!</h1>
+            <h1>🎉 <i>Congratulations!</i></h1>
             <div class="subtitle">Natapos mo na ang Module 2!</div>
 
             <div class="summary">

@@ -223,23 +223,28 @@
         .modal {
             display: none;
             position: fixed;
+            inset: 0;
             z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
+
             background: rgba(0, 0, 0, 0.6);
+
+            justify-content: center;
+            /* ✅ center horizontally */
+            align-items: center;
+            /* ✅ center vertically */
         }
 
+        /* REMOVE margin: 5% auto ❌ */
         .modal-content {
             background: #fffaf2;
-            margin: 5% auto;
-            padding: 20px;
             border-radius: 18px;
-            width: 95%;
-            max-width: 1000px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 3px solid #d6b98c;
+
+            width: 90%;
+            max-width: 500px;
+
+            padding: 0;
+            overflow: hidden;
         }
 
         .modal-title {
@@ -255,81 +260,70 @@
             cursor: pointer;
         }
 
-        .rubric-table {
+        /* 🔥 RUBRICS MODAL (MODULE 4 STYLE) */
+        .rubrics-modal {
+            max-width: 500px;
+            /* narrower for vertical image */
+            width: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        /* HEADER */
+        .rubrics-modal .modal-header {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 12px;
         }
 
-        .rubric-header,
-        .rubric-row {
-            display: grid;
-            grid-template-columns: 1.5fr 2fr 2fr;
-            gap: 10px;
+        .rubrics-modal .modal-header h2 {
+            margin: 0;
+            font-family: "Baloo 2", cursive;
+            color: #3d2a1a;
         }
 
-
-        .row {
-            display: grid;
-            grid-template-columns: 1.5fr 2fr 2fr;
-            /* 🔥 3 columns now */
-            gap: 8px;
-            /* better spacing */
+        /* CLOSE BUTTON */
+        .rubrics-modal .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 22px;
         }
 
-        .row div {
-            background: #f4e4c8;
+        /* BODY */
+        .rubrics-modal .modal-body {
             padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
-        }
-
-        .header div {
-            background: #c58b3a;
-            color: white;
-            font-weight: bold;
             text-align: center;
+
+            /* ❌ REMOVE THESE */
+            max-height: none;
+            overflow: hidden;
         }
 
-        /* CRITERIA COLUMN */
-        .criteria {
-            background: #e6c48a;
+
+        /* IMAGE */
+        .rubrics-modal .modal-body img {
+            width: 100%;
+            height: auto;
+
+            max-height: 75vh;
+            /* ✅ fits screen WITHOUT scroll */
+            object-fit: contain;
+        }
+
+        /* FOOTER */
+        .rubrics-modal .modal-footer {
+            display: flex;
+            justify-content: center;
             padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-
-        /* BOXES */
-        .box {
-            padding: 14px;
-            border-radius: 12px;
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        /* COLORS (LIKE IMAGE) */
-        .box.good {
-            background: #d9c7a8;
-            /* light beige */
-        }
-
-        .box.low {
-            background: #e8d8bd;
-        }
-
-        /* HEADER STYLE */
-        .rubric-header div {
-            background: #c58b3a;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            padding: 12px;
-            border-radius: 10px;
         }
     </style>
 </head>
 
-<body>
+<body data-submitted="{{ session('success') ? 'true' : 'false' }}">
 
     <div class="map-wrapper">
 
@@ -402,80 +396,25 @@
             </div>
         </div>
 
-        <!-- RUBRICS MODAL -->
+        <!-- RUBRICS MODAL (IMAGE ONLY - VERTICAL) -->
         <div id="rubricsModal" class="modal">
-            <div class="modal-content">
+            <div class="modal-content rubrics-modal">
 
-                <!-- <span class="close-btn" onclick="closeModal()">&times;</span> -->
-
-                <h2 class="modal-title">Rubrics: <br>Pagtugon sa mga Suliraning Pangkapaligiran</h2>
-
-                <div class="rubric-table">
-
-                    <!-- HEADER -->
-                    <div class="rubric-header">
-                        <div>Pamantayan</div>
-                        <div class="box good">5 – Napakahusay<br>4 – Mahusay</div>
-                        <div class="box low">3 – Katamtaman<br>2 – Nangangailangan ng Pagbuti<br>1 – Di-Kasiya-siya
-                        </div>
-                    </div>
-
-                    <!-- ROW 1 -->
-                    <div class="rubric-row">
-                        <div class="criteria">Kaangkupan ng mga Ideya</div>
-
-                        <div class="box good">
-                            Mga ideya ay lubos na angkop sa pagtugon sa <i>solid waste</i>,
-                            <i>deforestation</i>, at <i>climate change</i>.
-                        </div>
-
-                        <div class="box low">
-                            Mga ideya ay bahagyang angkop at may ilang hindi tumutugma sa suliranin.
-                        </div>
-                    </div>
-
-                    <!-- ROW 2 -->
-                    <div class="rubric-row">
-                        <div class="criteria">Kongkretong Halimbawa</div>
-
-                        <div class="box good">
-                            Matatag at makabuluhang kongkretong halimbawa ang ibinigay.
-                        </div>
-
-                        <div class="box low">
-                            May halimbawa ngunit kulang sa detalye.
-                        </div>
-                    </div>
-
-                    <!-- ROW 3 -->
-                    <div class="rubric-row">
-                        <div class="criteria">Kalinawan ng Paliwanag</div>
-
-                        <div class="box good">
-                            Lubos na malinaw at organisado ang paliwanag.
-                        </div>
-
-                        <div class="box low">
-                            Kulang sa detalye o hindi malinaw.
-                        </div>
-                    </div>
-
-                    <!-- ROW 4 -->
-                    <div class="rubric-row">
-                        <div class="criteria">Pagkilos at Komunikasyon</div>
-
-                        <div class="box good">
-                            Malinaw na ipinakita ang pagkilos at nakapagbigay inspirasyon.
-                        </div>
-
-                        <div class="box low">
-                            Kakaunti ang pagkilos at hindi aktibo.
-                        </div>
-                    </div>
-
+                <!-- HEADER -->
+                <div class="modal-header">
+                    <h2>📊 Rubrics</h2>
                 </div>
-                <div style="text-align:center; margin-top:20px;">
-                    <button class="btn-primary" onclick="closeModal()">✔ Naiintindihan ko</button>
+
+                <!-- BODY -->
+                <div class="modal-body">
+                    <img src="{{ asset('pictures/mod2_rubrics.png') }}" alt="Module 2 Rubrics">
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer">
+                    <button class="btn-primary" onclick="closeModal()">
+                        ✔ Naiintindihan ko
+                    </button>
                 </div>
 
             </div>
@@ -501,9 +440,13 @@
             });
         }
 
-        window.onload = function () {
-            document.getElementById("rubricsModal").style.display = "block";
-        };
+        document.addEventListener("DOMContentLoaded", function () {
+            const submitted = document.body.getAttribute("data-submitted");
+
+            if (submitted !== "true") {
+                document.getElementById("rubricsModal").style.display = "flex";
+            }
+        });
 
         function closeModal() {
             document.getElementById("rubricsModal").style.display = "none";
