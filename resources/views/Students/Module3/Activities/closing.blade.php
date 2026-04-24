@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="tl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 3 Completed!</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style>
         :root {
@@ -17,10 +19,11 @@
         }
 
         body {
-            background: #0f172a;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(0, 57, 115, 0.5) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 86, 173, 0.3) 0px, transparent 50%);
+            background:
+                linear-gradient(rgba(0, 30, 60, 0.7), rgba(0, 20, 40, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
+
             font-family: 'Lexend', sans-serif;
             color: #f8fafc;
             min-height: 100vh;
@@ -155,43 +158,48 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="blob animate__animated animate__pulse animate__infinite" style="top: -10%; right: -5%;"></div>
-<div class="blob animate__animated animate__pulse animate__infinite" style="bottom: -10%; left: -5%; background: #ffcc00;"></div>
+    <div class="blob animate__animated animate__pulse animate__infinite" style="top: -10%; right: -5%;"></div>
+    <div class="blob animate__animated animate__pulse animate__infinite"
+        style="bottom: -10%; left: -5%; background: #ffcc00;"></div>
 
-<div class="container py-5">
-    <div class="closing-card animate__animated animate__zoomIn">
-        
-        <div class="closing-image">
-            <img src="/pictures/Module 3/closing.png" alt="Mission Completed">
-        </div>
+    <div class="container py-5">
+        <div class="closing-card animate__animated animate__zoomIn">
 
-        <div class="closing-content">
-            <h2 class="animate__animated animate__fadeInRight animate__delay-1s">
-                🎉 Natapos mo ang Module 3!
-            </h2>
+            <div class="closing-image">
+                <img src="/pictures/Module 3/closing.png" alt="Mission Completed">
+            </div>
 
-            <div class="closing-text">
-                <p>
-                    Laging tandaan na <strong>ligtas ang may alam</strong>, kaya’t dapat kang maging mapanuri at alerto lalo na sa pagdating ng mga kalamidad at anumang panganib.
-                </p>
+            <div class="closing-content">
+                <h2 class="animate__animated animate__fadeInRight animate__delay-1s">
+                    🎉 Natapos mo ang Module 3!
+                </h2>
 
-                <p class="highlight-box">
-                    Narito ang ilan sa mga ahensiya ng pamahalaan na dapat mong tandaan lalo na ang mga bahaging ginagampanan ng mga ito tungo sa ligtas na bansa.
-                </p>
+                <div class="closing-text">
+                    <p>
+                        Laging tandaan na <strong>ligtas ang may alam</strong>, kaya’t dapat kang maging mapanuri at
+                        alerto lalo na sa pagdating ng mga kalamidad at anumang panganib.
+                    </p>
 
-                <div class="text-center text-md-start mt-4">
-                    <a href="{{ route('module3.posttest') }}" class="btn-next">
-                        Magpatuloy sa Posttest ➜
-                    </a>
+                    <p class="highlight-box">
+                        Narito ang ilan sa mga ahensiya ng pamahalaan na dapat mong tandaan lalo na ang mga bahaging
+                        ginagampanan ng mga ito tungo sa ligtas na bansa.
+                    </p>
+
+                    <div class="text-center text-md-start mt-4">
+                        <a href="{{ route('module3.posttest') }}" class="btn-next">
+                            Magpatuloy sa Posttest ➜
+                        </a>
+                    </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
