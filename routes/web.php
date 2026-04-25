@@ -109,7 +109,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/explore/save', [Module3ExploreController::class, 'store'])->name('student.module3.explore.save');
 
     Route::post('/student/module4/poll/save', [Module4HomeController::class, 'storePoll'])->name('student.module4.poll.save');
-    Route::post('/student/module4/pretest/save', [Module4PretestController::class, 'store'])->name('student.module4.pretest.save');
+    Route::post('/student/module4/pretest/save', [Module4PretestController::class, 'store'])->name('student.module4.pretest.store');
     Route::post('/student/module4/balik-aral/save', [Module4BalikAralController::class, 'store'])->name('student.module4.balikaral.save');
     Route::post('/student/module4/explore/save', [Module4ExploreController::class, 'store'])->name('student.module4.explore.save');
     Route::post('/student/module4/games/save', [Module4GameResultController::class, 'store'])->name('student.module4.games.save');
