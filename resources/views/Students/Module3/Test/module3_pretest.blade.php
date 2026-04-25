@@ -1013,8 +1013,7 @@
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
 	let pendingSelection = null;
-	let retryCount = 0;
-	const maxRetries = 3;
+	let remainingAttempts = 3;
 
 	const questionsPerCard = 5;
 	let currentCard = 0;
@@ -1264,14 +1263,20 @@
 				"X-CSRF-TOKEN": "{{ csrf_token() }}"
 			},
 			body: JSON.stringify({
-				score: score,
-				percentage: percentage,
 				answers: answersPayload
 			})
 		})
-		.then(res => res.json())
-		.then(data => {
-			console.log(data);
+		.then(async res => {
+			const data = await res.json();
+
+			if (!res.ok) {
+				alert(data.error || "Error submitting pretest");
+				return;
+			}
+
+			remainingAttempts = data.remaining;
+			updateRetryIndicator();
+
 		})
 		.catch(err => {
 			console.error("Error saving pretest:", err);
@@ -1301,20 +1306,20 @@
 	}
 
 	function updateRetryIndicator() {
-		const remaining = maxRetries - retryCount;
 		const retryIndicator = document.getElementById('retryIndicator');
 
 		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
 
 		if (remaining === 0) {
+			const retryBtn = document.querySelector('.btn-secondary');
+
 			retryIndicator.style.background = '#ffe5e5';
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
 
-			// 🔥 Disable retry button
-			document.querySelector('.btn-secondary').disabled = true;
-			document.querySelector('.btn-secondary').style.opacity = 0.5;
-			document.querySelector('.btn-secondary').style.cursor = 'not-allowed';
+			retryBtn.disabled = true;
+			retryBtn.style.opacity = 0.5;
+			retryBtn.style.cursor = 'not-allowed';
 		}
 	}
 
@@ -1324,16 +1329,12 @@
 			return;
 		}
 
-		retryCount++;
-
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
 		currentCard = 0;
 
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
-
-		updateRetryIndicator();
 
 		renderAllQuestions();
 
@@ -1343,10 +1344,12 @@
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-		retryCount = 0;
+		remainingAttempts = 3; // ALWAYS RESET ON PAGE LOAD
+
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
+		
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
 	});
