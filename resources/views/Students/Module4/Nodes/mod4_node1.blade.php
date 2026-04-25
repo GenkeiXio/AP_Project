@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'InnerMap4')
+@section('title', 'Module 4 : Node 1')
 
 @push('styles')
     <style>
@@ -183,7 +183,7 @@
         
         .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 56%;
             height: 0;
             border-radius: 12px;
             overflow: hidden;
@@ -220,12 +220,83 @@
             align-items: center;
             gap: 10px;
             font-size: 0.95rem;
+            cursor: pointer;
         }
         .article-btn:hover {
             background: #0d6efd;
             color: white;
             border-color: #0d6efd;
             transform: translateY(-2px);
+        }
+        
+        /* Completed Button Style */
+        .article-btn.completed {
+            background: #2e7d32;
+            border-color: #1b5e20;
+            color: white;
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .article-btn.completed:hover {
+            transform: none;
+            background: #2e7d32;
+        }
+        
+        /* Modal Styles for Article */
+        .article-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            height: 85%;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            background: #0b2b4a;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .modal-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .modal-header button:hover {
+            opacity: 0.8;
+        }
+        
+        .modal-body {
+            flex: 1;
+            overflow: auto;
+        }
+        
+        .modal-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
         
         .confirmation-area {
@@ -398,20 +469,40 @@
         }
 
         .back-button {
-			position: absolute;
-			top: 20px;
-			left: 20px;
-			z-index: 100;
-			background-color: rgba(255, 255, 255, 0.9);
-			padding: 10px 15px;
-			border-radius: 8px;
-			text-decoration: none;
-			color: #1a1a1a;
-			font-weight: bold;
-			font-family: 'Courier New', Courier, monospace;
-			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-			transition: transform 0.2s;
-		}
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .status-badge.read {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.not-read {
+            background: #f8d7da;
+            color: #721c24;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -439,6 +530,19 @@
     </div>
 
     <a href="{{ route('inner.map4') }}" class="back-button">⬅️ Bumalik</a>
+
+    <!-- Article Modal (Temporary Web View) -->
+    <div id="articleModal" class="article-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span><i class="fas fa-newspaper"></i> 📖 GMA News Online - Super Typhoon Rolly</span>
+                <button onclick="closeArticleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="articleIframe" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <div class="content-wrapper">
@@ -477,12 +581,9 @@
                             The entire city has no electricity, and 15 villages are experiencing water shortage. Floodwaters reached neck-deep in some areas, forcing residents to swim. Despite the severity, <strong>zero casualties</strong> were reported in Tabaco due to preemptive evacuation.
                         </div>
                         <div class="article-links">
-                            <a href="https://www.gmanetwork.com/news/topstories/nation/762951/rolly-worst-to-hit-tabaco-in-albay-since-1952-says-mayor/story/" 
-                               target="_blank" 
-                               class="article-btn" 
-                               id="readArticleBtn">
+                            <button class="article-btn" id="readArticleBtn">
                                 <i class="fas fa-external-link-alt"></i> Basahin ang buong artikulo
-                            </a>
+                            </button>
                         </div>
                     </div>
                     
@@ -502,23 +603,17 @@
                             </iframe>
                         </div>
                         <div class="article-links" style="margin-top: 15px;">
-                            <a href="https://youtu.be/mtf1JAQ2hq4" 
-                               target="_blank" 
-                               class="article-btn" 
-                               id="watchVideoBtn">
+                            <button class="article-btn" id="watchVideoBtn">
                                 <i class="fab fa-youtube"></i> Panoorin sa YouTube
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Single Centered Unlock Button - Now redirects to game page -->
+                <!-- Single Centered Unlock Button - Redirects to game page -->
                 <div class="confirmation-area">
-                    <a href="{{ route('module4.node1.game') }}" class="confirm-btn" id="unlockActivityBtn" style="display: inline-block; text-decoration: none; text-align: center;">🔓 I-unlock ang Activity</a>
+                    <a href="{{ route('module4.node1.game') }}" class="confirm-btn" id="unlockActivityBtn" style="display: inline-block; text-decoration: none; text-align: center;">🔒 Simulan ang Activity</a>
                 </div>
-                <p class="mt-2 text-secondary text-center" style="text-align: center; margin-top: 12px;">
-                    <small><i class="fas fa-gamepad"></i> I-click ang button sa itaas upang simulan ang Drag & Drop activity.</small>
-                </p>
             </div>
         </div>
     </div>
@@ -530,44 +625,91 @@
             const readBtn = document.getElementById('readArticleBtn');
             const watchBtn = document.getElementById('watchVideoBtn');
             const unlockLink = document.getElementById('unlockActivityBtn');
+            const articleModal = document.getElementById('articleModal');
+            const articleIframe = document.getElementById('articleIframe');
             
             let articleRead = false;
             let videoWatched = false;
+            
+            // Save references to buttons to change their text/style later
+            const readButtonElement = readBtn;
+            const watchButtonElement = watchBtn;
+            
+            // Article URL
+            const articleUrl = "https://www.gmanetwork.com/news/topstories/nation/762951/rolly-worst-to-hit-tabaco-in-albay-since-1952-says-mayor/story/";
 
-            function updateUnlockLink() {
-                if (articleRead && videoWatched) {
-                    // Enable the link - make it clickable and change style
-                    unlockLink.style.pointerEvents = 'auto';
-                    unlockLink.style.opacity = '1';
-                    unlockLink.classList.add('enabled');
-                    unlockLink.innerHTML = '🎮 Simulan ang Drag & Drop Activity';
-                } else {
-                    // Disable the link - prevent navigation
-                    unlockLink.style.pointerEvents = 'none';
-                    unlockLink.style.opacity = '0.6';
-                    unlockLink.classList.remove('enabled');
-                    unlockLink.innerHTML = '🔒 I-unlock ang Activity (Basahin at panoorin muna)';
+            function openArticleModal() {
+                articleIframe.src = articleUrl;
+                articleModal.style.display = 'flex';
+            }
+
+            function closeArticleModal() {
+                articleModal.style.display = 'none';
+                // Mark as read when modal is closed
+                if (!articleRead) {
+                    articleRead = true;
+                    // Change button style to completed (green)
+                    if (readButtonElement) {
+                        readButtonElement.classList.add('completed');
+                        readButtonElement.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Tapos na';
+                    }
+                    updateUnlockLink();
                 }
             }
 
-            readBtn.addEventListener('click', (e) => {
-                // Open in new tab (default behavior)
-                articleRead = true;
-                updateUnlockLink();
-            });
-            
-            watchBtn.addEventListener('click', (e) => {
-                videoWatched = true;
-                updateUnlockLink();
-            });
-
-            // Mark video as watched after a few seconds due to autoplay
-            setTimeout(() => {
+            function markVideoWatched() {
                 if (!videoWatched) {
                     videoWatched = true;
+                    // Change button style to completed (green)
+                    if (watchButtonElement) {
+                        watchButtonElement.classList.add('completed');
+                        watchButtonElement.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Tapos na';
+                    }
                     updateUnlockLink();
                 }
-            }, 3000);
+            }
+
+            function updateUnlockLink() {
+                if (articleRead && videoWatched) {
+                    // Keep the button text as only "I-unlock ang Activity" without extra text
+                    unlockLink.style.pointerEvents = 'auto';
+                    unlockLink.style.opacity = '1';
+                    unlockLink.classList.add('enabled');
+                    unlockLink.innerHTML = '🎮 Simulan ang Activity';
+                } else {
+                    unlockLink.style.pointerEvents = 'none';
+                    unlockLink.style.opacity = '0.6';
+                    unlockLink.classList.remove('enabled');
+                    unlockLink.innerHTML = '🔒 Simulan ang Activity';
+                }
+            }
+
+            // Open article modal when clicking read button
+            readBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openArticleModal();
+            });
+            
+            // Handle video watching - open YouTube in new tab and mark as watched
+            watchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open('https://youtu.be/mtf1JAQ2hq4', '_blank');
+                markVideoWatched();
+            });
+
+            // Mark video as watched after playing (autoplay detection)
+            let videoMarkTimeout = setTimeout(() => {
+                if (!videoWatched) {
+                    markVideoWatched();
+                }
+            }, 5000); // Mark as watched after 5 seconds of autoplay
+
+            // Close modal when clicking outside (optional)
+            articleModal.addEventListener('click', (e) => {
+                if (e.target === articleModal) {
+                    closeArticleModal();
+                }
+            });
 
             // Prevent navigation if not unlocked
             unlockLink.addEventListener('click', (e) => {
@@ -576,12 +718,16 @@
                     alert('🔒 Basahin muna ang artikulo at panoorin ang video bago i-unlock ang aktibidad.');
                     return false;
                 }
-                // Otherwise, let the navigation happen to the game route
                 return true;
             });
 
             // Initialize
             updateUnlockLink();
+            
+            // Cleanup timeout on page unload
+            window.addEventListener('beforeunload', () => {
+                if (videoMarkTimeout) clearTimeout(videoMarkTimeout);
+            });
         })();
     </script>
 @endsection

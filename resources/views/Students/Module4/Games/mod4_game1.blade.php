@@ -226,7 +226,7 @@
             object-fit: contain;
         }
 
-        /* Items Pool (Draggable Area) */
+        /* Items Pool - Updated for One Card at a Time */
         .items-pool {
             margin: 25px 0 20px;
             background: rgba(238, 242, 246, 0.95);
@@ -246,10 +246,62 @@
             color: #1e293b;
         }
         
-        .draggable-container {
+        .waiting-card-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            background: #fef9e3;
+            border-radius: 32px;
+            padding: 30px;
+            transition: all 0.2s;
+            border: 2px solid #ffe0a3;
+        }
+        
+        .empty-waiting-message {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background: #f8f9fa;
+            padding: 40px 20px;
+            border-radius: 28px;
+            width: 100%;
+        }
+        
+        .next-card-btn {
+            background: #0d6efd;
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .next-card-btn:hover {
+            background: #0b5ed7;
+            transform: translateY(-2px);
+        }
+        
+        .next-card-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .remaining-count {
+            font-size: 0.9rem;
+            background: #e9ecef;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            margin-left: 12px;
         }
 
         /* Summary Box */
@@ -366,35 +418,32 @@
         <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map" alt="Module 4 Inner Map">
     </div>
 
-    <a href="{{ route('inner.map4') }}" class="back-button">⬅️ Bumalik sa Module</a>
+    <a href="{{ route('module4.node1') }}" class="back-button">⬅️ Bumalik</a>
 
     <div class="content-wrapper">
         <div class="game-container">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 5px;">
                 <div>
-                    <h1><i class="fas fa-arrows-alt"></i> 🎮 Sanhi, Bunga, at Tugon</h1>
-                    <p class="subhead"><i class="fas fa-hand-peace me-2"></i> I-drag ang mga pahayag sa tamang kategorya: SANHI (Dahilan) | BUNGA (Epekto) | MGA TUGON (Solusyon/Responde)</p>
+                    <h1><i class="fas fa-arrows-alt"></i>Sanhi, Bunga, at Tugon</h1>
+                    <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b> Panuto:</b> I-drag ang bawat card papunta sa tamang kahon. Isang card lamang ang ilalagay sa tamang kahon. Ang mga card ay lalabas nang paisa-isa.</p>
                 </div>
             </div>
 
             <!-- Category Headers with IMAGE placeholders -->
             <div class="category-header">
                 <div class="cat-col sanhi-cat">
-                    <!-- IMAGE TAG: Change src path later -->
                     <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi Icon" class="cat-image" onerror="this.style.display='none'">
                     <i class="fas fa-frown cat-icon"></i>
                     <div class="cat-label">🔵 SANHI</div>
                     <div class="cat-sub">(Dahilan / Cause)</div>
                 </div>
                 <div class="cat-col bunga-cat">
-                    <!-- IMAGE TAG: Change src path later -->
                     <img src="{{ asset('pictures/bunga-icon.png') }}" alt="Bunga Icon" class="cat-image" onerror="this.style.display='none'">
                     <i class="fas fa-tornado cat-icon"></i>
                     <div class="cat-label">🔴 BUNGA</div>
                     <div class="cat-sub">(Epekto / Effect)</div>
                 </div>
                 <div class="cat-col tugon-cat">
-                    <!-- IMAGE TAG: Change src path later -->
                     <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon Icon" class="cat-image" onerror="this.style.display='none'">
                     <i class="fas fa-hand-holding-heart cat-icon"></i>
                     <div class="cat-label">🟢 MGA TUGON</div>
@@ -415,14 +464,18 @@
                 </div>
             </div>
 
-            <!-- Draggable Items Pool -->
+            <!-- Dynamic Waiting Pool: shows one random card at a time -->
             <div class="items-pool">
                 <div class="pool-title">
-                    <i class="fas fa-grip-vertical"></i> 
-                    I-drag ang mga sumusunod na pahayag:
+                    <i class="fas fa-hourglass-half"></i> 
+                    Kasalukuyang Card (i-drag sa tamang kahon)
+                    <span class="remaining-count" id="remainingCount">3</span>
                 </div>
-                <div class="draggable-container" id="draggablePool">
-                    <!-- Statements will be injected here via JavaScript -->
+                <div id="waitingCardArea" class="waiting-card-container">
+                    <!-- The active card will appear here dynamically -->
+                </div>
+                <div style="text-align: center;">
+                    <button class="next-card-btn" id="nextCardBtn" style="display: none;"><i class="fas fa-forward"></i> Susunod na Card</button>
                 </div>
             </div>
 
@@ -448,12 +501,12 @@
             "use strict";
 
             // ==================== STATEMENTS DATA ====================
-            const statements = [
+            const fullStatements = [
                 { 
                     text: "Ang matinding pinsala at panganib na naranasan sa Tabaco, Albay—kabilang ang pagkasira ng mga bahay, kabuhayan, at mahahalagang serbisyo—ay kasabay ng pagdating ng Super Typhoon Rolly, na nagdala ng napakalakas na hangin at matinding pag-ulan na nagdulot ng malawakang pagbaha.", 
                     category: "sanhi",
                     imageNote: "🌀 SANHI",
-                    imageIcon: "pictures/sanhi-card.png"  // change image path later
+                    imageIcon: "pictures/sanhi-card.png"
                 },
                 { 
                     text: "Nagresulta ito sa humigit-kumulang ₱2.5 bilyong pinsala, pagkawasak at pagkasira ng libu-libong bahay, pagkasira ng 90% ng mga bangka ng mangingisda, pagkawala ng kuryente sa buong lungsod, kakulangan sa suplay ng tubig sa ilang barangay, at matinding pagbaha kung saan napilitang lumangoy ang ilang residente. Nasira rin ang mga makasaysayang gusali. Gayunpaman, walang naitalang nasawi.", 
@@ -469,70 +522,213 @@
                 }
             ];
 
+            // Randomize order of statements once at start
+            let remainingStatements = [...fullStatements];
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+            remainingStatements = shuffleArray(remainingStatements);
+            
             // DOM Elements
-            const draggablePool = document.getElementById('draggablePool');
+            const waitingArea = document.getElementById('waitingCardArea');
+            const nextBtn = document.getElementById('nextCardBtn');
+            const remainingCountSpan = document.getElementById('remainingCount');
             const dropSanhi = document.getElementById('dropzoneSanhi');
             const dropBunga = document.getElementById('dropzoneBunga');
             const dropTugon = document.getElementById('dropzoneTugon');
             const summaryBox = document.getElementById('summaryBox');
             const resetBtn = document.getElementById('resetGameBtn');
             const completionStatus = document.getElementById('completionStatus');
-
-            let draggedElement = null;
+            
             let gameActive = true;
-
-            // Helper: Render all draggable cards
-            function renderCards() {
-                if (!draggablePool) return;
-                draggablePool.innerHTML = '';
-                
-                statements.forEach((stmt, index) => {
-                    const card = document.createElement('div');
-                    card.className = `statement-card ${stmt.category}-border`;
-                    card.setAttribute('draggable', 'true');
-                    card.setAttribute('data-category', stmt.category);
-                    card.setAttribute('data-index', index);
-                    
-                    // Card content with optional image inside the card
-                    let imageHtml = '';
-                    if (stmt.imageIcon) {
-                        imageHtml = `<img src="{{ asset('${stmt.imageIcon}') }}" alt="icon" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'">`;
-                    }
-                    
-                    card.innerHTML = `
-                        ${stmt.text}
-                        <div class="card-image-badge">
-                            ${imageHtml}
-                            <span><i class="far fa-image"></i> ${stmt.imageNote}</span>
-                        </div>
-                    `;
-                    
-                    card.addEventListener('dragstart', handleDragStart);
-                    card.addEventListener('dragend', handleDragEnd);
-                    draggablePool.appendChild(card);
-                });
+            let currentCardElement = null;    // track active draggable card
+            let currentCardData = null;        // store data for validations
+            
+            // Helper: update remaining count display
+            function updateRemainingDisplay() {
+                if (remainingCountSpan) {
+                    remainingCountSpan.textContent = remainingStatements.length;
+                }
+                // If no remaining cards and game is active, check completion
+                if (remainingStatements.length === 0 && gameActive) {
+                    // All cards have been placed (or should be placed already)
+                    checkAllPlacedFinal();
+                }
             }
-
+            
+            // Function to check final completion after all cards dragged
+            function checkAllPlacedFinal() {
+                const totalCards = fullStatements.length;
+                const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
+                const bungaCount = dropBunga ? dropBunga.querySelectorAll('.statement-card').length : 0;
+                const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
+                const totalPlaced = sanhiCount + bungaCount + tugonCount;
+                
+                let allCorrect = false;
+                if (totalPlaced === totalCards) {
+                    // Validate each zone has correct category cards only
+                    let correct = true;
+                    if (dropSanhi) {
+                        const cards = Array.from(dropSanhi.querySelectorAll('.statement-card'));
+                        if (cards.some(card => card.dataset.category !== 'sanhi')) correct = false;
+                    }
+                    if (dropBunga) {
+                        const cards = Array.from(dropBunga.querySelectorAll('.statement-card'));
+                        if (cards.some(card => card.dataset.category !== 'bunga')) correct = false;
+                    }
+                    if (dropTugon) {
+                        const cards = Array.from(dropTugon.querySelectorAll('.statement-card'));
+                        if (cards.some(card => card.dataset.category !== 'tugon')) correct = false;
+                    }
+                    if (correct && totalPlaced === totalCards) {
+                        allCorrect = true;
+                    }
+                }
+                
+                if (allCorrect) {
+                    if (summaryBox) summaryBox.style.display = 'block';
+                    if (completionStatus) {
+                        completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
+                    }
+                    gameActive = false;
+                    if (nextBtn) nextBtn.style.display = 'none';
+                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
+                } else if (totalPlaced === totalCards && !allCorrect) {
+                    if (completionStatus) {
+                        completionStatus.innerHTML = '<span style="color: #b02e2e;"><i class="fas fa-exclamation-triangle"></i> May mali pang pagkakalagay. I-reset at subukang muli.</span>';
+                    }
+                    if (summaryBox) summaryBox.style.display = 'none';
+                } else {
+                    if (!gameActive) return;
+                    if (completionStatus) {
+                        completionStatus.innerHTML = `<span style="color: #0d6efd;"><i class="fas fa-hourglass-half"></i> ${totalPlaced} ng ${totalCards} ang nailagay. I-drag ang susunod na card.</span>`;
+                    }
+                }
+            }
+            
+            // Create draggable card element from statement object
+            function createDraggableCard(statement, indexId) {
+                const card = document.createElement('div');
+                card.className = `statement-card ${statement.category}-border`;
+                card.setAttribute('draggable', 'true');
+                card.setAttribute('data-category', statement.category);
+                card.setAttribute('data-id', indexId);
+                
+                let imageHtml = '';
+                if (statement.imageIcon) {
+                    imageHtml = `<img src="{{ asset('${statement.imageIcon}') }}" alt="icon" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'">`;
+                }
+                
+                card.innerHTML = `
+                    ${statement.text}
+                    <div class="card-image-badge">
+                        ${imageHtml}
+                        <span><i class="far fa-image"></i> ${statement.imageNote}</span>
+                    </div>
+                `;
+                
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+                return card;
+            }
+            
+            // Show next random card in waiting area
+            function loadNextCard() {
+                if (!gameActive) return;
+                if (remainingStatements.length === 0) {
+                    // No more cards to show, but there might still be cards not placed?
+                    // Only if somehow all displayed but not placed? But each card must be dragged.
+                    if (waitingArea) {
+                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card. Natapos na!</div>';
+                    }
+                    if (nextBtn) nextBtn.style.display = 'none';
+                    checkAllPlacedFinal();
+                    return;
+                }
+                
+                // Get next statement (already randomized)
+                const nextStatement = remainingStatements[0];
+                // Create new draggable card
+                const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
+                // Clear waiting area and append card
+                if (waitingArea) {
+                    waitingArea.innerHTML = '';
+                    waitingArea.appendChild(newCard);
+                }
+                currentCardElement = newCard;
+                currentCardData = nextStatement;
+                
+                // Show next button but initially hidden; user must wait until current is placed
+                if (nextBtn) {
+                    nextBtn.style.display = 'none';
+                    nextBtn.disabled = true;
+                }
+                updateRemainingDisplay();
+            }
+            
+            // Function to finalize placement of current card, then load next
+            function onCardPlacedSuccessfully(placedCard, targetZone) {
+                if (!gameActive) return;
+                // Remove from waiting area content
+                if (waitingArea && waitingArea.contains(placedCard)) {
+                    waitingArea.innerHTML = '';  // clear waiting area
+                }
+                // Remove from remainingStatements array (the first one)
+                if (remainingStatements.length > 0) {
+                    remainingStatements.shift();
+                }
+                updateRemainingDisplay();
+                
+                // If there are more cards, enable next button
+                if (remainingStatements.length > 0) {
+                    if (nextBtn) {
+                        nextBtn.style.display = 'inline-flex';
+                        nextBtn.disabled = false;
+                    }
+                } else {
+                    if (nextBtn) nextBtn.style.display = 'none';
+                    // No more cards, final validation after short delay
+                    setTimeout(() => {
+                        checkAllPlacedFinal();
+                    }, 100);
+                }
+                // Re-check partially placed status
+                checkAllPlacedFinal();
+            }
+            
+            // Drag & Drop Handlers
+            let draggedElement = null;
+            
             function handleDragStart(e) {
                 if (!gameActive) {
                     e.preventDefault();
                     return false;
                 }
+                // Only allow dragging if this is the current active card in waiting area
+                const parent = this.parentNode;
+                if (parent !== waitingArea) {
+                    e.preventDefault();
+                    alert("Kailangan mong i-drag ang kasalukuyang card mula sa waiting area.");
+                    return false;
+                }
                 draggedElement = this;
                 this.classList.add('dragging');
-                e.dataTransfer.setData('text/plain', this.dataset.index);
+                e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
                 e.dataTransfer.effectAllowed = 'move';
             }
-
+            
             function handleDragEnd(e) {
-                this.classList.remove('dragging');
+                if (this) this.classList.remove('dragging');
                 document.querySelectorAll('.dropzone').forEach(zone => {
                     zone.classList.remove('drag-over');
                 });
                 draggedElement = null;
             }
-
-            // Setup drop zones
+            
             function setupDropZones() {
                 const dropzones = [dropSanhi, dropBunga, dropTugon];
                 dropzones.forEach(zone => {
@@ -553,130 +749,90 @@
                         e.preventDefault();
                         zone.classList.remove('drag-over');
                         if (!gameActive) return;
-                        
-                        const index = e.dataTransfer.getData('text/plain');
-                        if (!index || !draggedElement) return;
-                        
-                        const card = document.querySelector(`.statement-card[data-index="${index}"]`);
-                        if (!card) return;
+                        if (!draggedElement) return;
                         
                         const targetCategory = zone.dataset.category;
-                        const cardCategory = card.dataset.category;
+                        const cardCategory = draggedElement.dataset.category;
                         
-                        // Validate if card matches dropzone category
                         if (cardCategory !== targetCategory) {
                             alert(`❌ Mali! Ang pahayag na ito ay kabilang sa kategoryang "${cardCategory.toUpperCase()}". Subukang ilagay sa tamang kahon.`);
                             return;
                         }
                         
-                        // If card already placed in correct zone, prevent duplicate
-                        if (card.parentNode === zone) return;
+                        // Prevent duplicate placement if already dropped in any zone
+                        if (draggedElement.parentNode !== waitingArea) {
+                            alert("Ang card na ito ay nailagay na!");
+                            return;
+                        }
                         
                         // Move card to dropzone
-                        zone.appendChild(card);
-                        card.style.cursor = 'default';
-                        card.setAttribute('draggable', 'false');
-                        card.classList.add('placed');
+                        zone.appendChild(draggedElement);
+                        draggedElement.style.cursor = 'default';
+                        draggedElement.setAttribute('draggable', 'false');
+                        draggedElement.classList.add('placed');
                         
-                        // Check if all cards are placed correctly
-                        checkAllPlaced();
+                        // Remove drag listeners to prevent further drag
+                        draggedElement.removeEventListener('dragstart', handleDragStart);
+                        draggedElement.removeEventListener('dragend', handleDragEnd);
+                        
+                        // Call placement success to trigger next card
+                        onCardPlacedSuccessfully(draggedElement, zone);
+                        draggedElement = null;
                     });
                 });
             }
-
-            function checkAllPlaced() {
-                const totalCards = statements.length;
-                const sanhiCount = dropSanhi ? dropSanhi.children.length : 0;
-                const bungaCount = dropBunga ? dropBunga.children.length : 0;
-                const tugonCount = dropTugon ? dropTugon.children.length : 0;
-                
-                const totalPlaced = sanhiCount + bungaCount + tugonCount;
-                
-                if (totalPlaced === totalCards) {
-                    // Verify each card is in correct zone
-                    let allCorrect = true;
-                    
-                    // Check SANHI zone - should contain ONLY sanhi cards
-                    if (dropSanhi) {
-                        const sanhiCards = Array.from(dropSanhi.children).filter(child => child.classList && child.classList.contains('statement-card'));
-                        const hasWrongCard = sanhiCards.some(card => card.dataset.category !== 'sanhi');
-                        if (hasWrongCard || sanhiCards.length !== 1) allCorrect = false;
-                    }
-                    
-                    // Check BUNGA zone
-                    if (dropBunga) {
-                        const bungaCards = Array.from(dropBunga.children).filter(child => child.classList && child.classList.contains('statement-card'));
-                        const hasWrongCard = bungaCards.some(card => card.dataset.category !== 'bunga');
-                        if (hasWrongCard || bungaCards.length !== 1) allCorrect = false;
-                    }
-                    
-                    // Check TUGON zone
-                    if (dropTugon) {
-                        const tugonCards = Array.from(dropTugon.children).filter(child => child.classList && child.classList.contains('statement-card'));
-                        const hasWrongCard = tugonCards.some(card => card.dataset.category !== 'tugon');
-                        if (hasWrongCard || tugonCards.length !== 1) allCorrect = false;
-                    }
-                    
-                    if (allCorrect) {
-                        if (summaryBox) summaryBox.style.display = 'block';
-                        if (completionStatus) {
-                            completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
-                        }
-                        gameActive = false; // optional: lock further moves
-                    } else {
-                        if (summaryBox) summaryBox.style.display = 'none';
-                        if (completionStatus) {
-                            completionStatus.innerHTML = '<span style="color: #b02e2e;"><i class="fas fa-exclamation-triangle"></i> May mali pang pagkakalagay. Subukang ayusin ang mga pahayag.</span>';
-                        }
-                    }
-                } else {
-                    if (summaryBox) summaryBox.style.display = 'none';
-                    if (completionStatus) {
-                        completionStatus.innerHTML = `<span style="color: #0d6efd;"><i class="fas fa-hourglass-half"></i> ${totalPlaced} ng ${totalCards} ang nailagay. I-drag ang lahat ng pahayag sa tamang kategorya.</span>`;
-                    }
-                }
-            }
-
-            // Reset game function
+            
+            // Reset game fully
             function resetGame() {
-                // Clear all dropzones
+                gameActive = true;
+                // Reset statement queue with original data shuffled
+                remainingStatements = shuffleArray([...fullStatements]);
+                
+                // Clear all dropzones (keep headers)
                 if (dropSanhi) dropSanhi.innerHTML = '<div class="dropzone-header"><i class="fas fa-arrow-down"></i> Ilagay ang SANHI dito</div>';
                 if (dropBunga) dropBunga.innerHTML = '<div class="dropzone-header"><i class="fas fa-arrow-down"></i> Ilagay ang BUNGA dito</div>';
                 if (dropTugon) dropTugon.innerHTML = '<div class="dropzone-header"><i class="fas fa-arrow-down"></i> Ilagay ang MGA TUGON dito</div>';
                 
-                // Re-render cards in draggable pool
-                renderCards();
-                
-                // Hide summary box and reset status
-                if (summaryBox) summaryBox.style.display = 'none';
+                // Reset waiting area & load first card
+                if (waitingArea) waitingArea.innerHTML = '';
+                if (nextBtn) {
+                    nextBtn.style.display = 'none';
+                    nextBtn.disabled = true;
+                }
                 if (completionStatus) completionStatus.innerHTML = '';
+                if (summaryBox) summaryBox.style.display = 'none';
                 
-                gameActive = true;
-                
-                // Re-attach drag events to new cards (renderCards already adds them)
-                // Reset any other states
-                draggedElement = null;
+                updateRemainingDisplay();
+                loadNextCard();
             }
             
-            // Reset button event
+            // Event for next button
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (!gameActive) return;
+                    if (remainingStatements.length <= 0) return;
+                    // Check if current card is already placed (waiting area empty)
+                    if (waitingArea && waitingArea.children.length === 0) {
+                        loadNextCard();
+                        nextBtn.style.display = 'none';
+                        nextBtn.disabled = true;
+                    } else {
+                        alert("Pakiusap, i-drag muna ang kasalukuyang card sa tamang kahon bago sumunod.");
+                    }
+                });
+            }
+            
             if (resetBtn) {
                 resetBtn.addEventListener('click', resetGame);
             }
-
+            
             // Prevent default dragover on document
             document.addEventListener('dragover', (e) => e.preventDefault());
             document.addEventListener('drop', (e) => e.preventDefault());
-
-            // Initialize game
-            renderCards();
-            setupDropZones();
             
-            // Additional drag prevention for cards not yet unlocked style
-            document.addEventListener('dragstart', (e) => {
-                if (!e.target.closest('.statement-card')) {
-                    e.preventDefault();
-                }
-            });
+            // Initial setup
+            setupDropZones();
+            resetGame(); // start first card
         })();
     </script>
 @endsection
