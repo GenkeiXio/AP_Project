@@ -790,7 +790,7 @@
 @endpush
 
 @section('content')
-    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap2.png') }}" class="background-map">
     <div class="page">
         <div class="quest-shell">
             <div class="topbar">

@@ -281,7 +281,7 @@
 
 @section('content')
 
-<img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
+<img src="{{ asset('pictures/mod2_innermap2.png') }}" class="background-map">
 
 <a href="{{ route('inner.map2') }}" class="back-button">⬅️ Bumalik</a>
 
