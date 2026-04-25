@@ -11,26 +11,54 @@ use Illuminate\Support\Facades\Session;
 
 class Module4PretestController extends Controller
 {
+    private function studentId()
+    {
+        return Session::get('student_id');
+    }
+
+    public function index()
+    {
+        if (!$this->studentId()) {
+            return redirect()->route('home');
+        }
+
+        $attempts = session('module4_pretest_attempts', 0);
+
+        return view('Pretest', compact('attempts'));
+    }
+
     public function store(Request $request)
     {
-        $studentId = Session::get('student_id');
+        $studentId = $this->studentId();
 
         if (!$studentId) {
             return response()->json(['error' => 'Not logged in'], 401);
         }
 
+        // 🔥 ATTEMPTS
+        $attempts = session()->get('module4_pretest_attempts', 0);
+
+        if ($attempts >= 3) {
+            return response()->json([
+                'error' => 'Maximum attempts reached'
+            ], 403);
+        }
+
+        // ✅ VALIDATION (NOW MATCHES FRONTEND)
         $validated = $request->validate([
             'score' => ['required', 'integer', 'min:0'],
             'total_items' => ['required', 'integer', 'min:1'],
-            'level' => ['nullable', 'string', 'max:100'],
+            'level' => ['nullable', 'string'],
             'answers' => ['required', 'array'],
-            'answers.*.question_number' => ['required', 'integer', 'min:1'],
-            'answers.*.selected_option' => ['required', 'integer', 'min:0'],
-            'answers.*.correct_option' => ['required', 'integer', 'min:0'],
+            'answers.*.question_number' => ['required', 'integer'],
+            'answers.*.selected_option' => ['required', 'integer'],
+            'answers.*.correct_option' => ['required', 'integer'],
             'answers.*.is_correct' => ['required', 'boolean'],
         ]);
 
+        // 🔥 SAVE
         $result = DB::transaction(function () use ($studentId, $validated) {
+
             $pretest = Module4Pretest::updateOrCreate(
                 ['student_id' => $studentId],
                 [
@@ -41,6 +69,7 @@ class Module4PretestController extends Controller
                 ]
             );
 
+            // clear old answers
             Module4PretestAnswer::where('module4_pretest_id', $pretest->id)->delete();
 
             foreach ($validated['answers'] as $answer) {
@@ -56,6 +85,13 @@ class Module4PretestController extends Controller
             return $pretest;
         });
 
-        return response()->json(['success' => true, 'data' => $result]);
+        // ✅ UPDATE SESSION ATTEMPTS
+        session()->put('module4_pretest_attempts', $attempts + 1);
+
+        return response()->json([
+            'success' => true,
+            'attempt_used' => $attempts + 1,
+            'remaining_attempts' => 3 - ($attempts + 1)
+        ]);
     }
 }

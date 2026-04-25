@@ -320,7 +320,7 @@ body, html {
         </div>
     </div>
 
-    <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap2.png') }}" class="background-map">
 
     <div class="map-overlay"></div>
 

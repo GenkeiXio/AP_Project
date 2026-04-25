@@ -888,7 +888,7 @@
 
 <div class="map-wrapper">
     <div class="map-container" style="position: relative; display: inline-block;">
-        <img src="{{ asset('pictures/main_map2.png') }}" class="background-map" alt="Main Map">
+        <img src="{{ asset('pictures/new_main_map.png') }}" class="background-map" alt="Main Map">
 
         <!-- MODULE 2 PIN (PAKSA 1) - Always Unlocked -->
         <button class="pin location-1" onclick="enterModule(this, '{{ route('module.home') }}')">

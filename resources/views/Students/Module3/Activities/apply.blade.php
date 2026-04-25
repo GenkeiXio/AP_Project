@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fil">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,16 +17,22 @@
             --section-bg: #f8fafc;
             --text-main: #1e293b;
             --text-muted: #475569;
-            
+
             /* Professional Card Tints */
-            --obj-card-bg: #eff6ff; /* Very light blue */
+            --obj-card-bg: #eff6ff;
+            /* Very light blue */
             --obj-card-border: #bfdbfe;
-            --skill-card-bg: #fffbeb; /* Very light amber */
+            --skill-card-bg: #fffbeb;
+            /* Very light amber */
             --skill-card-border: #fef3c7;
         }
 
         body {
-            background-color: var(--section-bg);
+            background:
+                /* linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.8)), */
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
+
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
@@ -33,9 +40,10 @@
 
         /* HEADER */
         .page-header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 3rem 0;
-            margin-bottom: 3rem;
+            /* background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); */
+            padding: 2rem 0;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
             color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -101,7 +109,7 @@
             border-radius: 20px;
             padding: 2.5rem;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .panel-title {
@@ -184,174 +192,190 @@
         .progress-indicator.complete {
             background: #dcfce7;
             color: #166534;
-        }    </style>
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="page-header text-center">
-    <div class="container">
-        
-        <h1 class="main-title">Gabay sa Pag-unawa sa Bagyo</h1>
+    <header class="page-header text-center">
+        <div class="container">
+
+            <h1 class="main-title">Gabay sa Pag-unawa sa Bagyo</h1>
+        </div>
+    </header>
+
+    <div class="container pb-5">
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="protocol-card objective shadow-sm">
+                    <div class="icon-box text-primary"><i class="fa-solid fa-bullseye"></i></div>
+                    <h5>Layunin ng Aralin</h5>
+                    <p>Matutunan kung paano <strong>makikilala ang panganib</strong> at kung paano <strong>mababawasan
+                            ang pinsala</strong> gamit ang mga babala mula sa PAGASA.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="protocol-card skills shadow-sm">
+                    <div class="icon-box" style="color: #f59e0b;"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h5>Ang Inyong Matututunan</h5>
+                    <p>Kakayahang <strong>magsagawa ng pag-iingat</strong> base sa lakas ng hangin at sa mga posibleng
+                        epekto ng bawat signal ng bagyo.</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="signals-panel mb-5 shadow-sm">
+            <h4 class="panel-title">Gabay sa mga Signal ng Bagyo</h4>
+            <p class="text-muted mb-4">Pindutin ang bawat icon sa ibaba upang makita ang mga dapat gawin at mahalagang
+                impormasyon para sa bawat signal.</p>
+
+            <div class="progress-indicator" id="progressIndicator">
+                Binuksan ang Modal: 0/5
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-6 col-md-2 text-center">
+                    <div class="wind-signal-item" data-signal="1"
+                        data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
+                        <img src="{{ asset('pictures/Module 3/Apply/wind1.png') }}" class="wind-img">
+                        <div class="mt-2 fw-bold small text-secondary">Signal No. 1</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 text-center">
+                    <div class="wind-signal-item" data-signal="2"
+                        data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
+                        <img src="{{ asset('pictures/Module 3/Apply/wind2.png') }}" class="wind-img">
+                        <div class="mt-2 fw-bold small text-secondary">Signal No. 2</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 text-center">
+                    <div class="wind-signal-item" data-signal="3"
+                        data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
+                        <img src="{{ asset('pictures/Module 3/Apply/wind3.png') }}" class="wind-img">
+                        <div class="mt-2 fw-bold small text-secondary">Signal No. 3</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 text-center">
+                    <div class="wind-signal-item" data-signal="4"
+                        data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
+                        <img src="{{ asset('pictures/Module 3/Apply/wind4.png') }}" class="wind-img">
+                        <div class="mt-2 fw-bold small text-secondary">Signal No. 4</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 text-center">
+                    <div class="wind-signal-item" data-signal="5"
+                        data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
+                        <img src="{{ asset('pictures/Module 3/Apply/wind5.png') }}" class="wind-img">
+                        <div class="mt-2 fw-bold small text-secondary">Signal No. 5</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-section shadow-sm mb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
+                    <h4 class="video-label">Video sa Kaligtasan</h4>
+                    <p class="text-muted small">Panoorin ang video na ito para malaman ang mga tamang hakbang na dapat
+                        gawin ng inyong pamilya tuwing may banta ng bagyo.</p>
+                </div>
+                <div class="col-lg-8">
+                    <div class="ratio ratio-16x9 rounded shadow-lg overflow-hidden border">
+                        <iframe src="https://www.youtube.com/embed/5MP0TxfEWyA" title="PAGASA Protocol"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center py-4">
+            <a href="{{ route('gobag.activity') }}" id="continueBtn" class="btn btn-continue shadow disabled">
+                SUSUNOD NA BAHAGI <i class="fa-solid fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+
     </div>
-</header>
 
-<div class="container pb-5">
-    
-    <div class="row g-4 mb-5">
-        <div class="col-md-6">
-            <div class="protocol-card objective shadow-sm">
-                <div class="icon-box text-primary"><i class="fa-solid fa-bullseye"></i></div>
-                <h5>Layunin ng Aralin</h5>
-                <p>Matutunan kung paano <strong>makikilala ang panganib</strong> at kung paano <strong>mababawasan ang pinsala</strong> gamit ang mga babala mula sa PAGASA.</p>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="protocol-card skills shadow-sm">
-                <div class="icon-box" style="color: #f59e0b;"><i class="fa-solid fa-shield-halved"></i></div>
-                <h5>Ang Inyong Matututunan</h5>
-                <p>Kakayahang <strong>magsagawa ng pag-iingat</strong> base sa lakas ng hangin at sa mga posibleng epekto ng bawat signal ng bagyo.</p>
+    <div class="modal fade" id="popupModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content border-0"
+                style="background: rgba(255,255,255,0.98); backdrop-filter: blur(12px);">
+                <div class="modal-header border-0 container py-4">
+                    <h5 class="fw-bold" style="color: var(--brand-primary);"><i
+                            class="fa-solid fa-circle-info me-2"></i>Gabay at Detalye</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body d-flex justify-content-center align-items-center p-4">
+                    <img id="popupImage" src="" class="img-fluid rounded-4 shadow-2xl"
+                        style="max-height: 80vh; border: 1px solid #ddd;">
+                </div>
             </div>
         </div>
     </div>
 
-    <section class="signals-panel mb-5 shadow-sm">
-        <h4 class="panel-title">Gabay sa mga Signal ng Bagyo</h4>
-        <p class="text-muted mb-4">Pindutin ang bawat icon sa ibaba upang makita ang mga dapat gawin at mahalagang impormasyon para sa bawat signal.</p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const modal = new bootstrap.Modal(document.getElementById('popupModal'));
+        const popupImg = document.getElementById('popupImage');
+        const progressIndicator = document.getElementById('progressIndicator');
+        const continueBtn = document.getElementById('continueBtn');
 
-        <div class="progress-indicator" id="progressIndicator">
-            Binuksan ang Modal: 0/5
-        </div>
+        const viewedSignals = new Set();
+        const totalSignals = 5;
 
-        <div class="row g-4 justify-content-center">
-            <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-signal="1" data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
-                    <img src="{{ asset('pictures/Module 3/Apply/wind1.png') }}" class="wind-img">
-                    <div class="mt-2 fw-bold small text-secondary">Signal No. 1</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-signal="2" data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
-                    <img src="{{ asset('pictures/Module 3/Apply/wind2.png') }}" class="wind-img">
-                    <div class="mt-2 fw-bold small text-secondary">Signal No. 2</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-signal="3" data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
-                    <img src="{{ asset('pictures/Module 3/Apply/wind3.png') }}" class="wind-img">
-                    <div class="mt-2 fw-bold small text-secondary">Signal No. 3</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-signal="4" data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
-                    <img src="{{ asset('pictures/Module 3/Apply/wind4.png') }}" class="wind-img">
-                    <div class="mt-2 fw-bold small text-secondary">Signal No. 4</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <div class="wind-signal-item" data-signal="5" data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
-                    <img src="{{ asset('pictures/Module 3/Apply/wind5.png') }}" class="wind-img">
-                    <div class="mt-2 fw-bold small text-secondary">Signal No. 5</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        function updateProgress() {
+            const viewedCount = viewedSignals.size;
+            progressIndicator.textContent = `Binuksan ang Modal: ${viewedCount}/${totalSignals}`;
 
-    <section class="video-section shadow-sm mb-5">
-        <div class="row align-items-center">
-            <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
-                <h4 class="video-label">Video sa Kaligtasan</h4>
-                <p class="text-muted small">Panoorin ang video na ito para malaman ang mga tamang hakbang na dapat gawin ng inyong pamilya tuwing may banta ng bagyo.</p>
-            </div>
-            <div class="col-lg-8">
-                <div class="ratio ratio-16x9 rounded shadow-lg overflow-hidden border">
-                    <iframe src="https://www.youtube.com/embed/5MP0TxfEWyA" title="PAGASA Protocol" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="text-center py-4">
-        <a href="{{ route('gobag.activity') }}" id="continueBtn" class="btn btn-continue shadow disabled">
-            SUSUNOD NA BAHAGI <i class="fa-solid fa-arrow-right ms-2"></i>
-        </a>
-    </div>
-
-</div>
-
-<div class="modal fade" id="popupModal" tabindex="-1">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content border-0" style="background: rgba(255,255,255,0.98); backdrop-filter: blur(12px);">
-            <div class="modal-header border-0 container py-4">
-                <h5 class="fw-bold" style="color: var(--brand-primary);"><i class="fa-solid fa-circle-info me-2"></i>Gabay at Detalye</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body d-flex justify-content-center align-items-center p-4">
-                <img id="popupImage" src="" class="img-fluid rounded-4 shadow-2xl" style="max-height: 80vh; border: 1px solid #ddd;">
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const modal = new bootstrap.Modal(document.getElementById('popupModal'));
-    const popupImg = document.getElementById('popupImage');
-    const progressIndicator = document.getElementById('progressIndicator');
-    const continueBtn = document.getElementById('continueBtn');
-
-    const viewedSignals = new Set();
-    const totalSignals = 5;
-
-    function updateProgress() {
-        const viewedCount = viewedSignals.size;
-        progressIndicator.textContent = `Binuksan ang Modal: ${viewedCount}/${totalSignals}`;
-        
-        if (viewedCount === totalSignals) {
-            progressIndicator.classList.add('complete');
-            continueBtn.classList.remove('disabled');
-        } else {
-            progressIndicator.classList.remove('complete');
-            continueBtn.classList.add('disabled');
+            if (viewedCount === totalSignals) {
+                progressIndicator.classList.add('complete');
+                continueBtn.classList.remove('disabled');
+            } else {
+                progressIndicator.classList.remove('complete');
+                continueBtn.classList.add('disabled');
+            }
         }
-    }
 
-    // Track when modal is hidden (exited)
-    document.getElementById('popupModal').addEventListener('hidden.bs.modal', function() {
-        // Find which signal was last clicked
-        const lastClicked = document.querySelector('.wind-signal-item[data-signal]');
-        // Since modal is shown on click, we can assume the last clicked is the one viewed
-        // But to be precise, we can store the current signal
-        // Actually, since each click shows the modal, and we want to mark when exited, we need to know which one was shown
-        // So, add a variable for currentSignal
-    });
-
-    // Better way: set currentSignal on click, then mark on hide
-    let currentSignal = null;
-
-    document.querySelectorAll('.wind-signal-item').forEach(el => {
-        el.addEventListener('click', function() {
-            currentSignal = this.getAttribute('data-signal');
-            popupImg.src = this.getAttribute('data-img');
-            modal.show();
+        // Track when modal is hidden (exited)
+        document.getElementById('popupModal').addEventListener('hidden.bs.modal', function () {
+            // Find which signal was last clicked
+            const lastClicked = document.querySelector('.wind-signal-item[data-signal]');
+            // Since modal is shown on click, we can assume the last clicked is the one viewed
+            // But to be precise, we can store the current signal
+            // Actually, since each click shows the modal, and we want to mark when exited, we need to know which one was shown
+            // So, add a variable for currentSignal
         });
-    });
 
-    document.getElementById('popupModal').addEventListener('hidden.bs.modal', function() {
-        if (currentSignal) {
-            viewedSignals.add(currentSignal);
-            updateProgress();
-            currentSignal = null;
-        }
-    });
+        // Better way: set currentSignal on click, then mark on hide
+        let currentSignal = null;
 
-    // Prevent clicking disabled button
-    continueBtn.addEventListener('click', function(e) {
-        if (this.disabled) {
-            e.preventDefault();
-        }
-    });
-</script>
+        document.querySelectorAll('.wind-signal-item').forEach(el => {
+            el.addEventListener('click', function () {
+                currentSignal = this.getAttribute('data-signal');
+                popupImg.src = this.getAttribute('data-img');
+                modal.show();
+            });
+        });
+
+        document.getElementById('popupModal').addEventListener('hidden.bs.modal', function () {
+            if (currentSignal) {
+                viewedSignals.add(currentSignal);
+                updateProgress();
+                currentSignal = null;
+            }
+        });
+
+        // Prevent clicking disabled button
+        continueBtn.addEventListener('click', function (e) {
+            if (this.disabled) {
+                e.preventDefault();
+            }
+        });
+    </script>
 
 </body>
+
 </html>
