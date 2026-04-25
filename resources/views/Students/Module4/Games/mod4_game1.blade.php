@@ -175,13 +175,12 @@
             color: #334155;
         }
         
-        /* Statement Cards */
+        /* Statement Cards - No side highlight */
         .statement-card {
             background: white;
-            border-radius: 20px;
-            padding: 16px 18px;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-            border-left: 8px solid;
+            border-radius: 24px;
+            padding: 20px 20px 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             font-weight: 500;
             cursor: grab;
             user-select: none;
@@ -202,31 +201,59 @@
         
         .statement-card.placed {
             cursor: default;
-            opacity: 0.9;
+            opacity: 0.95;
         }
         
-        .statement-card.sanhi-border { border-left-color: #0d6efd; }
-        .statement-card.bunga-border { border-left-color: #b02e2e; }
-        .statement-card.tugon-border { border-left-color: #2e7d32; }
+        /* Shake Animation for wrong drop */
+        @keyframes shakeCard {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-4px); }
+            100% { transform: translateX(0); }
+        }
         
-        .card-image-badge {
+        .statement-card.shake {
+            animation: shakeCard 0.4s ease-in-out;
+        }
+        
+        /* Header image style */
+        .card-header-image {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        
+        .card-header-image img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .card-text-content {
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .card-footer-badge {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-top: 12px;
-            padding-top: 8px;
+            padding-top: 10px;
             border-top: 1px solid #eef2f6;
             font-size: 0.8rem;
             color: #64748b;
         }
         
-        .card-image-badge img {
-            width: 24px;
-            height: 24px;
+        .card-footer-badge img {
+            width: 22px;
+            height: 22px;
             object-fit: contain;
         }
 
-        /* Items Pool - Updated for One Card at a Time */
+        /* Items Pool - One Card at a Time */
         .items-pool {
             margin: 25px 0 20px;
             background: rgba(238, 242, 246, 0.95);
@@ -250,7 +277,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 200px;
+            min-height: 280px;
             background: #fef9e3;
             border-radius: 32px;
             padding: 30px;
@@ -269,32 +296,6 @@
             width: 100%;
         }
         
-        .next-card-btn {
-            background: #0d6efd;
-            border: none;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .next-card-btn:hover {
-            background: #0b5ed7;
-            transform: translateY(-2px);
-        }
-        
-        .next-card-btn:disabled {
-            background: #adb5bd;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
         .remaining-count {
             font-size: 0.9rem;
             background: #e9ecef;
@@ -303,30 +304,113 @@
             border-radius: 40px;
             margin-left: 12px;
         }
+        
+        /* Loading indicator */
+        .loading-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e9ecef;
+            border-top-color: #0d6efd;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
-        /* Summary Box */
-        .summary-box {
-            background: linear-gradient(135deg, #f0f9ff, #e6f7ec);
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
-            border-radius: 28px;
-            padding: 28px 32px;
-            margin-top: 35px;
-            border-left: 12px solid #0d6efd;
-            display: none;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
         
-        .summary-box h3 {
-            font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #0b2b4a;
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
         }
         
-        .summary-box p {
-            font-size: 1.05rem;
-            line-height: 1.6;
+        .modal-container {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: 48px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .modal-overlay.show .modal-container {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            padding: 24px 32px;
+            border-radius: 48px 48px 0 0;
+            color: white;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .modal-body {
+            padding: 32px;
+        }
+        
+        .modal-body p {
+            font-size: 1rem;
+            line-height: 1.7;
             color: #1e293b;
+            margin-bottom: 20px;
+        }
+        
+        .modal-footer {
+            padding: 20px 32px 32px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            background: linear-gradient(135deg, #2e7d32, #1e5a20);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         /* Reset Button */
@@ -396,6 +480,16 @@
             .cat-col {
                 padding: 12px;
             }
+            .statement-card {
+                padding: 16px;
+            }
+            .card-header-image img {
+                width: 45px;
+                height: 45px;
+            }
+            .modal-body {
+                padding: 20px;
+            }
         }
         
         /* Completion Message */
@@ -408,6 +502,21 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+        }
+        
+        /* Error message without alert */
+        .error-message {
+            color: #b02e2e;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            text-align: center;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .error-message.show {
+            opacity: 1;
         }
     </style>
 @endpush
@@ -425,7 +534,7 @@
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 5px;">
                 <div>
                     <h1><i class="fas fa-arrows-alt"></i>Sanhi, Bunga, at Tugon</h1>
-                    <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b> Panuto:</b> I-drag ang bawat card papunta sa tamang kahon. Isang card lamang ang ilalagay sa tamang kahon. Ang mga card ay lalabas nang paisa-isa.</p>
+                    <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b> Panuto:</b> I-drag ang bawat card papunta sa tamang kahon. Matapos ilagay ang kasalukuyang card, awtomatikong lalabas ang susunod na card.</p>
                 </div>
             </div>
 
@@ -474,9 +583,7 @@
                 <div id="waitingCardArea" class="waiting-card-container">
                     <!-- The active card will appear here dynamically -->
                 </div>
-                <div style="text-align: center;">
-                    <button class="next-card-btn" id="nextCardBtn" style="display: none;"><i class="fas fa-forward"></i> Susunod na Card</button>
-                </div>
+                <div id="errorMessage" class="error-message"></div>
             </div>
 
             <!-- Game Controls and Reset -->
@@ -484,14 +591,20 @@
                 <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
                 <div id="completionStatus"></div>
             </div>
+        </div>
+    </div>
 
-            <!-- Summary Box (shows after completing) -->
-            <div class="summary-box" id="summaryBox">
-                <h3><i class="fas fa-clipboard-list"></i> 📖 BUOD (Summary)</h3>
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-clipboard-list"></i> 📖 BUOD (Summary)</h2>
+            </div>
+            <div class="modal-body">
                 <p>Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, walang naitalang nasawi, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa kalamidad.</p>
-                <div style="margin-top: 20px;">
-                    <span class="completion-badge"><i class="fas fa-check-circle"></i> Napakahusay! Nakumpleto mo ang aktibidad.</span>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" id="modalContinueBtn"><i class="fas fa-arrow-right"></i> Magpatuloy</button>
             </div>
         </div>
     </div>
@@ -505,19 +618,19 @@
                 { 
                     text: "Ang matinding pinsala at panganib na naranasan sa Tabaco, Albay—kabilang ang pagkasira ng mga bahay, kabuhayan, at mahahalagang serbisyo—ay kasabay ng pagdating ng Super Typhoon Rolly, na nagdala ng napakalakas na hangin at matinding pag-ulan na nagdulot ng malawakang pagbaha.", 
                     category: "sanhi",
-                    imageNote: "🌀 SANHI",
+                    imageNote: "🌀 SANHI: Dahilan ng Pangyayari",
                     imageIcon: "pictures/sanhi-card.png"
                 },
                 { 
                     text: "Nagresulta ito sa humigit-kumulang ₱2.5 bilyong pinsala, pagkawasak at pagkasira ng libu-libong bahay, pagkasira ng 90% ng mga bangka ng mangingisda, pagkawala ng kuryente sa buong lungsod, kakulangan sa suplay ng tubig sa ilang barangay, at matinding pagbaha kung saan napilitang lumangoy ang ilang residente. Nasira rin ang mga makasaysayang gusali. Gayunpaman, walang naitalang nasawi.", 
                     category: "bunga",
-                    imageNote: "📉 EPEKTO",
+                    imageNote: "📉 BUNGA: Resulta ng Sakuna",
                     imageIcon: "pictures/bunga-card.png"
                 },
                 { 
                     text: "Ipinakita ng mga residente ang matibay na pagkakaisa at pagtutulungan sa gitna ng sakuna. Naging mahalaga ang kahandaan at disiplina, tulad ng maagang paglikas at pagsunod sa mga babala, kaya walang naitalang nasawi. Kumilos din ang lokal na pamahalaan upang magbigay ng agarang tulong, kabilang ang pamamahagi ng suplay at pagsasaayos ng mga apektadong lugar. Sa kabuuan, ang mabilis na pagtugon ng komunidad at pamahalaan ang naging susi upang mapanatili ang kaligtasan ng mga tao.", 
                     category: "tugon",
-                    imageNote: "🤝 TUGON NG KOMUNIDAD",
+                    imageNote: "🤝 TUGON: Aksyon ng Komunidad at Pamahalaan",
                     imageIcon: "pictures/tugon-card.png"
                 }
             ];
@@ -535,28 +648,55 @@
             
             // DOM Elements
             const waitingArea = document.getElementById('waitingCardArea');
-            const nextBtn = document.getElementById('nextCardBtn');
             const remainingCountSpan = document.getElementById('remainingCount');
             const dropSanhi = document.getElementById('dropzoneSanhi');
             const dropBunga = document.getElementById('dropzoneBunga');
             const dropTugon = document.getElementById('dropzoneTugon');
-            const summaryBox = document.getElementById('summaryBox');
             const resetBtn = document.getElementById('resetGameBtn');
             const completionStatus = document.getElementById('completionStatus');
+            const errorMessageDiv = document.getElementById('errorMessage');
+            const summaryModal = document.getElementById('summaryModal');
+            const modalContinueBtn = document.getElementById('modalContinueBtn');
             
             let gameActive = true;
-            let currentCardElement = null;    // track active draggable card
-            let currentCardData = null;        // store data for validations
+            let isLoadingNext = false;
+            let errorTimeout = null;
+            
+            // Show error message (without alert)
+            function showError(message) {
+                if (errorMessageDiv) {
+                    errorMessageDiv.textContent = message;
+                    errorMessageDiv.classList.add('show');
+                    if (errorTimeout) clearTimeout(errorTimeout);
+                    errorTimeout = setTimeout(() => {
+                        errorMessageDiv.classList.remove('show');
+                    }, 2000);
+                }
+            }
+            
+            // Shake a card element
+            function shakeCard(card) {
+                if (!card) return;
+                card.classList.add('shake');
+                setTimeout(() => {
+                    card.classList.remove('shake');
+                }, 400);
+            }
             
             // Helper: update remaining count display
             function updateRemainingDisplay() {
                 if (remainingCountSpan) {
                     remainingCountSpan.textContent = remainingStatements.length;
                 }
-                // If no remaining cards and game is active, check completion
                 if (remainingStatements.length === 0 && gameActive) {
-                    // All cards have been placed (or should be placed already)
                     checkAllPlacedFinal();
+                }
+            }
+            
+            // Function to show modal and handle navigation
+            function showSummaryModal() {
+                if (summaryModal) {
+                    summaryModal.classList.add('show');
                 }
             }
             
@@ -570,7 +710,6 @@
                 
                 let allCorrect = false;
                 if (totalPlaced === totalCards) {
-                    // Validate each zone has correct category cards only
                     let correct = true;
                     if (dropSanhi) {
                         const cards = Array.from(dropSanhi.querySelectorAll('.statement-card'));
@@ -590,45 +729,65 @@
                 }
                 
                 if (allCorrect) {
-                    if (summaryBox) summaryBox.style.display = 'block';
                     if (completionStatus) {
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
                     }
                     gameActive = false;
-                    if (nextBtn) nextBtn.style.display = 'none';
-                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
+                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na! Napakahusay!</div>';
+                    if (errorMessageDiv) errorMessageDiv.innerHTML = '';
+                    // Show the summary modal instead of inline summary box
+                    showSummaryModal();
                 } else if (totalPlaced === totalCards && !allCorrect) {
                     if (completionStatus) {
                         completionStatus.innerHTML = '<span style="color: #b02e2e;"><i class="fas fa-exclamation-triangle"></i> May mali pang pagkakalagay. I-reset at subukang muli.</span>';
                     }
-                    if (summaryBox) summaryBox.style.display = 'none';
                 } else {
                     if (!gameActive) return;
                     if (completionStatus) {
-                        completionStatus.innerHTML = `<span style="color: #0d6efd;"><i class="fas fa-hourglass-half"></i> ${totalPlaced} ng ${totalCards} ang nailagay. I-drag ang susunod na card.</span>`;
+                        completionStatus.innerHTML = `<span style="color: #0d6efd;"><i class="fas fa-hourglass-half"></i> ${totalPlaced} ng ${totalCards} ang nailagay. I-drag ang kasalukuyang card sa tamang kahon.</span>`;
                     }
                 }
             }
             
-            // Create draggable card element from statement object
+            // Create draggable card element with HEADER IMAGE (no side border)
             function createDraggableCard(statement, indexId) {
                 const card = document.createElement('div');
-                card.className = `statement-card ${statement.category}-border`;
+                card.className = `statement-card`;
                 card.setAttribute('draggable', 'true');
                 card.setAttribute('data-category', statement.category);
                 card.setAttribute('data-id', indexId);
                 
-                let imageHtml = '';
+                // Header Image HTML (top of card)
+                let headerImageHtml = '';
                 if (statement.imageIcon) {
-                    imageHtml = `<img src="{{ asset('${statement.imageIcon}') }}" alt="icon" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'">`;
+                    headerImageHtml = `
+                        <div class="card-header-image">
+                            <img src="{{ asset('${statement.imageIcon}') }}" alt="${statement.category} icon" onerror="this.style.display='none'">
+                        </div>
+                    `;
+                }
+                
+                // Footer Badge HTML
+                let footerBadgeHtml = '';
+                if (statement.imageIcon && statement.imageNote) {
+                    footerBadgeHtml = `
+                        <div class="card-footer-badge">
+                            <img src="{{ asset('${statement.imageIcon}') }}" alt="icon" onerror="this.style.display='none'">
+                            <span><i class="far fa-image"></i> ${statement.imageNote}</span>
+                        </div>
+                    `;
+                } else if (statement.imageNote) {
+                    footerBadgeHtml = `
+                        <div class="card-footer-badge">
+                            <span><i class="far fa-image"></i> ${statement.imageNote}</span>
+                        </div>
+                    `;
                 }
                 
                 card.innerHTML = `
-                    ${statement.text}
-                    <div class="card-image-badge">
-                        ${imageHtml}
-                        <span><i class="far fa-image"></i> ${statement.imageNote}</span>
-                    </div>
+                    ${headerImageHtml}
+                    <div class="card-text-content">${statement.text}</div>
+                    ${footerBadgeHtml}
                 `;
                 
                 card.addEventListener('dragstart', handleDragStart);
@@ -636,67 +795,73 @@
                 return card;
             }
             
-            // Show next random card in waiting area
+            // Show next card in waiting area (automatically called after placement)
             function loadNextCard() {
                 if (!gameActive) return;
+                if (isLoadingNext) return;
+                
                 if (remainingStatements.length === 0) {
-                    // No more cards to show, but there might still be cards not placed?
-                    // Only if somehow all displayed but not placed? But each card must be dragged.
                     if (waitingArea) {
                         waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card. Natapos na!</div>';
                     }
-                    if (nextBtn) nextBtn.style.display = 'none';
                     checkAllPlacedFinal();
                     return;
                 }
                 
-                // Get next statement (already randomized)
-                const nextStatement = remainingStatements[0];
-                // Create new draggable card
-                const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
-                // Clear waiting area and append card
-                if (waitingArea) {
-                    waitingArea.innerHTML = '';
-                    waitingArea.appendChild(newCard);
-                }
-                currentCardElement = newCard;
-                currentCardData = nextStatement;
+                isLoadingNext = true;
                 
-                // Show next button but initially hidden; user must wait until current is placed
-                if (nextBtn) {
-                    nextBtn.style.display = 'none';
-                    nextBtn.disabled = true;
-                }
-                updateRemainingDisplay();
+                // Add a small delay for smooth transition
+                setTimeout(() => {
+                    if (!gameActive) {
+                        isLoadingNext = false;
+                        return;
+                    }
+                    
+                    const nextStatement = remainingStatements[0];
+                    const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
+                    if (waitingArea) {
+                        waitingArea.innerHTML = '';
+                        waitingArea.appendChild(newCard);
+                    }
+                    isLoadingNext = false;
+                    updateRemainingDisplay();
+                }, 150);
             }
             
-            // Function to finalize placement of current card, then load next
+            // Function to finalize placement of current card, then automatically load next
             function onCardPlacedSuccessfully(placedCard, targetZone) {
                 if (!gameActive) return;
-                // Remove from waiting area content
+                
+                // Remove from waiting area
                 if (waitingArea && waitingArea.contains(placedCard)) {
-                    waitingArea.innerHTML = '';  // clear waiting area
+                    waitingArea.innerHTML = '';
                 }
+                
                 // Remove from remainingStatements array (the first one)
                 if (remainingStatements.length > 0) {
                     remainingStatements.shift();
                 }
                 updateRemainingDisplay();
                 
-                // If there are more cards, enable next button
-                if (remainingStatements.length > 0) {
-                    if (nextBtn) {
-                        nextBtn.style.display = 'inline-flex';
-                        nextBtn.disabled = false;
-                    }
+                // Check if all cards are placed
+                const totalCards = fullStatements.length;
+                const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
+                const bungaCount = dropBunga ? dropBunga.querySelectorAll('.statement-card').length : 0;
+                const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
+                const totalPlaced = sanhiCount + bungaCount + tugonCount;
+                
+                if (totalPlaced === totalCards) {
+                    // All cards placed, check final correctness
+                    checkAllPlacedFinal();
                 } else {
-                    if (nextBtn) nextBtn.style.display = 'none';
-                    // No more cards, final validation after short delay
-                    setTimeout(() => {
-                        checkAllPlacedFinal();
-                    }, 100);
+                    // Automatically load the next card
+                    loadNextCard();
+                    // Update status
+                    if (completionStatus) {
+                        completionStatus.innerHTML = `<span style="color: #0d6efd;"><i class="fas fa-hourglass-half"></i> ${totalPlaced} ng ${totalCards} ang nailagay. Maghintay sa susunod na card...</span>`;
+                    }
                 }
-                // Re-check partially placed status
+                
                 checkAllPlacedFinal();
             }
             
@@ -708,11 +873,11 @@
                     e.preventDefault();
                     return false;
                 }
-                // Only allow dragging if this is the current active card in waiting area
                 const parent = this.parentNode;
                 if (parent !== waitingArea) {
                     e.preventDefault();
-                    alert("Kailangan mong i-drag ang kasalukuyang card mula sa waiting area.");
+                    shakeCard(this);
+                    showError("⚠️ I-drag lamang ang card mula sa waiting area!");
                     return false;
                 }
                 draggedElement = this;
@@ -755,13 +920,14 @@
                         const cardCategory = draggedElement.dataset.category;
                         
                         if (cardCategory !== targetCategory) {
-                            alert(`❌ Mali! Ang pahayag na ito ay kabilang sa kategoryang "${cardCategory.toUpperCase()}". Subukang ilagay sa tamang kahon.`);
+                            shakeCard(draggedElement);
+                            showError(`❌ Mali! Ang pahayag na ito ay kabilang sa kategoryang "${cardCategory.toUpperCase()}". Subukang ilagay sa tamang kahon.`);
                             return;
                         }
                         
-                        // Prevent duplicate placement if already dropped in any zone
                         if (draggedElement.parentNode !== waitingArea) {
-                            alert("Ang card na ito ay nailagay na!");
+                            shakeCard(draggedElement);
+                            showError("⚠️ Ang card na ito ay nailagay na!");
                             return;
                         }
                         
@@ -775,7 +941,7 @@
                         draggedElement.removeEventListener('dragstart', handleDragStart);
                         draggedElement.removeEventListener('dragend', handleDragEnd);
                         
-                        // Call placement success to trigger next card
+                        // Trigger automatic next card
                         onCardPlacedSuccessfully(draggedElement, zone);
                         draggedElement = null;
                     });
@@ -785,7 +951,7 @@
             // Reset game fully
             function resetGame() {
                 gameActive = true;
-                // Reset statement queue with original data shuffled
+                isLoadingNext = false;
                 remainingStatements = shuffleArray([...fullStatements]);
                 
                 // Clear all dropzones (keep headers)
@@ -793,31 +959,40 @@
                 if (dropBunga) dropBunga.innerHTML = '<div class="dropzone-header"><i class="fas fa-arrow-down"></i> Ilagay ang BUNGA dito</div>';
                 if (dropTugon) dropTugon.innerHTML = '<div class="dropzone-header"><i class="fas fa-arrow-down"></i> Ilagay ang MGA TUGON dito</div>';
                 
-                // Reset waiting area & load first card
+                // Reset waiting area
                 if (waitingArea) waitingArea.innerHTML = '';
-                if (nextBtn) {
-                    nextBtn.style.display = 'none';
-                    nextBtn.disabled = true;
-                }
+                
                 if (completionStatus) completionStatus.innerHTML = '';
-                if (summaryBox) summaryBox.style.display = 'none';
+                if (errorMessageDiv) errorMessageDiv.innerHTML = '';
                 
                 updateRemainingDisplay();
-                loadNextCard();
+                
+                // Load first card
+                setTimeout(() => {
+                    if (remainingStatements.length > 0) {
+                        const firstStatement = remainingStatements[0];
+                        const firstCard = createDraggableCard(firstStatement, `card_init_${Date.now()}`);
+                        if (waitingArea) {
+                            waitingArea.innerHTML = '';
+                            waitingArea.appendChild(firstCard);
+                        }
+                    }
+                    updateRemainingDisplay();
+                }, 50);
             }
             
-            // Event for next button
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    if (!gameActive) return;
-                    if (remainingStatements.length <= 0) return;
-                    // Check if current card is already placed (waiting area empty)
-                    if (waitingArea && waitingArea.children.length === 0) {
-                        loadNextCard();
-                        nextBtn.style.display = 'none';
-                        nextBtn.disabled = true;
-                    } else {
-                        alert("Pakiusap, i-drag muna ang kasalukuyang card sa tamang kahon bago sumunod.");
+            // Modal continue button - navigate to inner.map4
+            if (modalContinueBtn) {
+                modalContinueBtn.addEventListener('click', () => {
+                    window.location.href = "{{ route('inner.map4') }}";
+                });
+            }
+            
+            // Close modal when clicking outside
+            if (summaryModal) {
+                summaryModal.addEventListener('click', (e) => {
+                    if (e.target === summaryModal) {
+                        summaryModal.classList.remove('show');
                     }
                 });
             }
@@ -832,7 +1007,7 @@
             
             // Initial setup
             setupDropZones();
-            resetGame(); // start first card
+            resetGame();
         })();
     </script>
 @endsection
