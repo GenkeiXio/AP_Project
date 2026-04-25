@@ -408,9 +408,9 @@ s
         </div>
 
         <!-- NODE 1 -->
-        <button class="node node-top-left" >
+        <a href="{{ route('module4.node1') }}" class="node node-top-left">
             <img src="{{ asset('pictures/mod4_typhoon_node.png') }}">
-        </button>
+        </a>
 
         <!-- NODE 2 -->
         <button class="node node-top-right locked" id="node2" onclick="goNode2()">

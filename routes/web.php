@@ -373,6 +373,13 @@ Route::prefix('module4')->name('module4.')->group(function () {
     Route::get('/node4', fn() => view('Students.Module4.Nodes.mod4_node4'))->name('node4');
     Route::get('/node5', fn() => view('Students.Module4.Nodes.mod4_node5'))->name('node5');
 
+    // Game Routes
+    Route::get('/node1/game', fn() => view('Students.Module4.Games.mod4_game1'))->name('node1.game');
+    Route::get('/node2/game', fn() => view('Students.Module4.Games.mod4_game2'))->name('node2.game');
+    Route::get('/node3/game', fn() => view('Students.Module4.Games.mod4_game3'))->name('node3.game');
+    Route::get('/node4/game', fn() => view('Students.Module4.Games.mod4_game4'))->name('node4.game');
+    Route::get('/node5/game', fn() => view('Students.Module4.Games.mod4_game5'))->name('node5.game');
+
 });
 
 Route::view('/module4/welcome', 'Students.Module4.mod4_welcome')
@@ -419,3 +426,13 @@ Route::view('/certificate', 'certificate')
 Route::get('/get-certificate', [CertificateController::class, 'show'])->name('certificate.view');
 /// references route
 Route::get('/module-4/references', [Module4ViewReferencesController::class, 'index'])->name('module4.references');
+
+
+Route::get('/inner-map-4', function () {
+    return view('Students.Module4.inner_map4');
+})->name('inner.map4');
+
+
+Route::get('/module4/rolly', function () {
+    return view('Students.Module4.Explore.rolly_story');
+})->name('module4.rolly.story');
