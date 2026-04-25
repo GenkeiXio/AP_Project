@@ -1010,14 +1010,16 @@
 
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
+	
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
 	let pendingSelection = null;
-	let retryCount = 0;
-	const maxRetries = 3;
-
 	const questionsPerCard = 5;
 	let currentCard = 0;
+	const totalCards = Math.ceil(questions.length / questionsPerCard);
+
+	let retryCount = {{ $attempts ?? 0 }};
+	const maxRetries = 3;
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1251,8 +1253,8 @@
 		// Prepare answers for backend
 		const answersPayload = questions.map((q, index) => ({
 			question_number: index + 1,
-			selected: selectedAnswers[index],
-			correct: q.answer,
+			selected_option: selectedAnswers[index],
+			correct_option: q.answer,
 			is_correct: selectedAnswers[index] === q.answer
 		}));
 
@@ -1265,17 +1267,32 @@
 			},
 			body: JSON.stringify({
 				score: score,
-				percentage: percentage,
-				answers: answersPayload
+				total_items: questions.length,
+				level: "",
+				answers: questions.map((q, index) => ({
+					question_number: index + 1,
+					selected_option: selectedAnswers[index].charCodeAt(0) - 96,
+					correct_option: q.answer.charCodeAt(0) - 96,
+					is_correct: selectedAnswers[index] === q.answer
+				}))
 			})
 		})
-		.then(res => res.json())
-		.then(data => {
-			console.log(data);
+		.then(async res => {
+			const data = await res.json();
+
+			if (!res.ok) {
+				alert("Naabot mo na ang maximum na 3 pagsubok.");
+				return;
+			}
+
+			// ✅ UPDATE FIRST
+			retryCount = data.attempt_used;
+			updateRetryIndicator();
+
+			// ✅ THEN SHOW RESULT
+			showResultUI(score, percentage);
 		})
-		.catch(err => {
-			console.error("Error saving pretest:", err);
-		});
+		.catch(err => console.error(err));
 
 		// ===== EXISTING RESULT LOGIC =====
 		const resultRing = document.getElementById('resultRing');
@@ -1302,15 +1319,20 @@
 
 	function updateRetryIndicator() {
 		const remaining = maxRetries - retryCount;
-		const retryIndicator = document.getElementById('retryIndicator');
 
+		const retryIndicator = document.getElementById('retryIndicator');
 		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
 
-		// Optional: visual warning when 0
 		if (remaining === 0) {
 			retryIndicator.style.background = '#ffe5e5';
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
+
+			const retryBtn = document.querySelector('.btn-secondary');
+			if (retryBtn) {
+				retryBtn.disabled = true;
+				retryBtn.style.opacity = 0.5;
+			}
 		}
 	}
 
@@ -1320,25 +1342,28 @@
 			return;
 		}
 
-		retryCount++;
-
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
 		currentCard = 0;
 
+		shuffleQuestionsAndChoices();
+
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
 
-		updateRetryIndicator(); // 🔥 ADD THIS
-
 		renderAllQuestions();
+		updateRetryIndicator();
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+		
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
+
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});
 </script>

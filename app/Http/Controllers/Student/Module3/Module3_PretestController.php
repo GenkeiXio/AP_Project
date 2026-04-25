@@ -21,15 +21,15 @@ class Module3_PretestController extends Controller
             return redirect()->route('home');
         }
 
-        // 🔥 Reset attempts every visit
-        session()->forget('module3_pretest_attempts');
+        // RESET every visit
+        session()->put('module3_pretest_attempts', 0);
 
-        return view('module3_pretest');
+        return view('Students.Module3.Test.module3_pretest');
     }
 
     public function store(Request $request)
     {
-       $studentId = $this->studentId();
+        $studentId = $this->studentId();
 
         if (!$studentId) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -44,15 +44,15 @@ class Module3_PretestController extends Controller
             ], 403);
         }
 
+        // increment
+        $attempts++;
         session()->put('module3_pretest_attempts', $attempts + 1);
 
-        $answers = $request->answers;
+        $answers = $request->input('answers', []);
 
-        $correctAnswers = [
-            1,2,1,1,1,
-            1,1,1,1,1,
-            1,1,1,1,1
-        ];
+        if (empty($answers)) {
+            return response()->json(['error' => 'No answers received'], 400);
+        }
 
         $score = 0;
 
@@ -64,8 +64,9 @@ class Module3_PretestController extends Controller
         ]);
 
         foreach ($answers as $answer) {
-            $selected = $answer['selected']; // 'a','b','c','d'
-            $correct = $answer['correct'];
+
+            $selected = $answer['selected'] ?? null;
+            $correct = $answer['correct'] ?? null;
 
             $isCorrect = $selected === $correct;
 
@@ -80,7 +81,7 @@ class Module3_PretestController extends Controller
             ]);
         }
 
-        $percentage = ($score / count($correctAnswers)) * 100;
+        $percentage = ($score / count($answers)) * 100;
 
         $pretest->update([
             'score' => $score,
@@ -91,6 +92,7 @@ class Module3_PretestController extends Controller
             'success' => true,
             'score' => $score,
             'percentage' => $percentage,
+            'remaining' => 3 - $attempts
         ]);
     }
 }
