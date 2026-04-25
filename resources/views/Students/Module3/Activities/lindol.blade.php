@@ -16,7 +16,6 @@
             --storm-gray: #34495e;
             --alert-red: #d32f2f;
             --success-green: #2e7d32;
-            --glass: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -30,7 +29,7 @@
         }
 
         .game-container {
-            max-width: 900px; /* Nilakihan ang main container */
+            max-width: 900px;
             margin: auto;
             border: 4px solid var(--hazard-yellow);
             padding: 30px;
@@ -56,12 +55,30 @@
             text-shadow: 2px 2px 0px #000;
         }
 
-        /* NILAKIHAN ANG REPORT CARD */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            border: 3px solid var(--hazard-yellow);
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 10px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .report-file {
             background: #e0e0e0;
             width: 100%;
-            max-width: 650px; /* Mula 500px ginawang 650px */
-            padding: 35px; /* Dinagdagan ang padding */
+            max-width: 650px;
+            padding: 35px;
             box-shadow: 12px 12px 0px rgba(0,0,0,0.4);
             border-left: 15px solid var(--hazard-orange);
             font-family: 'Special Elite', cursive;
@@ -69,10 +86,9 @@
             color: #2c3e50;
         }
 
-        /* NILAKIHAN ANG IMAGE CONTAINER */
         .scenario-img-container {
             width: 100%;
-            height: 280px; /* Mula 180px ginawang 280px */
+            height: 280px;
             background: #000;
             margin-bottom: 20px;
             display: flex;
@@ -91,8 +107,8 @@
 
         .stamp-btn {
             font-family: 'Oswald', sans-serif;
-            padding: 12px 40px; /* Mas malapad na buttons */
-            font-size: 1.4rem; /* Mas malaking font */
+            padding: 12px 40px;
+            font-size: 1.4rem;
             border: 3px solid transparent;
             font-weight: 700;
             cursor: pointer;
@@ -101,46 +117,17 @@
             border-radius: 5px;
         }
 
-        .btn-approve {
-            background: transparent;
-            color: var(--success-green);
-            border-color: var(--success-green);
-        }
-
-        .btn-approve:hover {
-            background: var(--success-green);
-            color: white;
-            transform: rotate(-3deg) scale(1.1);
-        }
-
-        .btn-deny {
-            background: transparent;
-            color: var(--alert-red);
-            border-color: var(--alert-red);
-        }
-
-        .btn-deny:hover {
-            background: var(--alert-red);
-            color: white;
-            transform: rotate(3deg) scale(1.1);
-        }
-
-        #end-layer .congrats-card {
-            max-width: 600px;
-            margin: auto;
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--success-green);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 0 30px rgba(46, 125, 50, 0.3);
-        }
+        .btn-approve { background: transparent; color: var(--success-green); border-color: var(--success-green); }
+        .btn-approve:hover { background: var(--success-green); color: white; transform: rotate(-3deg) scale(1.1); }
+        .btn-deny { background: transparent; color: var(--alert-red); border-color: var(--alert-red); }
+        .btn-deny:hover { background: var(--alert-red); color: white; transform: rotate(3deg) scale(1.1); }
 
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<div id="decision-modal" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); z-index: 1000; padding: 25px 50px; background: #000; border: 5px solid var(--hazard-yellow); font-family: 'Oswald'; font-size: 4rem; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;">TAMA</div>
+<div id="decision-modal" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); z-index: 3000; padding: 25px 50px; background: #000; border: 5px solid var(--hazard-yellow); font-family: 'Oswald'; font-size: 4rem; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;">TAMA</div>
 
 <div class="container game-container">
     <div class="text-center mb-3">
@@ -150,13 +137,31 @@
 
     <div id="briefing-layer">
         <div class="mb-4">
-            <div class="row g-2">
-                <div class="col-md-6"><iframe width="100%" height="240" src="https://www.youtube.com/embed/dJpIU1rSOFY" frameborder="0" style="border: 2px solid var(--hazard-yellow); border-radius: 8px;"></iframe></div>
-                <div class="col-md-6"><iframe width="100%" height="240" src="https://www.youtube.com/embed/AxpSZSsxvf8" frameborder="0" style="border: 2px solid var(--hazard-yellow); border-radius: 8px;"></iframe></div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <p class="text-center mb-1 fw-bold" style="color: var(--hazard-yellow);">📺 PAGHAHANDA SA LINDOL</p>
+                    <div class="video-wrapper">
+                        <iframe 
+                            src="https://www.youtube.com/embed/hlePrsXTGxQ?rel=0&modestbranding=1" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-center mb-1 fw-bold" style="color: var(--hazard-yellow);">📺 EMERGENCY KIT GUIDE</p>
+                    <div class="video-wrapper">
+                        <iframe 
+                            src="https://www.youtube.com/embed/AxpSZSsxvf8?rel=0&modestbranding=1" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="text-center">
-            <button class="btn btn-warning btn-lg fw-bold" onclick="startDesk()">BUKSAN ANG ARCHIVE 📁</button>
+            <button class="btn btn-warning btn-lg fw-bold px-5 shadow" onclick="startDesk()">BUKSAN ANG ARCHIVE 📁</button>
         </div>
     </div>
 
@@ -180,15 +185,11 @@
     </div>
 
     <div id="end-layer" class="hidden">
-        <div class="congrats-card">
-            <h2 class="text-center" style="color: var(--success-green); font-family: 'Oswald';">MISYON TAGUMPAY! 🎖️</h2>
-            <div class="fs-5" style="text-align: justify; font-size: 0.95rem; line-height: 1.5; color: #eee;">
-                <p>Napagtagumpayan mong matukoy ang mga tamang gawain sa oras ng sakuna. Ipinapakita nito na handa ka at may sapat na kaalaman upang mapanatiling ligtas ang iyong sarili at ang iba.</p>
-                <p style="color: #bbb;">Natutunan mo ang kahalagahan ng <strong>emergency kits</strong>, <strong>earthquake drills</strong>, at ang tamang kilos tulad ng <strong>Duck, Cover, and Hold</strong>.</p>
-                <p class="text-center mt-3 fw-bold" style="color: var(--hazard-yellow); font-size: 1.1rem;">Ang handa ay ligtas! 👏</p>
-            </div>
-            <div class="text-center mt-4">
-                <a href="{{ route('bulkan.activity') }}" class="btn-next" style="font-family: 'Oswald'; font-size: 1.2rem; padding: 10px 35px; background: var(--hazard-yellow); color: #000; border-radius: 5px; text-decoration: none; font-weight: bold;">SUSUNOD NA ARALIN ➡️</a>
+        <div class="text-center p-4" style="background: rgba(0,0,0,0.8); border: 2px solid var(--success-green); border-radius: 15px;">
+            <h2 style="color: var(--success-green); font-family: 'Oswald';">MISYON TAGUMPAY! 🎖️</h2>
+            <p class="mt-3">Napagtagumpayan mong matukoy ang mga tamang gawain sa oras ng sakuna. Handa ka na para sa susunod na hamon.</p>
+            <div class="mt-4">
+                <a href="{{ route('bulkan.activity') }}" class="btn btn-warning btn-lg fw-bold px-4">SUSUNOD NA ARALIN ➡️</a>
             </div>
         </div>
     </div>
@@ -267,7 +268,7 @@
                 correct_items: Math.round(score / 11.1),
                 time_spent: timeSpent
             })
-        }).catch(err => console.error(err));
+        }).catch(err => console.error("Save Error:", err));
     }
 </script>
 </body>

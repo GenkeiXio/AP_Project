@@ -24,10 +24,10 @@
             margin: 0; padding: 0;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh;
-            overflow-x: hidden; /* Iwas sa side-scroll */
+            overflow-x: hidden;
         }
 
-        /* ANTIQUE MODAL STYLE - RESPONSIVE */
+        /* MODAL & OVERLAY STYLE */
         .ap-overlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9);
             display: flex; justify-content: center; align-items: center;
@@ -46,7 +46,7 @@
             color: var(--tinta);
             box-shadow: 0 0 40px rgba(0,0,0,0.5);
             max-height: 90vh;
-            overflow-y: auto; /* Para sa maliit na phone */
+            overflow-y: auto;
         }
 
         .ap-kasulatan h1 { 
@@ -65,6 +65,55 @@
             line-height: 1.6;
         }
 
+        /* VIDEO PLAYER MODAL */
+        #videoPlayerModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-wrapper {
+            width: 90%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border: 3px solid var(--ginto-kupas);
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* VIDEO BUTTONS IN INSTRUCTION */
+        .video-selection {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-video {
+            background: #e5e0d5;
+            border: 1px solid var(--border-ap);
+            padding: 10px;
+            cursor: pointer;
+            font-family: 'Lora', serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            text-align: left;
+        }
+
+        .btn-video:hover { background: #dcd7ca; }
+
         .btn-ap {
             background: var(--tinta);
             color: white;
@@ -74,11 +123,11 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
-            width: 100%; /* Full width sa mobile */
+            width: 100%;
             max-width: 250px;
         }
 
-        /* MAIN GAME UI */
+        /* GAME UI */
         .game-container {
             display: flex; flex-direction: column; align-items: center;
             width: 100%; max-width: 950px; padding: 10px;
@@ -87,7 +136,6 @@
         .command-center {
             position: relative;
             width: 100%;
-            /* Responsive aspect ratio */
             aspect-ratio: 16/9;
             background: url('/pictures/Module 3/elnino_bg.png') no-repeat center center;
             background-size: cover;
@@ -95,7 +143,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.7);
         }
 
-        /* PULSE POINTS - ADJUSTED SIZE FOR TOUCH */
         .pulse-point {
             position: absolute; 
             width: clamp(30px, 8vw, 45px); 
@@ -119,49 +166,44 @@
 
         .pulse-point.solved { 
             background: #27ae60 !important; 
-            animation: none; 
-            color: white; 
-            border-color: white;
+            animation: none; color: white; border-color: white;
         }
 
-        /* SELECTION MODAL - RESPONSIVE GRID */
         #selectionModal {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--papel-pula);
-            border: 3px double var(--tinta);
-            padding: 10px; display: none;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 8px; z-index: 1000;
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
-            width: 85%; /* Mas malapad sa mobile */
-            max-width: 320px;
+            background: var(--papel-pula); border: 3px double var(--tinta);
+            padding: 10px; display: none; grid-template-columns: repeat(3, 1fr); 
+            gap: 8px; z-index: 1000; box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            width: 85%; max-width: 320px;
         }
 
         .menu-item {
-            aspect-ratio: 1/1;
-            background: white;
+            aspect-ratio: 1/1; background: white;
             border: 1px solid #ccc; cursor: pointer; padding: 5px;
             display: flex; align-items: center; justify-content: center;
         }
         .menu-item img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* COORDINATES - USING PERCENTAGE FOR SCALING */
         #pt1 { top: 12%; left: 8%; border-color: var(--elnino); } 
         #pt2 { top: 12%; right: 28%; border-color: var(--lanina); } 
-        #pt3 { bottom: 12%; left: 10%; }        
-        #pt4 { bottom: 12%; left: 45%; }        
+        #pt3 { bottom: 12%; left: 10%; }         
+        #pt4 { bottom: 12%; left: 45%; }         
         #pt5 { bottom: 12%; right: 10%; }
 
-        /* MOBILE OVERRIDES */
         @media (max-width: 600px) {
-            .command-center { border-width: 2px; }
-            .ap-kasulatan { outline-width: 5px; outline-offset: -10px; }
-            #selectionModal { grid-template-columns: repeat(2, 1fr); } /* 2 columns lang sa sobrang liit na screen */
+            #selectionModal { grid-template-columns: repeat(2, 1fr); }
             .instruction-list { font-size: 13px; }
         }
     </style>
 </head>
 <body>
+
+<div id="videoPlayerModal">
+    <div class="video-wrapper">
+        <iframe id="youtubeFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <button class="btn-ap" onclick="isaraVideo()" style="margin-top: 20px; width: 150px;">BUMALIK</button>
+</div>
 
 <div id="briefingOverlay" class="ap-overlay">
     <div class="ap-kasulatan">
@@ -171,11 +213,20 @@
         <ul class="instruction-list">
             <li>Suriin ang mga <strong>radar point (?)</strong> sa mapa.</li>
             <li>Pindutin ang punto upang makita ang mga pagpipilian.</li>
-            <li>Piliin ang <strong>angkop na hakbang</strong> para sa El Niño o La Niña.</li>
             <li>Kailangang matugunan ang lahat ng <strong>lima (5)</strong> na punto.</li>
         </ul>
 
-        <button class="btn-ap" onclick="magsimula()">SIMULAN</button>
+        <p style="font-weight: bold; font-size: 13px; text-align: left; margin: 0;">Panoorin ang Sanggunian:</p>
+        <div class="video-selection">
+            <button class="btn-video" onclick="playVideo('G4svwU0twEw')">
+                <span>🎥</span> <span>Paghahanda sa El Niño at La Niña</span>
+            </button>
+            <button class="btn-video" onclick="playVideo('yurhT4mPjps')">
+                <span>🎥</span> <span>Mga Hakbang para sa Kaligtasan</span>
+            </button>
+        </div>
+
+        <button class="btn-ap" onclick="magsimula()">SIMULAN ANG GAWAIN</button>
     </div>
 </div>
 
@@ -200,10 +251,8 @@
 <div id="congratsModal" class="ap-overlay" style="display:none;">
     <div class="ap-kasulatan">
         <h1 style="color: #1b4f72;">PAGBATI!</h1>
-        <p>Matagumpay mong naitakda ang mga wastong hakbang para sa kaligtasan. Ipinamalas mo ang kahandaan ng isang responsableng mamamayan.</p>
-        <button class="btn-ap" onclick="window.location.href='{{ route('lindol.activity') }}'">
-            MAGPATULOY
-        </button>
+        <p>Matagumpay mong naitakda ang mga wastong hakbang para sa kaligtasan.</p>
+        <button class="btn-ap" onclick="window.location.href='{{ route('lindol.activity') }}'">MAGPATULOY</button>
     </div>
 </div>
 
@@ -212,6 +261,20 @@
     let score = {};
     const tamangSagot = { pt1: 'tagtuyot1', pt2: 'baha1', pt3: 'tipid', pt4: 'daluyan', pt5: 'malinis' };
 
+    // VIDEO PLAYER FUNCTIONS
+    function playVideo(id) {
+        const frame = document.getElementById('youtubeFrame');
+        frame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+        document.getElementById('videoPlayerModal').style.display = 'flex';
+    }
+
+    function isaraVideo() {
+        const frame = document.getElementById('youtubeFrame');
+        frame.src = ""; // Stop the video
+        document.getElementById('videoPlayerModal').style.display = 'none';
+    }
+
+    // GAME FUNCTIONS
     function magsimula() {
         document.getElementById('briefingOverlay').style.display = 'none';
     }
