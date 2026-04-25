@@ -744,12 +744,13 @@
         }
     }
 
-   /* ===== VISUAL NOVEL STYLE (FIXED) ===== */
+  /* ===== VISUAL NOVEL STYLE (MATCHED TO BG) ===== */
 
 .vn-container {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.80);
+    /* Updated to a deeper, thematic dark green overlay */
+    background: radial-gradient(circle, rgba(13, 35, 13, 0.75) 0%, rgba(0, 0, 0, 0.9) 100%);
     z-index: 20000;
     display: flex;
     align-items: flex-end;
@@ -766,7 +767,7 @@
     animation: fadeInVN 0.5s ease, teacherIdle 3s ease-in-out infinite;
 }
 
-/* Dialogue box BESIDE teacher */
+/* Dialogue box - Matches the Forest/Map Theme */
 .vn-dialogue-box {
     position: absolute;
     left: 44%;
@@ -776,55 +777,44 @@
     width: min(760px, 78vw);
     max-width: 78vw;
 
-    background: linear-gradient(180deg, rgba(20, 24, 34, 0.96), rgba(11, 13, 20, 0.98));
+    /* Matching your mobile-nav and forest theme colors */
+    background: linear-gradient(180deg, rgba(27, 94, 32, 0.95), rgba(13, 59, 18, 0.98));
     padding: 26px 32px;
     border-radius: 18px;
 
-    border: 2px solid rgba(255, 255, 255, 0.88);
-    box-shadow: 0 20px 52px rgba(0,0,0,0.5);
+    /* Subtle border instead of bright white */
+    border: 2px solid rgba(143, 209, 143, 0.4);
+    box-shadow: 0 20px 52px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05);
 
     cursor: pointer;
 }
 
-/* Tail pointing to teacher */
+/* Tail pointing to teacher - Color matched to bottom of box */
 .vn-dialogue-box::after {
     content: "";
     position: absolute;
-    left: 8px;
-    bottom: -20px;
+    left: 40px; /* Adjusted to look better on desktop */
+    bottom: -22px;
     width: 0;
     height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 24px solid rgba(11, 13, 20, 0.98);
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
-}
-
-.vn-dialogue-box::before {
-    content: "";
-    position: absolute;
-    left: 7px;
-    bottom: -18px;
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 24px solid rgba(255,255,255,0.10);
-    transform: translateY(1px);
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 24px solid rgba(13, 59, 18, 0.98); 
 }
 
 /* Text styles */
 .vn-name {
     font-weight: bold;
-    color: #8fd18f;
+    color: #ffffff;
     margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    font-size: 13px;
+    font-size: 14px;
     display: inline-block;
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: rgba(143, 209, 143, 0.08);
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: #2e7d32; /* Solid green for the name tag */
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
 }
 
 .vn-text {
@@ -832,126 +822,35 @@
     line-height: 1.8;
     color: #f4f7fb;
     min-height: 2.4em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .vn-continue {
     margin-top: 14px;
     font-size: 12px;
-    opacity: 0.72;
+    font-style: italic;
+    opacity: 0.8;
     text-align: right;
-    color: rgba(255,255,255,0.78);
+    color: #8fd18f; /* Light green text for the prompt */
 }
 
-.vn-dialogue-box:hover {
-    transform: translateX(-50%) translateY(-2px);
-}
-
-/* Animations */
-@keyframes fadeInVN {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes teacherIdle {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-}
-
-/* MOBILE FIX */
+/* MOBILE FIXES */
 @media (max-width: 768px) {
-    .vn-container {
-        align-items: flex-end;
-        overflow: hidden;
-    }
-
-    .vn-character {
-        left: 16px;
-        height: 52vh;
-        max-height: 420px;
-    }
-
     .vn-dialogue-box {
-        left: 50%;
-        transform: translateX(-50%);
         bottom: 132px;
-        width: min(92vw, 760px);
-        padding: 18px 20px;
-        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(124, 209, 129, 0.98), rgba(13, 59, 18, 1));
     }
 
     .vn-dialogue-box::after {
-        left: 20px;
-        bottom: -16px;
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-        border-top: 16px solid rgba(11, 13, 20, 0.98);
+        left: 25px;
+        border-top-color: rgb(124, 212, 139);
     }
-
-    .vn-dialogue-box::before {
-        left: 19px;
-        bottom: -14px;
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-        border-top: 16px solid rgba(255,255,255,0.10);
-    }
-
-    .vn-text {
-        font-size: 16px;
-        line-height: 1.7;
-    }
-
-    .vn-continue {
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .vn-character {
-        left: 8px;
-        height: 46vh;
-        max-height: 340px;
-    }
-
-    .vn-dialogue-box {
-        bottom: 108px;
-        width: 94vw;
-        padding: 16px 16px;
-        border-radius: 14px;
-    }
-
-    .vn-dialogue-box::after {
-        left: 14px;
-        bottom: -15px;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 14px solid rgba(11, 13, 20, 0.98);
-    }
-
-    .vn-dialogue-box::before {
-        left: 13px;
-        bottom: -13px;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 14px solid rgba(255,255,255,0.10);
-    }
-
-    .vn-name {
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
-
-    .vn-text {
-        font-size: 15px;
-        line-height: 1.65;
-        min-height: 2.2em;
-    }
-
-    .vn-continue {
-        font-size: 11px;
-        margin-top: 8px;
-    }
-}
     
+    .vn-name {
+        background: #96cf9a;
+    }
+}
 </style>
 @endpush
 
@@ -989,7 +888,7 @@
 
 <div class="map-wrapper">
     <div class="map-container" style="position: relative; display: inline-block;">
-        <img src="{{ asset('pictures/main_map2.png') }}" class="background-map" alt="Main Map">
+        <img src="{{ asset('pictures/new_main_map.png') }}" class="background-map" alt="Main Map">
 
         <!-- MODULE 2 PIN (PAKSA 1) - Always Unlocked -->
         <button class="pin location-1" onclick="enterModule(this, '{{ route('module.home') }}')">

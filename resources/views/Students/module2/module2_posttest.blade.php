@@ -861,9 +861,9 @@
                 <p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
 
-			<!-- <div class="pretest-note">
-				💡 Sagutin ang bawat tanong at i-click ang "✓ Kumpirmahin". <br> <br>Kailangang makakuha ng 13/15 upang makapasa.
-			</div> -->
+			<div class="pretest-note">
+				💡 Kailangang makakuha ng 13/15 upang makapasa.
+			</div>
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">

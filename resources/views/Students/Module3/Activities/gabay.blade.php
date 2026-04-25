@@ -1,306 +1,392 @@
 <!DOCTYPE html>
 <html lang="tl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gabay sa Kaligtasan: Araling Panlipunan Activity</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suri-Larawan: Gabay sa Kaligtasan</title>
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:wght@400;700&family=Pirata+One&display=swap');
 
-    :root {
-        --papel: #f4e4bc;
-        --kahoy: #5d4037;
-        --asul: #0038a8;
-        --pula: #ce1126;
-        --ginto: #fcd116;
-    }
+        :root {
+            --papel: #fdf5e6;
+            --kahoy: #4e342e;
+            --ginto: #c5a059;
+            --mali: #b71c1c;
+            --tama: #2e7d32;
+            --dark-overlay: rgba(20, 15, 10, 0.95);
+        }
 
-    * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Lora', serif;
 
-    body {
-        margin: 0; padding: 0;
-        height: 100vh; overflow: hidden;
-        font-family: 'Lora', serif;
-        background-color: #2c1e1a;
-        background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-        display: flex; flex-direction: column; align-items: center;
-    }
+            background:
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
 
-    /* HEADER */
-    .ap-header {
-        width: 100%; background: var(--kahoy);
-        padding: 15px 0; text-align: center;
-        border-bottom: 5px solid var(--ginto);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 10;
-    }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .ap-header h1 {
-        font-family: 'Cinzel', serif; color: var(--ginto);
-        margin: 0; font-size: 28px; letter-spacing: 2px;
-        text-shadow: 2px 2px 0px black;
-    }
+        /* MINI GAME CARD */
+        .game-card {
+            width: 450px;
+            background: var(--papel) url('https://www.transparenttextures.com/patterns/parchment.png');
+            border: 10px solid var(--kahoy);
+            border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png') 30 stretch;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 550px;
+        }
 
-    /* GAME GRID */
-    .map-container {
-        flex: 1; width: 98%; max-width: 1400px;
-        display: grid; grid-template-columns: repeat(3, 1fr);
-        gap: 15px; padding: 15px; margin-bottom: 240px;
-    }
+        /* REDESIGNED INSTRUCTION SCREEN */
+        .instruction-overlay {
+            position: absolute;
+            inset: 0;
+            background: var(--dark-overlay);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            backdrop-filter: blur(8px);
+            padding: 30px;
+            border: 2px solid var(--ginto);
+        }
 
-    .scroll-box {
-        background: var(--papel);
-        background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
-        border: 12px solid transparent;
-        border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png') 30 stretch;
-        display: flex; flex-direction: column;
-        box-shadow: 10px 10px 20px rgba(0,0,0,0.6);
-    }
+        .scroll-header {
+            border-bottom: 2px double var(--ginto);
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
 
-    .scroll-title {
-        background: var(--kahoy); color: var(--papel);
-        padding: 10px; text-align: center; font-weight: bold;
-        font-size: 16px; border-bottom: 2px solid var(--ginto);
-        font-family: 'Cinzel', serif;
-    }
+        .scroll-header h1 {
+            font-family: 'Pirata One';
+            color: var(--ginto);
+            font-size: 42px;
+            margin: 0;
+            letter-spacing: 2px;
+        }
 
-    .drop-zone {
-        flex: 1; padding: 10px;
-        display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
-        gap: 12px; justify-content: center; align-content: flex-start;
-    }
+        .briefing-box {
+            color: #e0e0e0;
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--ginto);
+        }
 
-    /* INVENTORY - BIG CARDS */
-    .inventory-shelf {
-        position: fixed; bottom: 15px;
-        width: 95%; height: 210px;
-        background: rgba(0,0,0,0.85);
-        border: 3px solid var(--ginto); border-radius: 15px;
-        display: flex; align-items: center; gap: 20px;
-        padding: 0 30px; overflow-x: auto; z-index: 100;
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
-    }
+        .briefing-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+            list-style-type: '⚔ ';
+        }
 
-    .larawan-card {
-        min-width: 180px; height: 180px;
-        background: white; border: 5px solid white;
-        cursor: grab; transition: 0.3s;
-        object-fit: contain;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
+        .briefing-box li {
+            margin-bottom: 10px;
+            color: var(--papel);
+        }
 
-    .larawan-card:hover {
-        transform: scale(1.1) translateY(-10px);
-        z-index: 105; border-color: var(--ginto);
-    }
+        .btn-start {
+            margin-top: 30px;
+            background: var(--kahoy);
+            color: var(--ginto);
+            border: 2px solid var(--ginto);
+            padding: 15px 40px;
+            font-family: 'Cinzel';
+            font-weight: 900;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
 
-    /* PLACED IMAGES */
-    .placed-img {
-        width: 110px; height: 110px;
-        object-fit: contain; background: white;
-        border: 4px solid white; border-radius: 5px;
-        animation: sealPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+        .btn-start:hover {
+            background: var(--ginto);
+            color: var(--kahoy);
+            transform: scale(1.05);
+        }
 
-    @keyframes sealPop {
-        0% { transform: scale(0); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
-    }
+        /* GAME UI ELEMENTS */
+        .card-header {
+            background: var(--kahoy);
+            color: var(--ginto);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 3px solid var(--ginto);
+        }
 
-    .tama { border-color: var(--asul); }
-    .mali { border-color: var(--pula); }
+        .card-header h2 {
+            font-family: 'Cinzel';
+            margin: 0;
+            font-size: 18px;
+        }
 
-    /* MODAL STYLES */
-    .overlay {
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.9); backdrop-filter: blur(8px);
-        display: flex; justify-content: center; align-items: center; z-index: 2000;
-    }
+        .image-viewer {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            overflow: hidden;
+            border-bottom: 2px solid var(--kahoy);
+        }
 
-    .document-card {
-        background: var(--papel); background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
-        padding: 40px; border: 15px double var(--kahoy);
-        width: 90%; max-width: 550px; text-align: center; color: var(--kahoy);
-        box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    }
+        .image-viewer img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
-    .score-circle {
-        width: 130px; height: 130px; border: 6px solid var(--kahoy);
-        border-radius: 50%; margin: 20px auto;
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
-        background: rgba(255,255,255,0.4);
-    }
+        .button-grid {
+            padding: 20px;
+            display: grid;
+            gap: 10px;
+        }
 
-    .btn-custom {
-        background: var(--kahoy); color: var(--ginto);
-        border: none; padding: 15px 35px;
-        font-family: 'Cinzel', serif; font-size: 18px;
-        cursor: pointer; transition: 0.3s; margin-top: 15px;
-    }
+        .choice-btn {
+            background: white;
+            border: 2px solid var(--kahoy);
+            padding: 12px;
+            cursor: pointer;
+            font-family: 'Cinzel';
+            font-weight: bold;
+            transition: 0.2s;
+            color: var(--kahoy);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .btn-custom:hover { background: #3e2723; transform: scale(1.05); }
+        .choice-btn:hover {
+            background: var(--kahoy);
+            color: var(--ginto);
+            transform: translateX(5px);
+        }
 
-    .inventory-shelf::-webkit-scrollbar { height: 8px; }
-    .inventory-shelf::-webkit-scrollbar-thumb { background: var(--ginto); border-radius: 10px; }
-</style>
+        /* STAMP FEEDBACK */
+        .feedback-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        .stamp {
+            font-family: 'Pirata One';
+            font-size: 90px;
+            transform: rotate(-15deg);
+            padding: 10px 40px;
+            border: 10px double;
+            animation: stampImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes stampImpact {
+            0% {
+                transform: scale(4) rotate(0deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(-15deg);
+                opacity: 1;
+            }
+        }
+
+        .progress-container {
+            height: 6px;
+            background: #ddd;
+            width: 100%;
+        }
+
+        #progressBar {
+            height: 100%;
+            background: var(--ginto);
+            width: 0%;
+            transition: 0.3s;
+        }
+    </style>
 </head>
+
 <body>
 
-    <div id="startOverlay" class="overlay">
-        <div class="document-card">
-            <h2 style="font-family:'Cinzel';">Sertipikasyon ng Kahandaan</h2>
-            <hr style="border: 1px solid var(--kahoy); margin: 20px 0;">
-            <p style="font-size: 20px;">
-                I-drag ang mga malalaking larawan sa tamang hanay. Tapusin ang pagsusulit upang makapunta sa susunod na aralin.
-            </p>
-            <button class="btn-custom" onclick="magsimula()">TANGGAPIN ANG HAMON</button>
-        </div>
-    </div>
-
-    <div id="resultOverlay" class="overlay" style="display:none;">
-        <div class="document-card">
-            <h2 style="font-family:'Cinzel'; text-decoration: underline;">RESULTA NG PAGSUSULIT</h2>
-            <div class="score-circle">
-                <p style="font-size:45px; font-weight:900; margin:0;" id="finalScore">0</p>
-                <p style="font-size:12px; margin:0;">PUNTOS</p>
+    <div class="game-card">
+        <div id="instructionScreen" class="instruction-overlay">
+            <div class="scroll-header">
+                <h1>Paghahanda sa Misyon</h1>
             </div>
-            <div id="rankText" style="font-size: 24px; font-weight: bold; color: var(--kahoy); margin: 10px 0;">TAPOS NA!</div>
-            <p id="feedbackMessage">Naitala na ang iyong puntos sa gawaing ito.</p>
-            
-            <button class="btn-custom" onclick="window.location.href = '{{ route('el-nino.activity') }}'">
-                MAGPATULOY SA EL NIÑO
+
+            <div class="briefing-box">
+                <p style="margin-top:0; font-weight:bold; color:var(--ginto);">TAGAPANGALAGA NG BAYAN:</p>
+                Ang iyong tungkulin ay ayusin ang mga talaan ng kaligtasan.
+                <ul>
+                    <li>Suriin ang bawat <strong>larawan</strong> na lilitaw.</li>
+                    <li>Tukuyin kung ito ay isinasagawa <strong>Bago</strong>, <strong>Habang</strong>, o
+                        <strong>Pagkatapos</strong> ng bagyo.
+                    </li>
+                    <li>Maging mabilis at tumpak sa iyong pagpapasya.</li>
+                </ul>
+                <p style="font-size: 13px; font-style: italic; opacity: 0.8;">"Ang kahandaan ay ang susi sa kaligtasan
+                    ng ating komunidad."</p>
+            </div>
+
+            <button class="btn-start" onclick="startGame()">TANGGAPIN ANG MISYON</button>
+        </div>
+
+        <div id="gameContent" style="display:none;">
+            <div class="card-header">
+                <h2 id="stepTitle">Yugto 1 ng 12</h2>
+            </div>
+            <div class="progress-container">
+                <div id="progressBar"></div>
+            </div>
+
+            <div class="image-viewer">
+                <img id="displayImg" src="" alt="Suriin">
+            </div>
+
+            <div class="button-grid">
+                <button class="choice-btn" onclick="checkAnswer('bago')">BAGO ANG BAGYO <span>➔</span></button>
+                <button class="choice-btn" onclick="checkAnswer('habang')">HABANG MAY BAGYO <span>➔</span></button>
+                <button class="choice-btn" onclick="checkAnswer('tapos')">PAGKATAPOS NG BAGYO <span>➔</span></button>
+            </div>
+        </div>
+
+        <div id="feedbackModal" class="feedback-overlay">
+            <div id="stampBox" class="stamp"></div>
+            <p id="feedbackText" style="color: white; margin-top: 25px; font-family: 'Cinzel'; font-size: 18px;"></p>
+        </div>
+
+        <div id="resultArea" style="display:none; padding: 40px; text-align: center;">
+            <h2 style="font-family: 'Pirata One'; font-size: 45px; margin: 0; color: var(--kahoy);">ULAT NG PAGSULIT
+            </h2>
+            <hr style="border: 1px solid var(--kahoy); opacity: 0.2;">
+            <div style="font-size: 65px; font-weight: 900; color: var(--kahoy); margin: 15px 0;" id="finalScoreDisplay">
+                0/12</div>
+            <p id="rankLabel"
+                style="font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--kahoy);"></p>
+            <button class="choice-btn"
+                style="width:100%; margin-top: 30px; justify-content: center; background:var(--kahoy); color:var(--ginto);"
+                onclick="window.location.href = '{{ route('el-nino.activity') }}'">
+                IPAGPATULOY ANG PAGLALAKBAY
             </button>
         </div>
     </div>
 
-    <div class="ap-header">
-        <h1>GABAY SA PANAHON NG BAGYO</h1>
-    </div>
-
-    <div class="map-container">
-        <div class="scroll-box" data-yugto="bago">
-            <div class="scroll-title">I. BAGO ANG BAGYO</div>
-            <div class="drop-zone"></div>
-        </div>
-        <div class="scroll-box" data-yugto="habang">
-            <div class="scroll-title">II. HABANG MAY BAGYO</div>
-            <div class="drop-zone"></div>
-        </div>
-        <div class="scroll-box" data-yugto="tapos">
-            <div class="scroll-title">III. PAGKATAPOS NG BAGYO</div>
-            <div class="drop-zone"></div>
-        </div>
-    </div>
-
-    <div class="inventory-shelf" id="shelf">
-        <img src="{{ asset('pictures/Module 3/Gabay/before1.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
-        <img src="{{ asset('pictures/Module 3/Gabay/before2.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
-        <img src="{{ asset('pictures/Module 3/Gabay/before3.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
-        <img src="{{ asset('pictures/Module 3/Gabay/before4.jpg') }}" class="larawan-card" draggable="true" data-target="bago">
-
-        <img src="{{ asset('pictures/Module 3/Gabay/during1.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
-        <img src="{{ asset('pictures/Module 3/Gabay/during2.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
-        <img src="{{ asset('pictures/Module 3/Gabay/during3.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
-        <img src="{{ asset('pictures/Module 3/Gabay/during4.jpg') }}" class="larawan-card" draggable="true" data-target="habang">
-
-        <img src="{{ asset('pictures/Module 3/Gabay/after1.jpg') }}" class="larawan-card" draggable="true" data-target="tapos">
-        <img src="{{ asset('pictures/Module 3/Gabay/after2.png') }}" class="larawan-card" draggable="true" data-target="tapos">
-        <img src="{{ asset('pictures/Module 3/Gabay/after3.jpg') }}" class="larawan-card" draggable="true" data-target="tapos">
-        <img src="{{ asset('pictures/Module 3/Gabay/after4.jpg') }}" class="larawan-card" draggable="true" data-target="tapos">
-    </div>
-
     <script>
-        let draggedImg = null;
+        const assets = [
+            { src: "{{ asset('pictures/Module 3/Gabay/before1.jpg') }}", cat: 'bago' },
+            { src: "{{ asset('pictures/Module 3/Gabay/before2.jpg') }}", cat: 'bago' },
+            { src: "{{ asset('pictures/Module 3/Gabay/before3.jpg') }}", cat: 'bago' },
+            { src: "{{ asset('pictures/Module 3/Gabay/before4.jpg') }}", cat: 'bago' },
+            { src: "{{ asset('pictures/Module 3/Gabay/during1.jpg') }}", cat: 'habang' },
+            { src: "{{ asset('pictures/Module 3/Gabay/during2.jpg') }}", cat: 'habang' },
+            { src: "{{ asset('pictures/Module 3/Gabay/during3.jpg') }}", cat: 'habang' },
+            { src: "{{ asset('pictures/Module 3/Gabay/during4.jpg') }}", cat: 'habang' },
+            { src: "{{ asset('pictures/Module 3/Gabay/after1.jpg') }}", cat: 'tapos' },
+            { src: "{{ asset('pictures/Module 3/Gabay/after2.png') }}", cat: 'tapos' },
+            { src: "{{ asset('pictures/Module 3/Gabay/after3.jpg') }}", cat: 'tapos' },
+            { src: "{{ asset('pictures/Module 3/Gabay/after4.jpg') }}", cat: 'tapos' }
+        ].sort(() => Math.random() - 0.5);
+
+        let currentIndex = 0;
         let score = 0;
-        let droppedCount = 0;
+        let gameHistory = [];
 
-        function magsimula() {
-            document.getElementById('startOverlay').style.display = 'none';
-            shuffleShelf();
+        function startGame() {
+            document.getElementById('instructionScreen').style.display = 'none';
+            document.getElementById('gameContent').style.display = 'block';
+            loadStep();
         }
 
-        function shuffleShelf() {
-            const shelf = document.getElementById('shelf');
-            for (let i = shelf.children.length; i >= 0; i--) {
-                shelf.appendChild(shelf.children[Math.random() * i | 0]);
+        function loadStep() {
+            if (currentIndex >= assets.length) {
+                showFinalResults();
+                return;
             }
+            const item = assets[currentIndex];
+            document.getElementById('displayImg').src = item.src;
+            document.getElementById('stepTitle').innerText = `Yugto ${currentIndex + 1} ng 12`;
+            document.getElementById('progressBar').style.width = (currentIndex / 12 * 100) + "%";
         }
 
-        document.querySelectorAll('.larawan-card').forEach(card => {
-            card.addEventListener('dragstart', (e) => {
-                draggedImg = e.target;
-                e.target.style.opacity = "0.4";
+        function checkAnswer(userChoice) {
+            const correctCat = assets[currentIndex].cat;
+            const isCorrect = userChoice === correctCat;
+            if (isCorrect) score++;
+
+            gameHistory.push({
+                image: assets[currentIndex].src,
+                placed_in: userChoice,
+                is_correct: isCorrect
             });
-            card.addEventListener('dragend', (e) => {
-                e.target.style.opacity = "1";
-            });
-        });
 
-        document.querySelectorAll('.scroll-box').forEach(box => {
-            box.addEventListener('dragover', e => e.preventDefault());
-            box.addEventListener('drop', () => {
-                if (!draggedImg) return;
+            showFeedback(isCorrect);
+        }
 
-                const zone = box.dataset.yugto;
-                const correct = draggedImg.dataset.target;
-                
-                const mini = document.createElement('img');
-                mini.src = draggedImg.src;
-                mini.className = 'placed-img ' + (zone === correct ? 'tama' : 'mali');
+        function showFeedback(isCorrect) {
+            const modal = document.getElementById('feedbackModal');
+            const stamp = document.getElementById('stampBox');
+            const text = document.getElementById('feedbackText');
 
-                if (zone === correct) score++;
-
-                box.querySelector('.drop-zone').appendChild(mini);
-                draggedImg.remove();
-                draggedImg = null;
-                droppedCount++;
-
-                // Kapag nalagay na lahat ng 12 images
-                if (droppedCount === 12) ipakitaResulta();
-            });
-        });
-
-        function ipakitaResulta() {
-            const resOverlay = document.getElementById('resultOverlay');
-            document.getElementById('finalScore').innerText = score;
-            resOverlay.style.display = 'flex';
-            
-            // Optional: Iba-ibang message base sa score pero isa lang ang button
-            const msg = document.getElementById('feedbackMessage');
-            if (score >= 9) {
-                msg.innerText = "Napakahusay! Matagumpay mong natapos ang hamon.";
+            modal.style.display = 'flex';
+            if (isCorrect) {
+                stamp.innerText = "TAMA";
+                stamp.style.color = "var(--tama)";
+                stamp.style.borderColor = "var(--tama)";
+                text.innerText = "Mahusay na Obserbasyon!";
             } else {
-                msg.innerText = "Naitala na ang iyong puntos. Maaari nang tumuloy sa susunod na aralin.";
+                stamp.innerText = "MALI";
+                stamp.style.color = "var(--mali)";
+                stamp.style.borderColor = "var(--mali)";
+                text.innerText = "Maling Panahon. Suriin muli.";
             }
 
-            // 🔥 COLLECT DATA
-            let placements = [];
+            setTimeout(() => {
+                modal.style.display = 'none';
+                currentIndex++;
+                loadStep();
+            }, 2500); // 2.5 seconds to read
+        }
 
-            document.querySelectorAll('.scroll-box').forEach(box => {
-                const yugto = box.dataset.yugto;
+        function showFinalResults() {
+            document.getElementById('gameContent').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'block';
+            document.getElementById('finalScoreDisplay').innerText = `${score} / 12`;
 
-                box.querySelectorAll('.placed-img').forEach(img => {
-                    placements.push({
-                        image: img.src,
-                        placed_in: yugto,
-                        is_correct: img.classList.contains('tama')
-                    });
-                });
-            });
+            let rank = "";
+            if (score === 12) rank = "Dalubhasa sa Kaligtasan";
+            else if (score >= 8) rank = "Handang Kawal";
+            else rank = "Nagsasanay Pa";
 
-            // 🔥 SAVE TO DATABASE
+            document.getElementById('rankLabel').innerText = rank;
+
             fetch("{{ route('student.module3.gabay.save') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
-                body: JSON.stringify({
-                    score: score,
-                    placements: placements
-                })
+                body: JSON.stringify({ score: score, placements: gameHistory })
             });
         }
     </script>
 </body>
+
 </html>

@@ -3,170 +3,170 @@
 @section('title', 'IV. Suriin')
 
 @push('styles')
-<style>
-    html, body { background: #0b1220 !important; }
+    <style>
+        html, body { background: #0b1220 !important; }
 
-    body {
-        position: relative;
-        overflow-x: hidden;
-    }
+        body {
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    .page-bg {
-        position: fixed;
-        inset: 0;
-        background: url('{{ asset('pictures/typhoon_chaos.png') }}') center center / cover no-repeat;
-        pointer-events: none;
-        z-index: 0;
-    }
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            background: url('{{ asset('pictures/mod3_innermap.png') }}') center center / cover no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    .page-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.42);
-        pointer-events: none;
-        z-index: 1;
-    }
+        .page-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.42);
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    body::before, body::after {
-        content: none !important;
-        display: none !important;
-        background: none !important;
-    }
+        body::before, body::after {
+            content: none !important;
+            display: none !important;
+            background: none !important;
+        }
 
-    .glass {
-        background: rgba(255, 255, 255, 0.86);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.65);
-        box-shadow: 0 10px 28px rgba(2, 6, 23, .24);
-    }
+        .glass {
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            box-shadow: 0 10px 28px rgba(2, 6, 23, .24);
+        }
 
-    .scene { animation: fadeIn .45s ease; }
+        .scene { animation: fadeIn .45s ease; }
 
-    .choice-btn {
-        transition: .18s ease;
-        color: #fff;
-    }
+        .choice-btn {
+            transition: .18s ease;
+            color: #fff;
+        }
 
-    .choice-btn.text-slate-900 { color: #0f172a !important; }
+        .choice-btn.text-slate-900 { color: #0f172a !important; }
 
-    .choice-btn:hover {
-        transform: translateY(-2px) scale(1.01);
-        box-shadow: 0 10px 20px rgba(15, 23, 42, .28);
-    }
+        .choice-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, .28);
+        }
 
-    .rain {
-        background-image: repeating-linear-gradient(
-            105deg,
-            rgba(255,255,255,.24) 0 2px,
-            transparent 2px 11px
-        );
-        animation: rainMove 1.05s linear infinite;
-    }
+        .rain {
+            background-image: repeating-linear-gradient(
+                105deg,
+                rgba(255,255,255,.24) 0 2px,
+                transparent 2px 11px
+            );
+            animation: rainMove 1.05s linear infinite;
+        }
 
-    .scene-image-wrap {
-        background: #e2e8f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
+        .scene-image-wrap {
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-    .scene-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        display: block;
-    }
+        .scene-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
 
-    /* One shared intro card: image + content inside (glass style, no divider) */
-    .intro-card {
-        --intro-panel-bg: rgba(255, 255, 255, 0.06);
-        width: 100%;
-        max-width: 1080px;
-        border-radius: 24px;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,.35);
-        background: rgba(255,255,255,.14);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        box-shadow: 0 12px 28px rgba(2, 6, 23, .35);
-    }
-
-    .intro-card-inner {
-        display: grid;
-        grid-template-columns: 340px minmax(0, 1fr);
-        gap: 0;
-        align-items: stretch;
-        min-height: 330px;
-    }
-
-    .intro-card-image {
-        background: var(--intro-panel-bg);
-    }
-
-    .intro-card-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        display: block;
-    }
-
-    .intro-card-content {
-        background: var(--intro-panel-bg);
-        backdrop-filter: blur(8px);
-        padding: 18px 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        color: #e2e8f0;
-    }
-
-    #scene2, #scene3, #scene4, #scene5, #scene6 {
-        max-width: 820px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #scene2 .scene-image-wrap,
-    #scene3 .scene-image-wrap,
-    #scene4 .scene-image-wrap,
-    #scene5 .scene-image-wrap {
-        width: 100%;
-        height: clamp(200px, 42vw, 420px);
-    }
-
-    .storm-top { background: linear-gradient(135deg, #334155, #0f172a); }
-
-    @media (max-width: 900px) {
-        .intro-card { max-width: 640px; }
+        /* One shared intro card: image + content inside (glass style, no divider) */
+        .intro-card {
+            --intro-panel-bg: rgba(255, 255, 255, 0.06);
+            width: 100%;
+            max-width: 1080px;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.35);
+            background: rgba(255,255,255,.14);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 12px 28px rgba(2, 6, 23, .35);
+        }
 
         .intro-card-inner {
-            grid-template-columns: 1fr;
-            min-height: auto;
+            display: grid;
+            grid-template-columns: 340px minmax(0, 1fr);
+            gap: 0;
+            align-items: stretch;
+            min-height: 330px;
+        }
+
+        .intro-card-image {
+            background: var(--intro-panel-bg);
         }
 
         .intro-card-image img {
-            min-height: 210px;
-            max-height: 260px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
         }
 
         .intro-card-content {
-            padding: 16px;
+            background: var(--intro-panel-bg);
+            backdrop-filter: blur(8px);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #e2e8f0;
         }
-    }
 
-    @keyframes rainMove {
-        from { background-position: 0 0 }
-        to { background-position: -220px 240px }
-    }
+        #scene2, #scene3, #scene4, #scene5, #scene6 {
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(8px) }
-        to { opacity: 1; transform: translateY(0) }
-    }
-</style>
+        #scene2 .scene-image-wrap,
+        #scene3 .scene-image-wrap,
+        #scene4 .scene-image-wrap,
+        #scene5 .scene-image-wrap {
+            width: 100%;
+            height: clamp(200px, 42vw, 420px);
+        }
+
+        .storm-top { background: linear-gradient(135deg, #334155, #0f172a); }
+
+        @media (max-width: 900px) {
+            .intro-card { max-width: 640px; }
+
+            .intro-card-inner {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .intro-card-image img {
+                min-height: 210px;
+                max-height: 260px;
+            }
+
+            .intro-card-content {
+                padding: 16px;
+            }
+        }
+
+        @keyframes rainMove {
+            from { background-position: 0 0 }
+            to { background-position: -220px 240px }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px) }
+            to { opacity: 1; transform: translateY(0) }
+        }
+    </style>
 @endpush
 
 @section('content')

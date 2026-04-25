@@ -65,8 +65,9 @@ class StudentController extends Controller
     public function updateAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|in:rizal,bonifacio,gabriela,boy_uniform,girl_uniform,neutral_hero',
+            'avatar' => 'required|in:boy_uniform,girl_uniform',
         ]);
+
         $student = $this->student();
         if (!$student) return response()->json(['success' => false], 401);
         $student->update(['avatar' => $request->avatar]);

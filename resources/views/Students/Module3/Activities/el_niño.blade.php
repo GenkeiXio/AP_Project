@@ -1,416 +1,339 @@
 <!DOCTYPE html>
 <html lang="tl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity: El Niño at La Niña</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gawain: El Niño at La Niña</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
-            --elnino: #f59e0b;
-            --lanina: #3b82f6;
-            --bg-dark: #0f172a;
+            --papel-pula: #f4f1ea;
+            --tinta: #2c3e50;
+            --border-ap: #5d6d7e;
+            --ginto-kupas: #b59551;
+            --elnino: #d35400;
+            --lanina: #2980b9;
         }
 
         body {
-            background-color: var(--bg-dark);
-            font-family: 'Inter', sans-serif;
-            color: #f8fafc;
-            min-height: 100vh;
+            background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Lora', serif;
             margin: 0;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: 350px 220px 1fr; /* Pinalapad ang column para sa items */
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            gap: 20px;
-            padding: 20px;
+            overflow-x: hidden;
+            /* Iwas sa side-scroll */
         }
 
-        /* COLUMN 1: INFO & VIDEOS */
-        .sidebar-info {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            padding: 20px;
+        /* ANTIQUE MODAL STYLE - RESPONSIVE */
+        .ap-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 15px;
         }
 
-        h1 { font-family: 'Lexend'; font-size: 1.3rem; color: #fff; margin: 0; }
-        
-        .guiding-box { 
-            background: rgba(59, 130, 246, 0.15); 
-            padding: 15px; 
-            border-radius: 15px; 
-            border-left: 6px solid var(--lanina);
-        }
-        .guiding-box strong { color: var(--lanina); font-size: 0.9rem; text-transform: uppercase; }
-        .guiding-box p { font-size: 1.1rem; font-weight: 600; margin: 5px 0 0; line-height: 1.3; }
-
-        .video-card {
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .video-card iframe {
+        .ap-kasulatan {
+            background: var(--papel-pula);
+            padding: 30px 20px;
+            border: 2px solid var(--border-ap);
+            outline: 8px double var(--border-ap);
+            outline-offset: -12px;
             width: 100%;
-            aspect-ratio: 16 / 9;
-            height: auto;
-            display: block;
+            max-width: 500px;
+            text-align: center;
+            color: var(--tinta);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+            /* Para sa maliit na phone */
         }
 
-        /* COLUMN 2: DRAGGABLE ITEMS (BIGGER) */
-        .item-panel {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 20px;
+        .ap-kasulatan h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--tinta);
+            padding-bottom: 5px;
+        }
+
+        .instruction-list {
+            text-align: left;
+            margin: 15px 0;
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .btn-ap {
+            background: var(--tinta);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            /* Full width sa mobile */
+            max-width: 250px;
+        }
+
+        /* MAIN GAME UI */
+        .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-y: auto;
-        }
-
-        .panel-label { font-size: 0.85rem; font-weight: 800; color: #2dd4bf; text-align: center; margin-bottom: 5px; }
-
-        .draggable {
-            width: 120px; /* Mas malaki na para madaling basahin */
-            height: 120px;
-            background: white;
-            border-radius: 18px;
+            width: 100%;
+            max-width: 950px;
             padding: 10px;
-            cursor: grab;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            object-fit: contain;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
-        .draggable:hover { transform: scale(1.1) rotate(2deg); box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3); }
 
-        /* COLUMN 3: MAP */
-        .map-area {
+        .command-center {
             position: relative;
-            background: rgba(255, 255, 255, 0.01);
-            border-radius: 24px;
+            width: 100%;
+            /* Responsive aspect ratio */
+            aspect-ratio: 16/9;
+            background: url('/pictures/Module 3/elnino_bg.png') no-repeat center center;
+            background-size: cover;
+            border: 4px solid var(--border-ap);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+        }
+
+        /* PULSE POINTS - ADJUSTED SIZE FOR TOUCH */
+        .pulse-point {
+            position: absolute;
+            width: clamp(30px, 8vw, 45px);
+            height: clamp(30px, 8vw, 45px);
+            background: var(--papel-pula);
+            border: 2px double var(--tinta);
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: bold;
+            color: var(--tinta);
+            font-family: 'Cinzel';
+            font-size: clamp(12px, 4vw, 18px);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: radarGlow 2s infinite ease-in-out;
+            z-index: 10;
+        }
+
+        @keyframes radarGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+                transform: scale(1.1);
+            }
+
+            100% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+                transform: scale(1);
+            }
+        }
+
+        .pulse-point.solved {
+            background: #27ae60 !important;
+            animation: none;
+            color: white;
+            border-color: white;
+        }
+
+        /* SELECTION MODAL - RESPONSIVE GRID */
+        #selectionModal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--papel-pula);
+            border: 3px double var(--tinta);
             padding: 10px;
-        }
-
-        .map-wrapper { position: relative; width: 100%; max-width: 950px; }
-        .bg-img { width: 100%; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
-
-        /* DROP ZONES */
-        .dropzone {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.15);
-            border: 3px dashed rgba(255, 255, 255, 0.4);
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.3s;
-        }
-        .dropzone.active { background: rgba(255, 255, 255, 0.3); border-color: #fff; transform: scale(1.05); }
-
-        /* Zone Positions */
-        #zone1 { top: 8%; left: 2%; width: 22%; height: 18%; }
-        #zone2 { top: 8%; left: 55%; width: 22%; height: 18%; }
-        #zone3 { bottom: 6%; left: 3%; width: 22%; height: 16%; }
-        #zone4 { bottom: 6%; left: 38%; width: 22%; height: 16%; }
-        #zone5 { bottom: 6%; right: 3%; width: 22%; height: 16%; }
-
-        /* SUCCESS MESSAGE */
-        #successBox {
-            position: absolute;
-            background: #10b981;
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
             display: none;
-            z-index: 100;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            border: 4px solid white;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+            width: 85%;
+            /* Mas malapad sa mobile */
+            max-width: 320px;
         }
 
-        @media (max-width: 1200px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-                min-height: auto;
-                gap: 14px;
-                padding: 14px;
-            }
-
-            .sidebar-info,
-            .item-panel,
-            .map-area {
-                border-radius: 16px;
-            }
-
-            .map-area {
-                padding: 6px;
-            }
-
-            .item-panel {
-                display: grid;
-                grid-template-columns: repeat(5, minmax(90px, 1fr));
-                gap: 10px;
-                align-items: start;
-                justify-items: center;
-                overflow: visible;
-            }
-
-            .panel-label {
-                grid-column: 1 / -1;
-                margin-bottom: 4px;
-            }
-
-            .draggable {
-                width: 90px;
-                height: 90px;
-                border-radius: 14px;
-                padding: 8px;
-            }
-
-            #successBox {
-                inset: 50% auto auto 50%;
-                transform: translate(-50%, -50%);
-                width: min(92vw, 760px);
-                max-height: 85vh;
-                overflow: auto;
-                padding: 22px 18px;
-                border-radius: 20px;
-            }
-
-            #successBox h2 {
-                font-size: clamp(1.4rem, 5vw, 2rem) !important;
-            }
-
-            #successBox p {
-                font-size: clamp(0.9rem, 3.4vw, 1.1rem) !important;
-                line-height: 1.45;
-            }
-
-            #successBox .btn {
-                width: 100%;
-                font-size: 0.95rem;
-                padding: 10px 14px;
-            }
+        .menu-item {
+            aspect-ratio: 1/1;
+            background: white;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @media (max-width: 768px) {
-            .dashboard {
-                padding: 10px;
-                gap: 10px;
-            }
-
-            h1 {
-                font-size: 1.08rem;
-            }
-
-            .sidebar-info {
-                padding: 14px;
-                gap: 10px;
-            }
-
-            .guiding-box {
-                padding: 12px;
-                border-left-width: 4px;
-            }
-
-            .guiding-box p {
-                font-size: 0.95rem;
-            }
-
-            .item-panel {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                padding: 12px;
-            }
-
-            .panel-label {
-                font-size: 0.8rem;
-                line-height: 1.35;
-            }
-
-            .map-area {
-                padding: 4px;
-            }
-
-            .bg-img {
-                border-radius: 12px;
-            }
-
-            .dropzone {
-                border-width: 2px;
-                border-radius: 10px;
-            }
+        .menu-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
-        @media (max-width: 480px) {
-            .item-panel {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 8px;
-            }
+        /* COORDINATES - USING PERCENTAGE FOR SCALING */
+        #pt1 {
+            top: 12%;
+            left: 8%;
+            border-color: var(--elnino);
+        }
 
-            .draggable {
-                width: 78px;
-                height: 78px;
-                padding: 6px;
-            }
+        #pt2 {
+            top: 12%;
+            right: 28%;
+            border-color: var(--lanina);
+        }
 
-            .dropzone {
-                border-width: 1.5px;
-            }
+        #pt3 {
+            bottom: 12%;
+            left: 10%;
+        }
 
-            #successBox {
-                width: 94vw;
-                padding: 14px 12px;
+        #pt4 {
+            bottom: 12%;
+            left: 45%;
+        }
+
+        #pt5 {
+            bottom: 12%;
+            right: 10%;
+        }
+
+        /* MOBILE OVERRIDES */
+        @media (max-width: 600px) {
+            .command-center {
                 border-width: 2px;
             }
-        }
 
-        @media (max-height: 520px) and (orientation: landscape) {
-            .dashboard {
-                grid-template-columns: 1fr 1fr;
+            .ap-kasulatan {
+                outline-width: 5px;
+                outline-offset: -10px;
             }
 
-            .sidebar-info {
-                grid-column: 1 / 3;
+            #selectionModal {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .item-panel {
-                grid-template-columns: repeat(5, minmax(0, 1fr));
-                align-content: start;
-            }
-
-            .map-area {
-                min-height: 280px;
+            /* 2 columns lang sa sobrang liit na screen */
+            .instruction-list {
+                font-size: 13px;
             }
         }
     </style>
 </head>
+
 <body>
 
-<div class="dashboard">
-    <div class="sidebar-info">
-        <h1>B. El Niño at La Niña</h1>
-        
-        <div class="guiding-box">
-            <strong>Gabay na Tanong:</strong>
-            <p>Paano nagkakaiba ang paghahanda sa tagtuyot at pagbaha?</p>
-        </div>
+    <div id="briefingOverlay" class="ap-overlay">
+        <div class="ap-kasulatan">
+            <h1>GABAY SA PAGSASANAY</h1>
+            <p style="font-style: italic; margin-bottom: 10px; font-size: 14px;">Basahin ang mga panuto:</p>
 
-        <div class="video-card">
-            <iframe src="https://www.youtube.com/embed/yurhT4mPips" frameborder="0" allowfullscreen></iframe>
-        </div>
+            <ul class="instruction-list">
+                <li>Suriin ang mga <strong>radar point (?)</strong> sa mapa.</li>
+                <li>Pindutin ang punto upang makita ang mga pagpipilian.</li>
+                <li>Piliin ang <strong>angkop na hakbang</strong> para sa El Niño o La Niña.</li>
+                <li>Kailangang matugunan ang lahat ng <strong>lima (5)</strong> na punto.</li>
+            </ul>
 
-        <div class="video-card">
-            <iframe src="https://www.youtube.com/embed/G4svwU0twEw" frameborder="0" allowfullscreen></iframe>
+            <button class="btn-ap" onclick="magsimula()">SIMULAN</button>
         </div>
     </div>
 
-    <div class="item-panel">
-        <span class="panel-label">
-Ano ang mga nararapat na gawin sa panahon ng El Niño at La Niña?
-Ilagay ang mga salita na magbibigay ng  tamang gabay sa ganitong pangyayari. 
-</span>
-        <img src="/pictures/Module 3/tagtuyot1.png" class="draggable" draggable="true" data-id="tagtuyot1">
-        <img src="/pictures/Module 3/tipid.png" class="draggable" draggable="true" data-id="tipid">
-        <img src="/pictures/Module 3/baha1.png" class="draggable" draggable="true" data-id="baha1">
-        <img src="/pictures/Module 3/daluyan.png" class="draggable" draggable="true" data-id="daluyan">
-        <img src="/pictures/Module 3/malinis.png" class="draggable" draggable="true" data-id="malinis">
-    </div>
+    <div class="game-container">
+        <div class="command-center">
+            <div class="pulse-point" id="pt1" onclick="buksanMenu(event, 'tagtuyot1', 'pt1')">?</div>
+            <div class="pulse-point" id="pt2" onclick="buksanMenu(event, 'baha1', 'pt2')">?</div>
+            <div class="pulse-point" id="pt3" onclick="buksanMenu(event, 'tipid', 'pt3')">?</div>
+            <div class="pulse-point" id="pt4" onclick="buksanMenu(event, 'daluyan', 'pt4')">?</div>
+            <div class="pulse-point" id="pt5" onclick="buksanMenu(event, 'malinis', 'pt5')">?</div>
 
-    <div class="map-area">
-        <div class="map-wrapper">
-            <img src="/pictures/Module 3/elnino_bg.png" class="bg-img">
-            <div class="dropzone" id="zone1"></div>
-            <div class="dropzone" id="zone2"></div>
-            <div class="dropzone" id="zone3"></div>
-            <div class="dropzone" id="zone4"></div>
-            <div class="dropzone" id="zone5"></div>
-        </div>
-
-        <div id="successBox">
-            <h2 class="fw-bold" style="font-size: 2.5rem;">🌟 Mahusay!</h2>
-            <p class="fs-4">
-                Mahusay! Ipinapakita ng larawan ang epekto ng El Niño (tagtuyot) at La Niña (pagbaha) at ang mga paraan ng paghahanda tulad ng pagtitipid ng tubig, paglilinis ng daluyan, at pangangalaga sa kapaligiran upang mabawasan ang pinsala.
-            </p>
-            <a href="{{ route('lindol.activity') }}" class="btn btn-light btn-lg fw-bold px-5 mt-3">
-                Susunod na Aralin
-            </a>
+            <div id="selectionModal">
+                <div class="menu-item" onclick="piliin('tagtuyot1')"><img src="/pictures/Module 3/tagtuyot1.png"></div>
+                <div class="menu-item" onclick="piliin('tipid')"><img src="/pictures/Module 3/tipid.png"></div>
+                <div class="menu-item" onclick="piliin('baha1')"><img src="/pictures/Module 3/baha1.png"></div>
+                <div class="menu-item" onclick="piliin('daluyan')"><img src="/pictures/Module 3/daluyan.png"></div>
+                <div class="menu-item" onclick="piliin('malinis')"><img src="/pictures/Module 3/malinis.png"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    let dragged = null;
-    const correct = { zone1:"tagtuyot1", zone2:"baha1", zone3:"tipid", zone4:"daluyan", zone5:"malinis" };
-    let score = {};
+    <div id="congratsModal" class="ap-overlay" style="display:none;">
+        <div class="ap-kasulatan">
+            <h1 style="color: #1b4f72;">PAGBATI!</h1>
+            <p>Matagumpay mong naitakda ang mga wastong hakbang para sa kaligtasan. Ipinamalas mo ang kahandaan ng isang
+                responsableng mamamayan.</p>
+            <button class="btn-ap" onclick="window.location.href='{{ route('lindol.activity') }}'">
+                MAGPATULOY
+            </button>
+        </div>
+    </div>
 
-    document.querySelectorAll('.draggable').forEach(img => {
-        img.addEventListener('dragstart', (e) => { 
-            dragged = e.target; 
-            e.target.style.opacity = "0.5";
-        });
-        img.addEventListener('dragend', (e) => { 
-            e.target.style.opacity = "1";
-        });
-    });
+    <script>
+        let activePointId = null;
+        let score = {};
+        const tamangSagot = { pt1: 'tagtuyot1', pt2: 'baha1', pt3: 'tipid', pt4: 'daluyan', pt5: 'malinis' };
 
-    document.querySelectorAll('.dropzone').forEach(zone => {
-        zone.addEventListener('dragover', (e) => { 
-            e.preventDefault(); 
-            zone.classList.add('active'); 
-        });
-        zone.addEventListener('dragleave', () => zone.classList.remove('active'));
-        zone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            zone.classList.remove('active');
-            if(dragged) {
-                zone.innerHTML = "";
-                const clone = dragged.cloneNode(true);
-                clone.style.width = "90%"; clone.style.height = "90%";
-                zone.appendChild(clone);
-                score[zone.id] = dragged.dataset.id;
-                checkWin();
+        function magsimula() {
+            document.getElementById('briefingOverlay').style.display = 'none';
+        }
+
+        function buksanMenu(e, target, id) {
+            activePointId = id;
+            document.getElementById('selectionModal').style.display = 'grid';
+        }
+
+        function piliin(choiceId) {
+            const modal = document.getElementById('selectionModal');
+            const point = document.getElementById(activePointId);
+
+            if (choiceId === tamangSagot[activePointId]) {
+                point.classList.add('solved');
+                point.innerHTML = "✓";
+                score[activePointId] = choiceId;
+                modal.style.display = 'none';
+                checkStatus();
+            } else {
+                point.style.background = "#e6b0aa";
+                setTimeout(() => {
+                    point.style.background = "var(--papel-pula)";
+                    modal.style.display = 'none';
+                }, 500);
             }
-        });
-    });
+        }
 
-    function checkWin() {
-        let count = 0;
-        for(let z in correct) { if(score[z] === correct[z]) count++; }
-        if(count === 5) document.getElementById('successBox').style.display = 'block';
-
-        // 🔥 SAVE TO DATABASE
-        fetch("{{ route('student.module3.elnino.save') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                score: count,
-                zone1: score.zone1 || null,
-                zone2: score.zone2 || null,
-                zone3: score.zone3 || null,
-                zone4: score.zone4 || null,
-                zone5: score.zone5 || null
-            })
-        });
-    }
-</script>
+        function checkStatus() {
+            if (Object.keys(score).length === 5) {
+                setTimeout(() => {
+                    document.getElementById('congratsModal').style.display = 'flex';
+                }, 700);
+            }
+        }
+    </script>
 
 </body>
+
 </html>

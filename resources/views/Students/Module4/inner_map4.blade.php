@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'InnerMap2')
+@section('title', 'InnerMap4')
 
 @push('styles')
     <style>
@@ -166,19 +166,30 @@
             left: 20%;
         }
 
-        .node-bottom-left {
-            top: 60%;
-            left: 20%;
+        .node-top-left {
+            top: 15vh;
+            left: 15vw;
         }
 
         .node-top-right {
-            top: 15%;
-            right: 20%;
+            top: 15vh;
+            right: 15vw;
         }
 
-        .node-bottom-right {
-            top: 60%;
-            right: 20%;
+        .node-mid-left {
+            top: 45vh;
+            left: 10vw;
+        }
+s
+        .node-mid-right {
+            top: 45vh;
+            right: 10vw;
+        }
+
+        .node-bottom-center {
+            top: 70vh;
+            left: 50vw;
+            transform: translateX(-50%);
         }
 
         .back-button {
@@ -344,6 +355,22 @@
                 font-size: 14px;
             }
         }
+
+        .node-mid-left {
+            top: 40%;
+            left: 15%;
+        }
+
+        .node-mid-right {
+            top: 40%;
+            right: 15%;
+        }
+
+        .node-bottom-center {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
 @endpush
 
@@ -371,41 +398,41 @@
             </div>
         </div>
 
-        <img src="{{ asset('pictures/mod2_innermap.png') }}" class="background-map">
+        <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map">
 
         <div class="map-overlay"></div>
 
         <!-- CENTER -->
         <div class="node center-node">
-            <img src="{{ asset('pictures/isyualbay_node.png') }}">
+            <img src="{{ asset('pictures/mod4_center_node.png') }}">
         </div>
 
         <!-- NODE 1 -->
-        <button class="node node-top-left" onclick="window.location.href='{{ route('node1') }}'">
-            <img src="{{ asset('pictures/node1.png') }}">
+        <button class="node node-top-left" >
+            <img src="{{ asset('pictures/mod4_typhoon_node.png') }}">
         </button>
 
         <!-- NODE 2 -->
         <button class="node node-top-right locked" id="node2" onclick="goNode2()">
-            <img src="{{ asset('pictures/node2.png') }}">
+            <img src="{{ asset('pictures/mod4_baha_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
         <!-- NODE 3 -->
         <button class="node node-mid-left locked" id="node3" onclick="goNode3()">
-            <img src="{{ asset('pictures/node3.png') }}">
+            <img src="{{ asset('pictures/mod4_lindol_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
         <!-- NODE 4 -->
         <button class="node node-mid-right locked" id="node4" onclick="goNode4()">
-            <img src="{{ asset('pictures/node4.png') }}">
+            <img src="{{ asset('pictures/mod4_landslide_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
         <!-- NODE 5 -->
         <button class="node node-bottom-center locked" id="node5" onclick="goNode5()">
-            <img src="{{ asset('pictures/node5.png') }}">
+            <img src="{{ asset('pictures/mod4_mayon_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
@@ -413,7 +440,7 @@
             🔑 Unlock Final Activity
         </button>
 
-        <a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
+        <a href="{{ route('module4.welcome') }}" class="back-button">⬅️ Bumalik</a>
 
     </div>
 
@@ -426,10 +453,18 @@
             const node2 = document.getElementById("node2");
             const node3 = document.getElementById("node3");
             const node4 = document.getElementById("node4");
+            const node5 = document.getElementById("node5");
             const finalBtn = document.getElementById("final-key");
 
-            // 1. Calculate Progression Math
-            const nodes = ["node1_done", "node2_done", "node3_done", "node4_done"];
+            // ✅ NOW 5 NODES
+            const nodes = [
+                "node1_done",
+                "node2_done",
+                "node3_done",
+                "node4_done",
+                "node5_done"
+            ];
+
             let completedCount = 0;
             nodes.forEach(key => {
                 if (getDone(key)) completedCount++;
@@ -437,34 +472,29 @@
 
             const percentage = (completedCount / nodes.length) * 100;
 
-            // 2. Unlock Visuals
             const n1 = getDone("node1_done");
             const n2 = getDone("node2_done");
             const n3 = getDone("node3_done");
             const n4 = getDone("node4_done");
+            const n5 = getDone("node5_done");
 
+            // ✅ UNLOCK FLOW (1 → 2 → 3 → 4 → 5)
             if (n1) unlockNode(node2);
             if (n1 && n2) unlockNode(node3);
             if (n1 && n2 && n3) unlockNode(node4);
+            if (n1 && n2 && n3 && n4) unlockNode(node5);
 
-            // 3. Logic to show Progress Modal only once per completion
             const lastReported = parseInt(sessionStorage.getItem("last_reported_progress") || "0");
 
             if (percentage > lastReported && percentage < 100) {
                 showProgressModal(percentage);
                 sessionStorage.setItem("last_reported_progress", percentage);
             } else if (percentage === 100 && lastReported < 100) {
-                // If they just hit 100, show the Final Modal instead
                 goFinal();
                 sessionStorage.setItem("last_reported_progress", 100);
             }
 
-            // 4. Final Button Visibility
-            if (percentage === 100) {
-                finalBtn.style.display = "block";
-            } else {
-                finalBtn.style.display = "none";
-            }
+            finalBtn.style.display = percentage === 100 ? "block" : "none";
         }
 
         /* LOCK */
@@ -497,20 +527,26 @@
         /* NAVIGATION */
         function goNode2() {
             if (getDone("node1_done")) {
-                window.location.href = "{{ route('node2') }}";
+                window.location.href = "{{ route('module4.node2') }}";
             } else alert("Tapusin muna ang Node 1!");
         }
 
         function goNode3() {
             if (getDone("node2_done")) {
-                window.location.href = "{{ route('node3') }}";
+                window.location.href = "{{ route('module4.node3') }}";
             } else alert("Tapusin muna ang Node 2!");
         }
 
         function goNode4() {
             if (getDone("node3_done")) {
-                window.location.href = "{{ route('node4') }}";
+                window.location.href = "{{ route('module4.node4') }}";
             } else alert("Tapusin muna ang Node 3!");
+        }
+
+        function goNode5() {
+            if (getDone("node4_done")) {
+                window.location.href = "{{ route('module4.node5') }}";
+            } else alert("Tapusin muna ang Node 4!");
         }
 
         function closeModal() {
@@ -523,9 +559,9 @@
         }
 
         /* ✅ FIXED REDIRECT */
-        function goToFinal() {
-            window.location.href = "{{ route('module2.intro') }}";
-        }
+        // function goToFinal() {
+        //     window.location.href = "{{ route('module4.intro') }}";
+        // }
 
         window.onload = updateMapProgress;
     </script>

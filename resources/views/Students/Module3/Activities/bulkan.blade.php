@@ -3,328 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagputok ng Bulkan Activity</title>
+    <title>🌋 Bulkan Survival: The Path to Safety</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
         :root {
             --lava: #ff4d00;
             --magma: #cf1010;
-            --ash: #2c3e50;
-            --smoke: #1a1a1b;
+            --safe: #10b981;
+            --bg: #0f0f0f;
+            --card-size: 130px;
         }
 
         body {
-            background: radial-gradient(circle at top, #343a40 0%, #1a1a1b 100%);
+            background-color: var(--bg);
+            color: #eee;
             font-family: 'Lexend', sans-serif;
-            color: #ffffff;
-            min-height: 100vh;
+            overflow: hidden; /* Lock scroll for the experience */
+            height: 100vh;
         }
 
-        .container {
-            max-width: 1000px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
+        .container { max-width: 1000px; height: 100%; display: flex; flex-direction: column; }
 
-        h2 {
+        /* Story Area */
+        .story-tracker {
             text-align: center;
-            color: var(--lava);
-            text-shadow: 0 0 15px rgba(255, 77, 0, 0.5);
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .guide {
-            text-align: center;
-            background: rgba(0,0,0,0.3);
             padding: 20px;
-            border-radius: 15px;
-            border-bottom: 3px solid var(--magma);
-            margin-bottom: 30px;
+            background: rgba(0,0,0,0.5);
+            border-bottom: 2px solid #333;
+            border-radius: 0 0 20px 20px;
         }
 
-        .guide strong {
-            color: var(--lava);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        .video-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        iframe {
-            width: 100%;
-            height: 200px;
-            border-radius: 15px;
-            border: 2px solid var(--ash);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
-        .instruction {
-            color: #2dd4bf;
-            font-weight: 600;
-            background: rgba(45, 212, 191, 0.1);
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        /* Image grid */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .image-card {
+        /* The Game Path */
+        .game-path-container {
+            flex-grow: 1;
             position: relative;
-            border-radius: 20px;
+            background: #1a1a1a;
+            border-radius: 30px;
+            margin: 20px 0;
+            padding: 20px;
             overflow: hidden;
-            background: #000;
-            border: 3px solid transparent;
-            cursor: pointer;
-            height: 220px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            justify-content: center;
+            border: 3px solid #333;
         }
 
-        .image-card img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .image-card:hover {
-            border-color: rgba(255, 77, 0, 0.4);
-            transform: translateY(-5px);
-        }
-
-        .image-card.selected {
-            border-color: var(--lava);
-            box-shadow: 0 0 20px rgba(255, 77, 0, 0.6);
-            background: #111;
-        }
-
-        .image-card.selected::after {
-            content: '✓ Selected';
+        /* Visual Lava Flow */
+        .lava-flow {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--lava);
-            color: white;
-            padding: 2px 10px;
-            font-size: 0.7rem;
-            border-radius: 5px;
-            font-weight: bold;
+            left: -100%; /* Starts off-screen */
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, transparent, var(--magma), rgba(255, 77, 0, 0.4), transparent);
+            transition: left 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 10;
         }
 
-        /* STATUS COLORS */
-        .correct {
-            border-color: #10b981 !important;
-            animation: pulse-green 0.6s ease;
+        /* The Image Choices */
+        .choices-area {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            position: relative;
+            z-index: 20; /* Above the lava */
         }
 
-        .wrong {
-            border-color: #ef4444 !important;
-            animation: shake 0.4s ease;
+        .game-item {
+            background: #fff;
+            border-radius: 18px;
+            border: 4px solid #444;
+            width: var(--card-size);
+            height: var(--card-size);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            position: relative;
         }
 
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        .game-item:hover {
+            transform: scale(1.1) rotate(-3deg);
+            border-color: var(--lava);
+            box-shadow: 0 15px 30px rgba(255, 77, 0, 0.3);
+        }
+
+        .game-item img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        /* State Styles */
+        .disabled { opacity: 0.3; pointer-events: none; }
+        .collected { border-color: var(--safe) !important; filter: grayscale(1); transform: scale(0.9) !important; }
+        .game-over { background-color: #700; border-color: red !important; animation: shake 0.5s; }
+
+        .game-map {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            opacity: 0.6;
+            font-size: 0.8rem;
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-
-        /* BUTTONS */
-        .btn-submit {
-            background: var(--lava);
-            border: none;
-            padding: 15px 40px;
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 12px;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 77, 0, 0.3);
-        }
-
-        .btn-submit:hover {
-            background: var(--magma);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 77, 0, 0.5);
-        }
-
-        #feedback {
-            margin-top: 30px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            color: #d1fae5;
-            border-radius: 20px;
-            padding: 25px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .next-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-weight: 800;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-        }
-
-        .next-btn:hover {
-            background: #059669;
-            color: white;
-            transform: scale(1.05);
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-
-    <h2 class="mb-2">🌋 Gawain: Pagputok ng Bulkan</h2>
-
-    <div class="guide">
-        <strong>Gabay na Tanong</strong>
-        <p class="mb-0">Paano nakapagliligtas ng buhay ang maagap na paglikas?</p>
-    </div>
-
-    <div class="video-section">
-        <iframe src="https://www.youtube.com/embed/Hg1ktHeXaPU" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/UFz2fLrqZuk" allowfullscreen></iframe>
-    </div>
-
-    <div class="text-center">
-        <p class="instruction">
-            📍 Panuto: I-click ang mga larawang nagpapakita ng TAMA at LIGTAS na gawain.
-        </p>
-    </div>
-
-    <div class="image-grid">
-        <div class="image-card" data-answer="correct">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan1.png">
-        </div>
-        <div class="image-card" data-answer="correct">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan2.png">
-        </div>
-        <div class="image-card" data-answer="wrong">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan3.png">
-        </div>
-        <div class="image-card" data-answer="wrong">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan4.png">
-        </div>
-        <div class="image-card" data-answer="correct">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan5.png">
-        </div>
-        <div class="image-card" data-answer="correct">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan6.png">
-        </div>
-        <div class="image-card" data-answer="wrong">
-            <img src="/pictures/Module 3/Bulkan_Activity/bulkan7.jpg">
+<div class="container py-3">
+    <div class="story-tracker">
+        <h2 class="fw-black text-white m-0">🌋 BULKAN SURVIVAL</h2>
+        <p id="story-text" class="text-secondary small mt-1">Nagsimula na ang pagputok ng bulkan! Ano ang unang hakbang para sa kaligtasan?</p>
+        <div class="game-map">
+            <span>🏠 Bahay</span>
+            <span>⬇️</span>
+            <span>⬇️</span>
+            <span>⬇️</span>
+            <span>⬇️</span>
+            <span>⬇️</span>
+            <span>⬇️</span>
+            <span>✅ Ligtas na Evacuation Center</span>
         </div>
     </div>
 
-    <div class="text-center mt-5">
-        <button class="btn btn-primary btn-submit" onclick="checkAnswers()">Isubmit ang Sagot</button>
+    <div id="game-area" class="game-path-container">
+        <div id="lava-overlay" class="lava-flow"></div>
+        <div class="choices-area" id="choices">
+            <div class="game-item" id="bulkan1" data-id="safe1" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan1.png" alt="Step">
+            </div>
+            <div class="game-item" id="bulkan2" data-id="safe2" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan2.png" alt="Step">
+            </div>
+            <div class="game-item" id="bulkan5" data-id="safe3" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan5.png" alt="Step">
+            </div>
+            <div class="game-item" id="bulkan6" data-id="safe4" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan6.png" alt="Step">
+            </div>
+            <div class="game-item" id="bulkan3" data-id="hazard1" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan3.png" alt="Step">
+            </div>
+            <div class="game-item" id="bulkan4" data-id="hazard2" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan4.png" alt="Step">
+            </div>
+            <div class="game-item" id="bulkan7" data-id="hazard3" onclick="selectStep(this)">
+                <img src="/pictures/Module 3/Bulkan_Activity/bulkan7.jpg" alt="Step">
+            </div>
+        </div>
     </div>
 
-    <div id="feedback" class="d-none">
-        <h4 class="text-success fw-bold">🔥 Napakahusay!</h4>
-        Bilang isang manlalaro, natutunan mo na mahalagang sundin ang mga babala at agad na lumikas kapag kinakailangan upang maiwasan ang panganib. 
-        Nauunawaan mo rin na dapat magdala lamang ng mahahalagang kagamitan tulad ng tubig, flashlight, at radyo upang maging handa sa anumang sitwasyon. 
-        Bukod dito, natutunan mong pahalagahan ang kaligtasan ng bawat isa sa pamamagitan ng pagsunod sa mga paalala ng kinauukulan at pananatili sa evacuation center hangga’t hindi pa ligtas. Ang mga aral na ito ay makatutulong upang maging responsable at handa ka sa panahon ng sakuna.
-
+    <div class="text-center p-3">
+        <p class="small text-secondary">I-click ang tamang hakbang o gamit para makalayo sa lava flow.</p>
     </div>
 
-    <div class="text-center mt-4 d-none" id="nextActivity">
-        <a href="{{ route('flood.activity') }}" class="next-btn">
-            👉 SUSUNOD NA ARALIN (PAGBAHA)
-        </a>
+    <div id="feedback-area" class="feedback-container d-none animate__animated animate__zoomIn p-5 bg-success rounded-4 text-center">
+        <h2 class="fw-bold text-white">Nakaligtas Ka! 🏆</h2>
+        <p class="text-white">Mahusay ang iyong naging desisyon at mabilis kang nakalikas. Isang daang puntos (100) para sa kaligtasan!</p>
+        <a href="{{ route('flood.activity') }}" class="btn btn-light btn-lg mt-3 fw-bold rounded-pill px-5">SUSUNOD NA LEVEL →</a>
     </div>
-
 </div>
 
 <script>
-    function checkAnswers() {
-        const cards = document.querySelectorAll('.image-card');
-        let allCorrect = true;
-        let score = 0;
-        let selected = [];
+    const choices = document.getElementById('choices');
+    const lava = document.getElementById('lava-overlay');
+    const storyText = document.getElementById('story-text');
+    let lavaPosition = -100; // Start off-screen
+    let currentSafeStep = 1; // Track which 'safe' item must be clicked next
+    const totalSafeSteps = 4; // Bulkan 1, 2, 5, 6
 
-        cards.forEach(card => {
-            const isSelected = card.classList.contains('selected');
-            const answer = card.dataset.answer;
+    const stories = {
+        1: "Tumatakas ang oras! Kunin muna ang Emergency Kit (Bulkan 1).",
+        2: "Nakuha mo ang kit! Isuot na ang N95 mask (Bulkan 5) bago lumabas.",
+        3: "Magaling! Makinig muna sa radyo (Bulkan 6) para sa balita.",
+        4: "Ngayong may alam ka na sa balita, lumikas na agad (Bulkan 2)! Bilisan mo!",
+        win: "Ligtas ka na sa evacuation center!"
+    };
 
-            card.classList.remove('correct', 'wrong');
-            void card.offsetWidth; 
+    function selectStep(element) {
+        const stepId = element.dataset.id;
+        const choicesChildren = Array.from(choices.children);
 
-            if (isSelected && answer === "correct") {
-                card.classList.add('correct');
-            } 
-            else if (isSelected && answer === "wrong") {
-                card.classList.add('wrong');
-                allCorrect = false;
-            } 
-            else if (!isSelected && answer === "correct") {
-                allCorrect = false;
-            }
-        });
-
-        if (allCorrect) {
-            document.getElementById('feedback').classList.remove('d-none');
-            document.getElementById('nextActivity').classList.remove('d-none');
-
-            // 🔥 SAVE TO DATABASE
-            fetch("{{ route('student.module3.bulkan.save') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    score: score,
-                    selected_answers: selected
-                })
-            });
-
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        if (stepId.startsWith('safe')) {
+            // Player clicked a correct survival action
+            handleCorrectChoice(element, choicesChildren);
         } else {
-            alert("May kulang o maling napili. Subukan muli!");
+            // Player clicked a 'hazard' action
+            handleWrongChoice(element);
         }
     }
 
-    document.querySelectorAll('.image-card').forEach(card => {
-        card.addEventListener('click', () => {
-            card.classList.toggle('selected');
+    function handleCorrectChoice(element, choicesChildren) {
+        element.classList.add('collected');
+        element.style.pointerEvents = 'none'; // Lock this item
+        currentSafeStep++;
+
+        // Visual feedback
+        storyText.innerText = stories[currentSafeStep] || stories.win;
+        storyText.classList.add('animate__animated', 'animate__fadeIn');
+        setTimeout(() => storyText.classList.remove('animate__animated', 'animate__fadeIn'), 500);
+
+        // Win Condition
+        if (currentSafeStep > totalSafeSteps) {
+            finishGame(true);
+        }
+    }
+
+    function handleWrongChoice(element) {
+        element.classList.add('animate__animated', 'animate__headShake', 'game-over');
+        
+        // Lava moves closer when a bad choice is made
+        lavaPosition += 25; 
+        lava.style.left = lavaPosition + "%";
+
+        storyText.innerText = "Mali ang desisyon mo! Hinahabol ka na ng lava!";
+        storyText.classList.add('text-danger');
+        setTimeout(() => storyText.classList.remove('text-danger'), 1000);
+
+        // Game Over Condition
+        if (lavaPosition >= 0) {
+            choices.classList.add('disabled');
+            storyText.innerText = "GAME OVER: Nalamon ka ng lava flow. Subukan muli.";
+            fetchScore(0); // Optional Laravel save
+            // Restart after short delay
+            setTimeout(() => location.reload(), 2500);
+        } else {
+            // Temporary flash to show it's wrong, then allow clicking again
+            setTimeout(() => element.classList.remove('game-over', 'animate__animated', 'animate__headShake'), 1000);
+        }
+    }
+
+    function finishGame(win) {
+        if (win) {
+            choices.style.display = 'none';
+            document.getElementById('feedback-area').classList.remove('d-none');
+            fetchScore(100); // Save winning score to Laravel
+        }
+    }
+
+    // Function to handle the Laravel save logic
+    function fetchScore(finalScore) {
+        fetch("{{ route('student.module3.bulkan.save') }}", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-CSRF-TOKEN": "{{ csrf_token() }}" },
+            body: JSON.stringify({ score: finalScore, status: finalScore >= 100 ? 'passed' : 'failed' })
         });
-    });
+    }
+
 </script>
 
 </body>
