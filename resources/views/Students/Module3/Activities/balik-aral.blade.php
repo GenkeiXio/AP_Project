@@ -1,815 +1,339 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 3\Drag_and_drop3.blade.php --}}
+{{-- filepath: resources/views/Students/Module 3/Eco_Tycoon.blade.php --}}
 @extends('Students.studentslayout')
-@section('title', 'Balik-Aral Modyul 3')
+@section('title', 'Eco-Tycoon: Modyul 3')
 
 @push('styles')
+    <link href="https://fonts.googleapis.com/css2?family=Fondamento&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg1: #0b1710;
-            --bg2: #12261b;
-            --kard: rgba(255, 255, 255, .08);
-            --linya: rgba(255, 255, 255, .15);
-            --teksto: #edf7f0;
-            --maputla: #b9cdbf;
-            --tama: #41c171;
-            --mali: #ff7f7f;
-            --anino: 0 14px 30px rgba(0, 0, 0, .22);
-            --radius: 16px;
+            --wood-dark: #3d2b1f;
+            --wood-light: #5d4037;
+            --paper: #f4e4bc;
+            --berde-dark: #1b5e20; /* Darker green for wood texture */
+            --berde-mid: #2e7d32;  /* Main card green */
+            --berde: #4caf50;
+            --pula: #e53935;
         }
 
-        * {
-            box-sizing: border-box
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100%;
-            color: var(--teksto);
-            background:
-                url('{{ asset("pictures/mod3_innermap.png") }}') no-repeat center center fixed;
+        body { 
+            margin: 0; padding: 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset("pictures/mod3_innermap.png") }}') no-repeat center center fixed;
             background-size: cover;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--wood-dark);
         }
 
-        body {
-            overflow-x: hidden
+        .game-wrapper { max-width: 1100px; margin: 40px auto; padding: 0 20px; position: relative; }
+
+        .wood-frame {
+            background: var(--wood-light);
+            border: 12px solid var(--wood-dark);
+            border-radius: 20px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.8);
+            padding: 40px 30px;
+            position: relative;
         }
 
-        .lalagyan {
-            max-width: 1140px;
-            margin: 18px auto;
-            padding: 0 14px 24px
-        }
-
-        .kahon {
-            background: #1b2e24;
-            /* solid dark green */
-            border: 1px solid #2e4a3a;
-            border-radius: var(--radius);
-            box-shadow: var(--anino);
-        }
-
-        .ulo {
-            padding: 16px
-        }
-
-        .tatak {
-            display: inline-flex;
-            gap: 8px;
-            align-items: center;
-            padding: 7px 11px;
-            border-radius: 999px;
-            font-size: .8rem;
-            font-weight: 900;
-            border: 1px solid rgba(65, 193, 113, .35);
-            background: rgba(65, 193, 113, .15);
-        }
-
-        .pamagat {
-            margin: 10px 0 6px;
-            font-size: clamp(1.3rem, 3vw, 2.1rem);
-            font-weight: 900;
-            line-height: 1.15
-        }
-
-        .sub {
-            margin: 0;
-            color: var(--maputla);
-            line-height: 1.55
-        }
-
-        .hanay {
-            margin-top: 12px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap
-        }
-
-        .pildoras {
-            padding: 7px 11px;
-            border-radius: 999px;
-            font-weight: 800;
-            font-size: .9rem;
-            background: rgba(255, 255, 255, .08);
-            border: 1px solid rgba(255, 255, 255, .12);
-        }
-
-        .btns {
-            margin-top: 12px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap
-        }
-
-        .btn {
-            border: none;
-            border-radius: 12px;
-            padding: 10px 14px;
-            font-weight: 900;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-        }
-
-        .btn-abo {
-            background: rgba(255, 255, 255, .09);
-            color: var(--teksto);
-            border: 1px solid rgba(255, 255, 255, .15)
-        }
-
-        .btn-berde {
-            background: linear-gradient(180deg, #95f2ab, #4ccf73);
-            color: #0f2a1a
-        }
-
-        .btn[disabled] {
-            opacity: .55;
-            cursor: not-allowed
-        }
-
-        .panel {
-            margin-top: 12px;
-            padding: 14px
-        }
-
-        .titulo {
-            margin: 0 0 10px;
-            font-size: .98rem;
-            font-weight: 900;
-            display: flex;
-            gap: 8px;
-            align-items: center
-        }
-
-        .titulo::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--tama);
-            box-shadow: 0 0 0 4px rgba(65, 193, 113, .12);
-        }
-
-        .grid3 {
+        .context-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        .kard-drag {
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, .16);
-            background: #22392d;
-            overflow: hidden;
-            cursor: grab;
-            transition: .15s ease;
-            display: flex;
-            flex-direction: column
-        }
-
-        .kard-drag:hover {
-            transform: translateY(-2px);
-            border-color: rgba(65, 193, 113, .45)
-        }
-
-        .kard-drag.dragging {
-            opacity: .55;
-            transform: scale(.985)
-        }
-
-        .kard-drag.locked {
-            cursor: default;
-            opacity: .96
-        }
-
-        .larawan {
-            width: 100%;
-            height: 116px;
-            object-fit: cover;
-            display: block;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .katawan {
-            padding: 10px 11px
-        }
-
-        .pangalan {
-            font-weight: 900;
-            font-size: .95rem
-        }
-
-        .paliwanag {
-            margin-top: 4px;
-            color: var(--maputla);
-            font-size: .86rem;
-            line-height: 1.45
-        }
-
-        .tatak2 {
-            margin-top: 8px;
-            display: inline-flex;
-            font-size: .76rem;
-            font-weight: 800;
-            padding: 5px 9px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, .08);
-            border: 1px solid rgba(255, 255, 255, .12)
-        }
-
-        .zona {
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, .16);
-            background: #1e3428;
-            padding: 10px;
-            min-height: 220px;
+        /* UPDATED: Wooden Green Card Style */
+        .wood-card {
+            background: var(--berde-mid);
+            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); /* Subtle wood plank effect */
+            background-size: 100% 10px;
+            border: 4px solid var(--wood-dark);
+            border-radius: 15px;
+            padding: 25px 15px;
+            position: relative;
+            box-shadow: 0 8px 0 var(--wood-dark);
+            transition: transform 0.2s;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            transition: .15s ease
+            color: var(--paper); /* Light text for dark green background */
         }
 
-        .zona.over {
-            border-color: rgba(65, 193, 113, .6);
-            box-shadow: 0 0 0 3px rgba(65, 193, 113, .12)
+        .wood-card:hover { transform: translateY(-5px); }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            background: var(--paper);
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: -50px auto 15px;
+            border: 4px solid var(--wood-dark);
+            color: var(--wood-dark);
         }
 
-        .zona.tama {
-            border-color: rgba(65, 193, 113, .55);
-            background: rgba(65, 193, 113, .08)
+        .wood-card h4 { 
+            font-family: 'Fondamento', cursive; 
+            font-size: 1.4rem; 
+            margin: 5px 0;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        .zona-ulo {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px
+        .law-tag {
+            background: var(--wood-dark);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: inline-block;
+            color: var(--paper);
         }
 
-        .zona-pangalan {
-            font-weight: 900;
-            font-size: .92rem;
-            line-height: 1.35
+        .wood-card p { font-size: 0.9rem; line-height: 1.4; color: var(--paper); font-weight: 500; margin: 0; }
+
+        /* Instruction Box Styling */
+        .instruction-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px dashed var(--wood-dark);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: left;
         }
 
-        .zona-kalagay {
-            font-size: .73rem;
-            font-weight: 900;
-            padding: 4px 8px;
-            border-radius: 999px;
-            color: #fff5cf;
-            background: rgba(255, 212, 106, .14);
-            border: 1px solid rgba(255, 212, 106, .24)
-        }
-
-        .zona-katawan {
-            flex: 1;
-            border: 1px dashed rgba(255, 255, 255, .2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .instruction-box h5 {
+            margin-top: 0;
+            color: var(--wood-dark);
+            font-weight: 800;
             text-align: center;
-            padding: 8px;
-            color: #9eb6a7;
-            font-weight: 800;
-            font-size: .86rem
+            font-size: 1.2rem;
+            text-transform: uppercase;
         }
 
-        .zona-katawan.puno {
-            border-style: solid;
-            border-color: rgba(65, 193, 113, .30)
+        .instruction-box ul { padding-left: 20px; margin-bottom: 0; }
+        .instruction-box li { margin-bottom: 8px; font-size: 0.95rem; font-weight: 600; }
+
+        .wood-hud {
+            display: flex; justify-content: space-around;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 3px solid var(--wood-dark);
         }
 
-        .gabay {
-            margin-top: 10px;
-            padding: 10px 12px;
-            border-radius: 12px;
-            background: #243d31;
-            border: 1px solid rgba(255, 255, 255, .12);
-            font-weight: 800;
-            line-height: 1.45
-        }
+        .hud-item { color: #fff; font-weight: 800; text-shadow: 2px 2px 0px #000; font-size: 1.1rem; }
 
-        .mensahe-mali {
-            color: #ffd2d2
-        }
-
-        .mensahe-tama {
-            color: #d9ffe7
-        }
-
-        .resulta {
-            margin-top: 12px;
-            padding: 14px
-        }
-
-        .resulta-ulo {
-            display: grid;
-            grid-template-columns: 64px 1fr;
-            gap: 10px;
-            align-items: center
-        }
-
-        .puntos-bilog {
-            width: 64px;
-            height: 64px;
-            border-radius: 14px;
-            display: grid;
-            place-items: center;
-            font-weight: 900;
-            font-size: 1.25rem;
-            background: rgba(65, 193, 113, .16);
-            border: 1px solid rgba(65, 193, 113, .3)
-        }
-
-        .resulta-pamagat {
-            font-weight: 900
-        }
-
-        .resulta-talata {
-            color: var(--maputla);
-            line-height: 1.5
-        }
-
-        .stats {
-            margin-top: 10px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap
-        }
-
-        .stat {
-            padding: 7px 11px;
-            border-radius: 999px;
-            font-weight: 800;
-            font-size: .88rem;
-            background: rgba(255, 255, 255, .08);
-            border: 1px solid rgba(255, 255, 255, .12)
-        }
-
-        .susi {
-            margin-top: 10px;
-            display: grid;
-            gap: 7px
-        }
-
-        .susi-item {
+        .btn-wood {
+            background: #8d6e63;
+            color: white;
+            border: 4px solid var(--wood-dark);
+            padding: 12px 25px;
             border-radius: 10px;
-            padding: 8px 10px;
-            background: #243d31;
-            border: 1px solid rgba(255, 255, 255, .11);
-            font-size: .9rem;
-            line-height: 1.45
+            font-weight: 800;
+            font-family: 'Fondamento', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--wood-dark);
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.1s;
         }
 
-        .nakatago {
-            display: none !important
+        .btn-wood:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--wood-dark); }
+        .btn-green { background: var(--berde); }
+        .btn-pula { background: var(--pula); }
+
+        .choice-btn {
+            background: var(--paper);
+            border: 3px solid var(--wood-dark);
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 0 var(--wood-dark);
+            transition: 0.2s;
+            color: var(--wood-dark);
         }
 
-        .alog {
-            animation: alog .28s ease
-        }
-
-        @keyframes alog {
-
-            0%,
-            100% {
-                transform: translateX(0)
-            }
-
-            25% {
-                transform: translateX(-6px)
-            }
-
-            75% {
-                transform: translateX(6px)
-            }
-        }
-
-        @media (max-width:980px) {
-            .grid3 {
-                grid-template-columns: 1fr
-            }
-
-            .zona {
-                min-height: 168px
-            }
-
-            .larawan {
-                height: 136px
-            }
-        }
+        .choice-btn:hover { background: #efe0b1; transform: translateY(-2px); }
+        .nakatago { display: none !important; }
     </style>
 @endpush
 
 @section('content')
-    <div class="lalagyan">
-        <section class="kahon ulo">
-            <div class="tatak"><span></span><span>BALIK-ARAL</span></div>
-            <h1 class="pamagat">Iugnay Mo Ako!</h1>
-            <p class="sub">Gabay na tanong: “Paano nagiging sanhi ng sakuna ang mga suliraning pangkapaligiran?”</p>
+<div class="game-wrapper">
+    <div class="wood-frame">
+        <div id="briefingScreen">
+            <h1 style="text-align:center; color: #fff; font-family: 'Fondamento', cursive; font-size: 3rem; margin-bottom: 60px; text-shadow: 3px 3px 0 #000;">
+                📜 Balik Aral: Batas at Kalikasan
+            </h1>
 
-            <div class="hanay">
-                <div class="pildoras">⏱️ Oras: <span id="orasTeksto">30</span>s</div>
-                <div class="pildoras">🎯 Layunin: 3 tamang tugma</div>
-            </div>
-
-            <div class="btns">
-                <button class="btn btn-abo" id="resetBtn" type="button">🔁 Magsimulang muli</button>
-                <a class="btn btn-abo" href="{{ route('module3.home') }}">← Bumalik</a>
-            </div>
-
-            <div class="gabay" id="gabayTeksto">
-                I-drag ang bawat larawan papunta sa tamang epekto.
-            </div>
-        </section>
-
-        <section class="kahon panel">
-            <h3 class="titulo">Mga I-drag na Item</h3>
-            <div class="grid3" id="cardsRoot">
-                <article class="kard-drag" draggable="true" data-id="solid" data-tag="♻️ Suliraning pangkapaligiran">
-                    <img class="larawan" src="{{ asset('pictures/solidwaste.png') }}" alt="Basurang Solido">
-                    <div class="katawan">
-
-                        <div class="paliwanag">Hindi tamang pagtatapon ng basura sa komunidad.</div>
-                        <div class="tatak2">♻️ Suliraning pangkapaligiran</div>
-                    </div>
-                </article>
-
-                <article class="kard-drag" draggable="true" data-id="forest" data-tag="🌳 Suliraning pangkapaligiran">
-                    <img class="larawan" src="{{ asset('pictures/deforestation.png') }}" alt="Pagkakalbo ng Kagubatan">
-                    <div class="katawan">
-
-                        <div class="paliwanag">Pagkawala ng mga punong kumakapit sa lupa.</div>
-                        <div class="tatak2">🌳 Suliraning pangkapaligiran</div>
-                    </div>
-                </article>
-
-                <article class="kard-drag" draggable="true" data-id="climate" data-tag="🌍 Suliraning pangkapaligiran">
-                    <img class="larawan" src="{{ asset('pictures/climate.png') }}" alt="Pagbabago ng Klima">
-                    <div class="katawan">
-
-                        <div class="paliwanag">Pag-init ng mundo at mas matitinding panahon.</div>
-                        <div class="tatak2">🌍 Suliraning pangkapaligiran</div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section class="kahon panel">
-            <h3 class="titulo">Mga Paglalagyan ng Epekto</h3>
-            <div class="grid3">
-                <div class="zona" data-zone="flood">
-                    <div class="zona-ulo">
-                        <div class="zona-pangalan">Pagbaha at paglaganap ng sakit</div>
-                        <div class="zona-kalagay" id="kalagayan-flood">Hintay...</div>
-                    </div>
-                    <div class="zona-katawan">I-drop ang tamang item dito</div>
+            <div class="context-grid">
+                <div class="wood-card">
+                    <div class="card-icon">♻️</div>
+                    <span class="law-tag">R.A. 9003</span>
+                    <h4>Solid Waste</h4>
+                    <p>Ang <i>Ecological Solid Waste Management Act</i> ay nag-uutos ng wastong pagbubukod (segregation) ng basura sa tahanan.</p>
                 </div>
-
-                <div class="zona" data-zone="landslide">
-                    <div class="zona-ulo">
-                        <div class="zona-pangalan">Pagguho ng lupa at pagbaha</div>
-                        <div class="zona-kalagay" id="kalagayan-landslide">Hintay...</div>
-                    </div>
-                    <div class="zona-katawan">I-drop ang tamang item dito</div>
+                <div class="wood-card">
+                    <div class="card-icon">🌳</div>
+                    <span class="law-tag">P.D. 705</span>
+                    <h4>Deforestation</h4>
+                    <p>Ang <i>Revised Forestry Code</i> ay nagbabawal sa illegal logging at naghihikayat sa reforestation upang iwas-baha.</p>
                 </div>
-
-                <div class="zona" data-zone="storm">
-                    <div class="zona-ulo">
-                        <div class="zona-pangalan">Mas malalakas na bagyo at matinding init</div>
-                        <div class="zona-kalagay" id="kalagayan-storm">Hintay...</div>
-                    </div>
-                    <div class="zona-katawan">I-drop ang tamang item dito</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="kahon resulta nakatago" id="resultaKahon">
-            <div class="resulta-ulo">
-                <div class="puntos-bilog" id="bilangTama">0</div>
-                <div>
-                    <div class="resulta-pamagat" id="resultaPamagat"></div>
-                    <div class="resulta-talata" id="resultaTalata"></div>
+                <div class="wood-card">
+                    <div class="card-icon">🌡️</div>
+                    <span class="law-tag">R.A. 9729</span>
+                    <h4>Climate Change</h4>
+                    <p>Sa ilalim ng <i>Climate Change Act</i>, layunin ng bansa na bawasan ang carbon emissions at lumipat sa Clean Energy.</p>
                 </div>
             </div>
 
-            <div class="stats">
-                <div class="stat">⭐ Puntos: <span id="puntosTeksto">0</span></div>
-                <div class="stat">✅ Tamang Sagot: <span id="tamaTeksto">0</span>/3</div>
+            <div class="instruction-box">
+                <h5>Paano Maglaro:</h5>
+                <ul>
+                    <li>Magpasya batay sa mga sitwasyong pang-kalikasan.</li>
+                    <li>Panatilihing mataas ang <b>🌿 Kalusugan</b> ng bayan at <b>🤝 Tiwala</b> ng tao.</li>
+                    <li>Huwag hayaang maubos ang iyong <b>💰 Pondo</b> (₱70,000).</li>
+                    <li>Piliin ang opsyong sumusunod sa tamang batas para manalo!</li>
+                </ul>
             </div>
 
-            <div class="susi" id="susiSagot"></div>
-
-            <div class="btns">
-                <button class="btn btn-berde" id="nextBtn" type="button">➡️ Magpatuloy</button>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-wood btn-green" style="padding: 15px 50px; font-size: 1.5rem;" onclick="startGame()">Simulan ang Simulation</button>
             </div>
-        </section>
+        </div>
+
+        <div id="gameUI" class="nakatago">
+            <div class="wood-hud">
+                <div class="hud-item">🌿 Kalusugan: <span id="healthTxt">100%</span></div>
+                <div class="hud-item">💰 Pondo: <span id="budgetTxt" style="color: #ffd54f;">₱70,000</span></div>
+                <div class="hud-item">🤝 Tiwala: <span id="trustTxt">80%</span></div>
+            </div>
+
+            <div id="eventArea" style="background: var(--paper); padding: 40px; border-radius: 15px; border: 4px solid var(--wood-dark); min-height: 320px; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.1);">
+                <div id="statusMsg" style="margin-bottom: 20px; font-weight: 800; display: none; padding: 12px; border-radius: 8px; border: 2px solid currentColor;"></div>
+                <h2 id="eventTitle" style="font-family: 'Fondamento', cursive; font-size: 2.2rem; margin-top: 0;"></h2>
+                <p id="eventDesc" style="font-size: 1.25rem; margin: 20px 0; line-height: 1.5;"></p>
+                <div id="choicesGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;"></div>
+            </div>
+        </div>
+
+        <div id="victoryScreen" class="nakatago" style="text-align:center; color: #fff; padding: 40px 0;">
+            <h1 style="font-family: 'Fondamento', cursive; font-size: 4rem; text-shadow: 3px 3px 0 #000; margin: 0;">Tagumpay! 🏆</h1>
+            <p style="font-size: 1.6rem; margin: 20px 0 40px;">Mahusay! Sinunod mo ang batas para sa ikabubuti ng bayan.</p>
+            <div style="display:flex; gap:20px; justify-content:center;">
+                <button class="btn-wood" onclick="location.reload()">Ulitin</button>
+                <button class="btn-wood btn-green" onclick="window.location.href='{{ route('module3.iv_explore') }}'">Magpatuloy</button>
+            </div>
+        </div>
+
+        <div id="gameOverScreen" class="nakatago" style="text-align:center; color: #fff; padding: 40px 0;">
+            <h1 style="font-family: 'Fondamento', cursive; font-size: 4rem; text-shadow: 3px 3px 0 #000; margin: 0;">Talunan 💀</h1>
+            <p id="failReason" style="font-size: 1.6rem; margin: 20px 0 40px;"></p>
+            <button class="btn-wood btn-pula" style="font-size: 1.5rem;" onclick="location.reload()">Ulitin (Retry)</button>
+        </div>
     </div>
+</div>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+<script>
+    /* Javascript logic remains identical to the previous fixed version */
+    let stats = { health: 100, budget: 70000, trust: 80 };
+    let currentIdx = 0;
 
-    <script>
-
-        let startTime = Date.now();
-
-        const tugma = {
-            solid: {
-                zone: 'flood',
-                label: 'Solid Waste',
-                image: '{{ asset("pictures/solidwaste.png") }}',
-                detail: 'Solid Waste→ Pagbaha at paglaganap ng sakit'
-            },
-            forest: {
-                zone: 'landslide',
-                label: 'Deforestation',
-                image: '{{ asset("pictures/deforestation.png") }}',
-                detail: 'Deforestation → Pagguho ng lupa at pagbaha'
-            },
-            climate: {
-                zone: 'storm',
-                label: 'Climate Change',
-                image: '{{ asset("pictures/climate.png") }}',
-                detail: 'Climate Change → Mas malalakas na bagyo at matinding init'
-            }
-        };
-
-        const ayos = ['solid', 'forest', 'climate'];
-
-        const orasTeksto = document.getElementById('orasTeksto');
-        const gabayTeksto = document.getElementById('gabayTeksto');
-        const cardsRoot = document.getElementById('cardsRoot');
-
-        const resultaKahon = document.getElementById('resultaKahon');
-        const resultaPamagat = document.getElementById('resultaPamagat');
-        const resultaTalata = document.getElementById('resultaTalata');
-        const bilangTama = document.getElementById('bilangTama');
-        const puntosTeksto = document.getElementById('puntosTeksto');
-        const tamaTeksto = document.getElementById('tamaTeksto');
-        const susiSagot = document.getElementById('susiSagot');
-
-        let puntos = 0;
-        let tama = 0;
-        let segundo = 30;
-        let timer = null;
-        let taposNa = false;
-        let hawak = null;
-
-        /* Tunog */
-        let ctx = null;
-        function tunog(freq, haba = 0.10, lakas = 0.05, uri = 'sine', antala = 0) {
-            const AC = window.AudioContext || window.webkitAudioContext;
-            if (!AC) return;
-            if (!ctx) ctx = new AC();
-            if (ctx.state === 'suspended') ctx.resume();
-
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            const start = ctx.currentTime + antala;
-
-            osc.type = uri;
-            osc.frequency.setValueAtTime(freq, start);
-            gain.gain.setValueAtTime(lakas, start);
-            gain.gain.exponentialRampToValueAtTime(0.0001, start + haba);
-
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(start);
-            osc.stop(start + haba);
+    const gameEvents = [
+        {
+            title: "Krisis sa Basura",
+            desc: "Nagreklamo ang mga tao dahil sa tambak na basura sa kalsada. Ano ang plano mo?",
+            choices: [
+                { text: "Ipatupad ang Waste Segregation (RA 9003)", cost: 10000, h: 20, t: 10, msg: "Tama! Ang RA 9003 ay nag-uutos ng pagbubukod ng basura sa tahanan." },
+                { text: "Hayaan na lang sunugin ang basura", cost: 0, h: -40, t: -20, msg: "Mali! Ang pagsusunog ay labag sa Clean Air Act at sanhi ng Climate Change." }
+            ]
+        },
+        {
+            title: "Banta ng Landslide",
+            desc: "Dahil sa Deforestation, nanganganib ang komunidad sa landslide tuwing uulan.",
+            choices: [
+                { text: "Magsagawa ng Reforestation (PD 705)", cost: 20000, h: 30, t: 15, msg: "Mahusay! Ang mga puno ay humahawak sa lupa ayon sa Forestry Code." },
+                { text: "Magpatayo ng pader (Sea Wall)", cost: 15000, h: -10, t: 5, msg: "Medyo tama, pero hindi nito tinutugunan ang pagkalbo ng gubat." }
+            ]
+        },
+        {
+            title: "Enerhiya ng Bayan",
+            desc: "Kailangan ng kuryente. May murang Coal Plant na iaalok para sa bayan.",
+            choices: [
+                { text: "Mag-Solar Power (Clean Energy)", cost: 35000, h: 25, t: 10, msg: "Tumpak! Ang Renewable Energy ay mas ligtas laban sa Climate Change." },
+                { text: "Payagan ang Coal Plant", cost: 10000, h: -50, t: 15, msg: "Mali! Ang uling ay naglalabas ng carbon na nagpapainit sa mundo." }
+            ]
         }
-        function tunogTama() {
-            tunog(680, 0.11, 0.05, 'sine');
-            tunog(900, 0.11, 0.05, 'sine', 0.10);
+    ];
+
+    function updateHUD() {
+        const displayBudget = stats.budget < 0 ? 0 : stats.budget;
+        const displayHealth = stats.health < 0 ? 0 : stats.health;
+        document.getElementById('healthTxt').textContent = displayHealth + "%";
+        document.getElementById('budgetTxt').textContent = "₱" + displayBudget.toLocaleString();
+        document.getElementById('trustTxt').textContent = stats.trust + "%";
+    }
+
+    function startGame() {
+        document.getElementById('briefingScreen').classList.add('nakatago');
+        document.getElementById('gameUI').classList.remove('nakatago');
+        updateHUD();
+        loadEvent();
+    }
+
+    function loadEvent() {
+        if(currentIdx >= gameEvents.length) { 
+            if(stats.health >= 50 && stats.budget >= 0) endGame(true); 
+            else endGame(false, "Hindi sapat ang iyong ginawa para maisalba ang bayan.");
+            return; 
         }
-        function tunogMali() {
-            tunog(180, 0.14, 0.055, 'square');
-        }
-
-        function updateOras() { orasTeksto.textContent = segundo; }
-
-        function lagayKalagayan(zona, text) {
-            const el = document.getElementById(`kalagayan-${zona}`);
-            if (el) el.textContent = text;
-        }
-
-        function buoSusi() {
-            susiSagot.innerHTML = Object.values(tugma)
-                .map(i => `<div class="susi-item">👉 ${i.detail}</div>`)
-                .join('');
-        }
-
-        function lockLahat() {
-            document.querySelectorAll('.kard-drag').forEach(k => {
-                k.setAttribute('draggable', 'false');
-                k.classList.add('locked');
-            });
-        }
-
-        function punanZona(zonaEl, item, sagotLang = false) {
-            const katawan = zonaEl.querySelector('.zona-katawan');
-            katawan.classList.add('puno');
-            zonaEl.classList.add('tama');
-            zonaEl.dataset.filled = 'true';
-            katawan.innerHTML = `
-                    <article class="kard-drag locked" style="width:100%">
-                        <img class="larawan" src="${item.image}" alt="${item.label}">
-                        <div class="katawan">
-                            <div class="pangalan">${sagotLang ? 'Tamang Sagot' : item.label}</div>
-                            <div class="paliwanag">${item.detail}</div>
-                        </div>
-                    </article>
-                `;
-        }
-
-        function ipakitaResulta(galingSaOras = false) {
-            if (!resultaKahon.classList.contains('nakatago')) return;
-
-            if (tama === 3) {
-                resultaPamagat.textContent = '“Magaling!” 🎉';
-                resultaTalata.textContent = 'Natukoy mo ang tamang ugnayan ng suliranin at epekto. Tandaan: Ang mga problemang ito ay magkakaugnay at kadalasang dulot ng gawain ng tao. Ngunit may magagawa tayo upang maiwasan ang mas matinding pinsala.';
-            } else {
-                resultaPamagat.textContent = '“Subukan muli!”';
-                resultaTalata.textContent = galingSaOras
-                    ? 'May ilang hindi tugma. Basahing muli ang mga konsepto at i-drag ulit.'
-                    : 'May ilang hindi tugma. Basahing muli ang mga konsepto at i-drag ulit.';
-            }
-
-            bilangTama.textContent = tama;
-            puntosTeksto.textContent = puntos;
-            tamaTeksto.textContent = tama;
-            buoSusi();
-
-            resultaKahon.classList.remove('nakatago');
-        }
-
-        function tapusin(galingSaOras = false) {
-            if (taposNa) return;
-            taposNa = true;
-            clearInterval(timer);
-            lockLahat();
-
-            // Ipakita ang kulang na tamang sagot kapag oras na o hindi kumpleto
-            document.querySelectorAll('.zona').forEach(zona => {
-                if (zona.dataset.filled === 'true') return;
-                const key = zona.dataset.zone;
-                const pares = Object.values(tugma).find(v => v.zone === key);
-                if (pares) {
-                    punanZona(zona, pares, true);
-                    lagayKalagayan(key, 'Sagot');
-                }
-            });
-
-            ipakitaResulta(galingSaOras);
-
-            //SAVE HERE
-            saveBalikAral();
-        }
-
-        function resetLaro() {
-            clearInterval(timer);
-
-            puntos = 0;
-            tama = 0;
-            segundo = 30;
-            taposNa = false;
-            hawak = null;
-            updateOras();
-
-            gabayTeksto.className = 'gabay';
-            gabayTeksto.textContent = 'I-drag ang bawat larawan papunta sa tamang epekto.';
-            resultaKahon.classList.add('nakatago');
-            susiSagot.innerHTML = '';
-
-            ayos.forEach(id => {
-                const card = document.querySelector(`.kard-drag[data-id="${id}"]`);
-                if (card) {
-                    card.classList.remove('locked', 'dragging', 'alog');
-                    card.setAttribute('draggable', 'true');
-                    const tag = card.querySelector('.tatak2');
-                    if (tag) tag.textContent = card.dataset.tag || 'Suliraning pangkapaligiran';
-                    cardsRoot.appendChild(card);
-                }
-            });
-
-            document.querySelectorAll('.zona').forEach(zona => {
-                zona.classList.remove('tama', 'over');
-                zona.dataset.filled = 'false';
-                const katawan = zona.querySelector('.zona-katawan');
-                katawan.className = 'zona-katawan';
-                katawan.textContent = 'I-drop ang tamang item dito';
-                lagayKalagayan(zona.dataset.zone, 'Hintay...');
-            });
-
-            timer = setInterval(() => {
-                if (taposNa) return;
-                segundo--;
-                updateOras();
-
-                if (segundo <= 0) {
-                    segundo = 0;
-                    updateOras();
-                    tapusin(true);
-                }
-            }, 1000);
-        }
-
-        function subokDrop(card, zona) {
-            if (taposNa || !card || !zona) return;
-            if (zona.dataset.filled === 'true') return;
-
-            const id = card.dataset.id;
-            const inaasahan = tugma[id].zone;
-            const target = zona.dataset.zone;
-
-            if (target === inaasahan) {
-                puntos += 1; // +1 bawat tamang sagot
-                tama += 1;
-                tunogTama();
-
-                lagayKalagayan(target, 'Tama ✓');
-                zona.dataset.filled = 'true';
-                zona.classList.add('tama');
-
-                const katawan = zona.querySelector('.zona-katawan');
-                katawan.classList.add('puno');
-                katawan.innerHTML = '';
-                card.classList.add('locked');
-                card.setAttribute('draggable', 'false');
-                katawan.appendChild(card);
-
-                gabayTeksto.className = 'gabay mensahe-tama';
-                gabayTeksto.textContent = 'Magaling! Tama ang iyong inilagay.';
-
-                if (tama === 3) {
-                    tapusin(false);
-                }
-            } else {
-                puntos = Math.max(0, puntos - 0);
-                tunogMali();
-
-                card.classList.add('alog');
-                setTimeout(() => card.classList.remove('alog'), 280);
-
-                gabayTeksto.className = 'gabay mensahe-mali';
-                gabayTeksto.textContent = '“Subukan muli!” May ilang hindi tugma. Basahing muli ang mga konsepto at i-drag ulit.';
-            }
-        }
-
-        document.querySelectorAll('.kard-drag').forEach(card => {
-            card.addEventListener('dragstart', () => {
-                if (taposNa || card.classList.contains('locked')) return;
-                hawak = card;
-                card.classList.add('dragging');
-            });
-            card.addEventListener('dragend', () => {
-                card.classList.remove('dragging');
-                hawak = null;
-            });
+        const ev = gameEvents[currentIdx];
+        document.getElementById('eventTitle').textContent = ev.title;
+        document.getElementById('eventDesc').textContent = ev.desc;
+        const grid = document.getElementById('choicesGrid');
+        grid.innerHTML = '';
+        ev.choices.forEach(c => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.innerHTML = `${c.text}<br><small style="color:#795548; font-size:0.85rem">Gastos: ₱${c.cost.toLocaleString()}</small>`;
+            btn.onclick = () => handleChoice(c);
+            grid.appendChild(btn);
         });
+    }
 
-        document.querySelectorAll('.zona').forEach(zona => {
-            zona.addEventListener('dragover', e => {
-                e.preventDefault();
-                if (!taposNa && zona.dataset.filled !== 'true') zona.classList.add('over');
-            });
-            zona.addEventListener('dragleave', () => zona.classList.remove('over'));
-            zona.addEventListener('drop', e => {
-                e.preventDefault();
-                zona.classList.remove('over');
-                subokDrop(hawak, zona);
-            });
-        });
+    function handleChoice(c) {
+        const msg = document.getElementById('statusMsg');
+        msg.style.display = 'block';
+        msg.textContent = c.msg;
+        msg.style.background = c.h > 0 ? '#c8e6c9' : '#ffcdd2';
+        msg.style.color = c.h > 0 ? '#2e7d32' : '#c62828';
+        msg.style.borderColor = c.h > 0 ? '#2e7d32' : '#c62828';
+        stats.health = Math.min(100, stats.health + c.h);
+        stats.budget -= c.cost;
+        stats.trust = Math.min(100, stats.trust + c.t);
+        updateHUD();
+        document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+        setTimeout(() => {
+            msg.style.display = 'none';
+            if (stats.health <= 0) endGame(false, "Tuluyang nasira ang ekosistema ng bayan.");
+            else if (stats.budget < 0) endGame(false, "Naubos ang pondo dahil sa maling pamamahala.");
+            else { currentIdx++; loadEvent(); }
+        }, 3000);
+    }
 
-        document.getElementById('resetBtn').addEventListener('click', resetLaro);
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            window.location.href = '{{ route("module3.iv_explore") }}';
-        });
-
-        function saveBalikAral() {
-            let timeSpent = Math.floor((Date.now() - startTime) / 1000);
-
-            fetch("{{ route('student.module3.balikaral.save') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    score: puntos,
-                    correct_answers: tama,
-                    total_items: 3,
-                    time_spent: timeSpent
-                })
-            })
-                .then(res => res.json())
-                .then(data => console.log("Saved:", data))
-                .catch(err => console.error(err));
+    function endGame(win, reason) {
+        document.getElementById('gameUI').classList.add('nakatago');
+        if(win) document.getElementById('victoryScreen').classList.remove('nakatago');
+        else {
+            document.getElementById('gameOverScreen').classList.remove('nakatago');
+            document.getElementById('failReason').textContent = reason;
         }
-
-        resetLaro();
-    </script>
+    }
+</script>
 @endsection

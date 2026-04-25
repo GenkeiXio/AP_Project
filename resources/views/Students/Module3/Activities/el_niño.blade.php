@@ -18,13 +18,21 @@
         }
 
         body {
-            background-color: #1a1a1a;
-            color: #f8fafc;
             font-family: 'Lora', serif;
-            margin: 0; padding: 0;
-            display: flex; justify-content: center; align-items: center;
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
             overflow-x: hidden;
+
+            /* 🔥 BACKGROUND IMAGE */
+            background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
+
+            /* Layout */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f8fafc;
         }
 
         /* MODAL & OVERLAY STYLE */
