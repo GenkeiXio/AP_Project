@@ -1,625 +1,790 @@
-<div class="story" id="rolly">
+@extends('Students.studentslayout')
+@section('title', 'InnerMap4')
 
-<style>
-    .gamified-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 3px solid #667eea;
-    }
+@push('styles')
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .story-title {
-        font-size: 24px;
-        font-weight: 800;
-        color: #222;
-    }
+        body {
+            background: #eef2f7;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            min-height: 100vh;
+        }
 
-    .story-xp {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 14px;
-    }
+        /* Background Map Container */
+        .background-map-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-    .card-header-gamified {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-    }
+        .background-map {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .card-number {
-        background: #667eea;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 18px;
-    }
+        /* Main Content Wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 25px 15px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
 
-    .card-points {
-        background: #ffc107;
-        color: #222;
-        padding: 5px 12px;
-        border-radius: 15px;
-        font-weight: 700;
-        font-size: 12px;
-    }
+        .node-container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 36px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            padding: 30px 30px 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
 
-    .learning-objective {
-        background: #e3f2fd;
-        border-left: 4px solid #667eea;
-        padding: 12px 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        font-size: 14px;
-        color: #333;
-    }
+        h1 {
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: #0b2b4a;
+            margin-bottom: 6px;
+        }
+        h1 i {
+            color: #0d6efd;
+            margin-right: 12px;
+        }
+        .subhead {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            border-left: 5px solid #ff9800;
+            padding-left: 18px;
+            margin: 10px 0 20px;
+        }
 
-    .learning-objective strong {
-        color: #667eea;
-    }
+        /* READ FIRST SECTION */
+        .read-first-card {
+            background: rgba(248, 250, 252, 0.95);
+            border-radius: 28px;
+            padding: 25px 30px;
+            border: 2px dashed #94a3b8;
+            margin-bottom: 35px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+            backdrop-filter: blur(5px);
+        }
+        .read-first-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+        
+        /* Media Container - Article & Video Side by Side */
+        .media-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 20px 0;
+        }
+        
+        .article-preview-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .article-preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .article-preview-header i {
+            font-size: 24px;
+            color: #0d6efd;
+        }
+        
+        .article-preview-header h4 {
+            margin: 0;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .article-excerpt {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #334155;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .article-excerpt::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .article-excerpt::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .article-excerpt::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .video-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .video-header i {
+            font-size: 24px;
+            color: #ff0000;
+        }
+        
+        .video-header h4 {
+            margin: 0;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .article-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .article-btn {
+            background: white;
+            border-radius: 60px;
+            padding: 12px 24px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border: 1px solid #dee2e6;
+            transition: all 0.15s;
+            color: #0b2b4a;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .article-btn:hover {
+            background: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+            transform: translateY(-2px);
+        }
+        
+        .confirmation-area {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .confirm-btn {
+            background: #2b3a55;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 18px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .confirm-btn:disabled {
+            opacity: 0.45;
+            box-shadow: none;
+            pointer-events: none;
+        }
+        .confirm-btn.enabled {
+            background: #0d6efd;
+        }
+        .confirm-btn.enabled:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+        
+        .read-status {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
 
-    .fact-box {
-        background: linear-gradient(135deg, #fff5e1, #ffe0b2);
-        border-radius: 10px;
-        padding: 15px;
-        margin: 15px 0;
-        border-left: 4px solid #ff9800;
-    }
+        /* drag drop zone */
+        .game-area {
+            margin-top: 15px;
+        }
+        .category-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+            margin: 25px 0 15px;
+        }
+        .cat-col {
+            background: #1e293b;
+            color: white;
+            padding: 16px 10px;
+            border-radius: 40px 40px 16px 16px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 0 #0f172a;
+        }
+        .cat-col.sanchi { 
+            background: #0d6efd; 
+            box-shadow: 0 8px 0 #0a4bb5; 
+        }
+        .cat-col.bunga { 
+            background: #b02e2e; 
+            box-shadow: 0 8px 0 #7a1f1f; 
+        }
+        .cat-col.tugon { 
+            background: #2e7d32; 
+            box-shadow: 0 8px 0 #1b5e20; 
+        }
 
-    .fact-box strong {
-        color: #e65100;
-    }
+        .dropzones-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+            min-height: 420px;
+        }
+        .dropzone {
+            background: rgba(249, 249, 255, 0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 24px;
+            padding: 18px 12px;
+            border: 3px dashed #b9c7da;
+            transition: background 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .dropzone.drag-over {
+            background: rgba(230, 240, 255, 0.95);
+            border-color: #0d6efd;
+        }
+        .statement-card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 18px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+            border-left: 8px solid;
+            font-weight: 500;
+            cursor: grab;
+            user-select: none;
+            transition: 0.1s;
+            border: 1px solid #e2e8f0;
+            font-size: 0.98rem;
+        }
+        .statement-card:active {
+            cursor: grabbing;
+            opacity: 0.8;
+        }
+        .statement-card.dragging {
+            opacity: 0.3;
+        }
+        .statement-card.sanhi-border { border-left-color: #0d6efd; }
+        .statement-card.bunga-border { border-left-color: #b02e2e; }
+        .statement-card.tugon-border { border-left-color: #2e7d32; }
 
-    .stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
-        margin: 15px 0;
-    }
+        .items-pool {
+            margin: 30px 0 15px;
+            background: rgba(238, 242, 246, 0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 28px;
+            padding: 20px 20px;
+        }
+        .pool-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        .draggable-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
 
-    .stat-card {
-        background: white;
-        border: 2px solid #667eea;
-        border-radius: 10px;
-        padding: 12px;
-        text-align: center;
-        font-weight: 700;
-    }
+        .summary-box {
+            background: rgba(233, 242, 250, 0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 28px;
+            padding: 25px 30px;
+            margin-top: 40px;
+            border-left: 12px solid #0d6efd;
+        }
 
-    .stat-number {
-        font-size: 24px;
-        color: #667eea;
-    }
+        .reset-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .reset-btn:hover {
+            background: #e2e8f0;
+        }
 
-    .stat-label {
-        font-size: 12px;
-        color: #666;
-        margin-top: 5px;
-    }
+        .image-badge {
+            font-size: 0.9rem;
+            margin-top: 4px;
+            color: #4b5563;
+        }
 
-    .quick-check {
-        background: #f3e5f5;
-        border-radius: 10px;
-        padding: 15px;
-        margin: 15px 0;
-        border-left: 4px solid #764ba2;
-    }
+        .footer-note {
+            margin-top: 20px;
+            font-style: italic;
+            color: #475569;
+        }
 
-    .quick-check-title {
-        font-weight: 700;
-        color: #764ba2;
-        margin-bottom: 8px;
-    }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .media-container {
+                grid-template-columns: 1fr;
+            }
+            .dropzones-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .category-header {
+                grid-template-columns: 1fr;
+            }
+            .node-container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+@endpush
 
-    .quick-check-btn {
-        background: #764ba2;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 12px;
-        margin-top: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .quick-check-btn:hover {
-        background: #667eea;
-        transform: translateY(-2px);
-    }
-
-    .achievement-badge {
-        display: inline-block;
-        background: gold;
-        color: #222;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 12px;
-        margin: 5px 5px 5px 0;
-        animation: pulse 0.5s ease-in-out;
-    }
-
-    @keyframes pulse {
-        0% { transform: scale(0.8); opacity: 0; }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); opacity: 1; }
-    }
-
-    .step-nav {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .step-nav button {
-        flex: 1;
-        padding: 10px 15px;
-        font-size: 14px;
-        font-weight: 600;
-        background: #f8fafc;
-        color: #1f2937;
-        border: 1px solid #cbd5e1;
-        transition: all 0.2s ease;
-    }
-
-    .step-nav button:hover {
-        background: #edf2f7;
-        transform: translateY(-1px);
-    }
-
-    .final-game-cta {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        padding: 14px 22px;
-        background: linear-gradient(135deg, #0d6efd, #6bc1ff);
-        color: white !important;
-        border: none !important;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 15px;
-        box-shadow: 0 14px 30px rgba(13, 110, 253, 0.22);
-        text-decoration: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .final-game-cta:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 18px 36px rgba(13, 110, 253, 0.26);
-    }
-</style>
-
-<div class="gamified-header">
-    <div class="story-title">🌀 Super Taifun Rolly</div>
-    <div class="story-xp" id="totalXP">Total XP: 0</div>
-</div>
-
-<div class="story-progress">
-    <div class="progress">
-        <div id="rollyProgressBar" class="progress-bar bg-warning" style="width: 12.5%;"></div>
+@section('content')
+    <!-- Background Map -->
+    <div class="background-map-container">
+        <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map" alt="Module 4 Inner Map">
     </div>
-    <div id="rollyProgressLabel" class="story-progress-label">Step 1 / 8</div>
-</div>
 
-<p>
-    <small>
-        📍 Location: Tabaco, Albay | 
-        Source: 
-        <a href="https://www.gmanetwork.com/news/topstories/nation/762951/rolly-worst-to-hit-tabaco-in-albay-since-1952-says-mayor/story/" 
-           target="_blank" 
-           style="color:#0d6efd; text-decoration:underline;">
-            GMA News Online (2020)
-        </a>
-    </small>
-</p>
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="node-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                    <h1><i class="fas fa-cyclone"></i> NODE 1: Super Typhoon Rolly 
+                        <span style="font-size: 1rem; background: #e6e9f0; padding: 5px 18px; border-radius: 30px; margin-left: 16px;">Tabaco, Albay</span>
+                    </h1>
+                </div>
+            </div>
 
-<!-- CARD 1 -->
-<div class="step active" id="rolly-step1">
-    <div class="card-header-gamified">
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <div class="card-number">1</div>
-            <h5 style="margin: 0;">🧩 ANO ANG NANGYARI?</h5>
+            <!-- READ FIRST SECTION with Article Preview and Video -->
+            <div class="read-first-card">
+                <div class="read-first-title">
+                    <i class="fas fa-book-open me-2"></i> 
+                     BAGO MAG-ACTIVITY: Basahin at panoorin
+                </div>
+                <p style="font-size: 1.05rem; margin-bottom: 5px;">
+                    <strong>Panuto:</strong> Basahin ang artikulo at panoorin ang video. Awtomatikong magpe-play ang video.
+                </p>
+                
+                <!-- Article & Video Side by Side -->
+                <div class="media-container">
+                    <!-- Article Preview Box -->
+                    <div class="article-preview-box">
+                        <div class="article-preview-header">
+                            <i class="fas fa-newspaper"></i>
+                            <h4>GMA News Online · Nobyembre 2020</h4>
+                        </div>
+                        <div class="article-excerpt">
+                            <strong>Rolly worst to hit Tabaco in Albay since 1952, says mayor</strong><br><br>
+                            Super Typhoon Rolly (international name: Goni) is the strongest typhoon to hit Tabaco City in Albay province since 1952, its mayor said Sunday.<br><br>
+                            "Ito na ang pinakamalakas na bagyo mula pa 1952," Tabaco Mayor Krisel Lagman-Luistro said in an interview on Dobol B sa News TV. "Malakas siya. Kung ikukumpara kay Reming noong 2006 at saka kay Niña noong 2016, itong si Rolly ay mas malakas."<br><br>
+                            The mayor said damage to infrastructure and agriculture in Tabaco is estimated at ₱2.5 billion. Around 3,500 houses were destroyed while 15,500 were damaged. About 90% of fishermen's boats were also destroyed.<br><br>
+                            The entire city has no electricity, and 15 villages are experiencing water shortage. Floodwaters reached neck-deep in some areas, forcing residents to swim. Despite the severity, <strong>zero casualties</strong> were reported in Tabaco due to preemptive evacuation.
+                        </div>
+                        <div class="article-links">
+                            <a href="https://www.gmanetwork.com/news/topstories/nation/762951/rolly-worst-to-hit-tabaco-in-albay-since-1952-says-mayor/story/" 
+                               target="_blank" 
+                               class="article-btn" 
+                               id="readArticleBtn">
+                                <i class="fas fa-external-link-alt"></i> Basahin ang buong artikulo
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Box with Autoplay -->
+                    <div class="video-container">
+                        <div class="video-header">
+                            <i class="fab fa-youtube"></i>
+                            <h4>Video: Super Typhoon Rolly</h4>
+                        </div>
+                        <div class="video-wrapper">
+                            <iframe 
+                                id="youtubeVideo"
+                                src="https://www.youtube.com/embed/mtf1JAQ2hq4?autoplay=1&mute=1&enablejsapi=1" 
+                                title="Super Typhoon Rolly"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="article-links" style="margin-top: 15px;">
+                            <a href="https://youtu.be/mtf1JAQ2hq4" 
+                               target="_blank" 
+                               class="article-btn" 
+                               id="watchVideoBtn">
+                                <i class="fab fa-youtube"></i> Panoorin sa YouTube
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Status and Unlock -->
+                <div class="confirmation-area">
+                    <button class="confirm-btn" id="unlockActivityBtn" disabled>🔒 I-unlock ang Activity</button>
+                    <div class="read-status">
+                        <span class="status-badge" id="articleStatus">⏳ Artikulo: Hindi pa nababasa</span>
+                        <span class="status-badge" id="videoStatus">⏳ Video: Hindi pa napapanood</span>
+                    </div>
+                </div>
+                <p class="mt-2 text-secondary">
+                    <small><i class="far fa-check-circle"></i> I-click ang "Basahin ang buong artikulo" at panoorin ang video para ma-unlock ang activity.</small>
+                </p>
+            </div>
+
+            <!-- DRAG DROP GAME -->
+            <div id="gameSection" style="opacity: 0.5; pointer-events: none; transition: opacity 0.3s;">
+                <div class="game-area">
+                    <div class="category-header">
+                        <div class="cat-col sanchi"><i class="fas fa-dot-circle"></i> SANHI</div>
+                        <div class="cat-col bunga"><i class="fas fa-exclamation-triangle"></i> BUNGA (EPEKTO)</div>
+                        <div class="cat-col tugon"><i class="fas fa-hands-helping"></i> MGA TUGON</div>
+                    </div>
+
+                    <div class="dropzones-row">
+                        <div class="dropzone" id="dropzoneSanhi" data-category="sanhi"></div>
+                        <div class="dropzone" id="dropzoneBunga" data-category="bunga"></div>
+                        <div class="dropzone" id="dropzoneTugon" data-category="tugon"></div>
+                    </div>
+
+                    <div class="items-pool">
+                        <div class="pool-title"><i class="fas fa-arrows-alt"></i> I-DRAG ANG MGA PAHAYAG SA TAMANG KAHON</div>
+                        <div class="draggable-container" id="draggablePool"></div>
+                        <div class="mt-3 text-end">
+                            <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang mga kard</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-box" id="summaryBox" style="display: none;">
+                    <h3 style="font-weight: 800;"><i class="fas fa-clipboard-list me-2"></i> BUOD (SUMMARY)</h3>
+                    <p style="font-size: 1.05rem; margin-top: 15px; line-height: 1.6;">
+                        Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali. Sa kabila ng matinding pinsala, <strong>walang naitalang nasawi</strong>, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan.
+                    </p>
+                    <div class="mt-3">
+                        <span class="badge bg-primary p-2 px-4" style="font-size: 1rem;">✅ Zero casualty · Bayanihan</span>
+                    </div>
+                </div>
+            </div>
+            <p class="footer-note"><i class="far fa-lightbulb"></i> Matapos mai-drag ang lahat ng pahayag sa tamang kategorya, lilitaw ang buod.</p>
         </div>
-        <div class="card-points">+100 XP</div>
     </div>
 
-    <div class="learning-objective">
-        <strong>📖 Layuning Pangkatuto:</strong> Alamin ang kahulugan at lakas ng Super Taifun Rolly
-    </div>
+    <script>
+        (function(){
+            "use strict";
 
-    <div class="img-grid">
-        <img src="{{ asset('pictures/Module4/rolly/card1_1.jpg') }}">
-        <img src="{{ asset('pictures/Module4/rolly/card1_2.jpg') }}">
-        <img src="{{ asset('pictures/Module4/rolly/card1_3.jpg') }}">
-    </div>
+            const statements = [
+                { 
+                    text: "Ang matinding pinsala at panganib na naranasan sa Tabaco, Albay—kabilang ang pagkasira ng mga bahay, kabuhayan, at mahahalagang serbisyo—ay kasabay ng pagdating ng Super Typhoon Rolly, na nagdala ng napakalakas na hangin at matinding pag-ulan na nagdulot ng malawakang pagbaha.", 
+                    category: "sanhi",
+                    imageNote: "🌀 SANHI"
+                },
+                { 
+                    text: "Nagresulta ito sa humigit-kumulang ₱2.5 bilyong pinsala, pagkawasak at pagkasira ng libu-libong bahay, pagkasira ng 90% ng mga bangka ng mangingisda, pagkawala ng kuryente sa buong lungsod, kakulangan sa suplay ng tubig, at matinding pagbaha. Nasira rin ang mga makasaysayang gusali. Gayunpaman, walang naitalang nasawi.", 
+                    category: "bunga",
+                    imageNote: "📉 EPEKTO"
+                },
+                { 
+                    text: "Ipinakita ng mga residente ang matibay na pagkakaisa at pagtutulungan sa gitna ng sakuna. Naging mahalaga ang kahandaan at disiplina, tulad ng maagang paglikas at pagsunod sa mga babala, kaya walang naitalang nasawi. Kumilos din ang lokal na pamahalaan upang magbigay ng agarang tulong.", 
+                    category: "tugon",
+                    imageNote: "🤝 TUGON"
+                }
+            ];
 
-    <div class="fact-box">
-        <strong>💡 Key Facts:</strong>
-        <ul style="margin: 8px 0 0 20px; padding: 0;">
-            <li>Pinakamalakas na bagyo sa Tabaco mula 1952</li>
-            <li>Mas malakas kaysa Reming at Niña</li>
-            <li>Classified as Super Typhoon (Super Taifun)</li>
-        </ul>
-    </div>
+            const readBtn = document.getElementById('readArticleBtn');
+            const watchBtn = document.getElementById('watchVideoBtn');
+            const unlockBtn = document.getElementById('unlockActivityBtn');
+            const gameSection = document.getElementById('gameSection');
+            const draggablePool = document.getElementById('draggablePool');
+            const dropSanhi = document.getElementById('dropzoneSanhi');
+            const dropBunga = document.getElementById('dropzoneBunga');
+            const dropTugon = document.getElementById('dropzoneTugon');
+            const summaryBox = document.getElementById('summaryBox');
+            const resetBtn = document.getElementById('resetGameBtn');
+            const articleStatus = document.getElementById('articleStatus');
+            const videoStatus = document.getElementById('videoStatus');
 
-    <div class="stat-grid">
-        <div class="stat-card">
-            <div class="stat-number">68</div>
-            <div class="stat-label">Taon simula 1952</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">🌪️</div>
-            <div class="stat-label">Maximum Strength</div>
-        </div>
-    </div>
+            let articleRead = false;
+            let videoWatched = false;
+            let gameUnlocked = false;
+            let draggedElement = null;
+            let cardElements = [];
 
-    <div class="quick-check">
-        <div class="quick-check-title">❓ Mabilis na Ideya</div>
-        <p style="margin: 8px 0; font-size: 14px;">Isang makasaysayan at napakalakas na sakuna na nagbago ng kapalaran ng Tabaco</p>
-        <button class="quick-check-btn" onclick="alert('✅ Tama! Ngayon alam mo na ang kahalagahan ng storm classification.')">Maintindihan ✓</button>
-    </div>
+            function updateStatus() {
+                if (articleRead) {
+                    articleStatus.innerHTML = '✅ Artikulo: Nabasa na';
+                    articleStatus.classList.add('completed');
+                } else {
+                    articleStatus.innerHTML = '⏳ Artikulo: Hindi pa nababasa';
+                    articleStatus.classList.remove('completed');
+                }
+                
+                if (videoWatched) {
+                    videoStatus.innerHTML = '✅ Video: Napanood na';
+                    videoStatus.classList.add('completed');
+                } else {
+                    videoStatus.innerHTML = '⏳ Video: Hindi pa napapanood';
+                    videoStatus.classList.remove('completed');
+                }
+            }
 
-    <div class="step-nav">
-        <button class="btn btn-secondary" disabled>← Nakaraan</button>
-        <button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step1', 100); nextStep(2); updateStoryProgress(currentStory, 2);">Susunod →</button>
-    </div>
-</div>
+            function updateUnlockButton() {
+                if (articleRead && videoWatched) {
+                    unlockBtn.disabled = false;
+                    unlockBtn.classList.add('enabled');
+                    unlockBtn.innerHTML = '🔓 I-unlock ang Activity (Drag & Drop)';
+                } else {
+                    unlockBtn.disabled = true;
+                    unlockBtn.classList.remove('enabled');
+                    unlockBtn.innerHTML = '🔒 I-unlock ang Activity';
+                }
+            }
 
-<!-- CARD 2 -->
-<div class="step" id="rolly-step2">
-    <div class="card-header-gamified">
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <div class="card-number">2</div>
-            <h5 style="margin: 0;">🧩 ULAT NG PINSALA</h5>
-        </div>
-        <!-- <div class="card-points">+100 XP</div> -->
-    </div>
+            readBtn.addEventListener('click', (e) => {
+                window.open(readBtn.href, '_blank');
+                articleRead = true;
+                updateStatus();
+                updateUnlockButton();
+            });
+            
+            watchBtn.addEventListener('click', (e) => {
+                window.open(watchBtn.href, '_blank');
+                videoWatched = true;
+                updateStatus();
+                updateUnlockButton();
+            });
 
-    <div class="learning-objective">
-        <strong>📖 Learning Goal:</strong> Maintindihan ang malaking pinsala sa nangailalang aspeto ng buhay
-    </div>
+            // Mark video as watched when played (since it autoplays)
+            const youtubeIframe = document.getElementById('youtubeVideo');
+            // Optional: You can also mark as watched after a few seconds using YouTube API
+            // For simplicity, we'll also consider it watched if they click the watch button
+            // But since it autoplays, we can auto-mark after 3 seconds
+            setTimeout(() => {
+                if (!videoWatched) {
+                    videoWatched = true;
+                    updateStatus();
+                    updateUnlockButton();
+                }
+            }, 3000);
 
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card2_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card2_2.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card2_3.jpg') }}">
-</div>
+            unlockBtn.addEventListener('click', () => {
+                if (!articleRead || !videoWatched) return;
+                gameUnlocked = true;
+                gameSection.style.opacity = '1';
+                gameSection.style.pointerEvents = 'auto';
+                unlockBtn.disabled = true;
+                unlockBtn.innerHTML = '✅ Aktibidad naka-unlock';
+            });
 
-<div class="stat-grid">
-<div class="stat-card">
-<div class="stat-number">₱2.5B</div>
-<div class="stat-label">Pinsala</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">3,500</div>
-<div class="stat-label">Nasirong Bahay</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">15,500</div>
-<div class="stat-label">Napinsalang Bahay</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">90%</div>
-<div class="stat-label">Nasirong Bangka</div>
-</div>
-</div>
+            function renderCards() {
+                draggablePool.innerHTML = '';
+                cardElements = [];
+                statements.forEach((stmt, index) => {
+                    const card = document.createElement('div');
+                    card.className = `statement-card ${stmt.category}-border`;
+                    card.setAttribute('draggable', 'true');
+                    card.setAttribute('data-category', stmt.category);
+                    card.setAttribute('data-index', index);
+                    card.innerHTML = `${stmt.text} <div class="image-badge"><i class="far fa-image"></i> ${stmt.imageNote}</div>`;
+                    
+                    card.addEventListener('dragstart', handleDragStart);
+                    card.addEventListener('dragend', handleDragEnd);
+                    draggablePool.appendChild(card);
+                    cardElements.push(card);
+                });
+            }
 
-<div class="fact-box">
-<strong>💡 Pagsusuri ng Epekto:</strong>
-<p style="margin: 8px 0 0 0; font-size: 14px;">Malubhang naapektuhan ang tirahan ng mga pamilya at ang pangunahing industriya ng pangingisda sa lugar.</p>
-</div>
+            function handleDragStart(e) {
+                if (!gameUnlocked) {
+                    e.preventDefault();
+                    return false;
+                }
+                draggedElement = this;
+                this.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', this.dataset.index);
+                e.dataTransfer.effectAllowed = 'move';
+            }
 
-<div class="quick-check">
-<div class="quick-check-title">❓ Kritikal na Pag-iisip</div>
-<p style="margin: 8px 0; font-size: 14px;">Bakit mahalagang i-monitor ang ebolusyon ng sakuna?</p>
-<button class="quick-check-btn" onclick="alert('✅ Tama! Para makapag-plano ng mabuting solusyon at makatulong ng mas marami.')">Sagutin</button>
-</div>
+            function handleDragEnd(e) {
+                this.classList.remove('dragging');
+                document.querySelectorAll('.dropzone').forEach(z => z.classList.remove('drag-over'));
+            }
 
-<div class="step-nav">
-<button class="btn btn-secondary" onclick="nextStep(1);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step2', 100); nextStep(3); updateStoryProgress(currentStory, 3);">Susunod →</button>
-</div>
-</div>
+            const dropzones = [dropSanhi, dropBunga, dropTugon];
+            dropzones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!gameUnlocked) return;
+                    e.dataTransfer.dropEffect = 'move';
+                    zone.classList.add('drag-over');
+                });
+                zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    if (!gameUnlocked) {
+                        alert('I-unlock muna ang activity sa pamamagitan ng pagbasa at panonood.');
+                        return;
+                    }
+                    const index = e.dataTransfer.getData('text/plain');
+                    if (!index || !draggedElement) return;
+                    
+                    const card = document.querySelector(`.statement-card[data-index="${index}"]`);
+                    if (!card) return;
+                    
+                    const targetCategory = zone.dataset.category;
+                    const cardCategory = card.dataset.category;
+                    
+                    if (cardCategory !== targetCategory) {
+                        alert(`❌ Hindi tama! Ang pahayag na ito ay para sa kategoryang ${cardCategory.toUpperCase()}. Subukan muli.`);
+                        return;
+                    }
+                    
+                    if (card.parentNode === zone) return;
+                    zone.appendChild(card);
+                    card.style.cursor = 'default';
+                    card.setAttribute('draggable', 'false');
+                    card.classList.add('placed');
+                    
+                    checkAllPlaced();
+                });
+            });
 
-<!-- CARD 3 -->
-<div class="step" id="rolly-step3">
-<div class="card-header-gamified">
-<div style="display: flex; gap: 10px; align-items: center;">
-<div class="card-number">3</div>
-<h5 style="margin: 0;">🧩 KAKULANGAN SA PANGANGAILANGAN</h5>
-</div>
-<div class="card-points">+100 XP</div>
-</div>
+            function checkAllPlaced() {
+                const totalCards = statements.length;
+                const placedSanhi = dropSanhi.children.length;
+                const placedBunga = dropBunga.children.length;
+                const placedTugon = dropTugon.children.length;
+                
+                if (placedSanhi + placedBunga + placedTugon === totalCards) {
+                    let correct = true;
+                    if (dropSanhi.children.length !== 1 || dropSanhi.children[0]?.dataset.category !== 'sanhi') correct = false;
+                    if (dropBunga.children.length !== 1 || dropBunga.children[0]?.dataset.category !== 'bunga') correct = false;
+                    if (dropTugon.children.length !== 1 || dropTugon.children[0]?.dataset.category !== 'tugon') correct = false;
+                    
+                    if (correct) {
+                        summaryBox.style.display = 'block';
+                    }
+                } else {
+                    summaryBox.style.display = 'none';
+                }
+            }
 
-<div class="learning-objective">
-<strong>📖 Layuning Pangkatuto:</strong> Maintindihan ang krisis pangkatauhan pagkatapos ng sakuna
-</div>
+            function resetGame() {
+                if (!gameUnlocked) return;
+                draggablePool.innerHTML = '';
+                dropSanhi.innerHTML = '';
+                dropBunga.innerHTML = '';
+                dropTugon.innerHTML = '';
+                renderCards();
+                summaryBox.style.display = 'none';
+            }
 
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card3_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card3_2.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card3_3.jpg') }}">
-</div>
+            resetBtn.addEventListener('click', resetGame);
 
-<div class="stat-grid">
-<div class="stat-card">
-<div class="stat-number">⚡</div>
-<div class="stat-label">Walang Kuryente</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">💧</div>
-<div class="stat-label">Kulang na Tubig</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">15</div>
-<div class="stat-label">Barangay Apektado</div>
-</div>
-</div>
+            document.addEventListener('dragover', (e) => e.preventDefault());
+            document.addEventListener('drop', (e) => e.preventDefault());
 
-<div class="fact-box">
-<strong>⚠️ Humanitarian Crisis:</strong>
-<p style="margin: 8px 0 0 0; font-size: 14px;">Naging mahirap ang pamumuhay at kaligtasan ng mga pamilya. Ang walang kuryente at tubig ay nagdulot ng health risks.</p>
-</div>
-
-<div class="achievement-badge">🏆 Awareness Champion</div>
-
-<div class="quick-check">
-<div class="quick-check-title">❓ Real-World Application</div>
-<p style="margin: 8px 0; font-size: 14px;">Ano ang mga pangangailangan na dapat bigyan ng priyoridad pagkatapos ng sakuna?</p>
-<button class="quick-check-btn" onclick="alert('✅ Tama! Tubig, pagkain, kuryente, at medikal na tulong ang priority.')">Sagutin</button>
-</div>
-
-<div class="step-nav">
-<button class="btn btn-secondary" onclick="nextStep(2);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step3', 100); nextStep(4); updateStoryProgress(currentStory, 4);">Susunod →</button>
-</div>
-</div>
-
-<!-- CARD 4 -->
-<div class="step" id="rolly-step4">
-<div class="card-header-gamified">
-<div style="display: flex; gap: 10px; align-items: center;">
-<div class="card-number">4</div>
-<h5 style="margin: 0;">🧩 KARANASAN SA BAHA</h5>
-</div>
-<div class="card-points">+100 XP</div>
-</div>
-
-<div class="learning-objective">
-<strong>📖 Layuning Pangkatuto:</strong> Unawain ang mga panganib na dala ng matinding pagbaha
-</div>
-
-<div class="img-grid">
-    <img src="{{ asset('pictures/Module4/rolly/card4_1.png') }}">
-    <img src="{{ asset('pictures/Module4/rolly/card4_2.png') }}">
-    <img src="{{ asset('pictures/Module4/rolly/card4_3.png') }}">
-</div>
-
-<div class="fact-box">
-<strong>🌊 Flood Characteristics:</strong>
-<ul style="margin: 8px 0 0 20px; padding: 0;">
-<li>Abot leeg ang baha</li>
-<li>Napilitang lumangoy ang mga tao</li>
-<li>Maraming bahay ang tinangay</li>
-</ul>
-</div>
-
-<div class="stat-grid">
-<div class="stat-card">
-<div class="stat-number">🏠</div>
-<div class="stat-label">Bahay Tinangay</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">⚠️</div>
-<div class="stat-label">Life-Threatening</div>
-</div>
-</div>
-
-<div class="quick-check">
-<div class="quick-check-title">❓ Kaalaman sa Kaligtasan</div>
-<p style="margin: 8px 0; font-size: 14px;">Bakit HINDI dapat lumangoy ang mga tao sa baha?</p>
-<button class="quick-check-btn" onclick="alert('✅ Tama! Mabilis na agos, kontaminasyon, at mga nakatagong obstacle ang naghihintay.')">Sagutin</button>
-</div>
-
-<div class="step-nav">
-<button class="btn btn-secondary" onclick="nextStep(3);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step4', 100); nextStep(5); updateStoryProgress(currentStory, 5);">Susunod →</button>
-</div>
-</div>
-
-<!-- CARD 5 -->
-<div class="step" id="rolly-step5">
-<div class="card-header-gamified">
-<div style="display: flex; gap: 10px; align-items: center;">
-<div class="card-number">5</div>
-<h5 style="margin: 0;">🧩 EPEKTO SA MGA TAO</h5>
-</div>
-<div class="card-points">+100 XP</div>
-</div>
-
-<div class="learning-objective">
-<strong>📖 Layuning Pangkatuto:</strong> Kilalanin ang kahalagahan ng paghahandang pangsakuna
-</div>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card5_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card5_2.jpg') }}">
-</div>
-
-<div class="fact-box">
-<strong>🎯 Silver Lining:</strong>
-<ul style="margin: 8px 0 0 20px; padding: 0;">
-<li>Hirap ang mga residente</li>
-<li>Kulang ang suplay</li>
-<li><strong style="color: green;">✅ Walang naitalang namatay</strong></li>
-</ul>
-</div>
-
-<div class="stat-grid">
-<div class="stat-card">
-<div class="stat-number">0</div>
-<div class="stat-label">Namatay</div>
-</div>
-<div class="stat-card">
-<div class="stat-number">💪</div>
-<div class="stat-label">Community Resilience</div>
-</div>
-</div>
-
-<div class="achievement-badge">🎖️ Preparedness Master</div>
-
-<div class="quick-check">
-<div class="quick-check-title">❓ Critical Insight</div>
-<p style="margin: 8px 0; font-size: 14px;">Bakit walang namatay kahit napakalakas ng bagyo?</p>
-<button class="quick-check-btn" onclick="alert('✅ Tama! Ang kahandaan, mabilis na paglikas, at disiplina ang nag-save ng buhay.')">Sagutin</button>
-</div>
-
-<div class="step-nav">
-<button class="btn btn-secondary" onclick="nextStep(4);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step5', 100); nextStep(6); updateStoryProgress(currentStory, 6);">Susunod →</button>
-</div>
-</div>
-
-<!-- CARD 6 -->
-<div class="step" id="rolly-step6">
-<div class="card-header-gamified">
-<div style="display: flex; gap: 10px; align-items: center;">
-<div class="card-number">6</div>
-<h5 style="margin: 0;">🧩 PINSALA SA PAMANA</h5>
-</div>
-<div class="card-points">+100 XP</div>
-</div>
-
-<div class="learning-objective">
-<strong>📖 Layuning Pangkatuto:</strong> Maunawaan ang kahalagahan ng pangangalaga sa pamanang kultural
-</div>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card6_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card6_2.png') }}">
-<img src="{{ asset('pictures/Module4/rolly/card6_3.png') }}">
-</div>
-
-<div class="fact-box">
-<strong>🏛️ Cultural Heritage Loss:</strong>
-<ul style="margin: 8px 0 0 20px; padding: 0;">
-<li>Nasira ang 160 taong gulang na simbahan</li>
-<li>Nasira ang makasaysayang bahay</li>
-</ul>
-</div>
-
-<div class="quick-check">
-<div class="quick-check-title">❓ Community Values</div>
-<p style="margin: 8px 0; font-size: 14px;">Bakit mahalaga i-restore ang mga historical structures?</p>
-<button class="quick-check-btn" onclick="alert('✅ Tama! Ito ay bahagi ng ating identity at history na dapat ipasa sa susunod na henerasyon.')">Sagutin</button>
-</div>
-
-<div class="step-nav">
-<button class="btn btn-secondary" onclick="nextStep(5);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step6', 100); nextStep(7); updateStoryProgress(currentStory, 7);">Susunod →</button>
-</div>
-</div>
-
-<!-- CARD 7 -->
-<div class="step" id="rolly-step7">
-<div class="card-header-gamified">
-<div style="display: flex; gap: 10px; align-items: center;">
-<div class="card-number">7</div>
-<h5 style="margin: 0;">🧩 PAGTUGON NG KOMUNIDAD</h5>
-</div>
-<div class="card-points">+100 XP</div>
-</div>
-
-<div class="learning-objective">
-<strong>📖 Layuning Pangkatuto:</strong> Makita ang kapangyarihan ng bayanihan at pagkakaisa ng komunidad
-</div>
-
-<div class="img-grid">
-<img src="{{ asset('pictures/Module4/rolly/card7_1.jpg') }}">
-<img src="{{ asset('pictures/Module4/rolly/card7_2.jpg') }}">
-</div>
-
-<div class="fact-box">
-<strong>🤝 Community Spirit:</strong>
-<ul style="margin: 8px 0 0 20px; padding: 0;">
-<li>Pagkakaisa at pagtutulungan</li>
-<li>Itinuring na pagsubok ng pananampalataya</li>
-</ul>
-</div>
-
-<div class="achievement-badge">🏆 Bayanihan Champion</div>
-<div class="achievement-badge">❤️ Community Leader</div>
-
-<div class="quick-check">
-<div class="quick-check-title">❓ Sariling Pagninilay</div>
-<p style="margin: 8px 0; font-size: 14px;">Paano ka makakatulong sa iyong komunidad sa panahon ng sakuna?</p>
-<button class="quick-check-btn" onclick="alert('✅ Maganda! Ang iyong malasakit at voluntarismo ay magagamit.')">Sagutin</button>
-</div>
-
-<div class="step-nav">
-<button class="btn btn-secondary" onclick="nextStep(6);">← Nakaraan</button>
-<button class="btn btn-primary" onclick="awardStepXP(currentStory+'-step7', 100); nextStep(8); updateStoryProgress(currentStory, 8);">Susunod →</button>
-</div>
-</div>
-
-<!-- CARD 8 - SUMMARY & GAME -->
-<div class="step" id="rolly-step8">
-<div class="card-header-gamified">
-<div style="display: flex; gap: 10px; align-items: center;">
-<div class="card-number">8</div>
-<h5 style="margin: 0;">🧩 BUOD & PAGSUSULIT</h5>
-</div>
-<div class="card-points">+200 XP</div>
-</div>
-
-<div class="learning-objective">
-<strong>📖 Pangwakas na Layunin:</strong> Ipag-apply ang natutunan sa interaktibong sitwasyon ng laro
-</div>
-
-<div class="fact-box" style="background: linear-gradient(135deg, #d4edda, #c3e6cb); border-left-color: #28a745;">
-<strong style="color: #155724;">📚 Kumpletong Buod:</strong>
-<p style="margin: 8px 0 0 0; font-size: 14px; color: #155724;">
-Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, <strong>walang naitalang nasawi</strong>, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa kalamidad.
-</p>
-</div>
-
-<div style="background: #e3f2fd; border: 2px solid #667eea; border-radius: 10px; padding: 15px; margin: 15px 0; text-align: center;">
-<div style="font-size: 24px; font-weight: 800; color: #667eea; margin-bottom: 10px;">🎯 Key Takeaways</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-<div style="background: white; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 12px;">✅ Disaster Preparedness Saves Lives</div>
-<div style="background: white; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 12px;">🤝 Community Unity Matters</div>
-<div style="background: white; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 12px;">🏛️ Preserve Our Heritage</div>
-<div style="background: white; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 12px;">💪 Build Resilience</div>
-</div>
-</div>
-
-<!-- OPTIONAL VIDEO -->
-<p><strong>🎥 Optional Video:</strong></p>
-<iframe width="100%" height="315"
-src="https://www.youtube.com/embed/mtf1JAQ2hq4"
-title="YouTube video"
-allowfullscreen></iframe>
-
-<div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 30px;">
-    <a href="{{ route('module4.rolly.game') }}" onclick="awardStepXP(currentStory+'-step8', 200)" class="btn btn-warning final-game-cta" style="text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 600;">🎮 Maglaro ng Game</a>
-</div>
-
-</div>
-
-</div>
+            renderCards();
+            updateStatus();
+            updateUnlockButton();
+            
+            document.addEventListener('dragstart', (e) => {
+                if (!gameUnlocked && e.target.classList.contains('statement-card')) {
+                    e.preventDefault();
+                    alert('🔒 Basahin at panoorin muna ang materyal, pagkatapos i-unlock ang aktibidad.');
+                }
+            }, true);
+        })();
+    </script>
+@endsection
