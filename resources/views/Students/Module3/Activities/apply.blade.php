@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -29,12 +29,10 @@
 
         body {
             background:
-                /* linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.8)), */
                 url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
-
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Baloo 2', cursive;
             line-height: 1.6;
         }
 
@@ -58,6 +56,7 @@
         }
 
         .main-title {
+            font-family: 'Baloo 2', cursive;
             font-weight: 700;
             font-size: 2.2rem;
             margin: 0;
@@ -93,6 +92,7 @@
 
         .protocol-card h5 {
             color: var(--brand-primary);
+            font-family: 'Baloo 2', cursive;
             font-weight: 700;
             margin-bottom: 1rem;
         }
@@ -114,6 +114,7 @@
 
         .panel-title {
             color: var(--brand-primary);
+            font-family: 'Baloo 2', cursive;
             font-weight: 700;
             border-left: 6px solid var(--brand-accent);
             padding-left: 15px;
@@ -153,6 +154,7 @@
         .btn-continue {
             background: var(--brand-accent);
             color: white;
+            font-family: 'Baloo 2', cursive;
             font-weight: 700;
             padding: 1.2rem 3.5rem;
             border-radius: 12px;
