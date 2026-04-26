@@ -240,6 +240,8 @@
     </div>
 </div>
 
+<x-vn />
+
 <script>
     /* Javascript logic remains identical to the previous fixed version */
     let stats = { health: 100, budget: 70000, trust: 80 };
@@ -335,5 +337,29 @@
             document.getElementById('failReason').textContent = reason;
         }
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const dialogueKey = "module3_balikaral";
+        if (!hasSeen(dialogueKey)) {
+            startDialogue([
+                {
+                    text: "Magaling! Narating mo na ang Ikatlong Modyul! Bago tayo magpatuloy, balikan muna natin ang mga natutuhan mo sa nakaraang modyul. May inihanda kaming maikling gawain upang makita kung naaalala mo pa ang mahahalagang konsepto.",
+                    name: "Mga Guro",
+                    image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+                },
+
+                {
+                    text: "Basahin nang mabuti ang bawat panuto at pag-isipan ang iyong mga sagot. Huwag mag-alala kung may makalimutan—bahagi ito ng pagkatuto. Maaari mo ring ulitin ang gawaing ito pagkatapos, kung nais mong mas mapabuti pa ang iyong resulta.",
+                    image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+                },
+
+                {
+                    text: "Kaya mo yan! Simulan na natin.",
+                    image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+                }
+            ], dialogueKey);
+        }
+    });
+
 </script>
 @endsection
