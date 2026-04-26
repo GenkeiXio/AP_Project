@@ -3,434 +3,605 @@
 
 @push('styles')
     <style>
-        html,
-        body {
-            height: 100%;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: url("{{ asset('pictures/mod4_innermap.png') }}") no-repeat center center fixed;
-            background-size: cover;
+            background: #eef2f7;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            min-height: 100vh;
         }
 
-        body::before {
-            content: "";
+        /* Background Map Container */
+        .background-map-container {
             position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: -1;
-        }
-
-        .page {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .hero {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 18px;
-            padding: 18px;
-        }
-
-        .title {
-            text-align: center;
-            font-weight: 900;
-            font-size: 1.8rem;
-            color: #1b5a42;
-        }
-
-        .section {
-            margin-top: 20px;
-            background: #fff;
-            padding: 16px;
-            border-radius: 12px;
-        }
-
-        /* PRE ACTIVITY */
-        .source-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .source-box {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 260px;
-        }
-
-        .media-frame {
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #000;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        .media-frame img,
-        .media-frame iframe {
+        .background-map {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* LOCK */
-        .locked {
-            pointer-events: none;
-            opacity: 0.6;
-            filter: blur(2px);
+        /* Main Content Wrapper */
+        .content-wrapper {
             position: relative;
+            z-index: 1;
+            padding: 25px 15px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
-        .locked::after {
-            content: "🔒 Kumpletuhin muna ang pagbasa at panonood";
-            position: absolute;
-            inset: 0;
+        .node-container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 36px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            padding: 30px 30px 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: #0b2b4a;
+            margin-bottom: 6px;
+        }
+        h1 i {
+            color: #d32f2f;
+            margin-right: 12px;
+        }
+        .subhead {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            border-left: 5px solid #ff9800;
+            padding-left: 18px;
+            margin: 10px 0 20px;
+        }
+
+        /* READ FIRST SECTION */
+        .read-first-card {
+            background: rgba(248, 250, 252, 0.95);
+            border-radius: 28px;
+            padding: 25px 30px;
+            border: 2px dashed #94a3b8;
+            margin-bottom: 35px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+            backdrop-filter: blur(5px);
+        }
+        .read-first-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+        
+        /* Media Container - Article & Video Side by Side */
+        .media-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 20px 0;
+        }
+        
+        .article-preview-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .article-preview-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.6);
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
         }
-
-        /* DROP GRID */
-        .drop-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+        
+        .article-preview-header i {
+            font-size: 24px;
+            color: #d32f2f;
         }
-
-        .drop-col {
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            overflow: hidden;
+        
+        .article-preview-header h4 {
+            margin: 0;
+            font-weight: 700;
+            color: #1e293b;
         }
-
-        .drop-header {
-            padding: 10px;
-            color: white;
-            font-weight: bold;
+        
+        .article-excerpt {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #334155;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-bottom: 15px;
         }
-
-        .drop-header.sanhi {
-            background: #1976d2;
+        
+        .article-excerpt::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .drop-header.epekto {
-            background: #c62828;
-        }
-
-        .drop-header.tugon {
-            background: #2e7d32;
-        }
-
-        .drop-zone {
-            min-height: 150px;
-            padding: 10px;
-            background: #fafafa;
-            border-top: 1px dashed #ccc;
-        }
-
-        /* CARD */
-        .card-container {
-            margin-top: 20px;
-            background: #fff8e1;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            cursor: grab;
-        }
-
-        /* BUTTONS */
-        .source-btn,
-        .unlock-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 14px;
+        
+        .article-excerpt::-webkit-scrollbar-track {
+            background: #f1f1f1;
             border-radius: 10px;
-            background: #4caf50;
-            color: white;
-            font-weight: bold;
+        }
+        
+        .article-excerpt::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .video-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .video-header i {
+            font-size: 24px;
+            color: #ff0000;
+        }
+        
+        .video-header h4 {
+            margin: 0;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56%;
+            height: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border: none;
+        }
+        
+        .article-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .article-btn {
+            background: white;
+            border-radius: 60px;
+            padding: 12px 24px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border: 1px solid #dee2e6;
+            transition: all 0.15s;
+            color: #0b2b4a;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
             cursor: pointer;
         }
-
-        #unlockBtn:disabled {
-            background: gray;
-            cursor: not-allowed;
+        .article-btn:hover {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+            transform: translateY(-2px);
         }
-
-        /* MODALS (GENERAL) */
-        .modal {
+        
+        /* Completed Button Style */
+        .article-btn.completed {
+            background: #2e7d32;
+            border-color: #1b5e20;
+            color: white;
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .article-btn.completed:hover {
+            transform: none;
+            background: #2e7d32;
+        }
+        
+        /* Modal Styles for Article */
+        .article-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 9999;
             justify-content: center;
             align-items: center;
         }
-
+        
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 700px;
-            border-radius: 12px;
+            height: 85%;
+            border-radius: 20px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-
-        /* ARTICLE MODAL */
+        
         .modal-header {
-            padding: 10px;
+            padding: 15px 20px;
+            background: #b71c1c;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: bold;
         }
-
+        
+        .modal-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .modal-header button:hover {
+            opacity: 0.8;
+        }
+        
         .modal-body {
-            height: 80vh;
+            flex: 1;
+            overflow: auto;
         }
-
+        
         .modal-body iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
-
-        /* SUMMARY MODAL */
-        .summary-content {
-            padding: 20px;
+        
+        .confirmation-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .confirm-btn {
+            background: #2b3a55;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 18px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            cursor: pointer;
+            min-width: 280px;
+            text-decoration: none;
+            display: inline-block;
             text-align: center;
+        }
+        .confirm-btn:disabled {
+            opacity: 0.55;
+            box-shadow: none;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+        .confirm-btn.enabled {
+            background: #d32f2f;
+        }
+        .confirm-btn.enabled:hover {
+            background: #b71c1c;
+            transform: scale(1.02);
+        }
+
+        .summary-box {
+            background: rgba(233, 242, 250, 0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 28px;
+            padding: 25px 30px;
+            margin-top: 40px;
+            border-left: 12px solid #d32f2f;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        
+        .back-button:hover {
+            transform: translateX(-3px);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .status-badge.read {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.not-read {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .media-container {
+                grid-template-columns: 1fr;
+            }
+            .node-container {
+                padding: 20px 15px;
+            }
         }
     </style>
 @endpush
 
 @section('content')
+    <!-- Background Map -->
+    <div class="background-map-container">
+        <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map" alt="Module 4 Inner Map">
+    </div>
 
-    <div class="page">
-        <section class="hero">
+    <a href="{{ route('inner.map4') }}" class="back-button">⬅️ Bumalik</a>
 
-            <h1 class="title">NODE 3: MALAKAS NA LINDOL SA PILIPINAS</h1>
+    <!-- Article Modal (Temporary Web View) -->
+    <div id="articleModal" class="article-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span><i class="fas fa-newspaper"></i> 📖 ABS-CBN News - Lindol sa Bogo City</span>
+                <button onclick="closeArticleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="articleIframe" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
 
-            <p>
-                <b>Panuto:</b> Basahin at unawaing mabuti ang inilahad na balita.
-                I-drag at i-drop ang mga ito sa tamang kategorya:
-                <b>Sanhi, Bunga, o Tugon.</b>
-            </p>
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="node-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                    <h1><i class="fas fa-house-damage"></i> NODE 3: Malakas na Lindol 
+                        <span style="font-size: 1rem; background: #e6e9f0; padding: 5px 18px; border-radius: 30px; margin-left: 16px;">Bogo City, Cebu</span>
+                    </h1>
+                </div>
+            </div>
 
-            <!-- PRE -->
-            <div class="section">
-                <h3>📘 BAGO MAG-ACTIVITY</h3>
-
-                <div class="source-grid">
-
-                    <div class="source-box">
-                        <h4>📰 Balita</h4>
-                        <div class="media-frame">
-                            <img src="{{ asset('pictures/Module4/lindol/card3_1.png') }}">
+            <!-- READ FIRST SECTION with Article Preview and Video -->
+            <div class="read-first-card">
+                <div class="read-first-title">
+                    <i class="fas fa-book-open me-2"></i> 
+                     BAGO MAG-ACTIVITY: Basahin at panoorin
+                </div>
+                <p style="font-size: 1.05rem; margin-bottom: 5px;">
+                    <strong>Panuto:</strong> Basahin ang artikulo at panoorin ang video. Awtomatikong magpe-play ang video.
+                </p>
+                
+                <!-- Article & Video Side by Side -->
+                <div class="media-container">
+                    <!-- Article Preview Box -->
+                    <div class="article-preview-box">
+                        <div class="article-preview-header">
+                            <i class="fas fa-newspaper"></i>
+                            <h4>ABS-CBN News · Enero 2026</h4>
                         </div>
-                        <button class="source-btn" onclick="openArticle(); markRead();">Basahin</button>
-                        <div id="readStatus">❌ Hindi pa nababasa</div>
-                    </div>
-
-                    <div class="source-box">
-                        <h4>🎥 Video</h4>
-                        <div class="media-frame">
-                            <iframe src="https://www.youtube.com/embed/48qGLqpyutQ"></iframe>
+                        <div class="article-excerpt">
+                            <strong>Magnitude 6.9 na lindol tumama sa Bogo City, Cebu</strong><br><br>
+                            Isang malakas na lindol na may lakas na magnitude 6.9 ang yumanig sa Bogo City, Cebu, na nagdulot ng matinding pinsala sa buhay at ari-arian. Ayon sa ulat, umabot sa 69 ang nasawi at 175 ang nasugatan dahil sa mga gumuhong gusali at bahay.<br><br>
+                            Maraming ospital ang napuno ng mga biktima kaya ang iba ay ginamot na lamang sa labas. Marami ring residente ang napilitang lumikas at pansamantalang nanirahan sa evacuation centers. Naranasan din ang daan-daang aftershocks, pagkakaroon ng mga bitak sa kalsada, at pagkawala ng kuryente sa ilang lugar.<br><br>
+                            Agad na kumilos ang pamahalaan at mga rescue teams upang magsagawa ng search and rescue operations at magbigay ng agarang tulong sa mga apektadong komunidad.
                         </div>
-                        <button class="source-btn" onclick="markWatched()">✔ Natapos</button>
-                        <div id="watchStatus">❌ Hindi pa napapanood</div>
+                        <div class="article-links">
+                            <button class="article-btn" id="readArticleBtn">
+                                <i class="fas fa-external-link-alt"></i> Basahin ang buong artikulo
+                            </button>
+                        </div>
                     </div>
-
+                    
+                    <!-- Video Box with Autoplay -->
+                    <div class="video-container">
+                        <div class="video-header">
+                            <i class="fab fa-youtube"></i>
+                            <h4>Video: Lindol sa Pilipinas</h4>
+                        </div>
+                        <div class="video-wrapper">
+                            <iframe 
+                                id="youtubeVideo"
+                                src="https://www.youtube.com/embed/48qGLqpyutQ?autoplay=1&mute=1&enablejsapi=1" 
+                                title="Lindol sa Pilipinas"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="article-links" style="margin-top: 15px;">
+                            <button class="article-btn" id="watchVideoBtn">
+                                <i class="fab fa-youtube"></i> Panoorin sa YouTube
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
-                <button id="unlockBtn" class="unlock-btn" disabled onclick="unlockActivity()">
-                    🔒 I-unlock ang Activity
-                </button>
+                
+                <!-- Single Centered Unlock Button - Redirects to game page -->
+                <div class="confirmation-area">
+                    <a href="{{ route('module4.node3.game') }}" class="confirm-btn" id="unlockActivityBtn" style="display: inline-block; text-decoration: none; text-align: center;">🔒 Simulan ang Activity</a>
+                </div>
             </div>
-
-            <!-- ACTIVITY -->
-            <div class="section locked" id="activitySection">
-
-                <div class="drop-grid">
-
-                    <div class="drop-col" data-accept="sanhi">
-                        <div class="drop-header sanhi">🔵 SANHI</div>
-                        <div class="drop-zone"></div>
-                    </div>
-
-                    <div class="drop-col" data-accept="epekto">
-                        <div class="drop-header epekto">🔴 BUNGA</div>
-                        <div class="drop-zone"></div>
-                    </div>
-
-                    <div class="drop-col" data-accept="tugon">
-                        <div class="drop-header tugon">🟢 MGA TUGON</div>
-                        <div class="drop-zone"></div>
-                    </div>
-
-                </div>
-
-                <div class="card-container">
-                    <h4>Kasalukuyang Card (<span id="cardCount">3</span>)</h4>
-                    <div id="currentCard" class="card" draggable="true"></div>
-                </div>
-
-            </div>
-
-            <!-- SUMMARY MODAL -->
-            <div id="summaryModal" class="modal">
-
-                <div class="modal-content summary-content">
-
-                    <h3>📘 BUOD</h3>
-
-                    <p>
-                        Ang magnitude 6.9 na lindol na tumama sa Bogo City ay nagdulot ng matinding pinsala sa buhay at
-                        ari-arian, kung saan
-                        umabot sa 69 ang nasawi at 175 ang nasugatan dahil sa mga gumuhong gusali at bahay. Maraming
-                        residente ang napilitang
-                        lumikas habang ang mga ospital ay napuno ng mga biktima. Naramdaman ang pagyanig sa iba’t ibang
-                        bahagi ng Visayas at
-                        Bicol, at sinundan ito ng daan-daang aftershocks na nagpalala ng sitwasyon. Sa kabila nito, mabilis
-                        na kumilos ang
-                        pamahalaan at mga rescue teams upang magbigay ng tulong, magsagawa ng search and rescue operations,
-                        at tiyakin ang
-                        kaligtasan ng mga apektadong komunidad, na nagpapakita ng kahalagahan ng kahandaan at pagtutulungan
-                        sa panahon ng
-                        sakuna.
-                    </p>
-
-                    <div style="margin-top:15px; display:flex; gap:10px; justify-content:center;">
-                        <a href="{{ route('inner.map4') }}" class="unlock-btn">
-                            🗺️ Bumalik sa Mapa
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- ARTICLE MODAL -->
-            <div id="articleModal" class="modal">
-
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <b>📖 Artikulo</b>
-                        <button onclick="closeArticle()">✕</button>
-                    </div>
-
-                    <div class="modal-body">
-                        <iframe
-                            src="https://www.abs-cbn.com/news/regions/2026/1/7/lindol-sa-manay-davao-oriental-1404"></iframe>
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
+        </div>
     </div>
 
     <script>
+        (function(){
+            "use strict";
 
-        /* SHUFFLE */
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+            const readBtn = document.getElementById('readArticleBtn');
+            const watchBtn = document.getElementById('watchVideoBtn');
+            const unlockLink = document.getElementById('unlockActivityBtn');
+            const articleModal = document.getElementById('articleModal');
+            const articleIframe = document.getElementById('articleIframe');
+            
+            let articleRead = false;
+            let videoWatched = false;
+            
+            // Save references to buttons to change their text/style later
+            const readButtonElement = readBtn;
+            const watchButtonElement = watchBtn;
+            
+            // Article URL - Using the ABS-CBN news article about the earthquake
+            const articleUrl = "https://www.abs-cbn.com/news/regions/2026/1/7/lindol-sa-manay-davao-oriental-1404";
+
+            function openArticleModal() {
+                articleIframe.src = articleUrl;
+                articleModal.style.display = 'flex';
             }
-        }
 
-        const cards = [
-            { text: "Ang malakas na lindol na may lakas na magnitude 6.9 ay dulot ng paggalaw ng mga tectonic plates sa ilalim ng lupa. Ang epicenter nito ay naitala sa Bogo City, na nagdulot ng matinding pagyanig na naramdaman sa iba’t ibang bahagi ng Visayas at Bicol.", type: "sanhi" },
-
-            { text: "Nagresulta ang lindol sa matinding pinsala sa buhay at ari-arian. Umabot sa 69 ang nasawi at 175 ang nasugatan dahil sa mga gumuhong gusali at bahay. Maraming ospital ang napuno ng mga biktima kaya ang iba ay ginamot na lamang sa labas. Marami ring residente ang napilitang lumikas at pansamantalang nanirahan sa evacuation centers. Naranasan din ang daan-daang aftershocks, pagkakaroon ng mga bitak sa kalsada, at pagkawala ng kuryente sa ilang lugar.", type: "epekto" },
-
-            { text: "Agad na kumilos ang pamahalaan at mga rescue teams upang magsagawa ng search and rescue operations at magbigay ng agarang tulong sa mga apektadong komunidad. Nagkaroon ng mga babala at paghahanda para sa kaligtasan ng mga residente, kabilang ang paglikas sa mga mapanganib na lugar. Ipinakita rin ng komunidad ang pagtutulungan at bayanihan sa pagtulong sa mga biktima ng sakuna.", type: "tugon" }
-        ];
-
-        shuffleArray(cards);
-
-        let currentIndex = 0;
-        const card = document.getElementById("currentCard");
-
-        function loadCard() {
-            if (currentIndex >= cards.length) {
-                card.innerText = "🎉 Tapos na!";
-                setTimeout(() => summaryModal.style.display = "flex", 500);
-                return;
+            function closeArticleModal() {
+                articleModal.style.display = 'none';
+                // Mark as read when modal is closed
+                if (!articleRead) {
+                    articleRead = true;
+                    // Change button style to completed (green)
+                    if (readButtonElement) {
+                        readButtonElement.classList.add('completed');
+                        readButtonElement.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Tapos na';
+                    }
+                    updateUnlockLink();
+                }
             }
-            card.innerText = cards[currentIndex].text;
-            cardCount.innerText = cards.length - currentIndex;
-        }
 
-        card.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("type", cards[currentIndex].type);
-            e.dataTransfer.setData("text", cards[currentIndex].text);
-        });
+            function markVideoWatched() {
+                if (!videoWatched) {
+                    videoWatched = true;
+                    // Change button style to completed (green)
+                    if (watchButtonElement) {
+                        watchButtonElement.classList.add('completed');
+                        watchButtonElement.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Tapos na';
+                    }
+                    updateUnlockLink();
+                }
+            }
 
-        document.querySelectorAll(".drop-zone").forEach(zone => {
-            zone.addEventListener("dragover", e => e.preventDefault());
-            zone.addEventListener("drop", e => {
-                e.preventDefault();
-
-                const type = e.dataTransfer.getData("type");
-                const text = e.dataTransfer.getData("text");
-
-                if (type === zone.parentElement.dataset.accept) {
-                    let item = document.createElement("div");
-                    item.className = "card";
-                    item.innerText = text;
-                    zone.appendChild(item);
-                    currentIndex++;
-                    loadCard();
+            function updateUnlockLink() {
+                if (articleRead && videoWatched) {
+                    // Keep the button text as only "I-unlock ang Activity" without extra text
+                    unlockLink.style.pointerEvents = 'auto';
+                    unlockLink.style.opacity = '1';
+                    unlockLink.classList.add('enabled');
+                    unlockLink.innerHTML = '🎮 Simulan ang Activity';
                 } else {
-                    alert("❌ Mali!");
+                    unlockLink.style.pointerEvents = 'none';
+                    unlockLink.style.opacity = '0.6';
+                    unlockLink.classList.remove('enabled');
+                    unlockLink.innerHTML = '🔒 Simulan ang Activity';
+                }
+            }
+
+            // Open article modal when clicking read button
+            readBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openArticleModal();
+            });
+            
+            // Handle video watching - open YouTube in new tab and mark as watched
+            watchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open('https://youtu.be/48qGLqpyutQ', '_blank');
+                markVideoWatched();
+            });
+
+            // Mark video as watched after playing (autoplay detection)
+            let videoMarkTimeout = setTimeout(() => {
+                if (!videoWatched) {
+                    markVideoWatched();
+                }
+            }, 5000); // Mark as watched after 5 seconds of autoplay
+
+            // Close modal when clicking outside (optional)
+            articleModal.addEventListener('click', (e) => {
+                if (e.target === articleModal) {
+                    closeArticleModal();
                 }
             });
-        });
 
-        loadCard();
+            // Prevent navigation if not unlocked
+            unlockLink.addEventListener('click', (e) => {
+                if (!articleRead || !videoWatched) {
+                    e.preventDefault();
+                    alert('🔒 Basahin muna ang artikulo at panoorin ang video bago i-unlock ang aktibidad.');
+                    return false;
+                }
+                return true;
+            });
 
-        /* LOCK */
-        let hasRead = false, hasWatched = false;
-
-        function markRead() { hasRead = true; readStatus.innerText = "✅"; checkUnlock(); }
-        function markWatched() { hasWatched = true; watchStatus.innerText = "✅"; checkUnlock(); }
-
-        function checkUnlock() {
-            if (hasRead && hasWatched) unlockBtn.disabled = false;
-        }
-
-        function unlockActivity() {
-            activitySection.classList.remove("locked");
-        }
-
-        function openArticle() {
-            document.getElementById('articleModal').style.display = 'flex';
-        }
-
-        function closeArticle() {
-            document.getElementById('articleModal').style.display = 'none';
-        }
-
-        function closeSummary() {
-            document.getElementById('summaryModal').style.display = 'none';
-        }
-
+            // Initialize
+            updateUnlockLink();
+            
+            // Cleanup timeout on page unload
+            window.addEventListener('beforeunload', () => {
+                if (videoMarkTimeout) clearTimeout(videoMarkTimeout);
+            });
+        })();
     </script>
-
 @endsection

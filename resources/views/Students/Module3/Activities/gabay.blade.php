@@ -7,7 +7,7 @@
     <title>Suri-Larawan: Gabay sa Kaligtasan</title>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:wght@400;700&family=Pirata+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
 
         :root {
             --papel: #fdf5e6;
@@ -23,13 +23,11 @@
             padding: 0;
             height: 100vh;
             overflow: hidden;
-            font-family: 'Lora', serif;
-
+            font-family: 'Baloo 2', cursive;
             background:
                 linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
                 url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
-
             display: flex;
             justify-content: center;
             align-items: center;
@@ -71,7 +69,7 @@
         }
 
         .scroll-header h1 {
-            font-family: 'Pirata One';
+            font-family: 'Baloo 2', cursive;
             color: var(--ginto);
             font-size: 42px;
             margin: 0;
@@ -106,9 +104,9 @@
             color: var(--ginto);
             border: 2px solid var(--ginto);
             padding: 15px 40px;
-            font-family: 'Cinzel';
-            font-weight: 900;
-            font-size: 18px;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
+            font-size: 20px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: 0.3s;
@@ -130,9 +128,9 @@
         }
 
         .card-header h2 {
-            font-family: 'Cinzel';
+            font-family: 'Baloo 2', cursive;
             margin: 0;
-            font-size: 18px;
+            font-size: 30px;
         }
 
         .image-viewer {
@@ -160,8 +158,8 @@
             border: 2px solid var(--kahoy);
             padding: 12px;
             cursor: pointer;
-            font-family: 'Cinzel';
-            font-weight: bold;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 800;
             transition: 0.2s;
             color: var(--kahoy);
             display: flex;
@@ -189,7 +187,7 @@
         }
 
         .stamp {
-            font-family: 'Pirata One';
+            font-family: 'Baloo 2', cursive;
             font-size: 90px;
             transform: rotate(-15deg);
             padding: 10px 40px;
@@ -274,7 +272,7 @@
         </div>
 
         <div id="resultArea" style="display:none; padding: 40px; text-align: center;">
-            <h2 style="font-family: 'Pirata One'; font-size: 45px; margin: 0; color: var(--kahoy);">ULAT NG PAGSULIT
+            <h2 style="font-family: 'Baloo 2', cursive; font-size: 45px; margin: 0; color: var(--kahoy);">ULAT NG PAGSULIT
             </h2>
             <hr style="border: 1px solid var(--kahoy); opacity: 0.2;">
             <div style="font-size: 65px; font-weight: 900; color: var(--kahoy); margin: 15px 0;" id="finalScoreDisplay">

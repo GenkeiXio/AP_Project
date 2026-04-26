@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'Drag & Drop Activity - Sanhi, Bunga, Tugon')
+@section('title', 'Drag & Drop Activity - Lindol sa Bogo City')
 
 @push('styles')
     <style>
@@ -64,7 +64,7 @@
             margin-bottom: 6px;
         }
         h1 i {
-            color: #0d6efd;
+            color: #d32f2f;
             margin-right: 12px;
         }
         
@@ -137,7 +137,6 @@
         }
         
         .cat-col {
-            background: #1e293b;
             color: white;
             padding: 20px 15px;
             border-radius: 24px 24px 20px 20px;
@@ -145,7 +144,7 @@
             font-weight: 800;
             font-size: 1.6rem;
             letter-spacing: 0.5px;
-            box-shadow: 0 6px 0 #0f172a;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
             transition: transform 0.2s;
         }
         
@@ -153,7 +152,7 @@
             background: linear-gradient(135deg, #0d6efd, #0a58ca);
             box-shadow: 0 6px 0 #0a4bb5; 
         }
-        .cat-col.bunga-cat { 
+        .cat-col.epekto-cat { 
             background: linear-gradient(135deg, #b02e2e, #8b2323);
             box-shadow: 0 6px 0 #7a1f1f; 
         }
@@ -212,8 +211,8 @@
         }
         
         .dropzone.drag-over {
-            background: rgba(13, 110, 253, 0.1);
-            border-color: #0d6efd;
+            background: rgba(211, 47, 47, 0.08);
+            border-color: #d32f2f;
             border-style: solid;
         }
         
@@ -311,7 +310,7 @@
             width: 20px;
             height: 20px;
             border: 2px solid #e9ecef;
-            border-top-color: #0d6efd;
+            border-top-color: #d32f2f;
             border-radius: 50%;
             animation: spin 0.6s linear infinite;
             margin-left: 10px;
@@ -362,7 +361,7 @@
         }
         
         .modal-header {
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
             padding: 24px 32px;
             border-radius: 48px 48px 0 0;
             color: white;
@@ -394,7 +393,7 @@
         }
         
         .modal-btn {
-            background: linear-gradient(135deg, #2e7d32, #1e5a20);
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
             color: white;
             border: none;
             padding: 14px 32px;
@@ -512,13 +511,13 @@
         <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map" alt="Module 4 Inner Map">
     </div>
 
-    <a href="{{ route('module4.node1') }}" class="back-button">⬅️ Bumalik</a>
+    <a href="{{ route('module4.node3') }}" class="back-button">⬅️ Bumalik</a>
 
     <div class="content-wrapper">
         <div class="game-container">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 5px;">
                 <div>
-                    <h1><i class="fas fa-arrows-alt"></i>Sanhi, Bunga, at Tugon</h1>
+                    <h1><i class="fas fa-house-damage"></i>Sanhi, Epekto, at Mga Tugon</h1>
                     <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b> Panuto:</b> I-drag ang bawat card papunta sa tamang kahon. Matapos ilagay ang kasalukuyang card, awtomatikong lalabas ang susunod na card.</p>
                 </div>
             </div>
@@ -539,13 +538,13 @@
             <div class="category-header">
                 <div class="cat-col sanhi-cat">
                     <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi Icon" class="cat-image" onerror="this.style.display='none'">
-                    <i class="fas fa-frown cat-icon"></i>
+                    <i class="fas fa-cloud-rain cat-icon"></i>
                     <div class="cat-label">SANHI</div>
                 </div>
-                <div class="cat-col bunga-cat">
-                    <img src="{{ asset('pictures/bunga-icon.png') }}" alt="Bunga Icon" class="cat-image" onerror="this.style.display='none'">
-                    <i class="fas fa-tornado cat-icon"></i>
-                    <div class="cat-label">BUNGA</div>
+                <div class="cat-col epekto-cat">
+                    <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto Icon" class="cat-image" onerror="this.style.display='none'">
+                    <i class="fas fa-house-damage cat-icon"></i>
+                    <div class="cat-label">EPEKTO</div>
                 </div>
                 <div class="cat-col tugon-cat">
                     <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon Icon" class="cat-image" onerror="this.style.display='none'">
@@ -559,7 +558,7 @@
                 <div class="dropzone" id="dropzoneSanhi" data-category="sanhi">
                     <!-- Drop zone content will be added here -->
                 </div>
-                <div class="dropzone" id="dropzoneBunga" data-category="bunga">
+                <div class="dropzone" id="dropzoneEpekto" data-category="epekto">
                     <!-- Drop zone content will be added here -->
                 </div>
                 <div class="dropzone" id="dropzoneTugon" data-category="tugon">
@@ -582,7 +581,7 @@
                 <h2><i class="fas fa-clipboard-list"></i> 📖 BUOD (Summary)</h2>
             </div>
             <div class="modal-body">
-                <p>Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, walang naitalang nasawi, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa kalamidad.</p>
+                <p>Ang magnitude 6.9 na lindol na tumama sa Bogo City ay nagdulot ng matinding pinsala sa buhay at ari-arian, kung saan umabot sa 69 ang nasawi at 175 ang nasugatan dahil sa mga gumuhong gusali at bahay. Maraming residente ang napilitang lumikas habang ang mga ospital ay napuno ng mga biktima. Naramdaman ang pagyanig sa iba't ibang bahagi ng Visayas at Bicol, at sinundan ito ng daan-daang aftershocks na nagpalala ng sitwasyon. Sa kabila nito, mabilis na kumilos ang pamahalaan at mga rescue teams upang magbigay ng tulong, magsagawa ng search and rescue operations, at tiyakin ang kaligtasan ng mga apektadong komunidad, na nagpapakita ng kahalagahan ng kahandaan at pagtutulungan sa panahon ng sakuna.</p>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn" id="modalContinueBtn"><i class="fas fa-arrow-right"></i> Magpatuloy</button>
@@ -597,17 +596,17 @@
             // ==================== STATEMENTS DATA ====================
             const fullStatements = [
                 { 
-                    text: "Ang matinding pinsala at panganib na naranasan sa Tabaco, Albay—kabilang ang pagkasira ng mga bahay, kabuhayan, at mahahalagang serbisyo—ay kasabay ng pagdating ng Super Typhoon Rolly, na nagdala ng napakalakas na hangin at matinding pag-ulan na nagdulot ng malawakang pagbaha.", 
+                    text: "Ang malakas na lindol na may lakas na magnitude 6.9 ay dulot ng paggalaw ng mga tectonic plates sa ilalim ng lupa. Ang epicenter nito ay naitala sa Bogo City, na nagdulot ng matinding pagyanig na naramdaman sa iba't ibang bahagi ng Visayas at Bicol.", 
                     category: "sanhi",
                     imageIcon: "pictures/sanhi-card.png"
                 },
                 { 
-                    text: "Nagresulta ito sa humigit-kumulang ₱2.5 bilyong pinsala, pagkawasak at pagkasira ng libu-libong bahay, pagkasira ng 90% ng mga bangka ng mangingisda, pagkawala ng kuryente sa buong lungsod, kakulangan sa suplay ng tubig sa ilang barangay, at matinding pagbaha kung saan napilitang lumangoy ang ilang residente. Nasira rin ang mga makasaysayang gusali. Gayunpaman, walang naitalang nasawi.", 
-                    category: "bunga",
-                    imageIcon: "pictures/bunga-card.png"
+                    text: "Nagresulta ang lindol sa matinding pinsala sa buhay at ari-arian. Umabot sa 69 ang nasawi at 175 ang nasugatan dahil sa mga gumuhong gusali at bahay. Maraming ospital ang napuno ng mga biktima kaya ang iba ay ginamot na lamang sa labas. Marami ring residente ang napilitang lumikas at pansamantalang nanirahan sa evacuation centers. Naranasan din ang daan-daang aftershocks, pagkakaroon ng mga bitak sa kalsada, at pagkawala ng kuryente sa ilang lugar.", 
+                    category: "epekto",
+                    imageIcon: "pictures/epekto-card.png"
                 },
                 { 
-                    text: "Ipinakita ng mga residente ang matibay na pagkakaisa at pagtutulungan sa gitna ng sakuna. Naging mahalaga ang kahandaan at disiplina, tulad ng maagang paglikas at pagsunod sa mga babala, kaya walang naitalang nasawi. Kumilos din ang lokal na pamahalaan upang magbigay ng agarang tulong, kabilang ang pamamahagi ng suplay at pagsasaayos ng mga apektadong lugar. Sa kabuuan, ang mabilis na pagtugon ng komunidad at pamahalaan ang naging susi upang mapanatili ang kaligtasan ng mga tao.", 
+                    text: "Agad na kumilos ang pamahalaan at mga rescue teams upang magsagawa ng search and rescue operations at magbigay ng agarang tulong sa mga apektadong komunidad. Nagkaroon ng mga babala at paghahanda para sa kaligtasan ng mga residente, kabilang ang paglikas sa mga mapanganib na lugar. Ipinakita rin ng komunidad ang pagtutulungan at bayanihan sa pagtulong sa mga biktima ng sakuna.", 
                     category: "tugon",
                     imageIcon: "pictures/tugon-card.png"
                 }
@@ -628,7 +627,7 @@
             const waitingArea = document.getElementById('waitingCardArea');
             const remainingCountSpan = document.getElementById('remainingCount');
             const dropSanhi = document.getElementById('dropzoneSanhi');
-            const dropBunga = document.getElementById('dropzoneBunga');
+            const dropEpekto = document.getElementById('dropzoneEpekto');
             const dropTugon = document.getElementById('dropzoneTugon');
             const resetBtn = document.getElementById('resetGameBtn');
             const completionStatus = document.getElementById('completionStatus');
@@ -668,9 +667,9 @@
             function checkAllPlacedFinal() {
                 const totalCards = fullStatements.length;
                 const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
-                const bungaCount = dropBunga ? dropBunga.querySelectorAll('.statement-card').length : 0;
+                const epektoCount = dropEpekto ? dropEpekto.querySelectorAll('.statement-card').length : 0;
                 const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
-                const totalPlaced = sanhiCount + bungaCount + tugonCount;
+                const totalPlaced = sanhiCount + epektoCount + tugonCount;
                 
                 let allCorrect = false;
                 if (totalPlaced === totalCards) {
@@ -679,9 +678,9 @@
                         const cards = Array.from(dropSanhi.querySelectorAll('.statement-card'));
                         if (cards.some(card => card.dataset.category !== 'sanhi')) correct = false;
                     }
-                    if (dropBunga) {
-                        const cards = Array.from(dropBunga.querySelectorAll('.statement-card'));
-                        if (cards.some(card => card.dataset.category !== 'bunga')) correct = false;
+                    if (dropEpekto) {
+                        const cards = Array.from(dropEpekto.querySelectorAll('.statement-card'));
+                        if (cards.some(card => card.dataset.category !== 'epekto')) correct = false;
                     }
                     if (dropTugon) {
                         const cards = Array.from(dropTugon.querySelectorAll('.statement-card'));
@@ -727,26 +726,9 @@
                     `;
                 }
                 
-                // Footer Badge HTML
-                let footerBadgeHtml = '';
-                if (statement.imageIcon && statement.imageNote) {
-                    footerBadgeHtml = `
-                        <div class="card-footer-badge">
-                            <img src="{{ asset('${statement.imageIcon}') }}" alt="icon" onerror="this.style.display='none'">
-                        </div>
-                    `;
-                } else if (statement.imageNote) {
-                    footerBadgeHtml = `
-                        <div class="card-footer-badge">
-                            <span><i class="far fa-image"></i> ${statement.imageNote}</span>
-                        </div>
-                    `;
-                }
-                
                 card.innerHTML = `
                     ${headerImageHtml}
                     <div class="card-text-content">${statement.text}</div>
-                    ${footerBadgeHtml}
                 `;
                 
                 card.addEventListener('dragstart', handleDragStart);
@@ -805,9 +787,9 @@
                 // Check if all cards are placed
                 const totalCards = fullStatements.length;
                 const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
-                const bungaCount = dropBunga ? dropBunga.querySelectorAll('.statement-card').length : 0;
+                const epektoCount = dropEpekto ? dropEpekto.querySelectorAll('.statement-card').length : 0;
                 const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
-                const totalPlaced = sanhiCount + bungaCount + tugonCount;
+                const totalPlaced = sanhiCount + epektoCount + tugonCount;
                 
                 if (totalPlaced === totalCards) {
                     // All cards placed, check final correctness
@@ -849,7 +831,7 @@
             }
             
             function setupDropZones() {
-                const dropzones = [dropSanhi, dropBunga, dropTugon];
+                const dropzones = [dropSanhi, dropEpekto, dropTugon];
                 dropzones.forEach(zone => {
                     if (!zone) return;
                     
@@ -875,7 +857,6 @@
                         
                         if (cardCategory !== targetCategory) {
                             shakeCard(draggedElement);
-                            // No hint/error message shown - just shake
                             return;
                         }
                         
@@ -909,7 +890,7 @@
                 
                 // Clear all dropzones
                 if (dropSanhi) dropSanhi.innerHTML = '';
-                if (dropBunga) dropBunga.innerHTML = '';
+                if (dropEpekto) dropEpekto.innerHTML = '';
                 if (dropTugon) dropTugon.innerHTML = '';
                 
                 // Reset waiting area

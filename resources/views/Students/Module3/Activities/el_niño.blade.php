@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gawain: El Niño at La Niña</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -18,17 +18,13 @@
         }
 
         body {
-            font-family: 'Lora', serif;
+            font-family: 'Baloo 2', cursive;
             margin: 0;
             padding: 0;
             min-height: 100vh;
             overflow-x: hidden;
-
-            /* 🔥 BACKGROUND IMAGE */
             background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
-
-            /* Layout */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,9 +53,9 @@
             overflow-y: auto;
         }
 
-        .ap-kasulatan h1 { 
-            font-family: 'Cinzel', serif; 
-            font-size: 1.4rem; 
+        .ap-kasulatan h1 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 2.4rem;
             margin-bottom: 15px;
             border-bottom: 2px solid var(--tinta);
             padding-bottom: 5px;
@@ -69,7 +65,7 @@
             text-align: left;
             margin: 15px 0;
             padding-left: 20px;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
         }
 
@@ -112,7 +108,7 @@
             border: 1px solid var(--border-ap);
             padding: 10px;
             cursor: pointer;
-            font-family: 'Lora', serif;
+            font-family: 'Baloo 2', cursive;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -127,8 +123,8 @@
             color: white;
             padding: 12px 25px;
             border: none;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 10px;
             width: 100%;
@@ -152,15 +148,15 @@
         }
 
         .pulse-point {
-            position: absolute; 
-            width: clamp(30px, 8vw, 45px); 
+            position: absolute;
+            width: clamp(30px, 8vw, 45px);
             height: clamp(30px, 8vw, 45px);
             background: var(--papel-pula);
             border: 2px double var(--tinta);
             border-radius: 50%;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: var(--tinta); font-family: 'Cinzel';
-            font-size: clamp(12px, 4vw, 18px);
+            font-weight: 700; color: var(--tinta); font-family: 'Baloo 2', cursive;
+            font-size: clamp(16px, 4vw, 18px);
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             animation: radarGlow 2s infinite ease-in-out;
             z-index: 10;
@@ -200,7 +196,7 @@
 
         @media (max-width: 600px) {
             #selectionModal { grid-template-columns: repeat(2, 1fr); }
-            .instruction-list { font-size: 13px; }
+            .instruction-list { font-size: 16px; }
         }
     </style>
 </head>
@@ -224,7 +220,7 @@
             <li>Kailangang matugunan ang lahat ng <strong>lima (5)</strong> na punto.</li>
         </ul>
 
-        <p style="font-weight: bold; font-size: 13px; text-align: left; margin: 0;">Panoorin ang Sanggunian:</p>
+        <p style="font-weight: bold; font-size: 16px; text-align: left; margin: 0;">Suriin ang video ayon sa paksa:</p>
         <div class="video-selection">
             <button class="btn-video" onclick="playVideo('G4svwU0twEw')">
                 <span>🎥</span> <span>Paghahanda sa El Niño at La Niña</span>

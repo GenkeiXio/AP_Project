@@ -1260,17 +1260,18 @@
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				"Accept": "application/json",
 				"X-CSRF-TOKEN": "{{ csrf_token() }}"
 			},
 			body: JSON.stringify({
 				answers: answersPayload
 			})
 		})
-		.then(async res => {
-			const data = await res.json();
+		.then(res => res.json())
+		.then(data => {
 
-			if (!res.ok) {
-				alert(data.error || "Error submitting pretest");
+			if (data.error) {
+				alert(data.error);
 				return;
 			}
 
@@ -1307,12 +1308,11 @@
 
 	function updateRetryIndicator() {
 		const retryIndicator = document.getElementById('retryIndicator');
+    	const retryBtn = document.querySelector('.btn-secondary');
+		
+		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remainingAttempts} / 3`;
 
-		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
-
-		if (remaining === 0) {
-			const retryBtn = document.querySelector('.btn-secondary');
-
+		if (remainingAttempts <= 0) {
 			retryIndicator.style.background = '#ffe5e5';
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
@@ -1320,6 +1320,10 @@
 			retryBtn.disabled = true;
 			retryBtn.style.opacity = 0.5;
 			retryBtn.style.cursor = 'not-allowed';
+		} else {
+			retryBtn.disabled = false;
+			retryBtn.style.opacity = 1;
+			retryBtn.style.cursor = 'pointer';
 		}
 	}
 
@@ -1338,7 +1342,7 @@
 
 		renderAllQuestions();
 
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		//window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	window.addEventListener('load', () => {

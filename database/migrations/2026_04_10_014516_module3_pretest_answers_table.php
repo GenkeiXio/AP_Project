@@ -16,8 +16,8 @@ return new class extends Migration
                   ->cascadeOnDelete();
 
             $table->integer('question_number');
-            $table->integer('selected_answer')->nullable();
-            $table->integer('correct_answer');
+            $table->string('selected_answer')->nullable();
+            $table->string('correct_answer');
             $table->boolean('is_correct')->default(false);
 
             $table->timestamps();

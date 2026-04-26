@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission: Go Bag</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style>
@@ -19,7 +18,7 @@
         }
 
         body {
-            font-family: 'Lexend', sans-serif;
+            font-family: 'Baloo 2', cursive;
             margin: 0;
             background: url("{{ asset('pictures/mod3_innermap.png') }}") no-repeat center center fixed;
             background-size: cover;
@@ -32,7 +31,7 @@
         }
 
         h2 {
-            font-family: 'Bungee', cursive;
+            font-family: 'Baloo 2', cursive;
             color: white;
             font-size: clamp(1.5rem, 5vw, 2.2rem);
             margin: 0;
@@ -51,6 +50,7 @@
             padding: 8px 20px;
             border-radius: 50px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-family: 'Baloo 2', cursive;
             font-weight: bold;
             border: 2px solid var(--primary);
         }
@@ -201,7 +201,7 @@
         }
 
         .modal-content h3 {
-            font-family: 'Bungee';
+            font-family: 'Baloo 2', cursive;
             color: var(--primary);
             margin-top: 0;
         }
@@ -225,7 +225,7 @@
             padding: 15px;
             border-radius: 50px;
             border: none;
-            font-family: 'Bungee';
+            font-family: 'Baloo 2', cursive;
             font-size: 1rem;
             cursor: pointer;
             text-decoration: none;
