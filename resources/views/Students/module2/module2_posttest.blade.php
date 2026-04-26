@@ -929,6 +929,8 @@
 </div>
 </div>
 
+<x-vn />
+
 
 <script>
 	function shuffleArray(array) {
@@ -1460,6 +1462,29 @@ if (retryCount >= maxRetries) {
 
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 	});
+
+	window.addEventListener("load", () => {
+
+		startDialogue([
+			{
+				text: "Narito na ang huling hamon para sa modyul na ito. Dito mo maipapakita ang lahat ng iyong natutunan.",
+				name: "Mga Guro",
+				image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+			},
+
+			{
+				text: "Mayroon ka lamang dalawang pagkakataon upang sagutan ito. Kailangan mong makakuha ng passing score upang makuha ang gantimpala at makapagpatuloy sa susunod na modyul.",
+				image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+			},
+
+			{
+				text: "Gawin mo ang iyong makakaya at magtiwala sa iyong natutunan. Good luck!",
+				image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+			}
+		]);
+
+	});
+
 </script>
 
 @endsection

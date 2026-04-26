@@ -356,6 +356,8 @@ body, html {
 
 </div>
 
+<x-vn />
+
 <script>
 function getDone(key){
     return sessionStorage.getItem(key) === "true";
@@ -467,5 +469,29 @@ function goToFinal(){
 }
 
 window.onload = updateMapProgress;
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const dialogueKey = "module2_innermap";
+    if (!hasSeen(dialogueKey)) {
+        startDialogue([
+            {
+                text: "Ngayon, sisimulan na natin ang iyong paglalakbay sa modyul na ito. Makikita mo ang iba't ibang nodes sa mapa—ito ang mga bahagi o paksa na kailangan mong tapusin.",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+            },
+
+            {
+                text: "Ang bawat node ay may sariling aralin at mga gawaing makakatulong sa iyong pag-unawa. Subukan mong sagutan ang mga ito at matuto habang ikaw ay naglalaro.",
+                image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+            },
+
+            {
+                text: "Kapag natapos mo ang lahat ng nodes, maa-unlock ang huling gawain para subukin ang iyong natutunan.",
+                image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+            }
+        ], dialogueKey);
+    }
+});
 </script>
 @endsection

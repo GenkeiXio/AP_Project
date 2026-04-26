@@ -838,6 +838,8 @@
 	</div>
 </div>
 
+<x-vn />
+
 <script>
 	const questions = [
 		{
@@ -1347,6 +1349,23 @@
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
+	});
+
+	window.addEventListener("load", () => {
+
+		startDialogue([
+			{
+				text: "Sa bawat modyul, may paunang pagsusulit o pre-test. Layunin nito na malaman kung ano na ang iyong kaalaman tungkol sa paksa bago tayo magsimula.",
+				name: "Mga Guro",
+				image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+			},
+
+			{
+				text: "Huwag kang mag-alala—hindi ito graded at wala itong epekto sa iyong magiging marka at mayroon kang tatlong pagkakataon upang sagutan ang pagsusulit. Gawin mo lamang ang iyong makakaya at sagutin nang tapat.",
+				image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+			},
+		]);
+
 	});
 </script>
 

@@ -875,16 +875,6 @@
 <!-- OVERLAY -->
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
 
-<!-- VISUAL NOVEL INTRO -->
-<div id="vnIntro" class="vn-container">
-    <img src="{{ asset('pictures/teacher.png') }}" class="vn-character">
-
-    <div class="vn-dialogue-box">
-        <div class="vn-name">Guro JC</div>
-        <div class="vn-text" id="vnText"></div>
-        <div class="vn-continue">▶ I-click upang magpatuloy</div>
-    </div>
-</div>
 
 <div class="map-wrapper">
     <div class="map-container" style="position: relative; display: inline-block;">
@@ -923,6 +913,8 @@
 
     </div>
 </div>
+
+<x-vn />
 
 <script>
     // Mobile Navigation Functions
@@ -983,76 +975,6 @@
         }, 900);
     }
 
-    // ===== VISUAL NOVEL FLOW =====
-    const vnLines = [
-        '🌋 Maligayang pagdating sa Albay!',
-        'Ikaw ay papasok sa isang misyon kung saan tutuklasin mo ang mga suliraning pangkapaligiran.',
-        'Matututuhan mo rin kung paano makakatulong bilang isang responsableng mamamayan.',
-        '🧭 Ang iyong gawain ay galugarin ang mapa ng Albay.',
-        'Tuklasin ang bawat lokasyon at alamin ang mga isyung kinakaharap ng kapaligiran.',
-        'Sa bawat hakbang, ikaw ay matututo at makakagawa ng tamang desisyon.',
-        '🎯 Ang iyong layunin ay unawain ang kalagayan ng kapaligiran.',
-        'Mag-isip ng mga paraan upang makatulong sa pangangalaga ng kalikasan.',
-        'Handa ka na ba? Simulan na natin ang iyong paglalakbay.'
-    ];
-
-    const vnText = document.getElementById('vnText');
-    const vnContainer = document.getElementById('vnIntro');
-
-    let vnIndex = 0;
-    let isTyping = false;
-    let typingTimeout = null;
-
-    function typeWriter(text, element, speed = 25) {
-        let i = 0;
-        element.innerHTML = '';
-        isTyping = true;
-
-        if (typingTimeout) clearTimeout(typingTimeout);
-
-        function typing() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                typingTimeout = setTimeout(typing, speed);
-            } else {
-                isTyping = false;
-                typingTimeout = null;
-            }
-        }
-
-        typing();
-    }
-
-    typeWriter(vnLines[vnIndex], vnText);
-
-    vnContainer.addEventListener('click', () => {
-        if (isTyping) {
-            if (typingTimeout) clearTimeout(typingTimeout);
-            vnText.innerHTML = vnLines[vnIndex];
-            isTyping = false;
-            return;
-        }
-
-        vnIndex++;
-
-        if (vnIndex < vnLines.length) {
-            typeWriter(vnLines[vnIndex], vnText);
-
-            const box = document.querySelector('.vn-dialogue-box');
-            box.classList.remove('pop');
-            void box.offsetWidth;
-            box.classList.add('pop');
-        } else {
-            vnContainer.style.opacity = '0';
-            vnContainer.style.transition = 'opacity 0.5s';
-
-            setTimeout(() => {
-                vnContainer.style.display = 'none';
-            }, 500);
-        }
-    });
-
     // Show message when clicking on locked module
     function showLockedMessage(moduleName) {
         const notification = document.createElement('div');
@@ -1073,5 +995,85 @@
         const y = ((e.clientY - rect.top) / rect.height) * 100;
         console.log(`top: ${y.toFixed(2)}%; left: ${x.toFixed(2)}%;`);
     });
+
+    //VN code
+
+    const DIALOGUES = {
+    intro: "mainmap_intro",
+    mod2: "mainmap_mod2_done",
+    mod3: "mainmap_mod3_done",
+    final: "mainmap_final_done"
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const module3Unlocked = {{ $module3_unlocked ? 'true' : 'false' }};
+        const module4Unlocked = {{ $module4_unlocked ? 'true' : 'false' }};
+        const module2Done = module3Unlocked; // module 3 unlocked → module 2 finished
+        const module3Done = module4Unlocked; // module 4 unlocked → module 3 finished
+        const finalDone   = module4Unlocked;
+
+        // FINAL (highest priority)
+        if (module4Unlocked && !hasSeen(DIALOGUES.final)) {
+            startDialogue([
+                { text: "🎉 Natapos mo ang buong paglalakbay!", name: "Mga Guro" },
+                { text: "Nabuo mo na ang bahay—binabati ka namin!", name: "Mga Guro" }
+            ], DIALOGUES.final);
+            return;
+        }
+
+        // MODULE 3 DONE
+        if (module4Unlocked && !hasSeen(DIALOGUES.mod3)) {
+            startDialogue([
+                { text: "Magaling! Isa na lang at matatapos mo na ang lahat!", name: "Mga Guro" }
+            ], DIALOGUES.mod3);
+            return;
+        }
+
+        // MODULE 2 DONE
+        if (module3Unlocked && !hasSeen(DIALOGUES.mod2)) {
+            startDialogue([
+                { 
+                    text: "Magaling! Natapos mo ang unang modyul! Ipinapakita nito na nagsisikap ka at nagbubunga ang iyong pag-aaral.", 
+                    name: "Mga Guro",
+                    image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+                },
+
+                { 
+                    text: "Ngayon na natapos mo na ang isang modyul, tandaan mo lamang kung paano ito gumagana. Ipagpatuloy mo lang ang pagkatuto at siguradong kakayanin mo ang mga susunod pang hamon.", 
+                    image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+                },
+
+                { 
+                    text: "Handa ka na para sa susunod na modyul!", 
+                    image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+                }
+
+            ], DIALOGUES.mod2);
+            return;
+        }
+
+        // FIRST TIME ONLY
+        if (!hasSeen(DIALOGUES.intro)) {
+            startDialogue([
+                { 
+                    text: "Maligayang pagdating sa Albay! Ikaw ay papasok sa isang misyon kung saan tutuklasin mo ang mga suliraning pangkapaligiran.", 
+                    name: "Mga Guro",
+                    image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+                },
+
+                {  
+                    text: "Matututuhan mo rin kung paano makakatulong bilang isang responsableng mamamayan. Ang iyong gawain ay galugarin ang mapa ng Albay. Tuklasin ang bawat lokasyon at alamin ang mga isyung kinakaharap ng kapaligiran.", 
+                    image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+                },
+
+                {  
+                    text: "Sa bawat hakbang, ikaw ay matututo at makakagawa ng tamang desisyon. Ang iyong layunin ay unawain ang kalagayan ng kapaligiran, Mag-isip ng mga paraan upang makatulong sa pangangalaga ng kalikasan. Handa ka na ba? Simulan na natin ang iyong paglalakbay.", 
+                    image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+                }
+            ], DIALOGUES.intro);
+        }
+
+    });
+
 </script>
 @endsection

@@ -341,6 +341,8 @@
     </div>
 </div>
 
+<x-vn />
+
 <script>
 let hasOpenedGoals = false;
 
@@ -369,6 +371,30 @@ window.onclick = function(e){
         // DO NOTHING ❌
     }
 }
+
+window.addEventListener("load", () => {
+    startDialogue([
+            
+        {
+        text: "Magandang araw! Maligayang pagdating sa Ikalawang Modyul. Sa modyul na ito, pag-aaralan natin ang kalagayan, suliranin, at pagtugon sa mga isyung pangkapaligiran sa Pilipinas.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        },
+
+        {
+        text: "Sa unang modyul na ito, ipapaliwanag ko muna kung paano gumagana ang bawat modyul. Sa bawat modyul na matatapos mo, makakakuha ka ng isang bahagi ng bahay. Kapag nabuo mo ang buong bahay, may espesyal na gantimpala kang matatanggap.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        },
+
+        {
+        text:  "Simulan natin. Sa bawat simula ng modyul, kailangan mong basahin at unawain ang mga layunin. I-click ang “Mga Layunin” upang magsimula.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        }
+    ]);
+});
+
 </script>
 
 </body>
