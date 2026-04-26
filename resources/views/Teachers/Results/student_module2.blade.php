@@ -377,9 +377,9 @@ tbody tr:hover {
 <div id="node1" class="content" style="display:none;">
     @foreach($node1 as $n)
         <div class="section">
-            <b>Sanhi:</b> {{ $n->sanhi_text }} <br>
-            <b>Bunga:</b> {{ $n->bunga_text }} <br>
-            <b>Solusyon:</b> {{ $n->solusyon_text }}
+            <b>Sanhi:</b> {{ $n->sanhi_image }} <br>
+            <b>Bunga:</b> {{ $n->bunga_image }} <br>
+            <b>Solusyon:</b> {{ $n->solusyon_image }}
         </div>
     @endforeach
 </div>

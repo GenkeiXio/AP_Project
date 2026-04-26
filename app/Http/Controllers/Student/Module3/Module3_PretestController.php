@@ -21,7 +21,8 @@ class Module3_PretestController extends Controller
             return redirect()->route('home');
         }
 
-        // RESET every visit
+        // ALWAYS reset attempts when student visits/revisits the pretest page.
+        // This means 3 fresh tries any time they load the page (navigate away and back = reset).
         session()->put('module3_pretest_attempts', 0);
 
         return view('Students.Module3.Test.module3_pretest');
@@ -35,64 +36,69 @@ class Module3_PretestController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // 🔥 OPTIONAL: Limit submissions per session (not DB)
+        // Check current attempt count (0 = no attempts yet, 3 = exhausted)
         $attempts = session()->get('module3_pretest_attempts', 0);
 
         if ($attempts >= 3) {
             return response()->json([
-                'error' => 'Maximum attempts reached'
+                'error' => 'Naabot mo na ang pinakamataas na 3 pagsubok.'
             ], 403);
         }
 
-        // increment
-        $attempts++;
-        session()->put('module3_pretest_attempts', $attempts + 1);
-
         $answers = $request->input('answers', []);
 
-        if (empty($answers)) {
-            return response()->json(['error' => 'No answers received'], 400);
+        if (empty($answers) || !is_array($answers)) {
+            return response()->json(['error' => 'Walang sagot na natanggap.'], 400);
         }
 
         $score = 0;
+        $total = count($answers);
 
-        // Create Pretest Record
+        // Create the parent pretest record (score/percentage updated after loop)
         $pretest = Module3Pretest::create([
             'student_id' => $studentId,
-            'score' => 0,
+            'score'      => 0,
             'percentage' => 0,
         ]);
 
         foreach ($answers as $answer) {
+            $selected  = $answer['selected']         ?? null;  // e.g. 'a', 'b', 'c', 'd'
+            $correct   = $answer['correct']          ?? null;  // e.g. 'a'
+            $isCorrect = ($selected !== null && $selected === $correct);
 
-            $selected = $answer['selected'] ?? null;
-            $correct = $answer['correct'] ?? null;
-
-            $isCorrect = $selected === $correct;
-
-            if ($isCorrect) $score++;
+            if ($isCorrect) {
+                $score++;
+            }
 
             Module3PretestAnswer::create([
                 'module3_pretest_id' => $pretest->id,
-                'question_number' => $answer['question_number'],
-                'selected_answer' => $selected,
-                'correct_answer' => $correct,
-                'is_correct' => $isCorrect,
+                'question_number'    => $answer['question_number'],
+                'selected_answer'    => $selected,   // stored as string: 'a','b','c','d'
+                'correct_answer'     => $correct,    // stored as string: 'a','b','c','d'
+                'is_correct'         => $isCorrect,
             ]);
         }
 
-        $percentage = ($score / count($answers)) * 100;
+        $percentage = $total > 0 ? round(($score / $total) * 100, 2) : 0;
 
         $pretest->update([
-            'score' => $score,
+            'score'      => $score,
             'percentage' => $percentage,
         ]);
 
+        // Increment attempts AFTER a successful save
+        $attempts++;
+        session()->put('module3_pretest_attempts', $attempts);
+
+        $remaining = 3 - $attempts; // e.g. after 1st submit → remaining = 2
+
         return response()->json([
-            'success' => true,
-            'score' => $score,
+            'success'    => true,
+            'score'      => $score,
+            'total'      => $total,
             'percentage' => $percentage,
-            'remaining' => 3 - $attempts
+            'attempts'   => $attempts,   // how many used (1, 2, or 3)
+            'remaining'  => $remaining,  // how many left (2, 1, or 0)
         ]);
     }
 }
