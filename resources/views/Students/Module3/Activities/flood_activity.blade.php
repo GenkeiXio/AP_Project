@@ -280,25 +280,43 @@
 
         // --- GAME LOGIC ---
         const quizData = [
-            { t: "Maging handa sa posibilidad na pagbaha kung patuloy ang pag-ulan.", a: "safe" },
-            { t: "Makinig sa radyo o TV para sa emergency instructions.", a: "safe" },
-            { t: "Hindi na kailangang mag-imbak ng tubig kahit may bagyo.", a: "danger" },
-            { t: "Mag-imbak ng malinis na tubig.", a: "safe" },
-            { t: "Ilagay ang gamit sa mababang bahagi ng bahay.", a: "danger" },
-            { t: "Ilagay ang gamit sa mataas na bahagi ng bahay.", a: "safe" },
-            { t: "Dalhin ang alagang hayop sa mataas na lugar.", a: "safe" },
-            { t: "Iwan ang alagang hayop sa labas.", a: "danger" },
-            { t: "Manatili sa loob ng bahay.", a: "safe" },
-            { t: "Lumabas habang may bagyo.", a: "danger" },
-            { t: "Patayin ang kuryente bago lumikas.", a: "safe" },
-            { t: "Maghintay bago lumikas hanggang pumasok ang tubig.", a: "danger" },
-            { t: "Iwasan ang baha na hindi alam ang lalim.", a: "safe" },
-            { t: "Tumawid sa baha kahit di alam ang lalim.", a: "danger" },
-            { t: "Huwag pilitin ang sasakyan sa baha.", a: "safe" },
-            { t: "Pakuluan ang tubig bago inumin.", a: "safe" },
-            { t: "Huwag pakuluan ang tubig, okay lang yan.", a: "danger" },
-            { t: "Siguraduhing walang live wire sa paligid.", a: "safe" },
-            { t: "Ipakita sa elektrisyan ang kuryente bago ito muling buksan.", a: "safe" }
+            { t: "May tuloy-tuloy na ulan at may posibilidad ng pagbaha, kaya naghahanda ka ng emergency kit.", a: "safe" },
+
+            { t: "Habang may bagyo, patuloy kang nakikinig sa radyo o TV para sa updates at babala.", a: "safe" },
+
+            { t: "Hindi ka muna nag-iimbak ng tubig dahil hindi pa naman nagsisimula ang baha.", a: "danger" },
+
+            { t: "Nag-iimbak ka ng malinis na tubig kahit wala pang baha bilang paghahanda.", a: "safe" },
+
+            { t: "Inilalagay mo ang mahahalagang gamit sa sahig para madaling makuha kung sakaling kailanganin.", a: "danger" },
+
+            { t: "Inilalagay mo ang mahahalagang gamit sa mataas na lugar upang maiwasan ang pagkabasa.", a: "safe" },
+
+            { t: "Inililipat mo ang iyong alagang hayop sa ligtas at mataas na lugar habang tumataas ang tubig.", a: "safe" },
+
+            { t: "Pinapabayaan mo muna ang alagang hayop sa labas habang inaasikaso ang ibang gamit.", a: "danger" },
+
+            { t: "Nanatili ka sa loob ng bahay habang malakas ang ulan at walang kailangang gawin sa labas.", a: "safe" },
+
+            { t: "Lumalabas ka upang tingnan ang baha kahit malakas pa ang ulan.", a: "danger" },
+
+            { t: "Pinapatay mo ang kuryente bago lumikas upang maiwasan ang aksidente.", a: "safe" },
+
+            { t: "Nagpapasya kang huwag muna lumikas kahit may babala na, hangga't hindi pa pumapasok ang tubig sa bahay.", a: "danger" },
+
+            { t: "Iniiwasan mong tumawid sa baha kung hindi mo alam ang lalim nito.", a: "safe" },
+
+            { t: "Sinusubukan mong tawirin ang baha kahit hindi mo alam kung gaano ito kalalim.", a: "danger" },
+
+            { t: "Hindi mo pinipilit ang sasakyan na dumaan sa baha kung mataas na ang tubig.", a: "safe" },
+
+            { t: "Pagkatapos ng baha, pinapakuluan mo ang tubig bago ito inumin.", a: "safe" },
+
+            { t: "Umiinom ka ng tubig mula sa gripo pagkatapos ng baha kahit hindi ito napakuluan.", a: "danger" },
+
+            { t: "Sinisigurado mong walang nakalaylay na live wire sa paligid bago lumabas ng bahay.", a: "safe" },
+
+            { t: "Binubuksan agad ang kuryente matapos ang baha nang hindi muna nagpapasuri sa eksperto.", a: "danger" }
         ];
 
         let current = 0;

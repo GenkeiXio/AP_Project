@@ -624,7 +624,7 @@
                 return arr;
             }
             remainingStatements = shuffleArray(remainingStatements);
-            
+
             // DOM Elements
             const waitingArea = document.getElementById('waitingCardArea');
             const remainingCountSpan = document.getElementById('remainingCount');
@@ -635,10 +635,10 @@
             const completionStatus = document.getElementById('completionStatus');
             const summaryModal = document.getElementById('summaryModal');
             const modalContinueBtn = document.getElementById('modalContinueBtn');
-            
+
             let gameActive = true;
             let isLoadingNext = false;
-            
+
             // Shake a card element
             function shakeCard(card) {
                 if (!card) return;
@@ -647,7 +647,7 @@
                     card.classList.remove('shake');
                 }, 400);
             }
-            
+
             // Helper: update remaining count display
             function updateRemainingDisplay() {
                 if (remainingCountSpan) {
@@ -657,14 +657,14 @@
                     checkAllPlacedFinal();
                 }
             }
-            
+
             // Function to show modal and handle navigation
             function showSummaryModal() {
                 if (summaryModal) {
                     summaryModal.classList.add('show');
                 }
             }
-            
+
             // Function to check final completion after all cards dragged
             function checkAllPlacedFinal() {
                 const totalCards = fullStatements.length;
@@ -672,7 +672,7 @@
                 const epektoCount = dropEpekto ? dropEpekto.querySelectorAll('.statement-card').length : 0;
                 const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
                 const totalPlaced = sanhiCount + epektoCount + tugonCount;
-                
+
                 let allCorrect = false;
                 if (totalPlaced === totalCards) {
                     let correct = true;
@@ -692,8 +692,9 @@
                         allCorrect = true;
                     }
                 }
-                
+
                 if (allCorrect) {
+                    sessionStorage.setItem("node5_done", "true");
                     if (completionStatus) {
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
                     }
@@ -709,7 +710,7 @@
                     if (!gameActive) return;
                 }
             }
-            
+
             // Create draggable card element with HEADER IMAGE (no side border)
             function createDraggableCard(statement, indexId) {
                 const card = document.createElement('div');
@@ -717,7 +718,7 @@
                 card.setAttribute('draggable', 'true');
                 card.setAttribute('data-category', statement.category);
                 card.setAttribute('data-id', indexId);
-                
+
                 // Header Image HTML (top of card)
                 let headerImageHtml = '';
                 if (statement.imageIcon) {
@@ -727,22 +728,22 @@
                         </div>
                     `;
                 }
-                
+
                 card.innerHTML = `
                     ${headerImageHtml}
                     <div class="card-text-content">${statement.text}</div>
                 `;
-                
+
                 card.addEventListener('dragstart', handleDragStart);
                 card.addEventListener('dragend', handleDragEnd);
                 return card;
             }
-            
+
             // Show next card in waiting area (automatically called after placement)
             function loadNextCard() {
                 if (!gameActive) return;
                 if (isLoadingNext) return;
-                
+
                 if (remainingStatements.length === 0) {
                     if (waitingArea) {
                         waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card. Natapos na!</div>';
@@ -750,16 +751,16 @@
                     checkAllPlacedFinal();
                     return;
                 }
-                
+
                 isLoadingNext = true;
-                
+
                 // Add a small delay for smooth transition
                 setTimeout(() => {
                     if (!gameActive) {
                         isLoadingNext = false;
                         return;
                     }
-                    
+
                     const nextStatement = remainingStatements[0];
                     const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
                     if (waitingArea) {
@@ -770,29 +771,29 @@
                     updateRemainingDisplay();
                 }, 150);
             }
-            
+
             // Function to finalize placement of current card, then automatically load next
             function onCardPlacedSuccessfully(placedCard, targetZone) {
                 if (!gameActive) return;
-                
+
                 // Remove from waiting area
                 if (waitingArea && waitingArea.contains(placedCard)) {
                     waitingArea.innerHTML = '';
                 }
-                
+
                 // Remove from remainingStatements array (the first one)
                 if (remainingStatements.length > 0) {
                     remainingStatements.shift();
                 }
                 updateRemainingDisplay();
-                
+
                 // Check if all cards are placed
                 const totalCards = fullStatements.length;
                 const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
                 const epektoCount = dropEpekto ? dropEpekto.querySelectorAll('.statement-card').length : 0;
                 const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
                 const totalPlaced = sanhiCount + epektoCount + tugonCount;
-                
+
                 if (totalPlaced === totalCards) {
                     // All cards placed, check final correctness
                     checkAllPlacedFinal();
@@ -800,13 +801,13 @@
                     // Automatically load the next card
                     loadNextCard();
                 }
-                
+
                 checkAllPlacedFinal();
             }
-            
+
             // Drag & Drop Handlers
             let draggedElement = null;
-            
+
             function handleDragStart(e) {
                 if (!gameActive) {
                     e.preventDefault();
@@ -823,7 +824,7 @@
                 e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
                 e.dataTransfer.effectAllowed = 'move';
             }
-            
+
             function handleDragEnd(e) {
                 if (this) this.classList.remove('dragging');
                 document.querySelectorAll('.dropzone').forEach(zone => {
@@ -831,77 +832,77 @@
                 });
                 draggedElement = null;
             }
-            
+
             function setupDropZones() {
                 const dropzones = [dropSanhi, dropEpekto, dropTugon];
                 dropzones.forEach(zone => {
                     if (!zone) return;
-                    
+
                     zone.addEventListener('dragover', (e) => {
                         e.preventDefault();
                         if (!gameActive) return;
                         e.dataTransfer.dropEffect = 'move';
                         zone.classList.add('drag-over');
                     });
-                    
+
                     zone.addEventListener('dragleave', () => {
                         zone.classList.remove('drag-over');
                     });
-                    
+
                     zone.addEventListener('drop', (e) => {
                         e.preventDefault();
                         zone.classList.remove('drag-over');
                         if (!gameActive) return;
                         if (!draggedElement) return;
-                        
+
                         const targetCategory = zone.dataset.category;
                         const cardCategory = draggedElement.dataset.category;
-                        
+
                         if (cardCategory !== targetCategory) {
                             shakeCard(draggedElement);
                             return;
                         }
-                        
+
                         if (draggedElement.parentNode !== waitingArea) {
                             shakeCard(draggedElement);
                             return;
                         }
-                        
+
                         // Move card to dropzone
                         zone.appendChild(draggedElement);
                         draggedElement.style.cursor = 'default';
                         draggedElement.setAttribute('draggable', 'false');
                         draggedElement.classList.add('placed');
-                        
+
                         // Remove drag listeners to prevent further drag
                         draggedElement.removeEventListener('dragstart', handleDragStart);
                         draggedElement.removeEventListener('dragend', handleDragEnd);
-                        
+
                         // Trigger automatic next card
                         onCardPlacedSuccessfully(draggedElement, zone);
                         draggedElement = null;
                     });
                 });
             }
-            
+
             // Reset game fully
             function resetGame() {
                 gameActive = true;
                 isLoadingNext = false;
                 remainingStatements = shuffleArray([...fullStatements]);
-                
+
                 // Clear all dropzones
                 if (dropSanhi) dropSanhi.innerHTML = '';
                 if (dropEpekto) dropEpekto.innerHTML = '';
                 if (dropTugon) dropTugon.innerHTML = '';
-                
+
                 // Reset waiting area
                 if (waitingArea) waitingArea.innerHTML = '';
-                
+
                 if (completionStatus) completionStatus.innerHTML = '';
-                
+
                 updateRemainingDisplay();
-                
+
                 // Load first card
                 setTimeout(() => {
                     if (remainingStatements.length > 0) {
@@ -915,14 +916,15 @@
                     updateRemainingDisplay();
                 }, 50);
             }
-            
+
             // Modal continue button - navigate to inner.map4
             if (modalContinueBtn) {
                 modalContinueBtn.addEventListener('click', () => {
+
                     window.location.href = "{{ route('inner.map4') }}";
                 });
             }
-            
+
             // Close modal when clicking outside
             if (summaryModal) {
                 summaryModal.addEventListener('click', (e) => {
@@ -931,15 +933,15 @@
                     }
                 });
             }
-            
+
             if (resetBtn) {
                 resetBtn.addEventListener('click', resetGame);
             }
-            
+
             // Prevent default dragover on document
             document.addEventListener('dragover', (e) => e.preventDefault());
             document.addEventListener('drop', (e) => e.preventDefault());
-            
+
             // Initial setup
             setupDropZones();
             resetGame();
