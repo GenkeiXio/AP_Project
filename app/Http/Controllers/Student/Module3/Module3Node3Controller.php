@@ -22,31 +22,31 @@ class Module3Node3Controller extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $request->validate([
-            'final_budget' => 'required|integer',
-            'safety_score' => 'required|integer',
-            'status' => 'required|in:not_ready,partially_ready,ready',
-            'selected_strategies' => 'nullable|array',
+        $validated = $request->validate([
+            'choices_selected' => 'required|integer|min:0',
+            'remaining_budget' => 'required|integer|min:0',
+            'readiness_score' => 'required|integer|min:0|max:100',
+            'is_passed' => 'required|boolean',
         ]);
 
         $existing = Module3Node3::where('student_id', $studentId)->first();
 
         if ($existing) {
             $existing->update([
-                'final_budget' => $request->final_budget,
-                'safety_score' => $request->safety_score,
-                'status' => $request->status,
-                'selected_strategies' => $request->selected_strategies,
+                'choices_selected' => $validated['choices_selected'],
+                'remaining_budget' => $validated['remaining_budget'],
+                'readiness_score' => $validated['readiness_score'],
+                'is_passed' => $validated['is_passed'],
                 'is_completed' => true,
                 'attempts' => $existing->attempts + 1,
             ]);
         } else {
             Module3Node3::create([
                 'student_id' => $studentId,
-                'final_budget' => $request->final_budget,
-                'safety_score' => $request->safety_score,
-                'status' => $request->status,
-                'selected_strategies' => $request->selected_strategies,
+                'choices_selected' => $validated['choices_selected'],
+                'remaining_budget' => $validated['remaining_budget'],
+                'readiness_score' => $validated['readiness_score'],
+                'is_passed' => $validated['is_passed'],
                 'is_completed' => true,
                 'attempts' => 1,
             ]);

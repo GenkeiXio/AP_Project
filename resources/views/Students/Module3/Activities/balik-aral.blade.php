@@ -242,6 +242,8 @@
 
 <x-vn />
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
     /* Javascript logic remains identical to the previous fixed version */
     let stats = { health: 100, budget: 70000, trust: 80 };
@@ -331,12 +333,37 @@
 
     function endGame(win, reason) {
         document.getElementById('gameUI').classList.add('nakatago');
+
+        saveGameResult(win); // ✅ SAVE HERE
+
         if(win) document.getElementById('victoryScreen').classList.remove('nakatago');
         else {
             document.getElementById('gameOverScreen').classList.remove('nakatago');
             document.getElementById('failReason').textContent = reason;
         }
     }
+
+    function saveGameResult(isWin) {
+        fetch("{{ route('student.module3.balikaral.store') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                health: stats.health,
+                budget: stats.budget,
+                trust: stats.trust,
+                is_success: isWin,
+                time_spent: 0 // optional (you can track later)
+            })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Saved:", data))
+        .catch(err => console.error(err));
+    }
+
+
 
     document.addEventListener("DOMContentLoaded", function () {
         const dialogueKey = "module3_balikaral";

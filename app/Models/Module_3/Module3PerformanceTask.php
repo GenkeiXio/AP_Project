@@ -13,10 +13,23 @@ class Module3PerformanceTask extends Model
         'score',
         'badges_earned',
         'completion_time',
+
+        'selected_items',
+        'answers',
+
+        'kit_score',
+        'evacuation_score',
+        'communication_score',
+        'safe_score',
+
+        'is_completed'
     ];
 
     protected $casts = [
         'badges_earned' => 'array',
+        'selected_items' => 'array',
+        'answers' => 'array',
+        'is_completed' => 'boolean',
     ];
 
     public function student()

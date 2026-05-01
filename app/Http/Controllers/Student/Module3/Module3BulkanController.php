@@ -22,28 +22,25 @@ class Module3BulkanController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $request->validate([
-            'score' => 'required|integer',
-            'selected_answers' => 'nullable|array',
+        $data = Module3Bulkan::updateOrCreate(
+            ['student_id' => $studentId],
+            [
+                'progress' => $request->progress ?? 0,
+                'is_success' => $request->is_success ?? false,
+                'mistakes' => $request->mistakes ?? 0,
+
+                'final_state' => [
+                    'progress' => $request->progress,
+                    'mistakes' => $request->mistakes
+                ],
+
+                'completed' => true
+            ]
+        );
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
         ]);
-
-        $existing = Module3Bulkan::where('student_id', $studentId)->first();
-
-        if ($existing) {
-            $existing->update([
-                'score' => $request->score,
-                'is_completed' => true,
-                'selected_answers' => $request->selected_answers,
-            ]);
-        } else {
-            Module3Bulkan::create([
-                'student_id' => $studentId,
-                'score' => $request->score,
-                'is_completed' => true,
-                'selected_answers' => $request->selected_answers,
-            ]);
-        }
-
-        return response()->json(['success' => true]);
     }
 }

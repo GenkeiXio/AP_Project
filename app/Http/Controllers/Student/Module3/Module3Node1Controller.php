@@ -14,22 +14,23 @@ class Module3Node1Controller extends Controller
         return Session::get('student_id');
     }
 
-    // Show page
     public function index()
     {
         if (!$this->studentId()) {
             return redirect()->route('home');
         }
 
-        return view('module3.node1');
+        return view('Students.Module3.Nodes.mod3_node1');
     }
 
-    // Save result (AJAX)
     public function save(Request $request)
     {
         $request->validate([
-            'score'        => 'required|integer',
-            'total_items'  => 'required|integer',
+            'score'           => 'required|integer',
+            'total_items'     => 'required|integer',
+            'correct_answers' => 'required|integer',
+            'wrong_answers'   => 'required|integer',
+            'time_spent'      => 'required|integer',
         ]);
 
         $studentId = $this->studentId();
@@ -38,28 +39,46 @@ class Module3Node1Controller extends Controller
             return response()->json(['success' => false], 401);
         }
 
+        // Compute metrics
         $accuracy = $request->total_items > 0
-            ? ($request->score / $request->total_items) * 100
+            ? ($request->correct_answers / $request->total_items) * 100
             : 0;
+
+        $isPerfect = $request->correct_answers == $request->total_items;
 
         $record = Module3Node1::where('student_id', $studentId)->first();
 
         if ($record) {
+
+            $attempts = $record->attempts + 1;
+
             $record->update([
-                'score'        => $request->score,
-                'total_items'  => $request->total_items,
-                'accuracy'     => $accuracy,
-                'is_completed' => true,
-                'attempts'     => $record->attempts + 1,
+                'score'               => max($record->score, $request->score), // keep best
+                'total_items'         => $request->total_items,
+                'correct_answers'     => $request->correct_answers,
+                'wrong_answers'       => $request->wrong_answers,
+                'accuracy'            => $accuracy,
+                'time_spent'          => $request->time_spent,
+                'is_completed'        => true,
+                'is_perfect'          => $isPerfect,
+                'attempts'            => $attempts,
+                'max_attempt_reached' => $attempts >= 3,
             ]);
+
         } else {
+
             $record = Module3Node1::create([
-                'student_id'   => $studentId,
-                'score'        => $request->score,
-                'total_items'  => $request->total_items,
-                'accuracy'     => $accuracy,
-                'is_completed' => true,
-                'attempts'     => 1,
+                'student_id'          => $studentId,
+                'score'               => $request->score,
+                'total_items'         => $request->total_items,
+                'correct_answers'     => $request->correct_answers,
+                'wrong_answers'       => $request->wrong_answers,
+                'accuracy'            => $accuracy,
+                'time_spent'          => $request->time_spent,
+                'is_completed'        => true,
+                'is_perfect'          => $isPerfect,
+                'attempts'            => 1,
+                'max_attempt_reached' => false,
             ]);
         }
 

@@ -10,17 +10,15 @@ class Module3Elnino extends Model
 
     protected $fillable = [
         'student_id',
-        'score',
-        'is_completed',
-        'zone1',
-        'zone2',
-        'zone3',
-        'zone4',
-        'zone5',
+        'completed_points',
+        'is_success',
+        'selections',
+        'completed'
     ];
 
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
+    protected $casts = [
+        'is_success' => 'boolean',
+        'completed' => 'boolean',
+        'selections' => 'array',
+    ];
 }

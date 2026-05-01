@@ -13,18 +13,30 @@ return new class extends Migration
 
             $table->unsignedBigInteger('student_id');
 
-            $table->text('reflection');
-            $table->string('format')->nullable();
-            $table->string('file_path')->nullable();
+            // MAIN RESULT
+            $table->integer('score')->default(0);
+            $table->integer('completion_time')->default(0);
 
-            $table->boolean('is_submitted')->default(false);
+            // GAME DATA
+            $table->json('badges_earned')->nullable();
+            $table->json('selected_items')->nullable();
+            $table->json('answers')->nullable();
+
+            // SECTION SCORES
+            $table->integer('kit_score')->default(0);
+            $table->integer('evacuation_score')->default(0);
+            $table->integer('communication_score')->default(0);
+            $table->integer('safe_score')->default(0);
+
+            // META
+            $table->boolean('is_completed')->default(false);
 
             $table->timestamps();
 
             $table->foreign('student_id')
-                  ->references('id')
-                  ->on('students')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('students')
+                ->onDelete('cascade');
         });
     }
 

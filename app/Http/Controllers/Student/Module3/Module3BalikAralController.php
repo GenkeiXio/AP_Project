@@ -25,11 +25,20 @@ class Module3BalikAralController extends Controller
         $data = Module3BalikAral::updateOrCreate(
             ['student_id' => $studentId],
             [
-                'score' => $request->score ?? 0,
-                'correct_answers' => $request->correct_answers ?? 0,
-                'total_items' => $request->total_items ?? 3,
-                'completed' => true,
-                'time_spent' => $request->time_spent ?? 0
+                'health' => $request->health ?? 0,
+                'budget' => $request->budget ?? 0,
+                'trust' => $request->trust ?? 0,
+
+                'is_success' => $request->is_success ?? false,
+
+                'final_state' => [
+                    'health' => $request->health,
+                    'budget' => $request->budget,
+                    'trust' => $request->trust
+                ],
+
+                'time_spent' => $request->time_spent ?? 0,
+                'completed' => true
             ]
         );
 

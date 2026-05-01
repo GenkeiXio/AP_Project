@@ -11,22 +11,25 @@ return new class extends Migration
         Schema::create('module3_bulkan_table', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('student_id');
+            $table->foreignId('student_id')
+                  ->constrained('students')
+                  ->onDelete('cascade');
 
-            $table->integer('score')->default(0);
-            $table->boolean('is_completed')->default(false);
+            // GAME PROGRESS
+            $table->integer('progress')->default(0); // 0–10
 
-            $table->json('selected_answers')->nullable();
+            // RESULT
+            $table->boolean('is_success')->default(false);
 
-            $table->integer('total_correct')->default(4);
-            $table->integer('total_items')->default(7);
+            // OPTIONAL METRICS
+            $table->integer('mistakes')->default(0);
+
+            // FLEXIBLE STORAGE
+            $table->json('final_state')->nullable();
+
+            $table->boolean('completed')->default(false);
 
             $table->timestamps();
-
-            $table->foreign('student_id')
-                ->references('id')
-                ->on('students')
-                ->onDelete('cascade');
         });
     }
 

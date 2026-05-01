@@ -105,7 +105,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/posttest/save', [Module3PosttestController::class, 'store'])->name('student.module3.posttest.save');
     Route::get('/student/module3/lindol', [Module3LindolController::class, 'index'])->name('lindol.activity');
     Route::post('/student/module3/lindol/save', [Module3LindolController::class, 'store'])->name('student.module3.lindol.save');
-    Route::post('/student/module3/balik-aral/save', [Module3BalikAralController::class, 'store'])->name('student.module3.balikaral.save');
+    Route::post('/student/module3/balik-aral/store', [Module3BalikAralController::class, 'store'])->name('student.module3.balikaral.store');
     Route::post('/student/module3/explore/save', [Module3ExploreController::class, 'store'])->name('student.module3.explore.save');
 
     Route::post('/student/module4/poll/save', [Module4HomeController::class, 'storePoll'])->name('student.module4.poll.save');

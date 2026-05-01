@@ -10,15 +10,17 @@ class Module3Bulkan extends Model
 
     protected $fillable = [
         'student_id',
-        'score',
-        'is_completed',
-        'selected_answers',
-        'total_correct',
-        'total_items',
+        'progress',
+        'is_success',
+        'mistakes',
+        'final_state',
+        'completed'
     ];
 
     protected $casts = [
-        'selected_answers' => 'array',
+        'is_success' => 'boolean',
+        'completed' => 'boolean',
+        'final_state' => 'array',
     ];
 
     public function student()

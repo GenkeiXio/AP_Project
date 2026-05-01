@@ -307,8 +307,29 @@
         }
     }
 
+    function saveElninoResult() {
+        fetch("{{ route('student.module3.elnino.save') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                completed_points: Object.keys(score).length,
+                is_success: Object.keys(score).length === 5,
+                selections: score
+            })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Saved:", data))
+        .catch(err => console.error(err));
+    }
+
     function checkStatus() {
         if(Object.keys(score).length === 5) {
+
+            saveElninoResult(); // ✅ SAVE HERE
+            
             setTimeout(() => {
                 document.getElementById('congratsModal').style.display = 'flex';
             }, 700);
