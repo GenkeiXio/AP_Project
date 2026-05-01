@@ -713,6 +713,12 @@ body {
         const overlay = document.getElementById('finalAnimOverlay');
         overlay.style.display = 'none';
     }
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    localStorage.setItem("module4_done", "true");
+});
+</script>
 </script>
 
 </body>

@@ -1010,21 +1010,34 @@
         const module4Unlocked = {{ $module4_unlocked ? 'true' : 'false' }};
         const module2Done = module3Unlocked; // module 3 unlocked → module 2 finished
         const module3Done = module4Unlocked; // module 4 unlocked → module 3 finished
-        const finalDone   = module4Unlocked;
+        const finalDone = localStorage.getItem("module4_done") === "true";
 
         // FINAL (highest priority)
-        if (module4Unlocked && !hasSeen(DIALOGUES.final)) {
-            startDialogue([
-                { text: "🎉 Natapos mo ang buong paglalakbay!", name: "Mga Guro" },
-                { text: "Nabuo mo na ang bahay—binabati ka namin!", name: "Mga Guro" }
-            ], DIALOGUES.final);
-            return;
-        }
+        if (finalDone && !hasSeen(DIALOGUES.final)) {
+        startDialogue([
+            { 
+                text: "🎉 Natapos mo ang buong paglalakbay!", 
+                name: "Mga Guro", 
+                image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+            },
+            { 
+                text: "Nabuo mo na ang bahay—binabati ka namin!", 
+                name: "Mga Guro", 
+                image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+            }
+        ], DIALOGUES.final);
+        return;
+    }
+    }
 
         // MODULE 3 DONE
         if (module4Unlocked && !hasSeen(DIALOGUES.mod3)) {
             startDialogue([
-                { text: "Magaling! Isa na lang at matatapos mo na ang lahat!", name: "Mga Guro" }
+                { text: "Magaling! Natapos mo ang modyul3", name: "Mga Guro", image: "{{ asset('pictures/vn_box_teacher2.png') }}" },
+
+                { text: "Isang modyul na lang para matapos mo ang aralin", name: "Mga Guro", image: "{{ asset('pictures/vn_box_teacher3.png') }}" },
+
+                { text: "Kaya mo yan!", name: "Mga Guro", image: "{{ asset('pictures/vn_box_teacher4.png') }}" }
             ], DIALOGUES.mod3);
             return;
         }
@@ -1033,7 +1046,7 @@
         if (module3Unlocked && !hasSeen(DIALOGUES.mod2)) {
             startDialogue([
                 { 
-                    text: "Magaling! Natapos mo ang unang modyul! Ipinapakita nito na nagsisikap ka at nagbubunga ang iyong pag-aaral.", 
+                    text: "Magaling! Natapos mo ang modyul 2! Ipinapakita nito na nagsisikap ka at nagbubunga ang iyong pag-aaral.", 
                     name: "Mga Guro",
                     image: "{{ asset('pictures/vn_box_teacher2.png') }}"
                 },

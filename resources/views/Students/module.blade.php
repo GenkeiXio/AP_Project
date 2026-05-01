@@ -384,7 +384,7 @@ window.addEventListener("load", () => {
         {
         text: "Sa unang modyul na ito, ipapaliwanag ko muna kung paano gumagana ang bawat modyul. Sa bawat modyul na matatapos mo, makakakuha ka ng isang bahagi ng bahay. Kapag nabuo mo ang buong bahay, may espesyal na gantimpala kang matatanggap.",
         name: "Mga Guro",
-        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        image: "{{ asset('pictures/vn_box_teacher1.png') }}"
         },
 
         {

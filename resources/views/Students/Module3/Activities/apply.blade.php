@@ -318,6 +318,8 @@
         </div>
     </div>
 
+    <x-vn />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const modal = new bootstrap.Modal(document.getElementById('popupModal'));
@@ -375,6 +377,29 @@
             if (this.disabled) {
                 e.preventDefault();
             }
+        });
+
+        window.addEventListener("load", () => {
+            startDialogue([
+                    
+                {
+                text: "Hindi tulad ng naunang modyul, ang bahaging ito ay may ilang gawain na susubok sa iyong kaalaman at pag-unawa. Pero huwag kang mag-alala, gawin mo lang ang iyong makakaya at tandaan ang mga natutunan mo. Konting tiyaga na lang at matatapos mo rin ang mga gawain",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+                },
+
+                {
+                text: "Ngunit bago ka magsimula, kailangan mo munang basahin at unawain ang bawat Gabay sa mga Signal ng Bagyo.",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+                },
+
+                {
+                text:  "Kapag handa ka na, maaari ka nang magpatuloy.",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+                }
+            ]);
         });
     </script>
 

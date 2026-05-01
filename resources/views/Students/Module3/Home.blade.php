@@ -351,6 +351,8 @@
     </div>
 </div>
 
+<x-vn />
+
 <script>
 let hasOpenedGoals = false;
 
@@ -379,6 +381,36 @@ window.onclick = function(e){
         // DO NOTHING ❌
     }
 }
+
+window.addEventListener("load", () => {
+    startDialogue([
+            
+        {
+        text: "Narito ka na sa ikatlong modyul. Sa modyul na ito, matututunan mo ang disaster management at ang mga paghahandang dapat gawin sa harap ng mga panganib at kalamidad.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        },
+
+        {
+        text: "Sa modyul na ito, pag-aaralan mo ang tungkol sa disaster management at ang mga paghahandang dapat gawin sa harap ng mga panganib at kalamidad.Matututunan mo rin ang iba’t ibang paraan ng pagtugon tulad ng top-down at bottom-up approach, at kung paano nakakatulong ang komunidad sa pagharap sa mga suliraning pangkapaligiran.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+        },
+
+        {
+        text:  "Sa huli, inaasahan na makakabuo ka ng mga plano at paghahanda upang makatulong sa pagpapanatili ng isang ligtas at maayos na pamayanan.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        },
+
+        {
+        text:  "Handa ka na ba? Basahin at unawain ang mga layunin ng modyul bago tayo magpatuloy.",
+        name: "Mga Guro",
+        image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+        },
+    ]);
+});
+
 </script>
 
 </body>

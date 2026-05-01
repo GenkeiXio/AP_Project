@@ -275,6 +275,16 @@ body, html {
 
         <a href="{{ route('student.map') }}" class="back-button">⬅️ Bumalik</a>
     </div>
+
+    <div id="progressModal" class="modal">
+        <div class="modal-content">
+            <h2 id="progressTitle">Magaling!</h2>
+            <p>Natapos mo ang isang bahagi ng aralin.</p>
+            <div id="percentText" style="font-size:48px; font-weight:bold; color:#5eae4e;">0%</div>
+            <p id="progressMessage">Tapusin ang lahat para ma-unlock ang final activity.</p>
+            <button class="modal-btn" onclick="closeProgressModal()">Ipagpatuloy</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -305,17 +315,44 @@ function updateMapProgress(){
     const node3 = document.getElementById("node3");
     const finalBtn = document.getElementById("final-key");
 
+    // 🔒 Always reset locks first
     lockNode(node2);
     lockNode(node3);
 
+    // ✅ Get progress
     const n1 = getM3Done("node1");
     const n2 = getM3Done("node2");
     const n3 = getM3Done("node3");
 
+    // 🔓 Unlock flow
     if(n1) unlockNode(node2);
     if(n1 && n2) unlockNode(node3);
 
-    // Module 2-style final activity unlock button.
+    // 📊 Count completed nodes
+    let completedCount = 0;
+    if(n1) completedCount++;
+    if(n2) completedCount++;
+    if(n3) completedCount++;
+
+    // 🎯 Fixed percentages
+    let percentage = 0;
+    if (completedCount === 1) percentage = 33;
+    if (completedCount === 2) percentage = 66;
+    if (completedCount === 3) percentage = 100;
+
+    // 🧠 Prevent repeating modal
+    const lastReported = parseInt(sessionStorage.getItem("m3_last_progress") || "0");
+
+    if (percentage > lastReported && percentage < 100) {
+        showProgressModal(percentage);
+        sessionStorage.setItem("m3_last_progress", percentage);
+    } 
+    else if (percentage === 100 && lastReported < 100) {
+        showFinalUnlockMessage();
+        sessionStorage.setItem("m3_last_progress", 100);
+    }
+
+    // 🔑 Final button visibility
     if(n1 && n2 && n3) {
         finalBtn.style.display = "block";
     } else {
@@ -396,6 +433,24 @@ function moduleTransition(target, url) {
     setTimeout(() => {
         window.location.href = url;
     }, 900);
+}
+
+function showProgressModal(percent){
+    document.getElementById("percentText").innerText = percent + "%";
+    document.getElementById("progressModal").style.display = "flex";
+}
+
+function closeProgressModal(){
+    document.getElementById("progressModal").style.display = "none";
+}
+
+function showFinalUnlockMessage(){
+    document.getElementById("progressTitle").innerText = "🎉 Magaling!";
+    document.getElementById("percentText").innerText = "100%";
+    document.getElementById("progressMessage").innerText =
+        "Natapos mo na ang lahat ng nodes! Na-unlock mo na ang Final Activity.";
+
+    document.getElementById("progressModal").style.display = "flex";
 }
 
 window.onload = updateMapProgress;
