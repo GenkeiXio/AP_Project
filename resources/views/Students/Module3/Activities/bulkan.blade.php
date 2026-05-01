@@ -561,16 +561,39 @@
             setTimeout(() => finish(true), 500);
         }
 
+        function saveBulkanResult(isWin) {
+            fetch("{{ route('student.module3.bulkan.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    progress: currentStep,
+                    is_success: isWin,
+                    mistakes: (10 - currentStep) // simple logic
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Saved:", data))
+            .catch(err => console.error(err));
+        }
+
         function finish(win) {
+            saveBulkanResult(win); // ✅ SAVE HERE
+
             const screen = document.getElementById('end-overlay');
             const nextBtn = document.getElementById('nextPageBtn');
             screen.style.display = 'flex';
+            
             const title = document.getElementById('end-title');
             title.innerText = win ? "MISYON: TAGUMPAY" : "MISYON: BIGO";
             title.style.color = win ? "var(--safe)" : "var(--lava)";
+
             document.getElementById('end-desc').innerText = win ?
                 "Ligtas ka na! Mahusay mong nailigtas ang iyong sarili." :
                 "Nalamon ka ng lava. Mag-aral muli ng mga safety protocols.";
+
             nextBtn.style.display = win ? 'inline-block' : 'none';
         }
     </script>

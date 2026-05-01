@@ -11,18 +11,25 @@ return new class extends Migration
         Schema::create('module3_node1_table', function (Blueprint $table) {
             $table->id();
 
-            // Foreign Key
+            // FK
             $table->unsignedBigInteger('student_id');
 
-            // Game Results
+            // Core Game Data
             $table->integer('score')->default(0);
             $table->integer('total_items')->default(4);
+            $table->integer('correct_answers')->default(0);
+            $table->integer('wrong_answers')->default(0);
+
+            // Metrics
             $table->float('accuracy')->nullable();
+            $table->integer('time_spent')->nullable(); // seconds
 
-            // Status
+            // Game Status
             $table->boolean('is_completed')->default(false);
+            $table->boolean('is_perfect')->default(false);
+            $table->boolean('max_attempt_reached')->default(false);
 
-            // Attempts tracking
+            // Attempts
             $table->integer('attempts')->default(1);
 
             $table->timestamps();

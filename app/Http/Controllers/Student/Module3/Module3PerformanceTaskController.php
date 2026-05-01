@@ -32,14 +32,32 @@ class Module3PerformanceTaskController extends Controller
             'score' => 'required|integer',
             'badges' => 'required|array',
             'completionTime' => 'required|integer',
+
+            'selectedItems' => 'required|array',
+            'answers' => 'required|array',
+
+            'kitScore' => 'required|integer',
+            'evacuationScore' => 'required|integer',
+            'communicationScore' => 'required|integer',
+            'safeScore' => 'required|integer',
         ]);
 
-        // Save Performance Task Result
         $performanceTask = Module3PerformanceTask::create([
             'student_id' => $studentId,
+
             'score' => $request->score,
-            'badges_earned' => json_encode($request->badges),
             'completion_time' => $request->completionTime,
+
+            'badges_earned' => $request->badges,
+            'selected_items' => $request->selectedItems,
+            'answers' => $request->answers,
+
+            'kit_score' => $request->kitScore,
+            'evacuation_score' => $request->evacuationScore,
+            'communication_score' => $request->communicationScore,
+            'safe_score' => $request->safeScore,
+
+            'is_completed' => true,
         ]);
 
         return response()->json([

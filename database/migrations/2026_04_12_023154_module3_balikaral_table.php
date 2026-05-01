@@ -15,12 +15,20 @@ return new class extends Migration
                   ->constrained('students')
                   ->onDelete('cascade');
 
-            $table->integer('score')->default(0);
-            $table->integer('correct_answers')->default(0);
-            $table->integer('total_items')->default(3);
+            // GAME STATS
+            $table->integer('health')->default(100);
+            $table->integer('budget')->default(70000);
+            $table->integer('trust')->default(80);
+
+            // RESULT
+            $table->boolean('is_success')->default(false);
+
+            // OPTIONAL FLEXIBLE STORAGE (for future scaling)
+            $table->json('final_state')->nullable();
+
+            $table->integer('time_spent')->nullable();
 
             $table->boolean('completed')->default(false);
-            $table->integer('time_spent')->nullable();
 
             $table->timestamps();
         });

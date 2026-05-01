@@ -836,6 +836,21 @@
             document.getElementById('completedBoard').classList.remove('hidden');
             renderCompletedBoard();
 
+            fetch("{{ route('module3.node1.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    score: points,
+                    total_items: data.length,
+                    correct_answers: points,
+                    wrong_answers: data.length - points,
+                    time_spent: (10 * data.length) - timer // adjust if needed
+                })
+            });
+
             const attemptIndicator = document.getElementById('attemptIndicator');
             const repeatBtn = document.getElementById('btnRepeat');
             const mapBtn = document.getElementById('btnToMap');

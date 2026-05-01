@@ -10,14 +10,18 @@ class Module3BalikAral extends Model
 
     protected $fillable = [
         'student_id',
-        'score',
-        'correct_answers',
-        'total_items',
-        'completed',
-        'time_spent'
+        'health',
+        'budget',
+        'trust',
+        'is_success',
+        'final_state',
+        'time_spent',
+        'completed'
     ];
 
     protected $casts = [
         'completed' => 'boolean',
+        'is_success' => 'boolean',
+        'final_state' => 'array',
     ];
 }

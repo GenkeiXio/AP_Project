@@ -13,17 +13,13 @@ return new class extends Migration
 
             $table->unsignedBigInteger('student_id');
 
-            $table->integer('final_budget')->default(0);
-            $table->integer('safety_score')->default(0);
+            // NEW GAME DATA
+            $table->integer('choices_selected')->default(0);
+            $table->integer('remaining_budget')->default(0);
+            $table->integer('readiness_score')->default(0);
+            $table->boolean('is_passed')->default(false);
 
-            $table->enum('status', [
-                'not_ready',
-                'partially_ready',
-                'ready'
-            ])->default('not_ready');
-
-            $table->json('selected_strategies')->nullable();
-
+            // TRACKING
             $table->boolean('is_completed')->default(false);
             $table->integer('attempts')->default(1);
 

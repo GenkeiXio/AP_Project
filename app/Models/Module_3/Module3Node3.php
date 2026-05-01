@@ -10,16 +10,16 @@ class Module3Node3 extends Model
 
     protected $fillable = [
         'student_id',
-        'final_budget',
-        'safety_score',
-        'status',
-        'selected_strategies',
+        'choices_selected',
+        'remaining_budget',
+        'readiness_score',
+        'is_passed',
         'is_completed',
         'attempts',
     ];
 
     protected $casts = [
-        'selected_strategies' => 'array',
+        'is_passed' => 'boolean',
         'is_completed' => 'boolean',
     ];
 

@@ -1550,7 +1550,21 @@
 
             // Save result
             document.getElementById('saveResultBtn').addEventListener('click', function () {
-                // Save to database
+
+                // ✅ calculate FIRST (outside fetch)
+                const getSectionScore = (prefix) => {
+                    let total = 0;
+                    Object.keys(gameState.answers).forEach(key => {
+                        if (key.startsWith(prefix)) {
+                            total += gameState.answers[key];
+                        }
+                    });
+                    return total;
+                };
+
+                const kitScore = gameState.selectedItems.reduce((sum, item) => sum + item.points, 0);
+
+                // ✅ THEN call fetch
                 fetch("{{ route('student.module3.performance-task.save') }}", {
                     method: "POST",
                     headers: {
@@ -1560,17 +1574,25 @@
                     body: JSON.stringify({
                         score: gameState.score,
                         badges: gameState.badges,
-                        completionTime: timeTaken
+                        completionTime: timeTaken,
+
+                        selectedItems: gameState.selectedItems,
+                        answers: gameState.answers,
+
+                        kitScore: kitScore,
+                        evacuationScore: getSectionScore('evacuation'),
+                        communicationScore: getSectionScore('communication'),
+                        safeScore: getSectionScore('safe'),
                     })
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("Performance Task saved:", data);
-                        alert('Performance Task submitted! Score: ' + gameState.score + '/100');
-                        modal.classList.remove('show');
-                        document.body.classList.remove('modal-open');
-                    })
-                    .catch(err => console.error(err));
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Performance Task saved:", data);
+                    alert('Performance Task submitted! Score: ' + gameState.score + '/100');
+                    modal.classList.remove('show');
+                    document.body.classList.remove('modal-open');
+                })
+                .catch(err => console.error(err));
             });
         }
 

@@ -11,23 +11,22 @@ return new class extends Migration
         Schema::create('module3_elnino_table', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('student_id');
+            $table->foreignId('student_id')
+                  ->constrained('students')
+                  ->onDelete('cascade');
 
-            $table->integer('score')->default(0);
-            $table->boolean('is_completed')->default(false);
+            // GAME PROGRESS
+            $table->integer('completed_points')->default(0); // 0–5
 
-            $table->string('zone1')->nullable();
-            $table->string('zone2')->nullable();
-            $table->string('zone3')->nullable();
-            $table->string('zone4')->nullable();
-            $table->string('zone5')->nullable();
+            // RESULT
+            $table->boolean('is_success')->default(false);
+
+            // STORE ALL PLAYER CHOICES
+            $table->json('selections')->nullable();
+
+            $table->boolean('completed')->default(false);
 
             $table->timestamps();
-
-            $table->foreign('student_id')
-                ->references('id')
-                ->on('students')
-                ->onDelete('cascade');
         });
     }
 
