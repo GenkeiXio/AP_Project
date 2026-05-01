@@ -362,6 +362,8 @@
         </div>
     </div>
 
+    <x-vn />
+
     <script>
         let hasOpenedGoals = false;
 
@@ -390,6 +392,31 @@
                 // DO NOTHING ❌
             }
         }
+
+        window.addEventListener("load", () => {
+            startDialogue([
+                    
+                {
+                text: "Napakalayo na ng iyong narating sa paglalakbay na ito. Nalampasan mo na ang iba’t ibang modyul at hamon. Isa na lang ang natitira—tapusin mo ito upang makumpleto ang iyong buong paglalakbay.",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+                },
+
+                {
+                text: "Sa modyul na ito, pag-aaralan mo ang kalagayan at mga suliraning pangkapaligiran, pati na rin ang mga paraan kung paano ito matutugunan. Mauunawaan mo rin ang kahalagahan ng kahandaan, disiplina, at pakikiisa ng bawat isa sa pagprotekta sa ating kapaligiran.",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher3.png') }}"
+                },
+
+                {
+                text:  "Ito na ang huling hakbang. Ibigay mo na ang iyong makakaya at tapusin ang iyong paglalakbay.",
+                name: "Mga Guro",
+                image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+                },
+
+                
+            ]);
+        });
     </script>
 
 </body>

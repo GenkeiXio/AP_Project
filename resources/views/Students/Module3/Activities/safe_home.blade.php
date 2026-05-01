@@ -10,8 +10,14 @@
 
 <style>
     :root {
-        --primary: #3b82f6; --success: #22c55e; --danger: #ef4444;  
-        --warning: #f59e0b; --bg-dark: #0f172a; --panel: #1e293b; --text: #f1f5f9;
+        /* Neutral Brown Wooden Palette (No Pink/Red Tones) */
+        --wood-dark: #2c1e14;      /* Espresso Brown */
+        --wood-medium: #4a3728;    /* Deep Oak */
+        --wood-light: #d2b48c;     /* Tan/Sand Wood */
+        --accent-gold: #eab308;    /* Harvest Gold */
+        --parchment: #fcfaf7;      /* Clean off-white */
+        --success: #15803d; 
+        --danger: #b91c1c;  
     }
 
     body {
@@ -19,7 +25,6 @@
         margin: 0; padding: 15px;
         background: url("{{ asset('pictures/mod3_innermap.png') }}") no-repeat center center fixed;
         background-size: cover;
-        color: var(--text);
         min-height: 100vh;
     }
 
@@ -27,21 +32,26 @@
         width: 100%;
         max-width: 1100px;
         margin: 0 auto;
-        background: var(--panel); border-radius: 20px;
-        overflow: hidden; border: 4px solid #334155;
-        box-shadow: 0 0 40px rgba(0,0,0,0.5); position: relative;
+        /* Authentic Brown Wood Aesthetic */
+        background-color: #c4a484;
+        background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+        border-radius: 20px;
+        overflow: hidden; 
+        border: 6px solid var(--wood-dark);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+        position: relative;
     }
 
     /* GUIDELINES SECTION */
     .guidelines-banner {
-        background: rgba(59, 130, 246, 0.1);
+        background: rgba(0, 0, 0, 0.1);
         padding: 20px;
-        border-bottom: 2px solid #334155;
+        border-bottom: 3px solid var(--wood-medium);
     }
 
     .guidelines-title {
         font-family: 'Bungee';
-        color: var(--warning);
+        color: var(--wood-dark);
         font-size: 18px;
         margin-bottom: 10px;
         display: flex;
@@ -50,33 +60,50 @@
     }
 
     .guidelines-list {
-        margin: 0;
-        padding-left: 20px;
+        margin: 0; padding-left: 20px;
         font-size: 14px;
-        color: #cbd5e1;
+        color: #2c1e14;
+        font-weight: 500;
         line-height: 1.6;
     }
 
     .game-header {
-        background: #0f172a; padding: 15px; text-align: center;
-        border-bottom: 4px solid #334155;
+        background: var(--wood-dark); 
+        padding: 18px; 
+        text-align: center;
+        border-bottom: 4px solid #1a110a;
     }
 
-    .game-header h2 { font-family: 'Bungee'; margin: 0; color: #fff; font-size: 24px; letter-spacing: 1px; }
+    .game-header h2 { 
+        font-family: 'Bungee'; 
+        margin: 0; 
+        color: #fff; 
+        font-size: 26px; 
+        letter-spacing: 1px; 
+        text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
+    }
 
     .mission-tracker {
-        padding: 10px 20px; background: rgba(0,0,0,0.3);
-        display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #334155;
+        padding: 12px 20px; 
+        background: rgba(0,0,0,0.2);
+        display: flex; 
+        align-items: center; 
+        gap: 12px; 
+        border-bottom: 2px solid var(--wood-medium);
     }
 
     .progress-bar-container {
-        flex-grow: 1; height: 18px; background: #0f172a;
-        border-radius: 50px; border: 2px solid #475569; overflow: hidden;
+        flex-grow: 1; height: 18px; 
+        background: #1a110a;
+        border-radius: 50px; 
+        border: 2px solid var(--wood-medium); 
+        overflow: hidden;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
     }
 
     .progress-fill {
         height: 100%; width: 0%;
-        background: linear-gradient(90deg, #22c55e, #4ade80);
+        background: linear-gradient(90deg, #facc15, #ca8a04);
         transition: width 0.4s ease-out;
     }
 
@@ -88,59 +115,98 @@
     }
 
     .display-panel {
-        background: rgba(0,0,0,0.2); border-radius: 15px;
-        padding: 10px; border: 2px solid #334155;
+        background: rgba(255,255,255,0.15); 
+        border-radius: 15px;
+        padding: 15px; 
+        border: 2px solid var(--wood-medium);
         display: flex; justify-content: center; align-items: center;
         position: relative; min-height: 350px;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
     }
 
-    .display-panel img { max-width: 100%; height: auto; border-radius: 10px; }
+    .display-panel img { max-width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--wood-dark); }
 
     .options-grid { display: flex; flex-direction: column; gap: 10px; }
 
     .option {
-        background: #1e293b; padding: 16px 20px; border-radius: 12px;
-        cursor: pointer; transition: all 0.2s ease; border: 2px solid #334155;
-        font-size: 17px; 
+        background: var(--parchment); 
+        padding: 16px 20px; 
+        border-radius: 12px;
+        cursor: pointer; 
+        transition: all 0.2s ease; 
+        border: 2px solid var(--wood-medium);
+        font-size: 16px; 
         font-weight: 600;
         display: flex; justify-content: space-between; align-items: center;
-        color: #cbd5e1;
+        color: var(--wood-dark);
+        box-shadow: 0 4px 0 var(--wood-dark);
     }
 
-    .option:hover:not(.selected) { border-color: var(--primary); background: #2d3748; color: #fff; }
-    .option.selected { pointer-events: none; opacity: 0.8; }
+    .option:hover:not(.selected) { 
+        transform: translateY(-2px);
+        background: #ffffff; 
+        box-shadow: 0 6px 0 var(--wood-dark);
+    }
+    
+    .option.selected { pointer-events: none; opacity: 0.8; transform: translateY(2px); box-shadow: none; }
 
-    .option.correct { border-color: var(--success) !important; background: rgba(34, 197, 94, 0.2) !important; color: #fff; }
-    .option.wrong { border-color: var(--danger) !important; background: rgba(239, 68, 68, 0.2) !important; animation: shake 0.4s; color: #fff; }
+    .option.correct { 
+        border-color: var(--success) !important; 
+        background: #f0fdf4 !important; 
+        color: var(--success); 
+        box-shadow: 0 2px 0 var(--success);
+    }
+    
+    .option.wrong { 
+        border-color: var(--danger) !important; 
+        background: #fef2f2 !important; 
+        animation: shake 0.4s; 
+        color: var(--danger);
+        box-shadow: 0 2px 0 var(--danger);
+    }
 
-    .status-icon { display: none; font-size: 22px; }
-    .correct .check { display: block; color: var(--success); }
-    .wrong .xmark { display: block; color: var(--danger); }
+    .status-icon { display: none; font-size: 20px; }
+    .correct .check { display: block; }
+    .wrong .xmark { display: block; }
 
     #result {
-        text-align: center; padding: 25px; background: rgba(15, 23, 42, 0.98);
-        border-radius: 15px; border: 3px solid var(--warning);
-        position: absolute; width: 85%; display: none; z-index: 20;
-        box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        text-align: center; 
+        padding: 30px; 
+        background: var(--parchment);
+        background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+        border-radius: 20px; 
+        border: 8px solid var(--wood-dark);
+        position: absolute; 
+        width: 85%; 
+        display: none; 
+        z-index: 20;
+        box-shadow: 0 15px 60px rgba(0,0,0,0.8);
+        color: var(--wood-dark);
     }
 
     .btn-game {
-        font-family: 'Bungee'; padding: 12px 25px; border-radius: 50px;
-        cursor: pointer; border: none; font-size: 16px; text-decoration: none;
-        display: inline-block; margin-top: 15px; transition: 0.2s;
+        font-family: 'Bungee'; 
+        padding: 14px 30px; 
+        border-radius: 12px;
+        cursor: pointer; 
+        border: none; 
+        font-size: 16px; 
+        text-decoration: none;
+        display: inline-block; 
+        margin-top: 15px; 
+        transition: 0.2s;
+        box-shadow: 0 5px 0 rgba(0,0,0,0.3);
     }
     .btn-success { background: var(--success); color: white; }
     .btn-danger { background: var(--danger); color: white; }
-    .btn-game:hover { transform: scale(1.05); }
+    .btn-game:hover { transform: translateY(-3px); box-shadow: 0 8px 0 rgba(0,0,0,0.3); }
+
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
     @media (max-width: 850px) {
         .content-grid { grid-template-columns: 1fr; }
         .display-panel { min-height: 250px; order: -1; }
-        .option { font-size: 15px; padding: 12px 15px; }
-        .game-header h2 { font-size: 20px; }
     }
-
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 </style>
 </head>
 <body>
@@ -151,9 +217,9 @@
             <i class="fa-solid fa-circle-info"></i> GABAY SA MISYON
         </div>
         <ul class="guidelines-list">
-            <li><strong>Layunin:</strong> Patatagin ang bahay sa pamamagitan ng pagpili ng <strong>5 tamang paraan</strong> ng paghahanda.</li>
-            <li><strong>Limitasyon:</strong> Mayroon kang <strong>5 pagkakataon (clicks)</strong> lamang.</li>
-            <li><strong>Kondisyon:</strong> Kailangang <strong>perpekto (5/5)</strong> ang iyong mapili upang manalo. Kapag may kahit isang mali, mabibigo ang misyon.</li>
+            <li><strong>Layunin:</strong> Patatagin ang bahay sa pamamagitan ng pagpili ng <strong>5 tamang paraan</strong>.</li>
+            <li><strong>Limitasyon:</strong> Mayroon kang <strong>5 pagkakataon</strong> lamang.</li>
+            <li><strong>Kondisyon:</strong> Kailangang <strong>perpekto (5/5)</strong> upang manalo.</li>
         </ul>
     </div>
 
@@ -162,12 +228,12 @@
     </div>
 
     <div class="mission-tracker">
-        <div style="font-family: 'Bungee'; font-size: 11px; color: var(--success);">KLIK:</div>
-        <div id="clickCounter" style="font-family: 'Bungee'; color: var(--warning);">0 / 5</div>
+        <div style="font-family: 'Bungee'; font-size: 11px; color: #fff;">KLIK:</div>
+        <div id="clickCounter" style="font-family: 'Bungee'; color: var(--accent-gold);">0 / 5</div>
         <div class="progress-bar-container">
             <div id="progressFill" class="progress-fill"></div>
         </div>
-        <div id="progressText" style="font-family: 'Bungee'; min-width: 40px; text-align: right;">0%</div>
+        <div id="progressText" style="font-family: 'Bungee'; min-width: 40px; text-align: right; color: #fff;">0%</div>
     </div>
 
     <div class="content-grid">
@@ -175,8 +241,8 @@
             <img id="mainImage" src="{{ asset('pictures/Module 3/Safe_Home/normal.png') }}">
             <div id="result">
                 <h3 id="resultTitle" style="font-family: 'Bungee'; margin: 0; font-size: 22px;"></h3>
-                <img id="resultImage" style="width:100%; max-width:200px; margin: 15px 0; border-radius: 10px; border: 2px solid #444;">
-                <p id="resultText" style="font-size: 15px; color: #cbd5e1; line-height: 1.5;"></p>
+                <img id="resultImage" style="width:100%; max-width:200px; margin: 15px 0; border-radius: 10px; border: 3px solid var(--wood-medium);">
+                <p id="resultText" style="font-size: 15px; font-weight: 600; line-height: 1.5;"></p>
                 <a id="resultBtn" class="btn-game"></a>
             </div>
         </div>
@@ -198,6 +264,7 @@
 </div>
 
 <script>
+    // Logic remains exactly the same as provided in your original script
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playBeep(freq, type, duration) {
         const osc = audioCtx.createOscillator();
@@ -297,7 +364,6 @@
             document.getElementById('mainImage').style.display = "none";
             document.getElementById('result').style.display = "block";
 
-            // 🔥 SAVE DATA TO DATABASE
             fetch("{{ route('student.module3.safehome.save') }}", {
                 method: "POST",
                 headers: {

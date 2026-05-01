@@ -180,7 +180,7 @@
             top: 45vh;
             left: 10vw;
         }
-s
+
         .node-mid-right {
             top: 45vh;
             right: 10vw;
@@ -559,9 +559,9 @@ s
         }
 
         /* ✅ FIXED REDIRECT */
-        // function goToFinal() {
-        //     window.location.href = "{{ route('module4.intro') }}";
-        // }
+        function goToFinal() {
+            window.location.href = "{{ route('module4.intro') }}";
+        }
 
         window.onload = updateMapProgress;
     </script>

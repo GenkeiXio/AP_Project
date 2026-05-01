@@ -3,6 +3,16 @@
 
 @push('styles')
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@700;800&display=swap');
+
+        :root {
+            --vintage-leather: #2b1b17;
+            --gold-trim: #c5a059;
+            --old-paper: #d9c5a3;
+            --ink: #1a1a1a;
+            --danger: #b71c1c;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -10,28 +20,22 @@
         }
 
         body {
-            background: #eef2f7;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            padding: 0;
             margin: 0;
+            background:
+                linear-gradient(rgba(10, 8, 7, 0.62), rgba(10, 8, 7, 0.62)),
+                url("{{ asset('pictures/mod4_innermap.png') }}") center center / cover no-repeat fixed;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Background Map Container */
         .background-map-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            display: none;
         }
 
         .background-map {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            display: none;
         }
 
         /* Main Content Wrapper */
@@ -43,35 +47,42 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
         }
 
         .game-container {
             max-width: 1400px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
-            border-radius: 36px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            background: var(--old-paper);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 8px;
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.9),
+                inset 0 0 50px rgba(0, 0, 0, 0.2);
             padding: 30px 30px 40px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 2px solid var(--gold-trim);
+            position: relative;
         }
 
         h1 {
             font-weight: 800;
             font-size: 2rem;
-            color: #0b2b4a;
+            color: var(--ink);
             margin-bottom: 6px;
+            font-family: 'Nunito', sans-serif;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 10px;
         }
         h1 i {
-            color: #ff6f00;
+            color: var(--danger);
             margin-right: 12px;
         }
         
         .subhead {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1rem;
-            border-left: 5px solid #ff9800;
+            border-left: 5px solid var(--gold-trim);
             padding-left: 18px;
             margin: 10px 0 25px;
         }
@@ -79,11 +90,14 @@
         /* Items Pool - Moving to top */
         .items-pool {
             margin: 0 0 25px 0;
-            background: rgba(238, 242, 246, 0.95);
-            backdrop-filter: blur(5px);
-            border-radius: 28px;
+            background: #f4e4c7;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 20px 24px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
         .pool-title {
@@ -93,7 +107,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #1e293b;
+            color: var(--ink);
+            font-family: 'Nunito', sans-serif;
         }
         
         .waiting-card-container {
@@ -101,31 +116,39 @@
             justify-content: center;
             align-items: center;
             min-height: 280px;
-            background: #fef9e3;
-            border-radius: 32px;
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 30px;
             transition: all 0.2s;
-            border: 2px solid #ffe0a3;
+            border: 1px solid #aaa;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.1),
+                2px 6px 12px rgba(0, 0, 0, 0.3);
         }
         
         .empty-waiting-message {
             text-align: center;
-            color: #6c757d;
+            color: var(--ink);
             font-size: 1.2rem;
             font-weight: 500;
-            background: #f8f9fa;
+            background: #f4e4c7;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             padding: 40px 20px;
-            border-radius: 28px;
+            border-radius: 5px;
             width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
         }
         
         .remaining-count {
             font-size: 0.9rem;
-            background: #e9ecef;
+            background: var(--vintage-leather);
             display: inline-block;
             padding: 4px 12px;
-            border-radius: 40px;
+            border-radius: 3px;
             margin-left: 12px;
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
         }
 
         /* Category Headers with Images */
@@ -137,28 +160,30 @@
         }
         
         .cat-col {
-            color: white;
+            color: var(--gold-trim);
             padding: 20px 15px;
-            border-radius: 24px 24px 20px 20px;
+            border-radius: 3px;
             text-align: center;
             font-weight: 800;
             font-size: 1.6rem;
             letter-spacing: 0.5px;
             box-shadow: 0 6px 0 rgba(0,0,0,0.2);
             transition: transform 0.2s;
+            font-family: 'Nunito', sans-serif;
+            border: 1px solid var(--gold-trim);
         }
         
         .cat-col.sanhi-cat { 
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-            box-shadow: 0 6px 0 #0a4bb5; 
+            background: #3d2a25;
+            box-shadow: 0 6px 0 #2b1b17;
         }
         .cat-col.epekto-cat { 
-            background: linear-gradient(135deg, #b02e2e, #8b2323);
-            box-shadow: 0 6px 0 #7a1f1f; 
+            background: #4a3530;
+            box-shadow: 0 6px 0 #3d2a25;
         }
         .cat-col.tugon-cat { 
-            background: linear-gradient(135deg, #2e7d32, #1e5a20);
-            box-shadow: 0 6px 0 #1b5e20; 
+            background: #2b1b17;
+            box-shadow: 0 6px 0 #1a0f0c;
         }
         
         .cat-icon {
@@ -198,11 +223,11 @@
         }
         
         .dropzone {
-            background: rgba(248, 250, 252, 0.95);
-            backdrop-filter: blur(5px);
-            border-radius: 28px;
+            background: rgba(244, 228, 199, 0.95);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 20px 15px;
-            border: 3px dashed #cbd5e1;
+            border: 3px dashed #8b6b3f;
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
@@ -211,34 +236,37 @@
         }
         
         .dropzone.drag-over {
-            background: rgba(255, 111, 0, 0.08);
-            border-color: #ff6f00;
+            background: rgba(217, 197, 163, 0.95);
+            border-color: var(--gold-trim);
             border-style: solid;
         }
         
         .dropzone-header {
             text-align: center;
             padding-bottom: 12px;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
             margin-bottom: 10px;
             font-weight: 700;
             font-size: 1.1rem;
-            color: #334155;
+            color: var(--ink);
+            font-family: 'Nunito', sans-serif;
         }
         
         /* Statement Cards - No side highlight */
         .statement-card {
-            background: white;
-            border-radius: 24px;
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 20px 20px 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
             font-weight: 500;
             cursor: grab;
             user-select: none;
             transition: all 0.2s ease;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #aaa;
             font-size: 0.95rem;
             line-height: 1.5;
+            color: var(--ink);
         }
         
         .statement-card:active {
@@ -293,9 +321,9 @@
             gap: 8px;
             margin-top: 12px;
             padding-top: 10px;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
             font-size: 0.8rem;
-            color: #64748b;
+            color: #5D4037;
         }
         
         .card-footer-badge img {
@@ -309,8 +337,8 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 2px solid #e9ecef;
-            border-top-color: #ff6f00;
+            border: 2px solid #d9c5a3;
+            border-top-color: var(--gold-trim);
             border-radius: 50%;
             animation: spin 0.6s linear infinite;
             margin-left: 10px;
@@ -327,7 +355,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(10, 8, 7, 0.9);
             backdrop-filter: blur(5px);
             z-index: 1000;
             display: flex;
@@ -344,16 +372,17 @@
         }
         
         .modal-container {
-            background: linear-gradient(135deg, #ffffff, #f8fafc);
-            border-radius: 48px;
+            background: #f4e4c7;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             max-width: 700px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 2px solid var(--gold-trim);
         }
         
         .modal-overlay.show .modal-container {
@@ -361,10 +390,11 @@
         }
         
         .modal-header {
-            background: linear-gradient(135deg, #ff6f00, #e65100);
+            background: var(--vintage-leather);
             padding: 24px 32px;
-            border-radius: 48px 48px 0 0;
-            color: white;
+            border-radius: 3px 3px 0 0;
+            color: var(--gold-trim);
+            border-bottom: 1px solid var(--gold-trim);
         }
         
         .modal-header h2 {
@@ -373,6 +403,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            font-family: 'Nunito', sans-serif;
         }
         
         .modal-body {
@@ -382,7 +413,7 @@
         .modal-body p {
             font-size: 1rem;
             line-height: 1.7;
-            color: #1e293b;
+            color: var(--ink);
             margin-bottom: 20px;
         }
         
@@ -393,11 +424,11 @@
         }
         
         .modal-btn {
-            background: linear-gradient(135deg, #ff6f00, #e65100);
-            color: white;
-            border: none;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
             padding: 14px 32px;
-            border-radius: 40px;
+            border-radius: 3px;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
@@ -405,19 +436,24 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .modal-btn:hover {
+            background: #3d2a25;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         /* Reset Button */
         .reset-btn {
-            background: #f1f5f9;
-            border: none;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
             padding: 12px 28px;
-            border-radius: 40px;
+            border-radius: 3px;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
@@ -426,10 +462,13 @@
             align-items: center;
             gap: 10px;
             margin-top: 10px;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .reset-btn:hover {
-            background: #e2e8f0;
+            background: #3d2a25;
             transform: translateY(-2px);
         }
 
@@ -447,16 +486,18 @@
             top: 20px;
             left: 20px;
             z-index: 100;
-            background-color: rgba(255, 255, 255, 0.9);
+            background: var(--vintage-leather);
             padding: 10px 18px;
-            border-radius: 40px;
+            border-radius: 3px;
             text-decoration: none;
-            color: #1a1a1a;
+            color: var(--gold-trim);
             font-weight: bold;
-            font-family: 'Courier New', Courier, monospace;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s;
-            backdrop-filter: blur(4px);
+            border: 1px solid var(--gold-trim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .back-button:hover {
@@ -493,14 +534,16 @@
         
         /* Completion Message */
         .completion-badge {
-            background: #d4edda;
-            color: #155724;
+            background: #d9c5a3;
+            color: var(--ink);
             padding: 8px 20px;
-            border-radius: 40px;
+            border-radius: 3px;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            border: 1px solid #8b6b3f;
+            font-family: 'Nunito', sans-serif;
         }
     </style>
 @endpush
@@ -622,7 +665,7 @@
                 return arr;
             }
             remainingStatements = shuffleArray(remainingStatements);
-            
+
             // DOM Elements
             const waitingArea = document.getElementById('waitingCardArea');
             const remainingCountSpan = document.getElementById('remainingCount');
@@ -633,10 +676,10 @@
             const completionStatus = document.getElementById('completionStatus');
             const summaryModal = document.getElementById('summaryModal');
             const modalContinueBtn = document.getElementById('modalContinueBtn');
-            
+
             let gameActive = true;
             let isLoadingNext = false;
-            
+
             // Shake a card element
             function shakeCard(card) {
                 if (!card) return;
@@ -645,7 +688,7 @@
                     card.classList.remove('shake');
                 }, 400);
             }
-            
+
             // Helper: update remaining count display
             function updateRemainingDisplay() {
                 if (remainingCountSpan) {
@@ -655,14 +698,14 @@
                     checkAllPlacedFinal();
                 }
             }
-            
+
             // Function to show modal and handle navigation
             function showSummaryModal() {
                 if (summaryModal) {
                     summaryModal.classList.add('show');
                 }
             }
-            
+
             // Function to check final completion after all cards dragged
             function checkAllPlacedFinal() {
                 const totalCards = fullStatements.length;
@@ -670,7 +713,7 @@
                 const epektoCount = dropEpekto ? dropEpekto.querySelectorAll('.statement-card').length : 0;
                 const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
                 const totalPlaced = sanhiCount + epektoCount + tugonCount;
-                
+
                 let allCorrect = false;
                 if (totalPlaced === totalCards) {
                     let correct = true;
@@ -690,8 +733,9 @@
                         allCorrect = true;
                     }
                 }
-                
+
                 if (allCorrect) {
+                    sessionStorage.setItem("node4_done", "true");
                     if (completionStatus) {
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
                     }
@@ -707,7 +751,7 @@
                     if (!gameActive) return;
                 }
             }
-            
+
             // Create draggable card element with HEADER IMAGE (no side border)
             function createDraggableCard(statement, indexId) {
                 const card = document.createElement('div');
@@ -715,7 +759,7 @@
                 card.setAttribute('draggable', 'true');
                 card.setAttribute('data-category', statement.category);
                 card.setAttribute('data-id', indexId);
-                
+
                 // Header Image HTML (top of card)
                 let headerImageHtml = '';
                 if (statement.imageIcon) {
@@ -725,22 +769,22 @@
                         </div>
                     `;
                 }
-                
+
                 card.innerHTML = `
                     ${headerImageHtml}
                     <div class="card-text-content">${statement.text}</div>
                 `;
-                
+
                 card.addEventListener('dragstart', handleDragStart);
                 card.addEventListener('dragend', handleDragEnd);
                 return card;
             }
-            
+
             // Show next card in waiting area (automatically called after placement)
             function loadNextCard() {
                 if (!gameActive) return;
                 if (isLoadingNext) return;
-                
+
                 if (remainingStatements.length === 0) {
                     if (waitingArea) {
                         waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card. Natapos na!</div>';
@@ -748,16 +792,16 @@
                     checkAllPlacedFinal();
                     return;
                 }
-                
+
                 isLoadingNext = true;
-                
+
                 // Add a small delay for smooth transition
                 setTimeout(() => {
                     if (!gameActive) {
                         isLoadingNext = false;
                         return;
                     }
-                    
+
                     const nextStatement = remainingStatements[0];
                     const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
                     if (waitingArea) {
@@ -768,29 +812,29 @@
                     updateRemainingDisplay();
                 }, 150);
             }
-            
+
             // Function to finalize placement of current card, then automatically load next
             function onCardPlacedSuccessfully(placedCard, targetZone) {
                 if (!gameActive) return;
-                
+
                 // Remove from waiting area
                 if (waitingArea && waitingArea.contains(placedCard)) {
                     waitingArea.innerHTML = '';
                 }
-                
+
                 // Remove from remainingStatements array (the first one)
                 if (remainingStatements.length > 0) {
                     remainingStatements.shift();
                 }
                 updateRemainingDisplay();
-                
+
                 // Check if all cards are placed
                 const totalCards = fullStatements.length;
                 const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
                 const epektoCount = dropEpekto ? dropEpekto.querySelectorAll('.statement-card').length : 0;
                 const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
                 const totalPlaced = sanhiCount + epektoCount + tugonCount;
-                
+
                 if (totalPlaced === totalCards) {
                     // All cards placed, check final correctness
                     checkAllPlacedFinal();
@@ -798,13 +842,13 @@
                     // Automatically load the next card
                     loadNextCard();
                 }
-                
+
                 checkAllPlacedFinal();
             }
-            
+
             // Drag & Drop Handlers
             let draggedElement = null;
-            
+
             function handleDragStart(e) {
                 if (!gameActive) {
                     e.preventDefault();
@@ -821,7 +865,7 @@
                 e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
                 e.dataTransfer.effectAllowed = 'move';
             }
-            
+
             function handleDragEnd(e) {
                 if (this) this.classList.remove('dragging');
                 document.querySelectorAll('.dropzone').forEach(zone => {
@@ -829,77 +873,77 @@
                 });
                 draggedElement = null;
             }
-            
+
             function setupDropZones() {
                 const dropzones = [dropSanhi, dropEpekto, dropTugon];
                 dropzones.forEach(zone => {
                     if (!zone) return;
-                    
+
                     zone.addEventListener('dragover', (e) => {
                         e.preventDefault();
                         if (!gameActive) return;
                         e.dataTransfer.dropEffect = 'move';
                         zone.classList.add('drag-over');
                     });
-                    
+
                     zone.addEventListener('dragleave', () => {
                         zone.classList.remove('drag-over');
                     });
-                    
+
                     zone.addEventListener('drop', (e) => {
                         e.preventDefault();
                         zone.classList.remove('drag-over');
                         if (!gameActive) return;
                         if (!draggedElement) return;
-                        
+
                         const targetCategory = zone.dataset.category;
                         const cardCategory = draggedElement.dataset.category;
-                        
+
                         if (cardCategory !== targetCategory) {
                             shakeCard(draggedElement);
                             return;
                         }
-                        
+
                         if (draggedElement.parentNode !== waitingArea) {
                             shakeCard(draggedElement);
                             return;
                         }
-                        
+
                         // Move card to dropzone
                         zone.appendChild(draggedElement);
                         draggedElement.style.cursor = 'default';
                         draggedElement.setAttribute('draggable', 'false');
                         draggedElement.classList.add('placed');
-                        
+
                         // Remove drag listeners to prevent further drag
                         draggedElement.removeEventListener('dragstart', handleDragStart);
                         draggedElement.removeEventListener('dragend', handleDragEnd);
-                        
+
                         // Trigger automatic next card
                         onCardPlacedSuccessfully(draggedElement, zone);
                         draggedElement = null;
                     });
                 });
             }
-            
+
             // Reset game fully
             function resetGame() {
                 gameActive = true;
                 isLoadingNext = false;
                 remainingStatements = shuffleArray([...fullStatements]);
-                
+
                 // Clear all dropzones
                 if (dropSanhi) dropSanhi.innerHTML = '';
                 if (dropEpekto) dropEpekto.innerHTML = '';
                 if (dropTugon) dropTugon.innerHTML = '';
-                
+
                 // Reset waiting area
                 if (waitingArea) waitingArea.innerHTML = '';
-                
+
                 if (completionStatus) completionStatus.innerHTML = '';
-                
+
                 updateRemainingDisplay();
-                
+
                 // Load first card
                 setTimeout(() => {
                     if (remainingStatements.length > 0) {
@@ -913,14 +957,15 @@
                     updateRemainingDisplay();
                 }, 50);
             }
-            
+
             // Modal continue button - navigate to inner.map4
             if (modalContinueBtn) {
                 modalContinueBtn.addEventListener('click', () => {
+
                     window.location.href = "{{ route('inner.map4') }}";
                 });
             }
-            
+
             // Close modal when clicking outside
             if (summaryModal) {
                 summaryModal.addEventListener('click', (e) => {
@@ -929,15 +974,15 @@
                     }
                 });
             }
-            
+
             if (resetBtn) {
                 resetBtn.addEventListener('click', resetGame);
             }
-            
+
             // Prevent default dragover on document
             document.addEventListener('dragover', (e) => e.preventDefault());
             document.addEventListener('drop', (e) => e.preventDefault());
-            
+
             // Initial setup
             setupDropZones();
             resetGame();

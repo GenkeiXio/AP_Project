@@ -3,6 +3,16 @@
 
 @push('styles')
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@700;800&display=swap');
+
+        :root {
+            --vintage-leather: #2b1b17;
+            --gold-trim: #c5a059;
+            --old-paper: #d9c5a3;
+            --ink: #1a1a1a;
+            --danger: #b71c1c;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -10,29 +20,22 @@
         }
 
         body {
-            background: #eef2f7;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            padding: 0;
             margin: 0;
-            position: relative;
+            background:
+                linear-gradient(rgba(10, 8, 7, 0.62), rgba(10, 8, 7, 0.62)),
+                url("{{ asset('pictures/mod4_innermap.png') }}") center center / cover no-repeat fixed;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
         /* Background Map Container */
         .background-map-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            display: none;
         }
 
         .background-map {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            display: none;
         }
 
         /* Main Content Wrapper */
@@ -44,53 +47,65 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
         }
 
         .node-container {
             max-width: 1300px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            border-radius: 36px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            background: var(--old-paper);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 8px;
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.9),
+                inset 0 0 50px rgba(0, 0, 0, 0.2);
             padding: 30px 30px 40px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 2px solid var(--gold-trim);
+            position: relative;
         }
 
         h1 {
             font-weight: 800;
             font-size: 2.2rem;
-            color: #0b2b4a;
+            color: var(--ink);
             margin-bottom: 6px;
+            font-family: 'Nunito', sans-serif;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 10px;
         }
         h1 i {
-            color: #795548;
+            color: var(--danger);
             margin-right: 12px;
         }
         .subhead {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.1rem;
-            border-left: 5px solid #ff9800;
+            border-left: 5px solid var(--gold-trim);
             padding-left: 18px;
             margin: 10px 0 20px;
         }
 
-        /* READ FIRST SECTION */
+        /* READ FIRST SECTION - VINTAGE BOOK THEME */
         .read-first-card {
-            background: rgba(248, 250, 252, 0.95);
-            border-radius: 28px;
+            background: #f4e4c7;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 25px 30px;
-            border: 2px dashed #94a3b8;
+            border: 1px solid rgba(0, 0, 0, 0.2);
             margin-bottom: 35px;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
-            backdrop-filter: blur(5px);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.3);
         }
         .read-first-title {
             font-weight: 700;
             font-size: 1.5rem;
-            color: #1e293b;
+            color: var(--ink);
             margin-bottom: 12px;
+            font-family: 'Nunito', sans-serif;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            padding-bottom: 8px;
         }
         
         /* Media Container - Article & Video Side by Side */
@@ -102,11 +117,14 @@
         }
         
         .article-preview-box {
-            background: white;
-            border-radius: 20px;
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 20px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-            border: 1px solid #e2e8f0;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.1),
+                2px 6px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid #aaa;
         }
         
         .article-preview-header {
@@ -115,24 +133,25 @@
             gap: 10px;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
         
         .article-preview-header i {
             font-size: 24px;
-            color: #795548;
+            color: var(--danger);
         }
         
         .article-preview-header h4 {
             margin: 0;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--ink);
+            font-family: 'Nunito', sans-serif;
         }
         
         .article-excerpt {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #334155;
+            color: var(--ink);
             max-height: 200px;
             overflow-y: auto;
             padding-right: 10px;
@@ -144,21 +163,24 @@
         }
         
         .article-excerpt::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #d9c5a3;
             border-radius: 10px;
         }
         
         .article-excerpt::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #8b6b3f;
             border-radius: 10px;
         }
         
         .video-container {
-            background: white;
-            border-radius: 20px;
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 20px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-            border: 1px solid #e2e8f0;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.1),
+                2px 6px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid #aaa;
         }
         
         .video-header {
@@ -167,27 +189,29 @@
             gap: 10px;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
         
         .video-header i {
             font-size: 24px;
-            color: #ff0000;
+            color: var(--danger);
         }
         
         .video-header h4 {
             margin: 0;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--ink);
+            font-family: 'Nunito', sans-serif;
         }
         
         .video-wrapper {
             position: relative;
             padding-bottom: 56%;
             height: 0;
-            border-radius: 12px;
+            border-radius: 5px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #8b6b3f;
         }
         
         .video-wrapper iframe {
@@ -207,25 +231,25 @@
         }
         
         .article-btn {
-            background: white;
-            border-radius: 60px;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
             padding: 12px 24px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            border: 1px solid #dee2e6;
-            transition: all 0.15s;
-            color: #0b2b4a;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             font-size: 0.95rem;
-            cursor: pointer;
+            border-radius: 3px;
         }
         .article-btn:hover {
-            background: #795548;
-            color: white;
-            border-color: #795548;
+            background: #3d2a25;
             transform: translateY(-2px);
         }
         
@@ -248,44 +272,50 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(10, 8, 7, 0.9);
             z-index: 9999;
             justify-content: center;
             align-items: center;
         }
         
         .modal-content {
-            background: white;
+            background: #f4e4c7;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             width: 90%;
             height: 85%;
-            border-radius: 20px;
+            border-radius: 5px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--gold-trim);
         }
         
         .modal-header {
             padding: 15px 20px;
-            background: #5d4037;
-            color: white;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: bold;
+            font-family: 'Nunito', sans-serif;
         }
         
         .modal-header button {
             background: none;
             border: none;
-            color: white;
+            color: var(--gold-trim);
             font-size: 24px;
             cursor: pointer;
             font-weight: bold;
+            padding: 5px 10px;
         }
         
         .modal-header button:hover {
             opacity: 0.8;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
         }
         
         .modal-body {
@@ -307,43 +337,49 @@
             flex-wrap: wrap;
             margin-top: 25px;
         }
+        
         .confirm-btn {
-            background: #2b3a55;
-            color: white;
-            border: none;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
             padding: 14px 32px;
-            border-radius: 60px;
-            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
             font-size: 1.2rem;
-            box-shadow: 0 10px 18px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
             transition: 0.2s;
             cursor: pointer;
             min-width: 280px;
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 3px;
         }
         .confirm-btn:disabled {
-            opacity: 0.55;
+            opacity: 0.5;
             box-shadow: none;
             pointer-events: none;
             cursor: not-allowed;
+            transform: none;
         }
         .confirm-btn.enabled {
-            background: #795548;
+            background: #3d2a25;
         }
         .confirm-btn.enabled:hover {
-            background: #5d4037;
-            transform: scale(1.02);
+            background: #4a3530;
+            transform: translateY(-2px);
         }
 
         .summary-box {
-            background: rgba(233, 242, 250, 0.95);
-            backdrop-filter: blur(5px);
-            border-radius: 28px;
+            background: rgba(244, 228, 199, 0.95);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 5px;
             padding: 25px 30px;
             margin-top: 40px;
-            border-left: 12px solid #795548;
+            border-left: 12px solid #8b6b3f;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
         }
 
         .back-button {
@@ -351,15 +387,18 @@
             top: 20px;
             left: 20px;
             z-index: 100;
-            background-color: rgba(255, 255, 255, 0.9);
+            background: var(--vintage-leather);
             padding: 10px 15px;
-            border-radius: 8px;
+            border-radius: 3px;
             text-decoration: none;
-            color: #1a1a1a;
+            color: var(--gold-trim);
             font-weight: bold;
-            font-family: 'Courier New', Courier, monospace;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s;
+            border: 1px solid var(--gold-trim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .back-button:hover {
@@ -370,20 +409,23 @@
         .status-badge {
             display: inline-block;
             padding: 5px 12px;
-            border-radius: 20px;
+            border-radius: 3px;
             font-size: 0.8rem;
             font-weight: 600;
             margin-top: 10px;
+            font-family: 'Nunito', sans-serif;
         }
         
         .status-badge.read {
-            background: #d4edda;
-            color: #155724;
+            background: #d9c5a3;
+            color: var(--ink);
+            border: 1px solid #8b6b3f;
         }
         
         .status-badge.not-read {
-            background: #f8d7da;
-            color: #721c24;
+            background: #f4e4c7;
+            color: var(--danger);
+            border: 1px solid var(--danger);
         }
 
         /* Responsive */
@@ -411,7 +453,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <span><i class="fas fa-newspaper"></i> 📖 ABS-CBN News - Landslide sa Libon, Albay</span>
-                <button onclick="closeArticleModal()">&times;</button>
+                <button id="closeModalBtn">&times;</button>
             </div>
             <div class="modal-body">
                 <iframe id="articleIframe" src="about:blank"></iframe>
@@ -425,7 +467,7 @@
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                 <div>
                     <h1><i class="fas fa-mountain"></i> NODE 5: Landslide sa Albay 
-                        <span style="font-size: 1rem; background: #e6e9f0; padding: 5px 18px; border-radius: 30px; margin-left: 16px;">Libon, Albay</span>
+                        <span style="font-size: 1rem; background: var(--vintage-leather); padding: 5px 18px; border-radius: 3px; margin-left: 16px; color: var(--gold-trim); border: 1px solid var(--gold-trim);">Libon, Albay</span>
                     </h1>
                 </div>
             </div>
@@ -436,8 +478,8 @@
                     <i class="fas fa-book-open me-2"></i> 
                      BAGO MAG-ACTIVITY: Basahin at panoorin
                 </div>
-                <p style="font-size: 1.05rem; margin-bottom: 5px;">
-                    <strong>Panuto:</strong> Basahin ang artikulo at panoorin ang video. Awtomatikong magpe-play ang video.
+                <p style="font-size: 1.05rem; margin-bottom: 5px; color: var(--ink);">
+                    <strong>Panuto:</strong> Basahin ang artikulo at panoorin ang video.
                 </p>
                 
                 <!-- Article & Video Side by Side -->
@@ -461,7 +503,7 @@
                         </div>
                     </div>
                     
-                    <!-- Video Box with Autoplay -->
+                    <!-- Video Box WITHOUT Autoplay -->
                     <div class="video-container">
                         <div class="video-header">
                             <i class="fab fa-youtube"></i>
@@ -470,9 +512,9 @@
                         <div class="video-wrapper">
                             <iframe 
                                 id="youtubeVideo"
-                                src="https://www.youtube.com/embed/ibI0oImzDSs?autoplay=1&mute=1&enablejsapi=1" 
+                                src="https://www.youtube.com/embed/ibI0oImzDSs?enablejsapi=1" 
                                 title="Landslide sa Albay"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowfullscreen>
                             </iframe>
                         </div>
@@ -493,6 +535,17 @@
     </div>
 
     <script>
+        // Make closeArticleModal globally accessible
+        window.closeArticleModal = function() {
+            const articleModal = document.getElementById('articleModal');
+            const articleIframe = document.getElementById('articleIframe');
+            
+            // Clear the iframe src to stop loading
+            articleIframe.src = 'about:blank';
+            // Hide the modal
+            articleModal.style.display = 'none';
+        };
+
         (function(){
             "use strict";
 
@@ -501,6 +554,7 @@
             const unlockLink = document.getElementById('unlockActivityBtn');
             const articleModal = document.getElementById('articleModal');
             const articleIframe = document.getElementById('articleIframe');
+            const closeModalBtn = document.getElementById('closeModalBtn');
             
             let articleRead = false;
             let videoWatched = false;
@@ -518,11 +572,12 @@
             }
 
             function closeArticleModal() {
+                articleIframe.src = 'about:blank';
                 articleModal.style.display = 'none';
                 // Mark as read when modal is closed
                 if (!articleRead) {
                     articleRead = true;
-                    // Change button style to completed (green)
+                    // Change button style to completed
                     if (readButtonElement) {
                         readButtonElement.classList.add('completed');
                         readButtonElement.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Tapos na';
@@ -531,10 +586,13 @@
                 }
             }
 
+            // Override the global function with the full version
+            window.closeArticleModal = closeArticleModal;
+
             function markVideoWatched() {
                 if (!videoWatched) {
                     videoWatched = true;
-                    // Change button style to completed (green)
+                    // Change button style to completed
                     if (watchButtonElement) {
                         watchButtonElement.classList.add('completed');
                         watchButtonElement.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Tapos na';
@@ -563,6 +621,12 @@
                 openArticleModal();
             });
             
+            // Close modal when clicking close button
+            closeModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeArticleModal();
+            });
+            
             // Handle video watching - open YouTube in new tab and mark as watched
             watchBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -570,16 +634,16 @@
                 markVideoWatched();
             });
 
-            // Mark video as watched after playing (autoplay detection)
-            let videoMarkTimeout = setTimeout(() => {
-                if (!videoWatched) {
-                    markVideoWatched();
-                }
-            }, 5000); // Mark as watched after 5 seconds of autoplay
-
-            // Close modal when clicking outside (optional)
+            // Close modal when clicking outside
             articleModal.addEventListener('click', (e) => {
                 if (e.target === articleModal) {
+                    closeArticleModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && articleModal.style.display === 'flex') {
                     closeArticleModal();
                 }
             });
@@ -596,11 +660,6 @@
 
             // Initialize
             updateUnlockLink();
-            
-            // Cleanup timeout on page unload
-            window.addEventListener('beforeunload', () => {
-                if (videoMarkTimeout) clearTimeout(videoMarkTimeout);
-            });
         })();
     </script>
 @endsection

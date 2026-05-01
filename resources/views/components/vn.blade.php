@@ -128,16 +128,59 @@
 
 /* mobile view */
 @media (max-width: 768px) {
+
+  #vn-container {
+    padding: 0 6px;
+    bottom: 10px;
+  }
+
   .vn-wrapper {
-    width: 90%;
+    width: 100%;
+    padding: 0;
   }
 
+  /* STACK EVERYTHING */
+  .vn-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 👈 align left */
+    margin-top: -5px;
+  }
+
+  /* CHARACTER ON TOP (NO ABSOLUTE) */
   #vn-character {
-    display: none; /* hide teacher on small screens */
+    position: relative;  /* 👈 important */
+    height: 140px;
+    margin-bottom: 0px;  /* 👈 SPACE between image and name */
   }
 
+  /* NAME TAG (NORMAL FLOW) */
+  .vn-name-tag {
+    position: relative;  /* 👈 remove absolute */
+    top: 0;
+    left: 0;
+
+    margin-bottom: 6px; /* 👈 SPACE between name and box */
+    font-size: 13px;
+    padding: 5px 12px;
+  }
+
+  /* DIALOGUE BOX */
   .vn-inner {
-    padding: 16px 16px 50px 16px; /* reset spacing */
+    width: 100%;
+    padding: 18px 16px 60px 16px;
+    min-height: 120px;
+    border-radius: 18px;
+  }
+
+  #vn-text {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  #vn-next {
+    bottom: 12px;
+    right: 12px;
   }
 }
 

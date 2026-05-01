@@ -110,10 +110,6 @@
         filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
     }
 
-    .pin:hover .tooltip {
-        background-color: #ffa502; /* Turns orange on hover */
-        color: #000;
-    }
 
     /* ===== LOCKED PIN STYLES ===== */
     .pin.locked-pin {
@@ -1016,15 +1012,31 @@
         if (finalDone && !hasSeen(DIALOGUES.final)) {
         startDialogue([
             { 
-                text: "🎉 Natapos mo ang buong paglalakbay!", 
+                text: "🎉 Binabati kita! Natapos mo ang buong paglalakbay!", 
                 name: "Mga Guro", 
                 image: "{{ asset('pictures/vn_box_teacher2.png') }}"
             },
             { 
-                text: "Nabuo mo na ang bahay—binabati ka namin!", 
+                text: "Sa bawat modyul na iyong nalampasan, ipinakita mo ang iyong sipag, tiyaga, at pagnanais na matuto.", 
                 name: "Mga Guro", 
                 image: "{{ asset('pictures/vn_box_teacher2.png') }}"
-            }
+            },
+            { 
+                text: "Nabuo mo na ang bahay—isang simbolo ng iyong pinaghirapan at mga kaalamang iyong natamo.", 
+                name: "Mga Guro", 
+                image: "{{ asset('pictures/vn_box_teacher2.png') }}"
+            },
+            { 
+                text: "Ngunit higit pa rito, dala mo na ngayon ang kakayahang maging bahagi ng solusyon sa mga suliraning pangkapaligiran.", 
+                name: "Mga Guro", 
+                image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+            },
+            { 
+                text: "Nawa’y gamitin mo ang iyong natutunan upang makatulong sa iyong komunidad at sa kalikasan.", 
+                name: "Mga Guro", 
+                image: "{{ asset('pictures/vn_box_teacher3png') }}"
+            },
+    
         ], DIALOGUES.final);
         return;
     }
