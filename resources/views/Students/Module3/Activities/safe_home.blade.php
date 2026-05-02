@@ -1,215 +1,216 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Misyon: Ligtas na Bahay</title>
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Safe Home Activity')
 
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+@push('styles')
 
-<style>
-    :root {
-        /* Neutral Brown Wooden Palette (No Pink/Red Tones) */
-        --wood-dark: #2c1e14;      /* Espresso Brown */
-        --wood-medium: #4a3728;    /* Deep Oak */
-        --wood-light: #d2b48c;     /* Tan/Sand Wood */
-        --accent-gold: #eab308;    /* Harvest Gold */
-        --parchment: #fcfaf7;      /* Clean off-white */
-        --success: #15803d; 
-        --danger: #b91c1c;  
-    }
+    <style>
+        :root {
+            /* Neutral Brown Wooden Palette (No Pink/Red Tones) */
+            --wood-dark: #2c1e14;      /* Espresso Brown */
+            --wood-medium: #4a3728;    /* Deep Oak */
+            --wood-light: #d2b48c;     /* Tan/Sand Wood */
+            --accent-gold: #eab308;    /* Harvest Gold */
+            --parchment: #fcfaf7;      /* Clean off-white */
+            --success: #15803d; 
+            --danger: #b91c1c;  
+        }
 
-    body {
-        font-family: 'Lexend', sans-serif;
-        margin: 0; padding: 15px;
-        background: url("{{ asset('pictures/mod3_innermap.png') }}") no-repeat center center fixed;
-        background-size: cover;
-        min-height: 100vh;
-    }
+        html, body{
+            scroll-behavior:smooth;
+            background:
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+        }
 
-    .game-master-container {
-        width: 100%;
-        max-width: 1100px;
-        margin: 0 auto;
-        /* Authentic Brown Wood Aesthetic */
-        background-color: #c4a484;
-        background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-        border-radius: 20px;
-        overflow: hidden; 
-        border: 6px solid var(--wood-dark);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
-        position: relative;
-    }
+        body{
+            overflow-x:hidden;
+            color:var(--text);
+            font-family:'Poppins', sans-serif;
+        }
 
-    /* GUIDELINES SECTION */
-    .guidelines-banner {
-        background: rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        border-bottom: 3px solid var(--wood-medium);
-    }
+        .game-master-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            /* Authentic Brown Wood Aesthetic */
+            background-color: #c4a484;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            border-radius: 20px;
+            overflow: hidden; 
+            border: 6px solid var(--wood-dark);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+            position: relative;
+        }
 
-    .guidelines-title {
-        font-family: 'Bungee';
-        color: var(--wood-dark);
-        font-size: 18px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+        /* GUIDELINES SECTION */
+        .guidelines-banner {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-bottom: 3px solid var(--wood-medium);
+        }
 
-    .guidelines-list {
-        margin: 0; padding-left: 20px;
-        font-size: 14px;
-        color: #2c1e14;
-        font-weight: 500;
-        line-height: 1.6;
-    }
+        .guidelines-title {
+            font-family: 'Bungee';
+            color: var(--wood-dark);
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .game-header {
-        background: var(--wood-dark); 
-        padding: 18px; 
-        text-align: center;
-        border-bottom: 4px solid #1a110a;
-    }
+        .guidelines-list {
+            margin: 0; padding-left: 20px;
+            font-size: 14px;
+            color: #2c1e14;
+            font-weight: 500;
+            line-height: 1.6;
+        }
 
-    .game-header h2 { 
-        font-family: 'Bungee'; 
-        margin: 0; 
-        color: #fff; 
-        font-size: 26px; 
-        letter-spacing: 1px; 
-        text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
-    }
+        .game-header {
+            background: var(--wood-dark); 
+            padding: 18px; 
+            text-align: center;
+            border-bottom: 4px solid #1a110a;
+        }
 
-    .mission-tracker {
-        padding: 12px 20px; 
-        background: rgba(0,0,0,0.2);
-        display: flex; 
-        align-items: center; 
-        gap: 12px; 
-        border-bottom: 2px solid var(--wood-medium);
-    }
+        .game-header h2 { 
+            font-family: 'Bungee'; 
+            margin: 0; 
+            color: #fff; 
+            font-size: 26px; 
+            letter-spacing: 1px; 
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
+        }
 
-    .progress-bar-container {
-        flex-grow: 1; height: 18px; 
-        background: #1a110a;
-        border-radius: 50px; 
-        border: 2px solid var(--wood-medium); 
-        overflow: hidden;
-        box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-    }
+        .mission-tracker {
+            padding: 12px 20px; 
+            background: rgba(0,0,0,0.2);
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            border-bottom: 2px solid var(--wood-medium);
+        }
 
-    .progress-fill {
-        height: 100%; width: 0%;
-        background: linear-gradient(90deg, #facc15, #ca8a04);
-        transition: width 0.4s ease-out;
-    }
+        .progress-bar-container {
+            flex-grow: 1; height: 18px; 
+            background: #1a110a;
+            border-radius: 50px; 
+            border: 2px solid var(--wood-medium); 
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
 
-    .content-grid { 
-        display: grid; 
-        grid-template-columns: 1fr 1.2fr; 
-        gap: 20px; 
-        padding: 20px; 
-    }
+        .progress-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #facc15, #ca8a04);
+            transition: width 0.4s ease-out;
+        }
 
-    .display-panel {
-        background: rgba(255,255,255,0.15); 
-        border-radius: 15px;
-        padding: 15px; 
-        border: 2px solid var(--wood-medium);
-        display: flex; justify-content: center; align-items: center;
-        position: relative; min-height: 350px;
-        box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
-    }
+        .content-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 20px; 
+            padding: 20px; 
+        }
 
-    .display-panel img { max-width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--wood-dark); }
+        .display-panel {
+            background: rgba(255,255,255,0.15); 
+            border-radius: 15px;
+            padding: 15px; 
+            border: 2px solid var(--wood-medium);
+            display: flex; justify-content: center; align-items: center;
+            position: relative; min-height: 350px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+        }
 
-    .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .display-panel img { max-width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--wood-dark); }
 
-    .option {
-        background: var(--parchment); 
-        padding: 16px 20px; 
-        border-radius: 12px;
-        cursor: pointer; 
-        transition: all 0.2s ease; 
-        border: 2px solid var(--wood-medium);
-        font-size: 16px; 
-        font-weight: 600;
-        display: flex; justify-content: space-between; align-items: center;
-        color: var(--wood-dark);
-        box-shadow: 0 4px 0 var(--wood-dark);
-    }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; }
 
-    .option:hover:not(.selected) { 
-        transform: translateY(-2px);
-        background: #ffffff; 
-        box-shadow: 0 6px 0 var(--wood-dark);
-    }
-    
-    .option.selected { pointer-events: none; opacity: 0.8; transform: translateY(2px); box-shadow: none; }
+        .option {
+            background: var(--parchment); 
+            padding: 16px 20px; 
+            border-radius: 12px;
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            border: 2px solid var(--wood-medium);
+            font-size: 16px; 
+            font-weight: 600;
+            display: flex; justify-content: space-between; align-items: center;
+            color: var(--wood-dark);
+            box-shadow: 0 4px 0 var(--wood-dark);
+        }
 
-    .option.correct { 
-        border-color: var(--success) !important; 
-        background: #f0fdf4 !important; 
-        color: var(--success); 
-        box-shadow: 0 2px 0 var(--success);
-    }
-    
-    .option.wrong { 
-        border-color: var(--danger) !important; 
-        background: #fef2f2 !important; 
-        animation: shake 0.4s; 
-        color: var(--danger);
-        box-shadow: 0 2px 0 var(--danger);
-    }
+        .option:hover:not(.selected) { 
+            transform: translateY(-2px);
+            background: #ffffff; 
+            box-shadow: 0 6px 0 var(--wood-dark);
+        }
+        
+        .option.selected { pointer-events: none; opacity: 0.8; transform: translateY(2px); box-shadow: none; }
 
-    .status-icon { display: none; font-size: 20px; }
-    .correct .check { display: block; }
-    .wrong .xmark { display: block; }
+        .option.correct { 
+            border-color: var(--success) !important; 
+            background: #f0fdf4 !important; 
+            color: var(--success); 
+            box-shadow: 0 2px 0 var(--success);
+        }
+        
+        .option.wrong { 
+            border-color: var(--danger) !important; 
+            background: #fef2f2 !important; 
+            animation: shake 0.4s; 
+            color: var(--danger);
+            box-shadow: 0 2px 0 var(--danger);
+        }
 
-    #result {
-        text-align: center; 
-        padding: 30px; 
-        background: var(--parchment);
-        background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
-        border-radius: 20px; 
-        border: 8px solid var(--wood-dark);
-        position: absolute; 
-        width: 85%; 
-        display: none; 
-        z-index: 20;
-        box-shadow: 0 15px 60px rgba(0,0,0,0.8);
-        color: var(--wood-dark);
-    }
+        .status-icon { display: none; font-size: 20px; }
+        .correct .check { display: block; }
+        .wrong .xmark { display: block; }
 
-    .btn-game {
-        font-family: 'Bungee'; 
-        padding: 14px 30px; 
-        border-radius: 12px;
-        cursor: pointer; 
-        border: none; 
-        font-size: 16px; 
-        text-decoration: none;
-        display: inline-block; 
-        margin-top: 15px; 
-        transition: 0.2s;
-        box-shadow: 0 5px 0 rgba(0,0,0,0.3);
-    }
-    .btn-success { background: var(--success); color: white; }
-    .btn-danger { background: var(--danger); color: white; }
-    .btn-game:hover { transform: translateY(-3px); box-shadow: 0 8px 0 rgba(0,0,0,0.3); }
+        #result {
+            text-align: center; 
+            padding: 30px; 
+            background: var(--parchment);
+            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            border-radius: 20px; 
+            border: 8px solid var(--wood-dark);
+            position: absolute; 
+            width: 85%; 
+            display: none; 
+            z-index: 20;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.8);
+            color: var(--wood-dark);
+        }
 
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .btn-game {
+            font-family: 'Bungee'; 
+            padding: 14px 30px; 
+            border-radius: 12px;
+            cursor: pointer; 
+            border: none; 
+            font-size: 16px; 
+            text-decoration: none;
+            display: inline-block; 
+            margin-top: 15px; 
+            transition: 0.2s;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.3);
+        }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-game:hover { transform: translateY(-3px); box-shadow: 0 8px 0 rgba(0,0,0,0.3); }
 
-    @media (max-width: 850px) {
-        .content-grid { grid-template-columns: 1fr; }
-        .display-panel { min-height: 250px; order: -1; }
-    }
-</style>
-</head>
-<body>
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        @media (max-width: 850px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .display-panel { min-height: 250px; order: -1; }
+        }
+    </style>
+@endpush
+
+@section('content')
 
 <div class="game-master-container">
     <div class="guidelines-banner">
@@ -383,5 +384,4 @@
     }
 </script>
 
-</body>
-</html>
+@endsection

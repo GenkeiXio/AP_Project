@@ -1084,13 +1084,13 @@
             </div>
 
             <section class="hero" id="introStage">
-                <div class="hero-main" style="display:flex; flex-direction:column; align-items:center; gap:20px;">
-                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" style="width:min(180px, 60%); max-width:220px; object-fit:contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,.18));">
-                    <div style="text-align:center; width:100%;">
+                <div class="hero-main intro-layout">
+                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-illustration"">
+                    <div class="intro-narration">
                         <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
-                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Gabay sa <span>Solid Waste</span></h1>
+                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Solid Waste<span>Quest</span></h1>
                         <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
-                        <div class="actions" style="justify-content:center; margin-top:20px;">
+                        <div class="actions intro-actions" style="margin-left:0;">
                             <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
                         </div>
                     </div>

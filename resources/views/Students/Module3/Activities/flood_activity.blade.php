@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="tl">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Flood Safety Activity')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flood Survival Challenge</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700;800&display=swap"
-        rel="stylesheet">
-
-    <style>
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700;800&display=swap");
         :root {
             --deep-water: #003973;
             --safety-yellow: #ffcc00;
@@ -167,9 +161,9 @@
             text-align: center;
         }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
     <div class="game-hud">
         <div class="container d-flex justify-content-between align-items-center">
@@ -388,7 +382,4 @@
         }
         refreshUI();
     </script>
-
-</body>
-
-</html>
+@endsection

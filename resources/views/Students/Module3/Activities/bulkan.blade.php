@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="tl">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Bulkan Activity')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TACTICAL DRRM: PAGLIGTAS SA BULKAN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;600;900&display=swap" rel="stylesheet">
-
+@push('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;600;900&display=swap");
         :root {
             --wood-dark: #3e2723;
             --wood-medium: #5d4037;
@@ -19,33 +16,28 @@
             --parchment: #f5f5dc;
         }
 
-        body,
-        html {
+        html, body {
+            scroll-behavior: smooth;
+            background:
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 0;
-            width: 100%;
             height: 100%;
-            font-family: 'Lexend', sans-serif;
-            color: #fff;
             overflow: hidden;
-            /* Wood texture background */
-            background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
-            background-size: auto;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
+        body {
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
         }
 
         /* --- 1. TRAINING MODAL --- */
         #instruction-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 3000;
             display: flex;
             align-items: center;
@@ -56,7 +48,7 @@
         .modal-content-custom {
             background: var(--wood-dark);
             border: 6px solid var(--wood-medium);
-            box-shadow: 0 0 30px rgba(0,0,0,1);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 1);
             width: 100%;
             max-width: 700px;
             padding: 30px;
@@ -87,54 +79,66 @@
             width: 100%;
             transition: 0.3s;
             border-radius: 8px;
+            cursor: pointer;
         }
 
-        /* --- 2. LAYOUT --- */
+        .btn-ready:hover {
+            background: #f39c12;
+            transform: scale(1.02);
+        }
+
+        /* --- 2. MAIN LAYOUT --- */
         #game-layout {
             display: flex;
             width: 100vw;
             height: 100vh;
-            padding: 25px;
-            gap: 25px;
+            padding: 20px;
+            gap: 20px;
+            box-sizing: border-box;
         }
 
+        /* --- LEFT PANEL: UI MODULE --- */
         #ui-module {
             flex: 1;
-            background: rgba(62, 39, 35, 0.95); /* Deep wood brown */
+            background: rgba(62, 39, 35, 0.95);
             backdrop-filter: blur(6px);
             border-radius: 20px;
             border-left: 8px solid var(--accent);
-            padding: 30px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
             z-index: 100;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+            min-width: 300px;
+            overflow-y: auto;
         }
 
         .status-header {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             letter-spacing: 4px;
             color: var(--accent);
             font-weight: 900;
             margin-bottom: 15px;
+            text-transform: uppercase;
         }
 
         #scenario-text {
             background: var(--parchment);
             color: #3e2723;
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
             font-size: 1rem;
-            line-height: 1.4;
+            line-height: 1.5;
             margin-bottom: 20px;
             min-height: 120px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
         .choices-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
+            flex-grow: 1;
         }
 
         .stone-btn {
@@ -147,6 +151,7 @@
             transition: 0.2s;
             color: #fff;
             font-weight: 600;
+            text-align: left;
         }
 
         .stone-btn:hover {
@@ -155,7 +160,7 @@
             transform: translateX(5px);
         }
 
-        /* --- 3. SIMULATION SIDE --- */
+        /* --- RIGHT PANEL: SIMULATION --- */
         #simulation-module {
             flex: 1.5;
             background: rgba(43, 29, 18, 0.85);
@@ -163,14 +168,14 @@
             border-radius: 20px;
             position: relative;
             overflow: hidden;
-            border: 10px solid #3e2723; /* Wooden frame */
+            border: 8px solid #3e2723;
+            min-width: 400px;
         }
 
         #world {
             width: 100%;
             height: 100%;
-            position: absolute;
-            bottom: 0;
+            position: relative;
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -178,9 +183,9 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 120px;
+            height: 15%;
             background: #1b5e20;
-            border-top: 10px solid var(--safe);
+            border-top: 8px solid var(--safe);
             z-index: 10;
         }
 
@@ -196,20 +201,20 @@
 
         .stone-ledge {
             position: absolute;
-            width: 200px;
+            width: 180px;
             height: 50px;
-            background: #4e342e; /* Wooden planks style */
+            background: #4e342e;
             border-top: 8px solid #8d6e63;
             border-radius: 10px;
             z-index: 12;
             transform: translateX(-50%);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
         }
 
         #safe-place {
             position: absolute;
-            width: 300px;
-            height: 200px;
+            width: 280px;
+            height: 180px;
             background: #3e2723;
             border: 4px solid var(--accent);
             border-bottom: none;
@@ -220,7 +225,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            padding-bottom: 20px;
+            padding-bottom: 30px;
             box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
         }
 
@@ -242,21 +247,32 @@
 
         #hero {
             position: absolute;
-            width: 150px;
+            width: 120px;
             z-index: 100;
             transform: translateX(-50%);
             transition: bottom 0.6s ease-out, left 0.6s ease-out, opacity 0.5s;
-            bottom: 120px;
+            bottom: 15%;
             left: 50%;
         }
 
         #hero img {
             width: 100%;
             display: block;
-            margin-bottom: -15px;
         }
 
-        /* --- VICTORY GIFT STYLES --- */
+        /* --- MISSION DEPLOYMENT CARD --- */
+        #mission-deployment-card {
+            position: absolute;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- VICTORY GIFT --- */
         #victory-bag-container {
             position: fixed;
             top: 50%;
@@ -285,6 +301,7 @@
             margin-bottom: 20px;
         }
 
+        /* --- GAME OVER OVERLAY --- */
         .game-overlay {
             position: absolute;
             inset: 0;
@@ -296,6 +313,10 @@
             text-align: center;
             padding: 50px;
             z-index: 2000;
+        }
+
+        .game-overlay.show {
+            display: flex;
         }
 
         .next-btn {
@@ -310,24 +331,49 @@
             transition: 0.3s;
         }
 
+        .next-btn:hover {
+            background: #27ae60;
+            color: #fff;
+        }
+
         /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
-            body, html { overflow: auto; }
-            #game-layout { flex-direction: column; height: auto; padding: 10px; }
-            #ui-module { order: 2; min-height: 400px; padding: 20px; }
-            #simulation-module { order: 1; height: 350px; flex: none; }
-            .video-section { flex-direction: column; }
-            #hero { width: 100px; }
-            .stone-ledge { width: 140px; }
+            body, html {
+                overflow: auto;
+            }
+            #game-layout {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+            #ui-module {
+                order: 1;
+                min-height: 400px;
+                padding: 20px;
+            }
+            #simulation-module {
+                order: 2;
+                height: 400px;
+                flex: none;
+            }
+            .video-section {
+                flex-direction: column;
+            }
+            #hero {
+                width: 80px;
+            }
+            .stone-ledge {
+                width: 120px;
+            }
         }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
     <div id="victory-bag-container">
         <div class="status-header">GANTIMPALA: LIGTAS-KIT</div>
-        <img src="https://img.icons8.com/fluency/240/backpack.png" class="gift-item-img">
+        <img src="https://img.icons8.com/fluency/240/backpack.png" class="gift-item-img" alt="Backpack">
         <h2 class="text-white fw-bold">Emergency Go-Bag</h2>
         <p class="text-secondary small">Nakuha mo ang mahahalagang gamit <br> para sa paglikas sa pagsabog!</p>
         <button class="btn btn-warning mt-3 fw-bold w-100" onclick="closeGift()">IPAGPATULOY</button>
@@ -369,8 +415,7 @@
         </div>
 
         <div id="simulation-module">
-            <div id="mission-deployment-card"
-                style="display: none; position: absolute; inset: 0; z-index: 1000; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+            <div id="mission-deployment-card">
                 <div class="text-center p-5 bg-dark border border-warning rounded-4">
                     <h2 class="text-warning fw-black mb-3">HANDA NA?</h2>
                     <button class="btn btn-warning px-5 py-3 fw-bold" onclick="startMission()">SIMULAN ANG PAG-AKYAT</button>
@@ -396,8 +441,7 @@
                 <h1 id="end-title" class="fw-bold mb-4"></h1>
                 <p id="end-desc" class="mb-4 text-secondary"></p>
                 <div class="d-flex flex-column gap-3 w-100 align-items-center">
-                    <button id="retryBtn" class="btn btn-outline-warning btn-lg px-5"
-                        onclick="location.reload()">ULITIN</button>
+                    <button id="retryBtn" class="btn btn-outline-warning btn-lg px-5" onclick="location.reload()">ULITIN</button>
                     <a href="{{ route('flood.activity') }}" id="nextPageBtn" class="next-btn" style="display:none;">
                         SUSUNOD NA ARALIN (PAGBAHA)</a>
                 </div>
@@ -406,18 +450,14 @@
     </div>
 
     <script>
-        /* ALL LOGIC AND DATA PRESERVED FROM ORIGINAL */
         let drrmProtocols = [
-            // BEFORE ERUPTION
             { q: "Ano ang dapat gawin bago ang pagsabog ng bulkan?", a1: "Maghanda ng emergency kit at plano ng paglikas", a2: "Hintayin na lang ang abiso ng kapitbahay", ok: 1 },
             { q: "Bakit mahalagang makinig sa balita at abiso ng PHIVOLCS bago ang pagsabog?", a1: "Para malaman ang tamang oras ng paglikas", a2: "Para makapag-post agad sa social media", ok: 1 },
             { q: "Ano ang dapat gawin sa mga alagang hayop bago lumikas?", a1: "Isama o ilipat sa ligtas na lugar", a2: "Iwanan na lang sa bahay", ok: 1 },
-            // DURING ERUPTION
             { q: "Ano ang dapat isuot kapag may ashfall?", a1: "Mask at takip sa mata", a2: "T-shirt lang at shorts", ok: 1 },
             { q: "Ano ang dapat gawin kung nasa loob ng bahay habang sumasabog ang bulkan?", a1: "Isara ang mga bintana at pinto", a2: "Buksan lahat ng bintana para pumasok ang hangin", ok: 1 },
             { q: "Kung kailangang lumikas, ano ang unang dapat gawin?", a1: "Sundin ang evacuation order ng LGU", a2: "Hintayin munang makita ang lava", ok: 1 },
             { q: "Ano ang dapat iwasan habang naglalakad sa labas sa gitna ng pagsabog?", a1: "Iwasan ang ilog at mababang lugar", a2: "Dumaan sa gilid ng bulkan", ok: 1 },
-            // AFTER ERUPTION
             { q: "Ano ang dapat gawin pagkatapos ng pagsabog bago bumalik sa bahay?", a1: "Hintayin ang abiso ng awtoridad na ligtas na bumalik", a2: "Bumalik agad para tingnan ang bahay", ok: 1 },
             { q: "Paano dapat linisin ang abo sa paligid pagkatapos ng pagsabog?", a1: "Basaing mabuti bago walisin", a2: "Walisin agad kahit tuyo", ok: 1 },
             { q: "Ano ang dapat gawin kung may nasaktan o may sugat pagkatapos ng pagsabog?", a1: "Humingi ng tulong sa health center o awtoridad", a2: "Hayaan na lang, gagaling din", ok: 1 }
@@ -571,7 +611,7 @@
                 body: JSON.stringify({
                     progress: currentStep,
                     is_success: isWin,
-                    mistakes: (10 - currentStep) // simple logic
+                    mistakes: (10 - currentStep)
                 })
             })
             .then(res => res.json())
@@ -580,11 +620,11 @@
         }
 
         function finish(win) {
-            saveBulkanResult(win); // ✅ SAVE HERE
+            saveBulkanResult(win);
 
             const screen = document.getElementById('end-overlay');
             const nextBtn = document.getElementById('nextPageBtn');
-            screen.style.display = 'flex';
+            screen.classList.add('show');
             
             const title = document.getElementById('end-title');
             title.innerText = win ? "MISYON: TAGUMPAY" : "MISYON: BIGO";
@@ -597,6 +637,4 @@
             nextBtn.style.display = win ? 'inline-block' : 'none';
         }
     </script>
-</body>
-
-</html>
+@endsection
