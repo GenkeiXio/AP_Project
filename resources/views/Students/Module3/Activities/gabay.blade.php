@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="tl">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Gabay sa Kaligtasan Activity')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suri-Larawan: Gabay sa Kaligtasan</title>
+@push('styles')
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
@@ -18,24 +15,34 @@
             --dark-overlay: rgba(20, 15, 10, 0.95);
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Baloo 2', cursive;
+        html, body{
+            scroll-behavior:smooth;
             background:
                 linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
                 url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
+        }
+
+        body{
+            overflow-x:hidden;
+            color:var(--text);
+            font-family:'Poppins', sans-serif;
+        }
+
+        /* MAIN CONTAINER TO CENTER THE CARD */
+        .game-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            padding: 30px;
         }
 
-        /* MINI GAME CARD */
+        /* MINI GAME CARD - MADE BIGGER */
         .game-card {
-            width: 450px;
+            width: 600px;  /* Increased from 450px */
+            max-width: 95vw;
             background: var(--papel) url('https://www.transparenttextures.com/patterns/parchment.png');
             border: 10px solid var(--kahoy);
             border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png') 30 stretch;
@@ -43,7 +50,8 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            min-height: 550px;
+            min-height: 650px;  /* Increased from 550px */
+            margin: 0 auto;
         }
 
         /* REDESIGNED INSTRUCTION SCREEN */
@@ -71,7 +79,7 @@
         .scroll-header h1 {
             font-family: 'Baloo 2', cursive;
             color: var(--ginto);
-            font-size: 42px;
+            font-size: 48px;  /* Increased from 42px */
             margin: 0;
             letter-spacing: 2px;
         }
@@ -79,10 +87,10 @@
         .briefing-box {
             color: #e0e0e0;
             text-align: left;
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 17px;  /* Increased from 15px */
+            line-height: 1.7;
             background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
+            padding: 25px;
             border-radius: 5px;
             border-left: 4px solid var(--ginto);
         }
@@ -94,19 +102,19 @@
         }
 
         .briefing-box li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: var(--papel);
         }
 
         .btn-start {
-            margin-top: 30px;
+            margin-top: 35px;
             background: var(--kahoy);
             color: var(--ginto);
             border: 2px solid var(--ginto);
-            padding: 15px 40px;
+            padding: 18px 50px;  /* Increased from 15px 40px */
             font-family: 'Baloo 2', cursive;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 24px;  /* Increased from 20px */
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: 0.3s;
@@ -122,7 +130,7 @@
         .card-header {
             background: var(--kahoy);
             color: var(--ginto);
-            padding: 15px;
+            padding: 20px;  /* Increased from 15px */
             text-align: center;
             border-bottom: 3px solid var(--ginto);
         }
@@ -130,12 +138,12 @@
         .card-header h2 {
             font-family: 'Baloo 2', cursive;
             margin: 0;
-            font-size: 30px;
+            font-size: 36px;  /* Increased from 30px */
         }
 
         .image-viewer {
             width: 100%;
-            height: 300px;
+            height: 380px;  /* Increased from 300px */
             background: #000;
             overflow: hidden;
             border-bottom: 2px solid var(--kahoy);
@@ -148,18 +156,19 @@
         }
 
         .button-grid {
-            padding: 20px;
+            padding: 25px;  /* Increased from 20px */
             display: grid;
-            gap: 10px;
+            gap: 15px;  /* Increased from 10px */
         }
 
         .choice-btn {
             background: white;
             border: 2px solid var(--kahoy);
-            padding: 12px;
+            padding: 16px 20px;  /* Increased from 12px */
             cursor: pointer;
             font-family: 'Baloo 2', cursive;
             font-weight: 800;
+            font-size: 18px;  /* Added font size */
             transition: 0.2s;
             color: var(--kahoy);
             display: flex;
@@ -188,9 +197,9 @@
 
         .stamp {
             font-family: 'Baloo 2', cursive;
-            font-size: 90px;
+            font-size: 110px;  /* Increased from 90px */
             transform: rotate(-15deg);
-            padding: 10px 40px;
+            padding: 15px 50px;  /* Increased from 10px 40px */
             border: 10px double;
             animation: stampImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
@@ -208,7 +217,7 @@
         }
 
         .progress-container {
-            height: 6px;
+            height: 8px;  /* Increased from 6px */
             background: #ddd;
             width: 100%;
         }
@@ -219,71 +228,137 @@
             width: 0%;
             transition: 0.3s;
         }
+
+        .result-area {
+            display: none;
+            padding: 50px;  /* Increased from 40px */
+            text-align: center;
+        }
+
+        .result-area h2 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 48px;  /* Increased from 45px */
+            margin: 0;
+            color: var(--kahoy);
+        }
+
+        .result-area hr {
+            border: 1px solid var(--kahoy);
+            opacity: 0.2;
+            margin: 20px 0;
+        }
+
+        #finalScoreDisplay {
+            font-size: 80px;  /* Increased from 65px */
+            font-weight: 900;
+            color: var(--kahoy);
+            margin: 20px 0;
+        }
+
+        #rankLabel {
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--kahoy);
+            font-size: 18px;  /* Added font size */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 650px) {
+            .game-card {
+                width: 100%;
+                min-height: auto;
+            }
+            
+            .scroll-header h1 {
+                font-size: 32px;
+            }
+            
+            .image-viewer {
+                height: 250px;
+            }
+            
+            .stamp {
+                font-size: 70px;
+            }
+            
+            #finalScoreDisplay {
+                font-size: 55px;
+            }
+            
+            .card-header h2 {
+                font-size: 28px;
+            }
+            
+            .choice-btn {
+                font-size: 16px;
+                padding: 14px 16px;
+            }
+        }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
-    <div class="game-card">
-        <div id="instructionScreen" class="instruction-overlay">
-            <div class="scroll-header">
-                <h1>Paghahanda sa Misyon</h1>
+    <div class="game-wrapper">
+        <div class="game-card">
+            <div id="instructionScreen" class="instruction-overlay">
+                <div class="scroll-header">
+                    <h1>Paghahanda sa Misyon</h1>
+                </div>
+
+                <div class="briefing-box">
+                    <p style="margin-top:0; font-weight:bold; color:var(--ginto); font-size: 18px;">TAGAPANGALAGA NG BAYAN:</p>
+                    Ang iyong tungkulin ay ayusin ang mga talaan ng kaligtasan.
+                    <ul>
+                        <li>Suriin ang bawat <strong>larawan</strong> na lilitaw.</li>
+                        <li>Tukuyin kung ito ay isinasagawa <strong>Bago</strong>, <strong>Habang</strong>, o
+                            <strong>Pagkatapos</strong> ng bagyo.
+                        </li>
+                        <li>Maging mabilis at tumpak sa iyong pagpapasya.</li>
+                    </ul>
+                    <p style="font-size: 14px; font-style: italic; opacity: 0.8;">"Ang kahandaan ay ang susi sa kaligtasan
+                        ng ating komunidad."</p>
+                </div>
+
+                <button class="btn-start" onclick="startGame()">TANGGAPIN ANG MISYON</button>
             </div>
 
-            <div class="briefing-box">
-                <p style="margin-top:0; font-weight:bold; color:var(--ginto);">TAGAPANGALAGA NG BAYAN:</p>
-                Ang iyong tungkulin ay ayusin ang mga talaan ng kaligtasan.
-                <ul>
-                    <li>Suriin ang bawat <strong>larawan</strong> na lilitaw.</li>
-                    <li>Tukuyin kung ito ay isinasagawa <strong>Bago</strong>, <strong>Habang</strong>, o
-                        <strong>Pagkatapos</strong> ng bagyo.
-                    </li>
-                    <li>Maging mabilis at tumpak sa iyong pagpapasya.</li>
-                </ul>
-                <p style="font-size: 13px; font-style: italic; opacity: 0.8;">"Ang kahandaan ay ang susi sa kaligtasan
-                    ng ating komunidad."</p>
+            <div id="gameContent" style="display:none;">
+                <div class="card-header">
+                    <h2 id="stepTitle">Yugto 1 ng 12</h2>
+                </div>
+                <div class="progress-container">
+                    <div id="progressBar"></div>
+                </div>
+
+                <div class="image-viewer">
+                    <img id="displayImg" src="" alt="Suriin">
+                </div>
+
+                <div class="button-grid">
+                    <button class="choice-btn" onclick="checkAnswer('bago')">BAGO ANG BAGYO <span>➔</span></button>
+                    <button class="choice-btn" onclick="checkAnswer('habang')">HABANG MAY BAGYO <span>➔</span></button>
+                    <button class="choice-btn" onclick="checkAnswer('tapos')">PAGKATAPOS NG BAGYO <span>➔</span></button>
+                </div>
             </div>
 
-            <button class="btn-start" onclick="startGame()">TANGGAPIN ANG MISYON</button>
-        </div>
-
-        <div id="gameContent" style="display:none;">
-            <div class="card-header">
-                <h2 id="stepTitle">Yugto 1 ng 12</h2>
-            </div>
-            <div class="progress-container">
-                <div id="progressBar"></div>
+            <div id="feedbackModal" class="feedback-overlay">
+                <div id="stampBox" class="stamp"></div>
+                <p id="feedbackText" style="color: white; margin-top: 25px; font-family: 'Cinzel'; font-size: 20px;"></p>
             </div>
 
-            <div class="image-viewer">
-                <img id="displayImg" src="" alt="Suriin">
+            <div id="resultArea" class="result-area">
+                <h2>ULAT NG PAGSULIT</h2>
+                <hr>
+                <div id="finalScoreDisplay">0/12</div>
+                <p id="rankLabel"></p>
+                <button class="choice-btn"
+                    style="width:100%; margin-top: 30px; justify-content: center; background:var(--kahoy); color:var(--ginto); font-size: 20px;"
+                    onclick="window.location.href = '{{ route('el-nino.activity') }}'">
+                    IPAGPATULOY ANG PAGLALAKBAY <span>➔</span>
+                </button>
             </div>
-
-            <div class="button-grid">
-                <button class="choice-btn" onclick="checkAnswer('bago')">BAGO ANG BAGYO <span>➔</span></button>
-                <button class="choice-btn" onclick="checkAnswer('habang')">HABANG MAY BAGYO <span>➔</span></button>
-                <button class="choice-btn" onclick="checkAnswer('tapos')">PAGKATAPOS NG BAGYO <span>➔</span></button>
-            </div>
-        </div>
-
-        <div id="feedbackModal" class="feedback-overlay">
-            <div id="stampBox" class="stamp"></div>
-            <p id="feedbackText" style="color: white; margin-top: 25px; font-family: 'Cinzel'; font-size: 18px;"></p>
-        </div>
-
-        <div id="resultArea" style="display:none; padding: 40px; text-align: center;">
-            <h2 style="font-family: 'Baloo 2', cursive; font-size: 45px; margin: 0; color: var(--kahoy);">ULAT NG PAGSULIT
-            </h2>
-            <hr style="border: 1px solid var(--kahoy); opacity: 0.2;">
-            <div style="font-size: 65px; font-weight: 900; color: var(--kahoy); margin: 15px 0;" id="finalScoreDisplay">
-                0/12</div>
-            <p id="rankLabel"
-                style="font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--kahoy);"></p>
-            <button class="choice-btn"
-                style="width:100%; margin-top: 30px; justify-content: center; background:var(--kahoy); color:var(--ginto);"
-                onclick="window.location.href = '{{ route('el-nino.activity') }}'">
-                IPAGPATULOY ANG PAGLALAKBAY
-            </button>
         </div>
     </div>
 
@@ -360,7 +435,7 @@
                 modal.style.display = 'none';
                 currentIndex++;
                 loadStep();
-            }, 2500); // 2.5 seconds to read
+            }, 2500);
         }
 
         function showFinalResults() {
@@ -385,6 +460,4 @@
             });
         }
     </script>
-</body>
-
-</html>
+@endsection

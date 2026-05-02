@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="tl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gawain: El Niño at La Niña</title>
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : El Niño at La Niña Activity')
 
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
+@section('styles')
+
+@push('styles')
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet");
         :root {
             --papel-pula: #f4f1ea; 
             --tinta: #2c3e50; 
@@ -17,18 +15,18 @@
             --lanina: #2980b9;
         }
 
-        body {
-            font-family: 'Baloo 2', cursive;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+        html, body{
+            scroll-behavior:smooth;
+            background:
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #f8fafc;
+        }
+
+        body{
+            overflow-x:hidden;
+            color:var(--text);
+            font-family:'Poppins', sans-serif;
         }
 
         /* MODAL & OVERLAY STYLE */
@@ -199,8 +197,9 @@
             .instruction-list { font-size: 16px; }
         }
     </style>
-</head>
-<body>
+@endpush
+
+@section('content')
 
 <div id="videoPlayerModal">
     <div class="video-wrapper">
@@ -337,5 +336,4 @@
     }
 </script>
 
-</body>
-</html>
+@endsection

@@ -12,7 +12,7 @@ class Module3LindolController extends Controller
 {
     public function index()
     {
-        return view('Students.module3.Activities.lindol');
+        return view('Students.Module3.Activities.lindol');
     }
 
     public function store(Request $request)

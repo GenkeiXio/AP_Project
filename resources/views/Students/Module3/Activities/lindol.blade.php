@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="tl">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Lindol Activity')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batas ng Kaligtasan: Disaster Protocol</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Special+Elite&family=Oswald:wght@500;700&family=Quicksand:wght@400;600&display=swap"
-        rel="stylesheet">
-
+@push('styles')
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"/>
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Special+Elite&family=Oswald:wght@500;700&family=Quicksand:wght@400;600&display=swap');
+
         :root {
             --hazard-yellow: #fcd116;
             --hazard-orange: #ff8c00;
@@ -21,28 +17,31 @@
             --success-green: #2e7d32;
         }
 
-        body {
-            font-family: 'Quicksand', sans-serif;
-            min-height: 100vh;
-            padding: 20px;
-            color: #ffffff;
-
-            /* 🔥 FULL BACKGROUND IMAGE */
-            background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+        html, body{
+            scroll-behavior:smooth;
+            background:
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            /* adjust 0.4–0.6 */
-            z-index: -1;
+        body{
+            overflow-x:hidden;
+            color: #fff;
+            font-family:'Poppins', sans-serif;
+        }
+
+        .game-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .game-container {
             max-width: 900px;
+            width: 100%;
             margin: auto;
             border: 4px solid var(--hazard-yellow);
             padding: 30px;
@@ -115,6 +114,12 @@
             border: 2px solid #ccc;
         }
 
+        .scenario-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
         .stamp-container {
             display: flex;
             justify-content: center;
@@ -132,10 +137,10 @@
             transition: all 0.2s ease;
             text-transform: uppercase;
             border-radius: 5px;
+            background: transparent;
         }
 
         .btn-approve {
-            background: transparent;
             color: var(--success-green);
             border-color: var(--success-green);
         }
@@ -147,7 +152,6 @@
         }
 
         .btn-deny {
-            background: transparent;
             color: var(--alert-red);
             border-color: var(--alert-red);
         }
@@ -161,84 +165,109 @@
         .hidden {
             display: none !important;
         }
+
+        #decision-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 3000;
+            padding: 25px 50px;
+            background: #000;
+            border: 5px solid var(--hazard-yellow);
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stamp-btn {
+                padding: 10px 25px;
+                font-size: 1.1rem;
+            }
+            
+            #decision-modal {
+                font-size: 2.5rem;
+                padding: 15px 30px;
+            }
+        }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
-    <div id="decision-modal"
-        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); z-index: 3000; padding: 25px 50px; background: #000; border: 5px solid var(--hazard-yellow); font-family: 'Oswald'; font-size: 4rem; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;">
-        TAMA</div>
+    <div id="decision-modal">TAMA</div>
 
-    <div class="container game-container">
-        <div class="text-center mb-3">
-            <h1>BATAS NG KALIGTASAN</h1>
-            <p style="color: var(--hazard-orange); font-weight: bold; font-size: 1rem; margin: 0;">[ PROTOCOL: LINDOL AT
-                SAKUNA ]</p>
-        </div>
+    <div class="game-wrapper">
+        <div class="game-container">
+            <div class="text-center mb-3">
+                <h1>BATAS NG KALIGTASAN</h1>
+                <p style="color: var(--hazard-orange); font-weight: bold; font-size: 1rem; margin: 0;">[ PROTOCOL: LINDOL AT SAKUNA ]</p>
+            </div>
 
-        <div id="briefing-layer">
-            <div class="mb-4">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <p class="text-center mb-1 fw-bold" style="color: var(--hazard-yellow);">📺 PAGHAHANDA SA LINDOL
-                        </p>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/hlePrsXTGxQ?rel=0&modestbranding=1"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+            <div id="briefing-layer">
+                <div class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <p class="text-center mb-1 fw-bold" style="color: var(--hazard-yellow);">📺 PAGHAHANDA SA LINDOL</p>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/hlePrsXTGxQ?rel=0&modestbranding=1"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="text-center mb-1 fw-bold" style="color: var(--hazard-yellow);">📺 EMERGENCY KIT GUIDE
-                        </p>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/AxpSZSsxvf8?rel=0&modestbranding=1"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                        <div class="col-md-6">
+                            <p class="text-center mb-1 fw-bold" style="color: var(--hazard-yellow);">📺 EMERGENCY KIT GUIDE</p>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/AxpSZSsxvf8?rel=0&modestbranding=1"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <button class="btn btn-warning btn-lg fw-bold px-5 shadow" onclick="startDesk()">BUKSAN ANG ARCHIVE
-                    📁</button>
-            </div>
-        </div>
-
-        <div id="game-layer" class="hidden">
-            <div class="header-box"
-                style="background: #000; color: var(--hazard-yellow); padding: 8px; text-align: center; font-family: 'Oswald'; margin-bottom: 20px; border: 1px solid var(--hazard-yellow); font-size: 1.1rem;">
-                DOKUMENTO: <span id="current-report">1</span> / 9
-            </div>
-
-            <div class="report-file">
-                <div class="scenario-img-container">
-                    <img id="scenario-image" src="" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                </div>
-                <div style="font-weight: bold; color: var(--alert-red); font-size: 1rem; margin-bottom: 5px;"
-                    id="phase-tag">ESTADO: PAGHAHANDA</div>
-                <p id="scenario-text" style="font-size: 1.25rem; line-height: 1.4; margin: 0;">Naghihintay ng datos...
-                </p>
-
-                <div class="stamp-container">
-                    <button class="stamp-btn btn-approve" onclick="makeDecision(true)">APRUBADO</button>
-                    <button class="stamp-btn btn-deny" onclick="makeDecision(false)">ITANGGI</button>
+                <div class="text-center">
+                    <button class="btn btn-warning btn-lg fw-bold px-5 shadow" onclick="startDesk()">BUKSAN ANG ARCHIVE 📁</button>
                 </div>
             </div>
-        </div>
 
-        <div id="end-layer" class="hidden">
-            <div class="text-center p-4"
-                style="background: rgba(0,0,0,0.8); border: 2px solid var(--success-green); border-radius: 15px;">
-                <h2 style="color: var(--success-green); font-family: 'Oswald';">MISYON TAGUMPAY! 🎖️</h2>
-                <p class="mt-3">Napagtagumpayan mong matukoy ang mga tamang gawain sa oras ng sakuna. Handa ka na para
-                    sa susunod na hamon.</p>
-                <div class="mt-4">
-                    <a href="{{ route('bulkan.activity') }}" class="btn btn-warning btn-lg fw-bold px-4">SUSUNOD NA
-                        ARALIN ➡️</a>
+            <div id="game-layer" class="hidden">
+                <div class="header-box" style="background: #000; color: var(--hazard-yellow); padding: 8px; text-align: center; font-family: 'Oswald', sans-serif; margin-bottom: 20px; border: 1px solid var(--hazard-yellow); font-size: 1.1rem;">
+                    DOKUMENTO: <span id="current-report">1</span> / 9
+                </div>
+
+                <div class="report-file">
+                    <div class="scenario-img-container">
+                        <img id="scenario-image" src="" alt="Scenario">
+                    </div>
+                    <div style="font-weight: bold; color: var(--alert-red); font-size: 1rem; margin-bottom: 5px;" id="phase-tag">ESTADO: PAGHAHANDA</div>
+                    <p id="scenario-text" style="font-size: 1.25rem; line-height: 1.4; margin: 0;">Naghihintay ng datos...</p>
+
+                    <div class="stamp-container">
+                        <button class="stamp-btn btn-approve" onclick="makeDecision(true)">APRUBADO</button>
+                        <button class="stamp-btn btn-deny" onclick="makeDecision(false)">ITANGGI</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="end-layer" class="hidden">
+                <div class="text-center p-4" style="background: rgba(0,0,0,0.8); border: 2px solid var(--success-green); border-radius: 15px;">
+                    <h2 style="color: var(--success-green); font-family: 'Oswald', sans-serif;">MISYON TAGUMPAY! 🎖️</h2>
+                    <p class="mt-3" style="color: #fff;">Napagtagumpayan mong matukoy ang mga tamang gawain sa oras ng sakuna. Handa ka na para sa susunod na hamon.</p>
+                    <div class="mt-4">
+                        <a href="{{ route('bulkan.activity') }}" class="btn btn-warning btn-lg fw-bold px-4">SUSUNOD NA ARALIN ➡️</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -320,6 +349,4 @@
             }).catch(err => console.error("Save Error:", err));
         }
     </script>
-</body>
-
-</html>
+@endsection

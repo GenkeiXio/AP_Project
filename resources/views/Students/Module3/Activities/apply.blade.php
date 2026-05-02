@@ -1,37 +1,32 @@
-<!DOCTYPE html>
-<html lang="fil">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Apply Activity')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabay sa Protokol ng Panahon | PAGASA - Wooden Edition</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
-
+@push('styles')
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
         :root {
-            /* Wooden & Professional Palette */
             --wood-dark: #3d2b1f;
             --wood-medium: #5d4037;
             --brand-accent: #2563eb;
             --text-main: #1e293b;
         }
 
-        body {
-            /* Gamit ang iyong original background image */
-            background: url('/pictures/mod3_innermap.png') no-repeat center center fixed;
-            background-size: cover;
-            color: var(--text-main);
-            font-family: 'Baloo 2', cursive;
-            line-height: 1.6;
+        html, body{
+            scroll-behavior:smooth;
+            background:
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
         }
 
-        /* WOODEN CARD STYLING */
+        body{
+            overflow-x:hidden;
+            color:var(--text);
+            font-family:'Poppins', sans-serif;
+        }
+
         .wooden-card {
             background: #e0c9a6;
-            background-image: url('https://www.transparenttextures.com/patterns/retina-wood.png'); /* Overlay for wood texture */
+            background-image: url('https://www.transparenttextures.com/patterns/retina-wood.png');
             border: 6px solid var(--wood-medium);
             border-radius: 18px;
             box-shadow: 
@@ -42,9 +37,8 @@
             transition: transform 0.3s ease;
         }
 
-        /* HEADER SECTION */
         .page-header {
-            background: rgba(15, 23, 42, 0.9); /* Dark overlay to contrast with wood */
+            background: rgba(15, 23, 42, 0.9);
             padding: 2rem 0;
             margin-bottom: 2rem;
             color: white;
@@ -58,7 +52,6 @@
             margin: 0;
         }
 
-        /* PROTOCOL CARDS */
         .protocol-card {
             padding: 2rem;
             height: 100%;
@@ -77,7 +70,6 @@
             margin-bottom: 1rem;
         }
 
-        /* SIGNALS PANEL */
         .signals-panel {
             padding: 2.5rem;
             margin-top: 1rem;
@@ -91,7 +83,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* INTERACTIVE SIGNALS */
         .wind-signal-item {
             cursor: pointer;
             border: 3px solid var(--wood-medium);
@@ -112,7 +103,6 @@
             border-radius: 8px;
         }
 
-        /* PROGRESS INDICATOR */
         .progress-indicator {
             background: var(--wood-dark);
             border-radius: 8px;
@@ -129,7 +119,6 @@
             color: #dcfce7;
         }
 
-        /* VIDEO SECTION */
         .video-section {
             padding: 2.5rem;
             margin-bottom: 2rem;
@@ -142,7 +131,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        /* BUTTON */
         .btn-continue {
             background: var(--wood-dark);
             color: white;
@@ -152,30 +140,37 @@
             border: none;
             transition: 0.3s;
             text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-continue:hover:not(.disabled) {
             background: #1e293b;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             color: white;
+            text-decoration: none;
         }
 
         .btn-continue.disabled {
             opacity: 0.6;
             cursor: not-allowed;
             background: #64748b;
+            pointer-events: none;
         }
 
-        /* MODAL */
-        .wood-modal {
-            background: #f4ece4 url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-            border: 10px solid var(--wood-dark);
-            border-radius: 20px;
+        /* MODAL - Move to body level styling */
+        #popupModal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 999999 !important;
+            width: 100% !important;
+            height: 100% !important;
         }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
     <header class="page-header text-center">
         <div class="container">
@@ -213,31 +208,31 @@
 
             <div class="row g-4 justify-content-center">
                 <div class="col-6 col-md-2">
-                    <div class="wind-signal-item" data-signal="1" data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}">
+                    <div class="wind-signal-item" data-signal="1" data-img="{{ asset('pictures/Module 3/Apply/wind1_modal.png') }}" data-title="Signal No. 1 - Gabay">
                         <img src="{{ asset('pictures/Module 3/Apply/wind1.png') }}" class="wind-img">
                         <div class="mt-2 fw-bold small">Signal No. 1</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-2">
-                    <div class="wind-signal-item" data-signal="2" data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}">
+                    <div class="wind-signal-item" data-signal="2" data-img="{{ asset('pictures/Module 3/Apply/wind2_modal.png') }}" data-title="Signal No. 2 - Gabay">
                         <img src="{{ asset('pictures/Module 3/Apply/wind2.png') }}" class="wind-img">
                         <div class="mt-2 fw-bold small">Signal No. 2</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-2">
-                    <div class="wind-signal-item" data-signal="3" data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}">
+                    <div class="wind-signal-item" data-signal="3" data-img="{{ asset('pictures/Module 3/Apply/wind3_modal.png') }}" data-title="Signal No. 3 - Gabay">
                         <img src="{{ asset('pictures/Module 3/Apply/wind3.png') }}" class="wind-img">
                         <div class="mt-2 fw-bold small">Signal No. 3</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-2">
-                    <div class="wind-signal-item" data-signal="4" data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}">
+                    <div class="wind-signal-item" data-signal="4" data-img="{{ asset('pictures/Module 3/Apply/wind4_modal.png') }}" data-title="Signal No. 4 - Gabay">
                         <img src="{{ asset('pictures/Module 3/Apply/wind4.png') }}" class="wind-img">
                         <div class="mt-2 fw-bold small">Signal No. 4</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-2">
-                    <div class="wind-signal-item" data-signal="5" data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}">
+                    <div class="wind-signal-item" data-signal="5" data-img="{{ asset('pictures/Module 3/Apply/wind5_modal.png') }}" data-title="Signal No. 5 - Gabay">
                         <img src="{{ asset('pictures/Module 3/Apply/wind5.png') }}" class="wind-img">
                         <div class="mt-2 fw-bold small">Signal No. 5</div>
                     </div>
@@ -262,88 +257,144 @@
         </section>
 
         <div class="text-center py-4">
-            <a href="{{ route('gobag.activity') }}" id="continueBtn" class="btn btn-continue shadow disabled">
+            <button id="continueBtn" class="btn btn-continue shadow disabled" onclick="if(!this.classList.contains('disabled')){window.location.href='{{ route('gobag.activity') }}'}">
                 SUSUNOD NA BAHAGI <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
+            </button>
         </div>
 
-    </div>
-
-    <div class="modal fade" id="popupModal" tabindex="-1">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content wood-modal">
-                <div class="modal-header border-0 container py-4">
-                    <h5 class="fw-bold"><i class="fa-solid fa-circle-info me-2"></i>Gabay at Detalye</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body d-flex justify-content-center align-items-center p-4">
-                    <img id="popupImage" src="" class="img-fluid rounded shadow-lg" style="max-height: 80vh; border: 5px solid var(--wood-medium);">
-                </div>
-            </div>
-        </div>
     </div>
 
     <x-vn />
 
+@endsection
+
+@push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const modal = new bootstrap.Modal(document.getElementById('popupModal'));
-        const popupImg = document.getElementById('popupImage');
-        const progressIndicator = document.getElementById('progressIndicator');
-        const continueBtn = document.getElementById('continueBtn');
-
-        const viewedSignals = new Set();
-        const totalSignals = 5;
-        let currentSignal = null;
-
-        function updateProgress() {
-            const viewedCount = viewedSignals.size;
-            progressIndicator.textContent = `Binuksan ang Modal: ${viewedCount}/${totalSignals}`;
-
-            if (viewedCount === totalSignals) {
-                progressIndicator.classList.add('complete');
-                continueBtn.classList.remove('disabled');
-            }
-        }
-
-        document.querySelectorAll('.wind-signal-item').forEach(el => {
-            el.addEventListener('click', function () {
-                currentSignal = this.getAttribute('data-signal');
-                popupImg.src = this.getAttribute('data-img');
-                modal.show();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create modal dynamically and append to body
+            const modalHTML = `
+                <div class="modal fade" id="popupModal" tabindex="-1" aria-hidden="true" style="position: fixed; top: 0; left: 0; z-index: 999999;">
+                    <div class="modal-dialog modal-dialog-centered" style="max-width: 90vw; margin: 2rem auto;">
+                        <div class="modal-content" style="
+                            position: relative;
+                            z-index: 999999;
+                            background: #f4ece4 url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+                            border: 8px solid #3d2b1f;
+                            border-radius: 20px;
+                            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                        ">
+                            <div class="modal-header" style="
+                                background: #1e293b;
+                                color: white;
+                                border-bottom: 3px solid #5d4037;
+                                padding: 1rem 1.5rem;
+                                border-radius: 10px 10px 0 0;
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                            ">
+                                <h5 class="modal-title" id="modalTitle" style="font-weight: 700; font-size: 1.3rem; color: white;">
+                                    <i class="fa-solid fa-circle-info me-2"></i>Gabay at Detalye
+                                </h5>
+                                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close" style="
+                                    background-color: #ef4444;
+                                    border-radius: 50%;
+                                    padding: 12px;
+                                    opacity: 1;
+                                    cursor: pointer;
+                                    border: 3px solid white;
+                                "></button>
+                            </div>
+                            <div class="modal-body" style="padding: 1.5rem;">
+                                <div style="
+                                    max-height: 75vh;
+                                    overflow: auto;
+                                    text-align: center;
+                                    background: white;
+                                    border-radius: 10px;
+                                    padding: 15px;
+                                ">
+                                    <img id="popupImage" src="" class="img-fluid" alt="Signal Guide" style="
+                                        max-width: 100%;
+                                        height: auto;
+                                        border: 3px solid #5d4037;
+                                        border-radius: 10px;
+                                    ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Append modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Now initialize modal
+            const modalElement = document.getElementById('popupModal');
+            const modal = new bootstrap.Modal(modalElement, {
+                backdrop: true,
+                keyboard: true,
+                focus: true
             });
-        });
+            const popupImg = document.getElementById('popupImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const progressIndicator = document.getElementById('progressIndicator');
+            const continueBtn = document.getElementById('continueBtn');
 
-        document.getElementById('popupModal').addEventListener('hidden.bs.modal', function () {
-            if (currentSignal) {
-                viewedSignals.add(currentSignal);
-                updateProgress();
-                currentSignal = null;
-            }
-        });
+            const viewedSignals = new Set();
+            const totalSignals = 5;
+            let currentSignal = null;
 
-        // Prevent clicking disabled button
-        continueBtn.addEventListener('click', function (e) {
-            if (this.disabled) {
-                e.preventDefault();
+            function updateProgress() {
+                const viewedCount = viewedSignals.size;
+                progressIndicator.textContent = `Binuksan ang Modal: ${viewedCount}/${totalSignals}`;
+
+                if (viewedCount === totalSignals) {
+                    progressIndicator.classList.add('complete');
+                    continueBtn.classList.remove('disabled');
+                }
             }
+
+            document.querySelectorAll('.wind-signal-item').forEach(el => {
+                el.addEventListener('click', function () {
+                    currentSignal = this.getAttribute('data-signal');
+                    const imgSrc = this.getAttribute('data-img');
+                    const title = this.getAttribute('data-title');
+                    
+                    popupImg.src = imgSrc;
+                    if (title && modalTitle) {
+                        modalTitle.innerHTML = `<i class="fa-solid fa-circle-info me-2"></i>${title}`;
+                    }
+                    
+                    modal.show();
+                });
+            });
+
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                if (currentSignal) {
+                    viewedSignals.add(currentSignal);
+                    updateProgress();
+                    currentSignal = null;
+                }
+            });
+
+            updateProgress();
         });
 
         window.addEventListener("load", () => {
             startDialogue([
-                    
                 {
                 text: "Hindi tulad ng naunang modyul, ang bahaging ito ay may ilang gawain na susubok sa iyong kaalaman at pag-unawa. Pero huwag kang mag-alala, gawin mo lang ang iyong makakaya at tandaan ang mga natutunan mo. Konting tiyaga na lang at matatapos mo rin ang mga gawain",
                 name: "Mga Guro",
                 image: "{{ asset('pictures/vn_box_teacher1.png') }}"
                 },
-
                 {
                 text: "Ngunit bago ka magsimula, kailangan mo munang basahin at unawain ang bawat Gabay sa mga Signal ng Bagyo.",
                 name: "Mga Guro",
                 image: "{{ asset('pictures/vn_box_teacher1.png') }}"
                 },
-
                 {
                 text:  "Kapag handa ka na, maaari ka nang magpatuloy.",
                 name: "Mga Guro",
@@ -352,6 +403,4 @@
             ]);
         });
     </script>
-
-</body>
-</html>
+@endpush

@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html lang="tl">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 Completed!')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 3 Completed!</title>
-
+@push('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@300;400;700&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style>
+    @import url("https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;700;800&display=swap");
         :root {
             --primary-gradient: linear-gradient(135deg, #003973 0%, #0056ad 100%);
             --accent-yellow: #ffcc00;
             --glass: rgba(255, 255, 255, 0.95);
         }
 
-        body {
+        html, body{
+            scroll-behavior:smooth;
             background:
-                linear-gradient(rgba(0, 30, 60, 0.7), rgba(0, 20, 40, 0.85)),
+                linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
                 url('/pictures/mod3_innermap.png') no-repeat center center fixed;
             background-size: cover;
+        }
 
-            font-family: 'Lexend', sans-serif;
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            overflow-x: hidden;
-            margin: 0;
+        body{
+            overflow-x:hidden;
+            color: #fff;
+            font-family:'Poppins', sans-serif;
         }
 
         .container {
@@ -157,9 +151,9 @@
             z-index: -1;
         }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
     <div class="blob animate__animated animate__pulse animate__infinite" style="top: -10%; right: -5%;"></div>
     <div class="blob animate__animated animate__pulse animate__infinite"
@@ -200,6 +194,4 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+@endsection

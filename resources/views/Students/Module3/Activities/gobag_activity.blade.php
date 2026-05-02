@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('Students.studentslayout')
+@section('title', 'Module 3 : Go Bag Activity')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mission: Go Bag | Wooden Edition</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+@push('styles')
+    <!-- Animate.css from CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;600;700&display=swap');
+        
         :root {
             /* PAGASA Wooden Palette */
             --wood-dark: #3d2b1f;
@@ -237,9 +235,9 @@
             transform: translate(-50%, -50%);
         }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
 
     <div id="feedback" class="feedback-popup animate__animated">TAMA!</div>
 
@@ -312,6 +310,9 @@
         </div>
     </div>
 
+@endsection
+
+@push('scripts')
     <script>
         let score = 0;
         let timeLeft = 60;
@@ -453,6 +454,4 @@
             .catch(err => console.error(err));
         }
     </script>
-</body>
-
-</html>
+@endpush
