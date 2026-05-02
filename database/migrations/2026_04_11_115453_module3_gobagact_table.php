@@ -13,17 +13,29 @@ return new class extends Migration
 
             $table->unsignedBigInteger('student_id');
 
+            // 🎮 Game stats
             $table->integer('score')->default(0);
+            $table->integer('correct_items')->default(0);
+            $table->integer('wrong_attempts')->default(0);
             $table->integer('total_items')->default(10);
+
+            // ⏱️ Time tracking
             $table->integer('time_taken')->nullable();
 
+            // 📊 Derived stats
+            $table->float('accuracy')->nullable();
+
+            // 🏁 Status
+            $table->boolean('is_completed')->default(false);
+            $table->boolean('is_success')->default(false); // win or timeout
+
+            // ⭐ Rating
             $table->enum('rating', [
                 'excellent',
                 'good',
                 'needs_improvement'
             ])->nullable();
 
-            $table->boolean('is_completed')->default(false);
             $table->integer('attempts')->default(1);
 
             $table->timestamps();

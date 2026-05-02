@@ -80,7 +80,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module2/essay/submit', [Module2_EssayController::class, 'submit']) ->name('student.module2.essay.submit');
     
     Route::get('/student/module3/performance-task', [Module3PerformanceTaskController::class, 'show']) ->name('student.module3.performance-task');
-    Route::post('/student/module3/performance-task/save', [Module3PerformanceTaskController::class, 'store']) ->name('student.module3.performance-task.save');
+    Route::post('/student/module3/performance-task/store', [Module3PerformanceTaskController::class, 'store']) ->name('student.module3.performance-task.store');
     Route::get('student/module3/pretest', [Module3_PretestController::class, 'index'])->name('student.module3.pretest');
     Route::post('student/module3/pretest/store', [Module3_PretestController::class, 'store'])->name('student.module3.pretest.store');
     Route::get('/module3/node2', [Module3Node2Controller::class, 'index'])->name('module3.node2');

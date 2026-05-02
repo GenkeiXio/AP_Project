@@ -8,28 +8,27 @@ class Module3PerformanceTask extends Model
 {
     protected $table = 'module3_performance_tasks';
 
+    protected $table = 'module3_performance_tasks';
+
     protected $fillable = [
         'student_id',
         'score',
-        'badges_earned',
         'completion_time',
-
+        'badges_earned',
         'selected_items',
         'answers',
-
         'kit_score',
         'evacuation_score',
         'communication_score',
         'safe_score',
-
-        'is_completed'
+        'is_completed',
     ];
 
     protected $casts = [
-        'badges_earned' => 'array',
+        'badges_earned'  => 'array',
         'selected_items' => 'array',
-        'answers' => 'array',
-        'is_completed' => 'boolean',
+        'answers'        => 'array',
+        'is_completed'   => 'boolean',
     ];
 
     public function student()

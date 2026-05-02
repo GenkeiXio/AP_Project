@@ -1565,7 +1565,7 @@
                 const kitScore = gameState.selectedItems.reduce((sum, item) => sum + item.points, 0);
 
                 // ✅ THEN call fetch
-                fetch("{{ route('student.module3.performance-task.save') }}", {
+                fetch("{{ route('student.module3.performance-task.store') }}", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

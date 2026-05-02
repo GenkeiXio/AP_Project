@@ -411,13 +411,46 @@
 
         function showModal(success) {
             document.getElementById('completeScreen').style.display = "flex";
-            document.getElementById('final-time').innerText = (60 - timeLeft) + " segundo";
-            if (success) document.getElementById('nextBtn').style.display = "inline-block";
+
+            let timeTaken = 60 - timeLeft;
+
+            document.getElementById('final-time').innerText = timeTaken + " segundo";
+
+            if (success) {
+                document.getElementById('nextBtn').style.display = "inline-block";
+            }
+
+            // 🚀 SEND DATA TO BACKEND
+            saveGameResult(success, timeTaken);
         }
 
         function gameOver() {
             document.getElementById('completeScreen').style.display = "flex";
             document.getElementById('result-message').innerText = "Naubusan ka ng oras! Subukan muli.";
+
+            let timeTaken = 60;
+
+            saveGameResult(false, timeTaken);
+        }
+
+        function saveGameResult(isSuccess, timeTaken) {
+            fetch("{{ route('student.module3.gobag.save') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    score: score,
+                    correct_items: score,
+                    wrong_attempts: (placedItems.size + 6 - score), // estimate or track properly
+                    time_taken: timeTaken,
+                    is_success: isSuccess
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Saved:", data))
+            .catch(err => console.error(err));
         }
     </script>
 </body>
