@@ -1,571 +1,1168 @@
 @extends('Students.studentslayout')
-@section('title', 'Post-Test Modyul 4')
-
+@section('title', 'Panghuling Pagsusulit: Module 4')
 @push('styles')
-<style>
-.mod4-pretest-wrap {
-    max-width: 1000px;
-    margin: 24px auto;
-    padding: 0 16px 28px;
-}
+	<style>
+		:root {
+			--bg-1: #fffaf3;
+			--bg-2: #fff3df;
+			--card: rgba(255, 255, 255, 0.94);
+			--text: #3d2a1a;
+			--muted: #7a6143;
+			--accent: #6dbf7e;
+			--accent-dark: #4da862;
+			--accent-soft: #eefaf1;
+			--warm: #f4c97a;
+			--wrong-soft: #fff3e6;
+			--wrong-border: #efc48f;
+			--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
+			--radius-xl: 24px;
+			--radius-lg: 18px;
+			--radius-md: 14px;
+		}
 
-.mod4-head {
-    background: #ffffff;
-    border: 2px solid #d8eadb;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 10px 22px rgba(29, 92, 52, 0.1);
-}
+		* {
+			box-sizing: border-box;
+		}
 
-.mod4-head h1 {
-    margin: 0;
-    color: #1f4f32;
-    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
-}
+		html, body {
+			background: #060b16;
+			background-image: 
+				radial-gradient(circle at 8% 8%, rgba(0, 242, 255, 0.1), transparent 24%),
+				radial-gradient(circle at 90% 14%, rgba(57, 255, 20, 0.08), transparent 20%),
+				linear-gradient(rgba(160, 190, 230, 0.04) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(160, 190, 230, 0.04) 1px, transparent 1px);
+			background-size: auto, auto, 34px 34px, 34px 34px;
+			color: var(--ink-1);
+			font-family: 'Poppins', sans-serif;
+			overflow-x: hidden;
+			touch-action: pan-y;
+		}
 
-.mod4-head p {
-    margin: 8px 0 0;
-    color: #40624b;
-    line-height: 1.5;
-}
+		.background-map {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			object-fit: cover;
+			z-index: -1;
+		}
 
-.mod4-score-guide {
-    margin-top: 12px;
-    padding: 12px;
-    border-radius: 12px;
-    background: #f6fff7;
-    border: 1px solid #d7e7da;
-    color: #305942;
-}
+		.main-wrapper {
+			display: block;
+			width: 100%;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
 
-.mod4-questions {
-    margin-top: 16px;
-    display: grid;
-    gap: 12px;
-}
+		.pretest-wrap {
+			width: 100%;
+			max-width: 880px;
+			margin: 0 auto;
+		}
 
-.mod4-q {
-    background: #fff;
-    border: 1px solid #dfece1;
-    border-radius: 14px;
-    padding: 14px;
-    transition: all 0.2s ease;
-}
+		.pretest-card {
+			position: relative;
+			background: var(--card);
+			backdrop-filter: blur(10px);
+			border-radius: 28px;
+			box-shadow: var(--shadow);
+			padding: 22px;
+			border: 1px solid rgba(230, 208, 175, 0.7);
+			overflow: hidden;
+		}
 
-.mod4-q.missing {
-    border: 2px solid #d94141;
-    background: #fff8f8;
-    box-shadow: 0 0 0 2px rgba(217, 65, 65, 0.2);
-}
+		.pretest-card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+			pointer-events: none;
+		}
 
-.mod4-q-title {
-    margin: 0 0 10px;
-    color: #214a33;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
+		.pretest-header {
+			text-align: center;
+			margin-bottom: 16px;
+			position: relative;
+			z-index: 2;
+		}
 
-.mod4-q-title .status-icon {
-    font-size: 0.9rem;
-}
+		.pretest-header .header-icons {
+			font-size: 1.2rem;
+			letter-spacing: 3px;
+			margin-bottom: 4px;
+		}
 
-.mod4-opt {
-    display: block;
-    padding: 8px 10px;
-    border: 1px solid #dde9e0;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: 0.15s;
-}
+		.pretest-header .subtitle {
+			font-size: 0.85rem;
+			font-weight: 800;
+			color: var(--muted);
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+		}
 
-.mod4-opt:hover {
-    background: #f6fff7;
-}
+		.pretest-header h1 {
+			font-family: "Baloo 2", cursive;
+			font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+			margin: 6px 0 4px;
+			color: var(--text);
+			line-height: 1.1;
+		}
 
-.mod4-opt input[type="radio"] {
-    margin-right: 10px;
-    cursor: pointer;
-}
+		.pretest-header p {
+			color: var(--muted);
+			font-weight: 700;
+			margin-top: 6px;
+			font-size: 0.94rem;
+		}
 
-.mod4-actions {
-    margin-top: 16px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+		.quiz-page {
+			display: block;
+			position: relative;
+			z-index: 2;
+		}
 
-.mod4-btn {
-    border: none;
-    border-radius: 12px;
-    padding: 11px 16px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+		.quiz-progress {
+			max-width: 520px;
+			margin: 0 auto 18px;
+		}
 
-.mod4-btn-primary {
-    background: linear-gradient(180deg, #7fd46a, #59ab44);
-    color: #11351f;
-}
+		.progress-topline {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 8px;
+			flex-wrap: wrap;
+		}
 
-.mod4-btn-primary:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(89, 171, 68, 0.3);
-}
+		.progress-center {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 15px;
+		}
 
-.mod4-btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+		.progress-label {
+			font-size: 0.84rem;
+			font-weight: 900;
+			color: var(--muted);
+			letter-spacing: 0.4px;
+		}
 
-.mod4-btn-ghost {
-    background: #eef8ef;
-    color: #2f5a40;
-    border: 1px solid #c9dfcd;
-}
+		.progress-mini-badge {
+			font-size: 0.78rem;
+			font-weight: 800;
+			color: #5b472f;
+			background: #fff7ea;
+			border: 1px solid #efd9b3;
+			padding: 5px 10px;
+			border-radius: 999px;
+		}
 
-.mod4-btn-ghost:hover {
-    background: #e2f0e4;
-}
+		.progress-dots {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 6px;
+			flex-wrap: wrap;
+			margin-bottom: 10px;
+		}
 
-.mod4-result {
-    margin-top: 16px;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #d8eadb;
-    background: #fff;
-    display: none;
-}
+		.progress-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #dfd2c3;
+			transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
 
-.mod4-result.show {
-    display: block;
-}
+		.progress-dot.completed {
+			background: var(--accent);
+			transform: scale(1.15);
+		}
 
-.mod4-score {
-    margin: 0;
-    font-weight: 900;
-    color: #1e4d31;
-}
+		.progress-dot.active {
+			background: #57ba77;
+			transform: scale(1.45);
+			box-shadow: 0 0 10px rgba(109, 191, 126, 0.45);
+		}
 
-.mod4-level {
-    margin: 8px 0 0;
-    font-weight: 800;
-}
+		.flashcard-stage {
+			position: relative;
+			min-height: 360px;
+			perspective: 1200px;
+		}
 
-.mod4-feedback {
-    margin: 10px 0 0;
-    color: #3f604a;
-}
+		.question-list {
+			display: block;
+			position: relative;
+			min-height: 360px;
+		}
 
-.mod4-next {
-    margin-top: 14px;
-}
+		.question-item {
+			position: relative;
+			background: linear-gradient(180deg, #ffffff 0%, #fffdf9 100%);
+			border: 1px solid #eadcc5;
+			border-radius: 24px;
+			padding: 18px;
+			min-height: 360px;
+			box-shadow: 0 12px 30px rgba(91, 66, 33, 0.08);
+			overflow: hidden;
+		}
 
-.mod4-error-message {
-    margin-top: 12px;
-    padding: 10px;
-    background: #fff0f0;
-    border: 1px solid #d94141;
-    border-radius: 10px;
-    color: #b33;
-    font-weight: 600;
-    display: none;
-}
+		.question-item::after {
+			content: "";
+			position: absolute;
+			top: -60px;
+			right: -60px;
+			width: 160px;
+			height: 160px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(109,191,126,0.13) 0%, rgba(109,191,126,0) 68%);
+			pointer-events: none;
+		}
 
-.mod4-error-message.show {
-    display: block;
-}
+		.card-chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			border-radius: 999px;
+			font-size: 0.8rem;
+			font-weight: 900;
+			background: #fff7ea;
+			color: #694d30;
+			border: 1px solid #efd9b3;
+		}
 
-.mod4-progress {
-    margin-top: 16px;
-    padding: 10px;
-    background: #f0f7f2;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: 600;
-    color: #2f5a40;
-}
+		.question-item h4 {
+			color: var(--text);
+			margin-bottom: 16px;
+			margin-top: 8px;
+			line-height: 1.6;
+			font-size: 1.05rem;
+			font-weight: 900;
+			padding-right: 18px;
+		}
 
-.mod4-progress span {
-    color: #1f7a47;
-    font-size: 1.2rem;
-    font-weight: 800;
-}
-</style>
+		.choices {
+			display: grid;
+			gap: 12px;
+		}
+
+		.choice {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			border: 1px solid #e7d7bf;
+			border-radius: 16px;
+			padding: 11px 12px;
+			cursor: pointer;
+			transition: border-color 0.22s, background-color 0.22s, transform 0.18s, box-shadow 0.18s;
+			background: #fff;
+			position: relative;
+		}
+
+		.choice:hover {
+			border-color: #d4a574;
+			background: #fffaf1;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 18px rgba(170, 124, 67, 0.08);
+		}
+
+		.choice.selected {
+			border-color: var(--accent);
+			background: #f3fbf5;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 22px rgba(109, 191, 126, 0.12);
+		}
+
+		.choice.confirmed {
+			border-color: var(--accent);
+			background: #e8f5eb;
+			position: relative;
+		}
+
+		.choice.confirmed::after {
+			content: "✓";
+			position: absolute;
+			right: 12px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--accent);
+			font-weight: bold;
+			font-size: 1.2rem;
+		}
+
+		.choice.correct-reveal {
+			border-color: var(--accent);
+			background: #f1fbf4;
+			box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.12);
+		}
+
+		.choice.soft-wrong {
+			border-color: var(--wrong-border);
+			background: var(--wrong-soft);
+		}
+
+		.choice input {
+			margin-top: 4px;
+			accent-color: var(--accent);
+			cursor: pointer;
+			transform: scale(1.05);
+		}
+
+		.choice span {
+			color: #4e3823;
+			font-size: 0.93rem;
+			line-height: 1.45;
+			font-weight: 700;
+		}
+
+		.reaction-box {
+			margin-top: 14px;
+			min-height: 64px;
+			border-radius: 16px;
+			padding: 12px 14px;
+			font-weight: 800;
+			font-size: 0.92rem;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			opacity: 0;
+			transform: translateY(8px);
+			pointer-events: none;
+			transition: opacity 0.25s ease, transform 0.25s ease;
+		}
+
+		.reaction-box.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		.reaction-box.correct {
+			background: linear-gradient(180deg, #eefaf1 0%, #e4f7ea 100%);
+			border: 1px solid #bfe3c8;
+			color: #2f6c44;
+		}
+
+		.reaction-box.gentle {
+			background: linear-gradient(180deg, #fff8ef 0%, #fff2df 100%);
+			border: 1px solid #efd2a7;
+			color: #7a5a2e;
+		}
+
+		.reaction-emoji {
+			font-size: 1.25rem;
+			line-height: 1;
+			flex-shrink: 0;
+		}
+
+		.action-row {
+			margin-top: 16px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.btn-primary,
+		.btn-secondary,
+		.btn-confirm {
+			border: none;
+			outline: none;
+			text-decoration: none;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			gap: 8px;
+			min-width: 160px;
+			padding: 11px 16px;
+			border-radius: 14px;
+			font-size: 0.92rem;
+			font-family: "Baloo 2", cursive;
+			font-weight: 800;
+			cursor: pointer;
+			transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+		}
+
+		.btn-primary {
+			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+			color: #fff;
+			box-shadow: 0 10px 22px rgba(77, 168, 98, 0.22);
+		}
+
+		.btn-primary:hover:not([disabled]),
+		.btn-secondary:hover:not([disabled]),
+		.btn-confirm:hover:not([disabled]) {
+			transform: translateY(-2px);
+		}
+
+		.btn-primary[disabled],
+		.btn-secondary[disabled],
+		.btn-confirm[disabled] {
+			opacity: 0.5;
+			cursor: not-allowed;
+			transform: none;
+			box-shadow: none;
+		}
+
+		.btn-secondary {
+			background: #fff;
+			color: #4c3a26;
+			border: 2px solid #d7c4a3;
+			box-shadow: 0 8px 18px rgba(120, 90, 50, 0.08);
+		}
+
+		.btn-confirm {
+			background: linear-gradient(135deg, #f4c97a, #e5b55c);
+			color: #4a2f14;
+			box-shadow: 0 10px 22px rgba(244, 201, 122, 0.3);
+		}
+
+		.result-page {
+			display: none;
+			max-width: 560px;
+			margin: 12px auto 0;
+		}
+
+		.result-page.show {
+			display: block;
+			animation: fadePop 0.45s ease;
+		}
+
+		.result-box {
+			display: none;
+			margin-top: 14px;
+			border-radius: 24px;
+			border: 2px solid rgba(109, 191, 126, 0.28);
+			background: linear-gradient(180deg, #fffdf7 0%, #f6efe2 100%);
+			color: var(--text);
+			padding: 18px 16px;
+			text-align: center;
+			font-weight: 800;
+			box-shadow: 0 14px 32px rgba(91, 66, 33, 0.1);
+		}
+
+		.result-box.show {
+			display: block;
+		}
+
+		.result-title {
+			font-family: "Baloo 2", cursive;
+			font-size: clamp(1.55rem, 3.4vw, 2rem);
+			color: var(--text);
+			margin-bottom: 10px;
+		}
+
+		.result-ring {
+			--progress: 0;
+			width: 160px;
+			height: 160px;
+			margin: 0 auto 10px;
+			border-radius: 50%;
+			background: conic-gradient(#57ba77 calc(var(--progress) * 1%), #d9e8dc 0);
+			display: grid;
+			place-items: center;
+			position: relative;
+			box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
+		}
+
+		.result-ring::before {
+			content: "";
+			width: 122px;
+			height: 122px;
+			border-radius: 50%;
+			background: linear-gradient(180deg, #fffdf8 0%, #f2eadf 100%);
+			position: absolute;
+			inset: 0;
+			margin: auto;
+		}
+
+		.result-percent {
+			position: relative;
+			z-index: 1;
+			font-size: 1.7rem;
+			font-weight: 900;
+			color: #2f6c44;
+		}
+
+		.result-score {
+			font-size: 1rem;
+			font-weight: 800;
+			color: #4c3a26;
+			margin-top: 4px;
+		}
+
+		.result-subtext {
+			margin-top: 6px;
+			font-size: 0.85rem;
+			font-weight: 700;
+			color: var(--muted);
+		}
+
+		.result-feedback {
+			margin-top: 6px;
+			font-size: 0.9rem;
+			font-weight: 800;
+			color: #6f5538;
+		}
+
+		.badge-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			border-radius: 999px;
+			font-size: 0.8rem;
+			font-weight: 900;
+			margin-top: 8px;
+			background: #eefaf1;
+			color: #2f6c44;
+			border: 1px solid #bfe3c8;
+		}
+
+		.result-actions {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 12px;
+		}
+
+		.back-button {
+			position: fixed;
+			top: 80px;
+			left: 20px;
+			z-index: 999;
+			background: white;
+			padding: 10px 15px;
+			border-radius: 8px;
+			text-decoration: none;
+			font-weight: bold;
+			box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		}
+
+		.back-button:hover {
+			transform: scale(1.06);
+		}
+
+		.single-question {
+			margin-bottom: 28px;
+			padding-bottom: 18px;
+			border-bottom: 1px dashed #e7d7bf;
+		}
+
+		.single-question:last-child {
+			border-bottom: none;
+			margin-bottom: 0;
+		}
+
+		@media (max-width: 768px) {
+			body { overflow: auto; }
+
+			.pretest-card {
+				padding: 14px;
+				border-radius: 22px;
+			}
+
+			.question-item {
+				padding: 15px;
+				min-height: 340px;
+			}
+
+			.flashcard-stage,
+			.question-list { min-height: 340px; }
+
+			.action-row { flex-direction: column; }
+
+			.btn-primary,
+			.btn-secondary,
+			.btn-confirm { width: 100%; }
+
+			.result-ring {
+				width: 140px;
+				height: 140px;
+			}
+
+			.result-ring::before {
+				width: 106px;
+				height: 106px;
+			}
+
+			.result-percent { font-size: 1.42rem; }
+
+			.back-button {
+				top: 12px;
+				left: 12px;
+				padding: 8px 12px;
+				font-size: 0.85rem;
+			}
+		}
+
+		@keyframes fadePop {
+			from { opacity: 0; transform: translateY(18px) scale(0.98); }
+			to   { opacity: 1; transform: translateY(0) scale(1); }
+		}
+
+		@keyframes slideInRight {
+			from { opacity: 0; transform: translateX(60px) rotate(0.7deg) scale(0.98); }
+			to   { opacity: 1; transform: translateX(0) rotate(0) scale(1); }
+		}
+
+		@keyframes slideInLeft {
+			from { opacity: 0; transform: translateX(-60px) rotate(-0.7deg) scale(0.98); }
+			to   { opacity: 1; transform: translateX(0) rotate(0) scale(1); }
+		}
+
+		.confetti-piece {
+			position: fixed;
+			top: -20px;
+			width: 10px;
+			height: 16px;
+			border-radius: 3px;
+			opacity: 0.95;
+			z-index: 9999;
+			pointer-events: none;
+			animation: confettiFall linear forwards;
+		}
+
+		@keyframes confettiFall {
+			0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+			100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+		}
+	</style>
 @endpush
 
 @section('content')
-    <div class="mod4-pretest-wrap">
-        <section class="mod4-head">
-            <h1>📝 POST-TEST: "Handa Ka Na Ba?"</h1>
-            <p><strong>Panuto:</strong> Basahin ang bawat sitwasyon. Piliin ang PINAKATAMANG sagot.</p>
 
-            <div class="mod4-score-guide">
-                <strong>Passing Score:</strong><br>
-                12–15 → ✅ Handa ka na!<br>
-                0–11 → 🔁 Subukan muli
-            </div>
-        </section>
+<img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map">
 
-        <section class="mod4-questions" id="questionsRoot"></section>
+<a href="{{ route('inner.map4') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
-        <div class="mod4-progress" id="progressBar">
-            Nasagot na: <span id="answeredCount">0</span> / <span id="totalCount">15</span> na tanong
-        </div>
+<div class="main-wrapper">
+	<div class="pretest-wrap">
+		<div class="pretest-card">
+			<div class="pretest-header">
+				<div class="header-icons">🧭 🗺️ ✨</div>
+				<div class="subtitle">Module 4</div>
+				<h1>PANGHULING PAGSUSULIT</h1>
+				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
+			</div>
 
-        <div class="mod4-error-message" id="errorMessage">
-            ⚠️ Pakisagutan muna ang lahat ng tanong bago ipasa ang pagsusulit.
-        </div>
+			<form id="preTestForm">
+				<div class="quiz-page" id="quizPage">
+					<div class="quiz-progress">
+						<div class="progress-topline">
+							<div class="progress-label" id="quizProgressLabel"></div>
+						</div>
+						<div class="progress-center">
+							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
+						</div>
+						<div class="progress-dots" id="progressDots"></div>
+					</div>
 
-        <div class="mod4-actions">
-            <button class="mod4-btn mod4-btn-primary" id="checkBtn" type="button" disabled>Ipakita ang Resulta</button>
-            <a class="mod4-btn mod4-btn-ghost" href="{{ route('module4.home') }}" style="text-decoration:none;display:inline-flex;align-items:center;">⬅ Bumalik</a>
-        </div>
+					<div class="flashcard-stage">
+						<div class="question-list" id="questionList"></div>
+					</div>
 
-        <section class="mod4-result" id="resultBox">
-            <p class="mod4-score" id="scoreText"></p>
-            <p class="mod4-level" id="levelText"></p>
-            <p class="mod4-feedback">Ang iyong post-test ay magsisilbing pagtataya ng iyong natutunan sa modyul na ito.</p>
-            <div class="mod4-next" id="nextContainer"></div>
-        </section>
-    </div>
+					<div class="action-row">
+						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPostTest()" style="display:none;">
+							Tapusin ang Panghuling Pagsusulit 🚀
+						</button>
+					</div>
+				</div>
 
-    <script>
-        const quizItems = [
-            {q:"May paparating na bagyo at may sapat pang oras. Ano ang pinakamahusay na unang hakbang?",
-            options:["A. Maghintay ng anunsyo","B. Maghanda ng emergency kit at magbigay babala","C. Magpahinga muna","D. Maglaro"],answer:1},
+				<div class="result-page" id="resultPage" aria-live="polite">
+					<div class="result-box show" id="resultBox">
+						<div class="result-title">Resulta ng Panghuling Pagsusulit</div>
+						<div class="result-ring" id="resultRing" style="--progress:0;">
+							<div class="result-percent" id="resultPercent">0/0</div>
+						</div>
+						<div class="result-score" id="resultScoreText"></div>
+						<div class="badge-pill" id="resultBadge"></div>
+						<div class="result-feedback" id="resultFeedback"></div>
+						<div class="result-actions" id="resultActions"></div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
-            {q:"Sa isang evacuation center, may kakulangan sa koordinasyon. Ano ang dapat gawin?",
-            options:["A. Hayaan ang sitwasyon","B. Magtalaga ng lider at sistema ng pamamahala","C. Itigil ang operasyon","D. Maghintay ng tulong"],answer:1},
+<script>
+	// ================= QUESTIONS =================
+	const questions = [
+		{
+			question: 'Matapos ang karanasan sa Super Typhoon Rolly, alin ang pinakaangkop na indikasyon na bumaba ang disaster risk ng isang komunidad?',
+			options: {
+				a: 'Tumaas ang bilang ng evacuation centers ngunit mababa ang paggamit nito',
+				b: 'Tumaas ang kahandaan at partisipasyon ng komunidad sa preparedness drills',
+				c: 'Dumami ang relief goods na nakaimbak sa barangay hall',
+				d: 'Lumakas ang istruktura ng ilang piling bahay sa komunidad'
+			},
+			answer: 'b'
+		},
+		{
+			question: 'Sa flashflood na may lahar mula sa Mayon Volcano, alin ang nagpapakita ng maling risk assessment?',
+			options: {
+				a: 'Pagkilala na mas mapanganib ang lahar kaysa karaniwang baha',
+				b: 'Pag-iwas sa daluyan ng baha at pagharang sa access ng tao',
+				c: 'Pag-aakalang ligtas tumawid dahil mababaw ang bahagi ng tubig',
+				d: 'Pagbibigay ng babala at agarang paglikas sa komunidad'
+			},
+			answer: 'c'
+		},
+		{
+			question: 'Sa lindol, alin ang nagpapakita ng pinakamataas na antas ng situational awareness habang may aftershocks?',
+			options: {
+				a: 'Bumalik agad sa bahay upang kunin ang mahahalagang gamit',
+				b: 'Manatili sa open area at iwasan ang mga gusaling may pinsala',
+				c: 'Maghintay ng opisyal na anunsyo bago kumilos',
+				d: 'Pumasok sa gusali upang suriin ang kalagayan nito'
+			},
+			answer: 'b'
+		},
+		{
+			question: 'Kapag itinaas sa Alert Level 3 ang Bulkang Mayon, alin ang pinakamalinaw na implikasyon sa risk level?',
+			options: {
+				a: 'Katamtamang panganib na may limitadong epekto sa komunidad',
+				b: 'Mataas na panganib na nangangailangan ng agarang paghahanda',
+				c: 'Mababang panganib na hindi nangangailangan ng aksyon',
+				d: 'Walang panganib hangga\'t walang nakikitang lava'
+			},
+			answer: 'b'
+		},
+		{
+			question: 'Sa isang landslide-prone area, alin ang nagpapakita ng maling ugnayan ng hazard at vulnerability?',
+			options: {
+				a: 'Matinding ulan at marupok na lupa ay nagpapataas ng panganib',
+				b: 'Mataas na lugar ngunit walang vegetation ay mas delikado',
+				c: 'Matibay na bahay ay nag-aalis ng panganib mula sa landslide',
+				d: 'Pagputol ng puno ay nagpapataas ng posibilidad ng pagguho'
+			},
+			answer: 'c'
+		},
+		{
+			question: 'Sa pagkawala ng kuryente at tubig, alin ang nagpapakita ng ineffective community response?',
+			options: {
+				a: 'Pag-oorganisa ng relief distribution batay sa pangangailangan',
+				b: 'Pagbabahagi ng limitadong resources sa mga apektadong pamilya',
+				c: 'Pag-asa lamang sa external aid nang walang lokal na aksyon',
+				d: 'Pag-coordinate sa barangay para sa maayos na sistema'
+			},
+			answer: 'c'
+		},
+		{
+			question: 'Alin sa mga sumusunod ang nagpapakita ng high resilience ngunit moderate vulnerability?',
+			options: {
+				a: 'Komunidad na may kahandaan ngunit matatagpuan sa hazard-prone area',
+				b: 'Komunidad na walang kaalaman ngunit nasa ligtas na lugar',
+				c: 'Komunidad na walang hazard ngunit mataas ang kahinaan',
+				d: 'Komunidad na walang partisipasyon ngunit may sapat na resources'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa isang barangay na paulit-ulit na binabaha, alin ang pinakamabisang long-term risk reduction strategy?',
+			options: {
+				a: 'Pagdaragdag ng relief goods bago ang sakuna',
+				b: 'Pagpapatibay ng evacuation response tuwing may bagyo',
+				c: 'Pagpaplano ng land use at environmental management',
+				d: 'Pagbibigay ng ayuda pagkatapos ng bawat kalamidad'
+			},
+			answer: 'c'
+		},
+		{
+			question: 'Bakit kritikal ang damage assessment sa decision-making phase ng Disaster Risk Reduction Management (DRRM)?',
+			options: {
+				a: 'Nakakatulong ito upang matukoy ang lawak ng pinsala at prayoridad',
+				b: 'Nakakapigil ito sa pagdating ng susunod na sakuna',
+				c: 'Nakakapagpahina ito sa epekto ng hazard',
+				d: 'Nakakabawas ito sa vulnerability ng komunidad'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa evacuation center management, alin ang nagpapakita ng system failure?',
+			options: {
+				a: 'Maayos na koordinasyon at malinaw na impormasyon sa evacuees',
+				b: 'Sapat na suplay ngunit walang organisadong distribusyon',
+				c: 'Aktibong partisipasyon ng mga lider at volunteers',
+				d: 'Malinaw na sistema ng pagrehistro ng evacuees'
+			},
+			answer: 'b'
+		},
+		{
+			question: 'Sa panahon ng baha, alin ang nagpapakita ng false sense of safety?',
+			options: {
+				a: 'Pag-iwas sa tubig na hindi alam ang lalim nito',
+				b: 'Pananatili sa loob ng bahay kung ligtas ang lokasyon',
+				c: 'Pagtawid sa mababaw na bahagi ng baha na may agos',
+				d: 'Pakikinig sa mga babala mula sa awtoridad'
+			},
+			answer: 'c'
+		},
+		{
+			question: 'Alin ang nagpapakita ng proactive role ng kabataan sa DRRM?',
+			options: {
+				a: 'Pag-antay ng direktiba bago kumilos sa komunidad',
+				b: 'Pakikilahok sa drills at pagbabahagi ng tamang impormasyon',
+				c: 'Pag-iwas sa responsibilidad sa panahon ng sakuna',
+				d: 'Pagtutok lamang sa personal na kaligtasan'
+			},
+			answer: 'b'
+		},
+		{
+			question: 'Bakit hindi sapat ang pagkakaroon lamang ng early warning system?',
+			options: {
+				a: 'Kailangan din ang aksyon at pagsunod ng komunidad sa babala',
+				b: 'Dahil hindi nito kayang hulaan ang lahat ng sakuna',
+				c: 'Dahil nakadepende ito sa teknolohiya lamang',
+				d: 'Dahil mahal ang pagpapatupad nito sa komunidad'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Sa DRRM cycle, alin ang nagpapakita ng overlap ng preparedness at response?',
+			options: {
+				a: 'Pagsasagawa ng drills habang may aktwal na sakuna',
+				b: 'Pagbibigay ng relief goods matapos ang kalamidad',
+				c: 'Pagpaplano ng evacuation routes bago ang sakuna',
+				d: 'Rehabilitasyon ng mga nasirang imprastraktura'
+			},
+			answer: 'a'
+		},
+		{
+			question: 'Bilang Disaster Response Leader, alin ang nagpapakita ng optimal decision-making under pressure?',
+			options: {
+				a: 'Pagdedesisyon batay sa limitadong impormasyon ngunit may koordinasyon',
+				b: 'Paghihintay ng kumpletong datos bago kumilos sa sitwasyon',
+				c: 'Pagtuon lamang sa sariling pamilya bago ang komunidad',
+				d: 'Pag-iwas sa responsibilidad upang maiwasan ang pagkakamali'
+			},
+			answer: 'a'
+		}
+	];
 
-            {q:"Matapos ang baha, maraming kable ng kuryente ang nakakalat. Ano ang tamang aksyon?",
-            options:["A. Hawakan agad","B. Iwasan at ipagbigay-alam sa awtoridad","C. Lakaran lamang","D. Balewalain"],answer:1},
+	// ================= STATE =================
+	const selectedAnswers  = Array(questions.length).fill('');
+	const confirmedAnswers = Array(questions.length).fill(false);
 
-            {q:"Sa gitna ng lindol, alin ang tamang kilos?",
-            options:["A. Tumakbo agad palabas","B. Drop, Cover, and Hold","C. Magpanic","D. Sumigaw"],answer:1},
+	let retryCount = 0;
+	const maxRetries      = 2;
+	const questionsPerCard = 5;
+	let currentCard        = 0;
 
-            {q:"Sa isang komunidad, may mga hindi sumusunod sa babala. Ano ang dapat gawin ng lider?",
-            options:["A. Iwanan sila","B. Magpatuloy sa pagbibigay ng impormasyon at paalala","C. Maghintay","D. Umalis"],answer:1},
+	// ================= MESSAGES =================
+	const correctMessages = [
+		'🎉 Tama! Galing mo!',
+		'✨ Nice one! Tuloy lang!',
+		'🌟 Sakto! Good job!',
+		'🎊 Ayos! Nakuha mo!',
+		'🧠 Correct! Malakas!'
+	];
 
-            {q:"Sa panahon ng sakuna, bakit mahalaga ang kooperasyon?",
-            options:["A. Para sa kasikatan","B. Para mapabilis ang pagtugon at pagbangon","C. Para kumita","D. Para maglibang"],answer:1},
+	const gentleMessages = [
+		'🌱 Okay lang iyan — learning moment ito.',
+		'💛 Good try! Bawi tayo sa next card.',
+		'✨ Ayos lang — part ito ng pagkatuto.',
+		'🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.',
+		'📘 Nice try! Tuloy lang, nandito lang ang aralin.'
+	];
 
-            {q:"Sa isang sitwasyon, may sapat na kagamitan ngunit walang disiplina. Ano ang magiging resulta?",
-            options:["A. Maayos ang operasyon","B. Magiging magulo at delikado ang sitwasyon","C. Walang epekto","D. Mas mabilis ang aksyon"],answer:1},
+	// ================= HELPERS =================
+	function randomFrom(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
 
-            {q:"Sa pagputok ng bulkan, bakit mahalaga ang maagang paglikas?",
-            options:["A. Para makapaglakbay","B. Para maiwasan ang panganib at masave ang buhay","C. Para sa aliwan","D. Para makakita ng lava"],answer:1},
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
 
-            {q:"Sa Guinobatan flashflood, alin ang nagpapakita ng kahandaan?",
-            options:["A. Pagtawid sa baha","B. Pagsunod sa babala at paglikas","C. Paglalaro sa tubig","D. Pananatili sa bahay kahit delikado"],answer:1},
+	function shuffleQuestionsAndChoices() {
+		shuffleArray(questions);
 
-            {q:"Sa isang lindol, maraming sugatan. Ano ang dapat unahin?",
-            options:["A. Mag-record ng video","B. Magbigay ng agarang tulong sa mga kritikal","C. Maghintay","D. Umalis"],answer:1},
+		questions.forEach(q => {
+			const optionKeys  = Object.keys(q.options);
+			const optionTexts = optionKeys.map(key => q.options[key]);
 
-            {q:"Ano ang pinakamahalagang papel ng tamang impormasyon?",
-            options:["A. Magdulot ng kaba","B. Magbigay ng gabay sa tamang desisyon","C. Magpalaganap ng tsismis","D. Walang silbi"],answer:1},
+			shuffleArray(optionTexts);
 
-            {q:"Sa isang barangay, may kahandaan at disiplina ngunit walang kooperasyon. Ano ang epekto?",
-            options:["A. Mas magiging maayos","B. Hindi magiging ganap ang pagtugon","C. Walang epekto","D. Mas mabilis ang aksyon"],answer:1},
+			const newOptions = {};
+			optionKeys.forEach((key, index) => {
+				newOptions[key] = optionTexts[index];
+			});
 
-            {q:"Sa panahon ng sakuna, bakit mahalaga ang pagsunod sa awtoridad?",
-            options:["A. Dahil utos lamang","B. Dahil nakabatay ito sa kaligtasan ng lahat","C. Dahil tradisyon","D. Dahil uso"],answer:1},
+			const correctAnswerText = q.options[q.answer];
+			const newAnswerKey = Object.keys(newOptions).find(
+				key => newOptions[key] === correctAnswerText
+			);
 
-            {q:"Ang lider ay may plano ngunit hindi ipinatupad. Ano ang kakulangan?",
-            options:["A. Kahandaan","B. Disiplina","C. Kooperasyon","D. Aksyon"],answer:3},
+			q.options = newOptions;
+			q.answer  = newAnswerKey;
+		});
+	}
 
-            {q:"Bilang mamamayan, alin ang pinakamainam na kontribusyon?",
-            options:["A. Maghintay lamang","B. Maging handa, sumunod, at makiisa","C. Umalis agad","D. Sarili lamang ang isipin"],answer:1}
-        ];
+	// ================= DOM ELEMENTS =================
+	const questionList       = document.getElementById('questionList');
+	const progressDots       = document.getElementById('progressDots');
+	const answeredCountLabel = document.getElementById('answeredCountLabel');
+	const quizPage           = document.getElementById('quizPage');
+	const resultPage         = document.getElementById('resultPage');
+	const submitBtn          = document.getElementById('submitBtn');
+	const confirmBtn         = document.getElementById('confirmBtn');
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
+	// ================= PROGRESS =================
+	function updateProgressAll() {
+		const answeredCount = selectedAnswers.filter(a => a !== '').length;
+		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} answered`;
 
-        function shuffleQuestionsAndChoices() {
-            // Shuffle questions
-            shuffleArray(quizItems);
+		progressDots.innerHTML = questions.map((_, idx) => `
+			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''}"></div>
+		`).join('');
+	}
 
-            // Shuffle choices inside each question
-            quizItems.forEach(item => {
-                const originalCorrectIndex = item.answer;
-                const originalCorrectOption = item.options[originalCorrectIndex];
+	// ================= RENDER =================
+	function renderAllQuestions() {
+		const start            = currentCard * questionsPerCard;
+		const end              = start + questionsPerCard;
+		const currentQuestions = questions.slice(start, end);
 
-                shuffleArray(item.options);
+		let questionsHtml = '';
 
-                // Update correct answer index after shuffle
-                item.answer = item.options.indexOf(originalCorrectOption);
-            });
-        }
+		currentQuestions.forEach((item, i) => {
+			const index         = start + i;
+			const selectedValue = selectedAnswers[index];
+			const isConfirmed   = confirmedAnswers[index];
 
-        const root = document.getElementById('questionsRoot');
-        const checkBtn = document.getElementById('checkBtn');
-        const resultBox = document.getElementById('resultBox');
-        const scoreText = document.getElementById('scoreText');
-        const levelText = document.getElementById('levelText');
-        const errorMessage = document.getElementById('errorMessage');
-        const answeredCountSpan = document.getElementById('answeredCount');
-        const totalCountSpan = document.getElementById('totalCount');
-        const nextContainer = document.getElementById('nextContainer');
-        
-        totalCountSpan.textContent = quizItems.length;
+			const choicesHtml = Object.entries(item.options).map(([key, text]) => {
+				let classNames = ['choice'];
+				if (selectedValue === key)                                     classNames.push('selected');
+				if (isConfirmed && key === item.answer)                        classNames.push('correct-reveal');
+				if (isConfirmed && selectedValue === key && selectedValue !== item.answer) classNames.push('soft-wrong');
+				if (isConfirmed && selectedValue === key)                      classNames.push('confirmed');
 
-        // Store submitted flag to prevent double submission
-        let isSubmitted = false;
-        let answeredStatus = new Array(quizItems.length).fill(false);
+				return `
+					<label class="${classNames.join(' ')}" onclick="selectAnswer(${index}, '${key}')">
+						<input type="radio" name="q${index}" value="${key}"
+							${selectedValue === key ? 'checked' : ''}
+							${isConfirmed ? 'disabled' : ''}>
+						<span>${key}. ${text}</span>
+					</label>
+				`;
+			}).join('');
 
-        function updateProgress() {
-            const answered = answeredStatus.filter(status => status === true).length;
-            answeredCountSpan.textContent = answered;
-            
-            // Enable button only when all questions are answered AND not yet submitted
-            if (answered === quizItems.length && !isSubmitted) {
-                checkBtn.disabled = false;
-            } else if (answered !== quizItems.length) {
-                checkBtn.disabled = true;
-            }
-        }
+			let feedbackHtml = '';
+			if (isConfirmed) {
+				if (selectedValue === item.answer) {
+					feedbackHtml = `<div class="reaction-box correct show">✅ ${randomFrom(correctMessages)}</div>`;
+				} else {
+					feedbackHtml = `<div class="reaction-box gentle show">❌ ${randomFrom(gentleMessages)}<br>Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+				}
+			}
 
-        function renderQuiz() {
-            root.innerHTML = quizItems.map((item, index) => {
-                const optionsHtml = item.options.map((opt, optIndex) => `
-                    <label class="mod4-opt" data-q="${index}" data-opt="${optIndex}">
-                        <input type="radio" name="q_${index}" value="${optIndex}"> ${opt}
-                    </label>
-                `).join('');
+			questionsHtml += `
+				<div class="single-question">
+					<h4>${index + 1}. ${item.question}</h4>
+					<div class="choices">${choicesHtml}</div>
+					${feedbackHtml}
+				</div>
+			`;
+		});
 
-                return `
-                    <article class="mod4-q" id="q_${index}" data-q-index="${index}">
-                        <p class="mod4-q-title">
-                            <span>${item.q}</span>
-                            <span class="status-icon" id="status_${index}"></span>
-                        </p>
-                        <div class="options-container">${optionsHtml}</div>
-                    </article>
-                `;
-            }).join('');
+		questionList.innerHTML = `
+			<div class="question-item">
+				<div class="card-chip">Card ${currentCard + 1} / 3</div>
+				${questionsHtml}
+			</div>
+		`;
 
-            // Add event listeners to each radio button to update status
-            quizItems.forEach((_, index) => {
-                const radios = document.querySelectorAll(`input[name="q_${index}"]`);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', () => {
-                        answeredStatus[index] = true;
-                        updateQuestionStatus(index);
-                        updateProgress();
-                        // Hide error message when user starts answering
-                        errorMessage.classList.remove('show');
-                    });
-                });
-            });
-        }
+		updateProgressAll();
 
-        function updateQuestionStatus(qIndex) {
-            const selected = getChosenValue(qIndex);
-            const statusIcon = document.getElementById(`status_${qIndex}`);
-            const questionCard = document.getElementById(`q_${qIndex}`);
-            
-            if (selected !== -1) {
-                // Question is answered - show green check
-                statusIcon.innerHTML = '✅';
-                statusIcon.style.color = '#3ca75e';
-                questionCard.classList.remove('missing');
-            } else {
-                // Question is unanswered - show nothing
-                statusIcon.innerHTML = '';
-                questionCard.classList.add('missing');
-            }
-        }
+		let allConfirmed = true;
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) { allConfirmed = false; break; }
+		}
 
-        function checkAllQuestionsAnswered() {
-            let allAnswered = true;
+		const nextCardBtn = document.getElementById('nextCardBtn');
+		confirmBtn.style.display  = allConfirmed ? 'none' : 'inline-flex';
+		nextCardBtn.style.display = (allConfirmed && currentCard < 2) ? 'inline-flex' : 'none';
+		submitBtn.style.display   = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
+	}
 
-            for (let i = 0; i < quizItems.length; i++) {
-                const selected = getChosenValue(i);
-                if (selected === -1) {
-                    allAnswered = false;
-                    updateQuestionStatus(i);
-                } else {
-                    answeredStatus[i] = true;
-                    updateQuestionStatus(i);
-                }
-            }
+	// ================= INTERACTION =================
+	window.selectAnswer = function(index, key) {
+		if (confirmedAnswers[index]) return;
+		selectedAnswers[index] = key;
+		renderAllQuestions();
+	};
 
-            return allAnswered;
-        }
+	function confirmAnswer() {
+		const start = currentCard * questionsPerCard;
+		const end   = start + questionsPerCard;
 
-        function scrollToFirstMissing() {
-            for (let i = 0; i < quizItems.length; i++) {
-                const selected = getChosenValue(i);
-                if (selected === -1) {
-                    const questionElement = document.getElementById(`q_${i}`);
-                    if (questionElement) {
-                        questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        questionElement.style.transition = 'all 0.3s ease';
-                        setTimeout(() => {
-                            questionElement.style.borderColor = '#d94141';
-                        }, 300);
-                        setTimeout(() => {
-                            questionElement.style.borderColor = '';
-                        }, 2000);
-                    }
-                    break;
-                }
-            }
-        }
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				return;
+			}
+		}
 
-        function getChosenValue(qIndex) {
-            const selected = document.querySelector(`input[name="q_${qIndex}"]:checked`);
-            return selected ? Number(selected.value) : -1;
-        }
+		for (let i = start; i < end; i++) {
+			confirmedAnswers[i] = true;
+		}
 
-        function interpretScore(score) {
-            if (score >= 12) return '✅ Handa ka na!';
-            return '🔁 Subukan muli';
-        }
+		renderAllQuestions();
+	}
 
-        function calculateScore() {
-            let score = 0;
-            quizItems.forEach((item, index) => {
-                const selectedValue = getChosenValue(index);
-                if (selectedValue === item.answer) score += 1;
-            });
-            return score;
-        }
+	function goNextCard() {
+		const start = currentCard * questionsPerCard;
+		const end   = start + questionsPerCard;
 
-        function getAnswers() {
-            let answers = [];
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				alert('I-confirm muna ang card bago magpatuloy.');
+				return;
+			}
+		}
 
-            const map = ['A', 'B', 'C', 'D'];
+		if (currentCard >= 2) return;
 
-            for (let i = 0; i < quizItems.length; i++) {
-                const val = getChosenValue(i);
-                answers.push(val !== -1 ? map[val] : null);
-            }
+		currentCard++;
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
 
-            return answers;
-        }
+	// ================= CONFETTI =================
+	function launchConfetti() {
+		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
+		for (let i = 0; i < 42; i++) {
+			const piece = document.createElement('div');
+			piece.className = 'confetti-piece';
+			piece.style.left              = `${Math.random() * 100}vw`;
+			piece.style.background        = colors[Math.floor(Math.random() * colors.length)];
+			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
+			piece.style.animationDelay    = `${Math.random() * 0.15}s`;
+			document.body.appendChild(piece);
+			setTimeout(() => piece.remove(), 4200);
+		}
+	}
 
-        function generateNextButtons(score) {
-            let nextHTML = "";
-            
-            if (score >= 12) {
-                nextHTML = `
-                    <a href="{{ route('module4.performance') }}" class="mod4-btn mod4-btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;">
-                        🎯 Proceed to Performance Task →
-                    </a>
-                `;
-            } else {
-                nextHTML = `
-                    <div style="color:#d94141;font-weight:700; margin-bottom:12px;">
-                        ⚠️ Kailangan mong makakuha ng 12 pataas upang magpatuloy.
-                    </div>
-                    <button onclick="location.reload()" class="mod4-btn mod4-btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;">
-                        🔄 Ulitin ang Post-Test
-                    </button>
-                `;
-            }
-            
-            nextContainer.innerHTML = nextHTML;
-        }
+	// ================= SUBMIT =================
+	function submitPostTest() {
+		if (!confirmedAnswers.every(c => c)) {
+			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong.');
+			return;
+		}
 
-        // Main check button handler
-        checkBtn.addEventListener('click', () => {
-            // Prevent multiple submissions
-            if (isSubmitted) {
-                return;
-            }
-            
-            // Check if all questions are answered
-            const allAnswered = checkAllQuestionsAnswered();
-            
-            if (!allAnswered) {
-                // Show error message
-                errorMessage.classList.add('show');
-                // Scroll to first missing question
-                scrollToFirstMissing();
-                return;
-            }
-            
-            // Hide error message if all are answered
-            errorMessage.classList.remove('show');
-            
-            // Calculate score
-            const score = calculateScore();
-            const answers = getAnswers();
+		const score = questions.reduce((total, item, index) =>
+			total + (selectedAnswers[index] === item.answer ? 1 : 0), 0);
 
-            fetch("{{ route('module4.posttest.submit') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    score: score,
-                    total_items: quizItems.length,
-                    answers: answers
-                })
-            })
-            .then(async res => {
-                const data = await res.json();
+		const percentage = Math.round((score / questions.length) * 100);
 
-                if (!res.ok) {
-                    console.error("ERROR:", data);
-                    alert("Failed to save!");
-                    return;
-                }
+		// Send to backend
+		const answers = questions.map((q, index) => ({
+			question_number: index + 1,
+			selected_answer: selectedAnswers[index],
+			correct_answer:  q.answer,
+			is_correct:      selectedAnswers[index] === q.answer
+		}));
 
-                console.log("Saved:", data);
-            })
-            .catch(err => {
-                console.error("FETCH ERROR:", err);
-                alert("Something went wrong!");
-            });
-            
-            // Display score and feedback (NO ANSWER REVELATION)
-            scoreText.textContent = `Iskor: ${score} / 15`;
-            levelText.textContent = `Pagpapakahulugan: ${interpretScore(score)}`;
-            resultBox.classList.add('show');
-            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            // Generate next buttons based on score
-            generateNextButtons(score);
-            
-            // Mark as submitted
-            isSubmitted = true;
-            
-            // Disable all radio buttons after submission
-            for (let i = 0; i < quizItems.length; i++) {
-                const radios = document.querySelectorAll(`input[name="q_${i}"]`);
-                radios.forEach(radio => {
-                    radio.disabled = true;
-                });
-            }
-            
-            // Change button text and disable it
-            checkBtn.textContent = '✓ Naisumite na';
-            checkBtn.disabled = true;
-            checkBtn.style.opacity = '0.7';
-            checkBtn.style.cursor = 'not-allowed';
-        });
+		fetch("{{ route('module4.posttest.submit') }}", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRF-TOKEN":  "{{ csrf_token() }}"
+			},
+			body: JSON.stringify({ score, percentage, answers })
+		});
 
-        // Shuffle first, then render
-        shuffleQuestionsAndChoices();
-        renderQuiz();
-        
-        // Initialize status icons
-        setTimeout(() => {
-            for (let i = 0; i < quizItems.length; i++) {
-                updateQuestionStatus(i);
-            }
-            updateProgress();
-        }, 100);
-    </script>
+		// UI
+		const resultRing      = document.getElementById('resultRing');
+		const resultPercent   = document.getElementById('resultPercent');
+		const resultScoreText = document.getElementById('resultScoreText');
+		const resultBadge     = document.getElementById('resultBadge');
+		const resultFeedback  = document.getElementById('resultFeedback');
+		const resultActions   = document.getElementById('resultActions');
+
+		resultRing.style.setProperty('--progress', percentage);
+		resultPercent.textContent   = `${score}/${questions.length}`;
+		resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
+
+		resultActions.innerHTML = '';
+
+		if (score >= 13) {
+			resultBadge.textContent    = '🏆 Mahusay!';
+			resultFeedback.textContent = 'Nakamit mo ang passing score!';
+			resultActions.innerHTML    = `
+				<a href="{{ route('module4.performance') }}" class="btn-primary">
+					Magpatuloy →
+				</a>
+			`;
+			launchConfetti();
+		} else {
+			resultBadge.textContent    = '❌ Hindi pa sapat';
+			resultFeedback.textContent = 'Subukan muli.';
+			retryCount++;
+
+			if (retryCount < maxRetries) {
+				resultActions.innerHTML = `
+					<button class="btn-secondary" onclick="restartQuiz()">
+						Ulitin (${maxRetries - retryCount} natitira)
+					</button>
+				`;
+			} else {
+				resultActions.innerHTML = `
+					<div style="font-weight:800;color:#7a2e2e;">
+						Naabot na ang maximum retries.
+					</div>
+				`;
+			}
+		}
+
+		quizPage.style.display = 'none';
+		resultPage.classList.add('show');
+	}
+
+	// ================= RETRY =================
+	function restartQuiz() {
+		if (retryCount >= maxRetries) {
+			alert('Naabot mo na ang maximum retries.');
+			return;
+		}
+
+		selectedAnswers.fill('');
+		confirmedAnswers.fill(false);
+		currentCard = 0;
+
+		shuffleQuestionsAndChoices();
+
+		resultPage.classList.remove('show');
+		quizPage.style.display = 'block';
+
+		confirmBtn.style.display = 'inline-flex';
+		document.getElementById('nextCardBtn').style.display = 'none';
+		submitBtn.style.display = 'none';
+
+		renderAllQuestions();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	// ================= INIT =================
+	window.addEventListener('load', () => {
+		shuffleQuestionsAndChoices();
+		renderAllQuestions();
+	});
+</script>
+
 @endsection
