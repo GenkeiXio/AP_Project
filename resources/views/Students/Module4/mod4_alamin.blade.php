@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modyul 4 - Alamin</title>
+@extends('Students.studentslayout')
+@section('title', 'Module 4 - Alamin')
 
+@push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@700;800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -17,67 +16,104 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0b1b2b 0%, #11384f 45%, #173d2c 100%);
-    color: #eaf4ff;
+    /* WOOD BACKGROUND - same as Node 1 */
+    background: linear-gradient(rgba(10, 8, 7, 0.62), rgba(10, 8, 7, 0.62)),
+                url("{{ asset('pictures/mod4_innermap.png') }}") center center / cover no-repeat fixed;
+    color: #1a1a1a;
     min-height: 100vh;
+    position: relative;
+}
+
+/* Main Content Wrapper - same as Node 1 */
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    padding: 25px 15px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .container-box {
     max-width: 1100px;
-    margin: auto;
-    padding: 28px;
+    width: 100%;
+    margin: 0 auto;
+    background: #d9c5a3;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    border-radius: 8px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), inset 0 0 50px rgba(0, 0, 0, 0.2);
+    padding: 30px 30px 40px;
+    border: 2px solid #c5a059;
+    position: relative;
+}
+
+/* Hide the stray img tag */
+.background-map {
+    display: none;
 }
 
 h2 {
-    text-align: center;
-    font-weight: 900;
-    letter-spacing: 1px;
-    color: #f8fdff;
-    text-shadow: 0 4px 18px rgba(0,0,0,.35);
+    font-weight: 800;
+    font-size: 2rem;
+    color: #1a1a1a;
     margin-bottom: 24px;
+    font-family: 'Nunito', sans-serif;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    backdrop-filter: none;
+    border-radius: 0;
+    padding: 12px 0;
+}
+
+h2 i {
+    color: #b71c1c;
+    margin-right: 12px;
 }
 
 .page-banner {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    border-radius: 22px;
-    background: rgba(3, 18, 30, 0.72);
-    border: 1px solid rgba(255,255,255,.10);
-    box-shadow: 0 16px 35px rgba(0,0,0,.25);
-    backdrop-filter: blur(10px);
-}
-
-.page-banner .brief {
-    max-width: 760px;
+    background: #f4e4c7;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    border-radius: 5px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .page-banner .brief .eyebrow {
     display: inline-block;
-    font-size: .78rem;
+    font-size: 0.75rem;
     font-weight: 800;
-    letter-spacing: 1.6px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #7ce7ff;
-    margin-bottom: 6px;
+    color: #b71c1c;
+    background: rgba(0,0,0,0.05);
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-family: 'Nunito', sans-serif;
 }
 
 .page-banner .brief p {
     margin: 0;
-    color: #d8eefb;
+    color: #1a1a1a;
     line-height: 1.6;
+    font-weight: 500;
 }
 
 .progress-wrap {
-    margin-bottom: 24px;
-    padding: 14px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 18px;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: rgba(244, 228, 199, 0.95);
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .progress-label {
@@ -86,107 +122,125 @@ h2 {
     align-items: center;
     margin-bottom: 8px;
     font-weight: 700;
-    color: #e7f7ff;
+    color: #1a1a1a;
+    font-family: 'Nunito', sans-serif;
 }
 
 .progress {
-    height: 12px;
+    height: 14px;
     border-radius: 10px;
-    background: rgba(255,255,255,.08);
+    background: #d9c5a3;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.2);
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #7ce7ff, #9dfdba);
+    background: linear-gradient(90deg, #c5a059, #d4b87a);
     border-radius: 10px;
 }
 
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+    gap: 20px;
     margin-top: 24px;
 }
 
 .card-btn {
     position: relative;
-    padding: 16px;
-    background: linear-gradient(135deg, rgba(124, 231, 255, 0.12), rgba(57, 255, 20, 0.08));
-    border: 2px solid rgba(124, 231, 255, 0.28);
-    border-radius: 18px;
-    color: #e7f7ff;
+    padding: 20px 12px;
+    background: #fff;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    border: 2px solid #c5a059;
+    border-radius: 5px;
+    color: #1a1a1a;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     text-align: center;
+    box-shadow: 0 6px 0 #a0864a;
+    transform: translateY(-2px);
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
 .card-btn.locked {
-    opacity: 0.5;
+    opacity: 0.7;
     cursor: not-allowed;
-    border-color: rgba(124, 231, 255, 0.15);
-    background: linear-gradient(135deg, rgba(124, 231, 255, 0.05), rgba(57, 255, 20, 0.03));
-    filter: grayscale(0.5);
+    border-color: #a0864a;
+    background: #e8dcc5;
+    box-shadow: 0 3px 0 #a0864a;
+    transform: translateY(2px);
 }
 
 .card-btn.locked:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: rgba(124, 231, 255, 0.15);
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #a0864a;
 }
 
 .card-btn:not(.locked):hover {
-    border-color: rgba(124, 231, 255, 0.6);
-    background: linear-gradient(135deg, rgba(124, 231, 255, 0.18), rgba(57, 255, 20, 0.12));
+    border-color: #8b6914;
+    background: #f5ead4;
     transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(124, 231, 255, 0.18);
+    box-shadow: 0 8px 0 #a0864a;
 }
 
 .card-btn .number {
-    display: inline-block;
-    background: linear-gradient(135deg, #7ce7ff, #9dfdba);
-    color: #0b1b2b;
-    width: 36px;
-    height: 36px;
+    display: inline-flex;
+    background: linear-gradient(145deg, #c5a059, #b38a40);
+    color: white;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    margin: 0 auto 8px;
+    font-weight: 900;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    flex-shrink: 0;
 }
 
 .card-btn.locked .number {
-    background: linear-gradient(135deg, #6c757d, #8a939d);
-    color: #1a1a2e;
+    background: linear-gradient(145deg, #a0864a, #8a6e3a);
+    color: #e8dcc5;
+}
+
+/* Card title text styling */
+.card-btn span:not(.number):not(.lock-icon):not(.check-icon) {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 4px;
 }
 
 .card-btn .lock-icon {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    color: #ffd700;
+    top: 12px;
+    right: 12px;
+    color: #b71c1c;
     font-size: 16px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .card-btn.locked .lock-icon {
-    color: #6c757d;
+    color: #8e6a3e;
 }
 
 .card-btn .check-icon {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    color: #28a745;
+    top: 12px;
+    right: 12px;
+    color: #2e7d32;
     font-size: 16px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(10, 8, 7, 0.9);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -197,15 +251,16 @@ h2 {
 }
 
 .modal-box {
-    background: linear-gradient(180deg, #fdfefe 0%, #eef7fb 100%);
+    background: #f4e4c7;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
     padding: 28px;
-    border-radius: 22px;
-    max-width: 900px;
+    border-radius: 5px;
+    max-width: 920px;
     width: 95%;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 24px 60px rgba(0,0,0,.45);
-    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    border: 2px solid #c5a059;
     position: relative;
 }
 
@@ -213,60 +268,64 @@ h2 {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+    background: #b71c1c;
     color: white;
     border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    border-radius: 3px;
     font-size: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    z-index: 10;
 }
 
 .modal-close-btn:hover {
-    background: #c82333;
-    transform: scale(1.1);
+    background: #8b1a1a;
+    transform: scale(1.05);
 }
 
 .modal-header {
     text-align: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid #c5a059;
 }
 
 .card-title {
-    color: #0b1b2b;
+    color: #1a1a1a;
     font-weight: 900;
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 8px;
+    font-family: 'Nunito', sans-serif;
 }
 
 .card-subtitle {
-    color: #60758a;
+    color: #6b4c2c;
     font-size: 14px;
+    font-weight: 600;
 }
 
 .card-content {
-    color: #334455;
-    line-height: 1.8;
+    color: #1a1a1a;
+    line-height: 1.75;
 }
 
 .card-content h5 {
-    color: #153b55;
+    color: #8b6914;
     font-weight: 800;
-    margin-top: 16px;
+    margin-top: 18px;
     margin-bottom: 10px;
+    border-left: 5px solid #c5a059;
+    padding-left: 12px;
+    font-family: 'Nunito', sans-serif;
 }
 
 .card-content ul, .card-content ol {
     margin: 10px 0 10px 24px;
-    color: #334455;
+    color: #1a1a1a;
 }
 
 .card-content li {
@@ -274,176 +333,196 @@ h2 {
 }
 
 .card-content strong {
-    color: #0b1b2b;
+    color: #b71c1c;
 }
 
 .message-box {
-    background: linear-gradient(135deg, #e7f5ff, #f0f9ff);
-    border-left: 4px solid #0d6efd;
-    padding: 14px;
-    border-radius: 10px;
-    margin: 14px 0;
-    color: #0c3a66;
-    font-weight: 600;
+    background: #fff8e8;
+    border-left: 6px solid #c5a059;
+    padding: 14px 18px;
+    border-radius: 3px;
+    margin: 18px 0;
+    color: #1a1a1a;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .checklist-section {
-    background: #f8f9fa;
+    background: #fff8e8;
     padding: 16px;
-    border-radius: 12px;
-    margin: 14px 0;
+    border-radius: 5px;
+    margin: 16px 0;
+    border: 1px solid #c5a059;
 }
 
 .checklist-section table {
     width: 100%;
     border-collapse: collapse;
-    color: #334455;
+    color: #1a1a1a;
 }
 
 .checklist-section th {
-    background: #e7f5ff;
-    color: #0c3a66;
+    background: #e8d9be;
+    color: #1a1a1a;
     padding: 10px;
     text-align: left;
-    font-weight: 700;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
 }
 
 .checklist-section td {
     padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #d9c5a3;
 }
 
 .checklist-section input[type="checkbox"] {
-    margin-right: 8px;
+    margin-right: 6px;
     width: 18px;
     height: 18px;
     cursor: pointer;
+    accent-color: #c5a059;
 }
 
 .btn-nav {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     justify-content: space-between;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 2px solid #e0e0e0;
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 2px solid #c5a059;
 }
 
-.btn-prev, .btn-next {
-    padding: 12px 24px;
+.btn-prev, .btn-next, .btn-proceed {
+    padding: 12px 28px;
     border: none;
-    border-radius: 10px;
-    font-weight: 700;
+    border-radius: 3px;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-prev {
-    background: #e0e0e0;
-    color: #333;
+    background: #2b1b17;
+    color: #c5a059;
+    border: 1px solid #c5a059;
 }
 
 .btn-prev:hover:not(:disabled) {
-    background: #d0d0d0;
+    background: #3d2a25;
+    transform: translateY(-2px);
 }
 
 .btn-next {
-    background: linear-gradient(135deg, #28a745, #45b358);
-    color: white;
+    background: #2b1b17;
+    color: #c5a059;
+    border: 1px solid #c5a059;
 }
 
 .btn-next:hover:not(:disabled) {
+    background: #3d2a25;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(40, 167, 69, 0.25);
+}
+
+.btn-proceed {
+    background: #2b1b17;
+    color: #c5a059;
+    border: 1px solid #c5a059;
+}
+
+.btn-proceed:hover {
+    background: #3d2a25;
+    transform: translateY(-2px);
 }
 
 .btn-prev:disabled, .btn-next:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-.btn-proceed {
-    background: linear-gradient(135deg, #7ce7ff, #9dfdba);
-    color: #0b1b2b;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-proceed:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(124, 231, 255, 0.35);
+    transform: none;
 }
 
 .counter {
     text-align: center;
-    padding: 10px;
-    color: #60758a;
+    padding: 8px 20px;
+    color: #1a1a1a;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 800;
+    background: #e8d9be;
+    border-radius: 3px;
+    font-family: 'Nunito', sans-serif;
 }
 
 .answer-option {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     cursor: pointer;
+    background: #fff8e8;
+    padding: 10px 15px;
+    border-radius: 3px;
+    transition: 0.1s;
+    border: 1px solid #d9c5a3;
+}
+
+.answer-option:hover {
+    background: #f0e4cc;
 }
 
 .answer-feedback {
-    margin-top: 14px;
+    margin-top: 16px;
     display: none;
 }
 
 @media (max-width: 768px) {
-    .container-box { padding: 16px; }
-    .modal-box { padding: 16px; }
-    .card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-    .card-btn { padding: 12px; }
+    .container-box { padding: 20px 15px; }
+    .modal-box { padding: 20px; }
+    .card-grid { gap: 12px; }
+    .card-btn { padding: 14px 6px; gap: 8px; }
+    .card-btn .number { width: 36px; height: 36px; font-size: 1rem; }
+    h2 { font-size: 1.5rem; }
 }
 </style>
-</head>
+@endpush
 
-<body>
+@section('content')
+<div class="content-wrapper">
+    <div class="container-box">
+        <h2><i class="fas fa-cyclone"></i> ALAMIN: Kahalagahan ng Kahandaan, Disiplina at Kooperasyon</h2>
 
-<div class="container-box">
+        <div class="page-banner">
+            <div class="brief">
+                <div class="eyebrow">Araling Panlipunan · Modyul 4</div>
+                <p>Matuto tungkol sa kahalagahan ng kahandaan, disiplina, at kooperasyon sa panahon ng kalamidad.</p>
+            </div>
+        </div>
 
-<h2>🧠 ALAMIN: Kahalagahan ng Kahandaan, Disiplina at Kooperasyon</h2>
+        <div class="progress-wrap">
+            <div class="progress-label">
+                <span>🌿 Pag-usad sa Alamin</span>
+                <span id="progressText">0/11</span>
+            </div>
+            <div class="progress">
+                <div id="progressBar" class="progress-bar" style="width:0%"></div>
+            </div>
+        </div>
 
-<div class="page-banner">
-    <div class="brief">
-        <div class="eyebrow">Araling Panlipunan · Modyul 4</div>
-        <p>Matuto tungkol sa kahalagahan ng kahandaan, disiplina, at kooperasyon sa panahon ng kalamidad.</p>
+        <div class="card-grid" id="cardGrid"></div>
     </div>
-</div>
-
-<div class="progress-wrap">
-    <div class="progress-label">
-        <span>Pag-usad sa Alamin</span>
-        <span id="progressText">0/11</span>
-    </div>
-    <div class="progress">
-        <div id="progressBar" class="progress-bar" style="width:0%"></div>
-    </div>
-</div>
-
-<div class="card-grid" id="cardGrid"></div>
-
 </div>
 
 <!-- MAIN MODAL -->
 <div class="modal" id="modal">
-<div class="modal-box" id="modalContent">
-    <button class="modal-close-btn" onclick="closeCard()">✕</button>
-    <div id="cardContent"></div>
-    <div class="btn-nav" id="btnNav">
-        <button class="btn-prev" id="prevBtn" onclick="previousCard()">← Nakaraan</button>
-        <div class="counter"><span id="cardCounter">1</span>/11</div>
-        <button class="btn-next" id="nextBtn" onclick="nextCard()">Susunod →</button>
+    <div class="modal-box" id="modalContent">
+        <button class="modal-close-btn" onclick="closeCard()">✕</button>
+        <div id="cardContent"></div>
+        <div class="btn-nav" id="btnNav">
+            <button class="btn-prev" id="prevBtn" onclick="previousCard()">← Nakaraan</button>
+            <div class="counter"><span id="cardCounter">1</span>/11</div>
+            <button class="btn-next" id="nextBtn" onclick="nextCard()">Susunod →</button>
+        </div>
     </div>
-</div>
 </div>
 
 <script>
@@ -518,8 +597,7 @@ function updateNavButtons() {
     prevBtn.disabled = currentCard === 1;
     
     if (currentCard === 11) {
-        // For Card 11: show "Nakaraan" and "Magpatuloy sa Post-Test"
-        nextBtn.textContent = 'Magpatuloy sa Post-Test →';
+        nextBtn.textContent = 'Magpatuloy sa Huling Gawain →';
         nextBtn.className = 'btn-proceed';
         nextBtn.onclick = () => proceedToPosttest();
         nextBtn.disabled = false;
@@ -603,14 +681,14 @@ function checkCard9Answer() {
     if (selected) {
         if (selected.value === 'B') {
             resultDiv.innerHTML = `
-                <h5 style="color: #28a745;">✅ Tama ang iyong sagot!</h5>
+                <h5 style="color: #2e7d32;">✅ Tama ang iyong sagot!</h5>
                 <div class="message-box">
                     💡 <strong>Paliwanag:</strong> Bilang lider, dapat mong ihanda ang buong komunidad at magbigay ng maagang babala para maiwasan ang malaking pinsala.
                 </div>
             `;
         } else {
             resultDiv.innerHTML = `
-                <h5 style="color: #dc3545;">❌ Hindi tama. Subukang muli.</h5>
+                <h5 style="color: #b71c1c;">❌ Hindi tama. Subukang muli.</h5>
                 <div class="message-box">
                     💡 <strong>Paliwanag:</strong> Ang tamang sagot ay B. Bilang lider, dapat mong ihanda ang buong komunidad at magbigay ng maagang babala.
                 </div>
@@ -634,14 +712,14 @@ function checkCard11Answer() {
     if (selected) {
         if (selected.value === 'B') {
             resultDiv.innerHTML = `
-                <h5 style="color: #28a745;">✅ Tama ang iyong sagot!</h5>
+                <h5 style="color: #2e7d32;">✅ Tama ang iyong sagot!</h5>
                 <div class="message-box">
                     💡 <strong>Paliwanag:</strong> Ang kahandaan, disiplina, at kooperasyon ay mahalaga upang mabawasan ang pinsala na maaaring idulot ng kalamidad at mapabilis ang pagbangon ng komunidad.
                 </div>
             `;
         } else {
             resultDiv.innerHTML = `
-                <h5 style="color: #dc3545;">❌ Hindi tama.</h5>
+                <h5 style="color: #b71c1c;">❌ Hindi tama.</h5>
                 <div class="message-box">
                     💡 <strong>Tamang Sagot: B</strong> - Upang mabawasan ang pinsala at mapabilis ang pagbangon
                 </div>
@@ -863,11 +941,11 @@ function getCardContent(num) {
                     </label>
                 </div>
                 
-                <button type="button" id="card9SubmitBtn" style="padding: 10px 20px; background: linear-gradient(135deg, #28a745, #45b358); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Suriin ang Sagot</button>
+                <button type="button" id="card9SubmitBtn" style="padding: 12px 24px; background: #2b1b17; color: #c5a059; border: 1px solid #c5a059; border-radius: 3px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif;">Suriin ang Sagot</button>
                 
                 <div id="card9Result" class="answer-feedback"></div>
                 
-                <p style="margin-top: 14px; font-size: 14px; color: #60758a;">
+                <p style="margin-top: 14px; font-size: 14px; color: #6b4c2c;">
                     <strong>💬 Paalala:</strong> Piliin ang opsyon na sa tingin mo ay pinaka-tama.
                 </p>
             </div>
@@ -1010,11 +1088,11 @@ function getCardContent(num) {
                     </label>
                 </div>
                 
-                <button type="button" id="card11SubmitBtn" style="padding: 10px 20px; background: linear-gradient(135deg, #28a745, #45b358); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Suriin ang Sagot</button>
+                <button type="button" id="card11SubmitBtn" style="padding: 12px 24px; background: #2b1b17; color: #c5a059; border: 1px solid #c5a059; border-radius: 3px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif;">Suriin ang Sagot</button>
                 
                 <div id="card11Result" class="answer-feedback"></div>
                 
-                <p style="margin-top: 14px; font-size: 14px; color: #60758a;">
+                <p style="margin-top: 14px; font-size: 14px; color: #6b4c2c;">
                     <strong>💬 Paalala:</strong> Piliin ang opsyon na sa tingin mo ay pinaka-tama.
                 </p>
             </div>
@@ -1035,6 +1113,4 @@ document.addEventListener('DOMContentLoaded', function() {
     updateProgress();
 });
 </script>
-
-</body>
-</html>
+@endsection

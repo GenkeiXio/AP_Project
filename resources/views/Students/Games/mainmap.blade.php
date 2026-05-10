@@ -54,7 +54,7 @@
             /* OPTIMIZATION: hint for smoother animations */
             border-radius: 0;
             /* remove rounded edges */
-            overflow: hidden;
+            overflow: visible !important;;
             box-shadow: none;
             /* optional: remove floating effect */
         }
@@ -86,6 +86,7 @@
             /* FIXED: Changed 'pulse' to 'pinPulse' to match your keyframes */
             animation: pinPulse 2s infinite ease-in-out;
             transition: transform 0.2s ease;
+            overflow: visible !important; 
         }
 
         /* Hover Effects */
@@ -109,26 +110,26 @@
             left: 82%;
         }
 
-        /* Simple Tooltip */
         .pin .tooltip {
-            visibility: visible;
-            position: absolute;
-            bottom: 125px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: none;
-            /* remove dark background */
-            padding: 0;
-            /* remove padding */
-            border-radius: 0;
-            box-shadow: none;
-            white-space: nowrap;
+            position: absolute !important;
+            bottom: 140px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background: transparent !important;
+            padding: 0 !important;
+            border: none !important;
+            opacity: 1 !important;  /* Override Bootstrap's opacity: 0 */
+            visibility: visible !important;
+            display: block !important;
+            z-index: 9999 !important;
         }
 
         .pin .tooltip img {
-            width: 350px;
-            height: auto;
-            display: block;
+            display: block !important;
+            width: 220px !important;
+            height: auto !important;
+            opacity: 1 !important;
+            visibility: visible !important;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
         }
 
@@ -569,7 +570,7 @@
             .pin .tooltip {
                 visibility: visible;
                 position: absolute;
-                bottom: 125px;
+                bottom: 100px;
                 left: 50%;
                 transform: translateX(-50%);
                 background: none;
@@ -580,7 +581,7 @@
             }
 
             .pin .tooltip img {
-                width: 250px;
+                width: 150px;
                 /* ← change this for desktop */
                 height: auto;
                 display: block;

@@ -560,7 +560,7 @@
 
         /* ✅ FIXED REDIRECT */
         function goToFinal() {
-            window.location.href = "{{ route('module4.intro') }}";
+            window.location.href = "{{ route('module4.alamin') }}";
         }
 
         window.onload = updateMapProgress;
