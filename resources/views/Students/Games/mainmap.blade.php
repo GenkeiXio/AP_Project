@@ -562,15 +562,15 @@
 
             /* Smaller pins (safe size) */
             .pin {
-                width: 70px;
-                height: 95px;
+                width: 65px;
+                height: 85px;
             }
 
-            /* Tooltip fix */
+            /* Tooltip fix - MOVED CLOSER TO PIN */
             .pin .tooltip {
                 visibility: visible;
                 position: absolute;
-                bottom: 100px;
+                bottom: 78px !important;
                 left: 50%;
                 transform: translateX(-50%);
                 background: none;
@@ -580,9 +580,9 @@
                 white-space: nowrap;
             }
 
+            /* Much smaller image title on mobile - more balanced */
             .pin .tooltip img {
-                width: 150px;
-                /* ← change this for desktop */
+                width: 55px !important;
                 height: auto;
                 display: block;
                 filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
@@ -590,7 +590,6 @@
 
             .pin:hover .tooltip img {
                 transform: scale(1.05);
-                /* slight zoom on hover instead of color change */
             }
 
             /* KEEP ORIGINAL POSITIONS (important!) */
@@ -619,10 +618,11 @@
                 transform: translate(-50%, -100%) scale(1.15);
             }
 
-            /* Lock icon */
+            /* Lock icon - adjusted to match new tooltip position */
             .lock-icon {
-                bottom: 60px;
-                font-size: 16px;
+                bottom: 46px;
+                font-size: 14px;
+                padding: 3px 7px;
             }
 
             /* Notification */
@@ -652,10 +652,15 @@
             }
 
             .pin .tooltip {
-                bottom: 55px;
+                bottom: 55px !important;
                 font-size: 9px;
                 padding: 2px 6px;
                 white-space: nowrap;
+            }
+
+            /* Even smaller images on very small devices */
+            .pin .tooltip img {
+                width: 45px !important;
             }
 
             .pin:active {
@@ -712,23 +717,27 @@
             }
 
             .lock-icon {
-                bottom: 45px;
-                font-size: 14px;
-                padding: 2px 6px;
+                bottom: 38px;
+                font-size: 11px;
+                padding: 2px 5px;
             }
         }
 
         /* Landscape orientation on mobile */
         @media (max-width: 900px) and (orientation: landscape) {
             .pin {
-                width: 55px;
-                height: 75px;
+                width: 50px;
+                height: 65px;
             }
 
             .pin .tooltip {
-                bottom: 60px;
+                bottom: 55px !important;
                 font-size: 10px;
                 padding: 2px 7px;
+            }
+
+            .pin .tooltip img {
+                width: 50px !important;
             }
 
             .location-1 {
@@ -763,8 +772,9 @@
             }
 
             .lock-icon {
-                bottom: 50px;
-                font-size: 14px;
+                bottom: 40px;
+                font-size: 10px;
+                padding: 2px 4px;
             }
         }
 
@@ -793,27 +803,15 @@
             text-size-adjust: 100%;
         }
 
+        /* Desktop tooltip image size - unchanged */
+        .pin .tooltip img {
+            width: 220px !important;
+        }
+
+        /* Tablet tooltip image size */
         @media (max-width: 1024px) {
             .pin .tooltip img {
-                width: 120px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .pin .tooltip img {
-                width: 90px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .pin .tooltip img {
-                width: 65px;
-            }
-        }
-
-        @media (max-width: 900px) and (orientation: landscape) {
-            .pin .tooltip img {
-                width: 80px;
+                width: 100px !important;
             }
         }
 

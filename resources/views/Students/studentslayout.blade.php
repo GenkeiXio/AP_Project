@@ -106,16 +106,22 @@
             border-radius: 2px;
         }
 
-        /* MOBILE */
+        /* MOBILE - INVERTED: brand on LEFT, burger on RIGHT */
         @media (max-width: 768px) {
 
             .topnav {
                 padding: 0 16px;
             }
 
-            /* Show burger */
+            /* Show burger on the RIGHT side */
             .burger {
                 display: flex;
+                order: 2;  /* Pushes burger to the right */
+            }
+
+            /* Brand stays on left */
+            .brand {
+                order: 1;
             }
 
             /* Hide menu by default */
@@ -132,6 +138,7 @@
                 display: none;
                 min-width: 180px;
                 gap: 10px;
+                z-index: 100;
             }
 
             /* Show when active */
@@ -169,26 +176,17 @@
     @endphp
 
     <nav class="topnav">
+        <!-- BURGER NOW ON RIGHT (order 2 in mobile) -->
         <div class="burger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
         
+        <!-- BRAND NOW ON LEFT (order 1 in mobile) -->
         <a href="{{ route('student.map') }}" class="brand">
             Araling <span>Panlipunan</span> 10 🧭
         </a>
-
-        <!-- <div class="nav-links">
-            <a href="{{ route('student.map') }}"
-               class="nav-link {{ request()->routeIs('student.map') ? 'active' : '' }}">
-               🗺️ Map
-            </a>
-            <a href="{{ route('student.profile') }}"
-               class="nav-link {{ request()->routeIs('student.profile') ? 'active' : '' }}">
-               👤 Profile
-            </a>
-        </div> -->
 
         <div class="topnav-right" id="mobileMenu">
             {{-- Profile chip — shows avatar + username, links to profile --}}
