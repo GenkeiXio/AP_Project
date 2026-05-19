@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 4 Paunang Pagsusulit</title>
+@extends('Students.studentslayout')
+@section('title', 'Hamon at Tugon: Module 4 Paunang Pagsusulit')
+
+@push('styles')
 
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 	<style>
 		:root {
@@ -31,17 +28,6 @@
 			box-sizing: border-box;
 		}
 
-		body {
-			display: block;
-			min-height: 100vh;
-			padding: 28px 20px 40px;
-			overflow-x: hidden;
-			background:
-				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
-				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
-				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-		}
-
 		.background-map {
 			position: fixed;
 			top: 0;
@@ -50,6 +36,21 @@
 			height: 100vh;
 			object-fit: cover;
 			z-index: -1;
+		}
+
+		html, body{
+			scroll-behavior:smooth;
+			background:
+				radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+				radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+				radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+				linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+		}
+
+		body{
+			overflow-x:hidden;
+			color:var(--text);
+			font-family:'Poppins', sans-serif;
 		}
 
 		.main-wrapper {
@@ -577,7 +578,7 @@
 
 		.back-button {
 			position: fixed;
-			top: 20px;
+			top: 80px;
 			left: 20px;
 			z-index: 100;
 			background-color: rgba(255, 255, 255, 0.9);
@@ -768,8 +769,9 @@
 			display: inline-block;
 		}
 	</style>
-</head>
-<body>
+@endpush
+
+@section('content')
 
 <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map">
 
@@ -1368,5 +1370,4 @@
 	});
 </script>
 
-</body>
-</html>
+@endsection

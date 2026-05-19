@@ -1,56 +1,56 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 2 Paunang Pagsusulit</title>
+@extends('Students.studentslayout')
+@section('title', 'Hamon at Tugon: Module 2 Paunang Pagsusulit')
 
+@push('styles')
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 	<style>
-		:root {
-			--bg-1: #fffaf3;
-			--bg-2: #fff3df;
-			--card: rgba(255, 255, 255, 0.94);
-			--text: #3d2a1a;
-			--muted: #7a6143;
-			--accent: #6dbf7e;
-			--accent-dark: #4da862;
-			--accent-soft: #eefaf1;
-			--warm: #f4c97a;
-			--wrong-soft: #fff3e6;
-			--wrong-border: #efc48f;
-			--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
-			--radius-xl: 24px;
-			--radius-lg: 18px;
-			--radius-md: 14px;
-		}
+	:root {
+		--bg-1: #fffaf3;
+		--bg-2: #fff3df;
+		--card: rgba(255, 255, 255, 0.94);
+		--text: #3d2a1a;
+		--muted: #7a6143;
+		--accent: #6dbf7e;
+		--accent-dark: #4da862;
+		--accent-soft: #eefaf1;
+		--warm: #f4c97a;
+		--wrong-soft: #fff3e6;
+		--wrong-border: #efc48f;
+		--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
+		--radius-xl: 24px;
+		--radius-lg: 18px;
+		--radius-md: 14px;
+	}
 
-		* {
-			box-sizing: border-box;
-		}
+	* {
+		box-sizing: border-box;
+	}
 
-		body {
-			display: block;
-			min-height: 100vh;
-			padding: 28px 20px 40px;
-			overflow-x: hidden;
-			background:
-				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
-				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
-				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-		}
+	.background-map {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		object-fit: cover;
+		z-index: -1;
+    }
 
-		.background-map {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			object-fit: cover;
-			z-index: -1;
-		}
+    html, body{
+        scroll-behavior:smooth;
+        background:
+            radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+            radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+            radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+            linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+    }
+
+    body{
+        overflow-x:hidden;
+        color:var(--text);
+        font-family:'Poppins', sans-serif;
+    }
 
 		.main-wrapper {
 			display: block;
@@ -575,9 +575,10 @@
 			margin-top: 12px;
 		}
 
+		/* Sticky Back Button Styles */
 		.back-button {
 			position: fixed;
-			top: 20px;
+			top: 80px;
 			left: 20px;
 			z-index: 100;
 			background-color: rgba(255, 255, 255, 0.9);
@@ -592,7 +593,7 @@
 		}
 
 		.back-button:hover {
-			transform: scale(1.06);
+			transform: translateY(-2px);
 		}
 
 		.confirm-pending {
@@ -649,8 +650,9 @@
 			}
 
 			.back-button {
-				top: 12px;
-				left: 12px;
+				position: sticky;
+				top: 120px;
+				margin: 0 10px 20px 10px;
 				padding: 8px 12px;
 				font-size: 0.85rem;
 			}
@@ -768,11 +770,13 @@
 			display: inline-block;
 		}
 	</style>
-</head>
-<body>
+@endpush
+
+@section('content')
 
 <img src="{{ asset('pictures\mod2_innermap2.png') }}" class="background-map">
 
+<!-- Sticky Back Button -->
 <a href="{{ route('module.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
 <div class="main-wrapper">
@@ -1157,7 +1161,12 @@
 			}
 		}
 
-		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
+		// Show submit only on last card when all questions on that card are confirmed
+		if (currentCard === 2 && allConfirmed) {
+			submitBtn.style.display = 'inline-flex';
+		} else {
+			submitBtn.style.display = 'none';
+		}
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
@@ -1172,7 +1181,7 @@
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
-		// check only current card
+		// Check only current card's questions are all answered
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
 				alert('Sagutan muna lahat ng tanong sa card na ito.');
@@ -1180,16 +1189,24 @@
 			}
 		}
 
-		// confirm answers
+		// confirm answers for the current card
 		for (let i = start; i < end; i++) {
 			confirmedAnswers[i] = true;
 		}
 
 		renderAllQuestions();
 
-		// ✅ SHOW NEXT BUTTON INSTEAD OF AUTO MOVE
+		// Hide the confirm button and show the next button if not on last card
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		
+		confirmButton.style.display = 'none';
+		
 		if (currentCard < 2) {
-			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+			nextCardButton.style.display = 'inline-flex';
+		} else if (currentCard === 2) {
+			// If on last card and all confirmed, submit button will be shown by renderAllQuestions logic
+			submitBtn.style.display = 'inline-flex';
 		}
 		
 	}
@@ -1199,8 +1216,12 @@
 
 		currentCard++;
 
-		// hide button again
-		document.getElementById('nextCardBtn').style.display = 'none';
+		// Hide next button, show confirm button for the new card
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		
+		nextCardButton.style.display = 'none';
+		confirmButton.style.display = 'inline-flex';
 
 		renderAllQuestions();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1242,6 +1263,7 @@
 	}
 
 	function submitPreTest() {
+		// Check if all questions are confirmed
 		if (!confirmedAnswers.every(confirmed => confirmed === true)) {
 			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
 			return;
@@ -1317,9 +1339,11 @@
 			retryIndicator.style.color = '#7a2e2e';
 
 			const retryBtn = document.querySelector('.btn-secondary');
-			retryBtn.disabled = true;
-			retryBtn.style.opacity = 0.5;
-			retryBtn.style.cursor = 'not-allowed';
+			if (retryBtn) {
+				retryBtn.disabled = true;
+				retryBtn.style.opacity = 0.5;
+				retryBtn.style.cursor = 'not-allowed';
+			}
 		}
 	}
 
@@ -1331,12 +1355,26 @@
 
 		retryCount++;
 
+		// Reset all answer arrays
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
 		currentCard = 0;
+		
+		// Shuffle questions and choices again for new attempt
+		shuffleQuestionsAndChoices();
 
+		// Reset UI elements
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
+		
+		// Reset button states
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		const submitButton = document.getElementById('submitBtn');
+		
+		confirmButton.style.display = 'inline-flex';
+		nextCardButton.style.display = 'none';
+		submitButton.style.display = 'none';
 
 		updateRetryIndicator();
 		renderAllQuestions();
@@ -1349,6 +1387,15 @@
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
+		
+		// Ensure initial button states are correct
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		const submitButton = document.getElementById('submitBtn');
+		
+		confirmButton.style.display = 'inline-flex';
+		nextCardButton.style.display = 'none';
+		submitButton.style.display = 'none';
 	});
 
 	window.addEventListener("load", () => {
@@ -1369,5 +1416,4 @@
 	});
 </script>
 
-</body>
-</html>
+@endsection

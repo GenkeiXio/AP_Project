@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="fil">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hamon at Tugon: Module 3 Paunang Pagsusulit</title>
+@extends('Students.studentslayout')
+@section('title', 'Hamon at Tugon: Module 3 Paunang Pagsusulit')
 
+@push('styles')
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 	<style>
 		:root {
@@ -31,17 +27,6 @@
 			box-sizing: border-box;
 		}
 
-		body {
-			display: block;
-			min-height: 100vh;
-			padding: 28px 20px 40px;
-			overflow-x: hidden;
-			background:
-				radial-gradient(circle at top left, #fff6df 0%, transparent 32%),
-				radial-gradient(circle at top right, #fdf0ff 0%, transparent 25%),
-				linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-		}
-
 		.background-map {
 			position: fixed;
 			top: 0;
@@ -50,6 +35,21 @@
 			height: 100vh;
 			object-fit: cover;
 			z-index: -1;
+		}
+
+		html, body{
+			scroll-behavior:smooth;
+			background:
+				radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+				radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+				radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+				linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+		}
+
+		body{
+			overflow-x:hidden;
+			color:var(--text);
+			font-family:'Poppins', sans-serif;
 		}
 
 		.main-wrapper {
@@ -577,7 +577,7 @@
 
 		.back-button {
 			position: fixed;
-			top: 20px;
+			top: 80px;
 			left: 20px;
 			z-index: 100;
 			background-color: rgba(255, 255, 255, 0.9);
@@ -768,8 +768,9 @@
 			display: inline-block;
 		}
 	</style>
-</head>
-<body>
+@endpush
+
+@section('content')
 
 <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 
@@ -785,15 +786,11 @@
 				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinaka angkop na sagot.</p>
 			</div>
 
-			<!-- <div class="pretest-note">
-				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
-			</div> -->
-
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
 					<div class="quiz-progress">
 						<div class="progress-topline">
-							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 answered</div>
+							<div class="progress-mini-badge" id="answeredCountLabel">0 / 15 nasagutan</div>
 						</div>
 						<div class="progress-dots" id="progressDots"></div>
 					</div>
@@ -804,14 +801,8 @@
 
 					<div class="action-row">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
-
-						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
-							Susunod →
-						</button>
-
-						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">
-							Tapusin ang Paunang Pagsusulit 🚀
-						</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">Susunod →</button>
+						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Paunang Pagsusulit 🚀</button>
 					</div>
 				</div>
 
@@ -1014,6 +1005,8 @@
 	let lastDirection = 'right';
 	let pendingSelection = null;
 	let remainingAttempts = 3;
+	let retryCount = 0;
+	const maxRetries = 3;
 
 	const questionsPerCard = 5;
 	let currentCard = 0;
@@ -1156,7 +1149,12 @@
 			}
 		}
 
-		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
+		// Show submit only on last card when all questions on that card are confirmed
+		if (currentCard === 2 && allConfirmed) {
+			submitBtn.style.display = 'inline-flex';
+		} else {
+			submitBtn.style.display = 'none';
+		}
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
@@ -1167,25 +1165,35 @@
 	};
 
 	function confirmAnswer() {
-
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
+		// Check if all questions on current card are answered
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+				alert('Pakisagutan muna ang lahat ng tanong sa card na ito bago kumpirmahin.');
 				return;
 			}
 		}
 
+		// Mark all questions on current card as confirmed
 		for (let i = start; i < end; i++) {
 			confirmedAnswers[i] = true;
 		}
 
 		renderAllQuestions();
 
+		// Hide confirm button and show next button if not on last card
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		
+		confirmButton.style.display = 'none';
+		
 		if (currentCard < 2) {
-			document.getElementById('nextCardBtn').style.display = 'inline-flex';
+			nextCardButton.style.display = 'inline-flex';
+		} else if (currentCard === 2) {
+			// On last card, submit button will be shown by renderAllQuestions logic
+			submitBtn.style.display = 'inline-flex';
 		}
 	}
 
@@ -1194,7 +1202,12 @@
 
 		currentCard++;
 
-		document.getElementById('nextCardBtn').style.display = 'none';
+		// Reset button states for the new card
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		
+		nextCardButton.style.display = 'none';
+		confirmButton.style.display = 'inline-flex';
 
 		renderAllQuestions();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1269,15 +1282,12 @@
 		})
 		.then(res => res.json())
 		.then(data => {
-
 			if (data.error) {
 				alert(data.error);
 				return;
 			}
-
 			remainingAttempts = data.remaining;
 			updateRetryIndicator();
-
 		})
 		.catch(err => {
 			console.error("Error saving pretest:", err);
@@ -1308,7 +1318,7 @@
 
 	function updateRetryIndicator() {
 		const retryIndicator = document.getElementById('retryIndicator');
-    	const retryBtn = document.querySelector('.btn-secondary');
+		const retryBtn = document.querySelector('.btn-secondary');
 		
 		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remainingAttempts} / 3`;
 
@@ -1317,13 +1327,17 @@
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
 
-			retryBtn.disabled = true;
-			retryBtn.style.opacity = 0.5;
-			retryBtn.style.cursor = 'not-allowed';
+			if (retryBtn) {
+				retryBtn.disabled = true;
+				retryBtn.style.opacity = 0.5;
+				retryBtn.style.cursor = 'not-allowed';
+			}
 		} else {
-			retryBtn.disabled = false;
-			retryBtn.style.opacity = 1;
-			retryBtn.style.cursor = 'pointer';
+			if (retryBtn) {
+				retryBtn.disabled = false;
+				retryBtn.style.opacity = 1;
+				retryBtn.style.cursor = 'pointer';
+			}
 		}
 	}
 
@@ -1333,31 +1347,57 @@
 			return;
 		}
 
+		retryCount++;
+		remainingAttempts--;
+
+		// Reset all answer arrays
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
 		currentCard = 0;
+		
+		// Shuffle questions and choices again for new attempt
+		shuffleQuestionsAndChoices();
 
+		// Reset UI elements
 		resultPage.classList.remove('show');
 		quizPage.style.display = 'block';
+		
+		// Reset button states
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		const submitButton = document.getElementById('submitBtn');
+		
+		confirmButton.style.display = 'inline-flex';
+		nextCardButton.style.display = 'none';
+		submitButton.style.display = 'none';
 
+		updateRetryIndicator();
 		renderAllQuestions();
 
-		//window.scrollTo({ top: 0, behavior: 'smooth' });
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-		remainingAttempts = 3; // ALWAYS RESET ON PAGE LOAD
+		remainingAttempts = 3;
+		retryCount = 0;
 
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 		updateRetryIndicator();
 		
+		// Ensure initial button states are correct
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		const submitButton = document.getElementById('submitBtn');
+		
+		confirmButton.style.display = 'inline-flex';
+		nextCardButton.style.display = 'none';
+		submitButton.style.display = 'none';
+		
 		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-
 	});
 </script>
 
-</body>
-</html>
+@endsection
