@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 <style>
-    /* --- BASE STYLES (desktop) --- */
+    /* --- ORIGINAL STYLES --- */
     
     html, body {
         height: 100%;
@@ -125,10 +125,223 @@
         opacity: 0.8;
     }
 
+    /* --- FIX: GREEN BUTTON --- */
+    .btn-primary {
+        background: #28a745 !important; /* GREEN */
+        border: none;
+        border-radius: 60px;
+        padding: 10px 20px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #fff !important; /* white text on green */
+        cursor: pointer;
+        transition: 0.2s;
+        width: 100%;
+        margin-top: 6px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .btn-primary:hover {
+        background: #218838 !important;
+        transform: scale(1.01);
+    }
+
+    /* --- FIX: FOOTER HINT TEXT COLOR (BLACK) --- */
+    .footer-hint {
+        color: #000000 !important; /* BLACK */
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    /* --- FIX: TIGHTEN INPUT AND BUTTON SPACING --- */
+    .input-wrap {
+        width: 100%;
+        margin: 8px 0 4px 0 !important; /* reduced spacing */
+    }
+    .input-wrap input {
+        width: 100%;
+        padding: 8px 14px;
+        border-radius: 60px;
+        border: 2px solid #d4b68a;
+        background: rgba(255,255,255,0.5);
+        font-size: 1rem;
+        outline: none;
+        color: #1e2a2e;
+    }
+    .input-wrap input:focus {
+        border-color: #f2c94c;
+        background: rgba(255,255,255,0.7);
+    }
+    .error-message {
+        color: #b33c1f;
+        font-size: 0.8rem;
+        margin-top: 2px;
+        min-height: 16px;
+    }
+    
+    /* Remove extra spacing between form elements */
+    #studentForm {
+        margin-top: 5px;
+    }
+    #studentForm .btn-primary {
+        margin-top: 4px !important;
+    }
+    
+    .card h2 {
+        margin-bottom: 5px;
+    }
+    .card p {
+        margin-top: 2px;
+        margin-bottom: 8px;
+    }
+
+    /* --- MODAL STYLES --- */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+    }
+    .modal-overlay.active {
+        display: flex;
+    }
+    .modal {
+        background: #fbf5e8;
+        width: 400px;
+        max-width: 94%;
+        padding: 30px 28px;
+        border-radius: 32px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        font-size: 1.6rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: #4a2e1b;
+    }
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1e3a3f;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-alert {
+        background: #fef3d7;
+        padding: 6px 12px;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        color: #7a4e1f;
+        margin-bottom: 12px;
+        min-height: 24px;
+    }
+    .modal-input-wrap {
+        background: white;
+        border-radius: 60px;
+        padding: 6px 18px;
+        margin: 6px 0 14px 0;
+        display: flex;
+        align-items: center;
+        border: 1px solid #d4b68a;
+    }
+    .modal-input-wrap input {
+        border: none;
+        outline: none;
+        flex: 1;
+        padding: 10px 6px;
+        font-size: 1rem;
+        background: transparent;
+        color: #1e2a2e;
+    }
+    .modal-input-wrap .icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+    .password-wrap {
+        position: relative;
+    }
+    .password-toggle {
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 5px;
+    }
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 14px;
+        color: #4a2e1b;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    .back-link:hover {
+        opacity: 1;
+    }
+    #step-credentials, #step-verify {
+        display: block;
+    }
+    #step-verify {
+        display: none;
+    }
+
+    /* --- LOCK BUTTON --- */
+    .lock-btn {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid #f2c94c;
+        background: rgba(15, 47, 58, 0.85);
+        backdrop-filter: blur(6px);
+        color: #f2c94c;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 99;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .lock-btn:hover {
+        transform: scale(1.05);
+        background: rgba(15, 47, 58, 0.95);
+    }
+
+    /* --- DECORATIVE EMOJIS --- */
+    .deco {
+        position: fixed;
+        font-size: 2rem;
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .deco-1 { top: 10%; left: 5%; }
+    .deco-2 { top: 20%; right: 12%; }
+    .deco-3 { bottom: 15%; left: 8%; }
+    .deco-4 { bottom: 25%; right: 20%; }
+
     /* --- MOBILE RESPONSIVE: FULL SCREEN CARD, NO BG --- */
     @media screen and (max-width: 820px) {
         body {
-            background: #0f2f3a !important; /* solid dark teal */
+            background: #0f2f3a !important;
             background-image: none !important;
         }
         
@@ -140,7 +353,7 @@
             padding: 20px 15px !important;
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
-            background: #0f2f3a !important; /* solid, no transparency */
+            background: #0f2f3a !important;
             position: relative !important;
         }
         
@@ -163,7 +376,6 @@
             font-size: 9px;
         }
         
-        /* Remove decorative emojis on mobile */
         .deco {
             display: none !important;
         }
@@ -320,277 +532,6 @@
             font-size: 18px !important;
         }
     }
-
-    @media screen and (max-height: 700px) {
-        .title-image {
-            max-width: 180px;
-            margin-top: 0;
-        }
-        .top-content {
-            gap: 8px;
-        }
-        .card {
-            padding: 10px;
-        }
-        .features {
-            margin-top: 5px;
-        }
-        .feature .icon {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        .feature h4 {
-            font-size: 12px;
-        }
-        .feature p {
-            font-size: 8px;
-        }
-        .right-panel {
-            padding: 15px 15px !important;
-        }
-    }
-
-    @media screen and (max-height: 550px) {
-        .title-image {
-            max-width: 130px;
-        }
-        .feature .icon {
-            font-size: 16px;
-        }
-        .feature h4 {
-            font-size: 10px;
-        }
-        .feature p {
-            display: none; 
-        }
-        .card {
-            padding: 6px;
-        }
-        .card h2 {
-            font-size: 1rem;
-            margin: 2px 0;
-        }
-        .card p {
-            font-size: 0.7rem;
-            margin: 2px 0;
-        }
-        .right-panel {
-            padding: 8px 10px !important;
-        }
-        .footer-hint {
-            margin-top: 8px !important;
-            font-size: 0.7rem;
-        }
-        .btn-primary {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-        }
-        .input-wrap input {
-            font-size: 0.75rem;
-            padding: 4px 6px;
-        }
-        .features {
-            gap: 4px;
-        }
-        .lock-btn {
-            width: 32px !important;
-            height: 32px !important;
-            font-size: 16px !important;
-            bottom: 8px !important;
-            right: 8px !important;
-        }
-    }
-
-    /* --- LOCK BUTTON --- */
-    .lock-btn {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 2px solid #f2c94c;
-        background: rgba(15, 47, 58, 0.85);
-        backdrop-filter: blur(6px);
-        color: #f2c94c;
-        font-size: 24px;
-        cursor: pointer;
-        z-index: 99;
-        transition: 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    .lock-btn:hover {
-        transform: scale(1.05);
-        background: rgba(15, 47, 58, 0.95);
-    }
-
-    /* --- MODAL STYLES --- */
-    .modal-overlay {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(4px);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-    }
-    .modal-overlay.active {
-        display: flex;
-    }
-    .modal {
-        background: #fbf5e8;
-        width: 400px;
-        max-width: 94%;
-        padding: 30px 28px;
-        border-radius: 32px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        position: relative;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    .modal-close {
-        position: absolute;
-        top: 12px;
-        right: 18px;
-        font-size: 1.6rem;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        color: #4a2e1b;
-    }
-    .modal-title {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #1e3a3f;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .modal-alert {
-        background: #fef3d7;
-        padding: 6px 12px;
-        border-radius: 40px;
-        font-size: 0.8rem;
-        color: #7a4e1f;
-        margin-bottom: 12px;
-        min-height: 24px;
-    }
-    .modal-input-wrap {
-        background: white;
-        border-radius: 60px;
-        padding: 6px 18px;
-        margin: 6px 0 14px 0;
-        display: flex;
-        align-items: center;
-        border: 1px solid #d4b68a;
-    }
-    .modal-input-wrap input {
-        border: none;
-        outline: none;
-        flex: 1;
-        padding: 10px 6px;
-        font-size: 1rem;
-        background: transparent;
-        color: #1e2a2e;
-    }
-    .modal-input-wrap .icon {
-        margin-right: 10px;
-        font-size: 1.2rem;
-    }
-    .password-wrap {
-        position: relative;
-    }
-    .password-toggle {
-        background: transparent;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        padding: 5px;
-    }
-    .btn-primary {
-        background: #f2c94c;
-        border: none;
-        border-radius: 60px;
-        padding: 10px 20px;
-        font-weight: 700;
-        font-size: 1rem;
-        color: #1e3a3f;
-        cursor: pointer;
-        transition: 0.2s;
-        width: 100%;
-        margin-top: 6px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .btn-primary:hover {
-        background: #e0b83c;
-        transform: scale(1.01);
-    }
-    .back-link {
-        display: block;
-        text-align: center;
-        margin-top: 14px;
-        color: #4a2e1b;
-        text-decoration: underline;
-        cursor: pointer;
-        font-size: 0.9rem;
-        opacity: 0.8;
-    }
-    .back-link:hover {
-        opacity: 1;
-    }
-    .input-wrap {
-        width: 100%;
-        margin: 10px 0;
-    }
-    .input-wrap input {
-        width: 100%;
-        padding: 10px 16px;
-        border-radius: 60px;
-        border: 2px solid #d4b68a;
-        background: rgba(255,255,255,0.5);
-        font-size: 1rem;
-        outline: none;
-        color: #1e2a2e;
-    }
-    .input-wrap input:focus {
-        border-color: #f2c94c;
-        background: rgba(255,255,255,0.7);
-    }
-    .error-message {
-        color: #b33c1f;
-        font-size: 0.8rem;
-        margin-top: 4px;
-        min-height: 18px;
-    }
-    .footer-hint {
-        color: #e8d5b0;
-        font-size: 0.9rem;
-        text-align: center;
-    }
-    /* modal step visibility */
-    #step-credentials, #step-verify {
-        display: block;
-    }
-    #step-verify {
-        display: none;
-    }
-    /* decorative emojis */
-    .deco {
-        position: fixed;
-        font-size: 2rem;
-        opacity: 0.3;
-        pointer-events: none;
-        z-index: 0;
-    }
-    .deco-1 { top: 10%; left: 5%; }
-    .deco-2 { top: 20%; right: 12%; }
-    .deco-3 { bottom: 15%; left: 8%; }
-    .deco-4 { bottom: 25%; right: 20%; }
 </style>
 </head>
 
@@ -626,7 +567,7 @@
                             </button>
                         </form>
 
-                        <div class="footer-hint" style="margin-top: 25px;">
+                        <div class="footer-hint" style="margin-top: 15px;">
                             Para sa mga Guro, i-click ang 🔒 sa gilid.
                         </div>
                     </div>
