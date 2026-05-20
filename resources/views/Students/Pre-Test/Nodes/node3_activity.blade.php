@@ -1,4 +1,3 @@
-
 @extends('Students.studentslayout')
 @section('title', 'Module 2 : Node 3 - Activity')
 
@@ -846,7 +845,7 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge cause"><strong>🌟 Sanhi</strong></div>
-                                    <div class="zone-status" id="status-cause">Naghihintay...</div>
+                                    <div class="zone-status" id="status-cause"></div>
                                 </div>
                                 <div class="drop-zone" data-zone="cause"></div>
                             </div>
@@ -856,7 +855,7 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge effect"><strong>🔥 Bunga</strong></div>
-                                    <div class="zone-status" id="status-effect">Naghihintay...</div>
+                                    <div class="zone-status" id="status-effect"></div>
                                 </div>
                                 <div class="drop-zone" data-zone="effect"></div>
                             </div>
@@ -866,7 +865,7 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge solution"><strong>🌿 Solusyon</strong></div>
-                                    <div class="zone-status" id="status-solution">Naghihintay...</div>
+                                    <div class="zone-status" id="status-solution"></div>
                                 </div>
                                 <div class="drop-zone" data-zone="solution"></div>
                             </div>
@@ -1012,15 +1011,19 @@
 
         function resetZoneStatus() {
             Object.values(statusMap).forEach(el => {
-                el.textContent = 'Naghihintay...';
-                el.classList.remove('complete');
+                if (el) {
+                    el.textContent = '';
+                    el.classList.remove('complete');
+                }
             });
         }
 
         function completeZone(zoneName) {
             const statusEl = statusMap[zoneName];
-            statusEl.textContent = 'Tama ✓';
-            statusEl.classList.add('complete');
+            if (statusEl) {
+                statusEl.textContent = 'Tama ✓';
+                statusEl.classList.add('complete');
+            }
         }
 
         function burstConfetti() {

@@ -2,7 +2,10 @@
 @section('title', 'Module 2 : Node 1')
 
 @push('styles')
+
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800;900&family=Baloo+2:wght@700;800&display=swap');
+    
     :root {
     --bg-1: #eefaf1;
     --bg-2: #dff5ff;
@@ -697,7 +700,7 @@
     color: #5a4121;
     }
 
-    /* MODAL STYLES */
+   /* MODAL */
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -729,9 +732,7 @@
         transform: scale(0.96);
         transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
-    .modal-overlay.active .modal-container {
-        transform: scale(1);
-    }
+    .modal-overlay.active .modal-container { transform: scale(1); }
     .modal-header {
         padding: 20px 24px 8px;
         display: flex;
@@ -761,15 +762,8 @@
         justify-content: center;
         font-weight: 900;
         color: #3d694b;
-        transition: all 0.15s;
     }
-    .modal-close:hover {
-        background: #cfe2c6;
-        transform: scale(1.02);
-    }
-    .modal-body {
-        padding: 20px 24px 28px;
-    }
+    .modal-body { padding: 20px 24px 28px; }
     .modal-feedback-text {
         font-size: 1rem;
         line-height: 1.55;
@@ -808,13 +802,10 @@
     .modal-btn-primary {
         background: linear-gradient(100deg, #7ed15e, #51a23b);
         color: #102e1a;
-        box-shadow: 0 5px 12px rgba(72, 128, 48, 0.25);
         border: none;
     }
-    .modal-btn-primary:hover {
-        transform: translateY(-2px);
-        background: linear-gradient(100deg, #8edf6c, #62b848);
-    }
+
+
     .confetti {
     pointer-events: none;
     position: fixed;
@@ -1062,17 +1053,13 @@
             z-index: 10;
         }
 
-        /* MODAL FIX */
-        .modal-container {
-            width: 95%;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
+        
     }
 </style>
+@endpush
 
 @section('content')
-    <img src="{{ asset('pictures\mod2_innermap2.png') }}" class="background-map">
+    <img src="{{ asset('pictures/mod2_innermap2.png') }}" class="background-map">
     <div class="page">
         <div class="quest-shell">
             <div class="topbar">
@@ -1085,7 +1072,7 @@
 
             <section class="hero" id="introStage">
                 <div class="hero-main intro-layout">
-                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-illustration"">
+                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-illustration">
                     <div class="intro-narration">
                         <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
                         <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Solid Waste<span>Quest</span></h1>
@@ -1135,7 +1122,7 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge cause"><strong>🌟 Sanhi</strong><span></span></div>
-                                    <div class="zone-status" id="status-cause">Naghihintay...</div>
+                                    <div class="zone-status" id="status-cause"></div>
                                 </div>
                                 <div class="drop-zone" data-zone="cause"></div>
                             </div>
@@ -1145,7 +1132,7 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge effect"><strong>🔥 Bunga</strong><span></span></div>
-                                    <div class="zone-status" id="status-effect">Naghihintay...</div>
+                                    <div class="zone-status" id="status-effect"></div>
                                 </div>
                                 <div class="drop-zone" data-zone="effect"></div>
                             </div>
@@ -1155,7 +1142,7 @@
                             <div class="zone-card">
                                 <div class="zone-head">
                                     <div class="zone-badge solution"><strong>🌿 Solusyon</strong><span></span></div>
-                                    <div class="zone-status" id="status-solution">Naghihintay...</div>
+                                    <div class="zone-status" id="status-solution"></div>
                                 </div>
                                 <div class="drop-zone" data-zone="solution"></div>
                             </div>
@@ -1173,12 +1160,11 @@
                 <div class="modal-title">🎉 Tagumpay!</div>
                 <button class="modal-close" id="closeModalBtn">✕</button>
             </div>
-
             <div class="modal-body">
                 <div class="modal-feedback-text" id="modalFeedbackText"></div>
                 <div class="modal-actions">
                     <a href="{{ route('inner.map2') }}" class="modal-btn modal-btn-primary" id="modalBackToMapBtn">🗺️ Bumalik sa Mapa</a>
-                    <!-- <a href="{{ route('node2') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a> -->
+                    <!-- <a href="{{ route('node3') }}" class="modal-btn" id="modalContinueBtn">Magpatuloy</a> -->
                 </div>
             </div>
         </div>
@@ -1325,7 +1311,7 @@
 
         function resetZoneStatus() {
             Object.values(statusMap).forEach(el => {
-                el.textContent = 'Naghihintay...';
+                el.textContent = '';
                 el.classList.remove('complete');
             });
         }
