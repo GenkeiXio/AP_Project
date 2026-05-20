@@ -18,153 +18,184 @@
     }
 
     /* 🌍 BACKGROUND MAP */
-    .background-map{
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        object-fit:cover;
-        z-index:-1;
+    .background-map {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
     }
 
     /* 🌫 DARK OVERLAY (improves readability) */
-    .overlay{
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,0.35);
-        z-index:0;
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        z-index: 0;
     }
 
     /* MAIN CONTENT */
-    .page{
-        position:relative;
-        z-index:1;
-        max-width:900px;
-        margin:auto;
-        padding:20px;
+    .page {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: auto;
+        padding: 40px 20px;
     }
 
     /* CARD */
-    .card{
-        background:rgba(255,255,255,0.92);
-        border-radius:18px;
-        padding:25px;
-        box-shadow:0 10px 25px rgba(0,0,0,0.25);
-        backdrop-filter: blur(6px); /* 🔥 glass effect */
+    .card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* TITLE */
-    h1{
-        text-align:center;
-        font-family:'Baloo 2';
-        color:#214f33;
+    /* GAME HEADER HEADINGS */
+    .game-header {
+        text-align: center;
+        margin-bottom: 35px;
     }
 
-    h2{
-        text-align:center;
-        font-family:'Baloo 2';
-        color:#214f33;
+    h1 {
+        font-family: 'Baloo 2', 'Poppins', sans-serif;
+        color: #1b432a;
+        font-size: 2.2rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin: 0 0 10px 0;
+        letter-spacing: 0.5px;
     }
 
-    /* TEXT */
-    .section-title{
-        font-weight:bold;
-        margin-top:15px;
+    h2 {
+        font-family: 'Baloo 2', 'Poppins', sans-serif;
+        color: #2c5e3b;
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    /* TEXT CONTENT ELEMENTS */
+    .section-block {
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1b432a;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .section-content {
+        color: #333333;
+        line-height: 1.7;
+        font-size: 1.05rem;
+        margin: 0;
+        text-align: justify;
     }
 
     /* BUTTON */
-    .btn{
-        display:block;
-        width:100%;
-        padding:14px;
-        border:none;
-        border-radius:12px;
-        background:#5eae4e;
-        color:white;
-        font-weight:bold;
-        font-size:16px;
-        margin-top:20px;
-        cursor:pointer;
-        transition:0.2s;
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        background: #5eae4e;
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+        margin-top: 35px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(94, 174, 78, 0.3);
     }
 
-    .btn:hover{
-        background:#4a983c;
-        transform:scale(1.02);
+    .btn:hover {
+        background: #4a983c;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(74, 152, 60, 0.4);
+    }
+
+    .btn:active {
+        transform: translateY(0);
     }
 
     /* BACK BUTTON */
-    .back-button{
-        position:fixed;
+    .back-button {
+        position: fixed;
         top: 80px; 
-        left:20px;
+        left: 20px;
         z-index: 999; 
-        background:white;
-        padding:10px 15px;
-        border-radius:8px;
-        text-decoration:none;
-        font-weight:bold;
-        box-shadow:0 4px 8px rgba(0,0,0,0.2);
+        background: white;
+        padding: 10px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        color: #333;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: all 0.2s;
+    }
+    
+    .back-button:hover {
+        background: #f5f5f5;
+        transform: translateX(-3px);
     }
 
     /* ===== MOBILE RESPONSIVE FIX ===== */
-    @media (max-width: 768px){
-
-        body{
-            overflow:auto; /* allow scroll on mobile */
+    @media (max-width: 768px) {
+        body {
+            overflow: auto;
         }
 
-        .page{
-            padding:15px;
-            max-width:100%;
+        .page {
+            padding: 15px;
+            margin-top: 60px;
+            max-width: 100%;
         }
 
-        /* Card adjustments */
-        .card{
-            padding:18px;
-            border-radius:14px;
+        .card {
+            padding: 25px 20px;
+            border-radius: 18px;
         }
 
-        /* Titles scale properly */
-        h1{
-            font-size:1.3rem;
-            line-height:1.4;
+        h1 {
+            font-size: 1.5rem;
+            line-height: 1.3;
         }
 
-        h2{
-            font-size:1.1rem;
+        h2 {
+            font-size: 1.2rem;
+            line-height: 1.3;
         }
 
-        /* Paragraph readability */
-        p{
-            font-size:0.9rem;
-            line-height:1.6;
+        .section-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        .section-title{
-            font-size:0.95rem;
-        }
-
-        /* Button fix */
-        .btn{
-            padding:12px;
-            font-size:14px;
-        }
-
-        /* Prevent overlap with content */
-        .page{
-            margin-top:50px;
+        .btn {
+            padding: 14px;
+            font-size: 16px;
         }
     }
 </style>
 @endpush
 
 @section('content')
-<!-- 🌍 BACKGROUND -->
 <img src="{{ asset('pictures/mod2_innermap2.png') }}" class="background-map">
 
-<!-- 🌫 OVERLAY -->
 <div class="overlay"></div>
 
 <div class="page">
@@ -173,26 +204,31 @@
 
 <div class="card">
 
-<h1><b>IKAW ANG TAGAPAMAHALA NG SAKUNA</b> <br>🎮Laro sa Tamang Desisyon sa Kapaligiran🎮</h1>
+    <div class="game-header">
+        <h1>Ikaw ang Tagapangasiwa ng Kahandaan</h1>
+        <h2>Matalinong Pagpapasya sa Oras ng Sakuna</h2>
+    </div>
 
-<!-- <h2>🎮 Environmental Decision Game</h2> -->
+    <div class="section-block">
+        <div class="section-title">📘 Paglalarawan:</div>
+        <p class="section-content">
+            Ang gawaing ito ay tumutulong sa iyo na malinang ang iyong pag-iisip at kakayahan sa pagpapasya
+            tungkol sa mga suliraning pangkapaligiran. Sa pamamagitan ng mga sitwasyong hango sa karanasan sa Albay,
+            matututuhan mong tukuyin ang sanhi ng problema at pumili ng tamang hakbang upang makatulong sa kalikasan at komunidad.
+        </p>
+    </div>
 
-<p class="section-title">📘 Paglalarawan:</p>
-<p>
-Ang gawaing ito ay tumutulong sa iyo na malinang ang iyong pag-iisip at kakayahan sa pagpapasya
-tungkol sa mga suliraning pangkapaligiran. Sa pamamagitan ng mga sitwasyong hango sa karanasan sa Albay,
-matututuhan mong tukuyin ang sanhi ng problema at pumili ng tamang hakbang upang makatulong sa kalikasan at komunidad.
-</p>
+    <div class="section-block">
+        <div class="section-title">📌 Mga Tagubilin:</div>
+        <p class="section-content">
+            Basahin at suriin ang bawat sitwasyon at larawan. Piliin ang <b>LAHAT</b> ng tamang sagot na
+            makatutulong sa paglutas ng suliranin.
+        </p>
+    </div>
 
-<p class="section-title">📌 Mga Tagubilin:</p>
-<p>
-Basahin at suriin ang bawat sitwasyon at larawan. Piliin ang <b>LAHAT</b> ng tamang sagot na
-makatutulong sa paglutas ng suliranin.
-</p>
-
-<button class="btn" onclick="startGame()">
-🚀 Simulan ang Final Activity
-</button>
+    <button class="btn" onclick="startGame()">
+        🚀 Simulan ang Huling Gawain
+    </button>
 
 </div>
 
@@ -203,5 +239,4 @@ function startGame(){
     window.location.href = "{{ route('module2.activity') }}";
 }
 </script>
-
 @endsection

@@ -192,17 +192,60 @@ body, html {
     padding: 30px;
     border-radius: 16px;
     text-align: center;
-    width: 350px;
+    width: 380px;
+    max-width: 90%;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     position: relative;
 }
 
-/* Added specific style for percentage text */
-#percentText {
-    color: #5eae4e;
-    font-size: 48px;
-    margin: 10px 0;
+/* Circular Progress Indicator Styles */
+.progress-circle-container {
+    margin: 15px auto;
+    width: 140px;
+    height: 140px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circular-chart {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    stroke: #e6e6e6;
+    stroke-width: 8;
+    fill: none;
+}
+
+.circle-progress {
+    stroke: #5eae4e;
+    stroke-width: 8;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.6s ease-out;
+}
+
+/* Inner text inside the circle */
+.percentage-text-inside {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
     font-weight: bold;
+    color: #5eae4e;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Hide the old percentText */
+#percentText {
+    display: none;
 }
 
 /* BUTTON */
@@ -268,8 +311,13 @@ body, html {
         padding: 20px;
     }
 
-    #percentText {
-        font-size: 36px;
+    .progress-circle-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .percentage-text-inside {
+        font-size: 22px;
     }
 
     .modal-btn {
@@ -303,7 +351,16 @@ body, html {
         <div class="modal-content">
             <h2 id="progressTitle">Magaling!</h2>
             <p>Natapos mo ang isang bahagi ng aralin.</p>
-            <div id="percentText">0%</div>
+            
+            <!-- Circular Progress Indicator -->
+            <div class="progress-circle-container">
+                <svg viewBox="0 0 100 100" class="circular-chart">
+                    <circle cx="50" cy="50" r="42" class="circle-bg" />
+                    <circle cx="50" cy="50" r="42" class="circle-progress" id="progressCircle" />
+                </svg>
+                <div class="percentage-text-inside" id="circlePercentage">0%</div>
+            </div>
+            
             <p>Tapusin ang lahat para ma-unlock ang Final Activity.</p>
             <button class="modal-btn" onclick="closeProgressModal()">Ipagpatuloy</button>
         </div>
@@ -359,6 +416,30 @@ body, html {
 <x-vn />
 
 <script>
+// Helper function to update the circular progress in the modal
+function updateCircularProgress(percentage) {
+    const circle = document.getElementById('progressCircle');
+    const percentText = document.getElementById('circlePercentage');
+    
+    if (circle && percentText) {
+        const radius = 42;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (percentage / 100) * circumference;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+        percentText.innerText = Math.round(percentage) + '%';
+        
+        // Optional: Change color based on percentage
+        if (percentage >= 75) {
+            circle.style.stroke = "#27ae60"; // Darker green for high progress
+        } else if (percentage >= 50) {
+            circle.style.stroke = "#f39c12"; // Orange for medium progress
+        } else {
+            circle.style.stroke = "#5eae4e"; // Default green for low progress
+        }
+    }
+}
+
 function getDone(key){
     return sessionStorage.getItem(key) === "true";
 }
@@ -427,7 +508,8 @@ function unlockNode(node){
 
 /* PROGRESS MODAL CONTROLS */
 function showProgressModal(percent) {
-    document.getElementById("percentText").innerText = percent + "%";
+    // Update circular progress before showing modal
+    updateCircularProgress(percent);
     document.getElementById("progressModal").style.display = "flex";
 }
 
