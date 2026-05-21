@@ -83,30 +83,6 @@
             text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
         }
 
-        .mission-tracker {
-            padding: 12px 20px; 
-            background: rgba(0,0,0,0.2);
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            border-bottom: 2px solid var(--wood-medium);
-        }
-
-        .progress-bar-container {
-            flex-grow: 1; height: 18px; 
-            background: #1a110a;
-            border-radius: 50px; 
-            border: 2px solid var(--wood-medium); 
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .progress-fill {
-            height: 100%; width: 0%;
-            background: linear-gradient(90deg, #facc15, #ca8a04);
-            transition: width 0.4s ease-out;
-        }
-
         .content-grid { 
             display: grid; 
             grid-template-columns: 1fr 1.2fr; 
@@ -119,8 +95,11 @@
             border-radius: 15px;
             padding: 15px; 
             border: 2px solid var(--wood-medium);
-            display: flex; justify-content: center; align-items: center;
-            position: relative; min-height: 350px;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            position: relative; 
+            min-height: 350px;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
         }
 
@@ -137,7 +116,9 @@
             border: 2px solid var(--wood-medium);
             font-size: 16px; 
             font-weight: 600;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
             color: var(--wood-dark);
             box-shadow: 0 4px 0 var(--wood-dark);
         }
@@ -228,15 +209,6 @@
         <h2>MISYON: LIGTAS NA BAHAY</h2>
     </div>
 
-    <div class="mission-tracker">
-        <div style="font-family: 'Bungee'; font-size: 11px; color: #fff;">KLIK:</div>
-        <div id="clickCounter" style="font-family: 'Bungee'; color: var(--accent-gold);">0 / 5</div>
-        <div class="progress-bar-container">
-            <div id="progressFill" class="progress-fill"></div>
-        </div>
-        <div id="progressText" style="font-family: 'Bungee'; min-width: 40px; text-align: right; color: #fff;">0%</div>
-    </div>
-
     <div class="content-grid">
         <div class="display-panel">
             <img id="mainImage" src="{{ asset('pictures/Module 3/Safe_Home/normal.png') }}">
@@ -265,7 +237,6 @@
 </div>
 
 <script>
-    // Logic remains exactly the same as provided in your original script
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playBeep(freq, type, duration) {
         const osc = audioCtx.createOscillator();
@@ -308,8 +279,6 @@
             this.classList.add('selected');
             totalClicks++;
 
-            document.getElementById('clickCounter').innerText = `${totalClicks} / 5`;
-
             if (this.dataset.correct === "true") {
                 this.classList.add('correct');
                 correctCount++;
@@ -319,10 +288,6 @@
                 wrongCount++;
                 sounds.wrong();
             }
-
-            const progressPercent = (correctCount / 5) * 100;
-            document.getElementById('progressFill').style.width = progressPercent + "%";
-            document.getElementById('progressText').innerText = progressPercent + "%";
 
             if (totalClicks === 5) {
                 if (correctCount === 5) endGame(true);
