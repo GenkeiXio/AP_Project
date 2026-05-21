@@ -83,7 +83,7 @@
         }
 
         .intro-card-image {
-            background: #c9b58a;
+            background: #3a3a3a;
         }
 
         .intro-card-image img {

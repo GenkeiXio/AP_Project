@@ -86,6 +86,7 @@ body {
     border-left: 8px solid var(--lgu-blue);
     box-shadow: 0 8px 0 rgba(0,0,0,0.1);
     flex: 1 1 260px;
+    transition: all 0.3s ease;
 }
 
 .bp-counter {
@@ -156,39 +157,138 @@ body {
     font-size: 0.9rem;
 }
 
+/* Shake animation for insufficient budget */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Budget warning flash */
+.budget-warning {
+    animation: flashRed 0.3s ease-in-out 3;
+}
+
+@keyframes flashRed {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(174, 32, 18, 0.4); }
+    100% { background-color: transparent; }
+}
+
+/* Budget number pulse */
+@keyframes pulseRed {
+    0% { transform: scale(1); color: var(--bayanihan-green); }
+    50% { transform: scale(1.1); color: var(--danger-red); }
+    100% { transform: scale(1); color: var(--bayanihan-green); }
+}
+
+.budget-pulse {
+    animation: pulseRed 0.5s ease-in-out 2;
+}
+
+/* Floating warning message */
+.floating-warning {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ae2012, #d6321c);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    z-index: 100;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    animation: slideUpWarning 0.3s ease-out, fadeOutWarning 3s ease-out 2s forwards;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.5px;
+    text-align: center;
+    max-width: 90%;
+}
+
+@keyframes slideUpWarning {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes fadeOutWarning {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* FIXED MODAL OVERLAY - SCROLLABLE ON MOBILE */
 #simOverlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 1000;
     display: none;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
     text-align: center;
     padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .sim-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 16px;
     width: 100%;
     max-width: 760px;
+    margin: auto;
+    min-height: min-content;
 }
 
 .sim-card {
-    width: min(760px, 92vw);
+    width: min(700px, 92vw);
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     border: 2px solid #e0e7ff;
     border-radius: 20px;
-    padding: 60px 50px 40px;
+    padding: 30px 25px 25px;
     box-shadow: 0 25px 60px rgba(0,0,0,0.3);
     position: relative;
     overflow: visible;
     animation: slideUp 0.4s ease-out;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar for sim-card */
+.sim-card::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sim-card::-webkit-scrollbar-track {
+    background: #e0e7ff;
+    border-radius: 10px;
+}
+
+.sim-card::-webkit-scrollbar-thumb {
+    background: var(--lgu-blue);
+    border-radius: 10px;
 }
 
 @keyframes slideUp {
@@ -205,6 +305,7 @@ body {
 .sim-actions {
     width: 100%;
     display: none;
+    margin-top: 15px;
 }
 
 .sim-actions.show {
@@ -212,8 +313,8 @@ body {
 }
 
 .action-buttons {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     width: 100%;
     margin-bottom: 12px;
@@ -229,8 +330,8 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 140px;
-    height: 70px;
+    width: 120px;
+    height: 60px;
     border: 3px double var(--bayanihan-green);
     color: var(--bayanihan-green);
     display: flex;
@@ -243,8 +344,6 @@ body {
     line-height: 1;
     z-index: 10;
     background: rgba(255, 255, 255, 0.1);
-    
-    /* Simulang invisible */
     opacity: 0;
     transform: scale(0) rotate(30deg);
     pointer-events: none;
@@ -266,26 +365,26 @@ body {
     }
 }
 
-.document-stamp span { font-size: 1.4rem; }
-.document-stamp small { font-size: 0.6rem; letter-spacing: 1px; }
+.document-stamp span { font-size: 1.2rem; }
+.document-stamp small { font-size: 0.55rem; letter-spacing: 1px; }
 
 .terminal-text {
     font-family: 'Poppins', sans-serif;
     color: #1a3a5f;
-    font-size: 1.05rem;
-    margin-bottom: 24px;
-    min-height: 100px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px 0;
+    padding: 15px 0;
 }
 
 .terminal-text .sim-line {
-    margin: 10px 0;
-    line-height: 1.7;
+    margin: 8px 0;
+    line-height: 1.6;
     font-weight: 600;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border: 1px solid #d9e4ff;
     border-left: 6px solid var(--lgu-gold);
     border-radius: 10px;
@@ -297,8 +396,8 @@ body {
 }
 
 .terminal-text h1 {
-    margin: 20px 0 12px 0;
-    font-size: 2rem;
+    margin: 15px 0 10px 0;
+    font-size: 1.6rem;
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
 }
@@ -311,37 +410,74 @@ body {
     background: var(--lgu-gold);
     color: var(--lgu-blue);
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    padding: 14px 25px;
+    font-size: 1rem;
     font-weight: 800;
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 5px 0 #b38f00;
+    box-shadow: 0 4px 0 #b38f00;
     width: 100%;
     position: relative;
     z-index: 5;
+    transition: all 0.2s ease;
 }
 
-.action-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #b38f00; }
+.action-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b38f00; }
+
+/* Disabled button style */
+.action-btn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
 @media (max-width: 600px) {
     .action-btn {
-        padding: 16px 30px;
-        font-size: 1.1rem;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        transition: all 0.3s ease;
-        letter-spacing: 0.5px;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+        border-radius: 10px;
     }
-
-    .action-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    
+    /* Mobile text size adjustments */
+    .bp-counter {
+        font-size: 1.5rem;
     }
-
-    .action-btn:active { 
-        transform: translateY(2px); 
-        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    
+    .floating-warning {
+        font-size: 0.75rem;
+        padding: 8px 16px;
+        bottom: 20px;
+    }
+    
+    .sim-card {
+        padding: 20px 18px 18px;
+        max-height: 85vh;
+    }
+    
+    .terminal-text h1 {
+        font-size: 1.3rem;
+    }
+    
+    .terminal-text {
+        font-size: 0.9rem;
+    }
+    
+    .document-stamp {
+        width: 100px;
+        height: 50px;
+    }
+    
+    .document-stamp span { font-size: 1rem; }
+    .document-stamp small { font-size: 0.5rem; }
+    
+    .strategy-item h3 {
+        font-size: 0.85rem;
+        padding-right: 65px;
+    }
+    
+    .cost-stamp {
+        font-size: 0.75rem;
+        padding: 2px 5px;
     }
 }
 </style>
@@ -363,7 +499,7 @@ body {
         </div>
 
         <div class="hud-row">
-            <div class="status-box">
+            <div class="status-box" id="budgetBox">
                 <h4 style="margin:0; color: #666;">Pondo ng Komunidad</h4>
                 <div class="bp-counter"><span id="budgetDisplay">₱100,000</span></div>
             </div>
@@ -427,13 +563,13 @@ body {
             </div>
 
             <div class="terminal-text" id="simText"></div>
-        </div>
-        
-        <div class="sim-actions" id="simActions">
-            <div class="action-buttons">
-                <button class="action-btn" id="backBtn" style="background:var(--lgu-blue); color:white;" onclick="window.location.href='{{ route('inner.map3') }}'">🗺 BUMALIK SA MAPA</button>
+            
+            <div class="sim-actions" id="simActions">
+                <div class="action-buttons">
+                    <button class="action-btn" id="backBtn" style="background:var(--lgu-blue); color:white;" onclick="window.location.href='{{ route('inner.map3') }}'">🗺 BUMALIK SA MAPA</button>
+                </div>
+                <button class="action-btn retry-btn" id="closeSim" style="background:var(--lgu-blue); color:white;">🔄 SUBUKAN MULI</button>
             </div>
-            <button class="action-btn retry-btn" id="closeSim" style="background:var(--lgu-blue); color:white;">SUBUKAN MULI</button>
         </div>
     </div>
 </div>
@@ -450,13 +586,11 @@ function shuffleStrategies() {
     const list = document.querySelector('.strategy-list');
     const items = Array.from(list.querySelectorAll('.strategy-item'));
     
-    // Fisher-Yates shuffle
     for (let i = items.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [items[i], items[j]] = [items[j], items[i]];
     }
     
-    // Re-append shuffled items
     items.forEach(item => list.appendChild(item));
 }
 
@@ -467,6 +601,48 @@ function kuninBilangNgNapili() {
     return { tama, mapanlinlang };
 }
 
+// Remove existing floating warning if any
+function removeFloatingWarning() {
+    const existing = document.querySelector('.floating-warning');
+    if (existing) existing.remove();
+}
+
+// Show multiple visual feedback for insufficient budget
+function showInsufficientBudget() {
+    const budgetBox = document.getElementById('budgetBox');
+    const budgetNumber = document.getElementById('budgetDisplay');
+    
+    // Remove existing warnings
+    removeFloatingWarning();
+    
+    // 1. Shake the budget card
+    budgetBox.classList.add('shake');
+    
+    // 2. Flash red background
+    budgetBox.classList.add('budget-warning');
+    
+    // 3. Pulse the budget number
+    budgetNumber.classList.add('budget-pulse');
+    
+    // 4. Show floating warning message (visible on mobile)
+    const warning = document.createElement('div');
+    warning.className = 'floating-warning';
+    warning.innerHTML = '⚠️ INSUFFICIENT FUNDS! ⚠️<br><small>Kulang ang pondo para sa proyektong ito</small>';
+    document.body.appendChild(warning);
+    
+    // 5. Vibrate on mobile devices (if supported)
+    if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(200);
+    }
+    
+    // Remove all animations after they finish
+    setTimeout(() => {
+        budgetBox.classList.remove('shake');
+        budgetBox.classList.remove('budget-warning');
+        budgetNumber.classList.remove('budget-pulse');
+    }, 800);
+}
+
 function toggleStrategy(el) {
     const cost = parseInt(el.dataset.cost);
     const safetyVal = parseInt(el.dataset.safety);
@@ -475,23 +651,36 @@ function toggleStrategy(el) {
         el.classList.remove('selected');
         budget += cost;
         safety -= safetyVal;
+        updateDisplay();
     } else {
         if (budget >= cost) {
             el.classList.add('selected');
             budget -= cost;
             safety += safetyVal;
+            updateDisplay();
         } else {
-            alert("Hindi sapat ang pondo!");
+            // NO ALERT - multiple visual feedback
+            showInsufficientBudget();
             return;
         }
     }
-    updateDisplay();
 }
 
 function updateDisplay() {
     document.getElementById('budgetDisplay').innerText = formatPeso(budget);
-    document.getElementById('safetyDisplay').innerText = Math.min(safety, 100);
-    document.getElementById('meter').style.width = Math.min(safety, 100) + "%";
+    const safetyPercent = Math.min(safety, 100);
+    document.getElementById('safetyDisplay').innerText = safetyPercent;
+    document.getElementById('meter').style.width = safetyPercent + "%";
+    
+    // Change budget color and add warning effect if low
+    const budgetSpan = document.getElementById('budgetDisplay');
+    if (budget < 10000) {
+        budgetSpan.style.color = 'var(--danger-red)';
+        budgetSpan.style.fontWeight = '900';
+    } else {
+        budgetSpan.style.color = 'var(--bayanihan-green)';
+        budgetSpan.style.fontWeight = '800';
+    }
 }
 
 function saveNode3Progress(isPassed) {
@@ -507,9 +696,7 @@ function saveNode3Progress(isPassed) {
             readiness_score: Math.min(safety, 100),
             is_passed: isPassed ? 1 : 0
         })
-    }).catch(() => {
-        // Do not block UI flow when save fails.
-    });
+    }).catch(() => {});
 }
 
 function runSim() {
@@ -518,10 +705,14 @@ function runSim() {
     const stamp = document.getElementById('docStamp');
     const actions = document.getElementById('simActions');
 
+    // Reset and show overlay
     text.innerHTML = '';
     actions.classList.remove('show');
     stamp.classList.remove('active');
     overlay.style.display = 'flex';
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
 
     const sequence = [
         "Sinisimulan ang pagmamasid sa panahon...",
@@ -539,16 +730,15 @@ function runSim() {
                 const bilang = kuninBilangNgNapili();
                 const panalo = bilang.tama === 4 && bilang.mapanlinlang === 0 && budget === 0;
 
-                // Mark node as completed once simulation result is reached.
                 sessionStorage.setItem('m3v2_node3', 'true');
                 localStorage.setItem('m3v2_node3', 'true');
                 saveNode3Progress(panalo);
 
                 if (panalo) {
-                    text.innerHTML += `<h1 style="color:var(--bayanihan-green); margin-top:20px;">TAGUMPAY ANG MISYON!</h1>
-                                       <p>Lahat ng tamang proyekto ay napondohan. Ligtas ang barangay!</p>`;
+                    text.innerHTML += `<h1 style="color:var(--bayanihan-green); margin-top:20px;">🎉 TAGUMPAY ANG MISYON!</h1>
+                                       <p>🏆 Lahat ng tamang proyekto ay napondohan. Ligtas ang barangay!</p>
+                                       <p>💪 Ang komunidad ay handa na sa anumang sakuna.</p>`;
                     
-                    // Stamp animation pagkatapos ng text
                     setTimeout(() => {
                         stamp.classList.add('active');
                         actions.classList.add('show');
@@ -556,11 +746,18 @@ function runSim() {
                         document.getElementById('closeSim').style.display = 'none';
                     }, 300);
                 } else {
-                    text.innerHTML += `<h1 style="color:var(--danger-red); margin-top:20px;">HINDI NAGTAGUMPAY</h1>
-                                       <p>Suriing muli ang mga prayoridad ng barangay.</p>`;
+                    text.innerHTML += `<h1 style="color:var(--danger-red); margin-top:20px;">⚠️ HINDI NAGTAGUMPAY</h1>
+                                       <p>📋 Suriing muli ang mga prayoridad ng barangay.</p>
+                                       <p>💡 Piliin ang mga proyektong tunay na makatutulong sa komunidad.</p>`;
                     actions.classList.add('show');
                     document.getElementById('backBtn').style.display = 'block';
                     document.getElementById('closeSim').style.display = 'block';
+                }
+                
+                // Scroll to top of modal content
+                const simCard = document.querySelector('.sim-card');
+                if (simCard) {
+                    simCard.scrollTop = 0;
                 }
             }, 1000);
         }
@@ -569,11 +766,21 @@ function runSim() {
 
 document.getElementById('closeSim').addEventListener('click', () => {
     document.getElementById('simOverlay').style.display = 'none';
+    document.body.style.overflow = ''; // Restore body scroll
+    location.reload(); // Reload to reset game
 });
 
-// Shuffle strategies on page load
+// Close modal when clicking outside on overlay (but not on the card itself)
+document.getElementById('simOverlay').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     shuffleStrategies();
+    updateDisplay();
 });
 </script>
 
