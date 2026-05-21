@@ -161,14 +161,15 @@
             }
         }
 
-        /* Button styles */
+        /* Button styles - FIXED */
         .btn-wood {
             display: inline-flex;
             align-items: center;
-            padding: 0.625rem 1.25rem;
+            justify-content: center;
+            padding: 0.625rem 1.5rem;
             background: #2b1b17;
             color: #c5a059;
-            border: 1px solid #c5a059;
+            border: 2px solid #c5a059;
             border-radius: 0.5rem;
             font-family: 'Nunito', sans-serif;
             font-weight: 800;
@@ -178,12 +179,13 @@
             text-decoration: none;
             transition: all 0.2s ease;
             cursor: pointer;
+            gap: 0.5rem;
         }
 
         @media (min-width: 768px) {
             .btn-wood {
                 font-size: 1rem;
-                padding: 0.625rem 1.5rem;
+                padding: 0.75rem 2rem;
             }
         }
 
@@ -191,19 +193,21 @@
             background: #3d2a25;
             transform: translateY(-2px);
             text-decoration: none;
-            color: #d4b87a;
+            color: #e8c88a;
+            border-color: #d4b87a;
         }
 
         .btn-wood-primary {
             background: #c5a059;
             color: #2b1b17;
-            border: 1px solid #c5a059;
+            border: 2px solid #c5a059;
         }
 
         .btn-wood-primary:hover {
             background: #d4b87a;
             transform: translateY(-2px);
             color: #2b1b17;
+            border-color: #d4b87a;
         }
 
         /* Video container */
@@ -284,6 +288,25 @@
             .space-y-4 > * + * { margin-top: 1.25rem; }
             .space-y-5 > * + * { margin-top: 1.5rem; }
         }
+
+        /* Button container */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .button-container {
+                flex-direction: column;
+            }
+            .button-container .btn-wood {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 @endpush
 
@@ -317,7 +340,7 @@
                                 <img src="{{ asset('pictures/termino_konsepto.png') }}" class="term-image hazard-image" alt="Hazard">
                             </div>
                             <div>
-                                <h2 class="term-title text-cyan" style="margin-top: 0;">⚠️ Hazard</h2>
+                                <h2 class="term-title text-cyan" style="margin-top: 0;">Hazard</h2>
                                 <div class="term-text">
                                     <p>Banta na maaaring dulot ng kalikasan o ng tao na maaaring sanhi ng pinsala, buhay, ari-arian, at kalikasan. May dalawang uri ng hazard, ito ay ang:</p>
                                     <ul>
@@ -336,7 +359,7 @@
                                 <img src="{{ asset('pictures/disaster.png') }}" class="term-image" alt="Disaster">
                             </div>
                             <div>
-                                <h2 class="term-title text-red" style="margin-top: 0;">🌊 Disaster</h2>
+                                <h2 class="term-title text-red" style="margin-top: 0;">Disaster</h2>
                                 <div class="term-text">
                                     <p>Mga pangyayari na nagdudulot ng pinsala sa tao, kapaligiran at mga gawaing pang-ekonomiya. Ito ay maaaring resulta ng hazard, vulnerability o kahinaan at kawalan ng kakayahan ng isang pamayanan na harapin ang mga hazard.</p>
                                 </div>
@@ -351,7 +374,7 @@
                                 <img src="{{ asset('pictures/vulnerability.png') }}" class="term-image" alt="Vulnerability">
                             </div>
                             <div>
-                                <h2 class="term-title text-amber" style="margin-top: 0;">🏚️ Vulnerability</h2>
+                                <h2 class="term-title text-amber" style="margin-top: 0;">Vulnerability</h2>
                                 <div class="term-text">
                                     <p>Kahinaan ng tao, lugar, at imprastruktura na may mataas na posibilidad na maapektuhan ng mga hazard. Ang mga kalagayang heograpikal at antas ng kabuhayan ang kadalasang nakaiimpluwensiya sa kahinaang ito. Halimbawa, mas vulnerable ang mga taong naninirahan sa paanan ng bundok at ang mga bahay na gawa sa hindi matibay na materyales.</p>
                                 </div>
@@ -366,7 +389,7 @@
                                 <img src="{{ asset('pictures/risk.png') }}" class="term-image" alt="Risk">
                             </div>
                             <div>
-                                <h2 class="term-title text-fuchsia" style="margin-top: 0;">📊 Risk</h2>
+                                <h2 class="term-title text-fuchsia" style="margin-top: 0;">Risk</h2>
                                 <div class="term-text">
                                     <p>Mga pinsala sa tao, ari-arian, at buhay dulot ng isang kalamidad o sakuna. Ang mababang kapasidad ng isang pamayanan na harapin ang panganib na dulot ng kalamidad ay nagiging dahilan ng mas mataas na pinsala.</p>
                                     <p class="mt-2">May dalawang uri ito: <strong>human risk</strong> at <strong>structural risk</strong>.</p>
@@ -382,7 +405,7 @@
                                 <img src="{{ asset('pictures/resilience.png') }}" class="term-image" alt="Resilience">
                             </div>
                             <div>
-                                <h2 class="term-title text-emerald" style="margin-top: 0;">💪 Resilience</h2>
+                                <h2 class="term-title text-emerald" style="margin-top: 0;">Resilience</h2>
                                 <div class="term-text">
                                     <p>Kakayahan ng pamayanan na harapin ang mga epekto ng kalamidad. Ang pagiging resilient ay maaaring makita sa mga mamamayan, halimbawa ang pagkakaroon ng kasanayan at kaalaman tungkol sa hazard ay isang paraan upang sila ay maging ligtas sa panahon ng kalamidad. Maari ring estruktural na kung saan isinasaayos ang mga tahanan, gusali o tulay upang maging matibay bago pa dumating ang isang kalamidad.</p>
                                 </div>
@@ -412,13 +435,13 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Buttons -->
-                    <div class="flex-wrap gap-3 pt-2 pb-2" style="display: flex; gap: 0.75rem;">
+                    <!-- Navigation Buttons - FIXED -->
+                    <div class="button-container">
                         <a href="{{ route('module3.iv_explore') }}" class="btn-wood">
                             ← Bumalik sa Explore
                         </a>
 
-                        <a href="{{ route('inner.map3') }}" class="btn-wood-primary">
+                        <a href="{{ route('inner.map3') }}" class="btn-wood btn-wood-primary">
                             🗺️ Pumunta sa Mapa
                         </a>
                     </div>

@@ -171,8 +171,8 @@ body{
     min-height:160px;
 }
 .mayor-icon{
-    width:140px;   /* bigger */
-    height:140px;  /* bigger */
+    width:140px;
+    height:140px;
     object-fit:contain;
     border-radius:50%;
     background:linear-gradient(135deg,#f7efdf,#e9dcc7);
@@ -325,8 +325,6 @@ body{
     from{ opacity:0; transform:scale(.96); }
     to{ opacity:1; transform:scale(1); }
 }
-
-/* Pinahusay na ayos para sa Hakbang 2 */
 
 .step-title{
     margin:0 0 12px;
@@ -631,66 +629,132 @@ body{
     font-size:.9rem;
 }
 
-.actions a{
-    display:inline-block;
-    text-decoration:none;
-    font-weight:800;
-    margin:6px 4px 0;
-    padding:10px 12px;
-    border-radius:10px;
+.actions{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
 }
-.act-retry{ background:linear-gradient(135deg,#8e643d,#6e4d2e); border:1px solid #a98353; color:#f8efe2; }
-.act-map{ background:linear-gradient(135deg,#f6ead8,#e8d8bf); border:1px solid #c9b08a; color:#59422c; }
-.act-next{ background:linear-gradient(135deg,#587a4a,#3f5f36); color:#fff; }
 
+.actions a{
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 800;
+    padding: 12px 20px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.act-retry{ 
+    background: linear-gradient(135deg, #8e643d, #6e4d2e); 
+    border: 1px solid #a98353; 
+    color: #f8efe2; 
+}
+.act-retry:hover{ 
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #a0774d, #7e5936);
+}
+
+.act-map{ 
+    background: linear-gradient(135deg, #f6ead8, #e8d8bf); 
+    border: 1px solid #c9b08a; 
+    color: #59422c; 
+}
+.act-map:hover{ 
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #fff0e0, #f0e0c8);
+}
+
+/* MODAL STYLES - FIXED */
 .modal-overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
+    background:rgba(0,0,0,.75);
     display:none;
     align-items:center;
     justify-content:center;
-    z-index:40;
+    z-index:999;
 }
 .modal-box{
-    width:min(420px,92vw);
+    width:min(450px,92vw);
     background:linear-gradient(180deg,#fff7e9,#f2e3cc);
-    border-radius:16px;
-    border:1px solid #cdb596;
-    padding:18px;
+    border-radius:24px;
+    border:2px solid #c5a059;
+    padding:24px 20px;
     text-align:center;
     animation:pop .25s ease;
+    box-shadow:0 30px 50px rgba(0,0,0,.4);
 }
 @keyframes pop{
     from{ transform:scale(.92); opacity:0; }
     to{ transform:scale(1); opacity:1; }
 }
-.modal-btn{
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
-    padding:10px 14px;
-    font-weight:700;
-    cursor:pointer;
+.modal-box h3{
+    font-size:1.6rem;
+    margin-bottom:12px;
+    color:#5f3e1a;
+    font-family:'Nunito',sans-serif;
 }
-.btn-close{ background:linear-gradient(135deg,#efe0cb,#e2cfb2); color:#4f3a26; }
-.btn-next{ background:linear-gradient(135deg,#597b4a,#416236); color:#fff; }
+.modal-box p{
+    color:#4a3a2a;
+    margin-bottom:20px;
+    line-height:1.6;
+}
+.modal-buttons{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.modal-btn{
+    border:none;
+    border-radius:40px;
+    padding:12px 24px;
+    font-weight:800;
+    cursor:pointer;
+    font-family:'Nunito',sans-serif;
+    font-size:0.9rem;
+    transition:all 0.2s ease;
+    text-decoration:none;
+    display:inline-block;
+}
+.modal-btn:hover{
+    transform:translateY(-2px);
+}
+.btn-map{ 
+    background:linear-gradient(135deg,#8e643d,#6e4d2e); 
+    border:1px solid #a98353; 
+    color:#f8efe2; 
+}
+.btn-retry{ 
+    background:linear-gradient(135deg,#f6ead8,#e8d8bf); 
+    border:1px solid #c9b08a; 
+    color:#59422c; 
+}
+.btn-close{ 
+    background:linear-gradient(135deg,#efe0cb,#e2cfb2); 
+    color:#4f3a26; 
+}
 
 #confettiLayer{
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:50;
+    z-index:1000;
 }
 .confetti-piece{
     position:absolute;
-    width:8px;
-    height:14px;
+    width:10px;
+    height:16px;
     opacity:.95;
-    animation:fall 1.5s linear forwards;
+    animation:fall 1.8s linear forwards;
 }
 @keyframes fall{
-    to{ transform:translateY(320px) rotate(360deg); opacity:0; }
+    to{ transform:translateY(400px) rotate(360deg); opacity:0; }
 }
 </style>
 
@@ -829,20 +893,26 @@ body{
     </div>
 </div>
 
+<!-- WRONG MODAL -->
 <div id="wrongModal" class="modal-overlay">
     <div class="modal-box">
         <h3>❌ Naku!</h3>
-                <p id="wrongText">Naubos ang oras. Sa pagtatalo, mahalaga ang bilis at linaw.</p>
-        <button class="modal-btn btn-close" onclick="closeModal('wrongModal')">Subukang muli</button>
+        <p id="wrongText">Naubos ang oras. Sa pagtatalo, mahalaga ang bilis at linaw.</p>
+        <div class="modal-buttons">
+            <button class="modal-btn btn-retry" onclick="closeWrongModal()">🔄 Subukang Muli</button>
+            <a href="{{ route('inner.map3') }}" class="modal-btn btn-map">🗺 Bumalik sa Mapa</a>
+        </div>
     </div>
 </div>
 
+<!-- SUCCESS MODAL - FIXED -->
 <div id="successModal" class="modal-overlay">
     <div class="modal-box">
         <h3>🎉 Binabati Ka, Punong-Bayan!</h3>
         <p>Naipakita mo ang mas matibay na argumento sa mga pamamaraang pangkahandaan sa sakuna.</p>
-        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-            <a href="{{ route('inner.map3') }}"><button class="modal-btn btn-close">🗺 Bumalik sa Mapa</button></a>
+        <div class="modal-buttons">
+            <a href="{{ route('inner.map3') }}" class="modal-btn btn-map">🗺 Bumalik sa Mapa</a>
+            <button class="modal-btn btn-retry" onclick="closeSuccessAndRetry()">🔄 Subukan Muli</button>
         </div>
     </div>
 </div>
@@ -858,7 +928,7 @@ let roundIndex = 0;
 let timeLeft = 15;
 let timer = null;
 
-    const narratorMessage = "Ikaw ang punong-bayan ngayon. Basahin ang dalawang pamamaraan, piliin ang panig, at manalo sa mga ikot ng pagtatalo.";
+const narratorMessage = "Ikaw ang punong-bayan ngayon. Basahin ang dalawang pamamaraan, piliin ang panig, at manalo sa mga ikot ng pagtatalo.";
 
 const approachConsequences = {
     top: [
@@ -1061,14 +1131,9 @@ function endGame(){
     const maxScore = rounds.length * 3;
     const passed = score >= 5;
 
-    // ✅ I-save ang progreso sa talaan
     saveGameProgress(passed);
     
     const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
-
-    // Mark node as completed once end-game screen is reached.
-    sessionStorage.setItem('m3v2_node2', 'true');
-    localStorage.setItem('m3v2_node2', 'true');
 
     if (passed){
         burstConfetti();
@@ -1085,15 +1150,21 @@ function endGame(){
         </p>
         ${getConsequencesHTML(reviewSide)}
         <div class="actions">
-            <a class="act-retry" href="{{ route('module3.node2') }}">🔁 Ulitin</a>
-            <a class="act-map" href="{{ route('inner.map3') }}">🗺 Bumalik sa Mapa</a>
+            <a href="{{ route('module3.node2') }}" class="act-retry">🔁 Ulitin</a>
+            <a href="{{ route('inner.map3') }}" class="act-map">🗺 Bumalik sa Mapa</a>
         </div>
     `;
     progressFill.style.width = '100%';
 }
 
-function closeModal(id){
-    document.getElementById(id).style.display = 'none';
+function closeWrongModal(){
+    document.getElementById('wrongModal').style.display = 'none';
+    location.reload();
+}
+
+function closeSuccessAndRetry(){
+    document.getElementById('successModal').style.display = 'none';
+    location.reload();
 }
 
 function burstConfetti(){
@@ -1101,18 +1172,20 @@ function burstConfetti(){
     layer.innerHTML = '';
     const colors = ['#2ecc71','#3498db','#f1c40f','#e74c3c','#9b59b6','#1abc9c'];
 
-    for (let i = 0; i < 45; i++){
-        const piece = document.createElement('span');
+    for (let i = 0; i < 60; i++){
+        const piece = document.createElement('div');
         piece.className = 'confetti-piece';
         piece.style.left = Math.random() * 100 + '%';
-        piece.style.top = '-12px';
+        piece.style.top = '-20px';
         piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.transform = `rotate(${Math.random() * 180}deg)`;
-        piece.style.animationDelay = `${Math.random() * .25}s`;
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        piece.style.animationDelay = `${Math.random() * 0.5}s`;
+        piece.style.width = `${Math.random() * 8 + 6}px`;
+        piece.style.height = `${Math.random() * 12 + 8}px`;
         layer.appendChild(piece);
     }
 
-    setTimeout(() => { layer.innerHTML = ''; }, 1800);
+    setTimeout(() => { layer.innerHTML = ''; }, 2000);
 }
 
 document.getElementById('topText').classList.add('show');
