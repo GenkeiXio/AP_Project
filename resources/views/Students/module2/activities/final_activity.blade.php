@@ -18,8 +18,8 @@
         margin-top:40px;
         margin-bottom:40px;
 
-        background:white;            /* 🔥 ADD THIS */
-        border-radius:18px;          /* 🔥 OPTIONAL */
+        background:white;
+        border-radius:18px;
         box-shadow:0 10px 25px rgba(0,0,0,0.25);
     }
 
@@ -38,7 +38,7 @@
         inset:0;
         background:rgba(0,0,0,0.35);
         z-index:-1;
-        pointer-events:none; /* 🔥 IMPORTANT */
+        pointer-events:none;
     }
 
     h1{
@@ -48,21 +48,64 @@
         color:#214f33;
     }
 
+    /* ========== PANUTO / INSTRUCTIONS STYLES ========== */
+    .panuto-box {
+        background: linear-gradient(135deg, #fef9e4, #fff8e7);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .panuto-title {
+        font-weight: 800;
+        font-size: 1rem;
+        color: #e67e22;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .panuto-title span {
+        font-size: 1.3rem;
+    }
+
+    .panuto-text {
+        font-size: 0.9rem;
+        color: #2c3e50;
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+
+    .panuto-list {
+        margin: 8px 0 0 20px;
+        font-size: 0.85rem;
+        color: #34495e;
+    }
+
+    .panuto-list li {
+        margin: 5px 0;
+    }
+
+    .panuto-note {
+        background: #2c3e50;
+        color: #f1c40f;
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        margin-top: 10px;
+        text-align: center;
+    }
+    /* ============================================= */
+
     .card{
         background:rgba(255,255,255,0.92);
         border-radius:16px;
         padding:25px;
-        margin-top:25px;
+        margin-top:15px;
         box-shadow:0 10px 25px rgba(0,0,0,0.25);
         backdrop-filter: blur(6px);
-    }
-
-    .choice{
-        border:1px solid #ccc;
-        padding:12px;
-        border-radius:10px;
-        margin:10px 0;
-        cursor:pointer;
     }
 
     .btn-container{
@@ -77,25 +120,24 @@
         cursor:not-allowed;
     }
 
-    /* BIGGER PRIMARY BUTTON */
     .primary-btn{
         font-size:18px;
         padding:16px 40px;
         border-radius:14px;
-
         background:linear-gradient(135deg,#5eae4e,#3d8f35);
         box-shadow:0 6px 15px rgba(0,0,0,0.25);
-
         transition:all 0.2s ease;
+        cursor:pointer;
+        border:none;
+        color:white;
+        font-weight:bold;
     }
 
-    /* HOVER EFFECT */
     .primary-btn:hover{
         transform:scale(1.05);
         box-shadow:0 8px 18px rgba(0,0,0,0.3);
     }
 
-    /* CLICK EFFECT */
     .primary-btn:active{
         transform:scale(0.97);
     }
@@ -104,13 +146,13 @@
         font-size:18px;
         padding:16px 40px;
         border-radius:14px;
-
         background:linear-gradient(135deg,#3498db,#21618c);
         box-shadow:0 6px 15px rgba(0,0,0,0.25);
-
-        margin-left:10px;
-
         transition:all 0.2s ease;
+        cursor:pointer;
+        border:none;
+        color:white;
+        font-weight:bold;
     }
 
     .next-btn:hover{
@@ -122,21 +164,52 @@
         transform:scale(0.97);
     }
 
-    .btn{
-        padding:12px 20px;
-        border:none;
-        border-radius:10px;
-        background:#5eae4e;
-        color:white;
-        font-weight:bold;
-        cursor:pointer;
-        margin-top:15px;
+    /* ========== PROGRESS BAR STYLES ========== */
+    .progress-section {
+        margin: 15px 0 20px 0;
     }
 
-    .progress{
-        text-align:center;
-        margin-top:10px;
+    .progress-bar-container {
+        width: 100%;
+        background-color: #e0e0e0;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        height: 42px;
+        position: relative;
     }
+
+    .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #3498db, #2980b9, #1f618d);
+        border-radius: 30px;
+        transition: width 0.5s ease-in-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .progress-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+        font-size: 1rem;
+        font-family: 'Courier New', monospace;
+        letter-spacing: 1px;
+        z-index: 2;
+        text-shadow: 0 0 2px rgba(255,255,255,0.5);
+        pointer-events: none;
+    }
+    /* ========================================= */
 
     .scenario-img{
         width:100%;
@@ -145,20 +218,16 @@
     }
 
     .situation{
-        background:#ffe08a;
-        padding:10px;
-        border-radius:10px;
-        margin-bottom:10px;
-        font-weight:bold;
-    }
-
-    .question{
-        background:#1e3a5f;
-        color:white;
-        padding:12px;
-        border-radius:10px;
-        margin-bottom:15px;
-        font-weight:bold;
+        background: linear-gradient(135deg, #2c3e50, #1a2632);
+        color: #ecf0f1;
+        padding: 14px 18px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        letter-spacing: 0.5px;
     }
 
     .choices-grid{
@@ -172,11 +241,9 @@
         border-radius:14px;
         padding:12px;
         background:white;
-
         display:flex;
         flex-direction:column;
         align-items:center;
-
         min-height:210px;
         position:relative;
     }
@@ -199,8 +266,8 @@
 
     .choice-img{
         width:100%;
-        height:150px;            /* 🔥 smaller + controlled */
-        object-fit:cover;        /* 🔥 fills nicely */
+        height:150px;
+        object-fit:cover;
         border-radius:10px;
         background:#eee;
     }
@@ -212,12 +279,11 @@
         font-size:20px;
     }
 
-    /* CHECKBOX FIX (top-right clean) */
     .choice-box input{
         position:absolute;
         top:10px;
         right:10px;
-        transform:scale(1.8); /* 🔥 bigger */
+        transform:scale(1.8);
         cursor:pointer;
     }
 
@@ -235,14 +301,22 @@
         justify-content:space-between;
         align-items:center;
         font-weight:bold;
-        margin-bottom:10px;
+        margin-bottom:20px;
+        background: #f8f9fa;
+        padding: 12px 20px;
+        border-radius: 50px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .topbar span{
-        background:#f1f3f5;
-        padding:6px 12px;
-        border-radius:10px;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        background:#2c3e50;
+        color: #ecf0f1;
+        padding:6px 14px;
+        border-radius:40px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 1px 2px rgba(255,255,255,0.5);
     }
 
     #feedback{
@@ -251,7 +325,6 @@
         font-weight:bold;
         font-size:18px;
     }
-
 
     /* 🎉 FINAL SCREEN */
     .final-card{
@@ -332,21 +405,9 @@
         margin-top:20px;
     }
 
-    .rank-img{
-        width:140px;
-        border-radius:20px;
-        background:linear-gradient(135deg,#b8f1a1,#7ed957);
-        padding:15px;
-        box-shadow:0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    /* ===== MOBILE RESPONSIVE FIX ===== */
+    /* ===== MOBILE RESPONSIVE ===== */
     @media (max-width: 768px){
-
-        body{
-            overflow:auto;
-        }
-
+        body{ overflow:auto; }
         .page{
             margin:10px;
             padding:15px;
@@ -354,136 +415,33 @@
             margin-bottom:20px;
             border-radius:14px;
         }
-
-        h1{
-            font-size:1.3rem;
-            line-height:1.4;
-        }
-
-        /* TOP BAR STACK */
+        h1{ font-size:1.3rem; line-height:1.4; }
         .topbar{
             flex-direction:column;
             gap:8px;
             align-items:center;
             text-align:center;
         }
-
-        .topbar span{
-            font-size:13px;
-            padding:5px 10px;
-        }
-
-        .progress{
-            font-size:14px;
-        }
-
-        /* CARD */
-        .card{
-            padding:16px;
-            margin-top:15px;
-        }
-
-        /* SCENARIO IMAGE */
-        .scenario-img{
-            border-radius:10px;
-        }
-
-        /* TEXT BLOCKS */
-        .situation{
-            font-size:14px;
-            padding:8px;
-        }
-
-        .question{
-            font-size:14px;
-            padding:10px;
-        }
-
-        /* GRID → 1 COLUMN */
-        .choices-grid{
-            grid-template-columns:1fr;
-            gap:12px;
-        }
-
-        /* CHOICE BOX */
-        .choice-box{
-            min-height:auto;
-            padding:10px;
-        }
-
-        .choice-img{
-            height:130px;
-        }
-
-        .choice-text{
-            font-size:16px;
-        }
-
-        /* CHECKBOX (tap friendly) */
-        .choice-box input{
-            transform:scale(1.6);
-            top:8px;
-            right:8px;
-        }
-
-        /* BUTTONS STACK */
-        .btn-container{
-            flex-direction:column;
-            gap:10px;
-            margin-top:20px;
-        }
-
-        .primary-btn,
-        .next-btn{
-            width:100%;
-            font-size:16px;
-            padding:14px;
-            margin-left:0;
-        }
-
-        /* FEEDBACK TEXT */
-        #feedback{
-            font-size:15px;
-            padding:10px;
-        }
-
-        /* FINAL SCREEN */
-        .final-header{
-            font-size:22px;
-        }
-
-        .final-stats{
-            flex-direction:column;
-            gap:12px;
-            align-items:stretch;
-        }
-
-        .stat-box{
-            width:100%;
-            padding:14px;
-            border-radius:12px;
-            text-align:center;
-        }
-
-        .stat-box span{
-            font-size:20px;
-        }
-
-        .stat-box small{
-            font-size:12px;
-        }
-
-        .rank-img{
-            width:100px;
-        }
-
-        .final-btn{
-            width:100%;
-            padding:14px;
-            font-size:16px;
-        }
+        .topbar span{ font-size:13px; padding:5px 10px; }
+        .card{ padding:16px; margin-top:15px; }
+        .situation{ font-size:14px; padding:8px; }
+        .choices-grid{ grid-template-columns:1fr; gap:12px; }
+        .choice-box{ min-height:auto; padding:10px; }
+        .choice-img{ height:130px; }
+        .choice-text{ font-size:16px; }
+        .choice-box input{ transform:scale(1.6); top:8px; right:8px; }
+        .btn-container{ flex-direction:column; gap:10px; margin-top:20px; }
+        .primary-btn, .next-btn{ width:100%; font-size:16px; padding:14px; }
+        #feedback{ font-size:15px; padding:10px; }
+        .final-header{ font-size:22px; }
+        .final-stats{ flex-direction:column; gap:12px; align-items:stretch; }
+        .stat-box{ width:100%; padding:14px; text-align:center; }
+        .final-btn{ width:100%; padding:14px; font-size:16px; }
+        .progress-text { font-size: 0.8rem; }
+        .panuto-box { padding: 12px 16px; }
+        .panuto-text { font-size: 0.8rem; }
+        .panuto-list { font-size: 0.75rem; }
     }
-
 </style>
 @endpush
 
@@ -494,15 +452,42 @@
         <div class="overlay"></div>
 
         <div class="page">
-            <h1>🎮 Laro sa Tamang Desisyon sa Kapaligiran</h1>
+            <h1>Matalinong Pagpapasya sa Oras ng Sakuna</h1>
 
             <div class="topbar">
-                <div>⏱ Oras: <span id="timer">00:00</span></div>
-                <div>⭐ Puntos: <span id="xp">0</span></div>
+                <div>⏱ ORAS: <span id="timer">00:00</span></div>
+                <div>⭐ PUNTOS: <span id="xp">0</span></div>
             </div>
 
-            <div class="progress">
-                Sitwasyon <span id="current">1</span> / 6
+            <!-- PANUTO / INSTRUCTIONS (will be hidden when completed) -->
+            <div id="panuto-container">
+                <div class="panuto-box">
+                    <div class="panuto-title">
+                        <span>📋</span> PANUTO
+                    </div>
+                    <div class="panuto-text">
+                        Basahin ang bawat sitwasyon at <strong>piliin ang lahat ng tamang sagot</strong> sa pamamagitan ng pag-tsek sa kahon sa itaas ng bawat opsyon.
+                    </div>
+                    <ul class="panuto-list">
+                        <li>✅ <strong>+10 puntos</strong> sa bawat <strong>TAMANG sagot</strong> na napili</li>
+                        <li>❌ <strong>-10 puntos</strong> sa bawat <strong>MALING sagot</strong> na napili</li>
+                        <li>🏆 <strong>BONUS +10 puntos</strong> kung nasagot mo ng <strong>LAHAT ng tama</strong> sa isang sitwasyon (walang maling napili)</li>
+                        <li>🔥 <strong>Streak Bonus:</strong> Patuloy na pagkuha ng perpektong iskor ay nagbibigay ng dagdag na puntos!</li>
+                    </ul>
+                    <div class="panuto-note">
+                        💡 TIP: Piliin lamang ang mga sagot na sigurado kang tama. Ang pagpili ng maling sagot ay nakakabawas ng puntos!
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROGRESS BAR (will be hidden when completed) -->
+            <div id="progress-container">
+                <div class="progress-section">
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progress-fill"></div>
+                        <div class="progress-text" id="progress-text">Sitwasyon 1 / 6</div>
+                    </div>
+                </div>
             </div>
 
             <div id="game"></div>
@@ -510,11 +495,11 @@
             <p id="feedback"></p>
 
             <div class="btn-container">
-                <button class="btn primary-btn" onclick="submitAnswer()">
+                <button class="primary-btn" id="submitBtn" onclick="submitAnswer()">
                     🚀 Isumite ang Sagot
                 </button>
 
-                <button class="btn next-btn" onclick="nextScenario()" id="nextBtn" style="display:none;">
+                <button class="next-btn" onclick="nextScenario()" id="nextBtn" style="display:none;">
                     ▶ Susunod na Sitwasyon
                 </button>
             </div>
@@ -528,8 +513,7 @@
                 {
                     title:"Scenario 1",
                     image:"/pictures/Mod2_FinalAct/scenario1.png",
-                    desc:"Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura.",
-                    question:"Alin sa mga sumusunod ang tamang hakbang?",
+                    desc:"🌍 Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura. ❓ Alin sa mga sumusunod ang tamang hakbang?",
                     choices:[
                         {t:"Sunugin ang basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
                         {t:"Makilahok sa clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
@@ -538,12 +522,10 @@
                         {t:"Magtapon ng basura sa tamang lalagyan",c:true, img:"/pictures/Mod2_FinalAct/tamang_tapon.png"}
                     ]
                 },
-
                 {
                     title:"Scenario 2: Deforestation",
                     image:"/pictures/Mod2_FinalAct/scenario2.png",
                     desc:"Sa isang barangay sa Daraga, patuloy ang pagputol ng mga puno upang gawing sakahan.",
-                    question:"Ano ang tamang hakbang?",
                     choices:[
                         {t:"Sumali sa pagputol ng puno",c:false, img:"/pictures/Mod2_FinalAct/illegal_logging.png"},
                         {t:"Magsagawa ng tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
@@ -552,12 +534,10 @@
                         {t:"Sumunod sa batas pangkalikasan",c:true, img:"/pictures/Mod2_FinalAct/environment_law.png"}
                     ]
                 },
-
                 {
                     title:"Scenario 3: Climate Change",
                     image:"/pictures/Mod2_FinalAct/scenario3.png",
                     desc:"Mas lumalakas ang bagyo at tumitindi ang init sa Albay.",
-                    question:"Alin ang makakatulong?",
                     choices:[
                         {t:"Pagtatanim ng puno",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
                         {t:"Pagsusunog ng basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
@@ -566,12 +546,10 @@
                         {t:"Pagtitipid ng enerhiya",c:true, img:"/pictures/Mod2_FinalAct/save_energy.png"}
                     ]
                 },
-
                 {
                     title:"Scenario 4: Government Response",
                     image:"/pictures/Mod2_FinalAct/scenario4.png",
                     desc:"May babala ang PAGASA tungkol sa bagyo at posibleng pagputok ng Mayon.",
-                    question:"Ano ang dapat gawin?",
                     choices:[
                         {t:"Huwag pansinin ang babala",c:false, img:"/pictures/Mod2_FinalAct/ignore_warning.png"},
                         {t:"Makilahok sa disaster drills",c:true, img:"/pictures/Mod2_FinalAct/disaster_drill.png"},
@@ -580,12 +558,10 @@
                         {t:"Lumikas papunta sa evacuation center",c:true, img:"/pictures/Mod2_FinalAct/evacuation.png"}
                     ]
                 },
-
                 {
                     title:"Scenario 5: Flooding",
                     image:"/pictures/Mod2_FinalAct/scenario5.png",
                     desc:"Baradong ilog sa barangay",
-                    question:"Ano ang tamang gawin?",
                     choices:[
                         {t:"Clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
                         {t:"Waste segregation",c:true, img:"/pictures/Mod2_FinalAct/segregation.png"},
@@ -593,12 +569,10 @@
                         {t:"Itapon sa ilog",c:false, img:"/pictures/Mod2_FinalAct/tapon_ilog.png"}
                     ]
                 },
-
                 {
                     title:"Scenario 6: Air Pollution",
                     image:"/pictures/Mod2_FinalAct/scenario6.png",
                     desc:"Mausok na lugar",
-                    question:"Ano ang solusyon?",
                     choices:[
                         {t:"Pag gamit ng public transport",c:true, img:"/pictures/Mod2_FinalAct/public_transport.png"},
                         {t:"Tree planting",c:true, img:"/pictures/Mod2_FinalAct/tree_planting.png"},
@@ -615,7 +589,7 @@
             let current = 0;
             let streak = 0;
             let answered = false;
-            let oras = 20 * 60; // 20 minutes in seconds
+            let oras = 20 * 60;
             let allAnswers = [];
             let totalCorrectSelected = 0;
             let totalPossibleCorrect = 0;
@@ -627,26 +601,29 @@
             function formatTime(seconds){
                 let minutes = Math.floor(seconds / 60);
                 let secs = seconds % 60;
-
                 return String(minutes).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
             }
 
             let timerInterval = setInterval(() => {
-
                 oras--;
-
                 document.getElementById("timer").innerText = formatTime(oras);
-
                 if(oras <= 0){
                     clearInterval(timerInterval);
-
-                    document.getElementById("feedback").innerHTML =
-                        "⏰ Naubos na ang oras! Awtomatikong tatapusin ang aktibidad.";
-
-                    tapusinNa(); // 🔥 auto end
+                    document.getElementById("feedback").innerHTML = "⏰ Naubos na ang oras! Awtomatikong tatapusin ang aktibidad.";
+                    tapusinNa();
                 }
-
             }, 1000);
+
+            /* ===============================
+            📊 UPDATE PROGRESS BAR (Fill only, text stays centered)
+            ================================ */
+            function updateProgressBar() {
+                let progressPercent = ((current + 1) / scenarios.length) * 100;
+                let fillElement = document.getElementById("progress-fill");
+                let textElement = document.getElementById("progress-text");
+                fillElement.style.width = progressPercent + "%";
+                textElement.innerHTML = `Sitwasyon ${current + 1} / ${scenarios.length}`;
+            }
 
             /* ===============================
             🔀 INITIAL SETUP
@@ -663,24 +640,20 @@
             ================================ */
             function loadScenario(){
                 answered = false;
-
                 let s = scenarios[current];
-
-                document.getElementById("current").innerText = current + 1;
                 document.getElementById("feedback").innerHTML = "";
+                updateProgressBar();
+                
+                // Show submit button, hide next button
+                document.getElementById("submitBtn").style.display = "inline-block";
+                document.getElementById("nextBtn").style.display = "none";
 
                 let html = `
                     <div class="card pulse">
                         <img src="${s.image}" class="scenario-img">
-
                         <div class="situation">
-                            🌍 ${s.desc || ""}
+                            ${s.desc || ""}
                         </div>
-
-                        <div class="question">
-                            ❓ ${s.question}
-                        </div>
-
                         <div class="choices-grid">
                 `;
 
@@ -695,9 +668,8 @@
                 });
 
                 html += `</div></div>`;
-
                 document.getElementById("game").innerHTML = html;
-                document.querySelector(".primary-btn").disabled = false;
+                document.getElementById("submitBtn").disabled = false;
             }
 
             /* ===============================
@@ -712,18 +684,15 @@
                 });
 
                 if(!anyChecked){
-                    document.getElementById("feedback").innerHTML =
-                        "⚠️ Pumili muna ng kahit isang sagot bago isumite!";
+                    document.getElementById("feedback").innerHTML = "⚠️ Pumili muna ng kahit isang sagot bago isumite!";
                     return;
                 }
 
                 answered = true;
-
                 let s = scenarios[current];
                 let correct = 0;
                 let wrong = 0;
                 let totalCorrect = s.choices.filter(c => c.c).length;
-
                 let scenarioAnswers = [];
 
                 document.querySelectorAll(".choice-box").forEach((el, i) => {
@@ -739,7 +708,7 @@
                     else if(selected && !isCorrect){
                         el.classList.add("wrong");
                         wrong++;
-                        totalCorrectSelected--; // 🔥 penalty
+                        totalCorrectSelected--;
                     }
 
                     scenarioAnswers.push({
@@ -751,11 +720,12 @@
                 });
 
                 allAnswers.push(...scenarioAnswers);
-
-                document.querySelector(".primary-btn").disabled = true;
+                
+                // HIDE submit button, SHOW next button
+                document.getElementById("submitBtn").style.display = "none";
+                document.getElementById("nextBtn").style.display = "inline-block";
 
                 let gainedXP = correct * 10;
-
                 if(correct === totalCorrect){
                     streak++;
                     gainedXP += 10 * streak;
@@ -771,38 +741,22 @@
                 if(ratio < 0) ratio = 0;
 
                 if(ratio === 1){
-                    feedback = `🔥 PERPEKTO!
-                    <br>Kumpleto ang lahat ng tamang sagot.
-                    <br>Malaking tulong ito sa kalikasan.
-                    <br>+${gainedXP} puntos (Sunod-sunod x${streak})`;
+                    feedback = `🔥 PERPEKTO!<br>Kumpleto ang lahat ng tamang sagot.<br>Malaking tulong ito sa kalikasan.<br>+${gainedXP} puntos (Sunod-sunod x${streak})`;
                 }
                 else if(ratio >= 0.75){
-                    feedback = `👍 MAAYOS!
-                    <br>Karamihan sa iyong sagot ay tama.
-                    <br>May ilang kulang ngunit maayos pa rin ang epekto.
-                    <br>+${gainedXP} puntos`;
+                    feedback = `👍 MAAYOS!<br>Karamihan sa iyong sagot ay tama.<br>May ilang kulang ngunit maayos pa rin ang epekto.<br>+${gainedXP} puntos`;
                 }
                 else if(ratio >= 0.5){
-                    feedback = `⚠️ KATAMTAMAN!
-                    <br>May sapat na tamang sagot ngunit may mga mali rin.
-                    <br>Maaaring magdulot ito ng problema sa kapaligiran.
-                    <br>+${gainedXP} puntos`;
+                    feedback = `⚠️ KATAMTAMAN!<br>May sapat na tamang sagot ngunit may mga mali rin.<br>Maaaring magdulot ito ng problema sa kapaligiran.<br>+${gainedXP} puntos`;
                 }
                 else if(ratio > 0){
-                    feedback = `🚨 MARAMING MALI!
-                    <br>Kakaunti lamang ang tamang sagot.
-                    <br>Malaki ang negatibong epekto sa kapaligiran.
-                    <br>+${gainedXP} puntos`;
+                    feedback = `🚨 MARAMING MALI!<br>Kakaunti lamang ang tamang sagot.<br>Malaki ang negatibong epekto sa kapaligiran.<br>+${gainedXP} puntos`;
                 }
                 else{
-                    feedback = `💀 WALANG TAMANG SAGOT!
-                    <br>Lahat ng napili ay mali.
-                    <br>Lubhang mapanganib ang epekto nito sa kapaligiran.
-                    <br>+${gainedXP} puntos`;
+                    feedback = `💀 WALANG TAMANG SAGOT!<br>Lahat ng napili ay mali.<br>Lubhang mapanganib ang epekto nito sa kapaligiran.<br>+${gainedXP} puntos`;
                 }
 
                 document.getElementById("feedback").innerHTML = feedback;
-                document.getElementById("nextBtn").style.display = "inline-block";
             }
 
             /* ===============================
@@ -829,32 +783,31 @@
             }
 
             function tapusinNa(){
-                current = scenarios.length - 1; // last index
-                nextScenario(); // now +1 = exact end
+                current = scenarios.length - 1;
+                nextScenario();
             }
 
             /* ===============================
             ▶ NEXT SCENARIO
             ================================ */
             function nextScenario(){
-
                 if(!answered){
-                    document.getElementById("feedback").innerHTML =
-                        "⚠️ Isumite muna ang iyong sagot bago magpatuloy!";
+                    document.getElementById("feedback").innerHTML = "⚠️ Isumite muna ang iyong sagot bago magpatuloy!";
                     return;
                 }
 
                 current++;
 
                 if(current >= scenarios.length){
-
                     if (isSaving) return;
                     isSaving = true;
-
                     clearInterval(timerInterval);
-
+                    
+                    // HIDE panuto and progress bar when all scenarios are completed
+                    document.getElementById("panuto-container").style.display = "none";
+                    document.getElementById("progress-container").style.display = "none";
+                    
                     document.querySelector(".btn-container").style.display = "none";
-                    document.getElementById("nextBtn").style.display = "none";
                     document.getElementById("feedback").innerHTML = "";
 
                     let rank = "";
@@ -870,99 +823,45 @@
                     saveFinalActivity()
                         .then(async response => {
                             let text = await response.text();
-
-                            console.log("RAW RESPONSE:", text);
-
-                            if (!response.ok) {
-                                throw new Error("HTTP " + response.status + " → " + text);
-                            }
-
+                            if (!response.ok) throw new Error("HTTP " + response.status);
                             return JSON.parse(text);
                         })
                         .then(data => {
                             document.getElementById("game").innerHTML = `
                                 <div class="final-card">
-                                    <div class="final-header">
-                                        ${passed ? "🎉 NAKAPASA KA!" : "❌ HINDI KA NAKAPASA"}
-                                    </div>
-
+                                    <div class="final-header">${passed ? "🎉 NAKAPASA KA!" : "❌ HINDI KA NAKAPASA"}</div>
                                     <div class="final-stats">
-                                        <div class="stat-box">
-                                            📊 <span>${percentage}%</span>
-                                            <small>Iskor</small>
-                                        </div>
-
-                                        <div class="stat-box">
-                                            ⏱ <span>${finalTime}</span>
-                                            <small>Oras</small>
-                                        </div>
-
-                                        <div class="stat-box">
-                                            ⭐ <span>${xp}</span>
-                                            <small>Kabuuang Puntos</small>
-                                        </div>
+                                        <div class="stat-box">📊 <span>${percentage}%</span><small>Iskor</small></div>
+                                        <div class="stat-box">⏱ <span>${finalTime}</span><small>Oras</small></div>
+                                        <div class="stat-box">⭐ <span>${xp}</span><small>Kabuuang Puntos</small></div>
                                     </div>
-
                                     <div class="rank-section">
-                                        <div class="rank-badge">
-                                            ${rank}
-                                        </div>
-
-                                        ${
-                                            passed
-                                            ? `<a href="{{ route('module2.posttest') }}" class="final-btn">
-                                                    📝 Sagutin ang Panghuling Pagsusulit
-                                            </a>`
-                                            : `<button class="final-btn" onclick="location.reload()">
-                                                    🔄 Ulitin ang Aktibidad
-                                            </button>`
-                                        }
+                                        <div class="rank-badge">${rank}</div>
+                                        ${passed ? `<a href="{{ route('module2.posttest') }}" class="final-btn">📝 Sagutin ang Panghuling Pagsusulit</a>` : `<button class="final-btn" onclick="location.reload()">🔄 Ulitin ang Aktibidad</button>`}
                                     </div>
                                 </div>
                             `;
                         })
                         .catch(error => {
-                            console.error("Error saving final activity:", error);
-
+                            console.error("Error:", error);
                             document.getElementById("game").innerHTML = `
                                 <div class="final-card">
-                                    <div class="final-header">
-                                        🎉 MISSION COMPLETE!
-                                    </div>
-
+                                    <div class="final-header">🎉 MISSION COMPLETE!</div>
                                     <div class="final-stats">
-                                        <div class="stat-box">
-                                            ⏱ <span>${finalTime}</span>
-                                            <small>Time</small>
-                                        </div>
-
-                                        <div class="stat-box">
-                                            ⭐ <span>${xp}</span>
-                                            <small>Total XP</small>
-                                        </div>
+                                        <div class="stat-box">⏱ <span>${finalTime}</span><small>Time</small></div>
+                                        <div class="stat-box">⭐ <span>${xp}</span><small>Total XP</small></div>
                                     </div>
-
                                     <div class="rank-section">
-                                        <div class="rank-badge">
-                                            ${rank}
-                                        </div>
-
-                                        <p style="color:red; margin: 15px 0;">
-                                            Hindi na-save ang resulta ng aktibidad.
-                                        </p>
-
-                                        <a href="{{ route('module2.posttest') }}" class="final-btn">
-                                            📝 Take Post Test
-                                        </a>
+                                        <div class="rank-badge">${rank}</div>
+                                        <p style="color:red;">Hindi na-save ang resulta.</p>
+                                        <a href="{{ route('module2.posttest') }}" class="final-btn">📝 Take Post Test</a>
                                     </div>
                                 </div>
                             `;
                         });
-
                     return;
                 }
 
-                document.getElementById("nextBtn").style.display = "none";
                 loadScenario();
             }
         </script>
