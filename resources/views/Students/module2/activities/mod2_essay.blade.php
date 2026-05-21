@@ -1,24 +1,31 @@
-<!DOCTYPE html>
-<html lang="fil">
+@extends('Students.studentslayout')
+@section('title', 'Module 2 : Sanaysay')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanaysay – Modyul 2</title>
+@push('styles')
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap"
         rel="stylesheet">
 
     <style>
-        body,
         html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             font-family: 'Nunito', sans-serif;
-            overflow-x: hidden;
+            overflow-y: auto; 
+            position: relative;
+        }
+
+        body, {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Nunito', sans-serif;
+            overflow-y: hidden; 
+            position: relative;
         }
 
         /* BACKGROUND */
@@ -32,7 +39,6 @@
 
         .background-map {
             position: fixed;
-            /* 🔥 move fixed here instead */
             top: 0;
             left: 0;
             width: 100%;
@@ -131,7 +137,7 @@
 
         .back-button {
             position: fixed;
-            top: 20px;
+            top: 80px;
             left: 20px;
             z-index: 100;
             background: white;
@@ -321,8 +327,9 @@
             padding: 12px;
         }
     </style>
-</head>
+@endpush
 
+@section('content')
 <body data-submitted="{{ session('success') ? 'true' : 'false' }}">
 
     <div class="map-wrapper">
@@ -455,4 +462,4 @@
 
 </body>
 
-</html>
+@endsection
