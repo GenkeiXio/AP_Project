@@ -2,6 +2,7 @@
 @section('title', 'Module 3 : Bulkan Activity')
 
 @push('styles')
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
     
     <style>
@@ -16,6 +17,13 @@
             --parchment: #f5f5dc;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Desktop styles - keep original */
         html, body {
             scroll-behavior: smooth;
             background:
@@ -31,6 +39,29 @@
         body {
             color: #fff;
             font-family: 'Poppins', sans-serif;
+        }
+
+        /* Center the game wrapper - only affects game content */
+        .game-wrapper {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 80px);
+        }
+
+        /* Main content area - centered */
+        #game-layout {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+            flex: 1;
+            min-height: 0;
         }
 
         /* --- 1. TRAINING MODAL --- */
@@ -60,13 +91,18 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .video-section iframe {
             width: 100%;
+            max-width: 300px;
             height: 180px;
             border-radius: 8px;
             border: 3px solid var(--wood-medium);
+            flex: 1;
+            min-width: 250px;
         }
 
         .btn-ready {
@@ -87,16 +123,6 @@
             transform: scale(1.02);
         }
 
-        /* --- 2. MAIN LAYOUT --- */
-        #game-layout {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
-            gap: 20px;
-            box-sizing: border-box;
-        }
-
         /* --- LEFT PANEL: UI MODULE --- */
         #ui-module {
             flex: 1;
@@ -109,8 +135,9 @@
             flex-direction: column;
             z-index: 100;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-            min-width: 300px;
+            min-width: 280px;
             overflow-y: auto;
+            max-height: 85vh;
         }
 
         .status-header {
@@ -130,7 +157,7 @@
             font-size: 1rem;
             line-height: 1.5;
             margin-bottom: 20px;
-            min-height: 120px;
+            min-height: 140px;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
@@ -169,7 +196,9 @@
             position: relative;
             overflow: hidden;
             border: 8px solid #3e2723;
-            min-width: 400px;
+            min-width: 350px;
+            height: 75vh;
+            min-height: 500px;
         }
 
         #world {
@@ -177,6 +206,7 @@
             height: 100%;
             position: relative;
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: visible;
         }
 
         .green-ground {
@@ -247,7 +277,7 @@
 
         #hero {
             position: absolute;
-            width: 120px;
+            width: 100px;
             z-index: 100;
             transform: translateX(-50%);
             transition: bottom 0.6s ease-out, left 0.6s ease-out, opacity 0.5s;
@@ -258,6 +288,7 @@
         #hero img {
             width: 100%;
             display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
 
         /* --- MISSION DEPLOYMENT CARD --- */
@@ -270,6 +301,7 @@
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(5px);
+            border-radius: 20px;
         }
 
         /* --- VICTORY GIFT --- */
@@ -287,6 +319,8 @@
             transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
             opacity: 0;
+            max-width: 90%;
+            width: 400px;
         }
 
         #victory-bag-container.active {
@@ -311,8 +345,9 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 50px;
+            padding: 30px;
             z-index: 2000;
+            border-radius: 20px;
         }
 
         .game-overlay.show {
@@ -336,114 +371,558 @@
             color: #fff;
         }
 
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 768px) {
-            body, html {
-                overflow: auto;
+        /* --- PROGRESS BAR --- */
+        .progress-custom {
+            height: 8px;
+            background: #222;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            transition: 0.4s;
+        }
+
+        /* ========== MOBILE RESPONSIVE - 40% LEFT, 60% RIGHT ========== */
+        
+        /* Tablets */
+        @media (max-width: 1024px) {
+            .game-wrapper {
+                padding: 0 15px;
+                height: calc(100% - 70px);
             }
             #game-layout {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
+                gap: 15px;
             }
-            #ui-module {
-                order: 1;
-                min-height: 400px;
-                padding: 20px;
+            .stone-ledge {
+                width: 140px;
+                height: 45px;
             }
-            #simulation-module {
-                order: 2;
-                height: 400px;
-                flex: none;
+            #safe-place {
+                width: 220px;
+                height: 150px;
             }
-            .video-section {
-                flex-direction: column;
+            .safe-door {
+                width: 65px;
+                height: 90px;
             }
             #hero {
                 width: 80px;
             }
-            .stone-ledge {
-                width: 120px;
+            #ui-module {
+                max-height: 80vh;
+                padding: 20px;
             }
+            #simulation-module {
+                min-height: 450px;
+                height: 70vh;
+            }
+        }
+        
+        /* Mobile phones - 40% LEFT, 60% RIGHT */
+        @media (max-width: 768px) {
+            /* Fix body/html for mobile scrolling */
+            html, body {
+                height: auto;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+            
+            .game-wrapper {
+                padding: 0 8px;
+                height: auto;
+                min-height: 100vh;
+                display: block;
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            
+            /* Keep horizontal layout with 40/60 ratio */
+            #game-layout {
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+                margin: 0;
+                min-height: 85vh;
+                align-items: stretch;
+            }
+            
+            /* Left panel - 40% width */
+            #ui-module {
+                flex: 0.66;
+                min-width: 130px;
+                padding: 8px;
+                max-height: none;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Right panel - 60% width */
+            #simulation-module {
+                flex: 1;
+                min-width: 200px;
+                height: auto;
+                min-height: auto;
+                max-height: none;
+                position: relative;
+                border-width: 5px;
+            }
+            
+            /* Make world container take full height */
+            #world {
+                height: 100%;
+                min-height: 550px;
+            }
+            
+            /* Make ledges VISIBLE and properly sized */
+            .stone-ledge {
+                width: 110px;
+                height: 42px;
+                border-top-width: 5px;
+                border-radius: 8px;
+            }
+            
+            /* Make safe place visible */
+            #safe-place {
+                width: 150px;
+                height: 115px;
+                padding-bottom: 10px;
+            }
+            
+            .safe-door {
+                width: 48px;
+                height: 65px;
+            }
+            
+            /* Make hero character visible */
+            #hero {
+                width: 65px;
+            }
+            
+            /* LEFT PANEL TEXT - SMALLER FONTS */
+            .status-header {
+                font-size: 0.45rem !important;
+                letter-spacing: 1.5px;
+                margin-bottom: 6px;
+            }
+            
+            #scenario-text {
+                padding: 6px;
+                font-size: 0.55rem !important;
+                min-height: auto;
+                margin-bottom: 8px;
+                line-height: 1.3;
+            }
+            
+            #scenario-text h5 {
+                font-size: 0.6rem !important;
+                margin-bottom: 4px !important;
+            }
+            
+            #scenario-text ul {
+                font-size: 0.5rem !important;
+                margin-bottom: 0;
+                padding-left: 10px;
+            }
+            
+            #scenario-text li {
+                font-size: 0.5rem !important;
+            }
+            
+            .stone-btn {
+                padding: 5px 7px;
+                font-size: 0.5rem !important;
+                border-bottom-width: 2px;
+                border-radius: 6px;
+            }
+            
+            .choices-container {
+                gap: 5px;
+            }
+            
+            /* Progress bar text smaller */
+            .mt-auto.pt-3 {
+                margin-top: 8px;
+            }
+            
+            .mt-auto.pt-3 small {
+                font-size: 0.45rem !important;
+            }
+            
+            .progress-custom {
+                height: 4px;
+            }
+            
+            /* Adjust lava layer for mobile */
+            #lava-layer {
+                bottom: -2200px;
+                height: 1800px;
+            }
+            
+            /* Modal videos - smaller */
+            .video-section iframe {
+                height: 100px;
+                min-width: 130px;
+            }
+            
+            .modal-content-custom {
+                padding: 12px;
+                margin: 10px;
+            }
+            
+            .modal-content-custom .status-header {
+                font-size: 0.55rem !important;
+            }
+            
+            .btn-ready {
+                padding: 8px 12px;
+                font-size: 0.65rem;
+            }
+            
+            /* Mission start card - smaller */
+            #mission-deployment-card .text-center {
+                margin: 8px;
+                padding: 12px !important;
+            }
+            
+            #mission-deployment-card h2 {
+                font-size: 0.85rem;
+                margin-bottom: 6px !important;
+            }
+            
+            #mission-deployment-card button {
+                padding: 6px 12px !important;
+                font-size: 0.65rem;
+            }
+            
+            /* Victory gift - smaller */
+            .gift-item-img {
+                width: 60px;
+            }
+            
+            #victory-bag-container {
+                padding: 12px;
+                width: 85%;
+            }
+            
+            #victory-bag-container h2 {
+                font-size: 0.9rem;
+            }
+            
+            #victory-bag-container p {
+                font-size: 0.6rem;
+            }
+            
+            #victory-bag-container button {
+                font-size: 0.7rem;
+                padding: 6px;
+            }
+            
+            /* Game over overlay - smaller */
+            .game-overlay {
+                padding: 12px;
+            }
+            
+            .game-overlay h1 {
+                font-size: 0.85rem;
+                margin-bottom: 8px !important;
+            }
+            
+            .game-overlay p {
+                font-size: 0.6rem;
+                margin-bottom: 10px !important;
+            }
+            
+            .next-btn, #retryBtn {
+                padding: 6px 12px;
+                font-size: 0.65rem;
+            }
+        }
+        
+        /* Small phones - maintain 40/60 ratio */
+        @media (max-width: 600px) {
+            .game-wrapper {
+                padding: 0 6px;
+            }
+            
+            #game-layout {
+                gap: 6px;
+                min-height: 80vh;
+            }
+            
+            /* Left panel - 40% */
+            #ui-module {
+                flex: 0.66;
+                min-width: 110px;
+                padding: 6px;
+            }
+            
+            /* Right panel - 60% */
+            #simulation-module {
+                flex: 1;
+                min-width: 170px;
+            }
+            
+            #world {
+                min-height: 500px;
+            }
+            
+            .stone-ledge {
+                width: 95px;
+                height: 38px;
+            }
+            
+            #safe-place {
+                width: 130px;
+                height: 100px;
+            }
+            
+            .safe-door {
+                width: 40px;
+                height: 55px;
+            }
+            
+            #hero {
+                width: 55px;
+            }
+            
+            /* Even smaller text */
+            .status-header {
+                font-size: 0.4rem !important;
+                letter-spacing: 1px;
+            }
+            
+            #scenario-text {
+                padding: 5px;
+                font-size: 0.5rem !important;
+            }
+            
+            #scenario-text h5 {
+                font-size: 0.55rem !important;
+            }
+            
+            .stone-btn {
+                padding: 4px 6px;
+                font-size: 0.45rem !important;
+            }
+        }
+        
+        /* Very small phones - maintain 40/60 ratio */
+        @media (max-width: 480px) {
+            #ui-module {
+                flex: 0.66;
+                min-width: 100px;
+            }
+            
+            #simulation-module {
+                flex: 1;
+                min-width: 155px;
+            }
+            
+            .stone-ledge {
+                width: 85px;
+                height: 35px;
+            }
+            
+            #safe-place {
+                width: 115px;
+                height: 90px;
+            }
+            
+            .safe-door {
+                width: 35px;
+                height: 48px;
+            }
+            
+            #hero {
+                width: 48px;
+            }
+        }
+        
+        /* Landscape mode on mobile */
+        @media (max-width: 900px) and (orientation: landscape) {
+            html, body {
+                height: 100%;
+                overflow: hidden;
+            }
+            
+            .game-wrapper {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                margin-top: 0;
+            }
+            
+            #game-layout {
+                height: 85vh;
+                min-height: 400px;
+            }
+            
+            #ui-module {
+                flex: 0.66;
+                min-width: 180px;
+                max-height: 85vh;
+            }
+            
+            #simulation-module {
+                flex: 1;
+                min-width: 240px;
+            }
+            
+            #world {
+                min-height: 400px;
+            }
+            
+            .stone-ledge {
+                width: 100px;
+                height: 40px;
+            }
+            
+            #hero {
+                width: 60px;
+            }
+            
+            #safe-place {
+                width: 140px;
+                height: 105px;
+            }
+            
+            .safe-door {
+                width: 42px;
+                height: 58px;
+            }
+            
+            .status-header {
+                font-size: 0.5rem !important;
+            }
+            
+            #scenario-text {
+                font-size: 0.6rem !important;
+            }
+            
+            .stone-btn {
+                font-size: 0.55rem !important;
+            }
+            
+            .video-section iframe {
+                height: 90px;
+            }
+        }
+        
+        /* Touch-friendly tap targets */
+        @media (max-width: 768px) {
+            .stone-btn,
+            .btn-ready,
+            .btn-warning,
+            .next-btn {
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .stone-btn:active {
+                transform: scale(0.97);
+                background: var(--wood-light);
+            }
+        }
+        
+        /* Scrollbar styling */
+        #ui-module::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        #ui-module::-webkit-scrollbar-track {
+            background: #2b1d12;
+            border-radius: 10px;
+        }
+        
+        #ui-module::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
         }
     </style>
 @endpush
 
 @section('content')
-
-    <div id="victory-bag-container">
-        <div class="status-header">GANTIMPALA: LIGTAS-KIT</div>
-        <img src="https://img.icons8.com/fluency/240/backpack.png" class="gift-item-img" alt="Backpack">
-        <h2 class="text-white fw-bold">Emergency Go-Bag</h2>
-        <p class="text-secondary small">Nakuha mo ang mahahalagang gamit <br> para sa paglikas sa pagsabog!</p>
-        <button class="btn btn-warning mt-3 fw-bold w-100" onclick="closeGift()">IPAGPATULOY</button>
-    </div>
-
-    <div id="instruction-modal">
-        <div class="modal-content-custom">
-            <div class="status-header">PAGSASANAY NG MGA SIBILYAN</div>
-            <div class="video-section">
-                <iframe src="https://www.youtube.com/embed/Hg1ktHeXaPU" allowfullscreen></iframe>
-                <iframe src="https://www.youtube.com/embed/UFz2fLrqZuk" allowfullscreen></iframe>
-            </div>
-            <button class="btn-ready" onclick="proceedToDashboard()">MAGSIMULA SA PAGSASANAY</button>
+    <div class="game-wrapper">
+        <div id="victory-bag-container">
+            <div class="status-header">GANTIMPALA: LIGTAS-KIT</div>
+            <img src="https://img.icons8.com/fluency/240/backpack.png" class="gift-item-img" alt="Backpack">
+            <h2 class="text-white fw-bold">Emergency Go-Bag</h2>
+            <p class="text-secondary small">Nakuha mo ang mahahalagang gamit <br> para sa paglikas sa pagsabog!</p>
+            <button class="btn btn-warning mt-3 fw-bold w-100" onclick="closeGift()">IPAGPATULOY</button>
         </div>
-    </div>
 
-    <div id="game-layout">
-        <div id="ui-module">
-            <div class="status-header" id="cmd-status">STANDBY</div>
-            <div id="scenario-text">
-                <h5 class="fw-bold mb-3">MGA PROTOKOL SA PAGLIGTAS:</h5>
-                <ul class="list-unstyled small">
-                    <li>• Sagutin ang 10 kritikal na tanong.</li>
-                    <li>• Bawat tamang sagot ay magpapaakyat sa iyo.</li>
-                    <li>• Mag-ingat sa tumataas na lava.</li>
-                </ul>
-            </div>
-            <div class="choices-container" id="selection-dock"></div>
-
-            <div class="mt-auto pt-3">
-                <div class="d-flex justify-content-between mb-2">
-                    <small style="opacity:0.5; font-size:0.65rem;">PROGRESO</small>
-                    <small id="prog-txt" style="color:var(--accent); font-weight:900;">0/10</small>
+        <div id="instruction-modal">
+            <div class="modal-content-custom">
+                <div class="status-header">PAGSASANAY NG MGA SIBILYAN</div>
+                <div class="video-section">
+                    <iframe src="https://www.youtube.com/embed/Hg1ktHeXaPU" allowfullscreen title="Volcano Safety Video 1"></iframe>
+                    <iframe src="https://www.youtube.com/embed/UFz2fLrqZuk" allowfullscreen title="Volcano Safety Video 2"></iframe>
                 </div>
-                <div style="height:8px; background:#222; border-radius:10px; overflow:hidden;">
-                    <div id="prog-bar" style="width:0%; height:100%; background:var(--accent); transition:0.4s;"></div>
-                </div>
+                <button class="btn-ready" onclick="proceedToDashboard()">MAGSIMULA SA PAGSASANAY</button>
             </div>
         </div>
 
-        <div id="simulation-module">
-            <div id="mission-deployment-card">
-                <div class="text-center p-5 bg-dark border border-warning rounded-4">
-                    <h2 class="text-warning fw-black mb-3">HANDA NA?</h2>
-                    <button class="btn btn-warning px-5 py-3 fw-bold" onclick="startMission()">SIMULAN ANG PAG-AKYAT</button>
+        <div id="game-layout">
+            <div id="ui-module">
+                <div class="status-header" id="cmd-status">STANDBY</div>
+                <div id="scenario-text">
+                    <h5 class="fw-bold mb-3">MGA PROTOKOL SA PAGLIGTAS:</h5>
+                    <ul class="list-unstyled small">
+                        <li>• Sagutin ang 10 kritikal na tanong.</li>
+                        <li>• Bawat tamang sagot ay magpapaakyat sa iyo.</li>
+                        <li>• Mag-ingat sa tumataas na lava.</li>
+                    </ul>
+                </div>
+                <div class="choices-container" id="selection-dock"></div>
+
+                <div class="mt-auto pt-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <small style="opacity:0.5; font-size:0.65rem;">PROGRESO</small>
+                        <small id="prog-txt" style="color:var(--accent); font-weight:900;">0/10</small>
+                    </div>
+                    <div class="progress-custom">
+                        <div id="prog-bar" class="progress-fill"></div>
+                    </div>
                 </div>
             </div>
 
-            <div id="world">
-                <div id="lava-layer"></div>
-                <div class="green-ground"></div>
-                <div id="ledge-layer"></div>
-
-                <div id="safe-place" style="display:none;">
-                    <div class="status-header text-success mb-2">LIGTAS NA LUGAR</div>
-                    <div class="safe-door" id="door"></div>
+            <div id="simulation-module">
+                <div id="mission-deployment-card">
+                    <div class="text-center p-4 p-md-5 bg-dark border border-warning rounded-4 m-3">
+                        <h2 class="text-warning fw-black mb-3">HANDA NA?</h2>
+                        <button class="btn btn-warning px-4 px-md-5 py-3 fw-bold" onclick="startMission()">SIMULAN ANG PAG-AKYAT</button>
+                    </div>
                 </div>
 
-                <div id="hero">
-                    <img src="/pictures/jumpingfrombulkan.png" alt="Hero">
-                </div>
-            </div>
+                <div id="world">
+                    <div id="lava-layer"></div>
+                    <div class="green-ground"></div>
+                    <div id="ledge-layer"></div>
 
-            <div id="end-overlay" class="game-overlay">
-                <h1 id="end-title" class="fw-bold mb-4"></h1>
-                <p id="end-desc" class="mb-4 text-secondary"></p>
-                <div class="d-flex flex-column gap-3 w-100 align-items-center">
-                    <button id="retryBtn" class="btn btn-outline-warning btn-lg px-5" onclick="location.reload()">ULITIN</button>
-                    <a href="{{ route('flood.activity') }}" id="nextPageBtn" class="next-btn" style="display:none;">
-                        SUSUNOD NA ARALIN (PAGBAHA)</a>
+                    <div id="safe-place" style="display:none;">
+                        <div class="status-header text-success mb-2">LIGTAS NA LUGAR</div>
+                        <div class="safe-door" id="door"></div>
+                    </div>
+
+                    <div id="hero">
+                        <img src="/pictures/jumpingfrombulkan.png" alt="Hero Character">
+                    </div>
+                </div>
+
+                <div id="end-overlay" class="game-overlay">
+                    <h1 id="end-title" class="fw-bold mb-4"></h1>
+                    <p id="end-desc" class="mb-4 text-secondary"></p>
+                    <div class="d-flex flex-column gap-3 w-100 align-items-center">
+                        <button id="retryBtn" class="btn btn-outline-warning btn-lg px-5" onclick="location.reload()">ULITIN</button>
+                        <a href="{{ route('flood.activity') }}" id="nextPageBtn" class="next-btn" style="display:none;">
+                            SUSUNOD NA ARALIN (PAGBAHA)
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -467,6 +946,7 @@
         const gap = 380;
 
         function proceedToDashboard() {
+            // Shuffle questions
             for (let i = drrmProtocols.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [drrmProtocols[i], drrmProtocols[j]] = [drrmProtocols[j], drrmProtocols[i]];
@@ -510,15 +990,25 @@
 
             document.getElementById('scenario-text').innerHTML = `
                 <strong style="color:var(--wood-dark);">TANONG ${currentStep + 1}:</strong>
-                <p>${data.q}</p>
+                <p class="mt-2 mb-0">${escapeHtml(data.q)}</p>
             `;
             document.getElementById('prog-bar').style.width = (currentStep / 10 * 100) + "%";
             document.getElementById('prog-txt').innerText = `${currentStep}/10`;
 
             document.getElementById('selection-dock').innerHTML = `
-                <div class="stone-btn mb-2" onclick="handle(${choices[0].id})">${choices[0].text}</div>
-                <div class="stone-btn" onclick="handle(${choices[1].id})">${choices[1].text}</div>
+                <div class="stone-btn mb-2" onclick="handle(${choices[0].id})">${escapeHtml(choices[0].text)}</div>
+                <div class="stone-btn" onclick="handle(${choices[1].id})">${escapeHtml(choices[1].text)}</div>
             `;
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
         }
 
         function handle(choiceId) {
