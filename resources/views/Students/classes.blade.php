@@ -62,6 +62,15 @@
     .toast.success { background:linear-gradient(135deg,#4da862,#3a8050); }
     .toast.error   { background:linear-gradient(135deg,#e05050,#c03030); }
 
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(20,10,5,0.5); backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; }
+    .modal-overlay.active { display:flex; }
+    .join-modal { display:flex; flex-direction:column; background:#fff; border-radius:20px; padding:28px 26px; width:min(420px,92vw); box-shadow:0 20px 60px rgba(0,0,0,0.18); position:relative; z-index:210; }
+    .modal-close { position:absolute; top:14px; right:16px; background:none; border:none; font-size:1.2rem; cursor:pointer; color:#9a8060; }
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; margin-bottom:8px; font-weight:700; color:#5a4030; font-size:0.88rem; }
+    .form-group input { width:100%; padding:12px 14px; border:2px solid #e0d0ba; border-radius:12px; font-family:'Nunito',sans-serif; font-size:0.95rem; transition:border-color 0.2s; }
+    .form-group input:focus { border-color:#6dbf7e; outline:none; }
+
     @keyframes spin{to{transform:rotate(360deg)}}
     .btn-spinner { display:inline-block; width:13px; height:13px; border:2px solid rgba(255,255,255,0.4); border-top-color:#fff; border-radius:50%; animation:spin 0.7s linear infinite; }
 </style>
@@ -78,7 +87,35 @@
     <div class="search-wrap">
         <input type="text" class="search-input" id="classSearch" placeholder="Search by class name or enter class code..." oninput="searchClasses()" />
     </div>
-    <div class="search-results" id="searchResults"></div>
+    <div class="search-results" id="searchResults">
+        @if(isset($availableClasses) && $availableClasses->isNotEmpty())
+            @foreach($availableClasses as $class)
+                <div class="result-item">
+                    <div class="result-info">
+                        <div class="rname">🏫 {{ $class->name }}</div>
+                        <div class="rmeta">👩‍🏫 {{ $class->teacher->name ?? 'Teacher' }} · 🎒 {{ $class->students_count }} students · {{ $class->grade_level ?? 'Grade 10' }}</div>
+                    </div>
+                    <button class="join-btn" type="button" data-class-id="{{ $class->id }}" data-class-name="{{ $class->name }}" onclick="openJoinModalFromButton(this)">+ Join</button>
+                </div>
+            @endforeach
+        @else
+            <div class="no-results">No classes found. Try a different name or class code.</div>
+        @endif
+    </div>
+</div>
+
+{{-- Join Modal --}}
+<div class="modal-overlay" id="joinModal">
+    <div class="join-modal">
+        <button class="modal-close" onclick="closeModal('joinModal')">✕</button>
+        <h2>🔑 Join Class</h2>
+        <p id="joinModalText" style="margin-bottom:14px;color:#5a4030;font-size:0.95rem;"></p>
+        <div class="form-group">
+            <label>Class Code</label>
+            <input type="text" id="joinCode" placeholder="Enter class code" />
+        </div>
+        <button class="btn btn-green" style="width:100%;justify-content:center;" id="joinSubmitBtn" onclick="submitJoin()">✅ Join Class</button>
+    </div>
 </div>
 
 {{-- Joined Classes --}}
@@ -103,7 +140,7 @@
                 <span class="meta-chip">📚 {{ $class->grade_level ?? 'Grade 10' }}</span>
             </div>
             <div class="class-actions">
-                <a href="{{ route('student.class.detail', $class) }}" class="btn-view">🎮 View Quizzes</a>
+                <a href="{{ route('student.class.detail', $class) }}" class="btn-view">👁️ View Class</a>
                 <button class="btn-leave" onclick="leaveClass({{ $class->id }})">Leave</button>
             </div>
         </div>
@@ -123,42 +160,122 @@ let searchTimer;
 function searchClasses() {
     const q = document.getElementById('classSearch').value.trim();
     clearTimeout(searchTimer);
-    if (q.length < 2) { document.getElementById('searchResults').innerHTML=''; return; }
     searchTimer = setTimeout(async () => {
         try {
             const res  = await fetch(`{{ route('student.classes.search') }}?q=${encodeURIComponent(q)}`);
             const data = await res.json();
             renderResults(data);
-        } catch(e) {}
+        } catch(e) {
+            document.getElementById('searchResults').innerHTML = '<div class="no-results">Unable to load classes right now.</div>';
+        }
     }, 300);
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+    searchClasses();
+});
+
 function renderResults(classes) {
     const el = document.getElementById('searchResults');
-    if (!classes.length) { el.innerHTML='<div class="no-results">No classes found. Try a different name or class code.</div>'; return; }
-    el.innerHTML = classes.map(c => `
-        <div class="result-item">
-            <div class="result-info">
-                <div class="rname">🏫 ${c.name}</div>
-                <div class="rmeta">👩‍🏫 ${c.teacher?.name??'?'} &nbsp;·&nbsp; 🎒 ${c.students_count} students &nbsp;·&nbsp; 🔑 ${c.class_code}</div>
-            </div>
-            <button class="join-btn" onclick="joinClass('${c.class_code}', this)">+ Join</button>
-        </div>`).join('');
+    if (!classes.length) {
+        el.innerHTML = '<div class="no-results">No classes found. Try a different name or class code.</div>';
+        return;
+    }
+
+    el.innerHTML = '';
+    classes.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'result-item';
+
+        const info = document.createElement('div');
+        info.className = 'result-info';
+
+        const name = document.createElement('div');
+        name.className = 'rname';
+        name.textContent = `🏫 ${c.name}`;
+
+        const meta = document.createElement('div');
+        meta.className = 'rmeta';
+        const teacherName = c.teacher && c.teacher.name ? c.teacher.name : '?';
+        const gradeLabel = c.grade_level ? c.grade_level : 'Grade 10';
+        meta.textContent = '👩‍🏫 ' + teacherName + ' · 🎒 ' + (c.students_count || 0) + ' students · ' + gradeLabel;
+
+        info.appendChild(name);
+        info.appendChild(meta);
+
+        const button = document.createElement('button');
+        button.className = 'join-btn';
+        button.textContent = '+ Join';
+        button.type = 'button';
+        button.addEventListener('click', () => openJoinModal(c.id, c.name));
+
+        item.appendChild(info);
+        item.appendChild(button);
+        el.appendChild(item);
+    });
 }
 
-async function joinClass(code, btn) {
-    btn.disabled=true; btn.innerHTML='<span class="btn-spinner"></span>';
+let selectedClassId = null;
+
+function openJoinModal(classId, className) {
+    selectedClassId = classId;
+    document.getElementById('joinModalText').textContent = 'Enter the class code for "' + className + '" to join.';
+    document.getElementById('joinCode').value = '';
+    document.getElementById('joinSubmitBtn').disabled = false;
+    document.getElementById('joinModal').classList.add('active');
+    setTimeout(function() { document.getElementById('joinCode').focus(); }, 120);
+}
+
+function openJoinModalFromButton(button) {
+    openJoinModal(button.dataset.classId, button.dataset.className);
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+}
+
+document.getElementById('joinModal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeModal('joinModal');
+    }
+});
+
+async function submitJoin() {
+    const codeInput = document.getElementById('joinCode');
+    const code = codeInput.value.trim();
+    const btn = document.getElementById('joinSubmitBtn');
+
+    if (!code) {
+        showToast('Please enter the class code.','error');
+        codeInput.focus();
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span> Joining...';
+
     try {
-        const res  = await fetch('{{ route("student.classes.join") }}', { method:'POST', headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF}, body:JSON.stringify({class_code:code}) });
+        const res = await fetch('{{ route("student.classes.join") }}', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},
+            body: JSON.stringify({ class_code: code }),
+        });
         const data = await res.json();
+
         if (data.success) {
             showToast('✅ Joined class!','success');
-            setTimeout(()=>location.reload(),900);
+            closeModal('joinModal');
+            setTimeout(() => location.reload(), 900);
         } else {
-            showToast(data.message||'Could not join class.','error');
-            btn.disabled=false; btn.innerHTML='+ Join';
+            showToast(data.message || 'Could not join class.','error');
+            btn.disabled = false;
+            btn.textContent = '✅ Join Class';
         }
-    } catch(e) { btn.disabled=false; btn.innerHTML='+ Join'; }
+    } catch (e) {
+        showToast('Unable to join class right now.','error');
+        btn.disabled = false;
+        btn.textContent = '✅ Join Class';
+    }
 }
 
 async function leaveClass(id) {

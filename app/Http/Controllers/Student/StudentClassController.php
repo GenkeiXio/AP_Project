@@ -48,7 +48,16 @@ class StudentClassController extends Controller
 			->latest('id')
 			->get();
 
-		return view('Students.classes', compact('joinedClasses'));
+		$availableClasses = SchoolClass::query()
+			->with(['teacher'])
+			->withCount('students')
+			->where('is_active', true)
+			->whereDoesntHave('students', fn ($q) => $q->where('students.id', $student->id))
+			->orderBy('name')
+			->limit(20)
+			->get();
+
+		return view('Students.classes', compact('joinedClasses', 'availableClasses'));
 	}
 
 	public function search(Request $request)
@@ -59,23 +68,21 @@ class StudentClassController extends Controller
 		}
 
 		$q = trim((string) $request->query('q', ''));
-		if ($q === '' || mb_strlen($q) < 2) {
-			return response()->json([]);
-		}
 
-		$classes = SchoolClass::query()
-			->with('teacher')
-			->withCount('students')
-			->where('is_active', true)
-			->where(function ($builder) use ($q) {
-				$builder->where('name', 'like', "%{$q}%")
-					->orWhere('class_code', 'like', "%{$q}%");
-			})
-			->whereDoesntHave('students', fn ($b) => $b->where('students.id', $this->student()->id))
-			->orderBy('name')
-			->limit(20)
-			->get();
+        $classes = SchoolClass::query()
+            ->with('teacher')
+            ->withCount('students')
+            ->where('is_active', true)
+            ->whereDoesntHave('students', fn ($b) => $b->where('students.id', $this->student()->id));
 
+        if ($q !== '' && mb_strlen($q) >= 2) {
+            $classes->where(function ($builder) use ($q) {
+                $builder->where('name', 'like', "%{$q}%")
+                    ->orWhere('class_code', 'like', "%{$q}%");
+            });
+        }
+
+        $classes = $classes->orderBy('name')->limit(20)->get();
 		return response()->json($classes);
 	}
 

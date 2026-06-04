@@ -189,6 +189,9 @@
         </a>
 
         <div class="topnav-right" id="mobileMenu">
+            <a href="{{ route('student.classes') }}" class="nav-link {{ request()->routeIs(['student.classes*', 'student.class.detail']) ? 'active' : '' }}">
+                📚 Classes
+            </a>
             {{-- Profile chip — shows avatar + username, links to profile --}}
             <a href="{{ route('student.profile') }}" class="profile-chip">
                 <span class="chip-avatar">{{ $avatarEmoji }}</span>
