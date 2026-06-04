@@ -52,8 +52,9 @@ use App\Http\Controllers\Student\Module4\Module4ViewReferencesController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
-Route::post('/student/login',  [StudentAuthController::class, 'login'])->name('student.login');
-Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
+Route::post('/student/login',     [StudentAuthController::class, 'login'])->name('student.login');
+Route::post('/student/register',  [StudentAuthController::class, 'register'])->name('student.register');
+Route::post('/student/logout',    [StudentAuthController::class, 'logout'])->name('student.logout');
 
 Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::get('/student/select-character',  [StudentController::class, 'selectCharacter'])->name('student.select-character');

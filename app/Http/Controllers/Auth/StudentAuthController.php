@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class StudentAuthController extends Controller
@@ -13,28 +14,47 @@ class StudentAuthController extends Controller
     {
         $request->validate([
             'username' => 'required|string|max:50|regex:/^[a-zA-Z0-9_\s]+$/',
+            'password' => 'required|string|min:6|max:60',
         ], [
             'username.required' => 'Pakiusap ilagay ang iyong username.',
             'username.regex'    => 'Ang username ay maaari lamang maglaman ng mga letra, numero, at underscore.',
+            'password.required' => 'Pakiusap ilagay ang iyong password.',
+            'password.min'      => 'Ang password ay dapat may hindi bababa sa 6 na karakter.',
         ]);
 
         $username = trim($request->username);
+        $student  = Student::where('username', $username)->first();
 
-        // Check if student already exists
-        $student = Student::where('username', $username)->first();
-
-        if ($student) {
-            // Existing student — log them in, go to narration (new flow)
-            $student->update(['last_played' => now()]);
-            Session::put('student_id',       $student->id);
-            Session::put('student_username', $student->username);
-
-            return redirect()->route('narration'); // ✅ FIXED
+        if (!$student || !$student->password || !Hash::check($request->password, $student->password)) {
+            return redirect()->back()->withInput($request->only('username'))->withErrors([
+                'auth' => 'Maling username o password. Kung bago ka, magrehistro muna.',
+            ]);
         }
 
-        // New student — register and redirect to character selection
+        $student->update(['last_played' => now()]);
+        Session::put('student_id',       $student->id);
+        Session::put('student_username', $student->username);
+
+        return redirect()->route('narration');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:50|regex:/^[a-zA-Z0-9_\s]+$/|unique:students,username',
+            'password' => 'required|string|min:6|max:60|confirmed',
+        ], [
+            'username.required'  => 'Pakiusap ilagay ang iyong username.',
+            'username.regex'     => 'Ang username ay maaari lamang maglaman ng mga letra, numero, at underscore.',
+            'username.unique'    => 'Ang username na ito ay ginagamit na ng ibang mag-aaral.',
+            'password.required'  => 'Pakiusap ilagay ang iyong password.',
+            'password.min'       => 'Ang password ay dapat may hindi bababa sa 6 na karakter.',
+            'password.confirmed' => 'Hindi magkatugma ang password at kumpirmasyon.',
+        ]);
+
         $student = Student::create([
-            'username'    => $username,
+            'username'    => trim($request->username),
+            'password'    => Hash::make($request->password),
             'last_played' => now(),
         ]);
 

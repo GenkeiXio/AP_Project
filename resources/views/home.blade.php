@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="student-login" content="{{ route('student.login') }}">
+    <meta name="student-register" content="{{ route('student.register') }}">
+    <meta name="initial-auth-mode" content="{{ old('auth_mode', 'login') }}">
     <meta name="verify-credentials" content="{{ route('staff.verify-credentials') }}">
     <meta name="verify-access" content="{{ route('staff.verify-access-code') }}">
     <meta name="clear-pending" content="{{ route('staff.clear-pending') }}">
@@ -77,6 +80,47 @@
 
     .card {
         padding: 20px;
+    }
+
+    .auth-switch {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .auth-switch button {
+        flex: 1;
+        border: 2px solid rgba(255,255,255,0.5);
+        background: transparent;
+        color: #fff;
+        border-radius: 999px;
+        padding: 10px 14px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: background 0.2s, border-color 0.2s;
+    }
+
+    .auth-switch button.active {
+        background: #f2c94c;
+        color: #102a32;
+        border-color: #f2c94c;
+    }
+
+    .auth-panel {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transform: translateY(-12px);
+        transition: opacity 0.28s ease, max-height 0.28s ease, transform 0.28s ease;
+        pointer-events: none;
+    }
+
+    .auth-panel.active {
+        opacity: 1;
+        max-height: 320px;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 
     .login-container {
@@ -553,17 +597,51 @@
 
                 <div class="login-section">
                     <div class="card">
-                        <h2>Mag-aaral?</h2>
-                        <p>Simulan ang iyong pakikipagsapalaran!</p>
+                        <div class="auth-switch">
+                            <button type="button" class="active" data-mode="login">Login</button>
+                            <button type="button" data-mode="register">Magrehistro</button>
+                        </div>
+
+                        <h2 id="authTitle">Mag-login o Magrehistro</h2>
+                        <p id="authSubtitle">Gumamit ng username at password para makapasok at magpatuloy.</p>
+
+                        @if ($errors->any())
+                            <div id="formSubmitError" class="error-message show">
+                                {{ $errors->first() }}
+                            </div>
+                        @else
+                            <div id="formSubmitError" class="error-message"></div>
+                        @endif
 
                         <form method="POST" action="{{ route('student.login') }}" id="studentForm">
                             @csrf
+                            <input type="hidden" name="auth_mode" id="authMode" value="{{ old('auth_mode', 'login') }}">
+
                             <div class="input-wrap">
-                                <input type="text" name="username" id="usernameInput" placeholder="Username..." required />
+                                <input type="text" name="username" id="usernameInput" placeholder="Username..." value="{{ old('username') }}" required />
                                 <div id="usernameError" class="error-message"></div>
                             </div>
+
+                            <div class="auth-panel login-panel active">
+                                <div class="input-wrap">
+                                    <input type="password" name="password" id="passwordInput" placeholder="Password..." autocomplete="new-password" required />
+                                    <div id="passwordError" class="error-message"></div>
+                                </div>
+                            </div>
+
+                            <div class="auth-panel register-panel">
+                                <div class="input-wrap">
+                                    <input type="password" name="password" id="regPasswordInput" placeholder="Password..." autocomplete="new-password" />
+                                    <div id="regPasswordError" class="error-message"></div>
+                                </div>
+                                <div class="input-wrap">
+                                    <input type="password" name="password_confirmation" id="confirmPasswordInput" placeholder="Kumpirmahin ang password..." autocomplete="new-password" />
+                                    <div id="confirmPasswordError" class="error-message"></div>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn-primary" id="startBtn">
-                                Magsimula! 🚀
+                                Mag-login
                             </button>
                         </form>
 

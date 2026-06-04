@@ -8,8 +8,13 @@ class Student extends Model
 {
     protected $fillable = [
         'username',
+        'password',
         'avatar',
         'last_played',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $casts = [
