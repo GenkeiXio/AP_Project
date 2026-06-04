@@ -37,7 +37,7 @@ class QuizController extends Controller
             'questions'   => 'required|array|min:1',
         ]);
 
-        DB::transaction(function () use ($request, $class) {
+        $quiz = DB::transaction(function () use ($request, $class) {
             $quiz = Quiz::create([
                 'class_id'    => $class->id,
                 'teacher_id'  => $this->teacher()->id,
@@ -46,7 +46,7 @@ class QuizController extends Controller
                 'type'        => $request->type,
                 'game_format' => $request->game_format,
                 'time_limit'  => $request->time_limit,
-                'is_published'=> false,
+                'is_published'=> true,
             ]);
 
             foreach ($request->questions as $i => $q) {
@@ -69,10 +69,13 @@ class QuizController extends Controller
                         ]);
                     }
                 }
-            }
+                }
+
+            return $quiz;
         });
 
-        return response()->json(['success' => true]);
+        $quiz->load(['questions.options', 'schoolClass']);
+        return response()->json(['success' => true, 'quiz' => $quiz]);
     }
 
     public function edit(Quiz $quiz)

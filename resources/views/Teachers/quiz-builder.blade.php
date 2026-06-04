@@ -378,8 +378,34 @@ async function saveQuiz() {
     try {
         const url    = quizId ? `/teacher/quizzes/${quizId}` : `/teacher/classes/${classId}/quizzes`;
         const method = quizId ? 'PUT' : 'POST';
-        const res    = await fetch(url, { method, headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF}, body:JSON.stringify(payload) });
-        const data   = await res.json();
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type':'application/json',
+                'Accept':'application/json',
+                'X-Requested-With':'XMLHttpRequest',
+                'X-CSRF-TOKEN': CSRF
+            },
+            body: JSON.stringify(payload)
+        });
+
+        let data;
+        try {
+            data = await res.json();
+        } catch (err) {
+            const txt = await res.text();
+            showAlert(alert,'error', `Server error (${res.status}): ${txt.substring(0,200)}`);
+            btn.disabled=false; btn.innerHTML='{{ isset($quiz) ? "💾 Save Changes" : "✅ Save Quiz" }}';
+            return;
+        }
+
+        if (!res.ok) {
+            const msg = data?.message || (data?.errors ? Object.values(data.errors).flat().join(' ') : `Server error (${res.status})`);
+            showAlert(alert,'error', msg);
+            btn.disabled=false; btn.innerHTML='{{ isset($quiz) ? "💾 Save Changes" : "✅ Save Quiz" }}';
+            return;
+        }
+
         if (data.success) {
             showAlert(alert,'success','✅ Quiz saved successfully!');
             setTimeout(() => { window.location.href = `/teacher/classes/${classId}`; }, 1000);
