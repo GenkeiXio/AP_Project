@@ -192,6 +192,9 @@
             <a href="{{ route('student.classes') }}" class="nav-link {{ request()->routeIs(['student.classes*', 'student.class.detail']) ? 'active' : '' }}">
                 📚 Classes
             </a>
+            <a href="{{ route('student.shop') }}" class="nav-link {{ request()->routeIs('student.shop') ? 'active' : '' }}">
+                🛍️ Shop
+            </a>
             {{-- Profile chip — shows avatar + username, links to profile --}}
             <a href="{{ route('student.profile') }}" class="profile-chip">
                 <span class="chip-avatar">{{ $avatarEmoji }}</span>

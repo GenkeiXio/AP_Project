@@ -53,9 +53,10 @@ class StudentAuthController extends Controller
         ]);
 
         $student = Student::create([
-            'username'    => trim($request->username),
-            'password'    => Hash::make($request->password),
-            'last_played' => now(),
+            'username'         => trim($request->username),
+            'password'         => Hash::make($request->password),
+            'last_played'      => now(),
+            'unlocked_avatars' => ['boy_uniform', 'girl_uniform', 'neutral_hero'],
         ]);
 
         Session::put('student_id',       $student->id);

@@ -62,6 +62,8 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::get('/student/profile',           [StudentController::class, 'profile'])->name('student.profile');
     Route::post('/student/profile/avatar',   [StudentController::class, 'updateAvatar'])->name('student.profile.avatar');
     Route::post('/student/profile/username', [StudentController::class, 'updateUsername'])->name('student.profile.username');
+    Route::get('/student/shop',              [StudentController::class, 'shop'])->name('student.shop');
+    Route::post('/student/shop/buy',         [StudentController::class, 'buyAvatar'])->name('student.shop.buy');
     Route::post('/student/avatar',           [StudentClassController::class, 'saveAvatar'])->name('student.avatar');
     Route::get('/student/classes',                  [StudentClassController::class, 'index'])->name('student.classes');
     Route::get('/student/classes/search',           [StudentClassController::class, 'search'])->name('student.classes.search');

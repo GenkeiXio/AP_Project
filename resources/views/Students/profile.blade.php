@@ -91,6 +91,42 @@
             background: #f0faf5;
         }
 
+        .char-opt.locked {
+            opacity: 0.55;
+            background: #f4f0ea;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .char-opt.locked::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 14px;
+            z-index: 1;
+        }
+
+        .char-opt .lock-overlay {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 18px;
+            padding: 5px 10px;
+            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .char-opt .lock-overlay a {
+            color: #ffd966;
+            text-decoration: underline;
+        }
+
         .char-opt.selected {
             border-color: #6dbf7e;
             background: #e8f8ed;
@@ -344,6 +380,23 @@
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
+
+        .confirm-banner {
+            margin: 18px 0 0;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: #eef9f0;
+            color: #235532;
+            border: 1px solid #b4dfbc;
+            font-size: 0.96rem;
+            line-height: 1.5;
+        }
+
+        .confirm-banner strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #164025;
+        }
     </style>
 @endpush
 
@@ -393,48 +446,88 @@ $charMap = [
 
                         {{-- Change character --}}
                         <div class="change-char-label">Palitan ang Karakter</div>
+                        @php
+                            $lockedRizal = !in_array('rizal', $unlockedAvatars, true);
+                            $lockedBonifacio = !in_array('bonifacio', $unlockedAvatars, true);
+                            $lockedGabriela = !in_array('gabriela', $unlockedAvatars, true);
+                            $unlockedAvatarNames = [];
+                            foreach (['boy_uniform' => 'Juan', 'girl_uniform' => 'Maria', 'neutral_hero' => 'Lihim'] as $key => $label) {
+                                if (in_array($key, $unlockedAvatars, true)) {
+                                    $unlockedAvatarNames[] = $label;
+                                }
+                            }
+                            $lockedAvatarNames = [];
+                            foreach (['rizal' => 'Rizal', 'bonifacio' => 'Bonifacio', 'gabriela' => 'Gabriela'] as $key => $label) {
+                                if (!in_array($key, $unlockedAvatars, true)) {
+                                    $lockedAvatarNames[] = $label;
+                                }
+                            }
+                        @endphp
+                        <div class="confirm-banner">
+                            <strong>Avatar Unlock Status</strong>
+                            @if(count($lockedAvatarNames))
+                                {{ implode(', ', $unlockedAvatarNames) }} ay naka-unlock na. I-unlock ang {{ implode(', ', $lockedAvatarNames) }} sa <a href="{{ route('student.shop') }}">Shop</a>.
+                            @else
+                                Lahat ng avatar ay naka-unlock na. Maaari mo nang gamitin ang alin man.
+                            @endif
+                        </div>
                         <div class="char-options">
 
                             {{-- Rizal --}}
-                            <div class="char-opt {{ $avatar === 'rizal' ? 'selected' : '' }}" onclick="selectProfileChar('rizal', this)">
+                            <div class="char-opt {{ $avatar === 'rizal' ? 'selected' : '' }}{{ $lockedRizal ? ' locked' : '' }}" data-locked="{{ $lockedRizal ? '1' : '0' }}" onclick="selectProfileChar('rizal', this)">
                                 <img class="char-opt-svg" src="{{ asset('pictures/Jose Rizal.png') }}">
                                 <div class="char-opt-name">Rizal</div>
+                                @if($lockedRizal)
+                                    <div class="lock-overlay">🔒 <a href="{{ route('student.shop') }}">Shop</a></div>
+                                @endif
                             </div>
 
                             {{-- Bonifacio --}}
-                            <div class="char-opt {{ $avatar === 'bonifacio' ? 'selected' : '' }}"
+                            <div class="char-opt {{ $avatar === 'bonifacio' ? 'selected' : '' }}{{ $lockedBonifacio ? ' locked' : '' }}" data-locked="{{ $lockedBonifacio ? '1' : '0' }}"
                                 onclick="selectProfileChar('bonifacio', this)">
                                 <img class="char-opt-svg" src="{{ asset('pictures/Bonifacio.png') }}">
                                 <div class="char-opt-name">Bonifacio</div>
+                                @if($lockedBonifacio)
+                                    <div class="lock-overlay">🔒 <a href="{{ route('student.shop') }}">Shop</a></div>
+                                @endif
                             </div>
 
                             {{-- Gabriela --}}
-                            <div class="char-opt {{ $avatar === 'gabriela' ? 'selected' : '' }}" onclick="selectProfileChar('gabriela', this)">
+                            <div class="char-opt {{ $avatar === 'gabriela' ? 'selected' : '' }}{{ $lockedGabriela ? ' locked' : '' }}" data-locked="{{ $lockedGabriela ? '1' : '0' }}" onclick="selectProfileChar('gabriela', this)">
                                 <img class="char-opt-svg" src="{{ asset('pictures/Gabriela silang (2).png') }}">
                                 <div class="char-opt-name">Gabriela</div>
+                                @if($lockedGabriela)
+                                    <div class="lock-overlay">🔒 <a href="{{ route('student.shop') }}">Shop</a></div>
+                                @endif
                             </div>
 
                             {{-- Juan --}}
-                            <div class="char-opt {{ $avatar === 'boy_uniform' ? 'selected' : '' }}"
+                            <div class="char-opt {{ $avatar === 'boy_uniform' ? 'selected' : '' }}" data-locked="0"
                                 onclick="selectProfileChar('boy_uniform', this)">
                                 <img class="char-opt-svg" src="{{ asset('pictures/chibi_boy.png') }}">
                                 <div class="char-opt-name">Juan</div>
                             </div>
 
                             {{-- Maria --}}
-                            <div class="char-opt {{ $avatar === 'girl_uniform' ? 'selected' : '' }}"
+                            <div class="char-opt {{ $avatar === 'girl_uniform' ? 'selected' : '' }}" data-locked="0"
                                 onclick="selectProfileChar('girl_uniform', this)">
                                 <img class="char-opt-svg" src="{{ asset('pictures/girl_pink.png') }}">
                                 <div class="char-opt-name">Maria</div>
                             </div>
 
                             {{-- Lihim --}}
-                            <div class="char-opt {{ $avatar === 'neutral_hero' ? 'selected' : '' }}"
+                            <div class="char-opt {{ $avatar === 'neutral_hero' ? 'selected' : '' }}" data-locked="0"
                                 onclick="selectProfileChar('neutral_hero', this)">
                                 <div style="font-size:2rem;">🧍</div>
                                 <div class="char-opt-name">Lihim</div>
                             </div>
 
+                        </div>
+
+                        <div class="confirm-banner">
+                            <strong>Avatar Unlock Status</strong>
+                            Juan, Maria, at Lihim ay naka-unlock na. Kung nais mong gamitin si Rizal, Bonifacio, o Gabriela,
+                            bisitahin ang <a href="{{ route('student.shop') }}" style="color:#1f7a52; text-decoration:underline;">Shop</a> upang i-unlock ang mga ito.
                         </div>
 
                         <button class="btn-save-char" id="saveCharBtn" onclick="saveCharacter()">
@@ -525,6 +618,10 @@ $charMap = [
 
         // ── Character selection ──
         function selectProfileChar(val, card) {
+            if (card.dataset.locked === '1') {
+                showToast('🔒 Locked! Bumisita sa shop para i-unlock ang avatar.', 'error');
+                return;
+            }
             document.querySelectorAll('.char-opt').forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
             selectedChar = val;

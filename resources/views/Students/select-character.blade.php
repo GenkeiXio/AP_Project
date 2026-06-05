@@ -384,10 +384,70 @@
                 transform: translateY(-12px);
             }
         }
+
+        .char-card.locked {
+            opacity: 0.55;
+            filter: grayscale(0.55);
+            cursor: pointer;
+        }
+
+        .char-card.locked::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 8px;
+            z-index: 2;
+        }
+
+        .char-card .lock-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 3;
+            background: rgba(0, 0, 0, 0.74);
+            color: #fff;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .char-card .lock-overlay a {
+            color: #ffd966;
+            text-decoration: underline;
+        }
     </style>
+    @php
+        $themeMap = [
+            'boy_uniform' => 'juan-theme',
+            'girl_uniform' => 'maria-theme',
+            'neutral_hero' => 'lihim-theme',
+            'rizal' => 'rizal-theme',
+            'bonifacio' => 'bonifacio-theme',
+            'gabriela' => 'gabriela-theme',
+        ];
+
+        $characterInfo = [
+            'rizal' => ['JOSE RIZAL', '"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.', 'pictures/Jose Rizal.png'],
+            'bonifacio' => ['ANDRES BONIFACIO', '"Alab ng puso sa gitna ng digmaan." Katapangan para sa inang bayan.', 'pictures/Bonifacio.png'],
+            'gabriela' => ['GABRIELA SILANG', '"Henerala ng Ilocos." Lakas ng loob ng kababaihang manlalaban.', 'pictures/Gabriela silang (2).png'],
+            'boy_uniform' => ['JUAN LUNA', 'Ang masipag at madiskarteng Pilipino sa makabagong hamon ng buhay.', 'pictures/chibi_boy.png'],
+            'girl_uniform' => ['MARIA CLARA', 'Simbolo ng dangal at malikhaing kaisipan ng kabataang Pilipina.', 'pictures/girl_pink.png'],
+            'neutral_hero' => ['LIHIM NA BAYANI', 'Ang iyong kwento ay hindi pa naisusulat. Ikaw ang susunod na alamat.', null],
+        ];
+
+        $selectedAvatar = $unlockedAvatars[0] ?? 'boy_uniform';
+        if (!isset($themeMap[$selectedAvatar])) {
+            $selectedAvatar = 'boy_uniform';
+        }
+        $hero = $characterInfo[$selectedAvatar];
+    @endphp
 </head>
 
-<body class="rizal-theme">
+<body class="{{ $themeMap[$selectedAvatar] ?? 'rizal-theme' }}">
     <span class="deco deco-1">🌿</span>
     <span class="deco deco-2">🦋</span>
     <span class="deco deco-3">🌸</span>
@@ -398,18 +458,19 @@
         <div class="hero-display">
             <div class="header-group">
                 <p class="game-label">NAPILING BAYANI</p>
-                <h1 id="heroName">JOSE RIZAL</h1>
+                <h1 id="heroName">{{ $hero[0] }}</h1>
                 <div class="stat-box">
-                    <p id="heroBio">"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.
-                    </p>
+                    <p id="heroBio">{{ $hero[1] }}</p>
                 </div>
             </div>
 
             <div class="hero-image-container">
-                <img src="{{ asset('pictures/Jose Rizal.png') }}" id="heroMainImg"
-                    class="hero-main-img animate__animated animate__fadeInRight">
+                <img src="{{ asset($hero[2]) }}" id="heroMainImg"
+                    class="hero-main-img animate__animated animate__fadeInRight"
+                    style="display: {{ $selectedAvatar === 'neutral_hero' ? 'none' : 'block' }};">
 
-                <div id="lihimSvgPreview" class="animate__animated">
+                <div id="lihimSvgPreview" class="animate__animated"
+                    style="display: {{ $selectedAvatar === 'neutral_hero' ? 'block' : 'none' }};">
                     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M32 2C24.3 2 18 8.3 18 16C18 20.9 20.6 25.2 24.5 27.7C20 29.8 16.5 33.7 15 38.5C13.8 37.8 12.5 37.3 11 37.3C6.6 37.3 3 40.9 3 45.3C3 49.7 6.6 53.3 11 53.3C12.5 53.3 13.8 52.8 15 52.1V58C15 60.2 16.8 62 19 62H45C47.2 62 49 60.2 49 58V51.3C50.2 51.9 51.6 52.3 53 52.3C57.4 52.3 61 48.7 61 44.3C61 39.9 57.4 36.3 53 36.3C51.6 36.3 50.2 36.7 49 37.3C47.7 33.1 44.8 29.6 41 27.5C44.1 24.9 46 21 46 16C46 8.3 39.7 2 32 2ZM32 6C37.5 6 42 10.5 42 16C42 19.5 40.2 22.5 37.5 24.3C35.8 25.4 33.9 26 32 26C30.1 26 28.2 25.4 26.5 24.3C23.8 22.5 22 19.5 22 16C22 10.5 26.5 6 32 6ZM27 31H37C41.4 31 45 34.6 45 39V58H19V39C19 34.6 22.6 31 27 31ZM11 41.3C13.2 41.3 15 43.1 15 45.3C15 47.5 13.2 49.3 11 49.3C8.8 49.3 7 47.5 7 45.3C7 43.1 8.8 41.3 11 41.3ZM53 40.3C55.2 40.3 57 42.1 57 44.3C57 46.5 55.2 48.3 53 48.3C50.8 48.3 49 46.5 49 44.3C49 42.1 50.8 40.3 53 40.3Z"
@@ -425,45 +486,59 @@
 
             <form method="POST" action="{{ route('student.save-character') }}" style="margin-top:auto;">
                 @csrf
-                <input type="hidden" name="avatar" id="avatarInput" value="rizal">
-                <button type="submit" class="btn-confirm" id="readyBtn">MAGSIMULA: RIZAL</button>
+                <input type="hidden" name="avatar" id="avatarInput" value="{{ $selectedAvatar }}">
+                <button type="submit" class="btn-confirm" id="readyBtn">MAGSIMULA: {{ explode(' ', $hero[0])[0] }}</button>
             </form>
         </div>
 
+        @php
+            $lockedRizal = !in_array('rizal', $unlockedAvatars, true);
+            $lockedBonifacio = !in_array('bonifacio', $unlockedAvatars, true);
+            $lockedGabriela = !in_array('gabriela', $unlockedAvatars, true);
+        @endphp
         <div class="hero-roster">
-            <div class="char-card selected rizal-theme" data-avatar="rizal" data-name="JOSE RIZAL"
+            <div class="char-card {{ $selectedAvatar === 'rizal' ? 'selected' : '' }} rizal-theme{{ $lockedRizal ? ' locked' : '' }}" data-avatar="rizal" data-locked="{{ $lockedRizal ? '1' : '0' }}" data-name="JOSE RIZAL"
                 data-bio='"Ang panulat ay mas matalas kaysa sa tabak." Matalas na kaisipan para sa kalayaan.'
                 data-theme="rizal-theme">
                 <img src="{{ asset('pictures/Jose Rizal.png') }}">
                 <h3>RIZAL</h3>
+                @if($lockedRizal)
+                    <div class="lock-overlay">🔒 Locked <a href="{{ route('student.shop') }}">Shop</a></div>
+                @endif
             </div>
 
-            <div class="char-card bonifacio-theme" data-avatar="bonifacio" data-name="ANDRES BONIFACIO"
+            <div class="char-card {{ $selectedAvatar === 'bonifacio' ? 'selected' : '' }} bonifacio-theme{{ $lockedBonifacio ? ' locked' : '' }}" data-avatar="bonifacio" data-locked="{{ $lockedBonifacio ? '1' : '0' }}" data-name="ANDRES BONIFACIO"
                 data-bio='"Alab ng puso sa gitna ng digmaan." Katapangan para sa inang bayan.'
                 data-theme="bonifacio-theme">
                 <img src="{{ asset('pictures/Bonifacio.png') }}">
                 <h3>BONIFACIO</h3>
+                @if($lockedBonifacio)
+                    <div class="lock-overlay">🔒 Locked <a href="{{ route('student.shop') }}">Shop</a></div>
+                @endif
             </div>
 
-            <div class="char-card gabriela-theme" data-avatar="gabriela" data-name="GABRIELA SILANG"
+            <div class="char-card {{ $selectedAvatar === 'gabriela' ? 'selected' : '' }} gabriela-theme{{ $lockedGabriela ? ' locked' : '' }}" data-avatar="gabriela" data-locked="{{ $lockedGabriela ? '1' : '0' }}" data-name="GABRIELA SILANG"
                 data-bio='"Henerala ng Ilocos." Lakas ng loob ng kababaihang manlalaban.' data-theme="gabriela-theme">
                 <img src="{{ asset('pictures/Gabriela silang (2).png') }}">
                 <h3>GABRIELA</h3>
+                @if($lockedGabriela)
+                    <div class="lock-overlay">🔒 Locked <a href="{{ route('student.shop') }}">Shop</a></div>
+                @endif
             </div>
 
-            <div class="char-card juan-theme" data-avatar="boy_uniform" data-name="JUAN LUNA"
+            <div class="char-card {{ $selectedAvatar === 'boy_uniform' ? 'selected' : '' }} juan-theme" data-avatar="boy_uniform" data-locked="0" data-name="JUAN LUNA"
                 data-bio='Ang masipag at madiskarteng Pilipino sa makabagong hamon ng buhay.' data-theme="juan-theme">
                 <img src="{{ asset('pictures/chibi_boy.png') }}">
                 <h3>JUAN</h3>
             </div>
 
-            <div class="char-card maria-theme" data-avatar="girl_uniform" data-name="MARIA CLARA"
+            <div class="char-card {{ $selectedAvatar === 'girl_uniform' ? 'selected' : '' }} maria-theme" data-avatar="girl_uniform" data-locked="0" data-name="MARIA CLARA"
                 data-bio='Simbolo ng dangal at malikhaing kaisipan ng kabataang Pilipina.' data-theme="maria-theme">
                 <img src="{{ asset('pictures/girl_pink.png') }}">
                 <h3>MARIA</h3>
             </div>
 
-            <div class="char-card lihim-theme" data-avatar="neutral_hero" data-name="LIHIM NA BAYANI"
+            <div class="char-card {{ $selectedAvatar === 'neutral_hero' ? 'selected' : '' }} lihim-theme" data-avatar="neutral_hero" data-locked="0" data-name="LIHIM NA BAYANI"
                 data-bio='Ang iyong kwento ay hindi pa naisusulat. Ikaw ang susunod na alamat.'
                 data-theme="lihim-theme">
                 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -479,6 +554,11 @@
     <script>
         document.querySelectorAll('.char-card').forEach(card => {
             card.addEventListener('click', () => {
+                if (card.dataset.locked === '1') {
+                    window.location.href = '{{ route('student.shop') }}';
+                    return;
+                }
+
                 // UI update
                 document.querySelectorAll('.char-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
