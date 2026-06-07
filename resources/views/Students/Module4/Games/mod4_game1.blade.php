@@ -29,16 +29,6 @@
             overflow-x: hidden;
         }
 
-        /* Background Map Container */
-        .background-map-container {
-            display: none;
-        }
-
-        .background-map {
-            display: none;
-        }
-
-        /* Main Content Wrapper */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -51,15 +41,13 @@
         }
 
         .game-container {
-            max-width: 1400px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
             background: var(--old-paper);
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 8px;
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.9),
-                inset 0 0 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), inset 0 0 50px rgba(0, 0, 0, 0.2);
             padding: 30px 30px 40px;
             border: 2px solid var(--gold-trim);
             position: relative;
@@ -75,6 +63,12 @@
             padding-bottom: 10px;
         }
 
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+
         h1 i {
             color: var(--danger);
             margin-right: 12px;
@@ -88,7 +82,13 @@
             margin: 10px 0 25px;
         }
 
-        /* Items Pool - Moving to top */
+        @media (max-width: 768px) {
+            .subhead {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Items Pool */
         .items-pool {
             margin: 0 0 25px 0;
             background: #f4e4c7;
@@ -96,9 +96,7 @@
             border-radius: 5px;
             padding: 20px 24px;
             border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: 
-                inset 0 0 30px rgba(0, 0, 0, 0.15),
-                0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .pool-title {
@@ -110,6 +108,13 @@
             gap: 10px;
             color: var(--ink);
             font-family: 'Nunito', sans-serif;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .pool-title {
+                font-size: 1rem;
+            }
         }
 
         .waiting-card-container {
@@ -123,9 +128,14 @@
             padding: 30px;
             transition: all 0.2s;
             border: 1px solid #aaa;
-            box-shadow: 
-                inset 0 0 20px rgba(0, 0, 0, 0.1),
-                2px 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 2px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .waiting-card-container {
+                min-height: 200px;
+                padding: 15px;
+            }
         }
 
         .empty-waiting-message {
@@ -141,6 +151,13 @@
             border: 1px solid rgba(0, 0, 0, 0.2);
         }
 
+        @media (max-width: 768px) {
+            .empty-waiting-message {
+                font-size: 0.9rem;
+                padding: 25px 15px;
+            }
+        }
+
         .remaining-count {
             font-size: 0.9rem;
             background: var(--vintage-leather);
@@ -152,91 +169,104 @@
             border: 1px solid var(--gold-trim);
         }
 
-        /* Category Headers with Images */
-        .category-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin: 10px 0 20px;
+        @media (max-width: 768px) {
+            .remaining-count {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+            }
         }
 
-        .cat-col {
+        /* DESKTOP: Horizontal 3 columns */
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        /* MOBILE: Vertical stack */
+        @media (max-width: 768px) {
+            .categories-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Category Header */
+        .category-header {
             background: var(--vintage-leather);
             color: var(--gold-trim);
-            padding: 20px 15px;
-            border-radius: 3px;
-            text-align: center;
-            font-weight: 800;
-            font-size: 1.6rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 6px 0 #1a0f0c;
-            transition: transform 0.2s;
-            font-family: 'Nunito', sans-serif;
+            padding: 12px 15px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             border: 1px solid var(--gold-trim);
+            border-bottom: none;
         }
 
-        .cat-col.sanhi-cat {
-            background: #3d2a25;
-            box-shadow: 0 6px 0 #2b1b17;
-        }
-
-        .cat-col.bunga-cat {
-            background: #4a3530;
-            box-shadow: 0 6px 0 #3d2a25;
-        }
-
-        .cat-col.tugon-cat {
-            background: #2b1b17;
-            box-shadow: 0 6px 0 #1a0f0c;
+        @media (max-width: 768px) {
+            .category-header {
+                padding: 10px 15px;
+                justify-content: flex-start;
+            }
         }
 
         .cat-icon {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .cat-icon {
+                font-size: 1.3rem;
+            }
         }
 
         .cat-image {
-            width: 60px;
-            height: 60px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
-            display: block;
-            margin: 0 auto 10px auto;
             filter: brightness(0) invert(1);
         }
 
+        @media (max-width: 768px) {
+            .cat-image {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
         .cat-label {
-            font-size: 1.4rem;
-            letter-spacing: 2px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
         }
 
-        .cat-sub {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            margin-top: 5px;
-            font-weight: normal;
+        @media (max-width: 768px) {
+            .cat-label {
+                font-size: 1rem;
+            }
         }
 
-        /* Drop Zones Row */
-        .dropzones-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            min-height: 450px;
-            margin-bottom: 20px;
-        }
-
+        /* Drop Zone */
         .dropzone {
             background: rgba(244, 228, 199, 0.95);
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 20px 15px;
+            border-radius: 0 0 8px 8px;
+            padding: 15px;
             border: 3px dashed #8b6b3f;
+            border-top: none;
             transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            min-height: 400px;
+            min-height: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .dropzone {
+                min-height: 160px;
+                padding: 12px;
+            }
         }
 
         .dropzone.drag-over {
@@ -245,32 +275,33 @@
             border-style: solid;
         }
 
-        .dropzone-header {
-            text-align: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-            margin-bottom: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--ink);
-            font-family: 'Nunito', sans-serif;
+        .dropzone.filled {
+            border-style: solid;
+            background: rgba(217, 197, 163, 0.8);
         }
 
-        /* Statement Cards - No side highlight */
+        /* Statement Cards */
         .statement-card {
             background: #fff;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            padding: 20px 20px 16px;
+            padding: 15px;
             box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
             font-weight: 500;
             cursor: grab;
             user-select: none;
             transition: all 0.2s ease;
             border: 1px solid #aaa;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.5;
             color: var(--ink);
+        }
+
+        @media (max-width: 768px) {
+            .statement-card {
+                padding: 12px;
+                font-size: 0.7rem;
+            }
         }
 
         .statement-card:active {
@@ -287,88 +318,148 @@
             opacity: 0.95;
         }
 
-        /* Shake Animation for wrong drop */
+        /* Card inside dropzone - not draggable */
+        .dropzone .statement-card {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .card-header-image {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .card-header-image img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .card-header-image img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* Shake Animation */
         @keyframes shakeCard {
-            0% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-8px);
-            }
-
-            50% {
-                transform: translateX(8px);
-            }
-
-            75% {
-                transform: translateX(-4px);
-            }
-
-            100% {
-                transform: translateX(0);
-            }
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-4px); }
+            100% { transform: translateX(0); }
         }
 
         .statement-card.shake {
             animation: shakeCard 0.4s ease-in-out;
         }
 
-        /* Header image style */
-        .card-header-image {
-            text-align: center;
-            margin-bottom: 14px;
-        }
-
-        .card-header-image img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-
-        .card-text-content {
-            font-weight: 500;
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-
-        .card-footer-badge {
-            display: flex;
+        /* Buttons */
+        .reset-btn {
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 12px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(0, 0, 0, 0.2);
-            font-size: 0.8rem;
-            color: #5D4037;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .card-footer-badge img {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-        }
-
-        /* Loading indicator */
-        .loading-indicator {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #d9c5a3;
-            border-top-color: var(--gold-trim);
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+        @media (max-width: 768px) {
+            .reset-btn {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+                width: 100%;
+                justify-content: center;
             }
         }
 
-        /* Modal Styles */
+        .reset-btn:hover {
+            background: #3d2a25;
+            transform: translateY(-2px);
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .game-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .completion-badge {
+            background: #d9c5a3;
+            color: var(--ink);
+            padding: 6px 15px;
+            border-radius: 3px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #8b6b3f;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .completion-badge {
+                font-size: 0.7rem;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: var(--vintage-leather);
+            padding: 8px 15px;
+            border-radius: 3px;
+            text-decoration: none;
+            color: var(--gold-trim);
+            font-weight: bold;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            border: 1px solid var(--gold-trim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 5px 10px;
+                font-size: 0.65rem;
+            }
+        }
+
+        .back-button:hover {
+            transform: translateX(-3px);
+        }
+
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -395,7 +486,7 @@
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            max-width: 700px;
+            max-width: 600px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
@@ -411,23 +502,34 @@
 
         .modal-header {
             background: var(--vintage-leather);
-            padding: 24px 32px;
-            border-radius: 3px 3px 0 0;
-            color: var(--gold-trim);
+            padding: 20px 24px;
             border-bottom: 1px solid var(--gold-trim);
         }
 
         .modal-header h2 {
             margin: 0;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 1.5rem;
+            color: var(--gold-trim);
             font-family: 'Nunito', sans-serif;
         }
 
+        @media (max-width: 768px) {
+            .modal-header {
+                padding: 16px 18px;
+            }
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
+        }
+
         .modal-body {
-            padding: 32px;
+            padding: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                padding: 18px;
+            }
         }
 
         .modal-body p {
@@ -437,210 +539,107 @@
             margin-bottom: 20px;
         }
 
+        @media (max-width: 768px) {
+            .modal-body p {
+                font-size: 0.85rem;
+            }
+        }
+
         .modal-footer {
-            padding: 20px 32px 32px;
+            padding: 16px 24px 24px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .modal-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
             border: 1px solid var(--gold-trim);
-            padding: 14px 32px;
+            padding: 12px 24px;
             border-radius: 3px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-family: 'Nunito', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-btn {
+                padding: 10px 18px;
+                font-size: 0.8rem;
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         .modal-btn:hover {
             background: #3d2a25;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Reset Button */
-        .reset-btn {
-            background: var(--vintage-leather);
-            color: var(--gold-trim);
-            border: 1px solid var(--gold-trim);
-            padding: 12px 28px;
-            border-radius: 3px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            font-family: 'Nunito', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .reset-btn:hover {
-            background: #3d2a25;
-            transform: translateY(-2px);
-        }
-
-        /* Game Controls Bar */
-        .game-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            background: var(--vintage-leather);
-            padding: 10px 18px;
-            border-radius: 3px;
-            text-decoration: none;
-            color: var(--gold-trim);
-            font-weight: bold;
-            font-family: 'Nunito', sans-serif;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-            border: 1px solid var(--gold-trim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .back-button:hover {
-            transform: translateX(-3px);
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .dropzones-row {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .category-header {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .game-container {
-                padding: 20px 15px;
-            }
-
-            .cat-col {
-                padding: 12px;
-            }
-
-            .statement-card {
-                padding: 16px;
-            }
-
-            .card-header-image img {
-                width: 45px;
-                height: 45px;
-            }
-
-            .modal-body {
-                padding: 20px;
-            }
-        }
-
-        /* Completion Message */
-        .completion-badge {
-            background: #d9c5a3;
-            color: var(--ink);
-            padding: 8px 20px;
-            border-radius: 3px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid #8b6b3f;
-            font-family: 'Nunito', sans-serif;
         }
     </style>
 @endpush
 
 @section('content')
-    <!-- Background Map -->
-    <div class="background-map-container">
-        <img src="{{ asset('pictures/mod4_innermap.png') }}" class="background-map" alt="Module 4 Inner Map">
-    </div>
-
     <a href="{{ route('module4.node1') }}" class="back-button">⬅️ Bumalik</a>
 
     <div class="content-wrapper">
         <div class="game-container">
-            <div
-                style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 5px;">
-                <div>
-                    <h1><i class="fas fa-arrows-alt"></i>Sanhi, Bunga, at Tugon</h1>
-                    <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b> Panuto:</b> I-drag ang bawat card papunta
-                        sa tamang kahon. Matapos ilagay ang kasalukuyang card, awtomatikong lalabas ang susunod na card.</p>
-                </div>
+            <div>
+                <h1><i class="fas fa-arrows-alt"></i> Sanhi, Bunga, at Tugon</h1>
+                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-drag ang bawat card papunta sa tamang kahon.</p>
             </div>
 
-            <!-- Dynamic Waiting Pool: shows one random card at a time (MOVED TO TOP) -->
+            <!-- Waiting Pool -->
             <div class="items-pool">
                 <div class="pool-title">
                     <i class="fas fa-hourglass-half"></i>
                     Ilagay ang card sa tamang kategorya
                     <span class="remaining-count" id="remainingCount">3</span>
                 </div>
-                <div id="waitingCardArea" class="waiting-card-container">
-                    <!-- The active card will appear here dynamically -->
+                <div id="waitingCardArea" class="waiting-card-container"></div>
+            </div>
+
+            <!-- Categories: Horizontal on Desktop, Vertical on Mobile -->
+            <div class="categories-container">
+                <!-- SANHI -->
+                <div class="category-item">
+                    <div class="category-header">
+                        <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
+                        <i class="fas fa-frown cat-icon"></i>
+                        <span class="cat-label">SANHI</span>
+                    </div>
+                    <div class="dropzone" id="dropzoneSanhi" data-category="sanhi"></div>
+                </div>
+
+                <!-- BUNGA -->
+                <div class="category-item">
+                    <div class="category-header">
+                        <img src="{{ asset('pictures/bunga-icon.png') }}" alt="Bunga" class="cat-image" onerror="this.style.display='none'">
+                        <i class="fas fa-tornado cat-icon"></i>
+                        <span class="cat-label">BUNGA</span>
+                    </div>
+                    <div class="dropzone" id="dropzoneBunga" data-category="bunga"></div>
+                </div>
+
+                <!-- TUGON -->
+                <div class="category-item">
+                    <div class="category-header">
+                        <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
+                        <i class="fas fa-hand-holding-heart cat-icon"></i>
+                        <span class="cat-label">MGA TUGON</span>
+                    </div>
+                    <div class="dropzone" id="dropzoneTugon" data-category="tugon"></div>
                 </div>
             </div>
 
-            <!-- Category Headers with IMAGE placeholders -->
-            <div class="category-header">
-                <div class="cat-col sanhi-cat">
-                    <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi Icon" class="cat-image"
-                        onerror="this.style.display='none'">
-                    <i class="fas fa-frown cat-icon"></i>
-                    <div class="cat-label">SANHI</div>
-                </div>
-                <div class="cat-col bunga-cat">
-                    <img src="{{ asset('pictures/bunga-icon.png') }}" alt="Bunga Icon" class="cat-image"
-                        onerror="this.style.display='none'">
-                    <i class="fas fa-tornado cat-icon"></i>
-                    <div class="cat-label">BUNGA</div>
-                </div>
-                <div class="cat-col tugon-cat">
-                    <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon Icon" class="cat-image"
-                        onerror="this.style.display='none'">
-                    <i class="fas fa-hand-holding-heart cat-icon"></i>
-                    <div class="cat-label">MGA TUGON</div>
-                </div>
-            </div>
-
-            <!-- Drop Zones Row (Headers removed) -->
-            <div class="dropzones-row">
-                <div class="dropzone" id="dropzoneSanhi" data-category="sanhi">
-                    <!-- Drop zone content will be added here -->
-                </div>
-                <div class="dropzone" id="dropzoneBunga" data-category="bunga">
-                    <!-- Drop zone content will be added here -->
-                </div>
-                <div class="dropzone" id="dropzoneTugon" data-category="tugon">
-                    <!-- Drop zone content will be added here -->
-                </div>
-            </div>
-
-            <!-- Game Controls and Reset -->
+            <!-- Game Controls -->
             <div class="game-controls">
                 <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
                 <div id="completionStatus"></div>
@@ -652,18 +651,10 @@
     <div id="summaryModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
-                <h2><i class="fas fa-clipboard-list"></i> 📖 BUOD (Summary)</h2>
+                <h2><i class="fas fa-clipboard-list"></i> 📖 BUOD</h2>
             </div>
             <div class="modal-body">
-                <p>Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong
-                    1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura.
-                    Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira,
-                    habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga
-                    residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin
-                    ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng
-                    sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, walang naitalang nasawi,
-                    na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa
-                    kalamidad.</p>
+                <p>Ang Super Typhoon Rolly ay itinuturing na pinakamalakas na bagyong tumama sa Tabaco, Albay mula pa noong 1952, na nagdulot ng humigit-kumulang ₱2.5 bilyong pinsala sa mga bahay, kabuhayan, at imprastruktura. Libu-libong tahanan ang nawasak o napinsala, at halos lahat ng bangka ng mga mangingisda ay nasira, habang nawalan ng kuryente at sapat na suplay ng tubig ang maraming barangay. Naranasan din ng mga residente ang matinding pagbaha kung saan ang ilan ay napilitang lumangoy upang makaligtas. Nasira rin ang mga makasaysayang gusali, kabilang ang isang lumang simbahan at bahay, na nagpapakita ng epekto ng sakuna sa kultura at kasaysayan. Sa kabila ng matinding pinsala at paghihirap, walang naitalang nasawi, na nagpapatunay sa kahalagahan ng kahandaan, disiplina, at pagtutulungan ng komunidad sa pagharap sa kalamidad.</p>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn" id="modalContinueBtn"><i class="fas fa-arrow-right"></i> Magpatuloy</button>
@@ -675,7 +666,6 @@
         (function () {
             "use strict";
 
-            // ==================== STATEMENTS DATA ====================
             const fullStatements = [
                 {
                     text: "Ang matinding pinsala at panganib na naranasan sa Tabaco, Albay—kabilang ang pagkasira ng mga bahay, kabuhayan, at mahahalagang serbisyo—ay kasabay ng pagdating ng Super Typhoon Rolly, na nagdala ng napakalakas na hangin at matinding pag-ulan na nagdulot ng malawakang pagbaha.",
@@ -694,7 +684,6 @@
                 }
             ];
 
-            // Randomize order of statements once at start
             let remainingStatements = [...fullStatements];
             function shuffleArray(arr) {
                 for (let i = arr.length - 1; i > 0; i--) {
@@ -705,7 +694,6 @@
             }
             remainingStatements = shuffleArray(remainingStatements);
 
-            // DOM Elements
             const waitingArea = document.getElementById('waitingCardArea');
             const remainingCountSpan = document.getElementById('remainingCount');
             const dropSanhi = document.getElementById('dropzoneSanhi');
@@ -718,8 +706,8 @@
 
             let gameActive = true;
             let isLoadingNext = false;
+            let placedCount = 0;
 
-            // Shake a card element
             function shakeCard(card) {
                 if (!card) return;
                 card.classList.add('shake');
@@ -728,130 +716,69 @@
                 }, 400);
             }
 
-            // Helper: update remaining count display
             function updateRemainingDisplay() {
                 if (remainingCountSpan) {
                     remainingCountSpan.textContent = remainingStatements.length;
                 }
-                if (remainingStatements.length === 0 && gameActive) {
-                    checkAllPlacedFinal();
-                }
             }
 
-            // Function to show modal and handle navigation
             function showSummaryModal() {
                 if (summaryModal) {
                     summaryModal.classList.add('show');
                 }
             }
 
-            // Function to check final completion after all cards dragged
             function checkAllPlacedFinal() {
-                const totalCards = fullStatements.length;
-                const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
-                const bungaCount = dropBunga ? dropBunga.querySelectorAll('.statement-card').length : 0;
-                const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
-                const totalPlaced = sanhiCount + bungaCount + tugonCount;
-
-                let allCorrect = false;
-                if (totalPlaced === totalCards) {
-                    let correct = true;
-                    if (dropSanhi) {
-                        const cards = Array.from(dropSanhi.querySelectorAll('.statement-card'));
-                        if (cards.some(card => card.dataset.category !== 'sanhi')) correct = false;
-                    }
-                    if (dropBunga) {
-                        const cards = Array.from(dropBunga.querySelectorAll('.statement-card'));
-                        if (cards.some(card => card.dataset.category !== 'bunga')) correct = false;
-                    }
-                    if (dropTugon) {
-                        const cards = Array.from(dropTugon.querySelectorAll('.statement-card'));
-                        if (cards.some(card => card.dataset.category !== 'tugon')) correct = false;
-                    }
-                    if (correct && totalPlaced === totalCards) {
-                        allCorrect = true;
-                    }
-                }
-
-                if (allCorrect) {
+                if (placedCount === fullStatements.length) {
                     sessionStorage.setItem("node1_done", "true");
                     if (completionStatus) {
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
                     }
                     gameActive = false;
-                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na! Napakahusay!</div>';
-                    // Show the summary modal
+                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
                     showSummaryModal();
-                } else if (totalPlaced === totalCards && !allCorrect) {
-                    if (completionStatus) {
-                        completionStatus.innerHTML = '<span style="color: #b02e2e;"><i class="fas fa-exclamation-triangle"></i> May mali pang pagkakalagay. I-reset at subukang muli.</span>';
-                    }
-                } else {
-                    if (!gameActive) return;
                 }
             }
 
-            // Create draggable card element with HEADER IMAGE (no side border)
             function createDraggableCard(statement, indexId) {
                 const card = document.createElement('div');
-                card.className = `statement-card`;
+                card.className = 'statement-card';
                 card.setAttribute('draggable', 'true');
                 card.setAttribute('data-category', statement.category);
                 card.setAttribute('data-id', indexId);
 
-                // Header Image HTML (top of card)
                 let headerImageHtml = '';
                 if (statement.imageIcon) {
                     headerImageHtml = `
-                            <div class="card-header-image">
-                                <img src="{{ asset('${statement.imageIcon}') }}" alt="${statement.category} icon" onerror="this.style.display='none'">
-                            </div>
-                        `;
-                }
-
-                // Footer Badge HTML
-                let footerBadgeHtml = '';
-                if (statement.imageIcon && statement.imageNote) {
-                    footerBadgeHtml = `
-                            <div class="card-footer-badge">
-                                <img src="{{ asset('${statement.imageIcon}') }}" alt="icon" onerror="this.style.display='none'">
-                            </div>
-                        `;
-                } else if (statement.imageNote) {
-                    footerBadgeHtml = `
-                            <div class="card-footer-badge">
-                                <span><i class="far fa-image"></i> ${statement.imageNote}</span>
-                            </div>
-                        `;
+                        <div class="card-header-image">
+                            <img src="{{ asset('${statement.imageIcon}') }}" alt="${statement.category} icon" onerror="this.style.display='none'">
+                        </div>
+                    `;
                 }
 
                 card.innerHTML = `
-                        ${headerImageHtml}
-                        <div class="card-text-content">${statement.text}</div>
-                        ${footerBadgeHtml}
-                    `;
+                    ${headerImageHtml}
+                    <div class="card-text-content">${statement.text}</div>
+                `;
 
                 card.addEventListener('dragstart', handleDragStart);
                 card.addEventListener('dragend', handleDragEnd);
                 return card;
             }
 
-            // Show next card in waiting area (automatically called after placement)
             function loadNextCard() {
                 if (!gameActive) return;
                 if (isLoadingNext) return;
 
                 if (remainingStatements.length === 0) {
                     if (waitingArea) {
-                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card. Natapos na!</div>';
+                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card.</div>';
                     }
-                    checkAllPlacedFinal();
                     return;
                 }
 
                 isLoadingNext = true;
 
-                // Add a small delay for smooth transition
                 setTimeout(() => {
                     if (!gameActive) {
                         isLoadingNext = false;
@@ -869,40 +796,24 @@
                 }, 150);
             }
 
-            // Function to finalize placement of current card, then automatically load next
-            function onCardPlacedSuccessfully(placedCard, targetZone) {
+            function onCardPlacedSuccessfully() {
                 if (!gameActive) return;
 
-                // Remove from waiting area
-                if (waitingArea && waitingArea.contains(placedCard)) {
-                    waitingArea.innerHTML = '';
-                }
+                if (waitingArea) waitingArea.innerHTML = '';
 
-                // Remove from remainingStatements array (the first one)
                 if (remainingStatements.length > 0) {
                     remainingStatements.shift();
                 }
+                placedCount++;
                 updateRemainingDisplay();
 
-                // Check if all cards are placed
-                const totalCards = fullStatements.length;
-                const sanhiCount = dropSanhi ? dropSanhi.querySelectorAll('.statement-card').length : 0;
-                const bungaCount = dropBunga ? dropBunga.querySelectorAll('.statement-card').length : 0;
-                const tugonCount = dropTugon ? dropTugon.querySelectorAll('.statement-card').length : 0;
-                const totalPlaced = sanhiCount + bungaCount + tugonCount;
-
-                if (totalPlaced === totalCards) {
-                    // All cards placed, check final correctness
+                if (placedCount === fullStatements.length) {
                     checkAllPlacedFinal();
                 } else {
-                    // Automatically load the next card
                     loadNextCard();
                 }
-
-                checkAllPlacedFinal();
             }
 
-            // Drag & Drop Handlers
             let draggedElement = null;
 
             function handleDragStart(e) {
@@ -957,7 +868,6 @@
 
                         if (cardCategory !== targetCategory) {
                             shakeCard(draggedElement);
-                            // No hint/error message shown - just shake
                             return;
                         }
 
@@ -966,42 +876,36 @@
                             return;
                         }
 
-                        // Move card to dropzone
                         zone.appendChild(draggedElement);
                         draggedElement.style.cursor = 'default';
                         draggedElement.setAttribute('draggable', 'false');
                         draggedElement.classList.add('placed');
+                        zone.classList.add('filled');
 
-                        // Remove drag listeners to prevent further drag
                         draggedElement.removeEventListener('dragstart', handleDragStart);
                         draggedElement.removeEventListener('dragend', handleDragEnd);
 
-                        // Trigger automatic next card
-                        onCardPlacedSuccessfully(draggedElement, zone);
+                        onCardPlacedSuccessfully();
                         draggedElement = null;
                     });
                 });
             }
 
-            // Reset game fully
             function resetGame() {
                 gameActive = true;
                 isLoadingNext = false;
+                placedCount = 0;
                 remainingStatements = shuffleArray([...fullStatements]);
 
-                // Clear all dropzones
                 if (dropSanhi) dropSanhi.innerHTML = '';
                 if (dropBunga) dropBunga.innerHTML = '';
                 if (dropTugon) dropTugon.innerHTML = '';
 
-                // Reset waiting area
                 if (waitingArea) waitingArea.innerHTML = '';
-
                 if (completionStatus) completionStatus.innerHTML = '';
 
                 updateRemainingDisplay();
 
-                // Load first card
                 setTimeout(() => {
                     if (remainingStatements.length > 0) {
                         const firstStatement = remainingStatements[0];
@@ -1015,16 +919,12 @@
                 }, 50);
             }
 
-            // Modal continue button - navigate to inner.map4
             if (modalContinueBtn) {
                 modalContinueBtn.addEventListener('click', () => {
-
-                    // ✅ REDIRECT
                     window.location.href = "{{ route('inner.map4') }}";
                 });
             }
 
-            // Close modal when clicking outside
             if (summaryModal) {
                 summaryModal.addEventListener('click', (e) => {
                     if (e.target === summaryModal) {
@@ -1037,11 +937,9 @@
                 resetBtn.addEventListener('click', resetGame);
             }
 
-            // Prevent default dragover on document
             document.addEventListener('dragover', (e) => e.preventDefault());
             document.addEventListener('drop', (e) => e.preventDefault());
 
-            // Initial setup
             setupDropZones();
             resetGame();
         })();

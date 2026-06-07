@@ -67,23 +67,53 @@
 
         h1 {
             font-weight: 800;
-            font-size: 2.2rem;
+            font-size: 1.5rem;
             color: var(--ink);
             margin-bottom: 6px;
             font-family: 'Nunito', sans-serif;
             border-bottom: 2px solid var(--ink);
             padding-bottom: 10px;
+            word-break: break-word;
         }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
         h1 i {
             color: var(--danger);
             margin-right: 12px;
         }
+
+        h1 span {
+            font-size: 0.7rem !important;
+            display: inline-block;
+            margin-top: 8px;
+            margin-left: 0 !important;
+        }
+
+        @media (min-width: 768px) {
+            h1 span {
+                font-size: 1rem !important;
+                margin-left: 16px !important;
+                margin-top: 0;
+            }
+        }
+
         .subhead {
             color: var(--ink);
-            font-size: 1.1rem;
+            font-size: 1rem;
             border-left: 5px solid var(--gold-trim);
             padding-left: 18px;
             margin: 10px 0 20px;
+        }
+
+        @media (min-width: 768px) {
+            .subhead {
+                font-size: 1.1rem;
+            }
         }
 
         /* READ FIRST SECTION - VINTAGE BOOK THEME */
@@ -91,119 +121,185 @@
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            padding: 25px 30px;
+            padding: 20px;
             border: 1px solid rgba(0, 0, 0, 0.2);
             margin-bottom: 35px;
             box-shadow: 
                 inset 0 0 30px rgba(0, 0, 0, 0.15),
                 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        @media (min-width: 768px) {
+            .read-first-card {
+                padding: 25px 30px;
+            }
+        }
+
         .read-first-title {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--ink);
             margin-bottom: 12px;
             font-family: 'Nunito', sans-serif;
             border-bottom: 1px solid rgba(0, 0, 0, 0.25);
             padding-bottom: 8px;
         }
-        
+
+        @media (min-width: 768px) {
+            .read-first-title {
+                font-size: 1.5rem;
+            }
+        }
+
         /* Media Container - Article & Video Side by Side */
         .media-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            grid-template-columns: 1fr;
+            gap: 20px;
             margin: 20px 0;
         }
-        
+
+        @media (min-width: 768px) {
+            .media-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+        }
+
         .article-preview-box {
             background: #fff;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 
                 inset 0 0 20px rgba(0, 0, 0, 0.1),
                 2px 6px 12px rgba(0, 0, 0, 0.3);
             border: 1px solid #aaa;
         }
-        
+
+        @media (min-width: 768px) {
+            .article-preview-box {
+                padding: 20px;
+            }
+        }
+
         .article-preview-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
-        
+
         .article-preview-header i {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--danger);
         }
-        
+
+        @media (min-width: 768px) {
+            .article-preview-header i {
+                font-size: 24px;
+            }
+        }
+
         .article-preview-header h4 {
             margin: 0;
             font-weight: 700;
             color: var(--ink);
             font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
         }
-        
+
+        @media (min-width: 768px) {
+            .article-preview-header h4 {
+                font-size: 1rem;
+            }
+        }
+
         .article-excerpt {
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.5;
             color: var(--ink);
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
-            padding-right: 10px;
-            margin-bottom: 15px;
+            padding-right: 8px;
+            margin-bottom: 12px;
         }
-        
+
+        @media (min-width: 768px) {
+            .article-excerpt {
+                font-size: 0.95rem;
+                max-height: 200px;
+                margin-bottom: 15px;
+            }
+        }
+
         .article-excerpt::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
-        
+
         .article-excerpt::-webkit-scrollbar-track {
             background: #d9c5a3;
             border-radius: 10px;
         }
-        
+
         .article-excerpt::-webkit-scrollbar-thumb {
             background: #8b6b3f;
             border-radius: 10px;
         }
-        
+
         .video-container {
             background: #fff;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 
                 inset 0 0 20px rgba(0, 0, 0, 0.1),
                 2px 6px 12px rgba(0, 0, 0, 0.3);
             border: 1px solid #aaa;
         }
-        
+
+        @media (min-width: 768px) {
+            .video-container {
+                padding: 20px;
+            }
+        }
+
         .video-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
-        
+
         .video-header i {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--danger);
         }
-        
+
+        @media (min-width: 768px) {
+            .video-header i {
+                font-size: 24px;
+            }
+        }
+
         .video-header h4 {
             margin: 0;
             font-weight: 700;
             color: var(--ink);
             font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
         }
-        
+
+        @media (min-width: 768px) {
+            .video-header h4 {
+                font-size: 1rem;
+            }
+        }
+
         .video-wrapper {
             position: relative;
             padding-bottom: 56%;
@@ -213,7 +309,7 @@
             box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
             border: 1px solid #8b6b3f;
         }
-        
+
         .video-wrapper iframe {
             position: absolute;
             top: 0;
@@ -222,19 +318,26 @@
             height: 100%;
             border: none;
         }
-        
+
         .article-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 12px;
         }
-        
+
+        @media (min-width: 768px) {
+            .article-links {
+                gap: 15px;
+                margin-top: 15px;
+            }
+        }
+
         .article-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
             border: 1px solid var(--gold-trim);
-            padding: 12px 24px;
+            padding: 8px 16px;
             font-family: 'Nunito', sans-serif;
             font-weight: 800;
             cursor: pointer;
@@ -244,15 +347,24 @@
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
+            gap: 8px;
+            font-size: 0.8rem;
             border-radius: 3px;
         }
+
+        @media (min-width: 768px) {
+            .article-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+                gap: 10px;
+            }
+        }
+
         .article-btn:hover {
             background: #3d2a25;
             transform: translateY(-2px);
         }
-        
+
         /* Completed Button Style */
         .article-btn.completed {
             background: #2e7d32;
@@ -262,27 +374,24 @@
             pointer-events: none;
             opacity: 0.8;
         }
-        .article-btn.completed:hover {
-            transform: none;
-            background: #2e7d32;
-        }
-        
+
         /* Modal Styles for Article */
         .article-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(10, 8, 7, 0.9);
+            background: rgba(10, 8, 7, 0.95);
             z-index: 9999;
             justify-content: center;
             align-items: center;
+            padding: 10px;
         }
-        
+
         .modal-content {
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            width: 90%;
-            height: 85%;
+            width: 95%;
+            height: 90%;
             border-radius: 5px;
             overflow: hidden;
             display: flex;
@@ -290,9 +399,16 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             border: 2px solid var(--gold-trim);
         }
-        
+
+        @media (min-width: 768px) {
+            .modal-content {
+                width: 90%;
+                height: 85%;
+            }
+        }
+
         .modal-header {
-            padding: 15px 20px;
+            padding: 12px 15px;
             background: var(--vintage-leather);
             color: var(--gold-trim);
             display: flex;
@@ -300,8 +416,19 @@
             align-items: center;
             font-weight: bold;
             font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        
+
+        @media (min-width: 768px) {
+            .modal-header {
+                padding: 15px 20px;
+                font-size: 1rem;
+                flex-wrap: nowrap;
+            }
+        }
+
         .modal-header button {
             background: none;
             border: none;
@@ -311,44 +438,46 @@
             font-weight: bold;
             padding: 5px 10px;
         }
-        
-        .modal-header button:hover {
-            opacity: 0.8;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-        }
-        
+
         .modal-body {
             flex: 1;
             overflow: auto;
         }
-        
+
         .modal-body iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
-        
+
         .confirmation-area {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 25px;
+            gap: 15px;
             flex-wrap: wrap;
-            margin-top: 25px;
+            margin-top: 20px;
         }
+
+        @media (min-width: 768px) {
+            .confirmation-area {
+                gap: 25px;
+                margin-top: 25px;
+            }
+        }
+
         .confirm-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
             border: 1px solid var(--gold-trim);
-            padding: 14px 32px;
+            padding: 12px 20px;
             font-family: 'Nunito', sans-serif;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1rem;
             box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
             transition: 0.2s;
             cursor: pointer;
-            min-width: 280px;
+            min-width: 240px;
             text-decoration: none;
             display: inline-block;
             text-align: center;
@@ -356,6 +485,15 @@
             letter-spacing: 1px;
             border-radius: 3px;
         }
+
+        @media (min-width: 768px) {
+            .confirm-btn {
+                padding: 14px 32px;
+                font-size: 1.2rem;
+                min-width: 280px;
+            }
+        }
+
         .confirm-btn:disabled {
             opacity: 0.5;
             box-shadow: none;
@@ -363,163 +501,23 @@
             cursor: not-allowed;
             transform: none;
         }
+
         .confirm-btn.enabled {
             background: #3d2a25;
         }
+
         .confirm-btn.enabled:hover {
             background: #4a3530;
             transform: translateY(-2px);
         }
-        
-        /* drag drop zone */
-        .game-area {
-            margin-top: 15px;
-        }
-        .category-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 18px;
-            margin: 25px 0 15px;
-        }
-        .cat-col {
-            background: var(--vintage-leather);
-            color: var(--gold-trim);
-            padding: 16px 10px;
-            border-radius: 3px;
-            text-align: center;
-            font-weight: 800;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 8px 0 #1a0f0c;
-            font-family: 'Nunito', sans-serif;
-        }
-        .cat-col.sanchi { 
-            background: #3d2a25; 
-            box-shadow: 0 8px 0 #2b1b17; 
-        }
-        .cat-col.bunga { 
-            background: #4a3530; 
-            box-shadow: 0 8px 0 #3d2a25; 
-        }
-        .cat-col.tugon { 
-            background: #2b1b17; 
-            box-shadow: 0 8px 0 #1a0f0c; 
-        }
-
-        .dropzones-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 18px;
-            min-height: 420px;
-        }
-        .dropzone {
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 18px 12px;
-            border: 3px dashed #8b6b3f;
-            transition: background 0.2s;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .dropzone.drag-over {
-            background: rgba(217, 197, 163, 0.95);
-            border-color: var(--gold-trim);
-        }
-        .statement-card {
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 16px 18px;
-            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
-            border-left: 8px solid;
-            font-weight: 500;
-            cursor: grab;
-            user-select: none;
-            transition: 0.1s;
-            border: 1px solid #aaa;
-            font-size: 0.98rem;
-            color: var(--ink);
-        }
-        .statement-card:active {
-            cursor: grabbing;
-            opacity: 0.8;
-        }
-        .statement-card.dragging {
-            opacity: 0.3;
-        }
-        .statement-card.sanhi-border { border-left-color: #8b6b3f; }
-        .statement-card.bunga-border { border-left-color: #a0522d; }
-        .statement-card.tugon-border { border-left-color: #6b4423; }
-
-        .items-pool {
-            margin: 30px 0 15px;
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 20px 20px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-        .pool-title {
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            color: var(--ink);
-            font-family: 'Nunito', sans-serif;
-        }
-        .draggable-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
-
-        .summary-box {
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 25px 30px;
-            margin-top: 40px;
-            border-left: 12px solid #8b6b3f;
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .reset-btn {
-            background: var(--vintage-leather);
-            color: var(--gold-trim);
-            border: 1px solid var(--gold-trim);
-            padding: 8px 20px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 3px;
-        }
-        .reset-btn:hover {
-            background: #3d2a25;
-        }
-
-        .image-badge {
-            font-size: 0.9rem;
-            margin-top: 4px;
-            color: var(--ink);
-        }
-
-        .footer-note {
-            margin-top: 20px;
-            font-style: italic;
-            color: var(--ink);
-        }
 
         .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+            position: fixed;
+            top: 80px;
+            left: 15px;
             z-index: 100;
             background: var(--vintage-leather);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 3px;
             text-decoration: none;
             color: var(--gold-trim);
@@ -530,45 +528,31 @@
             border: 1px solid var(--gold-trim);
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-size: 0.8rem;
         }
 
-        /* Status Badges */
-        .status-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 10px;
-            font-family: 'Nunito', sans-serif;
+        @media (min-width: 768px) {
+            .back-button {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
         }
-        
-        .status-badge.read {
-            background: #d9c5a3;
-            color: var(--ink);
-            border: 1px solid #8b6b3f;
-        }
-        
-        .status-badge.not-read {
-            background: #f4e4c7;
-            color: var(--danger);
-            border: 1px solid var(--danger);
+
+        .back-button:hover {
+            transform: translateY(-2px);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .media-container {
-                grid-template-columns: 1fr;
-            }
-            .dropzones-row {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .category-header {
-                grid-template-columns: 1fr;
-            }
             .node-container {
                 padding: 20px 15px;
+            }
+            
+            .read-first-card p {
+                font-size: 0.9rem !important;
             }
         }
     </style>
@@ -598,10 +582,10 @@
     <!-- Main Content -->
     <div class="content-wrapper">
         <div class="node-container">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap;">
                 <div>
                     <h1><i class="fas fa-cyclone"></i> NODE 1: Super Typhoon Rolly 
-                        <span style="font-size: 1rem; background: var(--vintage-leather); padding: 5px 18px; border-radius: 3px; margin-left: 16px; color: var(--gold-trim); border: 1px solid var(--gold-trim);">Tabaco, Albay</span>
+                        <span style="font-size: 0.7rem; background: var(--vintage-leather); padding: 4px 12px; border-radius: 3px; display: inline-block; color: var(--gold-trim); border: 1px solid var(--gold-trim);">Tabaco, Albay</span>
                     </h1>
                 </div>
             </div>
@@ -612,7 +596,7 @@
                     <i class="fas fa-book-open me-2"></i> 
                      BAGO MAG-ACTIVITY: Basahin at panoorin
                 </div>
-                <p style="font-size: 1.05rem; margin-bottom: 5px; color: var(--ink);">
+                <p style="font-size: 0.95rem; margin-bottom: 5px; color: var(--ink);">
                     <strong>Panuto:</strong> Basahin ang artikulo at panoorin ang video.
                 </p>
                 
