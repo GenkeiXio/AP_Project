@@ -6,7 +6,7 @@
 <html lang="fil">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Module 2 Complete</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
@@ -14,16 +14,27 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body{
     margin:0;
     font-family:'Nunito',sans-serif;
     overflow:hidden;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 /* 🌍 BACKGROUND (FROM INNER MAP) */
 .map-wrapper{
     position:fixed;
     inset:0;
+    height: 100%;
+    width: 100%;
 }
 
 .background-map{
@@ -43,70 +54,97 @@ body{
 .container{
     position:fixed;
     inset:0;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     width:100%;
+    height:100%;
+    padding: 10px;
+    z-index: 10;
 }
 
 /* ✨ CARD */
 .card{
     background:rgba(255,255,255,0.92);
     backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
     border-radius:24px;
-    padding:30px;
+    padding:20px;
     max-width:850px;
-    width:90%;
-
+    width:100%;
+    max-height: 92vh;
+    overflow-y: auto;
     box-shadow:0 20px 50px rgba(0,0,0,0.4);
     text-align:center;
-
     animation: pop 0.5s ease;
+}
+
+/* Custom scrollbar for card */
+.card::-webkit-scrollbar {
+    width: 4px;
+}
+.card::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+}
+.card::-webkit-scrollbar-thumb {
+    background: #5eae4e;
+    border-radius: 10px;
 }
 
 /* HEADER */
 h1{
     font-family:'Baloo 2';
-    font-size:34px;
-    margin-bottom:10px;
+    font-size: clamp(24px, 6vw, 34px);
+    margin-bottom: 8px;
     color:#2c3e50;
 }
 
 .subtitle{
     font-weight:700;
-    margin-bottom:15px;
+    margin-bottom: 12px;
     color:#555;
+    font-size: clamp(14px, 3vw, 18px);
 }
 
 /* SUMMARY TEXT */
 .summary{
     text-align:left;
-    font-size:15px;
+    font-size: clamp(13px, 2.5vw, 15px);
     line-height:1.7;
     color:#333;
-    margin-top:20px;
+    margin-top: 15px;
+    padding: 0 4px;
+}
+
+.summary strong {
+    font-size: clamp(14px, 2.8vw, 16px);
 }
 
 /* BUTTON */
 .btn{
-    margin-top:25px;
-    padding:16px 32px;
+    margin-top: 20px;
+    padding: 14px 28px;
     border:none;
     border-radius:14px;
     background:linear-gradient(135deg,#5eae4e,#3d8f35);
     color:white;
     font-weight:bold;
-    font-size:16px;
+    font-size: clamp(14px, 3vw, 16px);
     cursor:pointer;
-
+    width: 100%;
+    max-width: 320px;
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
     transition:0.2s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .btn:hover{
     transform:scale(1.08);
+}
+
+.btn:active {
+    transform: scale(0.96);
 }
 
 .modal-overlay {
@@ -120,6 +158,7 @@ h1{
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
+    padding: 15px;
 }
 
 .modal-overlay.active {
@@ -130,14 +169,24 @@ h1{
 /* MODAL CONTENT */
 .reward-modal {
     background: white;
-    padding: 40px;
+    padding: clamp(25px, 5vw, 40px);
     border-radius: 30px;
     max-width: 500px;
-    width: 85%;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
     text-align: center;
     transform: translateY(30px);
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 5px solid #f1c40f; /* Gold border for reward */
+    border: 5px solid #f1c40f;
+}
+
+.reward-modal::-webkit-scrollbar {
+    width: 3px;
+}
+.reward-modal::-webkit-scrollbar-thumb {
+    background: #f1c40f;
+    border-radius: 10px;
 }
 
 .modal-overlay.active .reward-modal {
@@ -145,35 +194,47 @@ h1{
 }
 
 .reward-image {
-    width: 180px;
+    width: clamp(120px, 30vw, 180px);
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
 }
 
 .reward-title {
     font-family: 'Baloo 2';
-    font-size: 28px;
+    font-size: clamp(22px, 5vw, 28px);
     color: #d35400;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .reward-desc {
-    font-size: 16px;
+    font-size: clamp(13px, 2.5vw, 16px);
     color: #2c3e50;
     line-height: 1.6;
 }
 
+.reward-desc strong {
+    font-size: clamp(14px, 2.8vw, 17px);
+}
+
 .close-reward-btn {
-    margin-top: 25px;
+    margin-top: 20px;
     background: #27ae60;
     color: white;
     border: none;
     padding: 12px 25px;
     border-radius: 50px;
     font-weight: bold;
+    font-size: clamp(14px, 3vw, 16px);
     cursor: pointer;
+    width: 100%;
+    max-width: 280px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.close-reward-btn:active {
+    transform: scale(0.96);
 }
 
 /* 🔥 FIXED ANIMATION (NO translate conflict) */
@@ -199,6 +260,7 @@ h1{
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.6s ease;
+    padding: 15px;
 }
 
 .animation-overlay.active {
@@ -209,31 +271,35 @@ h1{
 .animation-content {
     text-align: center;
     background: transparent;
+    width: 100%;
+    max-width: 600px;
 }
 
 .transform-container {
     position: relative;
-    width: 600px; /* Inadjust para sa lapad ng foundation */
-    height: 400px;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 3/2;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
 }
 
-
 /* THE SLIDING HOUSE PART */
 .house-part-slide {
     opacity: 0;
     z-index: 2;
-    transition: opacity 0.5s ease-in-out; /* 0.5s lang para mabilis mawala */
+    transition: opacity 0.5s ease-in-out;
 }
 
 .house-part-img {
     position: absolute;
     max-width: 100%;
     height: auto;
-    transition: opacity 0.5s ease-in-out; /* Smooth fade out */
+    max-height: 100%;
+    transition: opacity 0.5s ease-in-out;
+    object-fit: contain;
 }
 
 .animation-overlay.active .house-part-slide {
@@ -244,7 +310,7 @@ h1{
     opacity: 0;
     z-index: 1;
     transition: opacity 0.8s ease-in-out; 
-    transition-delay: 0.0s; /* Hintayin muna mawala ang bricks */
+    transition-delay: 0.0s;
 }
 
 .transformed .house-part-slide {
@@ -267,17 +333,27 @@ h1{
 
 /* FADE IN TEXT BELOW */
 .reward-status-text {
-    margin-top: 20px;
+    margin-top: 15px;
     color: white;
     opacity: 0;
     text-align: center;
+    padding: 0 10px;
+}
+
+.reward-status-text h2 {
+    font-size: clamp(24px, 5vw, 35px);
+    margin-bottom: 5px;
+}
+
+.reward-status-text p {
+    font-size: clamp(14px, 2.5vw, 18px);
+    margin: 5px 0;
 }
 
 .animation-overlay.active .reward-status-text {
     animation: fadeInUp 0.8s ease forwards;
-    animation-delay: 2.5s; /* Lalabas pagkatapos ng transformation */
+    animation-delay: 2.5s;
 }
-
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -285,14 +361,88 @@ h1{
 }
 
 .btn-finish {
-    margin-top: 20px;
-    padding: 12px 30px;
+    margin-top: 15px;
+    padding: 12px 28px;
     background: #5eae4e;
     color: white;
     border: none;
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
+    font-size: clamp(14px, 3vw, 16px);
+    width: 100%;
+    max-width: 280px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-finish:active {
+    transform: scale(0.96);
+}
+
+/* ===== MOBILE SPECIFIC FIXES ===== */
+@media (max-width: 480px) {
+    .card {
+        padding: 16px;
+        max-height: 85vh;
+        border-radius: 18px;
+    }
+    
+    .summary {
+        font-size: 13px;
+        line-height: 1.6;
+        padding: 0 2px;
+    }
+    
+    .reward-modal {
+        padding: 20px;
+        border-radius: 20px;
+        border-width: 4px;
+    }
+    
+    .reward-title {
+        font-size: 22px;
+    }
+    
+    .transform-container {
+        aspect-ratio: 4/3;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .card {
+        padding: 12px;
+        border-radius: 14px;
+    }
+    
+    h1 {
+        font-size: 22px;
+    }
+    
+    .subtitle {
+        font-size: 13px;
+    }
+    
+    .summary {
+        font-size: 12px;
+    }
+    
+    .reward-modal {
+        padding: 16px;
+    }
+}
+
+/* Prevent zoom on double tap for iOS */
+button, .btn, .close-reward-btn, .btn-finish {
+    touch-action: manipulation;
+}
+
+/* Safe area for notched phones */
+@supports (padding: max(0px)) {
+    .card {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
 }
 </style>
 </head>
@@ -359,8 +509,8 @@ h1{
             </div>
             
             <div class="reward-status-text">
-                <h2 id="statusTitle" style="font-family: 'Baloo 2'; color: #f1c40f; font-size: 35px;">Matibay na Pundasyon!</h2>
-                <p style="font-size: 18px;">Ang iyong mga materyales ay naging bahagi na ng iyong tahanan.</p>
+                <h2 id="statusTitle" style="font-family: 'Baloo 2'; color: #f1c40f; font-size: clamp(28px, 6vw, 35px);">Matibay na Pundasyon!</h2>
+                <p style="font-size: clamp(14px, 2.5vw, 18px);">Ang iyong mga materyales ay naging bahagi na ng iyong tahanan.</p>
                 <button class="btn-finish" onclick="exitAnimation()">Bumalik sa Buod ↩️</button>
             </div>
         </div>
