@@ -53,7 +53,7 @@ class Module3ResultsController extends Controller
             return $student;
         });
 
-        return view('Teachers.results.module3_results', compact('students'));
+        return view('Teachers.Results.module3_results', compact('students'));
     }
 
     /* ──────────────────────────────────────────────────────────
@@ -130,7 +130,7 @@ class Module3ResultsController extends Controller
             'post_pct'           => $postPct,
         ];
 
-        return view('Teachers.results.module3_student', compact(
+        return view('Teachers.Results.module3_student', compact(
             'student',
             'pretest', 'pretestAnswers',
             'node1', 'node2', 'node3',
