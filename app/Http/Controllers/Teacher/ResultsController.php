@@ -18,7 +18,7 @@ class ResultsController extends Controller
         $avgCompletion = DB::table('module2_posttest_table')
             ->avg('percentage');
 
-        return view('Teachers.results.results', compact(
+        return view('Teachers.Results.results', compact(
             'totalModules',
             'totalStudents',
             'avgCompletion'
