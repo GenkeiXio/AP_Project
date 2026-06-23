@@ -10,7 +10,7 @@ class Module4ResultsController extends Controller
     public function index()
     {
         $students = DB::table('students')->get();
-        return view('Teachers.results.module4_results', compact('students'));
+        return view('Teachers.Results.module4_results', compact('students'));
     }
 
     public function show($id)
@@ -48,7 +48,7 @@ class Module4ResultsController extends Controller
         $posttest = DB::table('module4_posttest_table')
             ->where('student_id', $id)->latest()->first();
 
-        return view('Teachers.results.module4_student', compact(
+        return view('Teachers.Results.module4_student', compact(
             'student',
             'pretest',
             'pretestAnswers',

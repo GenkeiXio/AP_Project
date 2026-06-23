@@ -452,7 +452,7 @@
     <div id="articleModal" class="article-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span><i class="fas fa-newspaper"></i> 📖 Philstar - Pagsabog ng Lava sa Bulkang Mayon</span>
+                <span><i class="fas fa-newspaper"></i> 📖 ABS-CBN News - Landslide sa Libon, Albay</span>
                 <button id="closeModalBtn">&times;</button>
             </div>
             <div class="modal-body">
@@ -466,8 +466,8 @@
         <div class="node-container">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                 <div>
-                    <h1><i class="fas fa-mountain"></i> NODE 4: Pagputok ng Bulkang Mayon 
-                        <span style="font-size: 1rem; background: var(--vintage-leather); padding: 5px 18px; border-radius: 3px; margin-left: 16px; color: var(--gold-trim); border: 1px solid var(--gold-trim);">Albay</span>
+                    <h1><i class="fas fa-mountain"></i> NODE 4: Landslide sa Albay 
+                        <span style="font-size: 1rem; background: var(--vintage-leather); padding: 5px 18px; border-radius: 3px; margin-left: 16px; color: var(--gold-trim); border: 1px solid var(--gold-trim);">Libon, Albay</span>
                     </h1>
                 </div>
             </div>
@@ -488,13 +488,13 @@
                     <div class="article-preview-box">
                         <div class="article-preview-header">
                             <i class="fas fa-newspaper"></i>
-                            <h4>Philstar · Oktubre 2023</h4>
+                            <h4>ABS-CBN News · Oktubre 2024</h4>
                         </div>
                         <div class="article-excerpt">
-                            <strong>Pagsabog ng lava sa Bulkang Mayon, naitala</strong><br><br>
-                            Noong Hunyo 8, 2023, nakunan ang pag-agos at pagguho ng nagliliwanag na lava mula sa Bulkang Mayon, lalo na kapansin-pansin sa gabi dahil sa liwanag nito. Ipinakita ng aktibidad ang tuloy-tuloy na paglabas ng magma, kabilang ang mga "incandescent rockfalls," na senyales ng aktibong pagputok.<br><br>
-                            Ayon sa PHIVOLCS, naitala ang sunod-sunod na lava eruption na sinabayan ng seismic at infrasound signals—mga palatandaan ng tumitinding aktibidad ng bulkan. Umabot ng ilang kilometro pababa sa mga dalisdis ang pagdaloy ng lava.<br><br>
-                            Dahil dito, itinaas ang Alert Level 3 at nagbabala ang mga awtoridad sa posibleng panganib tulad ng lava flow, ashfall, at pyroclastic flows. Pinag-iingat ang mga residente at inihahanda ang mga hakbang sa paglikas upang mapanatili ang kaligtasan ng mga komunidad sa paligid ng bulkan.
+                            <strong>20 bahay nabaon sa landslides sa Libon, Albay</strong><br><br>
+                            Nagkaroon ng dalawang landslide sa Barangay Burabod, Libon, Albay dulot ng matinding ulan mula sa bagyong Kristine. Umabot sa 20 bahay ang naapektuhan o natabunan ng lupa habang patuloy ang pagguho sa lugar dahil sa basa at marupok na lupa.<br><br>
+                            Sa kabila ng pinsala, ligtas ang mga residente dahil agad silang nakalikas at pansamantalang nanunuluyan sa evacuation center. Gayunpaman, isang 60-anyos na lalaki ang naiulat na nawawala kaya nagpapatuloy ang search and rescue operations.<br><br>
+                            Patuloy na nagsasagawa ang mga awtoridad ng clearing operations upang alisin ang mga debris. Nagbibigay rin ng paalala ang mga awtoridad sa kahalagahan ng maagap na paglikas at pagsunod sa mga babala upang mapanatili ang kaligtasan ng komunidad.
                         </div>
                         <div class="article-links">
                             <button class="article-btn" id="readArticleBtn">
@@ -507,13 +507,13 @@
                     <div class="video-container">
                         <div class="video-header">
                             <i class="fab fa-youtube"></i>
-                            <h4>Video: Bulkang Mayon</h4>
+                            <h4>Video: Landslide sa Albay</h4>
                         </div>
                         <div class="video-wrapper">
                             <iframe 
                                 id="youtubeVideo"
-                                src="https://www.youtube.com/embed/UR7cTKlugFM?enablejsapi=1" 
-                                title="Bulkang Mayon"
+                                src="https://www.youtube.com/embed/ibI0oImzDSs?enablejsapi=1" 
+                                title="Landslide sa Albay"
                                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowfullscreen>
                             </iframe>
@@ -563,8 +563,8 @@
             const readButtonElement = readBtn;
             const watchButtonElement = watchBtn;
             
-            // Article URL - Philstar article about Mayon Volcano
-            const articleUrl = "https://www.philstar.com/pang-masa/police-metro/2023/10/22/2305565/pagsabog-ng-lava-sa-bulkang-mayon-naitala";
+            // Article URL - ABS-CBN News about the landslide
+            const articleUrl = "https://www.abs-cbn.com/regions/2024/10/24/20-bahay-nabaon-sa-landslides-sa-libon-albay-1331";
 
             function openArticleModal() {
                 articleIframe.src = articleUrl;
@@ -630,7 +630,7 @@
             // Handle video watching - open YouTube in new tab and mark as watched
             watchBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.open('https://youtu.be/UR7cTKlugFM', '_blank');
+                window.open('https://youtu.be/ibI0oImzDSs', '_blank');
                 markVideoWatched();
             });
 

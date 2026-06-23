@@ -10,14 +10,20 @@
 @section('content')
 
     <style>
-        body {
-            background:
-                /* linear-gradient(rgba(0, 20, 40, 0.75), rgba(0, 10, 25, 0.9)), */
-                url('/pictures/mod3_innermap.png') no-repeat center center fixed;
-            background-size: cover;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@700;800&display=swap');
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(rgba(20, 15, 10, 0.7), rgba(20, 15, 10, 0.85)),
+                        url('/pictures/mod3_innermap.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Poppins', sans-serif;
-            color: #e2e8f0;
+            min-height: 100vh;
         }
 
         .buod-container {
@@ -26,48 +32,55 @@
             padding: 30px 20px;
         }
 
+        /* WOODEN CARD STYLE */
         .buod-card {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 242, 255, 0.2);
+            background: #e0c9a6;
+            background-image: url('https://www.transparenttextures.com/patterns/retina-wood.png');
+            border: 6px solid #5d4037;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
         .buod-title {
             font-size: 2.5rem;
             font-weight: 900;
             text-align: center;
-            color: #00f2ff;
+            color: #3d2b1f;
+            font-family: 'Nunito', sans-serif;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .buod-title span {
-            color: #94a3b8;
+            color: #5d4037;
             font-size: 1.2rem;
         }
 
         .buod-image {
             width: 100%;
-            border-radius: 15px;
+            border-radius: 16px;
             margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 3px solid #5d4037;
         }
 
         .buod-text {
             line-height: 1.8;
             font-size: 1rem;
-            color: #cbd5e1;
+            color: #3a2a1a;
             margin-bottom: 20px;
         }
 
         .buod-text strong {
-            color: #00f2ff;
+            color: #5d4037;
+            font-weight: 800;
         }
 
         .highlight-box {
-            background: rgba(255, 255, 0, 0.1);
-            border-left: 5px solid #facc15;
+            background: rgba(93, 64, 55, 0.15);
+            border-left: 5px solid #c5a059;
             padding: 15px;
             border-radius: 10px;
             margin-top: 15px;
@@ -76,43 +89,51 @@
         .tandaan {
             margin-top: 30px;
             padding: 20px;
-            border-radius: 15px;
-            background: rgba(0, 242, 255, 0.08);
-            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 16px;
+            background: rgba(93, 64, 55, 0.2);
+            border: 2px solid #5d4037;
         }
 
         .tandaan h3 {
-            color: #00f2ff;
+            color: #3d2b1f;
             margin-bottom: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
         }
 
         .tandaan p {
             margin-bottom: 8px;
+            color: #3a2a1a;
         }
 
         .btn-next {
             display: inline-block;
             margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: 900;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 800;
             border-radius: 50px;
-            background: linear-gradient(135deg, #00f2ff, #39ff14);
-            color: #000;
+            background: linear-gradient(135deg, #3d2b1f, #5d4037);
+            color: #f1f5f9;
             text-decoration: none;
             transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid #8b5e3c;
+            font-family: 'Nunito', sans-serif;
         }
 
         .btn-next:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 242, 255, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #5d4037, #7a5a4a);
+            color: #ffffff;
         }
 
         .center {
             text-align: center;
         }
 
+        /* MODAL OVERLAY - Wood Theme */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -131,10 +152,9 @@
             visibility: visible;
         }
 
-        /* MODAL CONTENT */
         .reward-modal {
-            background: #1e293b;
-            /* Darker theme to match your page */
+            background: #e0c9a6;
+            background-image: url('https://www.transparenttextures.com/patterns/retina-wood.png');
             padding: 40px;
             border-radius: 30px;
             max-width: 500px;
@@ -142,8 +162,8 @@
             text-align: center;
             transform: translateY(30px);
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid #00f2ff;
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+            border: 6px solid #5d4037;
+            box-shadow: 0 0 30px rgba(93, 64, 55, 0.3);
         }
 
         .modal-overlay.active .reward-modal {
@@ -154,45 +174,47 @@
             width: 220px;
             height: auto;
             margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0, 242, 255, 0.4));
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
         }
 
         .reward-title {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-size: 26px;
             font-weight: 900;
-            color: #39ff14;
+            color: #3d2b1f;
             margin-bottom: 10px;
         }
 
         .reward-desc {
             font-size: 15px;
-            color: #cbd5e1;
+            color: #3a2a1a;
             line-height: 1.6;
         }
 
         .close-reward-btn {
             margin-top: 25px;
-            background: linear-gradient(135deg, #00f2ff, #39ff14);
-            color: #000;
-            border: none;
+            background: linear-gradient(135deg, #3d2b1f, #5d4037);
+            color: #f1f5f9;
+            border: 1px solid #8b5e3c;
             padding: 12px 30px;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 800;
             font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
+            font-family: 'Nunito', sans-serif;
         }
 
         .close-reward-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #5d4037, #7a5a4a);
         }
 
+        /* ANIMATION OVERLAY - Wood Theme */
         .animation-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.85);
-            /* Dim background to focus on images */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -211,7 +233,6 @@
             position: relative;
             width: 600px;
             height: 500px;
-            /* Increased height */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -220,41 +241,29 @@
         .anim-img {
             position: absolute;
             height: auto;
-            /* Keep this 'auto' to maintain aspect ratio */
             opacity: 0;
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-
-            /* ADJUST THIS VALUE to shrink all three house images */
             width: 50%;
-            /* Changed from 60% or 70% to 50% for a smaller size */
-
             transform: translateY(-20px);
-            /* Keeps the house centered higher up */
         }
 
         #animPart {
-            /* Adjust this percentage until it fits perfectly on your foundation */
             width: 20% !important;
             height: auto;
         }
 
         .anim-img:not(#animPart) {
             width: 50%;
-            /* foundation and final walls size */
             height: auto;
         }
 
-        /* Foundation: Fades in at center */
         .show-foundation {
             opacity: 1;
         }
 
-        /* House Part: Fades in slightly to the left then slides to center */
         .house-part-init {
             opacity: 0;
-            /* REDUCED horizontal starting position to match the smaller image size */
             transform: translate(-80px, -20px);
-            /* Changed from -100px or -150px */
         }
 
         .house-part-slide {
@@ -262,38 +271,19 @@
             transform: translate(0, -20px);
         }
 
-        /* Combined Fade Out */
         .fade-out-both {
             opacity: 0 !important;
             transform: scale(0.95);
             filter: blur(5px);
         }
 
-        /* Final Walls: Fades in as the others fade out */
         .show-walls {
             opacity: 1 !important;
             transform: translate(0, -50px) scale(1);
         }
 
-        .status-msg {
-            position: absolute;
-            bottom: -50px;
-            color: #39ff14;
-            font-weight: 900;
-            font-size: 1.8rem;
-            text-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
-            opacity: 0;
-            transition: 0.5s;
-        }
-
-        .status-msg.visible {
-            opacity: 1;
-            bottom: -20px;
-        }
-
         .matched-congrats-container {
             position: absolute;
-            /* Pull the text up more since the house is now smaller */
             bottom: -110px;
             width: 100%;
             text-align: center;
@@ -303,52 +293,70 @@
             z-index: 20;
         }
 
-
         .matched-congrats-container.visible {
             opacity: 1;
             visibility: visible;
             bottom: -90px;
-            /* Final resting position of the text */
         }
 
         .yellow-matched-title {
             color: #fcc419;
-            /* Yellow matched from image */
             font-weight: 900;
             font-size: 32px;
-            /* Large matched size */
             margin-bottom: 25px;
-            /* Spacing below title */
+            font-family: 'Nunito', sans-serif;
         }
 
         .white-matched-desc {
             margin-bottom: 15px;
-            font-size: 18px;
+            font-size: 16px;
             max-width: 600px;
+            color: #f1f5f9;
         }
 
-        /* Green Capsule Button Matched from image */
         .btn-capsule-green {
             background: #5eae4e;
-            /* Green color from image */
             color: #ffffff;
             border: none;
-            padding: 16px 36px;
-            /* Size/shape matched */
+            padding: 14px 32px;
             border-radius: 60px;
-            /* Perfectly round edges */
             font-weight: bold;
-            font-size: 18px;
-            /* Button text size matched */
+            font-size: 16px;
             cursor: pointer;
             display: inline-block;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-            /* Subtle shadow matched */
             transition: 0.3s ease;
+            font-family: 'Nunito', sans-serif;
         }
 
         .btn-capsule-green:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .buod-card {
+                padding: 20px;
+            }
+            .buod-title {
+                font-size: 1.8rem;
+            }
+            .buod-text {
+                font-size: 0.9rem;
+            }
+            .transform-wrapper {
+                width: 350px;
+                height: 400px;
+            }
+            .yellow-matched-title {
+                font-size: 24px;
+            }
+            .white-matched-desc {
+                font-size: 13px;
+            }
+            .btn-capsule-green {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
         }
     </style>
 
@@ -356,7 +364,7 @@
         <div class="buod-card">
 
             <div class="buod-title">
-                Buod ng Aralin <br>
+                📖 Buod ng Aralin
             </div>
 
             <!-- IMAGE -->
@@ -412,6 +420,7 @@
         </div>
     </div>
 
+    <!-- REWARD MODAL -->
     <div class="modal-overlay" id="rewardModal">
         <div class="reward-modal">
             <h2 class="reward-title">🛠️ Bagong Materyales!</h2>
@@ -430,6 +439,7 @@
         </div>
     </div>
 
+    <!-- ANIMATION OVERLAY -->
     <div class="animation-overlay" id="animationOverlay">
         <div class="transform-wrapper">
             <img src="{{ asset('pictures/Mod2_FinalAct/finalhousefoundation.png') }}" id="animFoundation" class="anim-img">
@@ -438,7 +448,7 @@
             <img src="{{ asset('pictures/Module 3/finalhousewalls.png') }}" id="animWalls" class="anim-img">
 
             <div id="congratsBox" class="matched-congrats-container">
-                <div class="yellow-matched-title">Matatag na Dingding!</div>
+                <div class="yellow-matched-title">🏠 Matatag na Dingding!</div>
                 <div class="white-matched-desc">
                     Ang mga <strong>dingding</strong> na ito ay simbolo ng iyong <strong>resilience</strong>—ang kakayahang
                     manatiling matatag at protektado laban sa anumang hamon ng sakuna. Ang iyong kaalaman ay nagiging bahagi
@@ -462,7 +472,7 @@
                 const foundation = document.getElementById('animFoundation');
                 const part = document.getElementById('animPart');
                 const walls = document.getElementById('animWalls');
-                const congratsBox = document.getElementById('congratsBox'); // Target the text container
+                const congratsBox = document.getElementById('congratsBox');
 
                 overlay.classList.add('active');
 
@@ -483,11 +493,7 @@
 
                     setTimeout(() => {
                         walls.classList.add('show-walls');
-
-                        // FIXED: Added the 'visible' class to the correct ID
                         congratsBox.classList.add('visible');
-
-                        // Launch a small second burst of confetti for the completion
                         launchConfetti();
                     }, 200);
 
@@ -496,7 +502,6 @@
             }, 300);
         }
 
-        // New function to handle the button click manually
         function goMap() {
             window.location.href = "{{ route('student.map') }}";
         }
@@ -511,14 +516,14 @@
                     angle: 60,
                     spread: 55,
                     origin: { x: 0 },
-                    colors: ['#00f2ff', '#39ff14', '#ffffff']
+                    colors: ['#c5a059', '#5d4037', '#ffffff']
                 });
                 confetti({
                     particleCount: 7,
                     angle: 120,
                     spread: 55,
                     origin: { x: 1 },
-                    colors: ['#00f2ff', '#39ff14', '#ffffff']
+                    colors: ['#c5a059', '#5d4037', '#ffffff']
                 });
 
                 if (Date.now() < end) {
@@ -528,7 +533,6 @@
         }
 
         window.onload = function () {
-            // Bahagyang delay para mas maganda ang dating ng popup
             setTimeout(() => {
                 launchConfetti();
                 document.getElementById('rewardModal').classList.add('active');
@@ -538,16 +542,12 @@
         function exitAnimation() {
             const overlay = document.getElementById('animationOverlay');
             if (overlay) {
-                // 1. Remove the active class (fades it out)
                 overlay.classList.remove('active');
-
-                // 2. Completely remove it from the click-path after the fade animation
                 setTimeout(() => {
                     overlay.style.display = 'none';
-                }, 500); // 500ms matches your CSS transition time
+                }, 500);
             }
 
-            // Ensure the reward modal is also gone so the main map button is reachable
             const rewardModal = document.getElementById('rewardModal');
             if (rewardModal) {
                 rewardModal.style.display = 'none';

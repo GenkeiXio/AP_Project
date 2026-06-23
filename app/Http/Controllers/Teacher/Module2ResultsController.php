@@ -98,7 +98,7 @@ class Module2ResultsController extends Controller
             'essay_submitted' => $students->where('has_essay', 1)->count(),
         ];
 
-        return view('Teachers.results.module2_results', compact('students', 'summary'));
+        return view('Teachers.Results.module2_results', compact('students', 'summary'));
     }
 
     public function show($id)
@@ -143,7 +143,7 @@ class Module2ResultsController extends Controller
             'nodes_done'    => (int)($node1->count() > 0) + (int)($node2->count() > 0) + (int)($node3->count() > 0),
         ];
 
-        return view('Teachers.results.student_module2', compact(
+        return view('Teachers.Results.student_module2', compact(
             'student',
             'pretest',  'pretestAnswers',
             'posttest', 'posttestAnswers',
