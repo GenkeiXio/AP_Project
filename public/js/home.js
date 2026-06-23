@@ -1,3 +1,4 @@
+
 const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
 // Get routes from HTML

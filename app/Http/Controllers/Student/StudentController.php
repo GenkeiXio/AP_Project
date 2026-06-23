@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Controllers\Student;
@@ -165,3 +166,4 @@ class StudentController extends Controller
         return response()->json(['success' => true, 'username' => $newUsername]);
     }
 }
+

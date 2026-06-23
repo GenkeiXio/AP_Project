@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: ap_project
@@ -41,7 +42,7 @@ CREATE TABLE `admins` (
 
 LOCK TABLES `admins` WRITE;
 /*!40000 ALTER TABLE `admins` DISABLE KEYS */;
-INSERT INTO `admins` VALUES (1,'Admin','admin@school.com','$2y$12$VmW9ZuQ/O8hmPkm72Wey/OvMcTmNMv84p6rJSud1IqkBQ45H6G75S','ADM001','2026-04-27 06:00:06','2026-04-27 06:00:06');
+INSERT INTO `admins` VALUES (1,'Admin','admin@school.com','$2y$12$ebxm6Hdai15Iak3ed.KgXesGSBdOrIUj.hi5pqytz8DAZfOPWdoAC','ADM001','2026-06-05 07:18:31','2026-06-05 07:18:31');
 /*!40000 ALTER TABLE `admins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -324,7 +325,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,7 +334,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1),(4,'2024_01_01_000001_create_students_table',1),(5,'2024_01_01_000002_create_teachers_table',1),(6,'2024_01_01_000003_create_admins_table',1),(7,'2024_01_02_000001_create_classes_table',1),(8,'2024_01_02_000002_create_class_student_table',1),(9,'2024_01_02_000003_create_quizzes_table',1),(10,'2024_01_02_000004_create_questions_table',1),(11,'2024_01_02_000005_create_question_options_table',1),(12,'2024_01_02_000006_create_game_sessions_table',1),(13,'2024_01_02_000007_create_student_scores_table',1),(14,'2024_01_03_000001_add_profile_fields_to_teachers',1),(15,'2024_04_08_000001_create_module3_performance_tasks_table',1),(16,'2026_01_01_000101_create_module4_poll_table',1),(17,'2026_01_01_000102_create_module4_pretest_table',1),(18,'2026_01_01_000103_create_module4_pretest_answers_table',1),(19,'2026_01_01_000104_create_module4_balikaral_table',1),(20,'2026_01_01_000105_create_module4_explore_table',1),(21,'2026_01_01_000106_create_module4_game_results_table',1),(22,'2026_04_04_071613_module2_pretest_table',1),(23,'2026_04_04_071638_module2_pretest_answers_table',1),(24,'2026_04_04_092236_module2_node1_table',1),(25,'2026_04_04_124455_module2_node2_table',1),(26,'2026_04_04_141434_module2_node3_table',1),(27,'2026_04_05_034453_module2_final_activity_table',1),(28,'2026_04_05_034523_module2_final_activity_answers_table',1),(29,'2026_04_05_055555_module2_posttest_table',1),(30,'2026_04_05_055642_module2_posttest_answers_table',1),(31,'2026_04_05_083251_module2_essay_table',1),(32,'2026_04_08_060000_fix_students_avatar_enum_values',1),(33,'2026_04_10_014449_module3_pretest_table',1),(34,'2026_04_10_014516_module3_pretest_answers_table',1),(35,'2026_04_11_053416_module3_node2_table',1),(36,'2026_04_11_065834_module3_node1_table',1),(37,'2026_04_11_112617_module3_node3_table',1),(38,'2026_04_11_115453_module3_gobagact_table',1),(39,'2026_04_11_131337_module3_safehome_table',1),(40,'2026_04_11_133239_module3_gabay_table',1),(41,'2026_04_11_140311_module3_elnino_table',1),(42,'2026_04_11_142059_module3_bulkan_table',1),(43,'2026_04_11_143433_module3_flood_table',1),(44,'2026_04_11_151212_module3_posttest_table',1),(45,'2026_04_11_153727_module3_lindol_table',1),(46,'2026_04_12_023154_module3_balikaral_table',1),(47,'2026_04_12_025502_module3_explore_table',1),(48,'2026_04_13_024253_module4_performance_table',1),(49,'2026_04_13_051521_module4_posttest_table',1),(50,'2026_04_21_151609_create_module4_node1s_table',1),(51,'2026_04_22_044830_create_characters_table',1);
+INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1),(4,'2024_01_01_000001_create_students_table',1),(5,'2024_01_01_000002_create_teachers_table',1),(6,'2024_01_01_000003_create_admins_table',1),(7,'2024_01_02_000001_create_classes_table',1),(8,'2024_01_02_000002_create_class_student_table',1),(9,'2024_01_02_000003_create_quizzes_table',1),(10,'2024_01_02_000004_create_questions_table',1),(11,'2024_01_02_000005_create_question_options_table',1),(12,'2024_01_02_000006_create_game_sessions_table',1),(13,'2024_01_02_000007_add_password_to_students_table',1),(14,'2024_01_02_000007_create_student_scores_table',1),(15,'2024_01_03_000001_add_profile_fields_to_teachers',1),(16,'2024_04_08_000001_create_module3_performance_tasks_table',1),(17,'2026_01_01_000101_create_module4_poll_table',1),(18,'2026_01_01_000102_create_module4_pretest_table',1),(19,'2026_01_01_000103_create_module4_pretest_answers_table',1),(20,'2026_01_01_000104_create_module4_balikaral_table',1),(21,'2026_01_01_000105_create_module4_explore_table',1),(22,'2026_01_01_000106_create_module4_game_results_table',1),(23,'2026_04_04_071613_module2_pretest_table',1),(24,'2026_04_04_071638_module2_pretest_answers_table',1),(25,'2026_04_04_092236_module2_node1_table',1),(26,'2026_04_04_124455_module2_node2_table',1),(27,'2026_04_04_141434_module2_node3_table',1),(28,'2026_04_05_034453_module2_final_activity_table',1),(29,'2026_04_05_034523_module2_final_activity_answers_table',1),(30,'2026_04_05_055555_module2_posttest_table',1),(31,'2026_04_05_055642_module2_posttest_answers_table',1),(32,'2026_04_05_083251_module2_essay_table',1),(33,'2026_04_08_060000_fix_students_avatar_enum_values',1),(34,'2026_04_10_014449_module3_pretest_table',1),(35,'2026_04_10_014516_module3_pretest_answers_table',1),(36,'2026_04_11_053416_module3_node2_table',1),(37,'2026_04_11_065834_module3_node1_table',1),(38,'2026_04_11_112617_module3_node3_table',1),(39,'2026_04_11_115453_module3_gobagact_table',1),(40,'2026_04_11_131337_module3_safehome_table',1),(41,'2026_04_11_133239_module3_gabay_table',1),(42,'2026_04_11_140311_module3_elnino_table',1),(43,'2026_04_11_142059_module3_bulkan_table',1),(44,'2026_04_11_143433_module3_flood_table',1),(45,'2026_04_11_151212_module3_posttest_table',1),(46,'2026_04_11_153727_module3_lindol_table',1),(47,'2026_04_12_023154_module3_balikaral_table',1),(48,'2026_04_12_025502_module3_explore_table',1),(49,'2026_04_13_024253_module4_performance_table',1),(50,'2026_04_13_051521_module4_posttest_table',1),(51,'2026_04_21_151609_create_module4_node1s_table',1),(52,'2026_04_22_044830_create_characters_table',1),(53,'2026_05_02_003625_update_module3_performance_tasks_table',1),(54,'2026_06_05_000001_add_unlocked_avatars_to_students_table',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -653,11 +654,13 @@ DROP TABLE IF EXISTS `module3_balikaral_table`;
 CREATE TABLE `module3_balikaral_table` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `student_id` bigint unsigned NOT NULL,
-  `score` int NOT NULL DEFAULT '0',
-  `correct_answers` int NOT NULL DEFAULT '0',
-  `total_items` int NOT NULL DEFAULT '3',
-  `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `health` int NOT NULL DEFAULT '100',
+  `budget` int NOT NULL DEFAULT '70000',
+  `trust` int NOT NULL DEFAULT '80',
+  `is_success` tinyint(1) NOT NULL DEFAULT '0',
+  `final_state` json DEFAULT NULL,
   `time_spent` int DEFAULT NULL,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -685,11 +688,11 @@ DROP TABLE IF EXISTS `module3_bulkan_table`;
 CREATE TABLE `module3_bulkan_table` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `student_id` bigint unsigned NOT NULL,
-  `score` int NOT NULL DEFAULT '0',
-  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
-  `selected_answers` json DEFAULT NULL,
-  `total_correct` int NOT NULL DEFAULT '4',
-  `total_items` int NOT NULL DEFAULT '7',
+  `progress` int NOT NULL DEFAULT '0',
+  `is_success` tinyint(1) NOT NULL DEFAULT '0',
+  `mistakes` int NOT NULL DEFAULT '0',
+  `final_state` json DEFAULT NULL,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -717,13 +720,10 @@ DROP TABLE IF EXISTS `module3_elnino_table`;
 CREATE TABLE `module3_elnino_table` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `student_id` bigint unsigned NOT NULL,
-  `score` int NOT NULL DEFAULT '0',
-  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
-  `zone1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zone2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zone3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zone4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zone5` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `completed_points` int NOT NULL DEFAULT '0',
+  `is_success` tinyint(1) NOT NULL DEFAULT '0',
+  `selections` json DEFAULT NULL,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -849,10 +849,14 @@ CREATE TABLE `module3_gobagact_table` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `student_id` bigint unsigned NOT NULL,
   `score` int NOT NULL DEFAULT '0',
+  `correct_items` int NOT NULL DEFAULT '0',
+  `wrong_attempts` int NOT NULL DEFAULT '0',
   `total_items` int NOT NULL DEFAULT '10',
   `time_taken` int DEFAULT NULL,
-  `rating` enum('excellent','good','needs_improvement') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `accuracy` double DEFAULT NULL,
   `is_completed` tinyint(1) NOT NULL DEFAULT '0',
+  `is_success` tinyint(1) NOT NULL DEFAULT '0',
+  `rating` enum('excellent','good','needs_improvement') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `attempts` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -915,8 +919,13 @@ CREATE TABLE `module3_node1_table` (
   `student_id` bigint unsigned NOT NULL,
   `score` int NOT NULL DEFAULT '0',
   `total_items` int NOT NULL DEFAULT '4',
+  `correct_answers` int NOT NULL DEFAULT '0',
+  `wrong_answers` int NOT NULL DEFAULT '0',
   `accuracy` double DEFAULT NULL,
+  `time_spent` int DEFAULT NULL,
   `is_completed` tinyint(1) NOT NULL DEFAULT '0',
+  `is_perfect` tinyint(1) NOT NULL DEFAULT '0',
+  `max_attempt_reached` tinyint(1) NOT NULL DEFAULT '0',
   `attempts` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -977,10 +986,10 @@ DROP TABLE IF EXISTS `module3_node3_table`;
 CREATE TABLE `module3_node3_table` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `student_id` bigint unsigned NOT NULL,
-  `final_budget` int NOT NULL DEFAULT '0',
-  `safety_score` int NOT NULL DEFAULT '0',
-  `status` enum('not_ready','partially_ready','ready') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'not_ready',
-  `selected_strategies` json DEFAULT NULL,
+  `choices_selected` int NOT NULL DEFAULT '0',
+  `remaining_budget` int NOT NULL DEFAULT '0',
+  `readiness_score` int NOT NULL DEFAULT '0',
+  `is_passed` tinyint(1) NOT NULL DEFAULT '0',
   `is_completed` tinyint(1) NOT NULL DEFAULT '0',
   `attempts` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1015,6 +1024,13 @@ CREATE TABLE `module3_performance_tasks` (
   `completion_time` int NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `selected_items` json DEFAULT NULL,
+  `answers` json DEFAULT NULL,
+  `kit_score` int NOT NULL DEFAULT '0',
+  `evacuation_score` int NOT NULL DEFAULT '0',
+  `communication_score` int NOT NULL DEFAULT '0',
+  `safe_score` int NOT NULL DEFAULT '0',
+  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `module3_performance_tasks_student_id_foreign` (`student_id`),
   CONSTRAINT `module3_performance_tasks_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE
@@ -1292,10 +1308,16 @@ DROP TABLE IF EXISTS `module4_performance_table`;
 CREATE TABLE `module4_performance_table` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `student_id` bigint unsigned NOT NULL,
-  `reflection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `format` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_submitted` tinyint(1) NOT NULL DEFAULT '0',
+  `score` int NOT NULL DEFAULT '0',
+  `completion_time` int NOT NULL DEFAULT '0',
+  `badges_earned` json DEFAULT NULL,
+  `selected_items` json DEFAULT NULL,
+  `answers` json DEFAULT NULL,
+  `kit_score` int NOT NULL DEFAULT '0',
+  `evacuation_score` int NOT NULL DEFAULT '0',
+  `communication_score` int NOT NULL DEFAULT '0',
+  `safe_score` int NOT NULL DEFAULT '0',
+  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1584,6 +1606,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES ('cQRHStsTei4lvgDSVawhZtNSXo3V1zHkFoEk1YqE',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoidVBzY1p5MDNVYU45eTZXcVhyanVhbXBJUWhSeWdyWGdkcnowZUVqMyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1780672934);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1631,12 +1654,14 @@ CREATE TABLE `students` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `avatar` enum('rizal','bonifacio','gabriela','boy_uniform','girl_uniform','neutral_hero') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_played` timestamp NULL DEFAULT NULL,
+  `unlocked_avatars` json DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `students_username_unique` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1645,6 +1670,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
+INSERT INTO `students` VALUES (1,'Xythe','boy_uniform','$2y$12$8Os1/0AJSikTM.dxqiMlbO3/p2uMmeQTfCfNr2FhQ4RTjI7nPghc.','2026-06-05 07:19:03','[\"boy_uniform\", \"girl_uniform\", \"neutral_hero\", \"rizal\", \"bonifacio\", \"gabriela\"]','2026-06-05 07:19:03','2026-06-05 07:22:00');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1681,7 +1707,7 @@ CREATE TABLE `teachers` (
 
 LOCK TABLES `teachers` WRITE;
 /*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
-INSERT INTO `teachers` VALUES (1,'Teacher Juan','teacher@school.com','$2y$12$Anqsr8kfJ1W5ow9n7yYabeR03PXTYbEKg4RAuufU7LkUQmSw6EuXO','TCH001','teacher_male','male',NULL,NULL,NULL,NULL,1,'2026-04-27 06:00:06','2026-04-27 06:00:06');
+INSERT INTO `teachers` VALUES (1,'Teacher Juan','teacher@school.com','$2y$12$39ZxqE7QXjAmtXhlqmWPR.nWodgPjEnYdziS96xeNieV1I.gxttrm','TCH001','teacher_male','male',NULL,NULL,NULL,NULL,1,'2026-06-05 07:18:31','2026-06-05 07:18:31');
 /*!40000 ALTER TABLE `teachers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1732,4 +1758,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-27 22:01:02
+-- Dump completed on 2026-06-10 12:52:04
