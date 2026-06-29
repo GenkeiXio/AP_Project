@@ -730,11 +730,102 @@
             </div>
         </div>
     </div>
+
+    <!-- Registration Success Modal -->
+    <div class="modal-overlay" id="regSuccessModal" style="display:none; align-items:center; justify-content:center;">
+        <div class="modal" style="text-align:center;">
+            <div style="font-size:3rem; margin-bottom:10px;">🎉</div>
+            <div class="modal-title" style="justify-content:center;">Matagumpay na Nagrehistro!</div>
+            <p style="color:#4a2e1b; margin-bottom:18px; line-height:1.6;">
+                Ang iyong account na <strong id="regSuccessUsername"></strong> ay nagawa na.<br>
+                I-login na ang iyong account para makapasok.
+            </p>
+            <button class="btn-primary" onclick="closeRegSuccessModal()" style="max-width:200px; margin:0 auto;">
+                Mag-login →
+            </button>
+        </div>
+    </div>
+
     <!-- Background music -->
     <audio id="bgMusic" loop>
         <source src="/audio/home-bg-music.mp3" type="audio/mpeg">
     </audio>
     <!-- JS -->
     <script src="{{ asset('js/home.js') }}"></script>
+    <script>
+        (function () {
+            const form        = document.getElementById('studentForm');
+            const authMode    = document.getElementById('authMode');
+            const loginUrl    = '{{ route("student.login") }}';
+            const registerUrl = '{{ route("student.register") }}';
+
+            // --- 1. Fix form action + disable inactive inputs on tab switch ---
+            function applyMode(mode) {
+                form.action  = mode === 'register' ? registerUrl : loginUrl;
+                authMode.value = mode;
+
+                // Disable inputs in the HIDDEN panel so they don't get submitted
+                document.querySelectorAll('.auth-panel.login-panel input').forEach(i => {
+                    i.disabled = mode === 'register';
+                });
+                document.querySelectorAll('.auth-panel.register-panel input').forEach(i => {
+                    i.disabled = mode !== 'register';
+                });
+            }
+
+            // Patch the existing tab buttons (home.js already handles visual toggle,
+            // we just piggyback on the same clicks)
+            document.querySelectorAll('.auth-switch button').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    applyMode(this.dataset.mode);
+                });
+            });
+
+            // --- 2. Handle page load: restore correct mode if returning from a failed submit ---
+            const initialMode = '{{ old("auth_mode", "login") }}';
+            applyMode(initialMode);
+
+            // If returning with register errors, switch the tab visually too
+            if (initialMode === 'register') {
+                document.querySelectorAll('.auth-switch button').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.mode === 'register');
+                });
+                document.querySelectorAll('.auth-panel').forEach(panel => {
+                    panel.classList.toggle('active', panel.classList.contains('register-panel'));
+                });
+            }
+
+            // --- 3. Registration success modal ---
+            @if(session('registration_success'))
+                window.addEventListener('DOMContentLoaded', function () {
+                    const modal          = document.getElementById('regSuccessModal');
+                    const usernameDisplay = document.getElementById('regSuccessUsername');
+                    const usernameInput  = document.getElementById('usernameInput');
+
+                    modal.style.display = 'flex';
+                    usernameDisplay.textContent = '{{ session("registered_username") }}';
+
+                    if (usernameInput) {
+                        usernameInput.value = '{{ session("registered_username") }}';
+                    }
+
+                    // Switch to login tab
+                    applyMode('login');
+                    document.querySelectorAll('.auth-switch button').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.mode === 'login');
+                    });
+                    document.querySelectorAll('.auth-panel').forEach(panel => {
+                        panel.classList.toggle('active', panel.classList.contains('login-panel'));
+                    });
+                });
+            @endif
+        })();
+
+        function closeRegSuccessModal() {
+            document.getElementById('regSuccessModal').style.display = 'none';
+            const pw = document.getElementById('passwordInput');
+            if (pw) pw.focus();
+        }
+    </script>
 </body>
 </html>

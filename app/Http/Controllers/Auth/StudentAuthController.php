@@ -35,6 +35,11 @@ class StudentAuthController extends Controller
         Session::put('student_id',       $student->id);
         Session::put('student_username', $student->username);
 
+        // New accounts have no avatar yet send them to character selection
+        if (!$student->avatar) {
+            return redirect()->route('student.select-character');
+        }
+
         return redirect()->route('narration');
     }
 
@@ -59,10 +64,9 @@ class StudentAuthController extends Controller
             'unlocked_avatars' => ['boy_uniform', 'girl_uniform', 'neutral_hero'],
         ]);
 
-        Session::put('student_id',       $student->id);
-        Session::put('student_username', $student->username);
-
-        return redirect()->route('student.select-character');
+        return redirect()->route('home')
+            ->with('registration_success', true)
+            ->with('registered_username', trim($request->username));
     }
 
     public function logout(Request $request)
