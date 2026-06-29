@@ -66,9 +66,7 @@
             <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <span class="icon">🏠</span> Dashboard
             </a>
-            <a href="{{ route('admin.analytics') }}" class="nav-link {{ request()->routeIs('admin.analytics*') ? 'active' : '' }}">
-                <span class="icon">📊</span> Analytics
-            </a>
+            
             <div class="nav-section-title">Management</div>
             <a href="#" class="nav-link" onclick="openCreateTeacherModal(); return false;">
                 <span class="icon">👩‍🏫</span> Add Teacher
@@ -167,7 +165,11 @@
             try {
                 const res=await fetch('{{ route("admin.create-admin") }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},body:JSON.stringify(body)});
                 const data=await res.json();
-                if(data.success){ showAlert(alert,'success',`✅ Admin created! Access Code: ${data.access_code} — Save this!`); document.getElementById('aName').value=''; document.getElementById('aEmail').value=''; document.getElementById('aPassword').value=''; }
+                if(data.success){
+                    showAlert(alert,'success',`✅ Admin created! Access Code: ${data.access_code} — Save this!`);
+                    document.getElementById('aName').value=''; document.getElementById('aEmail').value=''; document.getElementById('aPassword').value='';
+                    if(typeof window.onAdminCreated==='function'){ window.onAdminCreated(data.admin,data.access_code); closeModal('createAdminModal'); }
+                }
                 else { showAlert(alert,'error',data.errors?Object.values(data.errors).flat().join(', '):(data.message||'Error.')); }
             } catch(e){ showAlert(alert,'error','Something went wrong.'); }
             btn.disabled=false; btn.innerHTML='✅ Create Admin Account';

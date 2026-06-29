@@ -131,8 +131,12 @@ Route::post('/staff/clear-pending',      [StaffAuthController::class, 'clearPend
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard',                  [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::post('/create-teacher',            [AdminDashboardController::class, 'createTeacher'])->name('create-teacher');
+    Route::patch('/teacher/{teacher}/update', [AdminDashboardController::class, 'updateTeacher'])->name('teacher.update');
     Route::post('/create-admin',              [AdminDashboardController::class, 'createAdmin'])->name('create-admin');
+    Route::patch('/admin/{admin}/update',     [AdminDashboardController::class, 'updateAdmin'])->name('admin.update');
+    Route::delete('/admin/{admin}/delete',    [AdminDashboardController::class, 'deleteAdmin'])->name('admin.delete');
     Route::get('/teachers',                   [AdminDashboardController::class, 'getTeachers'])->name('teachers');
+    Route::get('/admins',                     [AdminDashboardController::class, 'getAdmins'])->name('admins');
     Route::patch('/teacher/{teacher}/toggle', [AdminDashboardController::class, 'toggleTeacher'])->name('teacher.toggle');
     Route::get('/analytics',                  [AdminAnalyticsController::class, 'index'])->name('analytics');
     Route::get('/analytics/export',           [AdminAnalyticsController::class, 'export'])->name('analytics.export');

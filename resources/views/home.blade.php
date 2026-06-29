@@ -781,7 +781,6 @@
                 });
             });
 
-            // --- 2. Handle page load: restore correct mode if returning from a failed submit ---
             const initialMode = '{{ old("auth_mode", "login") }}';
             applyMode(initialMode);
 
@@ -795,7 +794,6 @@
                 });
             }
 
-            // --- 3. Registration success modal ---
             @if(session('registration_success'))
                 window.addEventListener('DOMContentLoaded', function () {
                     const modal          = document.getElementById('regSuccessModal');
