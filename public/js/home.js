@@ -10,6 +10,7 @@ const CLEAR_PENDING_URL      = document.querySelector('meta[name="clear-pending"
 const studentForm      = document.getElementById('studentForm');
 const usernameInput    = document.getElementById('usernameInput');
 const usernameError    = document.getElementById('usernameError');
+const usernameAvailability = document.getElementById('usernameAvailability');
 const passwordInput    = document.getElementById('passwordInput');
 const regPasswordInput = document.getElementById('regPasswordInput');
 const confirmPasswordInput = document.getElementById('confirmPasswordInput');
@@ -23,6 +24,7 @@ const authSubtitle     = document.getElementById('authSubtitle');
 const authSwitchButtons = document.querySelectorAll('.auth-switch button');
 const loginUrl         = document.querySelector('meta[name="student-login"]').content;
 const registerUrl      = document.querySelector('meta[name="student-register"]').content;
+const checkUsernameUrl = document.querySelector('meta[name="check-username"]').content;
 const initialAuthMode  = document.querySelector('meta[name="initial-auth-mode"]').content || 'login';
 const startBtn         = document.getElementById('startBtn');
 
@@ -66,6 +68,7 @@ function setAuthMode(mode) {
     if (mode === 'login') {
         regPasswordInput.value = '';
         confirmPasswordInput.value = '';
+        setUsernameAvailability('', '');
     } else {
         passwordInput.value = '';
     }
@@ -77,6 +80,9 @@ function setAuthMode(mode) {
     clearFieldErrors();
 }
 
+let usernameIsAvailable = false;
+let usernameCheckTimer = null;
+
 function clearFieldErrors() {
     [usernameError, passwordError, regPasswordError, confirmPasswordError, formSubmitError].forEach(el => {
         if (el) {
@@ -86,12 +92,66 @@ function clearFieldErrors() {
     });
 }
 
+function setUsernameAvailability(message, state) {
+    if (!usernameAvailability) return;
+
+    usernameAvailability.textContent = message || '';
+    usernameAvailability.classList.remove('show', 'available', 'unavailable');
+
+    if (message) {
+        usernameAvailability.classList.add('show', state);
+    }
+}
+
+async function checkUsernameAvailability() {
+    const username = usernameInput.value.trim();
+
+    if (authModeField.value !== 'register' || !username) {
+        usernameIsAvailable = false;
+        setUsernameAvailability('', '');
+        return;
+    }
+
+    usernameIsAvailable = false;
+    setUsernameAvailability('Sinusuri ang username...', 'unavailable');
+
+    try {
+        const response = await fetch(checkUsernameUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': CSRF,
+            },
+            body: JSON.stringify({ username }),
+        });
+
+        const data = await response.json();
+
+        if (data.available) {
+            usernameIsAvailable = true;
+            setUsernameAvailability('Available username', 'available');
+        } else {
+            usernameIsAvailable = false;
+            setUsernameAvailability(data.message || 'Ang username na ito ay ginagamit na ng ibang mag-aaral.', 'unavailable');
+        }
+    } catch {
+        usernameIsAvailable = false;
+        setUsernameAvailability('Hindi ma-verify ang username sa ngayon.', 'unavailable');
+    }
+}
+
 authSwitchButtons.forEach(button => {
     button.addEventListener('click', () => setAuthMode(button.dataset.mode));
 });
 
 usernameInput.addEventListener('input', () => {
     usernameError.classList.remove('show');
+    if (authModeField.value === 'register') {
+        clearTimeout(usernameCheckTimer);
+        usernameCheckTimer = setTimeout(() => checkUsernameAvailability(), 400);
+    } else {
+        setUsernameAvailability('', '');
+    }
 });
 if (passwordInput) passwordInput.addEventListener('input', () => passwordError.classList.remove('show'));
 if (regPasswordInput) regPasswordInput.addEventListener('input', () => regPasswordError.classList.remove('show'));
@@ -122,6 +182,12 @@ studentForm.addEventListener('submit', function(e) {
             if (!username) passwordInput.focus();
         }
     } else {
+        if (!usernameIsAvailable && username) {
+            hasError = true;
+            usernameError.textContent = 'Ang username na ito ay ginagamit na ng ibang mag-aaral.';
+            usernameError.classList.add('show');
+        }
+
         if (!regPassword) {
             hasError = true;
             regPasswordError.textContent = 'Pakiusap ilagay ang iyong password.';

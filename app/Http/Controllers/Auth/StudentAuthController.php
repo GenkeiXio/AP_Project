@@ -43,6 +43,26 @@ class StudentAuthController extends Controller
         return redirect()->route('narration');
     }
 
+    public function checkUsername(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:50|regex:/^[a-zA-Z0-9_\s]+$/',
+        ], [
+            'username.required' => 'Pakiusap ilagay ang iyong username.',
+            'username.regex'    => 'Ang username ay maaari lamang maglaman ng mga letra, numero, at underscore.',
+        ]);
+
+        $username = trim($request->username);
+        $isTaken = Student::whereRaw('LOWER(username) = ?', [mb_strtolower($username)])->exists();
+
+        return response()->json([
+            'available' => !$isTaken,
+            'message' => $isTaken
+                ? 'Ang username na ito ay ginagamit na ng ibang mag-aaral.'
+                : 'Available',
+        ]);
+    }
+
     public function register(Request $request)
     {
         $request->validate([

@@ -53,6 +53,7 @@ use App\Http\Controllers\Student\Module4\Module4ViewReferencesController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
+Route::post('/student/check-username', [StudentAuthController::class, 'checkUsername'])->name('student.check-username');
 Route::post('/student/login',     [StudentAuthController::class, 'login'])->name('student.login');
 Route::post('/student/register',  [StudentAuthController::class, 'register'])->name('student.register');
 Route::post('/student/logout',    [StudentAuthController::class, 'logout'])->name('student.logout');

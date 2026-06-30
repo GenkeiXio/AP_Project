@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="student-login" content="{{ route('student.login') }}">
     <meta name="student-register" content="{{ route('student.register') }}">
+    <meta name="check-username" content="{{ route('student.check-username') }}">
     <meta name="initial-auth-mode" content="{{ old('auth_mode', 'login') }}">
     <meta name="verify-credentials" content="{{ route('staff.verify-credentials') }}">
     <meta name="verify-access" content="{{ route('staff.verify-access-code') }}">
@@ -220,6 +221,26 @@
         font-size: 0.8rem;
         margin-top: 2px;
         min-height: 16px;
+    }
+
+    .username-availability {
+        font-size: 0.72rem;
+        margin-top: 4px;
+        min-height: 16px;
+        font-weight: 700;
+        display: none;
+    }
+
+    .username-availability.show {
+        display: block;
+    }
+
+    .username-availability.available {
+        color: #1f7a4b;
+    }
+
+    .username-availability.unavailable {
+        color: #b33c1f;
     }
     
     /* Remove extra spacing between form elements */
@@ -619,6 +640,7 @@
 
                             <div class="input-wrap">
                                 <input type="text" name="username" id="usernameInput" placeholder="Username..." value="{{ old('username') }}" required />
+                                <div id="usernameAvailability" class="username-availability" aria-live="polite"></div>
                                 <div id="usernameError" class="error-message"></div>
                             </div>
 
