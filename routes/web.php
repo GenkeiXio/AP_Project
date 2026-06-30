@@ -155,6 +155,7 @@ Route::middleware('auth:teacher')->prefix('teacher')->name('teacher.')->group(fu
     Route::put('/classes/{class}',                        [ClassController::class, 'update'])->name('classes.update');
     Route::delete('/classes/{class}',                     [ClassController::class, 'destroy'])->name('classes.destroy');
     Route::delete('/classes/{class}/students/{student}',  [ClassController::class, 'removeStudent'])->name('classes.remove-student');
+    Route::patch('/classes/{class}/students/{student}/reset-password', [ClassController::class, 'resetStudentPassword'])->name('classes.reset-student-password');
     Route::post('/classes/{class}/regenerate-code',       [ClassController::class, 'regenerateCode'])->name('classes.regenerate-code');
     Route::get('/classes/{class}/quizzes/create',         [QuizController::class, 'create'])->name('quizzes.create');
     Route::post('/classes/{class}/quizzes',               [QuizController::class, 'store'])->name('quizzes.store');

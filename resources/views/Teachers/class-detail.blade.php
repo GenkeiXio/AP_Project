@@ -63,6 +63,23 @@
 
     .search-input { padding:8px 14px; border:1.5px solid #e0d0ba; border-radius:9px; font-family:'Nunito',sans-serif; font-size:0.85rem; outline:none; transition:border-color 0.2s; width:180px; }
     .search-input:focus { border-color:#3a9e8c; }
+
+    /* Edit Student Modal */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(20,10,5,0.5); backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
+    .modal-overlay.active { display:flex; }
+    .modal { background:#fff; border-radius:20px; padding:32px 34px; width:min(440px,92vw); box-shadow:0 20px 60px rgba(0,0,0,0.2); position:relative; animation:modalIn 0.3s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes modalIn { from{opacity:0;transform:scale(0.92) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .modal-close { position:absolute; top:14px; right:16px; background:none; border:none; font-size:1.2rem; cursor:pointer; color:#9a8060; }
+    .modal h2 { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; margin-bottom:20px; color:#3d2a1a; }
+    .form-group { margin-bottom:14px; }
+    .form-group label { display:block; font-size:0.84rem; font-weight:700; margin-bottom:6px; color:#5a4030; }
+    .form-group input, .form-group textarea, .form-group select { width:100%; padding:11px 14px; border:2px solid #e0d0ba; border-radius:10px; font-family:'Nunito',sans-serif; font-size:0.93rem; outline:none; transition:border-color 0.2s; resize:none; }
+    .form-group input:focus, .form-group textarea:focus { border-color:#3a9e8c; }
+    .alert { padding:10px 14px; border-radius:10px; font-size:0.87rem; margin-bottom:12px; font-weight:600; display:none; }
+    .alert.error   { background:#fde8e8; color:#c0392b; display:block; }
+    .alert.success { background:#e8f8ed; color:#1e7a3a; display:block; }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .btn-spinner { display:inline-block; width:13px; height:13px; border:2px solid rgba(255,255,255,0.4); border-top-color:#fff; border-radius:50%; animation:spin 0.7s linear infinite; }
 </style>
 @endpush
 
@@ -108,7 +125,10 @@
                         <div class="student-joined">Joined {{ \Carbon\Carbon::parse($student->pivot->joined_at)->format('M d, Y') }}</div>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-sm" onclick="removeStudent({{ $class->id }}, {{ $student->id }})">Remove</button>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn btn-outline btn-sm" onclick="openEditStudentModal({{ $student->id }}, '{{ addslashes($student->username) }}')">✏️ Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="removeStudent({{ $class->id }}, {{ $student->id }})">Remove</button>
+                </div>
             </div>
             @endforeach
             </div>
@@ -150,6 +170,47 @@
         @endif
     </div>
 
+</div>
+
+{{-- Edit Student / Reset Password Modal --}}
+<div class="modal-overlay" id="editStudentModal">
+    <div class="modal" style="width:min(420px,92vw);">
+        <button class="modal-close" onclick="closeModal('editStudentModal')">✕</button>
+        <h2 style="margin-bottom:6px;">🔑 Reset Password</h2>
+        <p style="font-size:0.88rem; color:#9a8060; margin-bottom:18px;">
+            For student: <strong id="esStudentName" style="color:#3d2a1a;"></strong>
+        </p>
+
+        <div class="alert" id="editStudentAlert"></div>
+
+        <div id="esResultBox" style="display:none; background:#e8f8ed; border:1.5px solid #b8e6c4; border-radius:12px; padding:14px 16px; margin-bottom:16px;">
+            <div style="font-size:0.78rem; font-weight:700; color:#1e7a3a; margin-bottom:4px;">New password (copy this now — it won't be shown again):</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <code id="esNewPasswordText" style="font-family:'JetBrains Mono',monospace; font-size:1rem; font-weight:700; color:#1a5a30; background:#fff; padding:6px 10px; border-radius:8px; flex:1;"></code>
+                <button class="btn-sm btn-outline" type="button" onclick="copyGeneratedPassword()">📋 Copy</button>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button type="button" class="btn-sm" id="esTabManual" onclick="switchPasswordTab('manual')" style="flex:1; justify-content:center; background:#3a9e8c; color:#fff; border-radius:9px; padding:8px; border:none;">Type New Password</button>
+            <button type="button" class="btn-sm" id="esTabGenerate" onclick="switchPasswordTab('generate')" style="flex:1; justify-content:center; background:transparent; border:1.5px solid #e0d0ba; color:#5a4030; border-radius:9px; padding:8px;">Auto-Generate</button>
+        </div>
+
+        <div id="esManualPanel">
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="text" id="esNewPasswordInput" placeholder="Minimum 6 characters" />
+            </div>
+            <button class="btn btn-green" style="width:100%; justify-content:center;" id="esManualBtn" onclick="submitManualPassword()">💾 Set Password</button>
+        </div>
+
+        <div id="esGeneratePanel" style="display:none;">
+            <p style="font-size:0.85rem; color:#5a4030; margin-bottom:14px;">
+                Generates a random 8-character password for this student. Make sure to copy it and share it with them — it can't be retrieved again later.
+            </p>
+            <button class="btn btn-orange" style="width:100%; justify-content:center;" id="esGenerateBtn" onclick="generatePassword()">🎲 Generate Password</button>
+        </div>
+    </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -196,5 +257,127 @@ async function deleteQuiz(id) {
 
 let toastTimer;
 function showToast(msg,type='success') { const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3000); }
+
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', e => { if(e.target===el) el.classList.remove('active'); }));
+
+function showAlert(el, type, msg) { el.className = `alert ${type}`; el.textContent = msg; }
+
+/* ---- Edit Student / Reset Password ---- */
+
+let esCurrentStudentId = null;
+
+function openEditStudentModal(studentId, username) {
+    esCurrentStudentId = studentId;
+    document.getElementById('esStudentName').textContent = username;
+    document.getElementById('esNewPasswordInput').value = '';
+    document.getElementById('esResultBox').style.display = 'none';
+    document.getElementById('editStudentAlert').className = 'alert';
+    document.getElementById('editStudentAlert').textContent = '';
+    switchPasswordTab('manual');
+    document.getElementById('editStudentModal').classList.add('active');
+}
+
+function switchPasswordTab(tab) {
+    const manualBtn = document.getElementById('esTabManual');
+    const generateBtn = document.getElementById('esTabGenerate');
+    const manualPanel = document.getElementById('esManualPanel');
+    const generatePanel = document.getElementById('esGeneratePanel');
+
+    if (tab === 'manual') {
+        manualPanel.style.display = '';
+        generatePanel.style.display = 'none';
+        manualBtn.style.background = '#3a9e8c';
+        manualBtn.style.color = '#fff';
+        manualBtn.style.border = 'none';
+        generateBtn.style.background = 'transparent';
+        generateBtn.style.color = '#5a4030';
+        generateBtn.style.border = '1.5px solid #e0d0ba';
+    } else {
+        manualPanel.style.display = 'none';
+        generatePanel.style.display = '';
+        generateBtn.style.background = '#3a9e8c';
+        generateBtn.style.color = '#fff';
+        generateBtn.style.border = 'none';
+        manualBtn.style.background = 'transparent';
+        manualBtn.style.color = '#5a4030';
+        manualBtn.style.border = '1.5px solid #e0d0ba';
+    }
+
+    document.getElementById('esResultBox').style.display = 'none';
+}
+
+async function submitManualPassword() {
+    const input = document.getElementById('esNewPasswordInput');
+    const pwd = input.value.trim();
+    const btn = document.getElementById('esManualBtn');
+    const alertEl = document.getElementById('editStudentAlert');
+
+    if (pwd.length < 6) {
+        showAlert(alertEl, 'error', 'Password must be at least 6 characters.');
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span> Saving...';
+
+    try {
+        const res = await fetch(`/teacher/classes/{{ $class->id }}/students/${esCurrentStudentId}/reset-password`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
+            body: JSON.stringify({ mode: 'manual', new_password: pwd }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            showAlert(alertEl, 'success', '✅ Password updated successfully.');
+            input.value = '';
+            showToast('🔑 Password updated.', 'success');
+        } else {
+            showAlert(alertEl, 'error', data.message || 'Could not update password.');
+        }
+    } catch (e) {
+        showAlert(alertEl, 'error', 'Something went wrong.');
+    }
+
+    btn.disabled = false;
+    btn.textContent = '💾 Set Password';
+}
+
+async function generatePassword() {
+    const btn = document.getElementById('esGenerateBtn');
+    const alertEl = document.getElementById('editStudentAlert');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span> Generating...';
+
+    try {
+        const res = await fetch(`/teacher/classes/{{ $class->id }}/students/${esCurrentStudentId}/reset-password`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
+            body: JSON.stringify({ mode: 'generate' }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            document.getElementById('esNewPasswordText').textContent = data.new_password;
+            document.getElementById('esResultBox').style.display = '';
+            showAlert(alertEl, 'success', '✅ New password generated.');
+            showToast('🔑 Password generated.', 'success');
+        } else {
+            showAlert(alertEl, 'error', data.message || 'Could not generate password.');
+        }
+    } catch (e) {
+        showAlert(alertEl, 'error', 'Something went wrong.');
+    }
+
+    btn.disabled = false;
+    btn.textContent = '🎲 Generate Password';
+}
+
+function copyGeneratedPassword() {
+    const text = document.getElementById('esNewPasswordText').textContent;
+    navigator.clipboard.writeText(text).then(() => showToast('📋 Password copied.', 'success'));
+}
 </script>
 @endpush
