@@ -52,7 +52,7 @@ class StudentAuthController extends Controller
             'username.regex'    => 'Ang username ay maaari lamang maglaman ng mga letra, numero, at underscore.',
         ]);
 
-        $username = trim($request->username);
+        $username = trim((string) $request->query('username', ''));
         $isTaken = Student::whereRaw('LOWER(username) = ?', [mb_strtolower($username)])->exists();
 
         return response()->json([

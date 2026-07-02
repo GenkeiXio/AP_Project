@@ -116,13 +116,13 @@ async function checkUsernameAvailability() {
     setUsernameAvailability('Sinusuri ang username...', 'unavailable');
 
     try {
-        const response = await fetch(checkUsernameUrl, {
-            method: 'POST',
+        const url = `${checkUsernameUrl}?username=${encodeURIComponent(username)}`;
+
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': CSRF,
+                'Accept': 'application/json',
             },
-            body: JSON.stringify({ username }),
         });
 
         const data = await response.json();
