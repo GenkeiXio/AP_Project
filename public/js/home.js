@@ -47,6 +47,8 @@ const authLabels = {
 };
 
 function setAuthMode(mode) {
+    if (!authModeField || !studentForm || !authTitle || !authSubtitle || !startBtn) return;
+
     authModeField.value = mode;
     studentForm.action = mode === 'register' ? registerUrl : loginUrl;
 
@@ -54,22 +56,29 @@ function setAuthMode(mode) {
         btn.classList.toggle('active', btn.dataset.mode === mode);
     });
 
-    authPanels.login.classList.toggle('active', mode === 'login');
-    authPanels.register.classList.toggle('active', mode === 'register');
+    if (authPanels.login) authPanels.login.classList.toggle('active', mode === 'login');
+    if (authPanels.register) authPanels.register.classList.toggle('active', mode === 'register');
 
-    passwordInput.required = mode === 'login';
-    passwordInput.disabled = mode !== 'login';
+    if (passwordInput) {
+        passwordInput.required = mode === 'login';
+        passwordInput.disabled = mode !== 'login';
+    }
 
-    regPasswordInput.required = mode === 'register';
-    regPasswordInput.disabled = mode !== 'register';
-    confirmPasswordInput.required = mode === 'register';
-    confirmPasswordInput.disabled = mode !== 'register';
+    if (regPasswordInput) {
+        regPasswordInput.required = mode === 'register';
+        regPasswordInput.disabled = mode !== 'register';
+    }
+
+    if (confirmPasswordInput) {
+        confirmPasswordInput.required = mode === 'register';
+        confirmPasswordInput.disabled = mode !== 'register';
+    }
 
     if (mode === 'login') {
-        regPasswordInput.value = '';
-        confirmPasswordInput.value = '';
+        if (regPasswordInput) regPasswordInput.value = '';
+        if (confirmPasswordInput) confirmPasswordInput.value = '';
         setUsernameAvailability('', '');
-    } else {
+    } else if (passwordInput) {
         passwordInput.value = '';
     }
 
@@ -140,82 +149,93 @@ async function checkUsernameAvailability() {
     }
 }
 
-authSwitchButtons.forEach(button => {
-    button.addEventListener('click', () => setAuthMode(button.dataset.mode));
-});
+function initAuthUI() {
+    if (!studentForm || !usernameInput || !authModeField || !authTitle || !authSubtitle || !startBtn) return;
 
-usernameInput.addEventListener('input', () => {
-    usernameError.classList.remove('show');
-    if (authModeField.value === 'register') {
-        clearTimeout(usernameCheckTimer);
-        usernameCheckTimer = setTimeout(() => checkUsernameAvailability(), 400);
-    } else {
-        setUsernameAvailability('', '');
-    }
-});
-if (passwordInput) passwordInput.addEventListener('input', () => passwordError.classList.remove('show'));
-if (regPasswordInput) regPasswordInput.addEventListener('input', () => regPasswordError.classList.remove('show'));
-if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', () => confirmPasswordError.classList.remove('show'));
+    authSwitchButtons.forEach(button => {
+        button.addEventListener('click', () => setAuthMode(button.dataset.mode));
+    });
 
-studentForm.addEventListener('submit', function(e) {
-    clearFieldErrors();
-
-    const username = usernameInput.value.trim();
-    const mode = authModeField.value;
-    const password = passwordInput.value.trim();
-    const regPassword = regPasswordInput.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
-    let hasError = false;
-
-    if (!username) {
-        hasError = true;
-        usernameError.textContent = 'Pakiusap ilagay ang iyong username.';
-        usernameError.classList.add('show');
-        usernameInput.focus();
-    }
-
-    if (mode === 'login') {
-        if (!password) {
-            hasError = true;
-            passwordError.textContent = 'Pakiusap ilagay ang iyong password.';
-            passwordError.classList.add('show');
-            if (!username) passwordInput.focus();
+    usernameInput.addEventListener('input', () => {
+        if (usernameError) usernameError.classList.remove('show');
+        if (authModeField.value === 'register') {
+            clearTimeout(usernameCheckTimer);
+            usernameCheckTimer = setTimeout(() => checkUsernameAvailability(), 400);
+        } else {
+            setUsernameAvailability('', '');
         }
-    } else {
-        if (!usernameIsAvailable && username) {
+    });
+
+    if (passwordInput) passwordInput.addEventListener('input', () => passwordError.classList.remove('show'));
+    if (regPasswordInput) regPasswordInput.addEventListener('input', () => regPasswordError.classList.remove('show'));
+    if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', () => confirmPasswordError.classList.remove('show'));
+
+    studentForm.addEventListener('submit', function(e) {
+        clearFieldErrors();
+
+        const username = usernameInput.value.trim();
+        const mode = authModeField.value;
+        const password = passwordInput ? passwordInput.value.trim() : '';
+        const regPassword = regPasswordInput ? regPasswordInput.value.trim() : '';
+        const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value.trim() : '';
+        let hasError = false;
+
+        if (!username) {
             hasError = true;
-            usernameError.textContent = 'Ang username na ito ay ginagamit na ng ibang mag-aaral.';
+            usernameError.textContent = 'Pakiusap ilagay ang iyong username.';
             usernameError.classList.add('show');
+            usernameInput.focus();
         }
 
-        if (!regPassword) {
-            hasError = true;
-            regPasswordError.textContent = 'Pakiusap ilagay ang iyong password.';
-            regPasswordError.classList.add('show');
-            if (!username) regPasswordInput.focus();
-        }
-        if (!confirmPassword) {
-            hasError = true;
-            confirmPasswordError.textContent = 'Pakiusap kumpirmahin ang password.';
-            confirmPasswordError.classList.add('show');
-        }
-        if (regPassword && confirmPassword && regPassword !== confirmPassword) {
-            hasError = true;
-            confirmPasswordError.textContent = 'Hindi magkatugma ang password at kumpirmasyon.';
-            confirmPasswordError.classList.add('show');
-        }
-    }
+        if (mode === 'login') {
+            if (!password) {
+                hasError = true;
+                passwordError.textContent = 'Pakiusap ilagay ang iyong password.';
+                passwordError.classList.add('show');
+                if (!username && passwordInput) passwordInput.focus();
+            }
+        } else {
+            if (!usernameIsAvailable && username) {
+                hasError = true;
+                usernameError.textContent = 'Ang username na ito ay ginagamit na ng ibang mag-aaral.';
+                usernameError.classList.add('show');
+            }
 
-    if (hasError) {
-        e.preventDefault();
-        return;
-    }
+            if (!regPassword) {
+                hasError = true;
+                regPasswordError.textContent = 'Pakiusap ilagay ang iyong password.';
+                regPasswordError.classList.add('show');
+                if (!username && regPasswordInput) regPasswordInput.focus();
+            }
+            if (!confirmPassword) {
+                hasError = true;
+                confirmPasswordError.textContent = 'Pakiusap kumpirmahin ang password.';
+                confirmPasswordError.classList.add('show');
+            }
+            if (regPassword && confirmPassword && regPassword !== confirmPassword) {
+                hasError = true;
+                confirmPasswordError.textContent = 'Hindi magkatugma ang password at kumpirmasyon.';
+                confirmPasswordError.classList.add('show');
+            }
+        }
 
-    startBtn.disabled = true;
-    startBtn.innerHTML = '<span class="btn-spinner"></span> Pumapasok...';
-});
+        if (hasError) {
+            e.preventDefault();
+            return;
+        }
 
-setAuthMode(initialAuthMode);
+        startBtn.disabled = true;
+        startBtn.innerHTML = '<span class="btn-spinner"></span> Pumapasok...';
+    });
+
+    setAuthMode(initialAuthMode);
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAuthUI);
+} else {
+    initAuthUI();
+}
 
 // ── Staff Modal ──
 function openStaffModal() {

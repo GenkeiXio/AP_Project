@@ -773,7 +773,7 @@
         <source src="/audio/home-bg-music.mp3" type="audio/mpeg">
     </audio>
     <!-- JS -->
-    <script src="{{ asset('js/home.js') }}"></script>
+    <script src="{{ asset('js/home.js') }}?v={{ filemtime(public_path('js/home.js')) }}"></script>
     <script>
         (function () {
             const form        = document.getElementById('studentForm');
