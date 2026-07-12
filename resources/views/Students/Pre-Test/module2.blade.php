@@ -605,6 +605,15 @@
 			50% { border-color: #f4c97a; }
 		}
 
+		/* Unanswered question highlight */
+		.unanswered-highlight {
+			background-color: #fff3df !important;
+			transition: background-color 0.5s ease;
+			border-radius: 16px;
+			padding: 12px;
+			border: 2px solid #f4c97a;
+		}
+
 		@media (max-width: 768px) {
 			body {
 				padding: 14px 10px 20px;
@@ -789,10 +798,6 @@
 				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
 
-			<!-- <div class="pretest-note">
-				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
-			</div> -->
-
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
 					<div class="quiz-progress">
@@ -811,7 +816,6 @@
 						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
 							Susunod →
 						</button>
-						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Paunang Pagsusulit 🚀</button>
 					</div>
 				</div>
@@ -1021,7 +1025,6 @@
 	let retryCount = 0;
 	const maxRetries = 3;
 
-
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -1095,6 +1098,74 @@
 		}
 	}
 
+	function scrollToFirstUnanswered() {
+		// First check questions on current card
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		
+		// Check current card first
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				// Scroll to this question
+				const questionElements = document.querySelectorAll('.single-question');
+				for (let el of questionElements) {
+					const h4 = el.querySelector('h4');
+					if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+						el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						el.classList.add('unanswered-highlight');
+						setTimeout(() => {
+							el.classList.remove('unanswered-highlight');
+						}, 2000);
+						return i;
+					}
+				}
+			}
+		}
+		
+		// If all current card questions are answered, check all questions
+		for (let i = 0; i < questions.length; i++) {
+			if (selectedAnswers[i] === '') {
+				// Navigate to the card containing this question
+				const targetCard = Math.floor(i / questionsPerCard);
+				if (targetCard !== currentCard) {
+					currentCard = targetCard;
+					renderAllQuestions();
+					// Wait for render then scroll
+					setTimeout(() => {
+						const questionElements = document.querySelectorAll('.single-question');
+						for (let el of questionElements) {
+							const h4 = el.querySelector('h4');
+							if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+								el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+								el.classList.add('unanswered-highlight');
+								setTimeout(() => {
+									el.classList.remove('unanswered-highlight');
+								}, 2000);
+								return;
+							}
+						}
+					}, 150);
+				} else {
+					const questionElements = document.querySelectorAll('.single-question');
+					for (let el of questionElements) {
+						const h4 = el.querySelector('h4');
+						if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+							el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+							el.classList.add('unanswered-highlight');
+							setTimeout(() => {
+								el.classList.remove('unanswered-highlight');
+							}, 2000);
+							return;
+						}
+					}
+				}
+				return i;
+			}
+		}
+		
+		return -1; // All answered
+	}
+
 	function renderAllQuestions() {
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
@@ -1125,7 +1196,7 @@
 				`;
 			}).join('');
 
-			// ✅ FEEDBACK
+			// Feedback
 			let feedbackHtml = '';
 			if (isConfirmed) {
 				if (selectedValue === item.answer) {
@@ -1177,14 +1248,14 @@
 	};
 
 	function confirmAnswer() {
-
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
 		// Check only current card's questions are all answered
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				// Scroll to first unanswered question on this card
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1208,7 +1279,6 @@
 			// If on last card and all confirmed, submit button will be shown by renderAllQuestions logic
 			submitBtn.style.display = 'inline-flex';
 		}
-		
 	}
 
 	function goNextCard() {
@@ -1229,7 +1299,8 @@
 
 	function goNextQuestion() {
 		if (!confirmedAnswers[currentQuestionIndex]) {
-			alert('Kailangan munang kumpirmahin ang sagot bago magpatuloy sa susunod.');
+			// Scroll to first unanswered question instead of alert
+			scrollToFirstUnanswered();
 			return;
 		}
 		
@@ -1264,8 +1335,17 @@
 
 	function submitPreTest() {
 		// Check if all questions are confirmed
-		if (!confirmedAnswers.every(confirmed => confirmed === true)) {
-			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+		let unansweredIndex = -1;
+		for (let i = 0; i < questions.length; i++) {
+			if (!confirmedAnswers[i]) {
+				unansweredIndex = i;
+				break;
+			}
+		}
+		
+		if (unansweredIndex !== -1) {
+			// Scroll to the first unanswered question
+			scrollToFirstUnanswered();
 			return;
 		}
 
@@ -1349,7 +1429,11 @@
 
 	function restartQuiz() {
 		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 3 attempts.');
+			// Instead of alert, show a message in the UI
+			const resultBox = document.getElementById('resultBox');
+			const feedback = document.getElementById('resultFeedback');
+			feedback.textContent = 'Naabot mo na ang maximum na 3 attempts.';
+			feedback.style.color = '#7a2e2e';
 			return;
 		}
 
