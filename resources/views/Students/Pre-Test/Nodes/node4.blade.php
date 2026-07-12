@@ -95,12 +95,25 @@
         font-size: 0.95rem;
     }
 
-    /* Cards Grid */
+    /* Cards Grid - 3x2 layout */
     .cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         margin: 28px 0 20px;
+    }
+
+    /* Responsive: stack on smaller screens */
+    @media (max-width: 760px) {
+        .cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .cards {
+            grid-template-columns: 1fr;
+        }
     }
 
     .card-btn {
@@ -113,6 +126,8 @@
         text-align: center;
         color: white;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        font-family: 'Poppins', sans-serif;
     }
 
     .card-btn:hover {
@@ -426,7 +441,7 @@
 
 <div class="page">
     <section class="hero">
-        <h1 class="title">🏛️ Kilalanin ang Tugon ng Pamahalaan</h1>
+        <h1 class="title">🏛️ Ang Mga Tugon ng Pamahalaan</h1>
 
         <div class="info-cards">
             <div class="info-card">
@@ -440,7 +455,7 @@
             </div>
         </div>
 
-        <!-- Cards Grid -->
+        <!-- Cards Grid 3x2 -->
         <div class="cards">
             <button onclick="openCard(0)" class="card-btn" data-index="0">
                 <div class="card-icon">🛡️</div>
