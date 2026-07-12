@@ -48,56 +48,105 @@
         color:#214f33;
     }
 
-    /* ========== PANUTO / INSTRUCTIONS STYLES ========== */
-    .panuto-box {
-        background: linear-gradient(135deg, #fef9e4, #fff8e7);
-        border-radius: 14px;
-        padding: 16px 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-
-    .panuto-title {
-        font-weight: 800;
-        font-size: 1rem;
-        color: #e67e22;
-        margin-bottom: 10px;
+    /* ========== PANUTO MODAL STYLES ========== */
+    .panuto-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(6px);
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+        animation: fadeInModal 0.3s ease;
     }
 
-    .panuto-title span {
-        font-size: 1.3rem;
+    .panuto-modal-overlay.hidden {
+        display: none;
     }
 
-    .panuto-text {
-        font-size: 0.9rem;
-        color: #2c3e50;
-        line-height: 1.5;
-        margin-bottom: 8px;
+    .panuto-modal-box {
+        background: white;
+        max-width: 600px;
+        width: 100%;
+        border-radius: 24px;
+        padding: 30px 32px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        animation: slideUp 0.4s ease;
+        max-height: 90vh;
+        overflow-y: auto;
     }
 
-    .panuto-list {
-        margin: 8px 0 0 20px;
-        font-size: 0.85rem;
-        color: #34495e;
+    @keyframes fadeInModal {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
-    .panuto-list li {
-        margin: 5px 0;
+    @keyframes slideUp {
+        from { transform: translateY(40px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
 
-    .panuto-note {
-        background: #2c3e50;
-        color: #f1c40f;
-        padding: 6px 12px;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        margin-top: 10px;
+    .panuto-modal-title {
+        font-family: 'Baloo 2', cursive;
+        font-size: 2rem;
+        color: #1a5c38;
         text-align: center;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
-    /* ============================================= */
+
+    .panuto-modal-body {
+        font-size: 0.95rem;
+        color: #2d4a3a;
+        line-height: 1.7;
+    }
+
+    .panuto-modal-body ul {
+        padding-left: 20px;
+        margin: 10px 0;
+    }
+
+    .panuto-modal-body ul li {
+        margin-bottom: 6px;
+    }
+
+    .panuto-modal-body .highlight-box {
+        background: #fef9e4;
+        border-left: 4px solid #f39c12;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-top: 14px;
+        font-weight: 500;
+    }
+
+    .panuto-modal-btn {
+        display: block;
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px;
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+        border: none;
+        border-radius: 50px;
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-family: 'Poppins', sans-serif;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    }
+
+    .panuto-modal-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+    }
+
+    /* ========================================= */
 
     .card{
         background:rgba(255,255,255,0.92);
@@ -438,9 +487,8 @@
         .stat-box{ width:100%; padding:14px; text-align:center; }
         .final-btn{ width:100%; padding:14px; font-size:16px; }
         .progress-text { font-size: 0.8rem; }
-        .panuto-box { padding: 12px 16px; }
-        .panuto-text { font-size: 0.8rem; }
-        .panuto-list { font-size: 0.75rem; }
+        .panuto-modal-box { padding: 20px; margin: 10px; }
+        .panuto-modal-title { font-size: 1.5rem; }
     }
 </style>
 @endpush
@@ -455,32 +503,11 @@
             <h1>Matalinong Pagpapasya sa Oras ng Sakuna</h1>
 
             <div class="topbar">
-                <div>⏱ ORAS: <span id="timer">00:00</span></div>
+                <div>⏱ ORAS: <span id="timer">05:00</span></div>
                 <div>⭐ PUNTOS: <span id="xp">0</span></div>
             </div>
 
-            <!-- PANUTO / INSTRUCTIONS (will be hidden when completed) -->
-            <div id="panuto-container">
-                <div class="panuto-box">
-                    <div class="panuto-title">
-                        <span>📋</span> PANUTO
-                    </div>
-                    <div class="panuto-text">
-                        Basahin ang bawat sitwasyon at <strong>piliin ang lahat ng tamang sagot</strong> sa pamamagitan ng pag-tsek sa kahon sa itaas ng bawat opsyon.
-                    </div>
-                    <ul class="panuto-list">
-                        <li>✅ <strong>+10 puntos</strong> sa bawat <strong>TAMANG sagot</strong> na napili</li>
-                        <li>❌ <strong>-10 puntos</strong> sa bawat <strong>MALING sagot</strong> na napili</li>
-                        <li>🏆 <strong>BONUS +10 puntos</strong> kung nasagot mo ng <strong>LAHAT ng tama</strong> sa isang sitwasyon (walang maling napili)</li>
-                        <li>🔥 <strong>Streak Bonus:</strong> Patuloy na pagkuha ng perpektong iskor ay nagbibigay ng dagdag na puntos!</li>
-                    </ul>
-                    <div class="panuto-note">
-                        💡 TIP: Piliin lamang ang mga sagot na sigurado kang tama. Ang pagpili ng maling sagot ay nakakabawas ng puntos!
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROGRESS BAR (will be hidden when completed) -->
+            <!-- PROGRESS BAR -->
             <div id="progress-container">
                 <div class="progress-section">
                     <div class="progress-bar-container">
@@ -507,13 +534,35 @@
             
         </div>
 
+        <!-- ========== PANUTO MODAL (appears only once) ========== -->
+        <div id="panutoModal" class="panuto-modal-overlay">
+            <div class="panuto-modal-box">
+                <div class="panuto-modal-title">
+                    <span>📋</span> Panuto
+                </div>
+                <div class="panuto-modal-body">
+                    <p>Basahin ang bawat sitwasyon at <strong>piliin ang lahat ng tamang sagot</strong> sa pamamagitan ng pag-tsek sa kahon sa itaas ng bawat opsyon.</p>
+                    <ul>
+                        <li>✅ <strong>+10 puntos</strong> sa bawat <strong>TAMANG sagot</strong> na napili</li>
+                        <li>❌ <strong>-10 puntos</strong> sa bawat <strong>MALING sagot</strong> na napili</li>
+                        <li>🏆 <strong>BONUS +10 puntos</strong> kung nasagot mo ng <strong>LAHAT ng tama</strong> sa isang sitwasyon (walang maling napili)</li>
+                        <li>🔥 <strong>Streak Bonus:</strong> Patuloy na pagkuha ng perpektong iskor ay nagbibigay ng dagdag na puntos!</li>
+                    </ul>
+                    <div class="highlight-box">
+                        💡 <strong>Tip:</strong> Piliin lamang ang mga sagot na sigurado kang tama. Ang pagpili ng maling sagot ay nakakabawas ng puntos!
+                    </div>
+                    <button class="panuto-modal-btn" id="startBtn">🚀 Simulan na!</button>
+                </div>
+            </div>
+        </div>
+
         <script>
             // 🔥 SCENARIOS
             const scenarios = [
                 {
                     title:"Scenario 1",
                     image:"/pictures/Mod2_FinalAct/scenario1.png",
-                    desc:"🌍 Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura. ❓ Alin sa mga sumusunod ang tamang hakbang?",
+                    desc:" Matapos ang malakas na ulan sa Legazpi, nagkaroon ng pagbaha dahil sa baradong kanal na puno ng basura. Alin sa mga sumusunod ang tamang hakbang?",
                     choices:[
                         {t:"Sunugin ang basura",c:false, img:"/pictures/Mod2_FinalAct/sunog_basura.png"},
                         {t:"Makilahok sa clean-up drive",c:true, img:"/pictures/Mod2_FinalAct/clean_drive.png"},
@@ -589,11 +638,13 @@
             let current = 0;
             let streak = 0;
             let answered = false;
-            let oras = 20 * 60;
+            let oras = 5 * 60; // 5 minutes
             let allAnswers = [];
             let totalCorrectSelected = 0;
             let totalPossibleCorrect = 0;
             let isSaving = false;
+            let timerInterval = null;
+            let gameStarted = false;
 
             /* ===============================
             ⏱ TIMER SYSTEM
@@ -604,18 +655,22 @@
                 return String(minutes).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
             }
 
-            let timerInterval = setInterval(() => {
-                oras--;
-                document.getElementById("timer").innerText = formatTime(oras);
-                if(oras <= 0){
-                    clearInterval(timerInterval);
-                    document.getElementById("feedback").innerHTML = "⏰ Naubos na ang oras! Awtomatikong tatapusin ang aktibidad.";
-                    tapusinNa();
-                }
-            }, 1000);
+            function startTimer() {
+                if (timerInterval) return;
+                timerInterval = setInterval(() => {
+                    oras--;
+                    document.getElementById("timer").innerText = formatTime(oras);
+                    if(oras <= 0){
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        document.getElementById("feedback").innerHTML = "⏰ Naubos na ang oras! Awtomatikong tatapusin ang aktibidad.";
+                        tapusinNa();
+                    }
+                }, 1000);
+            }
 
             /* ===============================
-            📊 UPDATE PROGRESS BAR (Fill only, text stays centered)
+            📊 UPDATE PROGRESS BAR
             ================================ */
             function updateProgressBar() {
                 let progressPercent = ((current + 1) / scenarios.length) * 100;
@@ -633,18 +688,31 @@
                 totalPossibleCorrect += s.choices.filter(c => c.c).length;
             });
 
-            loadScenario();
+            // Panuto Modal - only once
+            document.getElementById('startBtn').addEventListener('click', function() {
+                document.getElementById('panutoModal').classList.add('hidden');
+                gameStarted = true;
+                startTimer();
+                loadScenario();
+            });
+
+            // If user somehow clicks outside, still require the button
+            document.getElementById('panutoModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    // Do nothing - must click the button
+                }
+            });
 
             /* ===============================
             🎮 LOAD SCENARIO
             ================================ */
             function loadScenario(){
+                if (!gameStarted) return;
                 answered = false;
                 let s = scenarios[current];
                 document.getElementById("feedback").innerHTML = "";
                 updateProgressBar();
                 
-                // Show submit button, hide next button
                 document.getElementById("submitBtn").style.display = "inline-block";
                 document.getElementById("nextBtn").style.display = "none";
 
@@ -676,7 +744,7 @@
             ✅ SUBMIT ANSWER
             ================================ */
             function submitAnswer(){
-                if(answered) return;
+                if(!gameStarted || answered) return;
 
                 let anyChecked = false;
                 document.querySelectorAll(".choice-box input").forEach(cb => {
@@ -721,7 +789,6 @@
 
                 allAnswers.push(...scenarioAnswers);
                 
-                // HIDE submit button, SHOW next button
                 document.getElementById("submitBtn").style.display = "none";
                 document.getElementById("nextBtn").style.display = "inline-block";
 
@@ -733,14 +800,18 @@
                     streak = 0;
                 }
 
+                // Deduct points for wrong answers
+                let wrongPenalty = wrong * 10;
+                gainedXP = gainedXP - wrongPenalty;
+
                 xp += gainedXP;
+                if (xp < 0) xp = 0;
                 document.getElementById("xp").innerText = xp;
 
                 let feedback = "";
-                let ratio = (correct - wrong) / totalCorrect;
-                if(ratio < 0) ratio = 0;
+                let ratio = totalCorrect > 0 ? correct / totalCorrect : 0;
 
-                if(ratio === 1){
+                if(ratio === 1 && wrong === 0){
                     feedback = `🔥 PERPEKTO!<br>Kumpleto ang lahat ng tamang sagot.<br>Malaking tulong ito sa kalikasan.<br>+${gainedXP} puntos (Sunod-sunod x${streak})`;
                 }
                 else if(ratio >= 0.75){
@@ -776,7 +847,7 @@
                         score: xp,
                         total_questions: scenarios.length,
                         correct_answers: totalCorrectSelected,
-                        time_taken: (20 * 60) - oras,
+                        time_taken: (5 * 60) - oras,
                         answers: allAnswers
                     })
                 });
@@ -801,12 +872,12 @@
                 if(current >= scenarios.length){
                     if (isSaving) return;
                     isSaving = true;
-                    clearInterval(timerInterval);
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
                     
-                    // HIDE panuto and progress bar when all scenarios are completed
-                    document.getElementById("panuto-container").style.display = "none";
                     document.getElementById("progress-container").style.display = "none";
-                    
                     document.querySelector(".btn-container").style.display = "none";
                     document.getElementById("feedback").innerHTML = "";
 
@@ -815,7 +886,7 @@
                     else if(xp >= 150) rank = "🌿 ECO WARRIOR";
                     else rank = "🌱 ECO LEARNER";
 
-                    let nagamitNaOras = (20 * 60) - oras;
+                    let nagamitNaOras = (5 * 60) - oras;
                     let finalTime = formatTime(nagamitNaOras);
                     let percentage = Math.round((totalCorrectSelected / totalPossibleCorrect) * 100);
                     let passed = percentage >= 75;

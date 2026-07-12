@@ -283,8 +283,8 @@
 		.question-item h4 {
 			color: var(--text);
 			margin-bottom: 16px;
-			margin-top: 8px; /* ADD THIS */
-			line-height: 1.6; /* slightly more breathing room */
+			margin-top: 8px;
+			line-height: 1.6;
 			font-size: 1.05rem;
 			font-weight: 900;
 			padding-right: 18px;
@@ -598,6 +598,15 @@
 			animation: pulseBorder 1.5s ease-in-out infinite;
 		}
 
+		/* Unanswered question highlight */
+		.unanswered-highlight {
+			background-color: #fff3df !important;
+			transition: background-color 0.5s ease;
+			border-radius: 16px;
+			padding: 12px;
+			border: 2px solid #f4c97a;
+		}
+
 		@keyframes pulseBorder {
 			0%, 100% { border-color: #e7d7bf; }
 			50% { border-color: #f4c97a; }
@@ -752,8 +761,8 @@
 		.modal-overlay {
 			position: fixed;
 			inset: 0;
-			background: rgba(61, 42, 26, 0.4); /* Matches your --text color for a warmer dim */
-			backdrop-filter: blur(8px); /* Blurs the background map for focus */
+			background: rgba(61, 42, 26, 0.4);
+			backdrop-filter: blur(8px);
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -780,7 +789,7 @@
 		}
 
 		.reward-container {
-			background: #f0fdf4; /* Very light green */
+			background: #f0fdf4;
 			border: 2px dashed #6dbf7e;
 			border-radius: 20px;
 			padding: 20px;
@@ -802,7 +811,7 @@
 
 		.reward-image {
 			width: 100%;
-			max-width: 200px; /* Adjust based on your image aspect ratio */
+			max-width: 200px;
 			height: auto;
 			border-radius: var(--radius-md);
 			box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -815,7 +824,7 @@
 		}
 
 		.modal-box {
-			max-width: 450px; /* Keeps it tight and focused */
+			max-width: 450px;
 			width: 90%;
 		}
 
@@ -829,11 +838,11 @@
 			line-height: 1.6;
 			color: #5b472f;
 			margin-bottom: 25px;
-			text-align: justify; /* Cleaner look for long paragraphs */
+			text-align: justify;
 		}
 
 		.single-question {
-			margin-bottom: 28px; /* increased spacing */
+			margin-bottom: 28px;
 			padding-bottom: 18px;
 			border-bottom: 1px dashed #e7d7bf;
 		}
@@ -888,7 +897,6 @@
 						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
 							Susunod →
 						</button>
-						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Panghuling Pagsusulit 🚀</button>
 					</div>
 				</div>
@@ -1174,6 +1182,75 @@
 		`).join('');
 	}
 
+	// ================= SCROLL TO UNANSWERED =================
+	function scrollToFirstUnanswered() {
+		// First check questions on current card
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		
+		// Check current card first
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				// Scroll to this question
+				const questionElements = document.querySelectorAll('.single-question');
+				for (let el of questionElements) {
+					const h4 = el.querySelector('h4');
+					if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+						el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						el.classList.add('unanswered-highlight');
+						setTimeout(() => {
+							el.classList.remove('unanswered-highlight');
+						}, 2000);
+						return i;
+					}
+				}
+			}
+		}
+		
+		// If all current card questions are answered, check all questions
+		for (let i = 0; i < questions.length; i++) {
+			if (selectedAnswers[i] === '') {
+				// Navigate to the card containing this question
+				const targetCard = Math.floor(i / questionsPerCard);
+				if (targetCard !== currentCard) {
+					currentCard = targetCard;
+					renderAllQuestions();
+					// Wait for render then scroll
+					setTimeout(() => {
+						const questionElements = document.querySelectorAll('.single-question');
+						for (let el of questionElements) {
+							const h4 = el.querySelector('h4');
+							if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+								el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+								el.classList.add('unanswered-highlight');
+								setTimeout(() => {
+									el.classList.remove('unanswered-highlight');
+								}, 2000);
+								return;
+							}
+						}
+					}, 150);
+				} else {
+					const questionElements = document.querySelectorAll('.single-question');
+					for (let el of questionElements) {
+						const h4 = el.querySelector('h4');
+						if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+							el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+							el.classList.add('unanswered-highlight');
+							setTimeout(() => {
+								el.classList.remove('unanswered-highlight');
+							}, 2000);
+							return;
+						}
+					}
+				}
+				return i;
+			}
+		}
+		
+		return -1; // All answered
+	}
+
 	// ================= RENDER =================
 	function renderAllQuestions() {
 		let start = currentCard * questionsPerCard;
@@ -1241,15 +1318,11 @@
 		}
 
 		// BUTTON LOGIC
-
-		// Confirm button (only if not yet confirmed)
 		confirmBtn.style.display = allConfirmed ? 'none' : 'inline-flex';
 
-		// Next button (only after confirming, and NOT last card)
 		const nextCardBtn = document.getElementById('nextCardBtn');
 		nextCardBtn.style.display = (allConfirmed && currentCard < 2) ? 'inline-flex' : 'none';
 
-		// Submit button (only last card and confirmed)
 		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
@@ -1265,10 +1338,10 @@
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
-		// check unanswered
+		// check unanswered - SCROLL instead of alert
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1288,7 +1361,7 @@
 		// ensure current card is confirmed
 		for (let i = start; i < end; i++) {
 			if (!confirmedAnswers[i]) {
-				alert('I-confirm muna ang card bago magpatuloy.');
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1352,8 +1425,17 @@
 
 	// ================= RESULT =================
 	function submitPreTest() {
-		if (!confirmedAnswers.every(c => c)) {
-			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong.');
+		// Check if all questions are confirmed - SCROLL instead of alert
+		let unansweredIndex = -1;
+		for (let i = 0; i < questions.length; i++) {
+			if (!confirmedAnswers[i]) {
+				unansweredIndex = i;
+				break;
+			}
+		}
+		
+		if (unansweredIndex !== -1) {
+			scrollToFirstUnanswered();
 			return;
 		}
 
@@ -1399,7 +1481,7 @@
 			}, 800);
 
 		} else {
-			retryCount++; // ✅ ONLY HERE
+			retryCount++;
 			updateRetryIndicator();
 
 			resultBadge.textContent = "❌ Hindi pa sapat";
@@ -1428,8 +1510,11 @@
 
 	// ================= RETRY =================
 	function restartQuiz() {
-if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 2 pagsubok.');
+		if (retryCount >= maxRetries) {
+			// Show message in UI instead of alert
+			const resultFeedback = document.getElementById('resultFeedback');
+			resultFeedback.textContent = 'Naabot mo na ang maximum na 2 pagsubok.';
+			resultFeedback.style.color = '#7a2e2e';
 			return;
 		}
 
@@ -1456,7 +1541,7 @@ if (retryCount >= maxRetries) {
 	window.addEventListener('load', () => {
 		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-		retryCount = 0; // always 2/2
+		retryCount = 0;
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 
