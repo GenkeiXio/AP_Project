@@ -5,33 +5,62 @@
 @push('styles')
     <link href="https://fonts.googleapis.com/css2?family=Fondamento&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        /* BACKGROUND OVERLAY - Consistent with next page */
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            background: url('{{ asset('pictures/mod3_innermap.png') }}') center center / cover no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.42);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Body styles - match first page */
+        html, body { 
+            background: #0b1220 !important;
+            margin: 0; 
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            color: #1a1a1a;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Content wrapper needs higher z-index to appear above overlay */
+        .game-wrapper { 
+            max-width: 1100px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            position: relative; 
+            z-index: 2;
+        }
+
         :root {
+            --gold-trim: #c5a059;
+            --old-paper: #d9c5a3;
             --wood-dark: #3d2b1f;
-            --wood-light: #5d4037;
-            --paper: #f4e4bc;
-            --berde-dark: #1b5e20; /* Darker green for wood texture */
-            --berde-mid: #2e7d32;  /* Main card green */
+            --berde-mid: #2e7d32;
             --berde: #4caf50;
             --pula: #e53935;
         }
 
-        body { 
-            margin: 0; padding: 0;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset("pictures/mod3_innermap.png") }}') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Quicksand', sans-serif;
-            color: var(--wood-dark);
-        }
-
-        .game-wrapper { max-width: 1100px; margin: 40px auto; padding: 0 20px; position: relative; }
-
+        /* WOODEN CARD STYLING - Matching first page */
         .wood-frame {
-            background: var(--wood-light);
-            border: 12px solid var(--wood-dark);
-            border-radius: 20px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.8);
+            background: #d9c5a3 !important;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png') !important;
+            border: 2px solid #c5a059 !important;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), inset 0 0 50px rgba(0, 0, 0, 0.2) !important;
+            border-radius: 8px !important;
             padding: 40px 30px;
             position: relative;
+            color: #1a1a1a;
         }
 
         .context-grid {
@@ -41,33 +70,33 @@
             margin-bottom: 30px;
         }
 
-        /* UPDATED: Wooden Green Card Style */
+        /* Green cards inside - keep them but adjust to fit the wood theme */
         .wood-card {
             background: var(--berde-mid);
-            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); /* Subtle wood plank effect */
+            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
             background-size: 100% 10px;
-            border: 4px solid var(--wood-dark);
-            border-radius: 15px;
+            border: 3px solid var(--wood-dark);
+            border-radius: 12px;
             padding: 25px 15px;
             position: relative;
-            box-shadow: 0 8px 0 var(--wood-dark);
+            box-shadow: 0 6px 0 var(--wood-dark);
             transition: transform 0.2s;
             text-align: center;
             display: flex;
             flex-direction: column;
-            color: var(--paper); /* Light text for dark green background */
+            color: var(--old-paper);
         }
 
         .wood-card:hover { transform: translateY(-5px); }
         
         .card-icon {
             font-size: 2.5rem;
-            background: var(--paper);
+            background: var(--old-paper);
             width: 60px; height: 60px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             margin: -50px auto 15px;
-            border: 4px solid var(--wood-dark);
+            border: 3px solid var(--wood-dark);
             color: var(--wood-dark);
         }
 
@@ -87,20 +116,20 @@
             border-radius: 5px;
             margin-bottom: 10px;
             display: inline-block;
-            color: var(--paper);
+            color: var(--old-paper);
         }
 
-        .wood-card p { font-size: 0.9rem; line-height: 1.4; color: var(--paper); font-weight: 500; margin: 0; }
+        .wood-card p { font-size: 0.9rem; line-height: 1.4; color: var(--old-paper); font-weight: 500; margin: 0; }
 
-        /* Instruction Box Styling */
         .instruction-box {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.85);
             border: 3px dashed var(--wood-dark);
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             margin: 20px auto;
             max-width: 600px;
             text-align: left;
+            color: #1a1a1a;
         }
 
         .instruction-box h5 {
@@ -117,19 +146,23 @@
 
         .wood-hud {
             display: flex; justify-content: space-around;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.25);
             border-radius: 50px;
             padding: 15px;
             margin-bottom: 25px;
-            border: 3px solid var(--wood-dark);
+            border: 2px solid var(--gold-trim);
         }
 
-        .hud-item { color: #fff; font-weight: 800; text-shadow: 2px 2px 0px #000; font-size: 1.1rem; }
+        .hud-item { 
+            color: #1a1a1a; 
+            font-weight: 800; 
+            font-size: 1.1rem;
+        }
 
         .btn-wood {
             background: #8d6e63;
             color: white;
-            border: 4px solid var(--wood-dark);
+            border: 3px solid var(--wood-dark);
             padding: 12px 25px;
             border-radius: 10px;
             font-weight: 800;
@@ -147,10 +180,10 @@
         .btn-pula { background: var(--pula); }
 
         .choice-btn {
-            background: var(--paper);
+            background: var(--old-paper);
             border: 3px solid var(--wood-dark);
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             font-weight: 700;
             cursor: pointer;
             font-size: 1.1rem;
@@ -160,15 +193,68 @@
         }
 
         .choice-btn:hover { background: #efe0b1; transform: translateY(-2px); }
+        .choice-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .nakatago { display: none !important; }
+
+        #eventArea {
+            background: rgba(255, 255, 255, 0.85) !important;
+            padding: 40px !important;
+            border-radius: 12px !important;
+            border: 2px solid var(--gold-trim) !important;
+            min-height: 320px;
+            text-align: center;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            color: #1a1a1a;
+        }
+
+        #eventTitle {
+            font-family: 'Fondamento', cursive;
+            font-size: 2.2rem;
+            margin-top: 0;
+            color: #1a1a1a;
+        }
+
+        #eventDesc {
+            font-size: 1.25rem;
+            margin: 20px 0;
+            line-height: 1.5;
+            color: #1a1a1a;
+        }
+
+        .victory-text, .gameover-text {
+            color: #fff !important;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+        @media (max-width: 768px) {
+            .context-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .wood-frame {
+                padding: 20px 15px;
+            }
+            #choicesGrid {
+                grid-template-columns: 1fr !important;
+            }
+            .wood-hud {
+                flex-wrap: wrap;
+                gap: 10px;
+                border-radius: 20px;
+            }
+        }
     </style>
 @endpush
 
 @section('content')
+{{-- Background Elements - Consistent with next page --}}
+<div class="page-bg"></div>
+<div class="page-overlay"></div>
+
 <div class="game-wrapper">
     <div class="wood-frame">
         <div id="briefingScreen">
-            <h1 style="text-align:center; color: #fff; font-family: 'Fondamento', cursive; font-size: 3rem; margin-bottom: 60px; text-shadow: 3px 3px 0 #000;">
+            <h1 style="text-align:center; font-family: 'Fondamento', cursive; font-size: 3rem; margin-bottom: 60px; color: #1a1a1a; text-shadow: 2px 2px 0 rgba(197,160,89,0.3);">
                 📜 Balik Aral: Batas at Kalikasan
             </h1>
 
@@ -211,30 +297,30 @@
         <div id="gameUI" class="nakatago">
             <div class="wood-hud">
                 <div class="hud-item">🌿 Kalusugan: <span id="healthTxt">100%</span></div>
-                <div class="hud-item">💰 Pondo: <span id="budgetTxt" style="color: #ffd54f;">₱70,000</span></div>
+                <div class="hud-item">💰 Pondo: <span id="budgetTxt" style="color: #2e7d32;">₱70,000</span></div>
                 <div class="hud-item">🤝 Tiwala: <span id="trustTxt">80%</span></div>
             </div>
 
-            <div id="eventArea" style="background: var(--paper); padding: 40px; border-radius: 15px; border: 4px solid var(--wood-dark); min-height: 320px; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.1);">
+            <div id="eventArea">
                 <div id="statusMsg" style="margin-bottom: 20px; font-weight: 800; display: none; padding: 12px; border-radius: 8px; border: 2px solid currentColor;"></div>
-                <h2 id="eventTitle" style="font-family: 'Fondamento', cursive; font-size: 2.2rem; margin-top: 0;"></h2>
-                <p id="eventDesc" style="font-size: 1.25rem; margin: 20px 0; line-height: 1.5;"></p>
+                <h2 id="eventTitle"></h2>
+                <p id="eventDesc"></p>
                 <div id="choicesGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;"></div>
             </div>
         </div>
 
-        <div id="victoryScreen" class="nakatago" style="text-align:center; color: #fff; padding: 40px 0;">
-            <h1 style="font-family: 'Fondamento', cursive; font-size: 4rem; text-shadow: 3px 3px 0 #000; margin: 0;">Tagumpay! 🏆</h1>
-            <p style="font-size: 1.6rem; margin: 20px 0 40px;">Mahusay! Sinunod mo ang batas para sa ikabubuti ng bayan.</p>
-            <div style="display:flex; gap:20px; justify-content:center;">
+        <div id="victoryScreen" class="nakatago" style="text-align:center; padding: 40px 0;">
+            <h1 class="victory-text" style="font-family: 'Fondamento', cursive; font-size: 4rem; margin: 0;">Tagumpay! 🏆</h1>
+            <p class="victory-text" style="font-size: 1.6rem; margin: 20px 0 40px;">Mahusay! Sinunod mo ang batas para sa ikabubuti ng bayan.</p>
+            <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
                 <button class="btn-wood" onclick="location.reload()">Ulitin</button>
                 <button class="btn-wood btn-green" onclick="window.location.href='{{ route('module3.iv_explore') }}'">Magpatuloy</button>
             </div>
         </div>
 
-        <div id="gameOverScreen" class="nakatago" style="text-align:center; color: #fff; padding: 40px 0;">
-            <h1 style="font-family: 'Fondamento', cursive; font-size: 4rem; text-shadow: 3px 3px 0 #000; margin: 0;">Talunan 💀</h1>
-            <p id="failReason" style="font-size: 1.6rem; margin: 20px 0 40px;"></p>
+        <div id="gameOverScreen" class="nakatago" style="text-align:center; padding: 40px 0;">
+            <h1 class="gameover-text" style="font-family: 'Fondamento', cursive; font-size: 4rem; margin: 0;">Talunan 💀</h1>
+            <p id="failReason" class="gameover-text" style="font-size: 1.6rem; margin: 20px 0 40px;"></p>
             <button class="btn-wood btn-pula" style="font-size: 1.5rem;" onclick="location.reload()">Ulitin (Retry)</button>
         </div>
     </div>
@@ -245,7 +331,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
-    /* Javascript logic remains identical to the previous fixed version */
     let stats = { health: 100, budget: 70000, trust: 80 };
     let currentIdx = 0;
 
@@ -309,6 +394,7 @@
             btn.onclick = () => handleChoice(c);
             grid.appendChild(btn);
         });
+        document.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
     }
 
     function handleChoice(c) {
@@ -334,7 +420,7 @@
     function endGame(win, reason) {
         document.getElementById('gameUI').classList.add('nakatago');
 
-        saveGameResult(win); // ✅ SAVE HERE
+        saveGameResult(win);
 
         if(win) document.getElementById('victoryScreen').classList.remove('nakatago');
         else {
@@ -355,15 +441,13 @@
                 budget: stats.budget,
                 trust: stats.trust,
                 is_success: isWin,
-                time_spent: 0 // optional (you can track later)
+                time_spent: 0
             })
         })
         .then(res => res.json())
         .then(data => console.log("Saved:", data))
         .catch(err => console.error(err));
     }
-
-
 
     document.addEventListener("DOMContentLoaded", function () {
         const dialogueKey = "module3_balikaral";
@@ -374,12 +458,10 @@
                     name: "Mga Guro",
                     image: "{{ asset('pictures/vn_box_teacher2.png') }}"
                 },
-
                 {
                     text: "Basahin nang mabuti ang bawat panuto at pag-isipan ang iyong mga sagot. Huwag mag-alala kung may makalimutan—bahagi ito ng pagkatuto. Maaari mo ring ulitin ang gawaing ito pagkatapos, kung nais mong mas mapabuti pa ang iyong resulta.",
                     image: "{{ asset('pictures/vn_box_teacher2.png') }}"
                 },
-
                 {
                     text: "Kaya mo yan! Simulan na natin.",
                     image: "{{ asset('pictures/vn_box_teacher3.png') }}"
@@ -387,6 +469,5 @@
             ], dialogueKey);
         }
     });
-
 </script>
 @endsection

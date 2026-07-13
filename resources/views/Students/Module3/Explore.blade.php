@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 3\Explore.blade.php --}}
 @extends('Students.studentslayout')
 @section('title', 'IV. Suriin')
 
@@ -42,6 +41,10 @@
             --old-paper: #d9c5a3;
             --ink: #1a1a1a;
             --danger: #b71c1c;
+            --green-dark: #1b5e20;
+            --green-mid: #2e7d32;
+            --green-light: #4caf50;
+            --wood-dark: #3d2b1f;
         }
 
         .glass {
@@ -143,6 +146,104 @@
             box-shadow: 0 10px 20px rgba(15, 23, 42, .28);
         }
 
+        /* UNIFIED GREEN BUTTONS - All choices use same green color */
+        .choice-btn {
+            background: var(--green-mid) !important;
+            border: 3px solid var(--wood-dark) !important;
+            box-shadow: 0 5px 0 var(--wood-dark) !important;
+            color: #fff !important;
+            padding: 14px 20px !important;
+            border-radius: 12px !important;
+            font-weight: 800 !important;
+            font-size: 1rem !important;
+            text-align: center;
+            width: 100%;
+        }
+
+        .choice-btn:hover {
+            background: var(--green-dark) !important;
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .choice-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--wood-dark) !important;
+        }
+
+        /* Action buttons */
+        .btn-green {
+            background: var(--green-mid) !important;
+            border: 3px solid var(--wood-dark) !important;
+            box-shadow: 0 5px 0 var(--wood-dark) !important;
+            color: #fff !important;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: 0.18s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-green:hover {
+            background: var(--green-dark) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-amber {
+            background: #b8860b !important;
+            border: 3px solid var(--wood-dark) !important;
+            box-shadow: 0 5px 0 var(--wood-dark) !important;
+            color: #fff !important;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: 0.18s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-amber:hover {
+            background: #8b6914 !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-red {
+            background: #b71c1c !important;
+            border: 3px solid var(--wood-dark) !important;
+            box-shadow: 0 5px 0 var(--wood-dark) !important;
+            color: #fff !important;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: 0.18s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-red:hover {
+            background: #880e0e !important;
+            transform: translateY(-2px);
+        }
+
         .rain {
             background-image: repeating-linear-gradient(
                 105deg,
@@ -188,6 +289,19 @@
             color: #1a1a1a;
         }
 
+        /* Feedback boxes - consistent coloring */
+        .feedback-correct {
+            background: #c8e6c9 !important;
+            border: 2px solid var(--green-mid) !important;
+            color: var(--green-dark) !important;
+        }
+
+        .feedback-wrong {
+            background: #ffcdd2 !important;
+            border: 2px solid #b71c1c !important;
+            color: #b71c1c !important;
+        }
+
         @media (max-width: 900px) {
             .intro-card { max-width: 640px; }
 
@@ -203,6 +317,11 @@
 
             .intro-card-content {
                 padding: 16px;
+            }
+
+            .choice-btn {
+                font-size: 0.85rem !important;
+                padding: 12px 16px !important;
             }
         }
 
@@ -241,7 +360,7 @@
                 </div>
 
                 <div class="mt-4 flex justify-end">
-                    <button id="simulanModalBtn" class="choice-btn px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 text-white font-extrabold text-sm md:text-base shadow-md">
+                    <button id="simulanModalBtn" class="btn-green" style="padding: 12px 40px; font-size: 1.1rem;">
                         SIMULAN
                     </button>
                 </div>
@@ -253,7 +372,7 @@
 <div class="relative z-10 min-h-screen py-6">
     <div class="max-w-5xl mx-auto px-4">
 
-        <!-- SCENE 2: EKSENA 1 (PAGHAHANDA) - PARAGRAPH MODE -->
+        <!-- SCENE 2: EKSENA 1 (PAGHAHANDA) -->
         <section id="scene2" class="scene hidden rounded-xl overflow-hidden">
             <div class="scene-image-wrap">
                 <img src="{{ asset('pictures/flood.png') }}" class="scene-image" alt="Eksena 1">
@@ -264,15 +383,15 @@
                 <p class="scene-description">May signal ng bagyo #3. Mataas ang posibilidad ng pagbaha sa inyong lugar. May mga pamilyang nakatira malapit sa ilog na nasa panganib.</p>
                 <p class="mt-3 font-bold italic">💬 Ano ang una mong gagawin?</p>
                 <div class="grid md:grid-cols-3 gap-3 mt-3">
-                    <button onclick="piliinSaEksena2('A')" class="choice-btn p-3 rounded-xl bg-red-700 text-white font-bold shadow-md">A. Balewalain ang babala</button>
-                    <button onclick="piliinSaEksena2('B')" class="choice-btn p-3 rounded-xl bg-emerald-700 text-white font-bold shadow-md">B. Makinig sa balita at maghanda</button>
-                    <button onclick="piliinSaEksena2('C')" class="choice-btn p-3 rounded-xl bg-blue-700 text-white font-bold shadow-md">C. Maghintay kung ano ang mangyayari</button>
+                    <button onclick="piliinSaEksena2('A')" class="choice-btn">A. Balewalain ang babala</button>
+                    <button onclick="piliinSaEksena2('B')" class="choice-btn">B. Makinig sa balita at maghanda</button>
+                    <button onclick="piliinSaEksena2('C')" class="choice-btn">C. Maghintay kung ano ang mangyayari</button>
                 </div>
                 <div id="scene2Feedback" class="hidden mt-4 p-4 rounded-xl border"></div>
             </div>
         </section>
 
-        <!-- SCENE 3: EKSENA 2 (PAGTUGON) - PARAGRAPH MODE -->
+        <!-- SCENE 3: EKSENA 2 (PAGTUGON) -->
         <section id="scene3" class="scene hidden mt-6 rounded-xl overflow-hidden">
             <div class="scene-image-wrap">
                 <img src="{{ asset('pictures/Rescue.png') }}" class="scene-image" alt="Eksena 2">
@@ -283,15 +402,15 @@
                 <p class="scene-description">Patuloy ang malakas na ulan at hangin. Mabilis na tumataas ang tubig baha sa inyong lugar. Ang evacuation center ay ligtas at may sapat na suplay, ngunit may mga naiwan pang matatanda at batang hindi agad nailikas dahil sa biglaang pagtaas ng baha.</p>
                 <p class="mt-3 font-bold italic">💬 Ano ang gagawin mo?</p>
                 <div class="grid md:grid-cols-3 gap-3 mt-3">
-                    <button onclick="piliinSaEksena3('A')" class="choice-btn p-3 rounded-xl bg-red-700 text-white font-bold shadow-md">A. Manatili sa evacuation center</button>
-                    <button onclick="piliinSaEksena3('B')" class="choice-btn p-3 rounded-xl bg-emerald-700 text-white font-bold shadow-md">B. Tumulong sa pagsagip sa mga naiwan</button>
-                    <button onclick="piliinSaEksena3('C')" class="choice-btn p-3 rounded-xl bg-blue-700 text-white font-bold shadow-md">C. Maghintay ng utos mula sa barangay</button>
+                    <button onclick="piliinSaEksena3('A')" class="choice-btn">A. Manatili sa evacuation center</button>
+                    <button onclick="piliinSaEksena3('B')" class="choice-btn">B. Tumulong sa pagsagip sa mga naiwan</button>
+                    <button onclick="piliinSaEksena3('C')" class="choice-btn">C. Maghintay ng utos mula sa barangay</button>
                 </div>
                 <div id="scene3Feedback" class="hidden mt-4 p-4 rounded-xl border"></div>
             </div>
         </section>
 
-        <!-- SCENE 4: EKSENA 3 (PAGBANGON) - PARAGRAPH MODE -->
+        <!-- SCENE 4: EKSENA 3 (PAGBANGON) -->
         <section id="scene4" class="scene hidden mt-6 rounded-xl overflow-hidden">
             <div class="relative scene-image-wrap">
                 <img src="{{ asset('pictures/disaster_strike.png') }}" class="scene-image" alt="Eksena 3">
@@ -304,9 +423,9 @@
                 <p class="scene-description">Unti-unting bumababa ang baha ngunit maraming bahay ang nasira at nangangailangan ng tulong. Kulang ang pagkain at inuming tubig sa evacuation center. Maraming boluntaryo ang gustong tumulong sa paglilinis at pamamahagi ng tulong.</p>
                 <p class="mt-3 font-bold italic">💬 Ano ang gagawin mo?</p>
                 <div class="grid md:grid-cols-3 gap-3 mt-3">
-                    <button onclick="piliinSaEksena4('A')" class="choice-btn p-3 rounded-xl bg-emerald-700 text-white font-bold shadow-md">A. Manguna sa pagtulong</button>
-                    <button onclick="piliinSaEksena4('B')" class="choice-btn p-3 rounded-xl bg-red-700 text-white font-bold shadow-md">B. Umuwi na lamang</button>
-                    <button onclick="piliinSaEksena4('C')" class="choice-btn p-3 rounded-xl bg-orange-700 text-white font-bold shadow-md">C. Hintaying may mag-utos</button>
+                    <button onclick="piliinSaEksena4('A')" class="choice-btn">A. Manguna sa pagtulong</button>
+                    <button onclick="piliinSaEksena4('B')" class="choice-btn">B. Umuwi na lamang</button>
+                    <button onclick="piliinSaEksena4('C')" class="choice-btn">C. Hintaying may mag-utos</button>
                 </div>
                 <div id="scene4Feedback" class="hidden mt-4 p-4 rounded-xl border"></div>
             </div>
@@ -320,13 +439,10 @@
             <div class="p-5 md:p-6">
                 <p>📊 Iyong Iskor: <span id="finalScore" class="font-bold text-emerald-700">0 XP</span></p>
                 <p class="mt-2">🎖 Natamong Badge: <span id="finalBadge" class="font-bold text-amber-700">Wala pang badge</span></p>
-                <p id="autoRedirectText" class="mt-2 text-sm text-slate-700"></p>
 
                 <div class="mt-4 flex flex-wrap gap-3">
-                    <button onclick="ulitinMisyon()" class="choice-btn px-6 py-3 rounded-xl bg-amber-600 text-white font-bold shadow-md">🔄 Ulitin ang Laro</button>
-                    <a href="{{ route('students.module3.termino_konsepto') }}" class="inline-flex items-center px-6 py-3 rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 transition shadow-md">
-                        📘 Magpatuloy sa Termino at Konsepto
-                    </a>
+                    <button onclick="ulitinMisyon()" class="btn-amber">🔄 Ulitin ang Laro</button>
+                    <a href="{{ route('students.module3.termino_konsepto') }}" class="btn-green">📘 Magpatuloy sa Termino at Konsepto</a>
                 </div>
             </div>
         </section>
@@ -338,8 +454,6 @@
 <script>
 let currentScene = 1, xp = 10, soundOn = true, audioUnlocked = false;
 let flags = { s2:false, s3:false, s4:false };
-let redirectTimer = null;
-let countdownTimer = null;
 
 const sfx = {
     click: new Audio('{{ asset("sounds/module3/click.mp3") }}'),
@@ -401,15 +515,6 @@ function playAmbience(scene) {
     if (scene === 4) play('calm');
 }
 
-function clearRedirectTimers() {
-    if (redirectTimer) clearTimeout(redirectTimer);
-    if (countdownTimer) clearInterval(countdownTimer);
-    redirectTimer = null;
-    countdownTimer = null;
-    const label = document.getElementById('autoRedirectText');
-    if (label) label.textContent = '';
-}
-
 function lumipatSaEksena(n) {
     currentScene = n;
     document.querySelectorAll('.scene').forEach(s => s.classList.add('hidden'));
@@ -433,13 +538,13 @@ function piliinSaEksena2(c) {
         flags.s2 = true;
         xp += 20;
         play('correct');
-        box.className = 'mt-4 p-4 rounded-xl border border-emerald-600 bg-emerald-100 text-emerald-800';
+        box.className = 'mt-4 p-4 rounded-xl border feedback-correct';
         box.innerHTML = '🎉 Tama! +20 XP';
         setTimeout(() => lumipatSaEksena(3), 900);
     } else {
         xp = Math.max(0, xp - 5);
         play('wrong');
-        box.className = 'mt-4 p-4 rounded-xl border border-red-600 bg-red-100 text-red-800';
+        box.className = 'mt-4 p-4 rounded-xl border feedback-wrong';
         box.innerHTML = '❌ Mali. -5 XP. Subukan muli!';
     }
 }
@@ -453,13 +558,13 @@ function piliinSaEksena3(c) {
         flags.s3 = true;
         xp += 25;
         play('correct');
-        box.className = 'mt-4 p-4 rounded-xl border border-emerald-600 bg-emerald-100 text-emerald-800';
+        box.className = 'mt-4 p-4 rounded-xl border feedback-correct';
         box.innerHTML = '🎉 Tama! +25 XP';
         setTimeout(() => lumipatSaEksena(4), 1000);
     } else {
         xp = Math.max(0, xp - 10);
         play('wrong');
-        box.className = 'mt-4 p-4 rounded-xl border border-red-600 bg-red-100 text-red-800';
+        box.className = 'mt-4 p-4 rounded-xl border feedback-wrong';
         if (c === 'A') {
             box.innerHTML = '❌ Mali. Hindi dapat manatili lamang kung may mga nangangailangan ng tulong. -10 XP';
         } else {
@@ -477,12 +582,12 @@ function piliinSaEksena4(c) {
         flags.s4 = true;
         xp += 25;
         play('correct');
-        box.className = 'mt-4 p-4 rounded-xl border border-emerald-600 bg-emerald-100 text-emerald-800';
+        box.className = 'mt-4 p-4 rounded-xl border feedback-correct';
         box.innerHTML = '🎉 Tama! +25 XP';
     } else {
         xp = Math.max(0, xp - 10);
         play('wrong');
-        box.className = 'mt-4 p-4 rounded-xl border border-red-600 bg-red-100 text-red-800';
+        box.className = 'mt-4 p-4 rounded-xl border feedback-wrong';
         if (c === 'B') {
             box.innerHTML = '❌ Mali. Hindi dapat iwanan ang komunidad sa oras ng pangangailangan. -10 XP';
         } else {
@@ -494,8 +599,6 @@ function piliinSaEksena4(c) {
 }
 
 function taposNa() {
-    clearRedirectTimers();
-
     if (flags.s2 && flags.s3 && flags.s4) xp += 15;
     lumipatSaEksena(5);
     play('success');
@@ -510,30 +613,9 @@ function taposNa() {
     document.getElementById('finalBadge').textContent = badge;
 
     saveExplore(xp, badge);
-
-    const nextUrl = '{{ route("students.module3.termino_konsepto") }}';
-    let seconds = 3;
-    const label = document.getElementById('autoRedirectText');
-    if (label) label.textContent = `Awtomatikong lilipat sa Termino at Konsepto sa ${seconds}s...`;
-
-    countdownTimer = setInterval(() => {
-        seconds--;
-        if (seconds <= 0) {
-            clearInterval(countdownTimer);
-            countdownTimer = null;
-            return;
-        }
-        if (label) label.textContent = `Awtomatikong lilipat sa Termino at Konsepto sa ${seconds}s...`;
-    }, 1000);
-
-    redirectTimer = setTimeout(() => {
-        window.location.href = nextUrl;
-    }, 3000);
 }
 
 function ulitinMisyon() {
-    clearRedirectTimers();
-
     xp = 10;
     flags = { s2:false, s3:false, s4:false };
 
@@ -542,6 +624,7 @@ function ulitinMisyon() {
         if (el) {
             el.classList.add('hidden');
             el.innerHTML = '';
+            el.className = 'hidden mt-4 p-4 rounded-xl border';
         }
     });
 
