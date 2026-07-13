@@ -407,6 +407,17 @@
         .hidden {
             display: none !important;
         }
+
+        /* Success animation */
+        .success-pulse {
+            animation: successPulse 0.6s ease;
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 
     <div class="ap-wrapper">
@@ -455,8 +466,7 @@
                         <p id="resultMsg" style="font-size: 1.1rem; line-height: 1.6; margin: 25px 0;"></p>
                         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                             <button id="btnRepeat" onclick="repeatQuest()" class="btn-vintage">ULITIN</button>
-                            <button id="btnToMap" onclick="window.location.href='{{ route('inner.map3') }}'"
-                                class="btn-vintage" style="display:none;">BUMALIK SA MAPA</button>
+                            <button id="btnToMap" onclick="goToMap()" class="btn-vintage" style="display:none;">BUMALIK SA MAPA</button>
                         </div>
                         <p id="attemptIndicator" class="attempt-indicator hidden"></p>
                     </div>
@@ -519,12 +529,16 @@
         ];
 
         const imgPath = "{{ asset('pictures/Module 3/Node 1') }}/";
-        let step = 0; let points = 0; let locked = false;
-        let timer = 10; let countdown;
+        let step = 0; 
+        let points = 0; 
+        let locked = false;
+        let timer = 10; 
+        let countdown;
         let audioCtx;
         let completedCorrect = [];
         let retryCount = 0;
         const maxRetries = 3;
+        let isNodeCompleted = false;
 
         function playSound(id) {
             const s = document.getElementById(id);
@@ -559,7 +573,6 @@
             let brown = 0;
 
             for (let i = 0; i < bufferSize; i++) {
-                // Blend white + brown noise so the texture sounds more like rubbing paper fibers.
                 const white = (Math.random() * 2 - 1) * 0.75;
                 brown = (brown + 0.045 * white) / 1.045;
                 const envelope = Math.pow(1 - (i / bufferSize), 0.85);
@@ -625,7 +638,6 @@
                 flip.play().catch(() => { });
             }
 
-            // Multi-layer texture: soft thump + overlapping rustles feels closer to a real page turn.
             playPageThump();
             playPaperRustle();
             setTimeout(() => playPaperRustle(), 45 + Math.random() * 35);
@@ -679,7 +691,6 @@
         }
 
         function startQuest() {
-
             // 🔥 MOBILE FIX: hide all slides manually
             if (window.matchMedia("(max-width: 900px)").matches) {
                 ['flip1', 'flip2', 'flip3'].forEach(id => {
@@ -786,6 +797,8 @@
                 document.getElementById('txtScore').innerText = points;
                 playSound('sndTama');
                 dropZone.innerHTML = `<img src="${imgPath}${choice}" style="width:100%; height:100%; object-fit:contain;">`;
+                dropZone.classList.add('success-pulse');
+                setTimeout(() => dropZone.classList.remove('success-pulse'), 600);
             } else {
                 playSound('sndMali');
                 rPage.style.boxShadow = "inset 0 0 60px rgba(183, 28, 28, 0.6)";
@@ -827,6 +840,31 @@
             });
         }
 
+        // ✅ MARK NODE AS COMPLETED
+        function markNodeComplete() {
+            // Use multiple storage methods for redundancy
+            sessionStorage.setItem('m3v2_node1', 'true');
+            localStorage.setItem('m3v2_node1', 'true');
+            localStorage.setItem('m3_node1_completed', 'true');
+            
+            // Also store completion timestamp for tracking
+            localStorage.setItem('m3_node1_completed_at', Date.now().toString());
+            
+            console.log('✅ Node 1 marked as completed!');
+            isNodeCompleted = true;
+        }
+
+        // ✅ GO TO MAP WITH COMPLETION PARAMETER
+        function goToMap() {
+            // Make sure node is marked as completed before redirecting
+            if (!isNodeCompleted) {
+                markNodeComplete();
+            }
+            
+            // Redirect to map with completion parameter
+            window.location.href = "{{ route('inner.map3') }}?complete=1";
+        }
+
         function finish() {
             document.getElementById('gameRight').classList.add('hidden');
             document.getElementById('cardStorage').classList.add('hidden');
@@ -836,6 +874,7 @@
             document.getElementById('completedBoard').classList.remove('hidden');
             renderCompletedBoard();
 
+            // Save score data to server (optional)
             fetch("{{ route('module3.node1.save') }}", {
                 method: "POST",
                 headers: {
@@ -847,18 +886,19 @@
                     total_items: data.length,
                     correct_answers: points,
                     wrong_answers: data.length - points,
-                    time_spent: (10 * data.length) - timer // adjust if needed
+                    time_spent: (10 * data.length) - timer
                 })
-            });
+            }).catch(err => console.log('Save error:', err));
 
             const attemptIndicator = document.getElementById('attemptIndicator');
             const repeatBtn = document.getElementById('btnRepeat');
             const mapBtn = document.getElementById('btnToMap');
             const isComplete = points === data.length;
 
-            // Mark node as completed once the node flow reaches finish screen.
-            sessionStorage.setItem('m3v2_node1', 'true');
-            localStorage.setItem('m3v2_node1', 'true');
+            // ✅ ALWAYS MARK NODE AS COMPLETED when finishing (even if not perfect)
+            markNodeComplete();
+            
+            // Show map button
             mapBtn.style.display = 'inline-flex';
 
             if (!isComplete) {
@@ -879,13 +919,13 @@
                 attemptIndicator.classList.add('hidden');
             }
 
-            document.getElementById('resultTitle').innerText = isComplete ? 'MISYON: TAGUMPAY' : 'MISYON: HINDI PA TAPOS';
+            document.getElementById('resultTitle').innerText = isComplete ? '🎉 MISYON: TAGUMPAY' : '📖 MISYON: HINDI PA TAPOS';
 
             const msg = isComplete
                 ? "Mahusay! Kumpleto mong naibalik ang mga larawan kaya ligtas ang mahahalagang ulat ng barangay."
                 : "May mga larawang hindi pa naitugma nang tama. Maaari mo pa itong subukang ayusin hanggang sa matapos nang wasto.";
 
-            document.getElementById('resultMsg').innerText = `${msg}\n\nNakakuha ka ng ${points} / ${data.length} na puntos.`;
+            document.getElementById('resultMsg').innerHTML = `${msg}<br><br>📊 Nakakuha ka ng <strong>${points}</strong> / ${data.length} na puntos.`;
         }
 
         /* ================= MOBILE SLIDE MODE ================= */
@@ -895,7 +935,6 @@
         }
 
         if (isMobileView()) {
-
             let currentSlide = 0;
             const slides = ['flip1', 'flip3', 'flip2'];
 
@@ -911,8 +950,6 @@
             const originalFlip = window.flipPage;
 
             window.flipPage = function () {
-
-                // if NOT last slide → go next
                 if (currentSlide < slides.length - 1) {
                     currentSlide++;
                     showSlide(currentSlide);
@@ -922,7 +959,7 @@
                 // LAST SLIDE → trigger original start button behavior
                 const startBtn = document.querySelector('#flip2 button');
                 if (startBtn) {
-                    startBtn.click(); // simulate real button click
+                    startBtn.click();
                 }
             };
 
@@ -931,6 +968,21 @@
                 showSlide(0);
             });
         }
+
+        // ✅ Auto-redirect if already completed (prevent redoing)
+        window.addEventListener('load', function() {
+            const alreadyCompleted = localStorage.getItem('m3v2_node1') === 'true' || 
+                                   localStorage.getItem('m3_node1_completed') === 'true';
+            
+            if (alreadyCompleted) {
+                // Optional: Show a message and redirect after a few seconds
+                console.log('Node 1 already completed. Redirecting to map...');
+                // Uncomment below to auto-redirect if already completed
+                // setTimeout(() => {
+                //     window.location.href = "{{ route('inner.map3') }}";
+                // }, 2000);
+            }
+        });
     </script>
 
 @endsection

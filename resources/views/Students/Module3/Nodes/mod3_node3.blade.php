@@ -431,6 +431,18 @@ body {
     pointer-events: none;
 }
 
+.completion-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+}
+
 @media (max-width: 600px) {
     .action-btn {
         padding: 14px 20px;
@@ -566,7 +578,7 @@ body {
             
             <div class="sim-actions" id="simActions">
                 <div class="action-buttons">
-                    <button class="action-btn" id="backBtn" style="background:var(--lgu-blue); color:white;" onclick="window.location.href='{{ route('inner.map3') }}'">🗺 BUMALIK SA MAPA</button>
+                    <button class="action-btn" id="backBtn" style="background:var(--lgu-blue); color:white;" onclick="goToMapWithCompletion()">🗺 BUMALIK SA MAPA</button>
                 </div>
                 <button class="action-btn retry-btn" id="closeSim" style="background:var(--lgu-blue); color:white;">🔄 SUBUKAN MULI</button>
             </div>
@@ -577,6 +589,32 @@ body {
 <script>
 let budget = 100000;
 let safety = 0;
+let isGameCompleted = false;
+
+// ✅ MARK NODE 3 AS COMPLETED
+function markNodeComplete() {
+    // Use multiple storage methods for redundancy
+    sessionStorage.setItem('m3v2_node3', 'true');
+    localStorage.setItem('m3v2_node3', 'true');
+    localStorage.setItem('m3_node3_completed', 'true');
+    
+    // Also store completion timestamp for tracking
+    localStorage.setItem('m3_node3_completed_at', Date.now().toString());
+    
+    console.log('✅ Node 3 marked as completed!');
+    isGameCompleted = true;
+}
+
+// ✅ GO TO MAP WITH COMPLETION PARAMETER
+function goToMapWithCompletion() {
+    // Make sure node is marked as completed before redirecting
+    if (!isGameCompleted) {
+        markNodeComplete();
+    }
+    
+    // Redirect to map with completion parameter
+    window.location.href = "{{ route('inner.map3') }}?complete=3";
+}
 
 function formatPeso(amount) {
     return `₱${amount.toLocaleString('en-PH')}`;
@@ -730,14 +768,22 @@ function runSim() {
                 const bilang = kuninBilangNgNapili();
                 const panalo = bilang.tama === 4 && bilang.mapanlinlang === 0 && budget === 0;
 
-                sessionStorage.setItem('m3v2_node3', 'true');
-                localStorage.setItem('m3v2_node3', 'true');
+                // Save progress regardless of win/loss
                 saveNode3Progress(panalo);
 
                 if (panalo) {
+                    // ✅ MARK NODE AS COMPLETED ON SUCCESS
+                    markNodeComplete();
+                    
                     text.innerHTML += `<h1 style="color:var(--bayanihan-green); margin-top:20px;">🎉 TAGUMPAY ANG MISYON!</h1>
                                        <p>🏆 Lahat ng tamang proyekto ay napondohan. Ligtas ang barangay!</p>
-                                       <p>💪 Ang komunidad ay handa na sa anumang sakuna.</p>`;
+                                       <p>💪 Ang komunidad ay handa na sa anumang sakuna.</p>
+                                       <div class="completion-badge">✅ Node 3 Completed!</div>`;
+                    
+                    // Update the back button to use goToMapWithCompletion
+                    document.getElementById('backBtn').onclick = function() {
+                        goToMapWithCompletion();
+                    };
                     
                     setTimeout(() => {
                         stamp.classList.add('active');
@@ -748,7 +794,8 @@ function runSim() {
                 } else {
                     text.innerHTML += `<h1 style="color:var(--danger-red); margin-top:20px;">⚠️ HINDI NAGTAGUMPAY</h1>
                                        <p>📋 Suriing muli ang mga prayoridad ng barangay.</p>
-                                       <p>💡 Piliin ang mga proyektong tunay na makatutulong sa komunidad.</p>`;
+                                       <p>💡 Piliin ang mga proyektong tunay na makatutulong sa komunidad.</p>
+                                       <p style="margin-top:10px; font-weight:600;">💡 Tip: Piliin ang 4 na tamang proyekto (₱25,000 bawat isa) at iwasan ang mga mapanlinlang.</p>`;
                     actions.classList.add('show');
                     document.getElementById('backBtn').style.display = 'block';
                     document.getElementById('closeSim').style.display = 'block';
@@ -778,9 +825,27 @@ document.getElementById('simOverlay').addEventListener('click', function(e) {
     }
 });
 
+// ✅ Check if already completed
 document.addEventListener('DOMContentLoaded', () => {
     shuffleStrategies();
     updateDisplay();
+    
+    const alreadyCompleted = localStorage.getItem('m3v2_node3') === 'true' || 
+                           localStorage.getItem('m3_node3_completed') === 'true';
+    
+    if (alreadyCompleted) {
+        console.log('Node 3 already completed.');
+        // Optionally show a message
+        // You could add a small indicator on the page
+        const missionIntro = document.querySelector('.mission-intro');
+        if (missionIntro) {
+            const badge = document.createElement('div');
+            badge.className = 'completion-badge';
+            badge.style.marginTop = '10px';
+            badge.textContent = '✅ Nakumpleto na ang Node 3!';
+            missionIntro.appendChild(badge);
+        }
+    }
 });
 </script>
 

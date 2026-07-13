@@ -1,4 +1,4 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module3\Nodes\mod3_node2.blade.php --}}
+{{-- filepath: resources/views/Students/Module3/Nodes/mod3_node2.blade.php --}}
 @extends('Students.studentslayout')
 @section('title', 'Modyul 3 - Yugto 2')
 
@@ -756,6 +756,19 @@ body{
 @keyframes fall{
     to{ transform:translateY(400px) rotate(360deg); opacity:0; }
 }
+
+/* Completion badge */
+.completion-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+}
 </style>
 
 <a href="{{ route('inner.map3') }}" class="back-btn">⬅ Bumalik</a>
@@ -807,10 +820,10 @@ body{
                         <button class="read-btn" onclick="reveal('bottom')">Basahin</button>
                     </div>
                     <div id="bottomText" class="hidden-text show">
-                        Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba’t ibang sektor ng pamayanan
+                        Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba't ibang sektor ng pamayanan
                         sa pagtukoy, pag-aanalisa, at paglutas ng mga suliranin. Mahalaga ang pamumuno ng lokal na komunidad, kasama
                         ang lokal na pamahalaan, pribadong sektor, at mga organisasyong hindi pangkalakalan, upang maisulong ang
-                        epektibong pag-unlad mula sa ibaba. Sa paraang ito, nabibigyang-halaga ang iba’t ibang pananaw at karanasan
+                        epektibong pag-unlad mula sa ibaba. Sa paraang ito, nabibigyang-halaga ang iba't ibang pananaw at karanasan
                         ng mga taong nakatira sa mga lugar na madalas tamaan ng sakuna, na nagsisilbing batayan ng mas angkop at
                         makabuluhang plano. Nakatutulong din ang maayos na pamamahala ng pondo at pagkilala sa matagumpay na pagpapatupad
                         upang mapanatili ang bisa ng programa, kung saan ang tagumpay ay nakasalalay sa malawakang pakikilahok ng
@@ -927,6 +940,7 @@ let lives = 3;
 let roundIndex = 0;
 let timeLeft = 15;
 let timer = null;
+let isGameCompleted = false;
 
 const narratorMessage = "Ikaw ang punong-bayan ngayon. Basahin ang dalawang pamamaraan, piliin ang panig, at manalo sa mga ikot ng pagtatalo.";
 
@@ -956,7 +970,7 @@ const rounds = [
     {
         prompt: "Pagkatapos ng baha, alin ang mas makakatulong sa pangmatagalang pagbangon?",
         options: [
-            { side: "top", text: "Iisang plano lamang mula sa taas para sa lahat ng lugar.", points: 0, feedback: "Maaaring hindi tugma sa iba’t ibang pangangailangan ng mga lugar." },
+            { side: "top", text: "Iisang plano lamang mula sa taas para sa lahat ng lugar.", points: 0, feedback: "Maaaring hindi tugma sa iba't ibang pangangailangan ng mga lugar." },
             { side: "bottom", text: "Pagmamapa ng komunidad at sama-samang pagpaplano sa pinakaapektadong purok.", points: 2, feedback: "Tama: mas inklusibo at mas pangmatagalan." }
         ]
     },
@@ -981,6 +995,31 @@ const progressFill = document.getElementById('progressFill');
 const timerLabel = document.getElementById('timerLabel');
 const resultBox = document.getElementById('resultBox');
 const narratorText = document.getElementById('narratorText');
+
+// ✅ MARK NODE 2 AS COMPLETED
+function markNodeComplete() {
+    // Use multiple storage methods for redundancy
+    sessionStorage.setItem('m3v2_node2', 'true');
+    localStorage.setItem('m3v2_node2', 'true');
+    localStorage.setItem('m3_node2_completed', 'true');
+    
+    // Also store completion timestamp for tracking
+    localStorage.setItem('m3_node2_completed_at', Date.now().toString());
+    
+    console.log('✅ Node 2 marked as completed!');
+    isGameCompleted = true;
+}
+
+// ✅ GO TO MAP WITH COMPLETION PARAMETER
+function goToMapWithCompletion() {
+    // Make sure node is marked as completed before redirecting
+    if (!isGameCompleted) {
+        markNodeComplete();
+    }
+    
+    // Redirect to map with completion parameter
+    window.location.href = "{{ route('inner.map3') }}?complete=2";
+}
 
 function typeNarrator(text, speed = 32){
     narratorText.textContent = '';
@@ -1131,14 +1170,16 @@ function endGame(){
     const maxScore = rounds.length * 3;
     const passed = score >= 5;
 
-    saveGameProgress(passed);
-    
-    const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
-
-    if (passed){
+    // ✅ Mark node as completed if passed
+    if (passed) {
+        markNodeComplete();
         burstConfetti();
         document.getElementById('successModal').style.display = 'flex';
     }
+
+    saveGameProgress(passed);
+    
+    const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
 
     resultBox.innerHTML = `
         <h3>${passed ? '🏆 Napanalunan ang Pagtatalo!' : '📌 Kailangan Pa ng Pagsusuri sa Pagtatalo'}</h3>
@@ -1150,9 +1191,10 @@ function endGame(){
         </p>
         ${getConsequencesHTML(reviewSide)}
         <div class="actions">
-            <a href="{{ route('module3.node2') }}" class="act-retry">🔁 Ulitin</a>
-            <a href="{{ route('inner.map3') }}" class="act-map">🗺 Bumalik sa Mapa</a>
+            ${!passed ? `<a href="{{ route('module3.node2') }}" class="act-retry">🔁 Ulitin</a>` : ''}
+            <a href="#" onclick="event.preventDefault(); goToMapWithCompletion();" class="act-map">🗺 Bumalik sa Mapa</a>
         </div>
+        ${passed ? '<div class="completion-badge">✅ Node 2 Completed!</div>' : ''}
     `;
     progressFill.style.width = '100%';
 }
@@ -1217,6 +1259,20 @@ function saveGameProgress(passed){
     .catch(err => console.error(err));
 }
 
+// ✅ Check if already completed
+window.addEventListener('load', function() {
+    const alreadyCompleted = localStorage.getItem('m3v2_node2') === 'true' || 
+                           localStorage.getItem('m3_node2_completed') === 'true';
+    
+    if (alreadyCompleted) {
+        console.log('Node 2 already completed. Showing completion status...');
+        // Optionally show a message or auto-redirect
+        // Uncomment below to auto-redirect if already completed
+        // setTimeout(() => {
+        //     window.location.href = "{{ route('inner.map3') }}";
+        // }, 2000);
+    }
+});
 </script>
 
 @endsection

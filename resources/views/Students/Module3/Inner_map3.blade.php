@@ -43,8 +43,8 @@ body, html {
 /* NODE STYLE (CIRCLE) */
 .node {
     position: absolute;
-    width: fit-content;      /* ← change this */
-    height: fit-content;     /* ← add this */
+    width: fit-content;
+    height: fit-content;
     background: transparent;
     border: none;
     outline: none;
@@ -62,12 +62,11 @@ body, html {
 }
 
 .node img {
-    width: clamp(120px, 18vw, 240px); /* scales down proportionally */
+    width: clamp(120px, 18vw, 240px);
     height: auto;
     object-fit: contain;
     transform: translateY(10px);
 }
-
 
 .node-tri-top-left  { top: 35%; left: 30%; }
 .node-tri-top-right { top: 35%; left: 70%; }
@@ -78,16 +77,13 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: clamp(200px, 32vw, 480px); /* scales down on smaller screens */
-    z-index: 1; /* keep it behind nodes */
+    width: clamp(200px, 32vw, 480px);
+    z-index: 1;
 }
 
 .node:hover {
-    transform: translate(-50%, -50%) scale(1.1); /* ← include translate! */
+    transform: translate(-50%, -50%) scale(1.1);
 }
-
-/* POSITIONS */
-
 
 /* LOCK */
 .locked {
@@ -113,7 +109,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px; /* Square with rounded corners looks better for icons */
+    border-radius: 15px;
     z-index: 3;
     pointer-events: none;
 }
@@ -133,7 +129,6 @@ body, html {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.92);
     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-    
 }
 
 .node:focus {
@@ -167,7 +162,7 @@ body, html {
     font-weight: bold;
 }
 
-/* FINAL ACTIVITY BUTTON (MODULE 2-STYLE) */
+/* FINAL ACTIVITY BUTTON */
 .final-key {
     display: none;
     position: fixed;
@@ -183,7 +178,7 @@ body, html {
     box-shadow: 0 8px 18px rgba(0,0,0,0.3);
 }
 
-/* FINAL MODAL (MODULE 2-STYLE) */
+/* FINAL MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -229,11 +224,11 @@ body, html {
 }
 
 .node.locked {
-    transform: translate(-50%, -50%) scale(0.8); /* ← include translate! */
+    transform: translate(-50%, -50%) scale(0.8);
 }
 
 .node.locked:hover {
-    transform: translate(-50%, -50%) scale(0.85); /* ← include translate! */
+    transform: translate(-50%, -50%) scale(0.85);
 }
 </style>
 @endpush
@@ -254,18 +249,20 @@ body, html {
 
         <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map" alt="Mapa ng Module 3">
 
-        <!-- CENTER START -->
-       <img src="{{ asset('pictures/mod3_center_node.png') }}" class="center-design" alt="Simulan">
+        <img src="{{ asset('pictures/mod3_center_node.png') }}" class="center-design" alt="Simulan">
 
+        <!-- Node 1 - Always Unlocked -->
         <button class="node node-tri-top-left" onclick="goNode1()">
             <img src="{{ asset('pictures/mod3_disaster_node.png') }}" alt="Node 1">
         </button>
 
+        <!-- Node 2 - Initially Locked, Unlocks after Node 1 -->
         <button class="node node-tri-top-right locked" id="node2" onclick="goNode2()">
             <img src="{{ asset('pictures/mod3_approaches_node.png') }}" alt="Node 2">
             <span class="lock-icon">🔒</span>
         </button>
 
+        <!-- Node 3 - Initially Locked, Unlocks after Node 2 -->
         <button class="node node-tri-bottom locked" id="node3" onclick="goNode3()">
             <img src="{{ asset('pictures/mod3_cbdrrm_node.png') }}" alt="Node 3">
             <span class="lock-icon">🔒</span>
@@ -288,84 +285,97 @@ body, html {
 </div>
 
 <script>
+// Define progress keys
 const M3_PROGRESS_KEYS = {
-    node1: "m3v2_node1",
-    node2: "m3v2_node2",
-    node3: "m3v2_node3"
+    node1: "m3_node1_completed",
+    node2: "m3_node2_completed", 
+    node3: "m3_node3_completed"
 };
 
-function getDone(key){
-    const sessionDone = sessionStorage.getItem(key) === "true";
-    const localDone = localStorage.getItem(key) === "true";
-
-    // Sync from localStorage so map unlock survives page/session reloads.
-    if (!sessionDone && localDone) {
-        sessionStorage.setItem(key, "true");
-    }
-
-    return sessionDone || localDone;
+// Check if a node is completed
+function isNodeCompleted(nodeKey) {
+    return localStorage.getItem(nodeKey) === "true";
 }
 
-function getM3Done(nodeKey) {
-    return getDone(M3_PROGRESS_KEYS[nodeKey]);
+// Mark a node as completed
+function markNodeComplete(nodeKey) {
+    localStorage.setItem(nodeKey, "true");
 }
 
-function updateMapProgress(){
+// Initialize all nodes to false if not set
+function initializeProgress() {
+    Object.values(M3_PROGRESS_KEYS).forEach(key => {
+        if (localStorage.getItem(key) === null) {
+            localStorage.setItem(key, "false");
+        }
+    });
+}
+
+// Update the map based on progress
+function updateMapProgress() {
     const node2 = document.getElementById("node2");
     const node3 = document.getElementById("node3");
     const finalBtn = document.getElementById("final-key");
 
-    // 🔒 Always reset locks first
+    // Reset all nodes to locked state first
     lockNode(node2);
     lockNode(node3);
 
-    // ✅ Get progress
-    const n1 = getM3Done("node1");
-    const n2 = getM3Done("node2");
-    const n3 = getM3Done("node3");
+    // Get completion status
+    const n1Done = isNodeCompleted(M3_PROGRESS_KEYS.node1);
+    const n2Done = isNodeCompleted(M3_PROGRESS_KEYS.node2);
+    const n3Done = isNodeCompleted(M3_PROGRESS_KEYS.node3);
 
-    // 🔓 Unlock flow
-    if(n1) unlockNode(node2);
-    if(n1 && n2) unlockNode(node3);
+    // Sequential unlocking logic
+    if (n1Done) {
+        unlockNode(node2);
+        console.log("Node 2 unlocked!");
+    }
 
-    // 📊 Count completed nodes
+    if (n1Done && n2Done) {
+        unlockNode(node3);
+        console.log("Node 3 unlocked!");
+    }
+
+    // Count completed nodes
     let completedCount = 0;
-    if(n1) completedCount++;
-    if(n2) completedCount++;
-    if(n3) completedCount++;
+    if (n1Done) completedCount++;
+    if (n2Done) completedCount++;
+    if (n3Done) completedCount++;
 
-    // 🎯 Fixed percentages
+    // Show progress
     let percentage = 0;
     if (completedCount === 1) percentage = 33;
     if (completedCount === 2) percentage = 66;
     if (completedCount === 3) percentage = 100;
 
-    // 🧠 Prevent repeating modal
-    const lastReported = parseInt(sessionStorage.getItem("m3_last_progress") || "0");
+    const lastReported = parseInt(localStorage.getItem("m3_last_progress") || "0");
 
     if (percentage > lastReported && percentage < 100) {
         showProgressModal(percentage);
-        sessionStorage.setItem("m3_last_progress", percentage);
+        localStorage.setItem("m3_last_progress", percentage.toString());
     } 
     else if (percentage === 100 && lastReported < 100) {
         showFinalUnlockMessage();
-        sessionStorage.setItem("m3_last_progress", 100);
+        localStorage.setItem("m3_last_progress", "100");
     }
 
-    // 🔑 Final button visibility
-    if(n1 && n2 && n3) {
+    // Show/hide final button
+    if (n1Done && n2Done && n3Done) {
         finalBtn.style.display = "block";
+        localStorage.setItem("m3_final_unlocked", "true");
     } else {
         finalBtn.style.display = "none";
+        localStorage.setItem("m3_final_unlocked", "false");
     }
 }
 
-function lockNode(node){
+function lockNode(node) {
+    if (!node) return;
     node.classList.add("locked");
-    const img = node.querySelector("img");
-    if(img) 
-
-    if(!node.querySelector(".lock-icon")){
+    
+    // Add lock icon if not present
+    if (!node.querySelector(".lock-icon")) {
         const lock = document.createElement("span");
         lock.className = "lock-icon";
         lock.innerText = "🔒";
@@ -373,86 +383,101 @@ function lockNode(node){
     }
 }
 
-function unlockNode(node){
+function unlockNode(node) {
+    if (!node) return;
     node.classList.remove("locked");
-    node.querySelector(".lock-icon")?.remove();
+    const lockIcon = node.querySelector(".lock-icon");
+    if (lockIcon) {
+        lockIcon.remove();
+    }
 }
 
-function goNode1(){
+// Navigation functions
+function goNode1() {
+    // Node 1 is always accessible
     window.location.href = "{{ route('module3.node1') }}";
 }
 
-function goNode2(){
-    if(getM3Done("node1")){
+function goNode2() {
+    const n1Done = isNodeCompleted(M3_PROGRESS_KEYS.node1);
+    if (n1Done) {
         window.location.href = "{{ route('module3.node2') }}";
     } else {
-        alert("Tapusin muna ang Node 1!");
+        alert("🔒 Kailangan mong tapusin muna ang Node 1 bago buksan ito!");
     }
 }
 
-function goNode3(){
-    if(getM3Done("node2")){
+function goNode3() {
+    const n1Done = isNodeCompleted(M3_PROGRESS_KEYS.node1);
+    const n2Done = isNodeCompleted(M3_PROGRESS_KEYS.node2);
+    
+    if (n1Done && n2Done) {
         window.location.href = "{{ route('module3.node3') }}";
-    } else {
-        alert("Tapusin muna ang Node 2!");
+    } else if (!n1Done) {
+        alert("🔒 Kailangan mong tapusin muna ang Node 1 bago buksan ito!");
+    } else if (!n2Done) {
+        alert("🔒 Kailangan mong tapusin muna ang Node 2 bago buksan ito!");
     }
 }
 
-function goFinal(){
+function goFinal() {
     document.getElementById("finalModal").style.display = "flex";
 }
 
-function closeModal(){
+function closeModal() {
     document.getElementById("finalModal").style.display = "none";
 }
 
-function goToActivities(){
+function goToActivities() {
     window.location.href = "{{ route('apply.activity') }}";
 }
 
-function moduleTransition(target, url) {
-    const map = document.querySelector('.map-container');
-    const rect = map.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-
-    const targetCenterX = targetRect.left + targetRect.width / 2;
-    const targetCenterY = targetRect.top + targetRect.height / 2;
-    const mapCenterX = rect.left + rect.width / 2;
-    const mapCenterY = rect.top + rect.height / 2;
-
-    const offsetX = mapCenterX - targetCenterX;
-    const offsetY = mapCenterY - targetCenterY;
-
-    map.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.8)`;
-    target.classList.add('active');
-
-    setTimeout(() => {
-        document.body.style.opacity = "0";
-    }, 400);
-
-    setTimeout(() => {
-        window.location.href = url;
-    }, 900);
-}
-
-function showProgressModal(percent){
+function showProgressModal(percent) {
     document.getElementById("percentText").innerText = percent + "%";
     document.getElementById("progressModal").style.display = "flex";
 }
 
-function closeProgressModal(){
+function closeProgressModal() {
     document.getElementById("progressModal").style.display = "none";
 }
 
-function showFinalUnlockMessage(){
+function showFinalUnlockMessage() {
     document.getElementById("progressTitle").innerText = "🎉 Magaling!";
     document.getElementById("percentText").innerText = "100%";
-    document.getElementById("progressMessage").innerText =
-        "Natapos mo na ang lahat ng nodes! Na-unlock mo na ang Final Activity.";
+    document.getElementById("progressMessage").innerHTML = 
+        "Natapos mo na ang lahat ng nodes! <br> Na-unlock mo na ang Final Activity. <br> I-click ang button sa ibaba para magpatuloy.";
 
     document.getElementById("progressModal").style.display = "flex";
 }
 
-window.onload = updateMapProgress;
+// Mark function (to be called from node completion pages)
+function completeNode(nodeNumber) {
+    const keyMap = {
+        1: M3_PROGRESS_KEYS.node1,
+        2: M3_PROGRESS_KEYS.node2,
+        3: M3_PROGRESS_KEYS.node3
+    };
+    
+    if (keyMap[nodeNumber]) {
+        markNodeComplete(keyMap[nodeNumber]);
+        updateMapProgress();
+    }
+}
+
+// Initialize on load
+window.onload = function() {
+    initializeProgress();
+    updateMapProgress();
+    
+    // Check if we need to complete a node (from URL parameter)
+    const urlParams = new URLSearchParams(window.location.search);
+    const completeNode = urlParams.get('complete');
+    if (completeNode) {
+        completeNode(parseInt(completeNode));
+        // Remove the parameter after processing
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
+};
 </script>
 @endsection
