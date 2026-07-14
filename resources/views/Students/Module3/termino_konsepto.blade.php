@@ -161,7 +161,7 @@
             }
         }
 
-        /* Button styles - FIXED */
+        /* Button styles - UPDATED */
         .btn-wood {
             display: inline-flex;
             align-items: center;
@@ -180,12 +180,14 @@
             transition: all 0.2s ease;
             cursor: pointer;
             gap: 0.5rem;
+            min-width: 160px;
         }
 
         @media (min-width: 768px) {
             .btn-wood {
                 font-size: 1rem;
                 padding: 0.75rem 2rem;
+                min-width: 200px;
             }
         }
 
@@ -289,19 +291,15 @@
             .space-y-5 > * + * { margin-top: 1.5rem; }
         }
 
-        /* Button container */
+        /* Button container - UPDATED */
         .button-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+            justify-content: center;
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
 
         @media (max-width: 480px) {
-            .button-container {
-                flex-direction: column;
-            }
             .button-container .btn-wood {
                 width: 100%;
                 justify-content: center;
@@ -435,14 +433,10 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Buttons - FIXED -->
+                    <!-- Navigation Buttons - UPDATED: Single centered button -->
                     <div class="button-container">
-                        <a href="{{ route('module3.iv_explore') }}" class="btn-wood">
-                            ← Bumalik sa Explore
-                        </a>
-
                         <a href="{{ route('inner.map3') }}" class="btn-wood btn-wood-primary">
-                            🗺️ Pumunta sa Mapa
+                            🗺️ Magpatuloy
                         </a>
                     </div>
 
