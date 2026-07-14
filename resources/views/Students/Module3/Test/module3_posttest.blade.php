@@ -283,8 +283,8 @@
 		.question-item h4 {
 			color: var(--text);
 			margin-bottom: 16px;
-			margin-top: 8px; /* ADD THIS */
-			line-height: 1.6; /* slightly more breathing room */
+			margin-top: 8px;
+			line-height: 1.6;
 			font-size: 1.05rem;
 			font-weight: 900;
 			padding-right: 18px;
@@ -598,6 +598,15 @@
 			animation: pulseBorder 1.5s ease-in-out infinite;
 		}
 
+		/* Unanswered question highlight */
+		.unanswered-highlight {
+			background-color: #fff3df !important;
+			transition: background-color 0.5s ease;
+			border-radius: 16px;
+			padding: 12px;
+			border: 2px solid #f4c97a;
+		}
+
 		@keyframes pulseBorder {
 			0%, 100% { border-color: #e7d7bf; }
 			50% { border-color: #f4c97a; }
@@ -752,8 +761,8 @@
 		.modal-overlay {
 			position: fixed;
 			inset: 0;
-			background: rgba(61, 42, 26, 0.4); /* Matches your --text color for a warmer dim */
-			backdrop-filter: blur(8px); /* Blurs the background map for focus */
+			background: rgba(61, 42, 26, 0.4);
+			backdrop-filter: blur(8px);
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -780,7 +789,7 @@
 		}
 
 		.reward-container {
-			background: #f0fdf4; /* Very light green */
+			background: #f0fdf4;
 			border: 2px dashed #6dbf7e;
 			border-radius: 20px;
 			padding: 20px;
@@ -802,7 +811,7 @@
 
 		.reward-image {
 			width: 100%;
-			max-width: 200px; /* Adjust based on your image aspect ratio */
+			max-width: 200px;
 			height: auto;
 			border-radius: var(--radius-md);
 			box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -815,7 +824,7 @@
 		}
 
 		.modal-box {
-			max-width: 450px; /* Keeps it tight and focused */
+			max-width: 450px;
 			width: 90%;
 		}
 
@@ -829,11 +838,11 @@
 			line-height: 1.6;
 			color: #5b472f;
 			margin-bottom: 25px;
-			text-align: justify; /* Cleaner look for long paragraphs */
+			text-align: justify;
 		}
 
 		.single-question {
-			margin-bottom: 28px; /* increased spacing */
+			margin-bottom: 28px;
 			padding-bottom: 18px;
 			border-bottom: 1px dashed #e7d7bf;
 		}
@@ -849,7 +858,7 @@
 
 <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 
-<a href="{{ route('inner.map2') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
+<a href="{{ route('inner.map3') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
 <div class="main-wrapper">
 	<div class="pretest-wrap">
@@ -860,10 +869,6 @@
 				<h1>PANGHULING PAGSUSULIT</h1>
                 <p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
-
-			<!-- <div class="pretest-note">
-				💡 Sagutin ang bawat tanong at i-click ang "✓ Kumpirmahin". <br> <br>Kailangang makakuha ng 13/15 upang makapasa.
-			</div> -->
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
@@ -888,7 +893,6 @@
 						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
 							Susunod →
 						</button>
-						<!-- <button type="button" class="btn-primary" id="nextBtn" onclick="goNextQuestion()" disabled>Susunod →</button> -->
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPostTest()" style="display:none;">Tapusin ang Panghuling Pagsusulit 🚀</button>
 					</div>
 				</div>
@@ -905,30 +909,16 @@
 						
 						<div class="result-actions" id="resultActions">
 							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Panghuling Pagsusulit</button>
-							<a href="{{ route('module3.closing') }}" class="btn-primary">Magpatuloy →</a>
+							<a href="{{ route('module3.buod') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-	<!-- PASS MODAL -->
-	<!-- <div id="passModal" class="modal-overlay">
-		<div class="modal-box">
-			<h2>🎉 Mahusay!</h2>
-			
-			<p>
-				Mahusay! Ipinapakita ng iyong resulta na nauunawaan mo na ang kalagayan, mga suliranin, at mga paraan ng pagtugon sa isyung pangkapaligiran sa Pilipinas.
-				Nawa’y magamit mo ang iyong natutunan sa paggawa ng tamang desisyon at sa pakikiisa sa mga gawaing pangkalikasan, sapagkat ang pangangalaga sa kapaligiran ay tungkulin ng bawat isa at mahalaga para sa kinabukasan ng ating komunidad at bansa.
-			</p>
-
-			<a href="{{ route('student.module3.performance-task') }}" class="btn-primary">
-				Magpatuloy sa Essay ✍️
-			</a>
-		</div>
-	</div> -->
 </div>
 
+<x-vn />
 
 <script>
 	function shuffleArray(array) {
@@ -1172,6 +1162,75 @@
 		`).join('');
 	}
 
+	// ================= SCROLL TO UNANSWERED =================
+	function scrollToFirstUnanswered() {
+		// First check questions on current card
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		
+		// Check current card first
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				// Scroll to this question
+				const questionElements = document.querySelectorAll('.single-question');
+				for (let el of questionElements) {
+					const h4 = el.querySelector('h4');
+					if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+						el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						el.classList.add('unanswered-highlight');
+						setTimeout(() => {
+							el.classList.remove('unanswered-highlight');
+						}, 2000);
+						return i;
+					}
+				}
+			}
+		}
+		
+		// If all current card questions are answered, check all questions
+		for (let i = 0; i < questions.length; i++) {
+			if (selectedAnswers[i] === '') {
+				// Navigate to the card containing this question
+				const targetCard = Math.floor(i / questionsPerCard);
+				if (targetCard !== currentCard) {
+					currentCard = targetCard;
+					renderAllQuestions();
+					// Wait for render then scroll
+					setTimeout(() => {
+						const questionElements = document.querySelectorAll('.single-question');
+						for (let el of questionElements) {
+							const h4 = el.querySelector('h4');
+							if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+								el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+								el.classList.add('unanswered-highlight');
+								setTimeout(() => {
+									el.classList.remove('unanswered-highlight');
+								}, 2000);
+								return;
+							}
+						}
+					}, 150);
+				} else {
+					const questionElements = document.querySelectorAll('.single-question');
+					for (let el of questionElements) {
+						const h4 = el.querySelector('h4');
+						if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+							el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+							el.classList.add('unanswered-highlight');
+							setTimeout(() => {
+								el.classList.remove('unanswered-highlight');
+							}, 2000);
+							return;
+						}
+					}
+				}
+				return i;
+			}
+		}
+		
+		return -1; // All answered
+	}
+
 	// ================= RENDER =================
 	function renderAllQuestions() {
 		let start = currentCard * questionsPerCard;
@@ -1239,15 +1298,11 @@
 		}
 
 		// BUTTON LOGIC
-
-		// Confirm button (only if not yet confirmed)
 		confirmBtn.style.display = allConfirmed ? 'none' : 'inline-flex';
 
-		// Next button (only after confirming, and NOT last card)
 		const nextCardBtn = document.getElementById('nextCardBtn');
 		nextCardBtn.style.display = (allConfirmed && currentCard < 2) ? 'inline-flex' : 'none';
 
-		// Submit button (only last card and confirmed)
 		submitBtn.style.display = (currentCard === 2 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
@@ -1263,10 +1318,10 @@
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
-		// check unanswered
+		// check unanswered - SCROLL instead of alert
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				alert('Sagutan muna lahat ng tanong sa card na ito.');
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1286,7 +1341,7 @@
 		// ensure current card is confirmed
 		for (let i = start; i < end; i++) {
 			if (!confirmedAnswers[i]) {
-				alert('I-confirm muna ang card bago magpatuloy.');
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1317,8 +1372,17 @@
 
 	// ================= RESULT =================
 	function submitPostTest() {
-		if (!confirmedAnswers.every(c => c)) {
-			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong.');
+		// Check if all questions are confirmed - SCROLL instead of alert
+		let unansweredIndex = -1;
+		for (let i = 0; i < questions.length; i++) {
+			if (!confirmedAnswers[i]) {
+				unansweredIndex = i;
+				break;
+			}
+		}
+		
+		if (unansweredIndex !== -1) {
+			scrollToFirstUnanswered();
 			return;
 		}
 
@@ -1327,7 +1391,7 @@
 
 		const percentage = Math.round((score / questions.length) * 100);
 
-		// ===== SEND TO BACKEND (UNCHANGED) =====
+		// ===== SEND TO BACKEND =====
 		const answers = questions.map((q, index) => ({
 			question_number: index + 1,
 			selected_answer: selectedAnswers[index],
@@ -1371,12 +1435,12 @@
 		} else {
 			resultBadge.textContent = "❌ Hindi pa sapat";
 			resultFeedback.textContent = "Subukan muli.";
-			retryCount++; // ✅ MOVE IT HERE
+			retryCount++;
 
 			if (retryCount < maxRetries) {
 				resultActions.innerHTML = `
 					<button class="btn-secondary" onclick="restartQuiz()">
-						Ulitin (${maxRetries - retryCount >= 0 ? maxRetries - retryCount : 0} natitira)
+						Ulitin (${maxRetries - retryCount} natitira)
 					</button>
 				`;
 			} else {
@@ -1396,14 +1460,14 @@
 
 	// ================= RETRY =================
 	function restartQuiz() {
-
-		// ✅ ADD THIS HERE (VERY TOP)
 		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum retries.');
+			// Show message in UI instead of alert
+			const resultFeedback = document.getElementById('resultFeedback');
+			resultFeedback.textContent = 'Naabot mo na ang maximum na 2 pagsubok.';
+			resultFeedback.style.color = '#7a2e2e';
 			return;
 		}
 
-		// (your existing code below)
 		selectedAnswers.fill('');
 		confirmedAnswers.fill(false);
 		currentCard = 0;
@@ -1427,6 +1491,25 @@
 		shuffleQuestionsAndChoices();
 		renderAllQuestions();
 	});
+
+	window.addEventListener("load", () => {
+		startDialogue([
+			{
+				text: "Narito na ang huling hamon para sa modyul na ito. Dito mo maipapakita ang lahat ng iyong natutunan.",
+				name: "Mga Guro",
+				image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+			},
+			{
+				text: "Kailangan mong makakuha ng 13 sa 15 na puntos upang makapasa at magpatuloy sa susunod na bahagi.",
+				image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+			},
+			{
+				text: "Gawin mo ang iyong makakaya at magtiwala sa iyong natutunan. Good luck!",
+				image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+			}
+		]);
+	});
+
 </script>
 
 @endsection
