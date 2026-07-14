@@ -8,8 +8,6 @@ class Module3PerformanceTask extends Model
 {
     protected $table = 'module3_performance_tasks';
 
-    protected $table = 'module3_performance_tasks';
-
     protected $fillable = [
         'student_id',
         'score',

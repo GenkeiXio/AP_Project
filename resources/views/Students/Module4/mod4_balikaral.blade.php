@@ -9,10 +9,10 @@
             --ap-brown: #4e342e;
             --ap-green: #2e7d32;
             --ap-paper: rgba(255, 255, 255, 0.95);
+            --ap-red: #c62828;
         }
 
         body {
-            /* Low opacity background for focus */
             background: linear-gradient(rgba(103, 103, 103, 0.88), rgba(117, 114, 114, 0.88)), 
                         url("{{ asset('pictures/mod4_innermap.png') }}") no-repeat center center fixed;
             background-size: cover;
@@ -88,7 +88,43 @@
 
         .game-body { display: grid; grid-template-columns: 280px 1fr; min-height: 480px; }
 
-        .sidebar-yugto { background: #f9f6f2; padding: 25px; border-right: 2px solid #eee; }
+        .sidebar-yugto { 
+            background: #f9f6f2; 
+            padding: 25px; 
+            border-right: 2px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-yugto.highlight {
+            background: #fff8e1;
+            border-right: 4px solid var(--ap-gold);
+            box-shadow: inset 0 0 30px rgba(197, 160, 89, 0.1);
+        }
+
+        .step-indicator {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: var(--ap-brown);
+            color: white;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .step-indicator .step-number {
+            display: inline-block;
+            background: var(--ap-gold);
+            color: var(--ap-brown);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            font-weight: 800;
+        }
 
         .yugto-kard {
             background: white;
@@ -98,17 +134,89 @@
             border-radius: 20px;
             cursor: pointer;
             text-align: center;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             font-weight: 600;
+            position: relative;
         }
 
-        .yugto-kard.pili {
+        .yugto-kard:hover:not(.disabled):not(.selected) {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Pulsating glow for active step */
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(197, 160, 89, 0.3), 0 0 20px rgba(197, 160, 89, 0.2);
+                border-color: var(--ap-gold);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(197, 160, 89, 0.8), 0 0 60px rgba(197, 160, 89, 0.4);
+                border-color: #d4b06a;
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(197, 160, 89, 0.3), 0 0 20px rgba(197, 160, 89, 0.2);
+                border-color: var(--ap-gold);
+            }
+        }
+
+        .yugto-kard.highlight-select {
+            animation: pulseGlow 1.5s ease-in-out infinite;
+            border-color: var(--ap-gold);
+            background: #fffcf0;
+        }
+
+        .yugto-kard.selected {
             background: var(--ap-gold);
             color: white;
             transform: scale(1.05);
+            border-color: var(--ap-gold);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.3);
+            animation: pulseGlow 1.5s ease-in-out infinite;
         }
 
-        .aksyon-area { padding: 30px; display: flex; flex-direction: column; gap: 20px; }
+        .yugto-kard.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .yugto-kard.shake {
+            animation: shake 0.5s ease-in-out;
+            border-color: var(--ap-red) !important;
+            background: #ffebee !important;
+        }
+
+        .larawan-item.shake {
+            animation: shake 0.5s ease-in-out;
+            border-color: var(--ap-red) !important;
+            background: #ffebee !important;
+        }
+
+        /* Image area styling */
+        .aksyon-area { 
+            padding: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .aksyon-area.highlight {
+            background: #f1f8e9;
+            border-radius: 0 0 30px 0;
+        }
 
         .ulat-senaryo {
             background: #fff;
@@ -120,7 +228,34 @@
             font-weight: 600;
         }
 
-        .larawan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .larawan-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .larawan-grid.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .larawan-grid.highlight-select {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .larawan-grid.highlight-select .larawan-item {
+            border-color: #a5d6a7;
+            background: #f1f8e9;
+        }
+
+        .larawan-grid.highlight-select .larawan-item:hover:not(.tama):not(.shake) {
+            transform: scale(1.05);
+            border-color: var(--ap-green);
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.3);
+            background: white;
+        }
 
         .larawan-item {
             background: white;
@@ -128,12 +263,58 @@
             padding: 15px;
             border-radius: 20px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .larawan-item:hover { border-color: var(--ap-green); }
-        .larawan-item.tama { border-color: var(--ap-green); background: #e8f5e9; opacity: 0.5; pointer-events: none; }
+        .larawan-item.tama {
+            border-color: var(--ap-green);
+            background: #e8f5e9;
+            opacity: 0.7;
+            cursor: default;
+            pointer-events: none;
+        }
+
         .larawan-item img { width: 100%; height: 90px; object-fit: contain; }
+
+        /* Step 3: After choosing - highlight the selected stage and image area */
+        .step-completed .sidebar-yugto {
+            background: #e8f5e9;
+            border-right-color: var(--ap-green);
+        }
+
+        .step-completed .yugto-kard.selected {
+            animation: none;
+            background: var(--ap-green);
+            border-color: var(--ap-green);
+        }
+
+        .step-completed .aksyon-area {
+            background: #e8f5e9;
+        }
+
+        .step-completed .larawan-grid {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .step-completed .larawan-item.tama {
+            opacity: 1;
+            border-color: var(--ap-green);
+            background: #c8e6c9;
+        }
+
+        /* Step instruction badge */
+        .step-badge {
+            display: inline-block;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            background: var(--ap-gold);
+            color: white;
+            margin-bottom: 10px;
+        }
 
         /* --- FINAL RESULT MODAL --- */
         #modalPagtatapos {
@@ -209,8 +390,12 @@
         </div>
     </div>
 
-    <div class="game-body">
-        <div class="sidebar-yugto">
+    <div class="game-body" id="gameBody">
+        <div class="sidebar-yugto" id="sidebarYugto">
+            <div class="step-indicator" id="stepIndicator">
+                <span class="step-number">1</span> PILIIN ANG YUGTO
+            </div>
+            
             <div class="yugto-kard" onclick="piliinAngYugto('before', this)" id="y-before">
                 <div style="font-size: 1.4rem;">BAGO</div>
                 <small>Paghahanda</small>
@@ -225,10 +410,10 @@
             </div>
         </div>
 
-        <div class="aksyon-area">
+        <div class="aksyon-area" id="aksyonArea">
             <div class="ulat-senaryo" id="senaryoDisplay">Naghahanda...</div>
             
-            <div class="larawan-grid">
+            <div class="larawan-grid disabled" id="imageGrid">
                 @foreach([
                     ['p' => 'before', 'img' => 'mod4_emergencykit.png'],
                     ['p' => 'before', 'img' => 'mod4_newsbabala.png'],
@@ -274,6 +459,8 @@
     let puntos = 0;
     let laroAktibo = false;
     let simulaOras = null;
+    let currentStep = 1; // 1=select stage, 2=select image, 3=completed
+    let isProcessing = false;
 
     const saveUrl = "{{ route('student.module4.balikaral.save') }}";
     const token = "{{ csrf_token() }}";
@@ -291,35 +478,192 @@
         if(index < mgaSenaryo.length) {
             document.getElementById('senaryoDisplay').innerText = mgaSenaryo[index].text;
             pilingYugto = null;
-            resetSidebar();
-            document.getElementById('gabayTeksto').innerText = "Step 1: Piliin ang Yugto...";
+            currentStep = 1;
+            isProcessing = false;
+            resetAll();
+            showStep1();
+            document.getElementById('puntosValue').innerText = puntos + " / 6";
         } else {
             tapusin();
         }
     }
 
-    function piliinAngYugto(y, el) {
-        pilingYugto = y;
-        resetSidebar();
-        el.classList.add('pili');
-        document.getElementById('gabayTeksto').innerText = "Step 2: I-click ang tamang larawan...";
+    function showStep1() {
+        // Step 1: Highlight the sidebar (yugto selection)
+        document.getElementById('sidebarYugto').classList.add('highlight');
+        document.getElementById('aksyonArea').classList.remove('highlight');
+        document.getElementById('imageGrid').classList.remove('highlight-select');
+        document.getElementById('imageGrid').classList.add('disabled');
+        document.getElementById('stepIndicator').innerHTML = '<span class="step-number">1</span> PILIIN ANG YUGTO';
+        document.getElementById('gabayTeksto').innerText = "📖 Step 1: Basahin ang sitwasyon at piliin ang tamang Yugto";
+        document.getElementById('gameBody').classList.remove('step-completed');
+        
+        // Highlight stage cards for selection
+        document.querySelectorAll('.yugto-kard').forEach(k => {
+            k.classList.remove('selected', 'disabled', 'shake');
+            if(!k.classList.contains('highlight-select')) {
+                k.classList.add('highlight-select');
+            }
+        });
     }
 
-    function resetSidebar() {
-        document.querySelectorAll('.yugto-kard').forEach(k => k.classList.remove('pili'));
+    function showStep2() {
+        // Step 2: Highlight the images for selection
+        document.getElementById('sidebarYugto').classList.remove('highlight');
+        document.getElementById('aksyonArea').classList.add('highlight');
+        document.getElementById('imageGrid').classList.remove('disabled');
+        document.getElementById('imageGrid').classList.add('highlight-select');
+        document.getElementById('stepIndicator').innerHTML = '<span class="step-number">2</span> PILIIN ANG LARAWAN';
+        document.getElementById('gabayTeksto').innerText = "🖼️ Step 2: I-click ang tamang larawan para sa Yugto";
+        
+        // Remove highlight from stage cards, keep selected highlighted
+        document.querySelectorAll('.yugto-kard').forEach(k => {
+            k.classList.remove('highlight-select', 'shake');
+            if(!k.classList.contains('selected')) {
+                k.classList.add('disabled');
+            }
+        });
+    }
+
+    function showStep3() {
+        // Step 3: Show completion state
+        document.getElementById('gameBody').classList.add('step-completed');
+        document.getElementById('stepIndicator').innerHTML = '<span class="step-number">✓</span> TAPOS NA!';
+        document.getElementById('gabayTeksto').innerText = "✅ Step 3: Tapos na! Maghintay para sa susunod...";
+    }
+
+    function resetAll() {
+        document.getElementById('sidebarYugto').classList.remove('highlight');
+        document.getElementById('aksyonArea').classList.remove('highlight');
+        document.getElementById('imageGrid').classList.remove('highlight-select');
+        document.getElementById('imageGrid').classList.add('disabled');
+        document.getElementById('gameBody').classList.remove('step-completed');
+        
+        document.querySelectorAll('.yugto-kard').forEach(k => {
+            k.classList.remove('selected', 'disabled', 'highlight-select', 'shake');
+        });
+        
+        document.querySelectorAll('.larawan-item').forEach(k => {
+            k.classList.remove('tama', 'shake');
+        });
+    }
+
+    function piliinAngYugto(y, el) {
+        if(isProcessing) return;
+        if(currentStep === 3) return;
+        if(!laroAktibo) return;
+        
+        // Check if this is already selected (toggle off)
+        if(el.classList.contains('selected')) {
+            // Unselect - go back to step 1
+            el.classList.remove('selected');
+            pilingYugto = null;
+            currentStep = 1;
+            
+            // Reset image grid
+            document.getElementById('imageGrid').classList.remove('highlight-select');
+            document.getElementById('imageGrid').classList.add('disabled');
+            document.getElementById('aksyonArea').classList.remove('highlight');
+            
+            // Reset all stage cards to highlight-select
+            document.querySelectorAll('.yugto-kard').forEach(k => {
+                k.classList.remove('disabled', 'shake');
+                if(!k.classList.contains('highlight-select')) {
+                    k.classList.add('highlight-select');
+                }
+            });
+            
+            // Reset image items
+            document.querySelectorAll('.larawan-item').forEach(k => {
+                k.classList.remove('tama', 'shake');
+            });
+            
+            // Update UI
+            document.getElementById('stepIndicator').innerHTML = '<span class="step-number">1</span> PILIIN ANG YUGTO';
+            document.getElementById('gabayTeksto').innerText = "📖 Step 1: Basahin ang sitwasyon at piliin ang tamang Yugto";
+            document.getElementById('sidebarYugto').classList.add('highlight');
+            document.getElementById('gameBody').classList.remove('step-completed');
+            
+            return;
+        }
+        
+        // Select new yugto
+        pilingYugto = y;
+        
+        // Remove selected class from all
+        document.querySelectorAll('.yugto-kard').forEach(k => {
+            k.classList.remove('selected', 'shake');
+        });
+        
+        // Add selected class to clicked
+        el.classList.add('selected');
+        
+        // If we were in step 1, move to step 2
+        if(currentStep === 1) {
+            currentStep = 2;
+            showStep2();
+        } else if(currentStep === 2) {
+            // We're already in step 2, just update the selected stage
+            // Re-enable all images for new selection
+            document.querySelectorAll('.larawan-item').forEach(k => {
+                k.classList.remove('tama', 'shake');
+            });
+            document.getElementById('imageGrid').classList.add('highlight-select');
+            document.getElementById('imageGrid').classList.remove('disabled');
+        }
     }
 
     function suriinAngSagot(imgPhase, el) {
-        if(!pilingYugto || !laroAktibo) return;
-
+        if(isProcessing) return;
+        if(currentStep !== 2 || !laroAktibo || !pilingYugto) {
+            // If no stage selected, shake the sidebar to indicate
+            document.getElementById('sidebarYugto').classList.add('shake');
+            setTimeout(() => {
+                document.getElementById('sidebarYugto').classList.remove('shake');
+            }, 500);
+            return;
+        }
+        
+        // Check if correct
         if(pilingYugto === mgaSenaryo[index].phase && imgPhase === pilingYugto) {
+            // Correct!
+            isProcessing = true;
             puntos++;
             index++;
             el.classList.add('tama');
             document.getElementById('puntosValue').innerText = puntos + " / 6";
-            loadLevel();
+            
+            // Show step 3 completion
+            currentStep = 3;
+            showStep3();
+            
+            // Move to next level after delay
+            setTimeout(() => {
+                isProcessing = false;
+                loadLevel();
+            }, 1500);
         } else {
-            alert("Mali! Itugma ang Yugto sa tamang Larawan.");
+            // Wrong answer - shake both the selected yugto and the clicked image
+            // Find the selected yugto card
+            const selectedYugto = document.querySelector('.yugto-kard.selected');
+            if(selectedYugto) {
+                selectedYugto.classList.add('shake');
+                setTimeout(() => {
+                    selectedYugto.classList.remove('shake');
+                }, 500);
+            }
+            
+            // Shake the clicked image
+            el.classList.add('shake');
+            setTimeout(() => {
+                el.classList.remove('shake');
+            }, 500);
+            
+            // Reset the image grid highlight briefly to show feedback
+            document.getElementById('imageGrid').classList.remove('highlight-select');
+            setTimeout(() => {
+                document.getElementById('imageGrid').classList.add('highlight-select');
+            }, 500);
         }
     }
 
@@ -328,7 +672,6 @@
         const orasNatapos = new Date();
         const timeSpent = Math.floor((orasNatapos - simulaOras) / 1000);
 
-        // AJAX Save (No countdown, but we still track time spent)
         try {
             await fetch(saveUrl, {
                 method: 'POST',
