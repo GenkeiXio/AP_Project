@@ -88,21 +88,149 @@
             }
         }
 
-        /* Items Pool */
-        .items-pool {
-            margin: 0 0 25px 0;
+        /* Main Layout: Left (Categories) + Right (Cards) */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        /* LEFT SIDE - Categories */
+        .categories-side {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .category-item {
+            background: rgba(244, 228, 199, 0.6);
+            border-radius: 8px;
+            border: 2px solid var(--gold-trim);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .category-item.drag-over-cat {
+            border-color: #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .category-item.matched {
+            border-color: #2e7d32;
+            background: rgba(46, 125, 50, 0.1);
+        }
+
+        .category-header {
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid var(--gold-trim);
+        }
+
+        .cat-icon {
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .cat-icon {
+                font-size: 1.2rem;
+            }
+        }
+
+        .cat-image {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        @media (max-width: 768px) {
+            .cat-image {
+                width: 26px;
+                height: 26px;
+            }
+        }
+
+        .cat-label {
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .cat-label {
+                font-size: 0.95rem;
+            }
+        }
+
+        .category-dropzone {
+            min-height: 80px;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.3);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            transition: all 0.3s ease;
+            border-radius: 0 0 6px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-dropzone.drag-over {
+            background: rgba(217, 197, 163, 0.8);
+            border: 2px dashed var(--gold-trim);
+        }
+
+        .category-dropzone .placeholder-text {
+            color: #8b6b3f;
+            font-style: italic;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        .category-dropzone .statement-card {
+            width: 100%;
+            cursor: default;
+            pointer-events: none;
+            font-size: 0.85rem;
+            padding: 12px;
+        }
+
+        .category-dropzone .statement-card .card-header-image img {
+            width: 35px;
+            height: 35px;
+        }
+
+        /* RIGHT SIDE - Cards Pool */
+        .cards-side {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cards-pool {
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 20px 24px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--gold-trim);
             box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.3);
+            flex: 1;
         }
 
         .pool-title {
             font-weight: 700;
             margin-bottom: 18px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -117,49 +245,8 @@
             }
         }
 
-        .waiting-card-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 280px;
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 30px;
-            transition: all 0.2s;
-            border: 1px solid #aaa;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 2px 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .waiting-card-container {
-                min-height: 200px;
-                padding: 15px;
-            }
-        }
-
-        .empty-waiting-message {
-            text-align: center;
-            color: var(--ink);
-            font-size: 1.2rem;
-            font-weight: 500;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            padding: 40px 20px;
-            border-radius: 5px;
-            width: 100%;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .empty-waiting-message {
-                font-size: 0.9rem;
-                padding: 25px 15px;
-            }
-        }
-
         .remaining-count {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             background: var(--vintage-leather);
             display: inline-block;
             padding: 4px 12px;
@@ -171,113 +258,42 @@
 
         @media (max-width: 768px) {
             .remaining-count {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 padding: 3px 8px;
             }
         }
 
-        /* DESKTOP: Horizontal 3 columns */
-        .categories-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        /* MOBILE: Vertical stack */
-        @media (max-width: 768px) {
-            .categories-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-        }
-
-        /* Category Header */
-        .category-header {
-            background: var(--vintage-leather);
-            color: var(--gold-trim);
-            padding: 12px 15px;
-            border-radius: 8px 8px 0 0;
+        .cards-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: 1px solid var(--gold-trim);
-            border-bottom: none;
+            flex-direction: column;
+            gap: 15px;
+            min-height: 300px;
         }
 
         @media (max-width: 768px) {
-            .category-header {
-                padding: 10px 15px;
-                justify-content: flex-start;
+            .cards-grid {
+                min-height: 200px;
+                gap: 12px;
             }
         }
 
-        .cat-icon {
-            font-size: 1.5rem;
+        .empty-cards-message {
+            text-align: center;
+            color: var(--ink);
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 40px 20px;
+            border-radius: 5px;
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         @media (max-width: 768px) {
-            .cat-icon {
-                font-size: 1.3rem;
+            .empty-cards-message {
+                font-size: 0.85rem;
+                padding: 25px 15px;
             }
-        }
-
-        .cat-image {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-        }
-
-        @media (max-width: 768px) {
-            .cat-image {
-                width: 28px;
-                height: 28px;
-            }
-        }
-
-        .cat-label {
-            font-size: 1.2rem;
-            font-weight: 800;
-            font-family: 'Nunito', sans-serif;
-        }
-
-        @media (max-width: 768px) {
-            .cat-label {
-                font-size: 1rem;
-            }
-        }
-
-        /* Drop Zone */
-        .dropzone {
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 0 0 8px 8px;
-            padding: 15px;
-            border: 3px dashed #8b6b3f;
-            border-top: none;
-            transition: all 0.2s ease;
-            min-height: 200px;
-        }
-
-        @media (max-width: 768px) {
-            .dropzone {
-                min-height: 160px;
-                padding: 12px;
-            }
-        }
-
-        .dropzone.drag-over {
-            background: rgba(217, 197, 163, 0.95);
-            border-color: var(--gold-trim);
-            border-style: solid;
-        }
-
-        .dropzone.filled {
-            border-style: solid;
-            background: rgba(217, 197, 163, 0.8);
         }
 
         /* Statement Cards */
@@ -285,8 +301,8 @@
             background: #fff;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            padding: 15px;
-            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
+            padding: 15px 18px;
+            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.25);
             font-weight: 500;
             cursor: grab;
             user-select: none;
@@ -295,12 +311,17 @@
             font-size: 0.9rem;
             line-height: 1.5;
             color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         @media (max-width: 768px) {
             .statement-card {
-                padding: 12px;
-                font-size: 0.7rem;
+                padding: 12px 14px;
+                font-size: 0.75rem;
+                gap: 10px;
+                flex-wrap: wrap;
             }
         }
 
@@ -311,6 +332,7 @@
         .statement-card.dragging {
             opacity: 0.3;
             cursor: grabbing;
+            transform: scale(0.95);
         }
 
         .statement-card.placed {
@@ -318,28 +340,25 @@
             opacity: 0.95;
         }
 
-        /* Card inside dropzone - not draggable */
-        .dropzone .statement-card {
-            cursor: default;
-            pointer-events: none;
+        .statement-card .card-header-image {
+            flex-shrink: 0;
         }
 
-        .card-header-image {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .card-header-image img {
-            width: 50px;
-            height: 50px;
+        .statement-card .card-header-image img {
+            width: 40px;
+            height: 40px;
             object-fit: contain;
         }
 
         @media (max-width: 768px) {
-            .card-header-image img {
-                width: 35px;
-                height: 35px;
+            .statement-card .card-header-image img {
+                width: 30px;
+                height: 30px;
             }
+        }
+
+        .statement-card .card-text-content {
+            flex: 1;
         }
 
         /* Shake Animation */
@@ -353,6 +372,17 @@
 
         .statement-card.shake {
             animation: shakeCard 0.4s ease-in-out;
+        }
+
+        /* Success animation for matched card */
+        @keyframes matchSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background: #c8e6c9; }
+            100% { transform: scale(1); }
+        }
+
+        .statement-card.match-success {
+            animation: matchSuccess 0.5s ease-in-out;
         }
 
         /* Buttons */
@@ -593,49 +623,60 @@
         <div class="game-container">
             <div>
                 <h1><i class="fas fa-mountain"></i> Sanhi, Epekto, at Mga Tugon</h1>
-                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-drag ang bawat card papunta sa tamang kahon.</p>
+                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-drag ang bawat card mula sa kanan papunta sa tamang kategorya sa kaliwa.</p>
             </div>
 
-            <!-- Waiting Pool -->
-            <div class="items-pool">
-                <div class="pool-title">
-                    <i class="fas fa-hourglass-half"></i>
-                    Ilagay ang card sa tamang kategorya
-                    <span class="remaining-count" id="remainingCount">3</span>
-                </div>
-                <div id="waitingCardArea" class="waiting-card-container"></div>
-            </div>
-
-            <!-- Categories: Horizontal on Desktop, Vertical on Mobile -->
-            <div class="categories-container">
-                <!-- SANHI -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-cloud-rain cat-icon"></i>
-                        <span class="cat-label">SANHI</span>
+            <!-- Main Layout: Left (Categories) + Right (Cards) -->
+            <div class="game-layout">
+                <!-- LEFT SIDE - Categories -->
+                <div class="categories-side">
+                    <!-- SANHI -->
+                    <div class="category-item" id="catSanhi">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-cloud-rain cat-icon"></i>
+                            <span class="cat-label">SANHI</span>
+                        </div>
+                        <div class="category-dropzone" id="dropzoneSanhi" data-category="sanhi">
+                            <span class="placeholder-text">⬇️ I-drop dito ang sanhi</span>
+                        </div>
                     </div>
-                    <div class="dropzone" id="dropzoneSanhi" data-category="sanhi"></div>
+
+                    <!-- EPEKTO -->
+                    <div class="category-item" id="catEpekto">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-hill-rockslide cat-icon"></i>
+                            <span class="cat-label">EPEKTO</span>
+                        </div>
+                        <div class="category-dropzone" id="dropzoneEpekto" data-category="epekto">
+                            <span class="placeholder-text">⬇️ I-drop dito ang epekto</span>
+                        </div>
+                    </div>
+
+                    <!-- MGA TUGON -->
+                    <div class="category-item" id="catTugon">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-hand-holding-heart cat-icon"></i>
+                            <span class="cat-label">MGA TUGON</span>
+                        </div>
+                        <div class="category-dropzone" id="dropzoneTugon" data-category="tugon">
+                            <span class="placeholder-text">⬇️ I-drop dito ang tugon</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- EPEKTO -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-hill-rockslide cat-icon"></i>
-                        <span class="cat-label">EPEKTO</span>
+                <!-- RIGHT SIDE - Cards Pool -->
+                <div class="cards-side">
+                    <div class="cards-pool">
+                        <div class="pool-title">
+                            <i class="fas fa-cards"></i>
+                            Mga Pahayag
+                            <span class="remaining-count" id="remainingCount">3</span>
+                        </div>
+                        <div class="cards-grid" id="cardsGrid"></div>
                     </div>
-                    <div class="dropzone" id="dropzoneEpekto" data-category="epekto"></div>
-                </div>
-
-                <!-- MGA TUGON -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-hand-holding-heart cat-icon"></i>
-                        <span class="cat-label">MGA TUGON</span>
-                    </div>
-                    <div class="dropzone" id="dropzoneTugon" data-category="tugon"></div>
                 </div>
             </div>
 
@@ -697,11 +738,14 @@
             }
             remainingStatements = shuffleArray(remainingStatements);
 
-            const waitingArea = document.getElementById('waitingCardArea');
+            const cardsGrid = document.getElementById('cardsGrid');
             const remainingCountSpan = document.getElementById('remainingCount');
             const dropSanhi = document.getElementById('dropzoneSanhi');
             const dropEpekto = document.getElementById('dropzoneEpekto');
             const dropTugon = document.getElementById('dropzoneTugon');
+            const catSanhi = document.getElementById('catSanhi');
+            const catEpekto = document.getElementById('catEpekto');
+            const catTugon = document.getElementById('catTugon');
             const resetBtn = document.getElementById('resetGameBtn');
             const completionStatus = document.getElementById('completionStatus');
             const summaryModal = document.getElementById('summaryModal');
@@ -738,7 +782,9 @@
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
                     }
                     gameActive = false;
-                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
+                    if (cardsGrid) {
+                        cardsGrid.innerHTML = '<div class="empty-cards-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
+                    }
                     showSummaryModal();
                 }
             }
@@ -774,8 +820,8 @@
                 if (isLoadingNext) return;
 
                 if (remainingStatements.length === 0) {
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card.</div>';
+                    if (cardsGrid) {
+                        cardsGrid.innerHTML = '<div class="empty-cards-message"><i class="fas fa-check-circle"></i> Walang natitirang card.</div>';
                     }
                     return;
                 }
@@ -790,19 +836,35 @@
 
                     const nextStatement = remainingStatements[0];
                     const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '';
-                        waitingArea.appendChild(newCard);
+                    if (cardsGrid) {
+                        cardsGrid.innerHTML = '';
+                        cardsGrid.appendChild(newCard);
                     }
                     isLoadingNext = false;
                     updateRemainingDisplay();
                 }, 150);
             }
 
-            function onCardPlacedSuccessfully() {
+            function onCardPlacedSuccessfully(cardElement) {
                 if (!gameActive) return;
 
-                if (waitingArea) waitingArea.innerHTML = '';
+                // Remove placeholder text
+                const placeholder = cardElement.parentNode.querySelector('.placeholder-text');
+                if (placeholder) placeholder.style.display = 'none';
+
+                // Add match success animation
+                cardElement.classList.add('match-success');
+                setTimeout(() => {
+                    cardElement.classList.remove('match-success');
+                }, 500);
+
+                // Mark category as matched
+                const categoryItem = cardElement.closest('.category-item');
+                if (categoryItem) {
+                    categoryItem.classList.add('matched');
+                }
+
+                if (cardsGrid) cardsGrid.innerHTML = '';
 
                 if (remainingStatements.length > 0) {
                     remainingStatements.shift();
@@ -825,7 +887,7 @@
                     return false;
                 }
                 const parent = this.parentNode;
-                if (parent !== waitingArea) {
+                if (parent !== cardsGrid) {
                     e.preventDefault();
                     shakeCard(this);
                     return false;
@@ -838,31 +900,41 @@
 
             function handleDragEnd(e) {
                 if (this) this.classList.remove('dragging');
-                document.querySelectorAll('.dropzone').forEach(zone => {
+                document.querySelectorAll('.category-dropzone').forEach(zone => {
                     zone.classList.remove('drag-over');
+                });
+                document.querySelectorAll('.category-item').forEach(cat => {
+                    cat.classList.remove('drag-over-cat');
                 });
                 draggedElement = null;
             }
 
             function setupDropZones() {
                 const dropzones = [dropSanhi, dropEpekto, dropTugon];
-                dropzones.forEach(zone => {
+                const categoryItems = [catSanhi, catEpekto, catTugon];
+
+                dropzones.forEach((zone, index) => {
                     if (!zone) return;
+
+                    const parentCat = categoryItems[index];
 
                     zone.addEventListener('dragover', (e) => {
                         e.preventDefault();
                         if (!gameActive) return;
                         e.dataTransfer.dropEffect = 'move';
                         zone.classList.add('drag-over');
+                        if (parentCat) parentCat.classList.add('drag-over-cat');
                     });
 
                     zone.addEventListener('dragleave', () => {
                         zone.classList.remove('drag-over');
+                        if (parentCat) parentCat.classList.remove('drag-over-cat');
                     });
 
                     zone.addEventListener('drop', (e) => {
                         e.preventDefault();
                         zone.classList.remove('drag-over');
+                        if (parentCat) parentCat.classList.remove('drag-over-cat');
                         if (!gameActive) return;
                         if (!draggedElement) return;
 
@@ -874,21 +946,27 @@
                             return;
                         }
 
-                        if (draggedElement.parentNode !== waitingArea) {
+                        if (draggedElement.parentNode !== cardsGrid) {
                             shakeCard(draggedElement);
                             return;
                         }
 
+                        // Check if this category already has a card
+                        if (zone.querySelector('.statement-card')) {
+                            shakeCard(draggedElement);
+                            return;
+                        }
+
+                        // Move the card to the dropzone
                         zone.appendChild(draggedElement);
                         draggedElement.style.cursor = 'default';
                         draggedElement.setAttribute('draggable', 'false');
                         draggedElement.classList.add('placed');
-                        zone.classList.add('filled');
 
                         draggedElement.removeEventListener('dragstart', handleDragStart);
                         draggedElement.removeEventListener('dragend', handleDragEnd);
 
-                        onCardPlacedSuccessfully();
+                        onCardPlacedSuccessfully(draggedElement);
                         draggedElement = null;
                     });
                 });
@@ -900,11 +978,23 @@
                 placedCount = 0;
                 remainingStatements = shuffleArray([...fullStatements]);
 
-                if (dropSanhi) dropSanhi.innerHTML = '';
-                if (dropEpekto) dropEpekto.innerHTML = '';
-                if (dropTugon) dropTugon.innerHTML = '';
+                // Reset dropzones
+                [dropSanhi, dropEpekto, dropTugon].forEach(zone => {
+                    if (zone) {
+                        zone.innerHTML = '<span class="placeholder-text">⬇️ I-drop dito ang ' + 
+                            (zone.dataset.category === 'sanhi' ? 'sanhi' : 
+                             zone.dataset.category === 'epekto' ? 'epekto' : 'tugon') + 
+                            '</span>';
+                        zone.classList.remove('drag-over');
+                    }
+                });
 
-                if (waitingArea) waitingArea.innerHTML = '';
+                // Reset category items
+                [catSanhi, catEpekto, catTugon].forEach(cat => {
+                    if (cat) cat.classList.remove('matched', 'drag-over-cat');
+                });
+
+                if (cardsGrid) cardsGrid.innerHTML = '';
                 if (completionStatus) completionStatus.innerHTML = '';
 
                 updateRemainingDisplay();
@@ -913,9 +1003,9 @@
                     if (remainingStatements.length > 0) {
                         const firstStatement = remainingStatements[0];
                         const firstCard = createDraggableCard(firstStatement, `card_init_${Date.now()}`);
-                        if (waitingArea) {
-                            waitingArea.innerHTML = '';
-                            waitingArea.appendChild(firstCard);
+                        if (cardsGrid) {
+                            cardsGrid.innerHTML = '';
+                            cardsGrid.appendChild(firstCard);
                         }
                     }
                     updateRemainingDisplay();

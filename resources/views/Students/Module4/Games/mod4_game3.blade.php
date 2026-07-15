@@ -11,6 +11,8 @@
             --old-paper: #d9c5a3;
             --ink: #1a1a1a;
             --danger: #b71c1c;
+            --success: #2e7d32;
+            --error: #c62828;
         }
 
         * {
@@ -88,271 +90,358 @@
             }
         }
 
-        /* Items Pool */
-        .items-pool {
-            margin: 0 0 25px 0;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 20px 24px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .pool-title {
-            font-weight: 700;
-            margin-bottom: 18px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--ink);
-            font-family: 'Nunito', sans-serif;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 768px) {
-            .pool-title {
-                font-size: 1rem;
-            }
-        }
-
-        .waiting-card-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 280px;
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 30px;
-            transition: all 0.2s;
-            border: 1px solid #aaa;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 2px 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .waiting-card-container {
-                min-height: 200px;
-                padding: 15px;
-            }
-        }
-
-        .empty-waiting-message {
-            text-align: center;
-            color: var(--ink);
-            font-size: 1.2rem;
-            font-weight: 500;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            padding: 40px 20px;
-            border-radius: 5px;
-            width: 100%;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .empty-waiting-message {
-                font-size: 0.9rem;
-                padding: 25px 15px;
-            }
-        }
-
-        .remaining-count {
-            font-size: 0.9rem;
-            background: var(--vintage-leather);
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 3px;
-            margin-left: 12px;
-            color: var(--gold-trim);
-            border: 1px solid var(--gold-trim);
-        }
-
-        @media (max-width: 768px) {
-            .remaining-count {
-                font-size: 0.75rem;
-                padding: 3px 8px;
-            }
-        }
-
-        /* DESKTOP: Horizontal 3 columns */
-        .categories-container {
+        /* Main Layout: Left (Categories) + Right (Description) */
+        .game-layout {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 20px 0;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            margin-top: 20px;
         }
 
-        /* MOBILE: Vertical stack */
-        @media (max-width: 768px) {
-            .categories-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
+        @media (max-width: 992px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+                gap: 25px;
             }
         }
 
-        /* Category Header */
+        /* LEFT SIDE - Categories (Clickable) */
+        .categories-side {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .category-item {
+            background: rgba(244, 228, 199, 0.6);
+            border-radius: 8px;
+            border: 3px solid var(--gold-trim);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-item:hover:not(.filled):not(.disabled) {
+            transform: scale(1.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            border-color: #c5a059;
+        }
+
+        .category-item:active:not(.filled):not(.disabled) {
+            transform: scale(0.97);
+        }
+
+        .category-item.filled {
+            border-color: var(--success);
+            background: rgba(46, 125, 50, 0.15);
+            cursor: default;
+        }
+
+        .category-item.filled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .category-item.correct-highlight {
+            border-color: var(--success);
+            box-shadow: 0 0 25px rgba(46, 125, 50, 0.4);
+            background: rgba(46, 125, 50, 0.2);
+        }
+
+        .category-item.wrong-highlight {
+            border-color: var(--error);
+            box-shadow: 0 0 25px rgba(198, 40, 40, 0.4);
+            background: rgba(198, 40, 40, 0.2);
+            animation: shakeCard 0.5s ease-in-out;
+        }
+
+        .category-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @keyframes shakeCard {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-12px); }
+            40% { transform: translateX(12px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+        }
+
         .category-header {
             background: var(--vintage-leather);
             color: var(--gold-trim);
-            padding: 12px 15px;
-            border-radius: 8px 8px 0 0;
+            padding: 12px 18px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: 1px solid var(--gold-trim);
-            border-bottom: none;
-        }
-
-        @media (max-width: 768px) {
-            .category-header {
-                padding: 10px 15px;
-                justify-content: flex-start;
-            }
+            gap: 12px;
+            border-bottom: 2px solid var(--gold-trim);
+            pointer-events: none;
         }
 
         .cat-icon {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         @media (max-width: 768px) {
             .cat-icon {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
         }
 
         .cat-image {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
             filter: brightness(0) invert(1);
         }
 
         @media (max-width: 768px) {
             .cat-image {
-                width: 28px;
-                height: 28px;
+                width: 26px;
+                height: 26px;
             }
         }
 
         .cat-label {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             font-family: 'Nunito', sans-serif;
+            flex: 1;
         }
 
         @media (max-width: 768px) {
             .cat-label {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
         }
 
-        /* Drop Zone */
-        .dropzone {
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 0 0 8px 8px;
-            padding: 15px;
-            border: 3px dashed #8b6b3f;
-            border-top: none;
-            transition: all 0.2s ease;
-            min-height: 200px;
-        }
-
-        @media (max-width: 768px) {
-            .dropzone {
-                min-height: 160px;
-                padding: 12px;
-            }
-        }
-
-        .dropzone.drag-over {
-            background: rgba(217, 197, 163, 0.95);
-            border-color: var(--gold-trim);
-            border-style: solid;
-        }
-
-        .dropzone.filled {
-            border-style: solid;
-            background: rgba(217, 197, 163, 0.8);
-        }
-
-        /* Statement Cards */
-        .statement-card {
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 15px;
-            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
-            font-weight: 500;
-            cursor: grab;
-            user-select: none;
-            transition: all 0.2s ease;
-            border: 1px solid #aaa;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--ink);
-        }
-
-        @media (max-width: 768px) {
-            .statement-card {
-                padding: 12px;
-                font-size: 0.7rem;
-            }
-        }
-
-        .statement-card:active {
-            cursor: grabbing;
-        }
-
-        .statement-card.dragging {
-            opacity: 0.3;
-            cursor: grabbing;
-        }
-
-        .statement-card.placed {
-            cursor: default;
-            opacity: 0.95;
-        }
-
-        /* Card inside dropzone - not draggable */
-        .dropzone .statement-card {
-            cursor: default;
+        .cat-status {
+            font-size: 1.3rem;
+            margin-left: auto;
             pointer-events: none;
         }
 
-        .card-header-image {
-            text-align: center;
-            margin-bottom: 10px;
+        .cat-click-hint {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            font-weight: 400;
+            margin-left: 8px;
+            pointer-events: none;
         }
 
-        .card-header-image img {
-            width: 50px;
-            height: 50px;
+        .category-dropzone {
+            min-height: 80px;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.3);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            transition: all 0.3s ease;
+            border-radius: 0 0 6px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .category-dropzone .placeholder-text {
+            color: #8b6b3f;
+            font-style: italic;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        .category-dropzone .statement-card {
+            width: 100%;
+            cursor: default;
+            pointer-events: none;
+            font-size: 0.82rem;
+            padding: 10px 12px;
+            margin: 0;
+        }
+
+        .category-dropzone .statement-card .card-header-image {
+            margin-bottom: 6px;
+        }
+
+        .category-dropzone .statement-card .card-header-image img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .category-dropzone .statement-card .card-text-content {
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        /* RIGHT SIDE - Description Card */
+        .description-side {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .description-card-container {
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 8px;
+            padding: 30px;
+            border: 2px solid var(--gold-trim);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .description-card-container {
+                padding: 20px;
+                min-height: 200px;
+            }
+        }
+
+        .description-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--old-paper);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .progress-text {
+                font-size: 0.8rem;
+            }
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #d9c5a3;
+            border: 2px solid #8b6b3f;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        .progress-dot.active {
+            background: var(--gold-trim);
+            border-color: var(--vintage-leather);
+            transform: scale(1.2);
+        }
+
+        .progress-dot.completed {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .description-content {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .description-content .card-header-image {
+            margin-bottom: 15px;
+        }
+
+        .description-content .card-header-image img {
+            width: 60px;
+            height: 60px;
             object-fit: contain;
         }
 
         @media (max-width: 768px) {
-            .card-header-image img {
-                width: 35px;
-                height: 35px;
+            .description-content .card-header-image img {
+                width: 45px;
+                height: 45px;
             }
         }
 
-        /* Shake Animation */
-        @keyframes shakeCard {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-4px); }
-            100% { transform: translateX(0); }
+        .description-content .description-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--ink);
+            font-weight: 500;
+            text-align: justify;
         }
 
-        .statement-card.shake {
-            animation: shakeCard 0.4s ease-in-out;
+        @media (max-width: 768px) {
+            .description-content .description-text {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+        }
+
+        .description-hint {
+            margin-top: 20px;
+            padding: 12px;
+            background: rgba(43, 27, 23, 0.05);
+            border-radius: 5px;
+            border: 1px dashed var(--gold-trim);
+            color: var(--ink);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .description-hint i {
+            color: var(--gold-trim);
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .description-hint {
+                font-size: 0.75rem;
+                padding: 10px;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .description-content.slide-in {
+            animation: slideIn 0.4s ease-out;
+        }
+
+        /* Completion Message */
+        .completion-message {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .completion-message i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 15px;
         }
 
         /* Buttons */
@@ -593,49 +682,68 @@
         <div class="game-container">
             <div>
                 <h1><i class="fas fa-house-damage"></i> Sanhi, Epekto, at Mga Tugon</h1>
-                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-drag ang bawat card papunta sa tamang kahon.</p>
+                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> Basahin ang paglalarawan at i-tap ang tamang kategorya sa kaliwa.</p>
             </div>
 
-            <!-- Waiting Pool -->
-            <div class="items-pool">
-                <div class="pool-title">
-                    <i class="fas fa-hourglass-half"></i>
-                    Ilagay ang card sa tamang kategorya
-                    <span class="remaining-count" id="remainingCount">3</span>
-                </div>
-                <div id="waitingCardArea" class="waiting-card-container"></div>
-            </div>
-
-            <!-- Categories: Horizontal on Desktop, Vertical on Mobile -->
-            <div class="categories-container">
-                <!-- SANHI -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-cloud-rain cat-icon"></i>
-                        <span class="cat-label">SANHI</span>
+            <!-- Main Layout: Left (Categories) + Right (Description) -->
+            <div class="game-layout">
+                <!-- LEFT SIDE - Categories (Clickable) -->
+                <div class="categories-side">
+                    <!-- SANHI -->
+                    <div class="category-item" id="catSanhi" data-category="sanhi">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-cloud-rain cat-icon"></i>
+                            <span class="cat-label">SANHI</span>
+                            <span class="cat-status" id="statusSanhi"></span>
+                        </div>
+                        <div class="category-dropzone" id="dropzoneSanhi">
+                            <span class="placeholder-text">⬇️ Ilalagay dito ang sanhi</span>
+                        </div>
                     </div>
-                    <div class="dropzone" id="dropzoneSanhi" data-category="sanhi"></div>
+
+                    <!-- EPEKTO -->
+                    <div class="category-item" id="catEpekto" data-category="epekto">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-house-damage cat-icon"></i>
+                            <span class="cat-label">EPEKTO</span>
+                            <span class="cat-status" id="statusEpekto"></span>
+                        </div>
+                        <div class="category-dropzone" id="dropzoneEpekto">
+                            <span class="placeholder-text">⬇️ Ilalagay dito ang epekto</span>
+                        </div>
+                    </div>
+
+                    <!-- MGA TUGON -->
+                    <div class="category-item" id="catTugon" data-category="tugon">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-hand-holding-heart cat-icon"></i>
+                            <span class="cat-label">MGA TUGON</span>
+                            <span class="cat-status" id="statusTugon"></span>
+                        </div>
+                        <div class="category-dropzone" id="dropzoneTugon">
+                            <span class="placeholder-text">⬇️ Ilalagay dito ang tugon</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- EPEKTO -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-house-damage cat-icon"></i>
-                        <span class="cat-label">EPEKTO</span>
+                <!-- RIGHT SIDE - Description Card -->
+                <div class="description-side">
+                    <div class="description-card-container">
+                        <div class="description-progress">
+                            <span class="progress-text" id="progressText">Tanong 1 ng 3</span>
+                            <div class="progress-dots" id="progressDots">
+                                <span class="progress-dot active" data-index="0"></span>
+                                <span class="progress-dot" data-index="1"></span>
+                                <span class="progress-dot" data-index="2"></span>
+                            </div>
+                        </div>
+                        <div class="description-content slide-in" id="descriptionContent">
+                            <!-- Dynamically populated -->
+                        </div>
                     </div>
-                    <div class="dropzone" id="dropzoneEpekto" data-category="epekto"></div>
-                </div>
-
-                <!-- MGA TUGON -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-hand-holding-heart cat-icon"></i>
-                        <span class="cat-label">MGA TUGON</span>
-                    </div>
-                    <div class="dropzone" id="dropzoneTugon" data-category="tugon"></div>
                 </div>
             </div>
 
@@ -666,7 +774,7 @@
         (function() {
             "use strict";
 
-            // STATEMENTS DATA
+            // STATEMENTS DATA - Keep original text exactly as provided
             const fullStatements = [
                 {
                     text: "Ang malakas na lindol na may lakas na magnitude 6.9 ay dulot ng paggalaw ng mga tectonic plates sa ilalim ng lupa. Ang epicenter nito ay naitala sa Bogo City, na nagdulot ng matinding pagyanig na naramdaman sa iba't ibang bahagi ng Visayas at Bicol.",
@@ -685,7 +793,7 @@
                 }
             ];
 
-            let remainingStatements = [...fullStatements];
+            // Shuffle function
             function shuffleArray(arr) {
                 for (let i = arr.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -693,61 +801,220 @@
                 }
                 return arr;
             }
-            remainingStatements = shuffleArray(remainingStatements);
 
-            const waitingArea = document.getElementById('waitingCardArea');
-            const remainingCountSpan = document.getElementById('remainingCount');
-            const dropSanhi = document.getElementById('dropzoneSanhi');
-            const dropEpekto = document.getElementById('dropzoneEpekto');
-            const dropTugon = document.getElementById('dropzoneTugon');
-            const resetBtn = document.getElementById('resetGameBtn');
+            // State
+            let currentIndex = 0;
+            let placedCount = 0;
+            let gameActive = true;
+            let isProcessing = false;
+            let shuffledStatements = [];
+
+            // DOM Elements
+            const descriptionContent = document.getElementById('descriptionContent');
+            const progressText = document.getElementById('progressText');
+            const progressDots = document.querySelectorAll('.progress-dot');
             const completionStatus = document.getElementById('completionStatus');
+            const resetBtn = document.getElementById('resetGameBtn');
             const summaryModal = document.getElementById('summaryModal');
             const modalContinueBtn = document.getElementById('modalContinueBtn');
 
-            let gameActive = true;
-            let isLoadingNext = false;
-            let placedCount = 0;
+            // Category elements
+            const categories = {
+                sanhi: {
+                    item: document.getElementById('catSanhi'),
+                    dropzone: document.getElementById('dropzoneSanhi'),
+                    status: document.getElementById('statusSanhi'),
+                    filled: false
+                },
+                epekto: {
+                    item: document.getElementById('catEpekto'),
+                    dropzone: document.getElementById('dropzoneEpekto'),
+                    status: document.getElementById('statusEpekto'),
+                    filled: false
+                },
+                tugon: {
+                    item: document.getElementById('catTugon'),
+                    dropzone: document.getElementById('dropzoneTugon'),
+                    status: document.getElementById('statusTugon'),
+                    filled: false
+                }
+            };
 
-            function shakeCard(card) {
-                if (!card) return;
-                card.classList.add('shake');
+            // Shake animation helper
+            function shakeElement(element) {
+                if (!element) return;
+                element.classList.add('wrong-highlight');
                 setTimeout(() => {
-                    card.classList.remove('shake');
-                }, 400);
+                    element.classList.remove('wrong-highlight');
+                }, 600);
             }
 
-            function updateRemainingDisplay() {
-                if (remainingCountSpan) {
-                    remainingCountSpan.textContent = remainingStatements.length;
-                }
+            // Update progress dots
+            function updateProgress() {
+                progressDots.forEach((dot, index) => {
+                    dot.classList.remove('active', 'completed');
+                    if (index < currentIndex) {
+                        dot.classList.add('completed');
+                    } else if (index === currentIndex) {
+                        dot.classList.add('active');
+                    }
+                });
+                progressText.textContent = `Tanong ${currentIndex + 1} ng ${shuffledStatements.length}`;
             }
 
-            function showSummaryModal() {
-                if (summaryModal) {
-                    summaryModal.classList.add('show');
-                }
-            }
-
-            function checkAllPlacedFinal() {
-                if (placedCount === fullStatements.length) {
+            // Check if all categories are filled
+            function checkAllFilled() {
+                const allFilled = Object.values(categories).every(cat => cat.filled);
+                if (allFilled && gameActive) {
+                    gameActive = false;
                     sessionStorage.setItem("node3_done", "true");
                     if (completionStatus) {
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
                     }
-                    gameActive = false;
-                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
+                    // Show completion in description area
+                    descriptionContent.innerHTML = `
+                        <div class="completion-message slide-in">
+                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                            <p>🎉 Napakahusay! Nakumpleto mo ang lahat ng kategorya!</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px; font-weight: 400;">I-click ang "Magpatuloy" upang tingnan ang buod.</p>
+                        </div>
+                    `;
                     showSummaryModal();
                 }
             }
 
-            function createDraggableCard(statement, indexId) {
-                const card = document.createElement('div');
-                card.className = 'statement-card';
-                card.setAttribute('draggable', 'true');
-                card.setAttribute('data-category', statement.category);
-                card.setAttribute('data-id', indexId);
+            // Handle category click
+            function handleCategoryClick(categoryKey) {
+                if (!gameActive || isProcessing) return;
+                
+                const catData = categories[categoryKey];
+                
+                // Check if this category is already filled
+                if (catData.filled) {
+                    shakeElement(catData.item);
+                    return;
+                }
 
+                const currentStatement = shuffledStatements[currentIndex];
+                if (!currentStatement) return;
+
+                isProcessing = true;
+
+                // Disable all categories temporarily
+                Object.values(categories).forEach(c => {
+                    if (!c.filled) {
+                        c.item.classList.add('disabled');
+                    }
+                });
+
+                if (categoryKey === currentStatement.category) {
+                    // CORRECT ANSWER
+                    catData.item.classList.add('correct-highlight');
+                    
+                    // Fill the category
+                    catData.filled = true;
+                    catData.item.classList.add('filled');
+                    
+                    // Add the statement to the dropzone
+                    const dropzone = catData.dropzone;
+                    const placeholder = dropzone.querySelector('.placeholder-text');
+                    if (placeholder) placeholder.style.display = 'none';
+                    
+                    // Create a mini card for the dropzone
+                    const miniCard = document.createElement('div');
+                    miniCard.className = 'statement-card placed';
+                    let miniImageHtml = '';
+                    if (currentStatement.imageIcon) {
+                        miniImageHtml = `
+                            <div class="card-header-image">
+                                <img src="{{ asset('${currentStatement.imageIcon}') }}" alt="${currentStatement.category} icon" onerror="this.style.display='none'">
+                            </div>
+                        `;
+                    }
+                    miniCard.innerHTML = `
+                        ${miniImageHtml}
+                        <div class="card-text-content" style="font-size: 0.8rem;">${currentStatement.text.substring(0, 100)}${currentStatement.text.length > 100 ? '...' : ''}</div>
+                    `;
+                    dropzone.appendChild(miniCard);
+                    
+                    // Update status icon
+                    catData.status.innerHTML = '✅';
+                    
+                    // Increment counters
+                    placedCount++;
+                    currentIndex++;
+
+                    // Re-enable categories
+                    Object.values(categories).forEach(c => {
+                        c.item.classList.remove('disabled');
+                    });
+
+                    // Check if all done
+                    if (currentIndex < shuffledStatements.length) {
+                        // Move to next description after delay
+                        setTimeout(() => {
+                            isProcessing = false;
+                            // Remove highlight
+                            catData.item.classList.remove('correct-highlight');
+                            renderDescription(currentIndex);
+                        }, 600);
+                    } else {
+                        // All descriptions have been shown
+                        setTimeout(() => {
+                            isProcessing = false;
+                            catData.item.classList.remove('correct-highlight');
+                            checkAllFilled();
+                        }, 600);
+                    }
+
+                } else {
+                    // WRONG ANSWER
+                    const wrongCat = catData.item;
+                    shakeElement(wrongCat);
+                    
+                    // Show wrong feedback and reset
+                    setTimeout(() => {
+                        wrongCat.classList.remove('wrong-highlight');
+                        Object.values(categories).forEach(c => {
+                            c.item.classList.remove('disabled');
+                        });
+                        isProcessing = false;
+                    }, 700);
+                }
+            }
+
+            // Add click listeners to categories
+            function setupCategoryListeners() {
+                Object.keys(categories).forEach(key => {
+                    const item = categories[key].item;
+                    // Remove any existing listeners by cloning
+                    const newItem = item.cloneNode(true);
+                    item.parentNode.replaceChild(newItem, item);
+                    // Update the reference
+                    categories[key].item = newItem;
+                    // Update sub-elements
+                    categories[key].dropzone = newItem.querySelector('.category-dropzone');
+                    categories[key].status = newItem.querySelector('.cat-status');
+                    
+                    newItem.addEventListener('click', function(e) {
+                        // Don't trigger if clicking on the status or inside dropzone content
+                        if (e.target.closest('.cat-status')) return;
+                        const categoryKey = this.dataset.category;
+                        handleCategoryClick(categoryKey);
+                    });
+                });
+            }
+
+            // Render description card
+            function renderDescription(index) {
+                if (!gameActive) return;
+                if (index >= shuffledStatements.length) {
+                    checkAllFilled();
+                    return;
+                }
+
+                const statement = shuffledStatements[index];
+                
                 let headerImageHtml = '';
                 if (statement.imageIcon) {
                     headerImageHtml = `
@@ -757,169 +1024,61 @@
                     `;
                 }
 
-                card.innerHTML = `
-                    ${headerImageHtml}
-                    <div class="card-text-content">${statement.text}</div>
+                descriptionContent.innerHTML = `
+                    <div class="slide-in">
+                        ${headerImageHtml}
+                        <div class="description-text">${statement.text}</div>
+                        <div class="description-hint">
+                            <i class="fas fa-hand-pointer"></i> I-tap ang tamang kategorya sa kaliwa
+                        </div>
+                    </div>
                 `;
 
-                card.addEventListener('dragstart', handleDragStart);
-                card.addEventListener('dragend', handleDragEnd);
-                return card;
+                updateProgress();
             }
 
-            function loadNextCard() {
-                if (!gameActive) return;
-                if (isLoadingNext) return;
-
-                if (remainingStatements.length === 0) {
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card.</div>';
-                    }
-                    return;
-                }
-
-                isLoadingNext = true;
-
-                setTimeout(() => {
-                    if (!gameActive) {
-                        isLoadingNext = false;
-                        return;
-                    }
-
-                    const nextStatement = remainingStatements[0];
-                    const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '';
-                        waitingArea.appendChild(newCard);
-                    }
-                    isLoadingNext = false;
-                    updateRemainingDisplay();
-                }, 150);
-            }
-
-            function onCardPlacedSuccessfully() {
-                if (!gameActive) return;
-
-                if (waitingArea) waitingArea.innerHTML = '';
-
-                if (remainingStatements.length > 0) {
-                    remainingStatements.shift();
-                }
-                placedCount++;
-                updateRemainingDisplay();
-
-                if (placedCount === fullStatements.length) {
-                    checkAllPlacedFinal();
-                } else {
-                    loadNextCard();
+            // Show summary modal
+            function showSummaryModal() {
+                if (summaryModal) {
+                    summaryModal.classList.add('show');
                 }
             }
 
-            let draggedElement = null;
-
-            function handleDragStart(e) {
-                if (!gameActive) {
-                    e.preventDefault();
-                    return false;
-                }
-                const parent = this.parentNode;
-                if (parent !== waitingArea) {
-                    e.preventDefault();
-                    shakeCard(this);
-                    return false;
-                }
-                draggedElement = this;
-                this.classList.add('dragging');
-                e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
-                e.dataTransfer.effectAllowed = 'move';
-            }
-
-            function handleDragEnd(e) {
-                if (this) this.classList.remove('dragging');
-                document.querySelectorAll('.dropzone').forEach(zone => {
-                    zone.classList.remove('drag-over');
-                });
-                draggedElement = null;
-            }
-
-            function setupDropZones() {
-                const dropzones = [dropSanhi, dropEpekto, dropTugon];
-                dropzones.forEach(zone => {
-                    if (!zone) return;
-
-                    zone.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        if (!gameActive) return;
-                        e.dataTransfer.dropEffect = 'move';
-                        zone.classList.add('drag-over');
-                    });
-
-                    zone.addEventListener('dragleave', () => {
-                        zone.classList.remove('drag-over');
-                    });
-
-                    zone.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        zone.classList.remove('drag-over');
-                        if (!gameActive) return;
-                        if (!draggedElement) return;
-
-                        const targetCategory = zone.dataset.category;
-                        const cardCategory = draggedElement.dataset.category;
-
-                        if (cardCategory !== targetCategory) {
-                            shakeCard(draggedElement);
-                            return;
-                        }
-
-                        if (draggedElement.parentNode !== waitingArea) {
-                            shakeCard(draggedElement);
-                            return;
-                        }
-
-                        zone.appendChild(draggedElement);
-                        draggedElement.style.cursor = 'default';
-                        draggedElement.setAttribute('draggable', 'false');
-                        draggedElement.classList.add('placed');
-                        zone.classList.add('filled');
-
-                        draggedElement.removeEventListener('dragstart', handleDragStart);
-                        draggedElement.removeEventListener('dragend', handleDragEnd);
-
-                        onCardPlacedSuccessfully();
-                        draggedElement = null;
-                    });
-                });
-            }
-
+            // Reset game
             function resetGame() {
                 gameActive = true;
-                isLoadingNext = false;
+                isProcessing = false;
+                currentIndex = 0;
                 placedCount = 0;
-                remainingStatements = shuffleArray([...fullStatements]);
 
-                if (dropSanhi) dropSanhi.innerHTML = '';
-                if (dropEpekto) dropEpekto.innerHTML = '';
-                if (dropTugon) dropTugon.innerHTML = '';
+                // Reset categories
+                Object.values(categories).forEach(cat => {
+                    cat.filled = false;
+                    cat.item.classList.remove('filled', 'correct-highlight', 'wrong-highlight', 'disabled');
+                    cat.item.style.borderColor = '';
+                    cat.dropzone.innerHTML = `<span class="placeholder-text">⬇️ Ilalagay dito ang ${cat.item.dataset.category}</span>`;
+                    cat.status.innerHTML = '';
+                });
 
-                if (waitingArea) waitingArea.innerHTML = '';
+                // Reset completion status
                 if (completionStatus) completionStatus.innerHTML = '';
 
-                updateRemainingDisplay();
+                // Reset progress dots
+                progressDots.forEach(dot => {
+                    dot.classList.remove('active', 'completed');
+                });
 
-                setTimeout(() => {
-                    if (remainingStatements.length > 0) {
-                        const firstStatement = remainingStatements[0];
-                        const firstCard = createDraggableCard(firstStatement, `card_init_${Date.now()}`);
-                        if (waitingArea) {
-                            waitingArea.innerHTML = '';
-                            waitingArea.appendChild(firstCard);
-                        }
-                    }
-                    updateRemainingDisplay();
-                }, 50);
+                // Shuffle statements
+                shuffledStatements = shuffleArray([...fullStatements]);
+
+                // Setup category listeners
+                setupCategoryListeners();
+
+                // Render first description
+                renderDescription(0);
             }
 
+            // Event Listeners
             if (modalContinueBtn) {
                 modalContinueBtn.addEventListener('click', () => {
                     window.location.href = "{{ route('inner.map4') }}";
@@ -938,10 +1097,7 @@
                 resetBtn.addEventListener('click', resetGame);
             }
 
-            document.addEventListener('dragover', (e) => e.preventDefault());
-            document.addEventListener('drop', (e) => e.preventDefault());
-
-            setupDropZones();
+            // Initialize game
             resetGame();
         })();
     </script>

@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'Drag & Drop Activity - Pagputok ng Bulkang Mayon')
+@section('title', 'Itama ang Numero - Pagputok ng Bulkang Mayon')
 
 @push('styles')
     <style>
@@ -11,13 +11,10 @@
             --old-paper: #d9c5a3;
             --ink: #1a1a1a;
             --danger: #b71c1c;
+            --success: #2e7d32;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -62,17 +59,8 @@
             border-bottom: 2px solid var(--ink);
             padding-bottom: 10px;
         }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.3rem;
-            }
-        }
-
-        h1 i {
-            color: var(--danger);
-            margin-right: 12px;
-        }
+        @media (max-width: 768px) { h1 { font-size: 1.3rem; } }
+        h1 i { color: var(--danger); margin-right: 12px; }
 
         .subhead {
             color: var(--ink);
@@ -81,268 +69,231 @@
             padding-left: 18px;
             margin: 10px 0 25px;
         }
+        @media (max-width: 768px) { .subhead { font-size: 0.8rem; } }
 
-        @media (max-width: 768px) {
-            .subhead {
-                font-size: 0.8rem;
-            }
-        }
-
-        /* Items Pool */
-        .items-pool {
-            margin: 0 0 25px 0;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 20px 24px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .pool-title {
-            font-weight: 700;
-            margin-bottom: 18px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--ink);
-            font-family: 'Nunito', sans-serif;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 768px) {
-            .pool-title {
-                font-size: 1rem;
-            }
-        }
-
-        .waiting-card-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 280px;
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 30px;
-            transition: all 0.2s;
-            border: 1px solid #aaa;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 2px 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .waiting-card-container {
-                min-height: 200px;
-                padding: 15px;
-            }
-        }
-
-        .empty-waiting-message {
-            text-align: center;
-            color: var(--ink);
-            font-size: 1.2rem;
-            font-weight: 500;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            padding: 40px 20px;
-            border-radius: 5px;
-            width: 100%;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .empty-waiting-message {
-                font-size: 0.9rem;
-                padding: 25px 15px;
-            }
-        }
-
-        .remaining-count {
-            font-size: 0.9rem;
-            background: var(--vintage-leather);
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 3px;
-            margin-left: 12px;
-            color: var(--gold-trim);
-            border: 1px solid var(--gold-trim);
-        }
-
-        @media (max-width: 768px) {
-            .remaining-count {
-                font-size: 0.75rem;
-                padding: 3px 8px;
-            }
-        }
-
-        /* DESKTOP: Horizontal 3 columns */
-        .categories-container {
+        /* ---------- Match Board Layout (same 2-column structure as Node 1 & 2) ---------- */
+        .match-board {
+            position: relative;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 20px 0;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin: 10px 0 25px;
+        }
+        @media (max-width: 900px) {
+            .match-board { grid-template-columns: 1fr; }
         }
 
-        /* MOBILE: Vertical stack */
-        @media (max-width: 768px) {
-            .categories-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
+        #lineLayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        #lineLayer path {
+            stroke: var(--success);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+        }
+        @media (max-width: 900px) {
+            #lineLayer { display: none; }
+        }
+
+        /* ---------- Left: Category Anchor Zones ---------- */
+        .categories-col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        @media (max-width: 900px) {
+            .categories-col {
+                position: sticky;
+                top: 8px;
+                z-index: 6;
+                flex-direction: row;
+                gap: 10px;
+                background: var(--old-paper);
+                padding: 8px 0 4px;
             }
         }
 
-        /* Category Header */
+        .category-zone {
+            background: rgba(244, 228, 199, 0.95);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border: 3px solid #8b6b3f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
         .category-header {
             background: var(--vintage-leather);
             color: var(--gold-trim);
-            padding: 12px 15px;
-            border-radius: 8px 8px 0 0;
+            padding: 14px 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            border: 1px solid var(--gold-trim);
-            border-bottom: none;
+        }
+        @media (max-width: 900px) {
+            .category-header { padding: 10px; flex-direction: column; gap: 4px; }
         }
 
-        @media (max-width: 768px) {
-            .category-header {
-                padding: 10px 15px;
-                justify-content: flex-start;
-            }
+        .cat-icon { font-size: 1.4rem; }
+        .cat-number {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--gold-trim);
+            color: var(--vintage-leather);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            font-family: 'Nunito', sans-serif;
+            flex: 0 0 auto;
         }
-
-        .cat-icon {
-            font-size: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .cat-icon {
-                font-size: 1.3rem;
-            }
-        }
-
-        .cat-image {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-        }
-
-        @media (max-width: 768px) {
-            .cat-image {
-                width: 28px;
-                height: 28px;
-            }
-        }
-
         .cat-label {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             font-family: 'Nunito', sans-serif;
+            text-align: center;
+        }
+        @media (max-width: 900px) { .cat-label { font-size: 0.78rem; } }
+
+        .category-progress {
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            color: #7a6650;
+            font-style: italic;
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+        }
+        @media (max-width: 900px) { .category-progress { display: none; } }
+
+        /* ---------- Right: Statement Cards with Number Stepper ---------- */
+        .items-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        @media (max-width: 768px) {
-            .cat-label {
-                font-size: 1rem;
-            }
-        }
-
-        /* Drop Zone */
-        .dropzone {
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 0 0 8px 8px;
-            padding: 15px;
-            border: 3px dashed #8b6b3f;
-            border-top: none;
-            transition: all 0.2s ease;
-            min-height: 200px;
-        }
-
-        @media (max-width: 768px) {
-            .dropzone {
-                min-height: 160px;
-                padding: 12px;
-            }
-        }
-
-        .dropzone.drag-over {
-            background: rgba(217, 197, 163, 0.95);
-            border-color: var(--gold-trim);
-            border-style: solid;
-        }
-
-        .dropzone.filled {
-            border-style: solid;
-            background: rgba(217, 197, 163, 0.8);
-        }
-
-        /* Statement Cards */
-        .statement-card {
+        .item-card {
             background: #fff;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 16px 18px;
             box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
-            font-weight: 500;
-            cursor: grab;
-            user-select: none;
+            border: 2px solid #aaa;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.25s ease;
+        }
+        @media (max-width: 768px) {
+            .item-card { flex-wrap: wrap; padding: 14px; }
+        }
+
+        .item-card.solved {
+            border-color: var(--success);
+            background: rgba(46, 125, 50, 0.08);
+        }
+
+        .stepper {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stepper-number {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 2px solid var(--gold-trim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            cursor: pointer;
             transition: all 0.2s ease;
-            border: 1px solid #aaa;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--ink);
         }
-
         @media (max-width: 768px) {
-            .statement-card {
-                padding: 12px;
-                font-size: 0.7rem;
-            }
+            .stepper-number { width: 44px; height: 44px; font-size: 1.2rem; }
         }
 
-        .statement-card:active {
-            cursor: grabbing;
+        .stepper-number:hover:not(.locked) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-        .statement-card.dragging {
-            opacity: 0.3;
-            cursor: grabbing;
-        }
-
-        .statement-card.placed {
+        .stepper-number.locked {
+            background: var(--success);
+            border-color: var(--success);
             cursor: default;
-            opacity: 0.95;
         }
 
-        /* Card inside dropzone - not draggable */
-        .dropzone .statement-card {
-            cursor: default;
-            pointer-events: none;
-        }
-
-        .card-header-image {
+        .stepper-hint {
+            font-size: 0.65rem;
+            color: #7a6650;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             text-align: center;
-            margin-bottom: 10px;
         }
 
-        .card-header-image img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
+        .item-text {
+            flex: 1 1 auto;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--ink);
+            font-weight: 500;
+            min-width: 200px;
         }
+        @media (max-width: 768px) { .item-text { font-size: 0.78rem; } }
 
+        .confirm-btn {
+            flex: 0 0 auto;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
+            padding: 10px 18px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Nunito', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .confirm-btn:hover:not(:disabled) { background: #3d2a25; transform: translateY(-2px); }
+        .confirm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         @media (max-width: 768px) {
-            .card-header-image img {
-                width: 35px;
-                height: 35px;
-            }
+            .confirm-btn { width: 100%; }
         }
 
-        /* Shake Animation */
+        .solved-tag {
+            flex: 0 0 auto;
+            color: var(--success);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         @keyframes shakeCard {
             0% { transform: translateX(0); }
             25% { transform: translateX(-8px); }
@@ -350,12 +301,10 @@
             75% { transform: translateX(-4px); }
             100% { transform: translateX(0); }
         }
+        .item-card.shake { animation: shakeCard 0.4s ease-in-out; border-color: var(--danger); }
+        .category-zone.shake { animation: shakeCard 0.4s ease-in-out; }
 
-        .statement-card.shake {
-            animation: shakeCard 0.4s ease-in-out;
-        }
-
-        /* Buttons */
+        /* ---------- Controls ---------- */
         .reset-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
@@ -373,19 +322,9 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
+        .reset-btn:hover { background: #3d2a25; transform: translateY(-2px); }
         @media (max-width: 768px) {
-            .reset-btn {
-                padding: 8px 16px;
-                font-size: 0.75rem;
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        .reset-btn:hover {
-            background: #3d2a25;
-            transform: translateY(-2px);
+            .reset-btn { padding: 8px 16px; font-size: 0.75rem; width: 100%; justify-content: center; }
         }
 
         .game-controls {
@@ -393,15 +332,11 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            margin-top: 25px;
+            margin-top: 10px;
             gap: 15px;
         }
-
         @media (max-width: 768px) {
-            .game-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
+            .game-controls { flex-direction: column; align-items: stretch; }
         }
 
         .completion-badge {
@@ -417,13 +352,19 @@
             font-family: 'Nunito', sans-serif;
             font-size: 0.85rem;
         }
-
         @media (max-width: 768px) {
-            .completion-badge {
-                font-size: 0.7rem;
-                width: 100%;
-                justify-content: center;
-            }
+            .completion-badge { font-size: 0.7rem; width: 100%; justify-content: center; }
+        }
+
+        .progress-track {
+            font-size: 0.9rem;
+            background: var(--vintage-leather);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 3px;
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
+            font-family: 'Nunito', sans-serif;
         }
 
         .back-button {
@@ -445,114 +386,47 @@
             letter-spacing: 1px;
             font-size: 0.8rem;
         }
-
         @media (max-width: 768px) {
-            .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 5px 10px;
-                font-size: 0.65rem;
-            }
+            .back-button { top: 10px; left: 10px; padding: 5px 10px; font-size: 0.65rem; }
         }
+        .back-button:hover { transform: translateX(-3px); }
 
-        .back-button:hover {
-            transform: translateX(-3px);
-        }
-
-        /* Modal */
+        /* ---------- Modal ---------- */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 8, 7, 0.9);
             backdrop-filter: blur(5px);
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
         }
-
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-container {
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
+            max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
             border: 2px solid var(--gold-trim);
         }
-
-        .modal-overlay.show .modal-container {
-            transform: scale(1);
-        }
-
+        .modal-overlay.show .modal-container { transform: scale(1); }
         .modal-header {
             background: var(--vintage-leather);
             padding: 20px 24px;
             border-bottom: 1px solid var(--gold-trim);
         }
-
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--gold-trim);
-            font-family: 'Nunito', sans-serif;
-        }
-
+        .modal-header h2 { margin: 0; font-size: 1.5rem; color: var(--gold-trim); font-family: 'Nunito', sans-serif; }
         @media (max-width: 768px) {
-            .modal-header {
-                padding: 16px 18px;
-            }
-            .modal-header h2 {
-                font-size: 1.2rem;
-            }
+            .modal-header { padding: 16px 18px; }
+            .modal-header h2 { font-size: 1.2rem; }
         }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .modal-body {
-                padding: 18px;
-            }
-        }
-
-        .modal-body p {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--ink);
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .modal-body p {
-                font-size: 0.85rem;
-            }
-        }
-
-        .modal-footer {
-            padding: 16px 24px 24px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
+        .modal-body { padding: 24px; }
+        @media (max-width: 768px) { .modal-body { padding: 18px; } }
+        .modal-body p { font-size: 1rem; line-height: 1.7; color: var(--ink); margin-bottom: 20px; }
+        @media (max-width: 768px) { .modal-body p { font-size: 0.85rem; } }
+        .modal-footer { padding: 16px 24px 24px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .modal-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
@@ -569,20 +443,10 @@
             gap: 8px;
             font-family: 'Nunito', sans-serif;
         }
-
         @media (max-width: 768px) {
-            .modal-btn {
-                padding: 10px 18px;
-                font-size: 0.8rem;
-                width: 100%;
-                justify-content: center;
-            }
+            .modal-btn { padding: 10px 18px; font-size: 0.8rem; width: 100%; justify-content: center; }
         }
-
-        .modal-btn:hover {
-            background: #3d2a25;
-            transform: translateY(-2px);
-        }
+        .modal-btn:hover { background: #3d2a25; transform: translateY(-2px); }
     </style>
 @endpush
 
@@ -592,56 +456,53 @@
     <div class="content-wrapper">
         <div class="game-container">
             <div>
-                <h1><i class="fas fa-mountain"></i> Sanhi, Epekto, at Mga Tugon</h1>
-                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-drag ang bawat card papunta sa tamang kahon.</p>
+                <h1><i class="fas fa-mountain"></i> Itama ang Numero</h1>
+                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-tap ang numero sa bawat pahayag sa kanan upang baguhin ito (1, 2, o 3), pagkatapos i-tap ang "Kumpirmahin". Kapag tama, ikokonekta ito sa tamang kategorya sa kaliwa.</p>
             </div>
 
-            <!-- Waiting Pool -->
-            <div class="items-pool">
-                <div class="pool-title">
-                    <i class="fas fa-hourglass-half"></i>
-                    Ilagay ang card sa tamang kategorya
-                    <span class="remaining-count" id="remainingCount">3</span>
-                </div>
-                <div id="waitingCardArea" class="waiting-card-container"></div>
-            </div>
+            <div class="match-board" id="matchBoard">
+                <svg id="lineLayer"></svg>
 
-            <!-- Categories: Horizontal on Desktop, Vertical on Mobile -->
-            <div class="categories-container">
-                <!-- SANHI -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-fire cat-icon"></i>
-                        <span class="cat-label">SANHI</span>
+                <!-- LEFT: Category Anchors -->
+                <div class="categories-col">
+                    <div class="category-zone" id="zoneSanhi">
+                        <div class="category-header">
+                            <span class="cat-number">1</span>
+                            <i class="fas fa-fire cat-icon"></i>
+                            <span class="cat-label">SANHI</span>
+                        </div>
+                        <div class="category-progress" id="progressSanhi">Wala pang itinutugma</div>
                     </div>
-                    <div class="dropzone" id="dropzoneSanhi" data-category="sanhi"></div>
+
+                    <div class="category-zone" id="zoneEpekto">
+                        <div class="category-header">
+                            <span class="cat-number">2</span>
+                            <i class="fas fa-mountain cat-icon"></i>
+                            <span class="cat-label">EPEKTO</span>
+                        </div>
+                        <div class="category-progress" id="progressEpekto">Wala pang itinutugma</div>
+                    </div>
+
+                    <div class="category-zone" id="zoneTugon">
+                        <div class="category-header">
+                            <span class="cat-number">3</span>
+                            <i class="fas fa-hand-holding-heart cat-icon"></i>
+                            <span class="cat-label">TUGON</span>
+                        </div>
+                        <div class="category-progress" id="progressTugon">Wala pang itinutugma</div>
+                    </div>
                 </div>
 
-                <!-- EPEKTO -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-mountain cat-icon"></i>
-                        <span class="cat-label">EPEKTO</span>
-                    </div>
-                    <div class="dropzone" id="dropzoneEpekto" data-category="epekto"></div>
-                </div>
-
-                <!-- MGA TUGON -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-hand-holding-heart cat-icon"></i>
-                        <span class="cat-label">MGA TUGON</span>
-                    </div>
-                    <div class="dropzone" id="dropzoneTugon" data-category="tugon"></div>
-                </div>
+                <!-- RIGHT: Statement Cards with Number Stepper -->
+                <div class="items-col" id="itemsCol"></div>
             </div>
 
             <!-- Game Controls -->
             <div class="game-controls">
-                <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
+                <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
+                    <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
+                    <span class="progress-track" id="progressTrack">0 / 0 tama</span>
+                </div>
                 <div id="completionStatus"></div>
             </div>
         </div>
@@ -663,261 +524,181 @@
     </div>
 
     <script>
-        (function() {
+        (function () {
             "use strict";
 
-            // STATEMENTS DATA
-            const fullStatements = [
-                { 
-                    text: "Ang pagsabog ng lava sa Mayon Volcano ay dulot ng patuloy na pag-akyat at paggalaw ng magma sa loob ng bulkan. Ayon sa PHIVOLCS, naitala ang sunod-sunod na lava eruption na sinabayan ng seismic at infrasound signals—mga palatandaan ng tumitinding aktibidad ng bulkan.", 
-                    category: "sanhi",
-                    imageIcon: "pictures/sanhi-card.png"
+            // 1 = SANHI, 2 = EPEKTO, 3 = TUGON
+            const CATEGORY_NUMBER = { sanhi: 1, epekto: 2, tugon: 3 };
+            const NUMBER_LABEL = { 1: 'SANHI', 2: 'EPEKTO', 3: 'TUGON' };
+            const NUMBER_ZONE_ID = { 1: 'zoneSanhi', 2: 'zoneEpekto', 3: 'zoneTugon' };
+            const NUMBER_PROGRESS_ID = { 1: 'progressSanhi', 2: 'progressEpekto', 3: 'progressTugon' };
+
+            // Add/remove entries here freely - each statement belongs to
+            // exactly ONE category (sanhi, epekto, or tugon).
+            const baseStatements = [
+                {
+                    text: "Ang pagsabog ng lava sa Mayon Volcano ay dulot ng patuloy na pag-akyat at paggalaw ng magma sa loob ng bulkan. Ayon sa PHIVOLCS, naitala ang sunod-sunod na lava eruption na sinabayan ng seismic at infrasound signals—mga palatandaan ng tumitinding aktibidad ng bulkan.",
+                    category: "sanhi"
                 },
-                { 
-                    text: "Nagresulta ang aktibidad sa patuloy na pagdaloy ng lava sa iba't ibang bahagi ng bulkan, umabot ng ilang kilometro pababa sa mga dalisdis. Nagkaroon din ng mga rockfalls at pyroclastic density currents (PDCs) na nagdeposito ng debris sa loob ng ilang kilometro mula sa crater. Bukod dito, tumaas ang bilang ng volcanic earthquakes at tremors, na nagpapahiwatig ng patuloy na panganib sa mga kalapit na komunidad.", 
-                    category: "epekto",
-                    imageIcon: "pictures/epekto-card.png"
+                {
+                    text: "Nagresulta ang aktibidad sa patuloy na pagdaloy ng lava sa iba't ibang bahagi ng bulkan, umabot ng ilang kilometro pababa sa mga dalisdis. Nagkaroon din ng mga rockfalls at pyroclastic density currents (PDCs) na nagdeposito ng debris sa loob ng ilang kilometro mula sa crater. Bukod dito, tumaas ang bilang ng volcanic earthquakes at tremors, na nagpapahiwatig ng patuloy na panganib sa mga kalapit na komunidad.",
+                    category: "epekto"
                 },
-                { 
-                    text: "Naglabas ng mga babala ang mga awtoridad at pinanatili ang Alert Level 3 upang ipaalam ang posibilidad ng mapanganib na pagsabog sa mga susunod na araw o linggo. Pinag-iingat ang mga residente laban sa panganib tulad ng lava flow, rockfalls, at pyroclastic flows, at hinihikayat ang pagsunod sa mga safety protocols at posibleng paglikas upang matiyak ang kaligtasan ng komunidad.", 
-                    category: "tugon",
-                    imageIcon: "pictures/tugon-card.png"
+                {
+                    text: "Naglabas ng mga babala ang mga awtoridad at pinanatili ang Alert Level 3 upang ipaalam ang posibilidad ng mapanganib na pagsabog sa mga susunod na araw o linggo. Pinag-iingat ang mga residente laban sa panganib tulad ng lava flow, rockfalls, at pyroclastic flows, at hinihikayat ang pagsunod sa mga safety protocols at posibleng paglikas upang matiyak ang kaligtasan ng komunidad.",
+                    category: "tugon"
                 }
             ];
 
-            let remainingStatements = [...fullStatements];
             function shuffleArray(arr) {
-                for (let i = arr.length - 1; i > 0; i--) {
+                const a = [...arr];
+                for (let i = a.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                    [a[i], a[j]] = [a[j], a[i]];
                 }
-                return arr;
+                return a;
             }
-            remainingStatements = shuffleArray(remainingStatements);
 
-            const waitingArea = document.getElementById('waitingCardArea');
-            const remainingCountSpan = document.getElementById('remainingCount');
-            const dropSanhi = document.getElementById('dropzoneSanhi');
-            const dropEpekto = document.getElementById('dropzoneEpekto');
-            const dropTugon = document.getElementById('dropzoneTugon');
-            const resetBtn = document.getElementById('resetGameBtn');
+            const itemsCol = document.getElementById('itemsCol');
+            const lineLayer = document.getElementById('lineLayer');
+            const matchBoard = document.getElementById('matchBoard');
+            const progressTrack = document.getElementById('progressTrack');
             const completionStatus = document.getElementById('completionStatus');
+            const resetBtn = document.getElementById('resetGameBtn');
             const summaryModal = document.getElementById('summaryModal');
             const modalContinueBtn = document.getElementById('modalContinueBtn');
 
-            let gameActive = true;
-            let isLoadingNext = false;
-            let placedCount = 0;
+            let statements = []; // { id, text, category, currentNumber, solved }
+            let solvedCount = 0;
 
-            function shakeCard(card) {
-                if (!card) return;
-                card.classList.add('shake');
-                setTimeout(() => {
-                    card.classList.remove('shake');
-                }, 400);
+            function updateProgress() {
+                progressTrack.textContent = `${solvedCount} / ${statements.length} tama`;
             }
 
-            function updateRemainingDisplay() {
-                if (remainingCountSpan) {
-                    remainingCountSpan.textContent = remainingStatements.length;
-                }
+            function shake(el) {
+                if (!el) return;
+                el.classList.add('shake');
+                setTimeout(() => el.classList.remove('shake'), 400);
             }
 
-            function showSummaryModal() {
-                if (summaryModal) {
-                    summaryModal.classList.add('show');
-                }
+            function cycleNumber(statement, numberEl, hintEl) {
+                if (statement.solved) return;
+                statement.currentNumber = statement.currentNumber >= 3 ? 1 : statement.currentNumber + 1;
+                numberEl.textContent = statement.currentNumber;
+                hintEl.textContent = NUMBER_LABEL[statement.currentNumber];
             }
 
-            function checkAllPlacedFinal() {
-                if (placedCount === fullStatements.length) {
-                    sessionStorage.setItem("node4_done", "true");
-                    if (completionStatus) {
-                        completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
+            function drawLine(fromEl, toEl) {
+                const boardRect = matchBoard.getBoundingClientRect();
+                const fromRect = fromEl.getBoundingClientRect();
+                const toRect = toEl.getBoundingClientRect();
+
+                const x1 = fromRect.left - boardRect.left;
+                const y1 = fromRect.top - boardRect.top + fromRect.height / 2;
+                const x2 = toRect.right - boardRect.left;
+                const y2 = toRect.top - boardRect.top + toRect.height / 2;
+
+                const midX = (x1 + x2) / 2;
+                const d = `M ${x2} ${y2} C ${midX} ${y2}, ${midX} ${y1}, ${x1} ${y1}`;
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', d);
+                lineLayer.appendChild(path);
+            }
+
+            function redrawAllLines() {
+                lineLayer.innerHTML = '';
+                statements.forEach(s => {
+                    if (s.solved) {
+                        const cardEl = document.getElementById(`stmt_${s.id}`);
+                        const zoneEl = document.getElementById(NUMBER_ZONE_ID[s.currentNumber]);
+                        if (cardEl && zoneEl) drawLine(cardEl, zoneEl.querySelector('.category-header'));
                     }
-                    gameActive = false;
-                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
-                    showSummaryModal();
-                }
-            }
-
-            function createDraggableCard(statement, indexId) {
-                const card = document.createElement('div');
-                card.className = 'statement-card';
-                card.setAttribute('draggable', 'true');
-                card.setAttribute('data-category', statement.category);
-                card.setAttribute('data-id', indexId);
-
-                let headerImageHtml = '';
-                if (statement.imageIcon) {
-                    headerImageHtml = `
-                        <div class="card-header-image">
-                            <img src="{{ asset('${statement.imageIcon}') }}" alt="${statement.category} icon" onerror="this.style.display='none'">
-                        </div>
-                    `;
-                }
-
-                card.innerHTML = `
-                    ${headerImageHtml}
-                    <div class="card-text-content">${statement.text}</div>
-                `;
-
-                card.addEventListener('dragstart', handleDragStart);
-                card.addEventListener('dragend', handleDragEnd);
-                return card;
-            }
-
-            function loadNextCard() {
-                if (!gameActive) return;
-                if (isLoadingNext) return;
-
-                if (remainingStatements.length === 0) {
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card.</div>';
-                    }
-                    return;
-                }
-
-                isLoadingNext = true;
-
-                setTimeout(() => {
-                    if (!gameActive) {
-                        isLoadingNext = false;
-                        return;
-                    }
-
-                    const nextStatement = remainingStatements[0];
-                    const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '';
-                        waitingArea.appendChild(newCard);
-                    }
-                    isLoadingNext = false;
-                    updateRemainingDisplay();
-                }, 150);
-            }
-
-            function onCardPlacedSuccessfully() {
-                if (!gameActive) return;
-
-                if (waitingArea) waitingArea.innerHTML = '';
-
-                if (remainingStatements.length > 0) {
-                    remainingStatements.shift();
-                }
-                placedCount++;
-                updateRemainingDisplay();
-
-                if (placedCount === fullStatements.length) {
-                    checkAllPlacedFinal();
-                } else {
-                    loadNextCard();
-                }
-            }
-
-            let draggedElement = null;
-
-            function handleDragStart(e) {
-                if (!gameActive) {
-                    e.preventDefault();
-                    return false;
-                }
-                const parent = this.parentNode;
-                if (parent !== waitingArea) {
-                    e.preventDefault();
-                    shakeCard(this);
-                    return false;
-                }
-                draggedElement = this;
-                this.classList.add('dragging');
-                e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
-                e.dataTransfer.effectAllowed = 'move';
-            }
-
-            function handleDragEnd(e) {
-                if (this) this.classList.remove('dragging');
-                document.querySelectorAll('.dropzone').forEach(zone => {
-                    zone.classList.remove('drag-over');
                 });
-                draggedElement = null;
             }
 
-            function setupDropZones() {
-                const dropzones = [dropSanhi, dropEpekto, dropTugon];
-                dropzones.forEach(zone => {
-                    if (!zone) return;
+            function updateZoneProgressLabels() {
+                [1, 2, 3].forEach(num => {
+                    const solvedHere = statements.filter(s => s.solved && s.currentNumber === num);
+                    const progEl = document.getElementById(NUMBER_PROGRESS_ID[num]);
+                    if (!progEl) return;
+                    progEl.textContent = solvedHere.length > 0
+                        ? `${solvedHere.length} na-tugma`
+                        : 'Wala pang itinutugma';
+                });
+            }
 
-                    zone.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        if (!gameActive) return;
-                        e.dataTransfer.dropEffect = 'move';
-                        zone.classList.add('drag-over');
-                    });
+            function confirmAnswer(statement, cardEl, numberEl, confirmBtnEl) {
+                if (statement.solved) return;
 
-                    zone.addEventListener('dragleave', () => {
-                        zone.classList.remove('drag-over');
-                    });
+                if (CATEGORY_NUMBER[statement.category] === statement.currentNumber) {
+                    statement.solved = true;
+                    solvedCount++;
+                    updateProgress();
 
-                    zone.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        zone.classList.remove('drag-over');
-                        if (!gameActive) return;
-                        if (!draggedElement) return;
+                    cardEl.classList.add('solved');
+                    numberEl.classList.add('locked');
+                    confirmBtnEl.disabled = true;
+                    confirmBtnEl.outerHTML = '<span class="solved-tag"><i class="fas fa-check-circle"></i> Tama!</span>';
 
-                        const targetCategory = zone.dataset.category;
-                        const cardCategory = draggedElement.dataset.category;
+                    updateZoneProgressLabels();
+                    redrawAllLines();
 
-                        if (cardCategory !== targetCategory) {
-                            shakeCard(draggedElement);
-                            return;
-                        }
+                    if (solvedCount === statements.length) {
+                        sessionStorage.setItem("node4_done", "true");
+                        completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
+                        setTimeout(() => summaryModal.classList.add('show'), 400);
+                    }
+                } else {
+                    shake(cardEl);
+                    shake(document.getElementById(NUMBER_ZONE_ID[statement.currentNumber]));
+                }
+            }
 
-                        if (draggedElement.parentNode !== waitingArea) {
-                            shakeCard(draggedElement);
-                            return;
-                        }
+            function renderItems() {
+                itemsCol.innerHTML = '';
+                statements.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+                    card.id = `stmt_${s.id}`;
 
-                        zone.appendChild(draggedElement);
-                        draggedElement.style.cursor = 'default';
-                        draggedElement.setAttribute('draggable', 'false');
-                        draggedElement.classList.add('placed');
-                        zone.classList.add('filled');
+                    card.innerHTML = `
+                        <div class="stepper">
+                            <div class="stepper-number" id="num_${s.id}">${s.currentNumber}</div>
+                            <div class="stepper-hint" id="hint_${s.id}">${NUMBER_LABEL[s.currentNumber]}</div>
+                        </div>
+                        <div class="item-text">${s.text}</div>
+                        <button type="button" class="confirm-btn" id="confirm_${s.id}">Kumpirmahin</button>
+                    `;
 
-                        draggedElement.removeEventListener('dragstart', handleDragStart);
-                        draggedElement.removeEventListener('dragend', handleDragEnd);
+                    itemsCol.appendChild(card);
 
-                        onCardPlacedSuccessfully();
-                        draggedElement = null;
-                    });
+                    const numberEl = card.querySelector(`#num_${s.id}`);
+                    const hintEl = card.querySelector(`#hint_${s.id}`);
+                    const confirmEl = card.querySelector(`#confirm_${s.id}`);
+
+                    numberEl.addEventListener('click', () => cycleNumber(s, numberEl, hintEl));
+                    confirmEl.addEventListener('click', () => confirmAnswer(s, card, numberEl, confirmEl));
                 });
             }
 
             function resetGame() {
-                gameActive = true;
-                isLoadingNext = false;
-                placedCount = 0;
-                remainingStatements = shuffleArray([...fullStatements]);
+                const shuffled = shuffleArray(baseStatements);
+                statements = shuffled.map((s, idx) => ({
+                    ...s,
+                    id: idx + 1,
+                    currentNumber: Math.floor(Math.random() * 3) + 1,
+                    solved: false
+                }));
 
-                if (dropSanhi) dropSanhi.innerHTML = '';
-                if (dropEpekto) dropEpekto.innerHTML = '';
-                if (dropTugon) dropTugon.innerHTML = '';
+                solvedCount = 0;
+                completionStatus.innerHTML = '';
+                summaryModal.classList.remove('show');
+                lineLayer.innerHTML = '';
 
-                if (waitingArea) waitingArea.innerHTML = '';
-                if (completionStatus) completionStatus.innerHTML = '';
-
-                updateRemainingDisplay();
-
-                setTimeout(() => {
-                    if (remainingStatements.length > 0) {
-                        const firstStatement = remainingStatements[0];
-                        const firstCard = createDraggableCard(firstStatement, `card_init_${Date.now()}`);
-                        if (waitingArea) {
-                            waitingArea.innerHTML = '';
-                            waitingArea.appendChild(firstCard);
-                        }
-                    }
-                    updateRemainingDisplay();
-                }, 50);
+                renderItems();
+                updateProgress();
+                updateZoneProgressLabels();
             }
 
             if (modalContinueBtn) {
@@ -928,20 +709,14 @@
 
             if (summaryModal) {
                 summaryModal.addEventListener('click', (e) => {
-                    if (e.target === summaryModal) {
-                        summaryModal.classList.remove('show');
-                    }
+                    if (e.target === summaryModal) summaryModal.classList.remove('show');
                 });
             }
 
-            if (resetBtn) {
-                resetBtn.addEventListener('click', resetGame);
-            }
+            if (resetBtn) resetBtn.addEventListener('click', resetGame);
 
-            document.addEventListener('dragover', (e) => e.preventDefault());
-            document.addEventListener('drop', (e) => e.preventDefault());
+            window.addEventListener('resize', redrawAllLines);
 
-            setupDropZones();
             resetGame();
         })();
     </script>

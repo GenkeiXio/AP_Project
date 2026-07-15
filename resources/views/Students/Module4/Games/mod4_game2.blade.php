@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'Drag & Drop Activity - Flashflood sa Guinobatan')
+@section('title', 'Tama ang Numero - Flashflood sa Guinobatan')
 
 @push('styles')
     <style>
@@ -11,13 +11,10 @@
             --old-paper: #d9c5a3;
             --ink: #1a1a1a;
             --danger: #b71c1c;
+            --success: #2e7d32;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -62,17 +59,8 @@
             border-bottom: 2px solid var(--ink);
             padding-bottom: 10px;
         }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.3rem;
-            }
-        }
-
-        h1 i {
-            color: var(--danger);
-            margin-right: 12px;
-        }
+        @media (max-width: 768px) { h1 { font-size: 1.3rem; } }
+        h1 i { color: var(--danger); margin-right: 12px; }
 
         .subhead {
             color: var(--ink);
@@ -81,268 +69,144 @@
             padding-left: 18px;
             margin: 10px 0 25px;
         }
+        @media (max-width: 768px) { .subhead { font-size: 0.8rem; } }
 
-        @media (max-width: 768px) {
-            .subhead {
-                font-size: 0.8rem;
-            }
-        }
-
-        /* Items Pool */
-        .items-pool {
-            margin: 0 0 25px 0;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 20px 24px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .pool-title {
-            font-weight: 700;
-            margin-bottom: 18px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--ink);
-            font-family: 'Nunito', sans-serif;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 768px) {
-            .pool-title {
-                font-size: 1rem;
-            }
-        }
-
-        .waiting-card-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 280px;
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 30px;
-            transition: all 0.2s;
-            border: 1px solid #aaa;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 2px 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .waiting-card-container {
-                min-height: 200px;
-                padding: 15px;
-            }
-        }
-
-        .empty-waiting-message {
-            text-align: center;
-            color: var(--ink);
-            font-size: 1.2rem;
-            font-weight: 500;
-            background: #f4e4c7;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            padding: 40px 20px;
-            border-radius: 5px;
-            width: 100%;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .empty-waiting-message {
-                font-size: 0.9rem;
-                padding: 25px 15px;
-            }
-        }
-
-        .remaining-count {
-            font-size: 0.9rem;
-            background: var(--vintage-leather);
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 3px;
-            margin-left: 12px;
-            color: var(--gold-trim);
-            border: 1px solid var(--gold-trim);
-        }
-
-        @media (max-width: 768px) {
-            .remaining-count {
-                font-size: 0.75rem;
-                padding: 3px 8px;
-            }
-        }
-
-        /* DESKTOP: Horizontal 3 columns */
-        .categories-container {
+        /* ---------- Match Board Layout (same 2-column structure as Node 1) ---------- */
+        .match-board {
+            position: relative;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 20px 0;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin: 10px 0 25px;
+        }
+        @media (max-width: 900px) {
+            .match-board { grid-template-columns: 1fr; }
         }
 
-        /* MOBILE: Vertical stack */
-        @media (max-width: 768px) {
-            .categories-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
+        #lineLayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        #lineLayer path {
+            stroke: var(--success);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+        }
+        @media (max-width: 900px) {
+            #lineLayer { display: none; }
+        }
+
+        /* ---------- Left: Category Zones with Sequential Number Grids ---------- */
+        .categories-col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        @media (max-width: 900px) {
+            .categories-col {
+                position: sticky;
+                top: 8px;
+                z-index: 6;
+                flex-direction: row;
+                gap: 10px;
+                background: var(--old-paper);
+                padding: 8px 0 4px;
             }
         }
 
-        /* Category Header */
+        .category-zone {
+            background: rgba(244, 228, 199, 0.95);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border: 3px solid #8b6b3f;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
         .category-header {
             background: var(--vintage-leather);
             color: var(--gold-trim);
             padding: 12px 15px;
-            border-radius: 8px 8px 0 0;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            border: 1px solid var(--gold-trim);
-            border-bottom: none;
+            user-select: none;
+        }
+        @media (max-width: 900px) {
+            .category-header { padding: 10px; flex-direction: column; gap: 4px; }
         }
 
-        @media (max-width: 768px) {
-            .category-header {
-                padding: 10px 15px;
-                justify-content: flex-start;
-            }
-        }
-
-        .cat-icon {
-            font-size: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .cat-icon {
-                font-size: 1.3rem;
-            }
-        }
-
+        .cat-icon { font-size: 1.4rem; }
         .cat-image {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
             filter: brightness(0) invert(1);
         }
-
-        @media (max-width: 768px) {
-            .cat-image {
-                width: 28px;
-                height: 28px;
-            }
-        }
+        @media (max-width: 900px) { .cat-image { width: 24px; height: 24px; } }
 
         .cat-label {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             font-family: 'Nunito', sans-serif;
-        }
-
-        @media (max-width: 768px) {
-            .cat-label {
-                font-size: 1rem;
-            }
-        }
-
-        /* Drop Zone */
-        .dropzone {
-            background: rgba(244, 228, 199, 0.95);
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 0 0 8px 8px;
-            padding: 15px;
-            border: 3px dashed #8b6b3f;
-            border-top: none;
-            transition: all 0.2s ease;
-            min-height: 200px;
-        }
-
-        @media (max-width: 768px) {
-            .dropzone {
-                min-height: 160px;
-                padding: 12px;
-            }
-        }
-
-        .dropzone.drag-over {
-            background: rgba(217, 197, 163, 0.95);
-            border-color: var(--gold-trim);
-            border-style: solid;
-        }
-
-        .dropzone.filled {
-            border-style: solid;
-            background: rgba(217, 197, 163, 0.8);
-        }
-
-        /* Statement Cards */
-        .statement-card {
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-radius: 5px;
-            padding: 15px;
-            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
-            font-weight: 500;
-            cursor: grab;
-            user-select: none;
-            transition: all 0.2s ease;
-            border: 1px solid #aaa;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--ink);
-        }
-
-        @media (max-width: 768px) {
-            .statement-card {
-                padding: 12px;
-                font-size: 0.7rem;
-            }
-        }
-
-        .statement-card:active {
-            cursor: grabbing;
-        }
-
-        .statement-card.dragging {
-            opacity: 0.3;
-            cursor: grabbing;
-        }
-
-        .statement-card.placed {
-            cursor: default;
-            opacity: 0.95;
-        }
-
-        /* Card inside dropzone - not draggable */
-        .dropzone .statement-card {
-            cursor: default;
-            pointer-events: none;
-        }
-
-        .card-header-image {
             text-align: center;
-            margin-bottom: 10px;
+        }
+        @media (max-width: 900px) { .cat-label { font-size: 0.75rem; } }
+
+        .number-grid {
+            padding: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        @media (max-width: 900px) { .number-grid { display: none; } }
+
+        .number-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #8b6b3f;
+            color: var(--ink);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .card-header-image img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
+        .number-btn:hover:not(.solved):not(.solved-elsewhere):not(.locked) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+            border-color: var(--gold-trim);
         }
 
-        @media (max-width: 768px) {
-            .card-header-image img {
-                width: 35px;
-                height: 35px;
-            }
+        .number-btn.solved {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+            cursor: default;
         }
 
-        /* Shake Animation */
+        .number-btn.solved-elsewhere {
+            background: #d9d0c2;
+            border-color: #b7ac97;
+            color: #a89f8e;
+            cursor: default;
+        }
+
+        .number-btn.locked { opacity: 0.6; cursor: not-allowed; }
+
         @keyframes shakeCard {
             0% { transform: translateX(0); }
             25% { transform: translateX(-8px); }
@@ -350,12 +214,64 @@
             75% { transform: translateX(-4px); }
             100% { transform: translateX(0); }
         }
+        .number-btn.shake { animation: shakeCard 0.4s ease-in-out; border-color: var(--danger); }
+        .category-zone.shake { animation: shakeCard 0.4s ease-in-out; }
 
-        .statement-card.shake {
-            animation: shakeCard 0.4s ease-in-out;
+        /* ---------- Right: Numbered Description Cards ---------- */
+        .items-col {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
 
-        /* Buttons */
+        .item-card {
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-radius: 8px;
+            padding: 14px 16px;
+            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
+            border: 2px solid #aaa;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .item-card.solved {
+            border-color: var(--success);
+            background: rgba(46, 125, 50, 0.08);
+        }
+        .item-card.solved .item-number {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+
+        .item-number {
+            flex: 0 0 auto;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--vintage-leather);
+            color: var(--gold-trim);
+            border: 2px solid var(--gold-trim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .item-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--ink);
+            font-weight: 500;
+        }
+        @media (max-width: 768px) { .item-text { font-size: 0.78rem; } }
+
+        /* ---------- Controls ---------- */
         .reset-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
@@ -373,36 +289,18 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        @media (max-width: 768px) {
-            .reset-btn {
-                padding: 8px 16px;
-                font-size: 0.75rem;
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        .reset-btn:hover {
-            background: #3d2a25;
-            transform: translateY(-2px);
-        }
+        .reset-btn:hover { background: #3d2a25; transform: translateY(-2px); }
+        @media (max-width: 768px) { .reset-btn { padding: 8px 16px; font-size: 0.75rem; width: 100%; justify-content: center; } }
 
         .game-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            margin-top: 25px;
+            margin-top: 10px;
             gap: 15px;
         }
-
-        @media (max-width: 768px) {
-            .game-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-        }
+        @media (max-width: 768px) { .game-controls { flex-direction: column; align-items: stretch; } }
 
         .completion-badge {
             background: #d9c5a3;
@@ -417,13 +315,17 @@
             font-family: 'Nunito', sans-serif;
             font-size: 0.85rem;
         }
+        @media (max-width: 768px) { .completion-badge { font-size: 0.7rem; width: 100%; justify-content: center; } }
 
-        @media (max-width: 768px) {
-            .completion-badge {
-                font-size: 0.7rem;
-                width: 100%;
-                justify-content: center;
-            }
+        .progress-track {
+            font-size: 0.9rem;
+            background: var(--vintage-leather);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 3px;
+            color: var(--gold-trim);
+            border: 1px solid var(--gold-trim);
+            font-family: 'Nunito', sans-serif;
         }
 
         .back-button {
@@ -445,114 +347,42 @@
             letter-spacing: 1px;
             font-size: 0.8rem;
         }
+        @media (max-width: 768px) { .back-button { top: 10px; left: 10px; padding: 5px 10px; font-size: 0.65rem; } }
+        .back-button:hover { transform: translateX(-3px); }
 
-        @media (max-width: 768px) {
-            .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 5px 10px;
-                font-size: 0.65rem;
-            }
-        }
-
-        .back-button:hover {
-            transform: translateX(-3px);
-        }
-
-        /* Modal */
+        /* ---------- Modal ---------- */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 8, 7, 0.9);
             backdrop-filter: blur(5px);
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
         }
-
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-container {
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
+            max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
             border: 2px solid var(--gold-trim);
         }
-
-        .modal-overlay.show .modal-container {
-            transform: scale(1);
-        }
-
+        .modal-overlay.show .modal-container { transform: scale(1); }
         .modal-header {
             background: var(--vintage-leather);
             padding: 20px 24px;
             border-bottom: 1px solid var(--gold-trim);
         }
-
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--gold-trim);
-            font-family: 'Nunito', sans-serif;
-        }
-
-        @media (max-width: 768px) {
-            .modal-header {
-                padding: 16px 18px;
-            }
-            .modal-header h2 {
-                font-size: 1.2rem;
-            }
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .modal-body {
-                padding: 18px;
-            }
-        }
-
-        .modal-body p {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--ink);
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .modal-body p {
-                font-size: 0.85rem;
-            }
-        }
-
-        .modal-footer {
-            padding: 16px 24px 24px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
+        .modal-header h2 { margin: 0; font-size: 1.5rem; color: var(--gold-trim); font-family: 'Nunito', sans-serif; }
+        @media (max-width: 768px) { .modal-header { padding: 16px 18px; } .modal-header h2 { font-size: 1.2rem; } }
+        .modal-body { padding: 24px; }
+        @media (max-width: 768px) { .modal-body { padding: 18px; } }
+        .modal-body p { font-size: 1rem; line-height: 1.7; color: var(--ink); margin-bottom: 20px; }
+        @media (max-width: 768px) { .modal-body p { font-size: 0.85rem; } }
+        .modal-footer { padding: 16px 24px 24px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .modal-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
@@ -569,20 +399,8 @@
             gap: 8px;
             font-family: 'Nunito', sans-serif;
         }
-
-        @media (max-width: 768px) {
-            .modal-btn {
-                padding: 10px 18px;
-                font-size: 0.8rem;
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        .modal-btn:hover {
-            background: #3d2a25;
-            transform: translateY(-2px);
-        }
+        @media (max-width: 768px) { .modal-btn { padding: 10px 18px; font-size: 0.8rem; width: 100%; justify-content: center; } }
+        .modal-btn:hover { background: #3d2a25; transform: translateY(-2px); }
     </style>
 @endpush
 
@@ -592,56 +410,53 @@
     <div class="content-wrapper">
         <div class="game-container">
             <div>
-                <h1><i class="fas fa-arrows-alt"></i> Sanhi, Epekto, at Mga Tugon</h1>
-                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> I-drag ang bawat card papunta sa tamang kahon.</p>
+                <h1><i class="fas fa-link"></i> Tama ang Numero: Flashflood sa Guinobatan</h1>
+                <p class="subhead"><i class="fas fa-hand-peace me-2"></i> <b>Panuto:</b> Basahin ang bawat numerong pahayag sa kanan, pagkatapos i-tap ang katumbas na numero sa loob ng tamang kategorya sa kaliwa.</p>
             </div>
 
-            <!-- Waiting Pool -->
-            <div class="items-pool">
-                <div class="pool-title">
-                    <i class="fas fa-hourglass-half"></i>
-                    Ilagay ang card sa tamang kategorya
-                    <span class="remaining-count" id="remainingCount">3</span>
-                </div>
-                <div id="waitingCardArea" class="waiting-card-container"></div>
-            </div>
+            <div class="match-board" id="matchBoard">
+                <svg id="lineLayer"></svg>
 
-            <!-- Categories: Horizontal on Desktop, Vertical on Mobile -->
-            <div class="categories-container">
-                <!-- SANHI -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-cloud-rain cat-icon"></i>
-                        <span class="cat-label">SANHI</span>
+                <!-- LEFT: Category Zones with Sequential Numbers -->
+                <div class="categories-col">
+                    <div class="category-zone" id="zoneSanhi" data-category="sanhi">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/sanhi-icon.png') }}" alt="Sanhi" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-cloud-rain cat-icon"></i>
+                            <span class="cat-label">SANHI</span>
+                        </div>
+                        <div class="number-grid" id="gridSanhi"></div>
                     </div>
-                    <div class="dropzone" id="dropzoneSanhi" data-category="sanhi"></div>
+
+                    <div class="category-zone" id="zoneEpekto" data-category="epekto">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-house-damage cat-icon"></i>
+                            <span class="cat-label">EPEKTO</span>
+                        </div>
+                        <div class="number-grid" id="gridEpekto"></div>
+                    </div>
+
+                    <div class="category-zone" id="zoneTugon" data-category="tugon">
+                        <div class="category-header">
+                            <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
+                            <i class="fas fa-hand-holding-heart cat-icon"></i>
+                            <span class="cat-label">MGA TUGON</span>
+                        </div>
+                        <div class="number-grid" id="gridTugon"></div>
+                    </div>
                 </div>
 
-                <!-- EPEKTO -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/epekto-icon.png') }}" alt="Epekto" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-house-damage cat-icon"></i>
-                        <span class="cat-label">EPEKTO</span>
-                    </div>
-                    <div class="dropzone" id="dropzoneEpekto" data-category="epekto"></div>
-                </div>
-
-                <!-- MGA TUGON -->
-                <div class="category-item">
-                    <div class="category-header">
-                        <img src="{{ asset('pictures/tugon-icon.png') }}" alt="Tugon" class="cat-image" onerror="this.style.display='none'">
-                        <i class="fas fa-hand-holding-heart cat-icon"></i>
-                        <span class="cat-label">MGA TUGON</span>
-                    </div>
-                    <div class="dropzone" id="dropzoneTugon" data-category="tugon"></div>
-                </div>
+                <!-- RIGHT: Numbered Description Cards -->
+                <div class="items-col" id="itemsCol"></div>
             </div>
 
             <!-- Game Controls -->
             <div class="game-controls">
-                <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
+                <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
+                    <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
+                    <span class="progress-track" id="progressTrack">0 / 0 natutugma</span>
+                </div>
                 <div id="completionStatus"></div>
             </div>
         </div>
@@ -663,261 +478,192 @@
     </div>
 
     <script>
-        (function() {
+        (function () {
             "use strict";
 
-            // STATEMENTS DATA
-            const fullStatements = [
-                { 
-                    text: "Ang flashflood sa Guinobatan ay dulot ng matinding pag-ulan na tumagal ng halos isa't kalahating oras. Dahil sa lakas ng buhos ng ulan, nagkaroon ng rumaragasang baha na may kasamang lahar mula sa Mayon Volcano, na mabilis na bumaba mula sa kabundukan patungo sa mga mababang lugar.", 
-                    category: "sanhi",
-                    imageIcon: "pictures/sanhi-card.png"
-                },
-                { 
-                    text: "Nagmistulang ilog ang mga kalsada dahil sa rumaragasang baha na may dalang putik, bato, at buhangin. Nagdulot ito ng panganib sa mga residente, nasira ang ilang bahay, at naapektuhan ang kabuhayan ng mga tao sa lugar. Ang mabilis na pagtaas ng tubig ay nagdulot ng takot at pinsala sa komunidad.", 
-                    category: "epekto",
-                    imageIcon: "pictures/epekto-card.png"
-                },
-                { 
-                    text: "Agad na kumilos ang mga awtoridad sa pamamagitan ng clearing operations upang alisin ang putik at debris sa mga kalsada. Nagbigay rin sila ng mga babala at naghanda ng tulong para sa mga apektadong residente. Ipinakita ng pangyayaring ito ang kahalagahan ng maagap na paghahanda, pagsunod sa mga babala, at pagtutulungan ng komunidad upang maiwasan ang mas matinding pinsala at mapanatili ang kaligtasan ng lahat.", 
-                    category: "tugon",
-                    imageIcon: "pictures/tugon-card.png"
-                }
+            // Each statement belongs to exactly ONE category.
+            // Add/remove entries here freely - the sequential number grids
+            // in every category zone are generated automatically to match.
+            const baseStatements = [
+                { text: "Ang flashflood sa Guinobatan ay dulot ng matinding pag-ulan na tumagal ng halos isa't kalahating oras.", category: "sanhi", imageIcon: "pictures/sanhi-card.png" },
+                { text: "Dahil sa lakas ng buhos ng ulan, nagkaroon ng rumaragasang baha na may kasamang lahar mula sa Mayon Volcano na mabilis na bumaba mula sa kabundukan patungo sa mababang lugar.", category: "sanhi", imageIcon: "pictures/sanhi-card.png" },
+                { text: "Nagmistulang ilog ang mga kalsada dahil sa rumaragasang baha na may dalang putik, bato, at buhangin.", category: "epekto", imageIcon: "pictures/epekto-card.png" },
+                { text: "Nagdulot ito ng panganib sa mga residente, nasira ang ilang bahay, at naapektuhan ang kabuhayan ng mga tao sa lugar.", category: "epekto", imageIcon: "pictures/epekto-card.png" },
+                { text: "Agad na kumilos ang mga awtoridad sa pamamagitan ng clearing operations upang alisin ang putik at debris sa mga kalsada.", category: "tugon", imageIcon: "pictures/tugon-card.png" },
+                { text: "Nagbigay rin sila ng mga babala at naghanda ng tulong para sa mga apektadong residente.", category: "tugon", imageIcon: "pictures/tugon-card.png" }
             ];
 
-            let remainingStatements = [...fullStatements];
             function shuffleArray(arr) {
-                for (let i = arr.length - 1; i > 0; i--) {
+                const a = [...arr];
+                for (let i = a.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                    [a[i], a[j]] = [a[j], a[i]];
                 }
-                return arr;
+                return a;
             }
-            remainingStatements = shuffleArray(remainingStatements);
 
-            const waitingArea = document.getElementById('waitingCardArea');
-            const remainingCountSpan = document.getElementById('remainingCount');
-            const dropSanhi = document.getElementById('dropzoneSanhi');
-            const dropEpekto = document.getElementById('dropzoneEpekto');
-            const dropTugon = document.getElementById('dropzoneTugon');
-            const resetBtn = document.getElementById('resetGameBtn');
+            const itemsCol = document.getElementById('itemsCol');
+            const lineLayer = document.getElementById('lineLayer');
+            const matchBoard = document.getElementById('matchBoard');
+            const progressTrack = document.getElementById('progressTrack');
             const completionStatus = document.getElementById('completionStatus');
+            const resetBtn = document.getElementById('resetGameBtn');
             const summaryModal = document.getElementById('summaryModal');
             const modalContinueBtn = document.getElementById('modalContinueBtn');
 
-            let gameActive = true;
-            let isLoadingNext = false;
-            let placedCount = 0;
+            const zones = {
+                sanhi: document.getElementById('zoneSanhi'),
+                epekto: document.getElementById('zoneEpekto'),
+                tugon: document.getElementById('zoneTugon')
+            };
+            const grids = {
+                sanhi: document.getElementById('gridSanhi'),
+                epekto: document.getElementById('gridEpekto'),
+                tugon: document.getElementById('gridTugon')
+            };
 
-            function shakeCard(card) {
-                if (!card) return;
-                card.classList.add('shake');
-                setTimeout(() => {
-                    card.classList.remove('shake');
-                }, 400);
+            const LOCKOUT_MS = 500;
+
+            let statements = []; // { number, text, category, imageIcon, solved }
+            let solvedCount = 0;
+
+            function shake(el) {
+                if (!el) return;
+                el.classList.add('shake');
+                setTimeout(() => el.classList.remove('shake'), 400);
             }
 
-            function updateRemainingDisplay() {
-                if (remainingCountSpan) {
-                    remainingCountSpan.textContent = remainingStatements.length;
-                }
+            function updateProgress() {
+                progressTrack.textContent = `${solvedCount} / ${statements.length} natutugma`;
             }
 
-            function showSummaryModal() {
-                if (summaryModal) {
-                    summaryModal.classList.add('show');
-                }
+            function drawLine(fromEl, toEl) {
+                const boardRect = matchBoard.getBoundingClientRect();
+                const fromRect = fromEl.getBoundingClientRect();
+                const toRect = toEl.getBoundingClientRect();
+
+                const x1 = fromRect.right - boardRect.left;
+                const y1 = fromRect.top - boardRect.top + fromRect.height / 2;
+                const x2 = toRect.left - boardRect.left;
+                const y2 = toRect.top - boardRect.top + toRect.height / 2;
+
+                const midX = (x1 + x2) / 2;
+                const d = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', d);
+                lineLayer.appendChild(path);
             }
 
-            function checkAllPlacedFinal() {
-                if (placedCount === fullStatements.length) {
-                    sessionStorage.setItem("node2_done", "true");
-                    if (completionStatus) {
-                        completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
+            function redrawAllLines() {
+                lineLayer.innerHTML = '';
+                statements.forEach(s => {
+                    if (s.solved) {
+                        const btnEl = document.querySelector(`.number-btn.solved[data-number="${s.number}"]`);
+                        const cardEl = document.getElementById(`item_${s.number}`);
+                        if (btnEl && cardEl) drawLine(btnEl, cardEl);
                     }
-                    gameActive = false;
-                    if (waitingArea) waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Lahat ng card ay nailagay na!</div>';
-                    showSummaryModal();
-                }
+                });
             }
 
-            function createDraggableCard(statement, indexId) {
-                const card = document.createElement('div');
-                card.className = 'statement-card';
-                card.setAttribute('draggable', 'true');
-                card.setAttribute('data-category', statement.category);
-                card.setAttribute('data-id', indexId);
+            function renderItems() {
+                itemsCol.innerHTML = '';
+                const sortedByNumber = [...statements].sort((a, b) => a.number - b.number);
+                sortedByNumber.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+                    card.id = `item_${s.number}`;
 
-                let headerImageHtml = '';
-                if (statement.imageIcon) {
-                    headerImageHtml = `
-                        <div class="card-header-image">
-                            <img src="{{ asset('${statement.imageIcon}') }}" alt="${statement.category} icon" onerror="this.style.display='none'">
-                        </div>
+                    let imgHtml = '';
+                    if (s.imageIcon) {
+                        imgHtml = `<img class="item-image" src="{{ asset('') }}${s.imageIcon}" alt="" onerror="this.style.display='none'" style="width:40px;height:40px;object-fit:contain;">`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="item-number">${s.number}</div>
+                        ${imgHtml}
+                        <div class="item-text">${s.text}</div>
                     `;
-                }
-
-                card.innerHTML = `
-                    ${headerImageHtml}
-                    <div class="card-text-content">${statement.text}</div>
-                `;
-
-                card.addEventListener('dragstart', handleDragStart);
-                card.addEventListener('dragend', handleDragEnd);
-                return card;
+                    itemsCol.appendChild(card);
+                });
             }
 
-            function loadNextCard() {
-                if (!gameActive) return;
-                if (isLoadingNext) return;
-
-                if (remainingStatements.length === 0) {
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '<div class="empty-waiting-message"><i class="fas fa-check-circle"></i> Walang natitirang card.</div>';
-                    }
-                    return;
-                }
-
-                isLoadingNext = true;
-
-                setTimeout(() => {
-                    if (!gameActive) {
-                        isLoadingNext = false;
-                        return;
-                    }
-
-                    const nextStatement = remainingStatements[0];
-                    const newCard = createDraggableCard(nextStatement, `card_${Date.now()}_${Math.random()}`);
-                    if (waitingArea) {
-                        waitingArea.innerHTML = '';
-                        waitingArea.appendChild(newCard);
-                    }
-                    isLoadingNext = false;
-                    updateRemainingDisplay();
-                }, 150);
+            function renderNumberGrids() {
+                // Sequential order (1, 2, 3, ...) - identical in every zone.
+                Object.keys(grids).forEach(category => {
+                    grids[category].innerHTML = '';
+                    statements
+                        .slice()
+                        .sort((a, b) => a.number - b.number)
+                        .forEach(s => {
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'number-btn';
+                            btn.textContent = s.number;
+                            btn.setAttribute('data-number', s.number);
+                            btn.setAttribute('data-category', category);
+                            btn.addEventListener('click', () => handleNumberTap(s.number, category, btn));
+                            grids[category].appendChild(btn);
+                        });
+                });
             }
 
-            function onCardPlacedSuccessfully() {
-                if (!gameActive) return;
+            function allButtonsForNumber(number) {
+                return document.querySelectorAll(`.number-btn[data-number="${number}"]`);
+            }
 
-                if (waitingArea) waitingArea.innerHTML = '';
+            function handleNumberTap(number, tappedCategory, btnEl) {
+                const statement = statements.find(s => s.number === number);
+                if (!statement || statement.solved) return;
+                if (btnEl.classList.contains('locked')) return;
 
-                if (remainingStatements.length > 0) {
-                    remainingStatements.shift();
-                }
-                placedCount++;
-                updateRemainingDisplay();
+                if (statement.category === tappedCategory) {
+                    statement.solved = true;
+                    solvedCount++;
+                    updateProgress();
 
-                if (placedCount === fullStatements.length) {
-                    checkAllPlacedFinal();
+                    const cardEl = document.getElementById(`item_${number}`);
+                    if (cardEl) cardEl.classList.add('solved');
+
+                    allButtonsForNumber(number).forEach(b => {
+                        if (b.dataset.category === tappedCategory) {
+                            b.classList.add('solved');
+                        } else {
+                            b.classList.add('solved-elsewhere');
+                        }
+                    });
+
+                    redrawAllLines();
+
+                    if (solvedCount === statements.length) {
+                        sessionStorage.setItem("node2_done", "true");
+                        completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
+                        setTimeout(() => summaryModal.classList.add('show'), 400);
+                    }
                 } else {
-                    loadNextCard();
+                    shake(zones[tappedCategory]);
+                    btnEl.classList.add('shake', 'locked');
+                    setTimeout(() => btnEl.classList.remove('shake'), 400);
+                    setTimeout(() => btnEl.classList.remove('locked'), LOCKOUT_MS);
                 }
-            }
-
-            let draggedElement = null;
-
-            function handleDragStart(e) {
-                if (!gameActive) {
-                    e.preventDefault();
-                    return false;
-                }
-                const parent = this.parentNode;
-                if (parent !== waitingArea) {
-                    e.preventDefault();
-                    shakeCard(this);
-                    return false;
-                }
-                draggedElement = this;
-                this.classList.add('dragging');
-                e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
-                e.dataTransfer.effectAllowed = 'move';
-            }
-
-            function handleDragEnd(e) {
-                if (this) this.classList.remove('dragging');
-                document.querySelectorAll('.dropzone').forEach(zone => {
-                    zone.classList.remove('drag-over');
-                });
-                draggedElement = null;
-            }
-
-            function setupDropZones() {
-                const dropzones = [dropSanhi, dropEpekto, dropTugon];
-                dropzones.forEach(zone => {
-                    if (!zone) return;
-
-                    zone.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        if (!gameActive) return;
-                        e.dataTransfer.dropEffect = 'move';
-                        zone.classList.add('drag-over');
-                    });
-
-                    zone.addEventListener('dragleave', () => {
-                        zone.classList.remove('drag-over');
-                    });
-
-                    zone.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        zone.classList.remove('drag-over');
-                        if (!gameActive) return;
-                        if (!draggedElement) return;
-
-                        const targetCategory = zone.dataset.category;
-                        const cardCategory = draggedElement.dataset.category;
-
-                        if (cardCategory !== targetCategory) {
-                            shakeCard(draggedElement);
-                            return;
-                        }
-
-                        if (draggedElement.parentNode !== waitingArea) {
-                            shakeCard(draggedElement);
-                            return;
-                        }
-
-                        zone.appendChild(draggedElement);
-                        draggedElement.style.cursor = 'default';
-                        draggedElement.setAttribute('draggable', 'false');
-                        draggedElement.classList.add('placed');
-                        zone.classList.add('filled');
-
-                        draggedElement.removeEventListener('dragstart', handleDragStart);
-                        draggedElement.removeEventListener('dragend', handleDragEnd);
-
-                        onCardPlacedSuccessfully();
-                        draggedElement = null;
-                    });
-                });
             }
 
             function resetGame() {
-                gameActive = true;
-                isLoadingNext = false;
-                placedCount = 0;
-                remainingStatements = shuffleArray([...fullStatements]);
+                const shuffled = shuffleArray(baseStatements);
+                statements = shuffled.map((s, idx) => ({
+                    ...s,
+                    number: idx + 1,
+                    solved: false
+                }));
 
-                if (dropSanhi) dropSanhi.innerHTML = '';
-                if (dropEpekto) dropEpekto.innerHTML = '';
-                if (dropTugon) dropTugon.innerHTML = '';
+                solvedCount = 0;
+                completionStatus.innerHTML = '';
+                summaryModal.classList.remove('show');
+                lineLayer.innerHTML = '';
 
-                if (waitingArea) waitingArea.innerHTML = '';
-                if (completionStatus) completionStatus.innerHTML = '';
-
-                updateRemainingDisplay();
-
-                setTimeout(() => {
-                    if (remainingStatements.length > 0) {
-                        const firstStatement = remainingStatements[0];
-                        const firstCard = createDraggableCard(firstStatement, `card_init_${Date.now()}`);
-                        if (waitingArea) {
-                            waitingArea.innerHTML = '';
-                            waitingArea.appendChild(firstCard);
-                        }
-                    }
-                    updateRemainingDisplay();
-                }, 50);
+                renderItems();
+                renderNumberGrids();
+                updateProgress();
             }
 
             if (modalContinueBtn) {
@@ -928,20 +674,14 @@
 
             if (summaryModal) {
                 summaryModal.addEventListener('click', (e) => {
-                    if (e.target === summaryModal) {
-                        summaryModal.classList.remove('show');
-                    }
+                    if (e.target === summaryModal) summaryModal.classList.remove('show');
                 });
             }
 
-            if (resetBtn) {
-                resetBtn.addEventListener('click', resetGame);
-            }
+            if (resetBtn) resetBtn.addEventListener('click', resetGame);
 
-            document.addEventListener('dragover', (e) => e.preventDefault());
-            document.addEventListener('drop', (e) => e.preventDefault());
+            window.addEventListener('resize', redrawAllLines);
 
-            setupDropZones();
             resetGame();
         })();
     </script>
