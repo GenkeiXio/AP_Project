@@ -22,7 +22,7 @@
 /* STATS */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     margin-bottom: 35px;
 }
@@ -39,11 +39,16 @@
     transition: 0.3s ease;
     opacity: 0;
     transform: translateY(20px);
+    min-width: 0;
 }
 
 .stat-card:hover {
     transform: translateY(-5px) scale(1.02);
 }
+
+.stat-card > div { min-width: 0; }
+.stat-card p { font-size: 13px; }
+.stat-card h2 { font-size: 22px; word-break: break-word; }
 
 .stat-icon {
     width: 52px;
@@ -52,12 +57,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 /* MODULES */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 22px;
 }
 
@@ -125,6 +131,25 @@
 .badge.blue { background: #dbeafe; color: #2563eb; }
 .badge.green { background: #dcfce7; color: #16a34a; }
 .badge.purple { background: #ede9fe; color: #7c3aed; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 640px) {
+    .header-row h1 { font-size: 22px; }
+    .header-row p { font-size: 13.5px; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card { padding: 16px; border-radius: 14px; gap: 10px; }
+    .stat-icon { width: 42px; height: 42px; border-radius: 11px; }
+    .stat-card h2 { font-size: 18px; }
+    .stat-card p { font-size: 11.5px; }
+
+    .modules-grid { grid-template-columns: 1fr; gap: 14px; }
+    .module-card { padding: 18px; border-radius: 14px; }
+}
+
+@media (max-width: 420px) {
+    .stats-grid { grid-template-columns: 1fr; }
+}
 </style>
 @endpush
 
@@ -236,22 +261,23 @@
             }, index * 120);
         });
 
-        // COUNT-UP ANIMATION
-        const counters = document.querySelectorAll('h2');
+        // COUNT-UP ANIMATION (scoped to stat-card h2 only)
+        const counters = document.querySelectorAll('.stat-card h2');
 
         counters.forEach(counter => {
-            const target = +counter.innerText.replace('%','');
+            const isPercent = counter.innerText.includes('%');
+            const target = +counter.innerText.replace('%', '');
             let count = 0;
 
             const update = () => {
-                const increment = target / 30;
+                const increment = Math.max(target / 30, 0.1);
                 count += increment;
 
                 if (count < target) {
-                    counter.innerText = Math.floor(count) + (counter.innerText.includes('%') ? '%' : '');
+                    counter.innerText = Math.floor(count) + (isPercent ? '%' : '');
                     requestAnimationFrame(update);
                 } else {
-                    counter.innerText = target + (counter.innerText.includes('%') ? '%' : '');
+                    counter.innerText = target + (isPercent ? '%' : '');
                 }
             };
 

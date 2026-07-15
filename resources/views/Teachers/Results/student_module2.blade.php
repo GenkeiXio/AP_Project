@@ -105,7 +105,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     border-radius: 20px 0 0 20px;
 }
 
-.hero-left { display: flex; align-items: center; gap: 18px; padding-left: 10px; }
+.hero-left { display: flex; align-items: center; gap: 18px; padding-left: 10px; min-width: 0; }
 
 .avatar-ring {
     width: 64px; height: 64px;
@@ -120,11 +120,13 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     flex-shrink: 0;
 }
 
+.hero-meta { min-width: 0; }
 .hero-meta h1 {
     font-size: 22px;
     font-weight: 800;
     letter-spacing: -.4px;
     color: var(--text-1);
+    overflow-wrap: break-word;
 }
 .hero-meta p {
     font-size: 13px;
@@ -158,6 +160,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
 .export-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 11px 20px;
     border-radius: 12px;
@@ -358,6 +361,11 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     box-shadow: var(--shadow-sm);
 }
 
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .answer-table-wrap table {
     width: 100%;
     border-collapse: collapse;
@@ -375,6 +383,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     color: var(--text-3);
     padding: 12px 16px;
     text-align: left;
+    white-space: nowrap;
 }
 .answer-table-wrap td {
     padding: 11px 16px;
@@ -409,6 +418,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     font-size: 12px;
     font-weight: 700;
     font-family: 'Outfit', sans-serif;
+    white-space: nowrap;
 }
 .tag-correct { background: var(--green-light); color: #059669; }
 .tag-wrong   { background: var(--red-light); color: #dc2626; }
@@ -418,7 +428,9 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
     margin-bottom: 14px;
+    flex-wrap: wrap;
 }
 .sec-title {
     font-family: 'Outfit', sans-serif;
@@ -444,6 +456,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     border: 1px solid var(--border);
     padding: 4px 10px;
     border-radius: 999px;
+    white-space: nowrap;
 }
 
 /* ─── NODE CARDS ─────────────────────────────────────────── */
@@ -488,7 +501,6 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
 .node-card-body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    divide-x: 1px solid var(--border);
 }
 
 .node-field {
@@ -588,6 +600,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     color: var(--text-2);
     min-height: 120px;
     font-style: italic;
+    overflow-wrap: break-word;
 }
 .essay-meta {
     padding: 10px 20px;
@@ -598,6 +611,8 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     font-weight: 500;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 /* ─── PROGRESS BAR ───────────────────────────────────────── */
@@ -623,17 +638,29 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; }
+    .page-wrap { padding: 22px 16px 48px; }
+    .hero { grid-template-columns: 1fr; padding: 20px; }
+    .hero::before { width: 100%; height: 6px; border-radius: 20px 20px 0 0; }
+    .export-btn { width: 100%; margin-top: 4px; }
     .snapshot { grid-template-columns: repeat(2, 1fr); }
     .score-grid { grid-template-columns: 1fr; }
     .final-grid { grid-template-columns: repeat(2, 1fr); }
     .node-card-body { grid-template-columns: 1fr; }
     .node-field { border-right: none; border-bottom: 1px solid var(--border); }
     .node-field:last-child { border-bottom: none; }
+    .tab-nav-wrap { -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+    .tab-btn { scroll-snap-align: start; }
 }
 @media (max-width: 520px) {
+    .hero-left { gap: 14px; padding-left: 4px; }
+    .avatar-ring { width: 54px; height: 54px; font-size: 18px; }
+    .hero-meta h1 { font-size: 19px; }
     .snapshot { grid-template-columns: 1fr; }
     .final-grid { grid-template-columns: 1fr; }
+    .snap-card .value { font-size: 24px; }
+    .back-btn { margin-bottom: 16px; }
+    .tab-btn { font-size: 12.5px; padding: 8px 13px; }
+    .answer-table-wrap th, .answer-table-wrap td { padding: 10px 12px; }
 }
 </style>
 @endpush
@@ -821,6 +848,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
             <span class="summary-badge">{{ $stats['pre_total'] }} Questions</span>
         </div>
         <div class="answer-table-wrap">
+            <div class="table-scroll">
             <table>
                 <thead>
                     <tr>
@@ -847,6 +875,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
     @else
         <div class="empty-state">
@@ -1009,6 +1038,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
                 <span class="summary-badge">{{ $finalAnswers->count() }} entries</span>
             </div>
             <div class="answer-table-wrap">
+                <div class="table-scroll">
                 <table>
                     <thead>
                         <tr>
@@ -1042,6 +1072,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         @endif
     @else
@@ -1126,6 +1157,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
             <span class="summary-badge">{{ $stats['post_total'] }} Questions</span>
         </div>
         <div class="answer-table-wrap">
+            <div class="table-scroll">
             <table>
                 <thead>
                     <tr>
@@ -1152,6 +1184,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
     @else
         <div class="empty-state"><div class="empty-icon">📋</div><p>Post-test not submitted yet.</p></div>
@@ -1200,7 +1233,12 @@ function switchTab(id, btn) {
     // Activate target
     const panel = document.getElementById('panel-' + id);
     if (panel) panel.classList.add('active');
-    if (btn) btn.classList.add('active');
+    if (btn) {
+        btn.classList.add('active');
+        if (typeof btn.scrollIntoView === 'function') {
+            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+    }
 }
 
 // Animate rings on load

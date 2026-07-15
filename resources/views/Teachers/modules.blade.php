@@ -27,7 +27,7 @@ body {
 /* GRID */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 22px;
 }
 
@@ -66,6 +66,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .blue .module-icon { background:#dbeafe; color:#2563eb; }
@@ -75,6 +76,7 @@ body {
 .module-title {
     font-size: 18px;
     font-weight: 700;
+    word-break: break-word;
 }
 
 .module-desc {
@@ -88,6 +90,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 
     padding: 12px 14px;
     border-radius: 12px;
@@ -106,8 +109,26 @@ body {
     background: #f1f5f9;
 }
 
+.download-btn span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.download-btn span i { flex-shrink: 0; }
+
 /* ICON COLORS */
 .pdf { color: #ef4444; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 640px) {
+    .page-header h2 { font-size: 21px; }
+    .page-header p { font-size: 14px; }
+    .modules-grid { grid-template-columns: 1fr; gap: 16px; }
+    .module-card { padding: 16px; border-radius: 14px; }
+    .download-btn { font-size: 13px; padding: 11px 12px; }
+}
 </style>
 @endpush
 
