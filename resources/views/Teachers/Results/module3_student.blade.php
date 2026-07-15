@@ -83,7 +83,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     background: linear-gradient(180deg, var(--teal), var(--blue));
     border-radius: 20px 0 0 20px;
 }
-.hero-left { display: flex; align-items: center; gap: 18px; padding-left: 10px; }
+.hero-left { display: flex; align-items: center; gap: 18px; padding-left: 10px; min-width: 0; }
 .avatar-ring {
     width: 64px; height: 64px; border-radius: 50%;
     background: linear-gradient(135deg, var(--teal), var(--blue));
@@ -92,7 +92,8 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     font-weight: 800; font-size: 22px;
     box-shadow: 0 6px 20px rgba(20,184,166,.3); flex-shrink: 0;
 }
-.hero-meta h1 { font-size: 22px; font-weight: 800; letter-spacing: -.4px; }
+.hero-meta { min-width: 0; }
+.hero-meta h1 { font-size: 22px; font-weight: 800; letter-spacing: -.4px; overflow-wrap: break-word; }
 .hero-meta p   { font-size: 13px; color: var(--text-3); margin-top: 3px; }
 .hero-pills { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 
@@ -109,7 +110,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
 .pill-red    { background: var(--red-light);    color: #dc2626; }
 
 .export-btn {
-    display: inline-flex; align-items: center; gap: 8px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     padding: 11px 20px; border-radius: 12px;
     background: linear-gradient(135deg, var(--teal), var(--blue));
     color: white; font-family: 'Outfit', sans-serif;
@@ -159,6 +160,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     display: flex; gap: 4px; margin-bottom: 20px;
     box-shadow: var(--shadow-sm); overflow-x: auto;
     scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    -webkit-overflow-scrolling: touch;
 }
 .tab-nav-wrap::-webkit-scrollbar { height: 4px; }
 .tab-nav-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -169,6 +171,7 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     font-family: 'Outfit', sans-serif; font-size: 12.5px; font-weight: 600;
     color: var(--text-3); cursor: pointer; border: none;
     background: transparent; white-space: nowrap; transition: all .2s; flex-shrink: 0;
+    scroll-snap-align: start;
 }
 .tab-btn .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
 .tab-btn .badge-dot.empty { background: var(--text-4); }
@@ -200,16 +203,17 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
 
 /* ─── ANSWER TABLE ───────────────────────────────────────── */
 .answer-table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .answer-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .answer-table-wrap thead { background: var(--surface-2); }
-.answer-table-wrap th { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; color: var(--text-3); padding: 12px 16px; text-align: left; }
+.answer-table-wrap th { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; color: var(--text-3); padding: 12px 16px; text-align: left; white-space: nowrap; }
 .answer-table-wrap td { padding: 11px 16px; color: var(--text-2); font-weight: 500; vertical-align: middle; }
 .answer-table-wrap tbody tr { border-top: 1px solid var(--border); transition: background .15s; }
 .answer-table-wrap tbody tr:hover { background: var(--surface-2); }
 
 .q-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; background: var(--blue-light); color: var(--blue-dark); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 12px; }
 
-.tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif; }
+.tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif; white-space: nowrap; }
 .tag-correct { background: var(--green-light); color: #059669; }
 .tag-wrong   { background: var(--red-light);   color: #dc2626; }
 .tag-pass    { background: #dbeafe; color: #1e40af; }
@@ -222,10 +226,10 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
 .tag-orange  { background: var(--orange-light); color: #c2410c; }
 
 /* ─── SECTION HEADER ─────────────────────────────────────── */
-.sec-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.sec-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .sec-title { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-1); display: flex; align-items: center; gap: 8px; }
 .sec-title .line { width: 4px; height: 18px; border-radius: 99px; background: linear-gradient(180deg, var(--teal), var(--blue)); }
-.summary-badge { font-size: 12px; font-weight: 600; font-family: 'Outfit', sans-serif; color: var(--text-3); background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 999px; }
+.summary-badge { font-size: 12px; font-weight: 600; font-family: 'Outfit', sans-serif; color: var(--text-3); background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
 
 /* ─── STAT GRID ──────────────────────────────────────────── */
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
@@ -280,13 +284,32 @@ h1,h2,h3,h4,h5 { font-family: 'Outfit', sans-serif; }
     .score-band { grid-template-columns: repeat(3,1fr); }
 }
 @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; }
+    .page-wrap { padding: 22px 16px 48px; }
+    .hero { grid-template-columns: 1fr; padding: 20px; }
+    .hero::before { width: 100%; height: 6px; border-radius: 20px 20px 0 0; }
+    .export-btn { width: 100%; margin-top: 4px; }
     .snapshot { grid-template-columns: repeat(2,1fr); }
     .score-grid { grid-template-columns: 1fr; }
     .score-band { grid-template-columns: repeat(2,1fr); }
+    .stat-grid { grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); }
+}
+@media (max-width: 560px) {
+    .info-table-wrap tr { display: flex; flex-direction: column; }
+    .info-table-wrap .i-label { width: 100%; padding-bottom: 4px; }
+    .info-table-wrap .i-value { padding-top: 0 18px 12px; }
 }
 @media (max-width: 520px) {
+    .hero-left { gap: 14px; padding-left: 4px; }
+    .avatar-ring { width: 54px; height: 54px; font-size: 18px; }
+    .hero-meta h1 { font-size: 19px; }
     .snapshot { grid-template-columns: 1fr; }
+    .snap-card .value { font-size: 24px; }
+    .score-band { grid-template-columns: 1fr; }
+    .seg { border-right: none; border-bottom: 1px solid var(--border); }
+    .seg:last-child { border-bottom: none; }
+    .back-btn { margin-bottom: 16px; }
+    .tab-btn { font-size: 12px; padding: 8px 12px; }
+    .answer-table-wrap th, .answer-table-wrap td { padding: 10px 12px; }
 }
 </style>
 @endpush
@@ -466,6 +489,7 @@ $tabs = [
                 <span class="summary-badge">{{ $stats['pre_total'] }} Questions</span>
             </div>
             <div class="answer-table-wrap">
+                <div class="table-scroll">
                 <table>
                     <thead><tr><th>#</th><th>Student's Answer</th><th>Correct Answer</th><th>Result</th></tr></thead>
                     <tbody>
@@ -479,6 +503,7 @@ $tabs = [
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         @endif
     @else
@@ -828,6 +853,7 @@ $tabs = [
                 <span class="summary-badge">{{ count($posttestAnswers) }} Questions</span>
             </div>
             <div class="answer-table-wrap">
+                <div class="table-scroll">
                 <table>
                     <thead><tr><th>#</th><th>Student's Answer</th><th>Correct Answer</th><th>Result</th></tr></thead>
                     <tbody>
@@ -842,6 +868,7 @@ $tabs = [
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         @endif
     @else
@@ -903,7 +930,12 @@ function switchTab(id, btn) {
     document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
     const panel = document.getElementById('panel-' + id);
     if (panel) panel.classList.add('active');
-    if (btn) btn.classList.add('active');
+    if (btn) {
+        btn.classList.add('active');
+        if (typeof btn.scrollIntoView === 'function') {
+            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

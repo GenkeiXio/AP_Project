@@ -54,12 +54,14 @@ body { background: #eef2f7; color: #1e293b; }
     background: linear-gradient(135deg, transparent, rgba(20,184,166,0.04));
     pointer-events: none;
 }
-.student-info { display: flex; align-items: center; gap: 16px; }
+.student-info { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.student-info-text { min-width: 0; }
 .student-info-text h2 {
     font-size: 22px;
     font-weight: 800;
     color: #0f172a;
     margin: 0 0 2px 0;
+    overflow-wrap: break-word;
 }
 .student-subtitle { font-size: 12px; color: #94a3b8; font-weight: 500; margin-bottom: 8px; }
 .student-badges { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -72,6 +74,7 @@ body { background: #eef2f7; color: #1e293b; }
     border-radius: 999px;
     font-size: 11px;
     font-weight: 700;
+    white-space: nowrap;
 }
 .badge-green  { background: #dcfce7; color: #16a34a; }
 .badge-blue   { background: #dbeafe; color: #2563eb; }
@@ -97,6 +100,7 @@ body { background: #eef2f7; color: #1e293b; }
 .btn-export {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 11px 20px;
     border-radius: 12px;
@@ -173,13 +177,19 @@ body { background: #eef2f7; color: #1e293b; }
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     margin-bottom: 20px;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 transparent;
 }
+.tabs-wrapper::-webkit-scrollbar { height: 4px; }
+.tabs-wrapper::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
 .tabs { display: flex; gap: 4px; min-width: max-content; }
 .tab {
     display: inline-flex; align-items: center; gap: 5px;
     padding: 8px 16px; border-radius: 10px; cursor: pointer;
     font-size: 13px; font-weight: 600; color: #64748b;
     transition: all 0.2s; white-space: nowrap; user-select: none;
+    scroll-snap-align: start;
 }
 .tab:hover { background: #f1f5f9; color: #334155; }
 .tab.active {
@@ -238,9 +248,12 @@ body { background: #eef2f7; color: #1e293b; }
 .table-box-header {
     display: flex; justify-content: space-between; align-items: center;
     padding: 16px 20px; border-bottom: 1px solid #f1f5f9;
+    flex-wrap: wrap; gap: 8px;
 }
 .table-box-title { font-size: 14px; font-weight: 700; color: #0f172a; }
-.question-count  { font-size: 12px; font-weight: 600; color: #94a3b8; }
+.question-count  { font-size: 12px; font-weight: 600; color: #94a3b8; white-space: nowrap; }
+
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead { background: #f8fafc; }
@@ -248,6 +261,7 @@ th {
     padding: 11px 20px; text-align: left;
     font-size: 10px; font-weight: 700;
     letter-spacing: .08em; text-transform: uppercase; color: #94a3b8;
+    white-space: nowrap;
 }
 td {
     padding: 13px 20px; color: #334155;
@@ -266,6 +280,7 @@ tbody tr:last-child td { border-bottom: none; }
     display: inline-flex; align-items: center; gap: 4px;
     padding: 4px 10px; border-radius: 999px;
     font-size: 11px; font-weight: 700;
+    white-space: nowrap;
 }
 .badge-correct { background: #dcfce7; color: #16a34a; }
 .badge-wrong   { background: #fee2e2; color: #dc2626; }
@@ -286,13 +301,14 @@ tbody tr:last-child td { border-bottom: none; }
     color: #94a3b8; text-transform: uppercase; letter-spacing: .06em;
     padding-top: 2px;
 }
-.detail-val { font-size: 14px; font-weight: 600; color: #0f172a; flex: 1; }
+.detail-val { font-size: 14px; font-weight: 600; color: #0f172a; flex: 1; min-width: 0; overflow-wrap: break-word; }
 
 /* ── STATUS PILL ────────────────────────────────── */
 .status-pill {
     display: inline-flex; align-items: center; gap: 5px;
     padding: 4px 12px; border-radius: 999px;
     font-size: 12px; font-weight: 700;
+    white-space: nowrap;
 }
 .pill-pass    { background: #dcfce7; color: #16a34a; }
 .pill-fail    { background: #fee2e2; color: #dc2626; }
@@ -314,10 +330,27 @@ tbody tr:last-child td { border-bottom: none; }
 @media (max-width: 1024px) {
     .summary-grid { grid-template-columns: repeat(2, 1fr); }
 }
+@media (max-width: 900px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .stat-row-2 { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 768px) {
-    .stat-row { grid-template-columns: 1fr; }
-    .student-header { flex-direction: column; align-items: flex-start; }
+    .stat-row, .stat-row-2 { grid-template-columns: 1fr; }
+    .student-header { flex-direction: column; align-items: stretch; }
+    .student-info { padding-right: 0; }
+    .btn-export { width: 100%; }
     .summary-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+    .student-header { padding: 18px; }
+    .avatar { width: 50px; height: 50px; font-size: 16px; border-radius: 14px; }
+    .student-info-text h2 { font-size: 19px; }
+    .stat-card { padding: 20px 16px; }
+    .gauge-wrap { width: 88px; height: 88px; }
+    .gauge-svg { width: 88px; height: 88px; }
+    .detail-row { flex-direction: column; gap: 4px; }
+    .detail-key { width: 100%; }
+    th, td { padding: 10px 14px; }
 }
 </style>
 @endpush
@@ -554,6 +587,7 @@ $dashOff  = fn($pct) => $circ - ($circ * $pct / 100);
             <span class="table-box-title">Answer Breakdown</span>
             <span class="question-count">{{ $pretestAnswers->count() }} Questions</span>
         </div>
+        <div class="table-scroll">
         <table>
             <thead>
                 <tr>
@@ -578,6 +612,7 @@ $dashOff  = fn($pct) => $circ - ($circ * $pct / 100);
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
     @else
     <div class="empty-state">
@@ -698,6 +733,7 @@ $dashOff  = fn($pct) => $circ - ($circ * $pct / 100);
             <span class="table-box-title">🎮 {{ $g->game_type }}</span>
             <span class="badge badge-blue">Rank #{{ $g->rank }}</span>
         </div>
+        <div class="table-scroll">
         <table>
             <thead>
                 <tr><th>Score</th><th>Total Items</th><th>Rank</th></tr>
@@ -710,6 +746,7 @@ $dashOff  = fn($pct) => $circ - ($circ * $pct / 100);
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
     @empty
     <div class="empty-state">
@@ -871,6 +908,7 @@ $dashOff  = fn($pct) => $circ - ($circ * $pct / 100);
             <span class="table-box-title">Answer Breakdown</span>
             <span class="question-count">{{ count(json_decode($posttest->answers)) }} Questions</span>
         </div>
+        <div class="table-scroll">
         <table>
             <thead>
                 <tr>
@@ -887,6 +925,7 @@ $dashOff  = fn($pct) => $circ - ($circ * $pct / 100);
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
     @else
     <div class="empty-state">
@@ -913,6 +952,9 @@ document.querySelectorAll('.tab').forEach(tab => {
         document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab).classList.add('active');
+        if (typeof tab.scrollIntoView === 'function') {
+            tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
     });
 });
 </script>
