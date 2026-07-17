@@ -21,10 +21,17 @@ class Module2_PosttestController extends Controller
             return redirect()->route('home');
         }
 
-        // RESET attempts every visit
-        session()->forget('module2_posttest_attempts');
+        // Get the highest score and attempt count from database
+        $studentId = $this->studentId();
+        
+        $highestScore = Module2Posttest::where('student_id', $studentId)
+            ->max('score');
+            
+        $attemptCount = Module2Posttest::where('student_id', $studentId)
+            ->count();
 
-        return view('module2_posttest');
+        // Pass to view if needed
+        return view('module2_posttest', compact('highestScore', 'attemptCount'));
     }
 
     public function store(Request $request)
@@ -35,16 +42,15 @@ class Module2_PosttestController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // 🔥 SESSION LIMIT
-        $attempts = session()->get('module2_posttest_attempts', 0);
+        // Get attempts from DATABASE (not session)
+        $attemptCount = Module2Posttest::where('student_id', $studentId)->count();
 
-        if ($attempts >= 2) {
+        if ($attemptCount >= 2) {
             return response()->json([
-                'error' => 'Maximum attempts reached'
+                'error' => 'Maximum attempts reached',
+                'remaining_attempts' => 0
             ], 403);
         }
-
-        session()->put('module2_posttest_attempts', $attempts + 1);
 
         $request->validate([
             'score' => 'required|integer',
@@ -52,11 +58,14 @@ class Module2_PosttestController extends Controller
             'answers' => 'required|array',
         ]);
 
-        // SAVE MAIN RESULT
+        // SAVE MAIN RESULT with attempt number
+        $attemptNumber = $attemptCount + 1;
+        
         $posttest = Module2Posttest::create([
             'student_id' => $studentId,
             'score' => $request->score,
             'percentage' => $request->percentage,
+            'attempts' => $attemptNumber, // Save the attempt number
         ]);
 
         // SAVE ANSWERS
@@ -70,11 +79,34 @@ class Module2_PosttestController extends Controller
             ]);
         }
 
+        $remainingAttempts = 2 - $attemptNumber;
+
         return response()->json([
             'success' => true,
             'message' => 'Post-test saved successfully',
-            'attempt_used' => $attempts + 1,
-            'remaining_attempts' => 2 - ($attempts + 1)
+            'attempt_used' => $attemptNumber,
+            'remaining_attempts' => $remainingAttempts,
+            'highest_score' => Module2Posttest::where('student_id', $studentId)->max('score')
+        ]);
+    }
+
+    public function checkAttempts()
+    {
+        $studentId = $this->studentId();
+        
+        if (!$studentId) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+        $attemptCount = Module2Posttest::where('student_id', $studentId)->count();
+        $remainingAttempts = 2 - $attemptCount;
+        $highestScore = Module2Posttest::where('student_id', $studentId)->max('score');
+
+        return response()->json([
+            'attempts' => $attemptCount,
+            'remaining' => $remainingAttempts,
+            'can_retry' => $remainingAttempts > 0,
+            'highest_score' => $highestScore
         ]);
     }
 }

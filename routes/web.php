@@ -450,3 +450,10 @@ Route::get('/module4/rolly', function () {
 
 Route::post('/student/module2/pretest/save', [Module2PretestController::class, 'store'])->name('student.module2.pretest.save');
 Route::get('/student/module2/pretest/check', [Module2PretestController::class, 'checkAttempts'])->name('student.module2.pretest.check');
+
+
+
+
+
+Route::post('/student/module2/posttest/save', [Module2_PosttestController::class, 'store'])->name('student.module2.posttest.save');
+Route::get('/student/module2/posttest/check', [Module2_PosttestController::class, 'checkAttempts'])->name('student.module2.posttest.check');
