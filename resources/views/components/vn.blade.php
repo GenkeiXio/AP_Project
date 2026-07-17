@@ -257,10 +257,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentDialogueKey = null;
 
-    window.startDialogue = function(dialogueArray, key = null) {
+    // 🆕 callback hooks so pages can react when the VN finishes or is skipped
+    let onCompleteCallback = null;
+    let onSkipCallback = null;
+
+    // 🆕 startDialogue now accepts EITHER:
+    //   - a plain string key (old usage):      startDialogue(lines, "moduleXIntro")
+    //   - an options object (new usage):        startDialogue(lines, { key: "...", onComplete() {}, onSkip() {} })
+    window.startDialogue = function(dialogueArray, options = null) {
         dialogue = dialogueArray;
         currentIndex = 0;
-        currentDialogueKey = key;
+
+        // normalize the second argument
+        if (typeof options === "string") {
+            options = { key: options };
+        } else if (!options || typeof options !== "object") {
+            options = {};
+        }
+
+        currentDialogueKey = options.key || null;
+        onCompleteCallback = typeof options.onComplete === "function" ? options.onComplete : null;
+        onSkipCallback = typeof options.onSkip === "function" ? options.onSkip : null;
 
         vnContainer.classList.remove("vn-hidden");
         vnContainer.style.display = "flex";
@@ -314,7 +331,8 @@ document.addEventListener("DOMContentLoaded", function () {
         isTyping = false;
     }
 
-    function endDialogue() {
+    // 🆕 endDialogue now knows WHY it ended, and fires the matching callback
+    function endDialogue(wasSkipped) {
         vnContainer.classList.add("vn-hidden");
         vnContainer.style.display = "none";
 
@@ -323,6 +341,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (currentDialogueKey) {
             markSeen(currentDialogueKey);
+        }
+
+        if (wasSkipped) {
+            if (onSkipCallback) onSkipCallback();
+        } else {
+            if (onCompleteCallback) onCompleteCallback();
         }
     }
 
@@ -339,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (currentIndex >= dialogue.length) {
             console.log("ENDING DIALOGUE");
-            endDialogue();
+            endDialogue(false); // 🆕 finished naturally
             return;
         }
 
@@ -347,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     vnSkip.addEventListener("click", () => {
-        endDialogue();
+        endDialogue(true); // 🆕 skipped
     });
 
 });

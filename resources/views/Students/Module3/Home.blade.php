@@ -12,6 +12,12 @@
 
     <style>
 
+    :root {
+        --vintage-leather: #2b1b17;
+        --gold-trim: #c5a059;
+        --old-paper: #d9c5a3;
+    }
+
     /* 🔥 FULLSCREEN BACKGROUND */
     html, body {
         height: 100%;
@@ -54,6 +60,50 @@
 
         box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         animation: popIn 0.4s ease;
+
+        /* 🏠 smooth switch from white to brown once VN ends/is skipped */
+        transition: background 0.8s ease, box-shadow 0.8s ease, border 0.8s ease, color 0.8s ease;
+    }
+
+    /* 🏠 Light "home" parchment theme - same tone as the category zones on the Tugma-Tala page */
+    .ui-panel.home-mode {
+        background: var(--old-paper) !important;
+        background-image: url('https://www.transparenttextures.com/patterns/stardust.png') !important;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 0 30px rgba(139,107,63,0.15) !important;
+        border: 2px solid var(--vintage-leather) !important;
+    }
+
+    .ui-panel.home-mode h1 {
+        color: var(--vintage-leather) !important;
+    }
+
+    .ui-panel.home-mode .subtitle {
+        color: #6b4a2e !important;
+        font-weight: 700;
+    }
+
+    .ui-panel.home-mode .header-icons {
+        filter: none;
+    }
+
+    .ui-panel.home-mode p {
+        color: #3d2a25 !important;
+    }
+
+    .ui-panel.home-mode .btn-primary {
+        background: var(--vintage-leather) !important;
+        color: var(--gold-trim) !important;
+        border: 1px solid var(--gold-trim) !important;
+    }
+
+    .ui-panel.home-mode .btn-primary.disabled {
+        background: #47403b !important;
+        color: #f4e9db !important;
+        border-color: #a89484 !important;
+    }
+
+    .ui-panel.home-mode .btn-primary:hover:not(.disabled) {
+        background: #3d2a25 !important;
     }
 
     /* @keyframes popIn {
@@ -85,7 +135,7 @@
         opacity: 0.6;
     }
 
-    /* MODAL (same as yours) */
+    /* MODAL (goals modal - now brown-themed to match the rest of the module) */
     .modal {
         display: none;
 
@@ -113,7 +163,8 @@
     }
 
     .modal-content {
-        background: #ffffff;
+        background: var(--old-paper);
+        background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
         padding: 30px 28px;
         width: 90%;
         max-width: 650px;
@@ -121,17 +172,21 @@
         text-align: left;
         margin: auto;
 
-        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         animation: popIn 0.35s ease;
 
         max-height: 85vh;
         overflow-y: auto;
+
+        border: 2px solid var(--vintage-leather);
+        color: #3d2a25;
     }
 
     .close-btn {
         float: right;
         cursor: pointer;
         font-size: 1.5rem;
+        color: var(--vintage-leather);
     }
 
     .modal-section {
@@ -147,27 +202,28 @@
         font-family: 'Baloo 2';
         margin-bottom: 20px;
         font-size: 1.4rem;
+        color: var(--vintage-leather);
     }
 
-    /* 🎮 QUEST CARDS */
+    /* 🎮 QUEST CARDS - light parchment cards, same tone as the category zones on Tugma-Tala */
     .goal-card {
         display: flex;
         gap: 15px;
         align-items: center;
 
-        background: linear-gradient(135deg, #f8fff8, #eef7ee);
+        background: rgba(244, 228, 199, 0.95);
         border-radius: 15px;
         padding: 16px;
         margin-bottom: 15px;
 
-        border-left: 6px solid #2e7d32;
+        border-left: 6px solid var(--vintage-leather);
 
         transition: 0.2s;
     }
 
     .goal-card:hover {
         transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
     /* 🎮 ICON */
@@ -181,8 +237,8 @@
         width: 45px;
         height: 45px;
 
-        background: #2e7d32;
-        color: white;
+        background: var(--vintage-leather);
+        color: var(--gold-trim);
 
         border-radius: 12px;
 
@@ -194,12 +250,12 @@
         margin: 0 0 5px;
         font-size: 1rem;
         font-weight: 800;
-        color: #1b5e20;
+        color: var(--vintage-leather);
     }
 
     .goal-card p {
         font-size: 0.95rem;
-        color: #333;
+        color: #3d2a25;
     }
 
     /* ✅ CHECKLIST */
@@ -211,6 +267,7 @@
     .goal-list li {
         margin-bottom: 6px;
         font-size: 0.95rem;
+        color: #3d2a25;
     }
 
     /* 🚀 FOOTER */
@@ -218,10 +275,21 @@
         text-align: center;
         margin-top: 20px;
         font-weight: 700;
-        color: #2e7d32;
-        background: #e8f5e9;
+        color: var(--gold-trim);
+        background: var(--vintage-leather);
         padding: 10px;
         border-radius: 10px;
+    }
+
+    /* "Naiintindihan Ko" confirm button inside the parchment modal */
+    .modal-content .btn-primary {
+        background: var(--vintage-leather);
+        color: var(--gold-trim);
+        border: 1px solid var(--gold-trim);
+    }
+
+    .modal-content .btn-primary:hover {
+        background: #3d2a25;
     }
 
     .back-button {
@@ -255,7 +323,7 @@
     <div class="overlay"></div>
 
     <!-- 🎮 CENTER UI -->
-    <div class="ui-panel">
+    <div class="ui-panel" id="uiPanel">
 
         <div class="header">
             <div class="header-icons">🔥 🛡️ 🌊</div>
@@ -355,6 +423,7 @@
 
 <script>
 let hasOpenedGoals = false;
+let vnCompleted = false;
 
 function openModal(){
     document.getElementById("goalsModal").classList.add("show");
@@ -373,6 +442,16 @@ function startLesson(){
     }
 
     window.location.href = '{{ route("module3.pretest") }}';
+}
+
+// 🏠 Turns the ui-panel from white to brown. Runs whether the VN
+// finishes naturally (onComplete) or the student taps "Laktawan" (onSkip).
+function enterHomeMode() {
+    if (vnCompleted) return;
+    vnCompleted = true;
+
+    const uiPanel = document.getElementById('uiPanel');
+    if (uiPanel) uiPanel.classList.add('home-mode');
 }
 
 window.onclick = function(e){
@@ -408,7 +487,14 @@ window.addEventListener("load", () => {
         name: "Mga Guro",
         image: "{{ asset('pictures/vn_box_teacher3.png') }}"
         },
-    ]);
+    ], {
+        onComplete: function() {
+            enterHomeMode();
+        },
+        onSkip: function() {
+            enterHomeMode();
+        }
+    });
 });
 
 </script>
