@@ -446,3 +446,7 @@ Route::get('/inner-map-4', function () {
 Route::get('/module4/rolly', function () {
     return view('Students.Module4.Explore.rolly_story');
 })->name('module4.rolly.story');
+
+
+Route::post('/student/module2/pretest/save', [Module2PretestController::class, 'store'])->name('student.module2.pretest.save');
+Route::get('/student/module2/pretest/check', [Module2PretestController::class, 'checkAttempts'])->name('student.module2.pretest.check');

@@ -12,6 +12,7 @@ class Module2Pretest extends Model
         'student_id',
         'score',
         'percentage',
+        'attempts',
     ];
 
     public function student()

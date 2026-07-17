@@ -16,9 +16,6 @@ class Module2PretestController extends Controller
             return redirect()->route('home');
         }
 
-        // 🔥 RESET attempts EVERY VISIT
-        session()->forget('module2_pretest_attempts');
-
         return view('module2');
     }
 
@@ -36,17 +33,17 @@ class Module2PretestController extends Controller
             'answers' => 'required|array',
         ]);
 
-        // ✅ SESSION-BASED ATTEMPTS (NOT DATABASE)
-        $attempts = session()->get('module2_pretest_attempts', 0);
+        // ✅ GET ATTEMPTS FROM DATABASE
+        $attemptCount = Module2Pretest::where('student_id', $studentId)->count();
 
-        if ($attempts >= 3) {
+        // Check if exceeded maximum attempts (3)
+        if ($attemptCount >= 3) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Naabot mo na ang maximum na 3 attempts.'
+                'message' => 'Naabot mo na ang maximum na 3 attempts.',
+                'can_retry' => false
             ], 403);
         }
-
-        session()->put('module2_pretest_attempts', $attempts + 1);
 
         // ✅ SAVE RESULT
         $pretest = Module2Pretest::create([
@@ -65,18 +62,37 @@ class Module2PretestController extends Controller
             ]);
         }
 
+        $remainingAttempts = 3 - ($attemptCount + 1);
+
         return response()->json([
             'success' => true,
-            'remaining_attempts' => 3 - ($attempts + 1)
+            'attempt' => $attemptCount + 1,
+            'remaining_attempts' => $remainingAttempts,
+            'can_retry' => $remainingAttempts > 0
         ]);
     }
 
     public function checkAttempts()
-	{
-		$studentId = Session::get('student_id');
-
-		return response()->json([
-			'remaining' => 3 - $attemptCount
-		]);
-	}
+    {
+        $studentId = Session::get('student_id');
+        
+        if (!$studentId) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+        $attemptCount = Module2Pretest::where('student_id', $studentId)->count();
+        $remainingAttempts = 3 - $attemptCount;
+        
+        // Get last score
+        $lastPretest = Module2Pretest::where('student_id', $studentId)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        
+        return response()->json([
+            'attempts' => $attemptCount,
+            'remaining' => $remainingAttempts,
+            'can_retry' => $remainingAttempts > 0,
+            'last_score' => $lastPretest ? $lastPretest->score : null
+        ]);
+    }
 }
