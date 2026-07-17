@@ -599,6 +599,15 @@
 			animation: pulseBorder 1.5s ease-in-out infinite;
 		}
 
+		/* Unanswered question highlight */
+		.unanswered-highlight {
+			background-color: #fff3df !important;
+			transition: background-color 0.5s ease;
+			border-radius: 16px;
+			padding: 12px;
+			border: 2px solid #f4c97a;
+		}
+
 		@keyframes pulseBorder {
 			0%, 100% { border-color: #e7d7bf; }
 			50% { border-color: #f4c97a; }
@@ -1084,6 +1093,75 @@
 		}
 	}
 
+	// ================= SCROLL TO UNANSWERED =================
+	function scrollToFirstUnanswered() {
+		// First check questions on current card
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		
+		// Check current card first
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				// Scroll to this question
+				const questionElements = document.querySelectorAll('.single-question');
+				for (let el of questionElements) {
+					const h4 = el.querySelector('h4');
+					if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+						el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						el.classList.add('unanswered-highlight');
+						setTimeout(() => {
+							el.classList.remove('unanswered-highlight');
+						}, 2000);
+						return i;
+					}
+				}
+			}
+		}
+		
+		// If all current card questions are answered, check all questions
+		for (let i = 0; i < questions.length; i++) {
+			if (selectedAnswers[i] === '') {
+				// Navigate to the card containing this question
+				const targetCard = Math.floor(i / questionsPerCard);
+				if (targetCard !== currentCard) {
+					currentCard = targetCard;
+					renderAllQuestions();
+					// Wait for render then scroll
+					setTimeout(() => {
+						const questionElements = document.querySelectorAll('.single-question');
+						for (let el of questionElements) {
+							const h4 = el.querySelector('h4');
+							if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+								el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+								el.classList.add('unanswered-highlight');
+								setTimeout(() => {
+									el.classList.remove('unanswered-highlight');
+								}, 2000);
+								return;
+							}
+						}
+					}, 150);
+				} else {
+					const questionElements = document.querySelectorAll('.single-question');
+					for (let el of questionElements) {
+						const h4 = el.querySelector('h4');
+						if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+							el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+							el.classList.add('unanswered-highlight');
+							setTimeout(() => {
+								el.classList.remove('unanswered-highlight');
+							}, 2000);
+							return;
+						}
+					}
+				}
+				return i;
+			}
+		}
+		
+		return -1; // All answered
+	}
+
 	function renderAllQuestions() {
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
@@ -1168,10 +1246,10 @@
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
-		// Check if all questions on current card are answered
+		// Check if all questions on current card are answered - SCROLL instead of alert
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				alert('Pakisagutan muna ang lahat ng tanong sa card na ito bago kumpirmahin.');
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1215,7 +1293,8 @@
 
 	function goNextQuestion() {
 		if (!confirmedAnswers[currentQuestionIndex]) {
-			alert('Kailangan munang kumpirmahin ang sagot bago magpatuloy sa susunod.');
+			// SCROLL instead of alert
+			scrollToFirstUnanswered();
 			return;
 		}
 		
@@ -1249,8 +1328,17 @@
 	}
 
 	function submitPreTest() {
-		if (!confirmedAnswers.every(confirmed => confirmed === true)) {
-			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+		// Check if all questions are confirmed - SCROLL instead of alert
+		let unansweredIndex = -1;
+		for (let i = 0; i < questions.length; i++) {
+			if (!confirmedAnswers[i]) {
+				unansweredIndex = i;
+				break;
+			}
+		}
+		
+		if (unansweredIndex !== -1) {
+			scrollToFirstUnanswered();
 			return;
 		}
 
@@ -1283,7 +1371,10 @@
 		.then(res => res.json())
 		.then(data => {
 			if (data.error) {
-				alert(data.error);
+				// Show error in UI instead of alert
+				const resultFeedback = document.getElementById('resultFeedback');
+				resultFeedback.textContent = data.error;
+				resultFeedback.style.color = '#7a2e2e';
 				return;
 			}
 			remainingAttempts = data.remaining;
@@ -1343,7 +1434,10 @@
 
 	function restartQuiz() {
 		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 3 pagsubok.');
+			// Show message in UI instead of alert
+			const resultFeedback = document.getElementById('resultFeedback');
+			resultFeedback.textContent = 'Naabot mo na ang maximum na 3 pagsubok.';
+			resultFeedback.style.color = '#7a2e2e';
 			return;
 		}
 
