@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module3\Inner_map3.blade.php --}}
 @extends('Students.studentslayout')
 @section('title', 'InnerMap3')
 
@@ -450,7 +449,7 @@ function showFinalUnlockMessage() {
     document.getElementById("progressModal").style.display = "flex";
 }
 
-// Mark function (to be called from node completion pages)
+// ===== FIXED: Global completeNode function =====
 function completeNode(nodeNumber) {
     const keyMap = {
         1: M3_PROGRESS_KEYS.node1,
@@ -458,26 +457,40 @@ function completeNode(nodeNumber) {
         3: M3_PROGRESS_KEYS.node3
     };
     
+    console.log("completeNode called for node:", nodeNumber);
+    
     if (keyMap[nodeNumber]) {
         markNodeComplete(keyMap[nodeNumber]);
+        console.log("Node " + nodeNumber + " marked as completed!");
         updateMapProgress();
+        return true;
     }
+    return false;
 }
 
-// Initialize on load
-window.onload = function() {
+// ===== FIXED: Initialize on load =====
+document.addEventListener('DOMContentLoaded', function() {
     initializeProgress();
     updateMapProgress();
     
     // Check if we need to complete a node (from URL parameter)
     const urlParams = new URLSearchParams(window.location.search);
-    const completeNode = urlParams.get('complete');
-    if (completeNode) {
-        completeNode(parseInt(completeNode));
-        // Remove the parameter after processing
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, document.title, newUrl);
+    const completeParam = urlParams.get('complete');
+    if (completeParam) {
+        const nodeNum = parseInt(completeParam);
+        if (nodeNum >= 1 && nodeNum <= 3) {
+            completeNode(nodeNum);
+            // Remove the parameter after processing
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
     }
+});
+
+// Also keep window.onload for compatibility
+window.onload = function() {
+    // Already handled by DOMContentLoaded, but keep for safety
+    console.log("Window loaded - map ready");
 };
 </script>
 @endsection

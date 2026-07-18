@@ -1,4 +1,3 @@
-{{-- filepath: resources/views/Students/Module3/Nodes/mod3_node2.blade.php --}}
 @extends('Students.studentslayout')
 @section('title', 'Modyul 3 - Yugto 2')
 
@@ -21,6 +20,9 @@
     --ok:#3f7b4b;
     --bad:#934038;
     --gold:#b88b33;
+    --green-dark: #1b5e20;
+    --green-mid: #2e7d32;
+    --wood-dark: #3d2b1f;
 }
 
 .sr-only{
@@ -101,46 +103,6 @@ body{
     font-weight:600;
 }
 
-.hud{
-    margin:10px auto 12px;
-    display:inline-flex;
-    justify-content:center;
-    gap:8px;
-    flex-wrap:wrap;
-    position:relative;
-    z-index:2;
-    padding:8px;
-    background:linear-gradient(135deg,rgba(70,48,30,.95),rgba(97,66,42,.95));
-    border:1px solid #9f7a4a;
-    border-radius:999px;
-    box-shadow:0 10px 24px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.14);
-    backdrop-filter:blur(6px);
-}
-.pill{
-    border-radius:999px;
-    padding:7px 11px;
-    font-size:.8rem;
-    font-weight:800;
-    font-family:'Nunito',sans-serif;
-    border:1px solid #b49670;
-    background:linear-gradient(135deg,#f7e9d2,#ecd7b6);
-    color:#4e351f;
-}
-.pill.gold{
-    border-color:#d3ae62;
-    background:linear-gradient(135deg,#f8e5b9,#eacb89);
-    color:#5f430e;
-}
-
-@media (max-width:760px){
-    .hud{
-        width:auto;
-        max-width:100%;
-        justify-content:center;
-        border-radius:16px;
-    }
-}
-
 .body{
     padding:18px;
 }
@@ -217,547 +179,381 @@ body{
     50%{ opacity:0; }
 }
 
-.section-title{
-    margin:18px 0 8px;
-    color:#4b2f1b;
-    font-size:1.02rem;
-    font-weight:800;
-    font-family:'Poppins',sans-serif;
-    border-left:4px solid #b68b4b;
-    padding-left:10px;
+/* ===== STEP CONTAINER ===== */
+.step-container {
+    margin-top: 18px;
 }
 
-.choice-container{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-@media (max-width:900px){
-    .choice-container{ grid-template-columns:1fr; }
-}
-
-.choice-card{
-    border-radius:16px;
-    border:1px solid #d0bca1;
-    background:linear-gradient(135deg,#fffdf8,#f4e8d5);
-    padding:14px;
-    transition:.22s ease;
-    position:relative;
-}
-.choice-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 14px 24px rgba(0,0,0,.10);
-}
-.choice-card.active{
-    border-color:#b99058;
-    box-shadow:0 0 0 4px rgba(185,144,88,.2);
-}
-
-.choice-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
-}
-.choice-head h3{
-    margin:0;
-    font-size:1.05rem;
-    color:#3f3026;
-}
-.read-btn{
-    border:none;
-    border-radius:10px;
-    padding:8px 11px;
-    cursor:pointer;
-    font-weight:700;
-    background:linear-gradient(135deg,#735131,#8d633c);
-    color:#f8efe2;
-    transition:.18s;
-}
-.read-btn:hover{ transform:translateY(-1px); }
-
-.hidden-text{
-    max-height:220px;
-    overflow-y:auto;
-    opacity:1;
-    margin-top:10px;
-    transition:max-height .35s ease, opacity .25s ease, margin-top .2s ease;
-    color:#5f5349;
-    line-height:1.58;
-    font-size:.92rem;
-    padding-right:6px;
-    border-top:1px dashed #d5ebe3;
-    padding-top:10px;
-}
-.hidden-text.show{
-    max-height:220px;
-    opacity:1;
-    margin-top:10px;
-}
-
-.hidden-text::-webkit-scrollbar{
-    width:8px;
-}
-.hidden-text::-webkit-scrollbar-track{
-    background:#edf6f3;
-    border-radius:999px;
-}
-.hidden-text::-webkit-scrollbar-thumb{
-    background:linear-gradient(#8fcdbc,#5cae9d);
-    border-radius:999px;
-}
-.hidden-text{
-    scrollbar-color:#5cae9d #edf6f3;
-    scrollbar-width:thin;
-}
-
-.choose-section{
-    display:none;
-    margin-top:14px;
-    text-align:center;
-    border:1px dashed #b99564;
-    border-radius:18px;
-    background:linear-gradient(135deg,#fbf2e3,#f2e5d2);
-    padding:18px;
-    animation:popIn .35s ease;
-}
-@keyframes popIn{
-    from{ opacity:0; transform:scale(.96); }
-    to{ opacity:1; transform:scale(1); }
-}
-
-.step-title{
-    margin:0 0 12px;
-    font-weight:800;
-    font-size:1.1rem;
-    color:#3d2f26;
-}
-
-.elegant-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-}
-
-@media (max-width:760px){
-    .elegant-grid{ grid-template-columns:1fr; }
-}
-
-.elegant-btn{
-    position:relative;
-    border:none;
-    border-radius:20px;
-    padding:20px;
-    cursor:pointer;
-    overflow:hidden;
-    transition:all .25s ease;
-    backdrop-filter: blur(10px);
-    background:rgba(255,247,232,0.82);
-    box-shadow:0 15px 35px rgba(0,0,0,0.18);
-}
-
-.elegant-btn:hover{
-    transform:translateY(-6px) scale(1.02);
-    box-shadow:0 25px 50px rgba(0,0,0,0.18);
-}
-
-.elegant-btn:active{
-    transform:scale(.98);
-}
-
-.btn-content{
-    display:flex;
-    gap:16px;
-    align-items:center;
-    position:relative;
-    z-index:2;
-}
-
-.icon-wrap{
-    width:60px;
-    height:60px;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#fff9ee,#f2e2c8);
-    box-shadow:inset 0 2px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(153,113,64,.25);
-}
-
-.icon-svg{
-    width:30px;
-    height:30px;
-    display:block;
-}
-
-.icon-svg path,
-.icon-svg circle,
-.icon-svg rect,
-.icon-svg line{
-    stroke:currentColor;
-}
-
-.text-wrap{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    text-align:left;
-}
-
-.btn-title{
-    font-size:1.1rem;
-    font-weight:800;
-}
-
-.btn-desc{
-    font-size:.9rem;
-    opacity:.85;
-    font-weight:600;
-    line-height:1.4;
-}
-
-.top-style{
-    background:linear-gradient(135deg,#f9e4da,#efd0c2);
-    color:#7e342c;
-}
-
-.bottom-style{
-    background:linear-gradient(135deg,#edf4e2,#dce8cf);
-    color:#45633e;
-}
-
-.btn-glow{
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6), transparent 60%);
-    opacity:.6;
-    z-index:1;
-}
-
-.game-btn{
-    position:relative;
-    width:100%;
-    border:none;
-    border-radius:18px;
-    padding:16px 16px;
-    margin:0;
-    cursor:pointer;
-    font-weight:800;
-    transition:.18s, transform .18s ease, box-shadow .18s ease;
-    box-shadow:0 12px 24px rgba(0,0,0,.08);
-    text-align:left;
-}
-.game-btn:hover{ transform:translateY(-2px); }
-.btn-top{
-    background:linear-gradient(135deg,#fff2ef,#ffe6e0);
-    color:#9b3c33;
-}
-.btn-bottom{
-    background:linear-gradient(135deg,#ecfff9,#dff7f0);
-    color:#23685a;
-}
-
-.choice-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-    margin-top:14px;
-}
-@media (max-width:760px){
-    .choice-grid{ grid-template-columns:1fr; }
-}
-
-.choice-card-btn{
-    display:flex;
-    gap:14px;
-    align-items:flex-start;
-    justify-content:flex-start;
-}
-
-.choice-badge{
-    flex:0 0 56px;
-    width:56px;
-    height:56px;
-    border-radius:16px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.5rem;
-    background:rgba(255,255,255,.72);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
-}
-
-.choice-copy{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-}
-
-.choice-title{
-    font-size:1.02rem;
-    font-weight:800;
-}
-
-.choice-desc{
-    font-size:.9rem;
-    line-height:1.45;
-    font-weight:600;
-    opacity:.9;
-}
-
-.btn-top .choice-desc,
-.btn-bottom .choice-desc{
-    color:inherit;
-}
-
-.challenge{
-    display:none;
-    margin-top:16px;
-    border:1px solid #ccb79c;
-    border-radius:16px;
-    background:linear-gradient(180deg,#fffcf5,#f4e7d2);
-    padding:14px;
-    animation:fadeIn .35s ease;
-}
-@keyframes fadeIn{
-    from{ opacity:0; transform:translateY(10px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
-.progress{
-    height:10px;
-    border-radius:999px;
-    border:1px solid #c5aa84;
-    background:#e9d8be;
-    overflow:hidden;
-}
-.progress-fill{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#b57d2c,#5a7c4b);
-    transition:width .35s ease;
-}
-
-.timer{
-    margin-top:10px;
-    font-weight:800;
-    color:#7a4d2b;
-    font-size:.88rem;
-}
-
-.prompt{
-    margin:12px 0 10px;
-    font-weight:700;
-    color:#433429;
-}
-
-.arg-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-@media (max-width:760px){
-    .arg-grid{ grid-template-columns:1fr; }
-}
-.arg-btn{
-    border:1px solid #d1bea3;
-    background:linear-gradient(135deg,#fffcf6,#f1e4d0);
-    color:#3f2f24;
-    text-align:left;
-    border-radius:12px;
-    padding:12px;
-    cursor:pointer;
-    font-weight:700;
-    transition:.18s ease;
-}
-.arg-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 18px rgba(0,0,0,.08);
-}
-
-.status{
-    margin-top:12px;
-    min-height:22px;
-    font-weight:700;
-    font-size:.9rem;
-}
-.status.ok{ color:var(--ok); }
-.status.bad{ color:var(--bad); }
-
-.result{
-    display:none;
-    margin-top:16px;
-    border-radius:14px;
-    border:1px solid #ccb79b;
-    background:linear-gradient(135deg,#f8efdf,#efe0c8);
-    padding:14px;
-    text-align:center;
-}
-.result h3{
-    margin:0 0 6px;
-    color:#5f4627;
-}
-
-.cons-wrap{
-    text-align:left;
-    margin-top:12px;
-    border-radius:12px;
-    padding:12px;
-    border:1px solid #d7c3a5;
-    background:#fff8eb;
-}
-.cons-wrap.bad{
-    border-color:#d9a9a2;
-    background:#fff1ee;
-}
-.cons-wrap.good{
-    border-color:#b7cba8;
-    background:#f4f8ee;
-}
-.cons-wrap h4{
-    margin:0 0 8px;
-    font-size:.95rem;
-}
-.cons-wrap ul{
-    margin:0;
-    padding-left:18px;
-}
-.cons-wrap li{
-    margin:6px 0;
-    color:#4f4138;
-    line-height:1.45;
-    font-size:.9rem;
-}
-
-.actions{
+.step-indicators {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
-    margin-top: 16px;
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
-.actions a{
+.step-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #cdbda6;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.step-dot.active {
+    background: var(--green-mid);
+    transform: scale(1.3);
+    box-shadow: 0 0 12px rgba(46, 125, 50, 0.4);
+}
+
+.step-dot.completed {
+    background: var(--gold);
+}
+
+.step-content {
+    display: none;
+    animation: fadeInUp 0.4s ease;
+}
+
+.step-content.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-card {
+    border-radius: 16px;
+    border: 1px solid #d0bca1;
+    background: linear-gradient(135deg, #fffdf8, #f4e8d5);
+    padding: 18px;
+    position: relative;
+}
+
+.step-number {
     display: inline-block;
-    text-decoration: none;
+    background: var(--green-mid);
+    color: white;
     font-weight: 800;
-    padding: 12px 20px;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+
+.step-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #3d2f26;
+    margin: 0 0 10px 0;
+}
+
+.step-description {
+    color: #5f5349;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+/* ===== CHOICE CARDS ===== */
+.choice-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+@media (max-width:760px){
+    .choice-container { grid-template-columns: 1fr; }
+}
+
+.choice-card {
+    border-radius: 16px;
+    border: 1px solid #d0bca1;
+    background: linear-gradient(135deg, #fffdf8, #f4e8d5);
+    padding: 14px;
+    transition: 0.22s ease;
+    cursor: default;
+}
+.choice-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 24px rgba(0,0,0,.10);
+}
+.choice-card.selected {
+    border-color: var(--green-mid);
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2);
+    background: linear-gradient(135deg, #f0f7ed, #e8f0e2);
+}
+
+.choice-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.choice-head h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #3f3026;
+}
+
+.choice-text {
+    margin-top: 10px;
+    color: #5f5349;
+    line-height: 1.58;
+    font-size: 0.92rem;
+    padding-top: 10px;
+    border-top: 1px dashed #d5ebe3;
+}
+
+/* ===== GREEN BUTTON ===== */
+.btn-green {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: var(--green-mid) !important;
+    border: 3px solid var(--wood-dark) !important;
+    box-shadow: 0 5px 0 var(--wood-dark) !important;
+    color: #fff !important;
     border-radius: 12px;
-    transition: all 0.2s ease;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: 0.18s ease;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background: var(--green-dark) !important;
+    transform: translateY(-2px);
+    color: #fff !important;
+}
+
+.btn-green:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 var(--wood-dark) !important;
+}
+
+.btn-green:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ===== GAME BUTTONS ===== */
+.arg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+@media (max-width:760px){
+    .arg-grid { grid-template-columns: 1fr; }
+}
+.arg-btn {
+    border: 1px solid #d1bea3;
+    background: linear-gradient(135deg, #fffcf6, #f1e4d0);
+    color: #3f2f24;
+    text-align: left;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: .18s ease;
+    font-size: 0.92rem;
+}
+.arg-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 18px rgba(0,0,0,.08);
+}
+.arg-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.hud {
+    margin: 10px 0 12px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(70,48,30,.95), rgba(97,66,42,.95));
+    border: 1px solid #9f7a4a;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.14);
+    backdrop-filter: blur(6px);
+}
+.pill {
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: .8rem;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    border: 1px solid #b49670;
+    background: linear-gradient(135deg, #f7e9d2, #ecd7b6);
+    color: #4e351f;
+}
+.pill.gold {
+    border-color: #d3ae62;
+    background: linear-gradient(135deg, #f8e5b9, #eacb89);
+    color: #5f430e;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 999px;
+    border: 1px solid #c5aa84;
+    background: #e9d8be;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #b57d2c, #5a7c4b);
+    transition: width .35s ease;
+}
+
+.timer {
+    margin-top: 8px;
+    font-weight: 800;
+    color: #7a4d2b;
+    font-size: .88rem;
+    text-align: center;
+}
+
+.status {
+    margin-top: 10px;
+    min-height: 22px;
+    font-weight: 700;
+    font-size: .9rem;
+    text-align: center;
+}
+.status.ok { color: var(--ok); }
+.status.bad { color: var(--bad); }
+
+.prompt {
+    font-weight: 700;
+    color: #433429;
+    margin: 10px 0;
+    font-size: 0.98rem;
+}
+
+/* ===== STEP NAVIGATION ===== */
+.step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.step-nav .btn-green {
+    min-width: 120px;
+}
+
+.step-nav .btn-green:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.modal-box {
+    width: min(450px,92vw);
+    background: linear-gradient(180deg, #fff7e9, #f2e3cc);
+    border-radius: 24px;
+    border: 2px solid #c5a059;
+    padding: 24px 20px;
+    text-align: center;
+    animation: pop .25s ease;
+    box-shadow: 0 30px 50px rgba(0,0,0,.4);
+}
+@keyframes pop {
+    from { transform: scale(.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.modal-box h3 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+    color: #5f3e1a;
+    font-family: 'Nunito', sans-serif;
+}
+.modal-box p {
+    color: #4a3a2a;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.modal-btn {
+    border: none;
+    border-radius: 40px;
+    padding: 12px 24px;
+    font-weight: 800;
     cursor: pointer;
     font-family: 'Nunito', sans-serif;
-    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
 }
-
-.act-retry{ 
+.modal-btn:hover {
+    transform: translateY(-2px);
+}
+.btn-map { 
     background: linear-gradient(135deg, #8e643d, #6e4d2e); 
     border: 1px solid #a98353; 
     color: #f8efe2; 
 }
-.act-retry:hover{ 
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #a0774d, #7e5936);
-}
-
-.act-map{ 
+.btn-retry { 
     background: linear-gradient(135deg, #f6ead8, #e8d8bf); 
     border: 1px solid #c9b08a; 
     color: #59422c; 
 }
-.act-map:hover{ 
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #fff0e0, #f0e0c8);
+
+#confettiLayer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 16px;
+    opacity: .95;
+    animation: fall 1.8s linear forwards;
+}
+@keyframes fall {
+    to { transform: translateY(400px) rotate(360deg); opacity: 0; }
 }
 
-/* MODAL STYLES - FIXED */
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:999;
-}
-.modal-box{
-    width:min(450px,92vw);
-    background:linear-gradient(180deg,#fff7e9,#f2e3cc);
-    border-radius:24px;
-    border:2px solid #c5a059;
-    padding:24px 20px;
-    text-align:center;
-    animation:pop .25s ease;
-    box-shadow:0 30px 50px rgba(0,0,0,.4);
-}
-@keyframes pop{
-    from{ transform:scale(.92); opacity:0; }
-    to{ transform:scale(1); opacity:1; }
-}
-.modal-box h3{
-    font-size:1.6rem;
-    margin-bottom:12px;
-    color:#5f3e1a;
-    font-family:'Nunito',sans-serif;
-}
-.modal-box p{
-    color:#4a3a2a;
-    margin-bottom:20px;
-    line-height:1.6;
-}
-.modal-buttons{
-    display:flex;
-    gap:12px;
-    justify-content:center;
-    flex-wrap:wrap;
-}
-.modal-btn{
-    border:none;
-    border-radius:40px;
-    padding:12px 24px;
-    font-weight:800;
-    cursor:pointer;
-    font-family:'Nunito',sans-serif;
-    font-size:0.9rem;
-    transition:all 0.2s ease;
-    text-decoration:none;
-    display:inline-block;
-}
-.modal-btn:hover{
-    transform:translateY(-2px);
-}
-.btn-map{ 
-    background:linear-gradient(135deg,#8e643d,#6e4d2e); 
-    border:1px solid #a98353; 
-    color:#f8efe2; 
-}
-.btn-retry{ 
-    background:linear-gradient(135deg,#f6ead8,#e8d8bf); 
-    border:1px solid #c9b08a; 
-    color:#59422c; 
-}
-.btn-close{ 
-    background:linear-gradient(135deg,#efe0cb,#e2cfb2); 
-    color:#4f3a26; 
-}
-
-#confettiLayer{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:1000;
-}
-.confetti-piece{
-    position:absolute;
-    width:10px;
-    height:16px;
-    opacity:.95;
-    animation:fall 1.8s linear forwards;
-}
-@keyframes fall{
-    to{ transform:translateY(400px) rotate(360deg); opacity:0; }
-}
-
-/* Completion badge */
 .completion-badge {
     display: inline-block;
     background: linear-gradient(135deg, #2ecc71, #27ae60);
@@ -797,111 +593,105 @@ body{
                 </div>
             </div>
 
-            <h3 class="section-title">📘 Hakbang 1: Basahin muna ang dalawang pamamaraan</h3>
-
-            <div class="choice-container">
-                <div class="choice-card active" id="topCard">
-                    <div class="choice-head">
-                        <h3>Top-down Approach</h3>
-                        <button class="read-btn" onclick="reveal('top')">Basahin</button>
-                    </div>
-                    <div id="topText" class="hidden-text show">
-                        Ang pamamaraang ito ay umaasa sa mas mataas na antas ng pamahalaan sa lahat ng aspeto ng pagharap sa sakuna,
-                        mula pagpaplano hanggang pagtugon. Gayunman, madalas itong mabagal dahil hindi agad natutugunan ang
-                        pangangailangan ng mga mamamayan, lalo na ang mga pinakaapektado. Karaniwan ding limitado ang mga plano dahil
-                        nakabatay lamang ito sa pananaw ng mga pinuno, habang napapabayaan ang karanasan at boses ng komunidad. Bukod dito,
-                        ang hindi pagkakasundo ng pambansa at lokal na pamahalaan ay nagiging sanhi ng pagkaantala sa maayos na pagtugon.
-                    </div>
+            <!-- ===== STEP CONTAINER ===== -->
+            <div class="step-container">
+                <!-- Step Indicators -->
+                <div class="step-indicators" id="stepIndicators">
+                    <div class="step-dot active" data-step="1"></div>
+                    <div class="step-dot" data-step="2"></div>
+                    <div class="step-dot" data-step="3"></div>
                 </div>
 
-                <div class="choice-card active" id="bottomCard">
-                    <div class="choice-head">
-                        <h3>Bottom-up Approach</h3>
-                        <button class="read-btn" onclick="reveal('bottom')">Basahin</button>
-                    </div>
-                    <div id="bottomText" class="hidden-text show">
-                        Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba't ibang sektor ng pamayanan
-                        sa pagtukoy, pag-aanalisa, at paglutas ng mga suliranin. Mahalaga ang pamumuno ng lokal na komunidad, kasama
-                        ang lokal na pamahalaan, pribadong sektor, at mga organisasyong hindi pangkalakalan, upang maisulong ang
-                        epektibong pag-unlad mula sa ibaba. Sa paraang ito, nabibigyang-halaga ang iba't ibang pananaw at karanasan
-                        ng mga taong nakatira sa mga lugar na madalas tamaan ng sakuna, na nagsisilbing batayan ng mas angkop at
-                        makabuluhang plano. Nakatutulong din ang maayos na pamamahala ng pondo at pagkilala sa matagumpay na pagpapatupad
-                        upang mapanatili ang bisa ng programa, kung saan ang tagumpay ay nakasalalay sa malawakang pakikilahok ng
-                        komunidad sa pagpaplano at pagdedesisyon.
-                    </div>
-                </div>
-            </div>
+                <!-- ===== STEP 1: READ APPROACHES ===== -->
+                <div class="step-content active" id="step1">
+                    <div class="step-card">
+                        <div class="step-number">HAKBANG 1</div>
+                        <h3 class="step-title">📘 Basahin ang dalawang pamamaraan</h3>
+                        <p class="step-description">Basahin ang bawat pamamaraan upang maunawaan ang pagkakaiba ng Top-down at Bottom-up approach.</p>
 
-            <div class="choose-section" id="chooseSection" style="display:block;">
-                <h3 class="step-title">👉 Hakbang 2: Piliin ang iyong panig</h3>
-
-                <div class="choice-grid elegant-grid">
-
-                    <!-- TOP DOWN -->
-                    <button class="elegant-btn top-style" onclick="chooseSide('top')">
-                        <div class="btn-glow"></div>
-
-                        <div class="btn-content">
-                            <div class="icon-wrap" aria-hidden="true">
-                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none">
-                                    <rect x="4" y="4" width="16" height="4" rx="2" fill="currentColor" opacity="0.2"></rect>
-                                    <rect x="4" y="10" width="10" height="4" rx="2" fill="currentColor" opacity="0.35"></rect>
-                                    <rect x="4" y="16" width="6" height="4" rx="2" fill="currentColor" opacity="0.5"></rect>
-                                    <path d="M18 8V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                                    <path d="M16 10L18 8L20 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
+                        <div class="choice-container">
+                            <div class="choice-card active" id="topCard">
+                                <div class="choice-head">
+                                    <h3>Top-down Approach</h3>
+                                </div>
+                                <div class="choice-text" id="topText">
+                                    Ang pamamaraang ito ay umaasa sa mas mataas na antas ng pamahalaan sa lahat ng aspeto ng pagharap sa sakuna,
+                                    mula pagpaplano hanggang pagtugon. Gayunman, madalas itong mabagal dahil hindi agad natutugunan ang
+                                    pangangailangan ng mga mamamayan, lalo na ang mga pinakaapektado. Karaniwan ding limitado ang mga plano dahil
+                                    nakabatay lamang ito sa pananaw ng mga pinuno, habang napapabayaan ang karanasan at boses ng komunidad.
+                                </div>
                             </div>
-                            <div class="text-wrap">
-                                <span class="btn-title">Top-down Approach</span>
-                                <span class="btn-desc">
-                                    Mabilis ang utos mula sa taas, pero sapat ba ito?
-                                </span>
+
+                            <div class="choice-card active" id="bottomCard">
+                                <div class="choice-head">
+                                    <h3>Bottom-up Approach</h3>
+                                </div>
+                                <div class="choice-text" id="bottomText">
+                                    Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba't ibang sektor ng pamayanan
+                                    sa pagtukoy, pag-aanalisa, at paglutas ng mga suliranin. Mahalaga ang pamumuno ng lokal na komunidad, kasama
+                                    ang lokal na pamahalaan, pribadong sektor, at mga organisasyong hindi pangkalakalan, upang maisulong ang
+                                    epektibong pag-unlad mula sa ibaba. Sa paraang ito, nabibigyang-halaga ang iba't ibang pananaw at karanasan
+                                    ng mga taong nakatira sa mga lugar na madalas tamaan ng sakuna.
+                                </div>
                             </div>
                         </div>
-                    </button>
 
-                    <!-- BOTTOM UP -->
-                    <button class="elegant-btn bottom-style" onclick="chooseSide('bottom')">
-                        <div class="btn-glow"></div>
-
-                        <div class="btn-content">
-                            <div class="icon-wrap" aria-hidden="true">
-                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 19V8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
-                                    <path d="M12 8C12 5.8 10.2 4 8 4C8 6.2 9.8 8 12 8Z" fill="currentColor" opacity="0.45"></path>
-                                    <path d="M12 8C12 5.8 13.8 4 16 4C16 6.2 14.2 8 12 8Z" fill="currentColor" opacity="0.65"></path>
-                                    <path d="M7 19H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                                    <path d="M12 15L10 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                                    <path d="M12 15L14 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                                </svg>
-                            </div>
-                            <div class="text-wrap">
-                                <span class="btn-title">Bottom-up Approach</span>
-                                <span class="btn-desc">
-                                    Komunidad ang sentro ng desisyon — mas epektibo ba?
-                                </span>
-                            </div>
+                        <div class="step-nav">
+                            <span></span>
+                            <button class="btn-green" onclick="goToStep(2)">Magpatuloy →</button>
                         </div>
-                    </button>
+                    </div>
+                </div>
 
+                <!-- ===== STEP 2: CHOOSE YOUR SIDE ===== -->
+                <div class="step-content" id="step2">
+                    <div class="step-card">
+                        <div class="step-number">HAKBANG 2</div>
+                        <h3 class="step-title">👉 Piliin ang iyong panig</h3>
+                        <p class="step-description">Pumili ng panig na sa tingin mo ay mas epektibo sa pagharap sa sakuna.</p>
+
+                        <div class="choice-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px;">
+                            <button class="arg-btn" style="text-align:center; padding:16px; font-size:1rem;" onclick="chooseSide('top')">
+                                🏛️ Top-down Approach
+                            </button>
+                            <button class="arg-btn" style="text-align:center; padding:16px; font-size:1rem;" onclick="chooseSide('bottom')">
+                                🌱 Bottom-up Approach
+                            </button>
+                        </div>
+
+                        <div id="sideStatus" class="status" style="margin-top:10px;"></div>
+
+                        <div class="step-nav">
+                            <button class="btn-green" onclick="goToStep(1)">← Bumalik</button>
+                            <button class="btn-green" id="step2NextBtn" onclick="goToStep(3)" disabled>Magpatuloy →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 3: GAME ===== -->
+                <div class="step-content" id="step3">
+                    <div class="step-card">
+                        <div class="step-number">HAKBANG 3</div>
+                        <h3 class="step-title">⚖️ Mga Ikot ng Pagtatalo</h3>
+                        <p class="step-description">Sagutin ang mga tanong gamit ang iyong napiling panig.</p>
+
+                        <div class="hud">
+                            <div class="pill" id="roundPill">Ikot 1/3</div>
+                            <div class="pill gold" id="scorePill">Iskor: 0</div>
+                            <div class="pill" id="lifePill">Buhay: ❤️❤️❤️</div>
+                        </div>
+                        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+                        <div class="timer" id="timerLabel">⏱ 15 segundo</div>
+                        <div class="prompt" id="promptText"></div>
+                        <div class="arg-grid" id="argGrid"></div>
+                        <div class="status" id="statusText"></div>
+
+                        <div style="text-align:center; margin-top:12px; font-size:0.85rem; color:#7a6a5a;">
+                            ⚡ Sagutin ang bawat tanong sa loob ng 15 segundo
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="challenge" id="challengeBox">
-                <h3 style="margin:0;">⚖️ Hakbang 3: Mga Ikot ng Pagtatalo</h3>
-                <div class="hud">
-                    <div class="pill" id="roundPill">Ikot 1/3</div>
-                    <div class="pill gold" id="scorePill">Iskor: 0</div>
-                    <div class="pill" id="lifePill">Buhay: ❤️❤️❤️</div>
-                </div>
-                <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-                <div class="timer" id="timerLabel">⏱ 15 segundo</div>
-                <div class="prompt" id="promptText"></div>
-                <div class="arg-grid" id="argGrid"></div>
-                <div class="status" id="statusText"></div>
-            </div>
-
-            <div class="result" id="resultBox"></div>
         </div>
     </div>
 </div>
@@ -918,14 +708,14 @@ body{
     </div>
 </div>
 
-<!-- SUCCESS MODAL - FIXED -->
+<!-- SUCCESS MODAL -->
 <div id="successModal" class="modal-overlay">
     <div class="modal-box">
         <h3>🎉 Binabati Ka, Punong-Bayan!</h3>
-        <p>Naipakita mo ang mas matibay na argumento sa mga pamamaraang pangkahandaan sa sakuna.</p>
+        <p id="successText">Naipakita mo ang mas matibay na argumento sa mga pamamaraang pangkahandaan sa sakuna.</p>
         <div class="modal-buttons">
-            <a href="{{ route('inner.map3') }}" class="modal-btn btn-map">🗺 Bumalik sa Mapa</a>
             <button class="modal-btn btn-retry" onclick="closeSuccessAndRetry()">🔄 Subukan Muli</button>
+            <a href="{{ route('inner.map3') }}" class="modal-btn btn-map">🗺 Bumalik sa Mapa</a>
         </div>
     </div>
 </div>
@@ -933,7 +723,8 @@ body{
 <div id="confettiLayer"></div>
 
 <script>
-const viewed = { top: true, bottom: true };
+const narratorMessage = "Ikaw ang punong-bayan ngayon. Basahin ang dalawang pamamaraan, piliin ang panig, at manalo sa mga ikot ng pagtatalo.";
+
 let chosenSide = null;
 let score = 0;
 let lives = 3;
@@ -941,23 +732,7 @@ let roundIndex = 0;
 let timeLeft = 15;
 let timer = null;
 let isGameCompleted = false;
-
-const narratorMessage = "Ikaw ang punong-bayan ngayon. Basahin ang dalawang pamamaraan, piliin ang panig, at manalo sa mga ikot ng pagtatalo.";
-
-const approachConsequences = {
-    top: [
-        "❌ Hindi narinig ang komunidad kaya hindi tugma ang plano sa tunay nilang pangangailangan.",
-        "❌ Mabagal ang pagtugon dahil nakaasa sa desisyon ng mas mataas na pamahalaan.",
-        "❌ Kulang sa pakikilahok ng mamamayan kaya mahina ang pagpapatupad.",
-        "❌ Mas mataas ang pinsala dahil hindi handa ang komunidad."
-    ],
-    bottom: [
-        "✅ Mas naging epektibo ang plano dahil nakabatay sa karanasan ng komunidad.",
-        "✅ Mabilis ang pagtugon dahil aktibo ang mga mamamayan.",
-        "✅ Mas mataas ang pakikilahok kaya mas maayos ang pagpapatupad.",
-        "✅ Mas nababawasan ang pinsala dahil handa at may kaalaman ang komunidad."
-    ]
-};
+let gameStarted = false;
 
 const rounds = [
     {
@@ -983,82 +758,64 @@ const rounds = [
     }
 ];
 
-const roundPill = document.getElementById('roundPill');
-const scorePill = document.getElementById('scorePill');
-const lifePill = document.getElementById('lifePill');
-const chooseSection = document.getElementById('chooseSection');
-const challengeBox = document.getElementById('challengeBox');
-const promptText = document.getElementById('promptText');
-const argGrid = document.getElementById('argGrid');
-const statusText = document.getElementById('statusText');
-const progressFill = document.getElementById('progressFill');
-const timerLabel = document.getElementById('timerLabel');
-const resultBox = document.getElementById('resultBox');
-const narratorText = document.getElementById('narratorText');
-
-// ✅ MARK NODE 2 AS COMPLETED
-function markNodeComplete() {
-    // Use multiple storage methods for redundancy
-    sessionStorage.setItem('m3v2_node2', 'true');
-    localStorage.setItem('m3v2_node2', 'true');
-    localStorage.setItem('m3_node2_completed', 'true');
+// ===== STEP NAVIGATION =====
+function goToStep(step) {
+    document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.step-dot').forEach(el => el.classList.remove('active'));
     
-    // Also store completion timestamp for tracking
-    localStorage.setItem('m3_node2_completed_at', Date.now().toString());
+    document.getElementById(`step${step}`).classList.add('active');
+    document.querySelector(`.step-dot[data-step="${step}"]`).classList.add('active');
     
-    console.log('✅ Node 2 marked as completed!');
-    isGameCompleted = true;
+    window.scrollTo({ top: document.querySelector('.step-container').offsetTop - 100, behavior: 'smooth' });
 }
 
-// ✅ GO TO MAP WITH COMPLETION PARAMETER
-function goToMapWithCompletion() {
-    // Make sure node is marked as completed before redirecting
-    if (!isGameCompleted) {
-        markNodeComplete();
-    }
-    
-    // Redirect to map with completion parameter
-    window.location.href = "{{ route('inner.map3') }}?complete=2";
-}
-
-function typeNarrator(text, speed = 32){
-    narratorText.textContent = '';
-    let i = 0;
-    const write = () => {
-        if (i <= text.length){
-            narratorText.textContent = text.slice(0, i);
-            i++;
-            setTimeout(write, speed);
+function updateStepDots() {
+    document.querySelectorAll('.step-dot').forEach(el => {
+        const step = parseInt(el.dataset.step);
+        if (step < 3) {
+            el.classList.add('completed');
         }
-    };
-    write();
+    });
 }
 
-function reveal(type){
-    document.getElementById(type + 'Text').classList.add('show');
-    document.getElementById(type + 'Card').classList.add('active');
-    viewed[type] = true;
-
-    if (viewed.top && viewed.bottom){
-        chooseSection.style.display = 'block';
+// ===== STEP 2: CHOOSE SIDE =====
+function chooseSide(side) {
+    chosenSide = side;
+    const status = document.getElementById('sideStatus');
+    status.className = 'status ok';
+    status.textContent = `✅ Napili mo ang: ${side === 'bottom' ? 'Bottom-up Approach' : 'Top-down Approach'}`;
+    
+    document.getElementById('step2NextBtn').disabled = false;
+    
+    // Highlight selected
+    document.querySelectorAll('.arg-btn').forEach(btn => {
+        btn.style.borderColor = '#d1bea3';
+        btn.style.background = 'linear-gradient(135deg, #fffcf6, #f1e4d0)';
+    });
+    
+    const btns = document.querySelectorAll('.arg-btn');
+    if (side === 'top') {
+        btns[0].style.borderColor = 'var(--green-mid)';
+        btns[0].style.background = 'linear-gradient(135deg, #f0f7ed, #e8f0e2)';
+    } else {
+        btns[1].style.borderColor = 'var(--green-mid)';
+        btns[1].style.background = 'linear-gradient(135deg, #f0f7ed, #e8f0e2)';
     }
 }
 
-function chooseSide(side){
-    chosenSide = side;
-    chooseSection.style.display = 'none';
-    challengeBox.style.display = 'block';
-    statusText.className = 'status';
-    statusText.textContent = `✅ Napili ang panig: ${side === 'bottom' ? 'Bottom-up Approach' : 'Top-down Approach'}. Simulan ang mga ikot ng pagtatalo.`;
-    roundIndex = 0;
+// ===== STEP 3: GAME =====
+function startGame() {
+    if (!chosenSide) return;
+    gameStarted = true;
     score = 0;
     lives = 3;
+    roundIndex = 0;
     renderRound();
 }
 
-function renderRound(){
-    if (roundIndex >= rounds.length){
-        endGame();
+function renderRound() {
+    if (roundIndex >= rounds.length) {
+        endGame(true);
         return;
     }
 
@@ -1067,7 +824,8 @@ function renderRound(){
     updateHUD();
 
     const r = rounds[roundIndex];
-    promptText.textContent = `Ikot ${roundIndex + 1}: ${r.prompt}`;
+    document.getElementById('promptText').textContent = `Ikot ${roundIndex + 1}: ${r.prompt}`;
+    const argGrid = document.getElementById('argGrid');
     argGrid.innerHTML = '';
 
     r.options.forEach((opt, i) => {
@@ -1079,25 +837,28 @@ function renderRound(){
     });
 
     const pct = (roundIndex / rounds.length) * 100;
-    progressFill.style.width = `${pct}%`;
+    document.getElementById('progressFill').style.width = `${pct}%`;
     startTimer();
 }
 
-function startTimer(){
-    timerLabel.textContent = `⏱ ${timeLeft} segundo`;
+function startTimer() {
+    document.getElementById('timerLabel').textContent = `⏱ ${timeLeft} segundo`;
     timer = setInterval(() => {
         timeLeft--;
-        timerLabel.textContent = `⏱ ${timeLeft} segundo`;
-        if (timeLeft <= 5) timerLabel.style.color = '#a7392f';
-        if (timeLeft <= 0){
+        document.getElementById('timerLabel').textContent = `⏱ ${timeLeft} segundo`;
+        if (timeLeft <= 5) document.getElementById('timerLabel').style.color = '#a7392f';
+        if (timeLeft <= 0) {
             clearInterval(timer);
             loseLife("⏰ Naubos ang oras! Walang naipiling argumento.");
-            nextRound();
+            setTimeout(() => {
+                roundIndex++;
+                renderRound();
+            }, 800);
         }
     }, 1000);
 }
 
-function answer(index){
+function answer(index) {
     clearInterval(timer);
     const r = rounds[roundIndex];
     const pick = r.options[index];
@@ -1107,7 +868,8 @@ function answer(index){
 
     score += gained;
 
-    if (pick.points > 0){
+    const statusText = document.getElementById('statusText');
+    if (pick.points > 0 || pick.side === chosenSide) {
         statusText.className = 'status ok';
         statusText.textContent = `✅ ${pick.feedback} (+${gained} puntos)`;
     } else {
@@ -1117,104 +879,112 @@ function answer(index){
     }
 
     updateHUD();
-    setTimeout(nextRound, 950);
+    
+    // Disable all buttons
+    document.querySelectorAll('.arg-btn').forEach(btn => btn.disabled = true);
+    
+    setTimeout(() => {
+        roundIndex++;
+        renderRound();
+    }, 1200);
 }
 
-function loseLife(msg){
+function loseLife(msg) {
     lives = Math.max(0, lives - 1);
     updateHUD();
-    if (lives === 0){
+    if (lives === 0) {
         document.getElementById('wrongText').textContent = msg + " Wala ka nang natitirang buhay.";
         document.getElementById('wrongModal').style.display = 'flex';
         clearInterval(timer);
-        setTimeout(endGame, 350);
+        // Game over - failed
+        setTimeout(() => endGame(false), 500);
     }
 }
 
-function nextRound(){
-    if (lives === 0){
-        endGame();
-        return;
-    }
-    roundIndex++;
-    renderRound();
+function updateHUD() {
+    document.getElementById('roundPill').textContent = `Ikot ${Math.min(roundIndex + 1, rounds.length)}/${rounds.length}`;
+    document.getElementById('scorePill').textContent = `Iskor: ${score}`;
+    document.getElementById('lifePill').textContent = `Buhay: ${'❤️'.repeat(lives)}${'🖤'.repeat(3 - lives)}`;
+    document.getElementById('timerLabel').style.color = '#7a4d2b';
 }
 
-function updateHUD(){
-    roundPill.textContent = `Ikot ${Math.min(roundIndex + 1, rounds.length)}/${rounds.length}`;
-    scorePill.textContent = `Iskor: ${score}`;
-    lifePill.textContent = `Buhay: ${'❤️'.repeat(lives)}${'🖤'.repeat(3 - lives)}`;
-    timerLabel.style.color = '#7a4d2b';
-}
-
-function getConsequencesHTML(side){
-    const isBottom = side === 'bottom';
-    const label = isBottom ? 'Bottom-up Approach' : 'Top-down Approach';
-    const list = approachConsequences[side] ?? [];
-
-    return `
-        <div class="cons-wrap ${isBottom ? 'good' : 'bad'}">
-            <h4>👉 Kung ${label}:</h4>
-            <ul>
-                ${list.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-        </div>
-    `;
-}
-
-function endGame(){
+function endGame(passed) {
     clearInterval(timer);
-    challengeBox.style.display = 'none';
-    resultBox.style.display = 'block';
-
-    const maxScore = rounds.length * 3;
-    const passed = score >= 5;
-
-    // ✅ Mark node as completed if passed
-    if (passed) {
-        markNodeComplete();
-        burstConfetti();
-        document.getElementById('successModal').style.display = 'flex';
-    }
-
-    saveGameProgress(passed);
     
-    const reviewSide = (chosenSide === 'bottom' && passed) ? 'bottom' : 'top';
-
-    resultBox.innerHTML = `
-        <h3>${passed ? '🏆 Napanalunan ang Pagtatalo!' : '📌 Kailangan Pa ng Pagsusuri sa Pagtatalo'}</h3>
-        <p style="margin:0 0 8px;">Huling Iskor: <b>${score}</b> / ${maxScore}</p>
-        <p style="margin:0; color:#5b4e44;">
-            ${passed
-                ? 'Magaling! Naipakita mo ang matibay na argumento.'
-                : 'Subukan muli. Basahin uli ang dalawang pamamaraan at piliin ang mas akma sa sitwasyon.'}
-        </p>
-        ${getConsequencesHTML(reviewSide)}
-        <div class="actions">
-            ${!passed ? `<a href="{{ route('module3.node2') }}" class="act-retry">🔁 Ulitin</a>` : ''}
-            <a href="#" onclick="event.preventDefault(); goToMapWithCompletion();" class="act-map">🗺 Bumalik sa Mapa</a>
-        </div>
-        ${passed ? '<div class="completion-badge">✅ Node 2 Completed!</div>' : ''}
-    `;
-    progressFill.style.width = '100%';
+    // Disable all game buttons
+    document.querySelectorAll('.arg-btn').forEach(btn => btn.disabled = true);
+    
+    if (passed) {
+        // Check if score meets passing criteria
+        const maxScore = rounds.length * 3;
+        const isPassed = score >= 5;
+        
+        if (isPassed) {
+            markNodeComplete();
+            burstConfetti();
+            document.getElementById('successText').textContent = 
+                `Naipakita mo ang mas matibay na argumento sa mga pamamaraang pangkahandaan sa sakuna. (Iskor: ${score}/${maxScore})`;
+            document.getElementById('successModal').style.display = 'flex';
+            saveGameProgress(true);
+        } else {
+            // Not enough points
+            document.getElementById('wrongText').textContent = 
+                `Hindi sapat ang iyong iskor (${score}/${maxScore}) upang manalo. Kailangan mo ng hindi bababa sa 5 puntos. Subukan muli!`;
+            document.getElementById('wrongModal').style.display = 'flex';
+            saveGameProgress(false);
+        }
+    } else {
+        // Failed from losing lives
+        saveGameProgress(false);
+    }
 }
 
-function closeWrongModal(){
+function markNodeComplete() {
+    sessionStorage.setItem('m3v2_node2', 'true');
+    localStorage.setItem('m3v2_node2', 'true');
+    localStorage.setItem('m3_node2_completed', 'true');
+    localStorage.setItem('m3_node2_completed_at', Date.now().toString());
+    isGameCompleted = true;
+    updateStepDots();
+    document.querySelector('.step-dot[data-step="3"]').classList.add('completed');
+}
+
+function saveGameProgress(passed) {
+    fetch("{{ route('module3.node2.save') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            chosen_side: chosenSide,
+            score: score,
+            lives_remaining: lives,
+            is_passed: passed ? 1 : 0
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Saved:", data))
+    .catch(err => console.error(err));
+}
+
+// ===== MODAL FUNCTIONS =====
+function closeWrongModal() {
     document.getElementById('wrongModal').style.display = 'none';
     location.reload();
 }
 
-function closeSuccessAndRetry(){
+function closeSuccessAndRetry() {
     document.getElementById('successModal').style.display = 'none';
     location.reload();
 }
 
-function burstConfetti(){
+function burstConfetti() {
     const layer = document.getElementById('confettiLayer');
     layer.innerHTML = '';
     const colors = ['#2ecc71','#3498db','#f1c40f','#e74c3c','#9b59b6','#1abc9c'];
 
-    for (let i = 0; i < 60; i++){
+    for (let i = 0; i < 60; i++) {
         const piece = document.createElement('div');
         piece.className = 'confetti-piece';
         piece.style.left = Math.random() * 100 + '%';
@@ -1230,49 +1000,61 @@ function burstConfetti(){
     setTimeout(() => { layer.innerHTML = ''; }, 2000);
 }
 
-document.getElementById('topText').classList.add('show');
-document.getElementById('bottomText').classList.add('show');
-document.getElementById('topCard').classList.add('active');
-document.getElementById('bottomCard').classList.add('active');
-chooseSection.style.display = 'block';
-
-typeNarrator(narratorMessage, 30);
-
-function saveGameProgress(passed){
-    fetch("{{ route('module3.node2.save') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({
-            chosen_side: chosenSide,
-            score: score,
-            lives_remaining: lives,
-            is_passed: passed ? 1 : 0
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Saved:", data);
-    })
-    .catch(err => console.error(err));
+// ===== TYPEWRITER =====
+function typeNarrator(text, speed = 32) {
+    const el = document.getElementById('narratorText');
+    el.textContent = '';
+    let i = 0;
+    const write = () => {
+        if (i <= text.length) {
+            el.textContent = text.slice(0, i);
+            i++;
+            setTimeout(write, speed);
+        }
+    };
+    write();
 }
 
-// ✅ Check if already completed
-window.addEventListener('load', function() {
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', function() {
+    typeNarrator(narratorMessage, 30);
+    
+    // Check if already completed
     const alreadyCompleted = localStorage.getItem('m3v2_node2') === 'true' || 
                            localStorage.getItem('m3_node2_completed') === 'true';
     
     if (alreadyCompleted) {
-        console.log('Node 2 already completed. Showing completion status...');
-        // Optionally show a message or auto-redirect
-        // Uncomment below to auto-redirect if already completed
+        updateStepDots();
+        document.querySelector('.step-dot[data-step="3"]').classList.add('completed');
+        // Auto-redirect to map if already completed
+        // Uncomment below to auto-redirect
         // setTimeout(() => {
         //     window.location.href = "{{ route('inner.map3') }}";
         // }, 2000);
     }
+    
+    // Start game when step 3 becomes visible
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.target.id === 'step3' && mutation.target.classList.contains('active')) {
+                if (!gameStarted && chosenSide) {
+                    startGame();
+                }
+            }
+        });
+    });
+    
+    observer.observe(document.getElementById('step3'), { attributes: true, attributeFilter: ['class'] });
 });
+
+// Override goToStep to handle step 3 game start
+const originalGoToStep = goToStep;
+goToStep = function(step) {
+    originalGoToStep(step);
+    if (step === 3 && chosenSide && !gameStarted) {
+        setTimeout(startGame, 300);
+    }
+};
 </script>
 
 @endsection
