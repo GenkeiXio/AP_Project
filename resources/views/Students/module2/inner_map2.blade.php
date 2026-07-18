@@ -32,9 +32,9 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* Adjust 0.3 (30%) to make it darker/lighter */
-    z-index: 1; /* Sits between BG image and Nodes */
-    pointer-events: none; /* Allows clicks to pass through to buttons below */
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .background-map {
@@ -55,7 +55,6 @@ body, html {
     z-index: 2;
 }
 
-/* IMAGE */
 .node img {
     width: 100%;
     height: 100%;
@@ -64,7 +63,6 @@ body, html {
     z-index: 2;
 }
 
-/* ❌ REMOVE HOVER MOVEMENT */
 .node:hover {
     transform: scale(1.1);
 }
@@ -90,14 +88,12 @@ body, html {
 .label-orange { background: #e67e22; }
 .label-green { background: #27ae60; }
 
-/* LOCKED */
 .locked {
     filter: grayscale(100%);
     opacity: 0.6;
     pointer-events: none;
 }
 
-/* 🔒 CENTER LOCK ICON */
 .lock-icon {
     position: absolute;
     top: 50%;
@@ -140,7 +136,6 @@ body, html {
     transform: translate(-50%, -50%) scale(1); 
 }
 
-/* Adjusted for corner placement */
 .node-top-left     { top: 15%; left: 20%; }
 .node-bottom-left  { top: 60%; left: 20%; }
 .node-top-right    { top: 15%; right: 20%; } 
@@ -158,7 +153,6 @@ body, html {
     font-weight: bold;
 }
 
-/* 🔑 Final Button */
 .final-key {
     display: none;
     position: fixed;
@@ -172,7 +166,6 @@ body, html {
     z-index: 100;
 }
 
-/* MODAL BACKDROP */
 .modal{
     display: none;
     position: fixed;
@@ -186,7 +179,6 @@ body, html {
     align-items: center;
 }
 
-/* MODAL BOX */
 .modal-content{
     background: white;
     padding: 30px;
@@ -198,7 +190,6 @@ body, html {
     position: relative;
 }
 
-/* Circular Progress Indicator Styles */
 .progress-circle-container {
     margin: 15px auto;
     width: 140px;
@@ -229,7 +220,6 @@ body, html {
     transition: stroke-dasharray 0.6s ease-out;
 }
 
-/* Inner text inside the circle */
 .percentage-text-inside {
     position: absolute;
     top: 50%;
@@ -243,12 +233,10 @@ body, html {
     line-height: 1;
 }
 
-/* Hide the old percentText */
 #percentText {
     display: none;
 }
 
-/* BUTTON */
 .modal-btn{
     margin-top: 15px;
     padding: 12px 20px;
@@ -260,7 +248,6 @@ body, html {
     cursor: pointer;
 }
 
-/* CLOSE BUTTON */
 .modal-close{
     position: absolute;
     top: 10px;
@@ -271,40 +258,32 @@ body, html {
     cursor: pointer;
 }
 
-/* ===== MOBILE RESPONSIVE FIX (SAFE) ===== */
 @media (max-width: 768px) {
-
-    /* ✅ Allow scrolling on mobile */
     body, html {
         overflow: auto;
     }
 
-    /* ✅ Scale nodes down proportionally */
     .node {
         width: 140px;
         height: 100px;
     }
 
-    /* ✅ Center node smaller */
     .center-node {
         width: 260px;
         height: 180px;
     }
 
-    /* ✅ Reposition nodes (avoid overlap) */
     .node-top-left     { top: 18%; left: 10%; }
     .node-top-right    { top: 18%; right: 10%; }
     .node-bottom-left  { top: 65%; left: 10%; }
     .node-bottom-right { top: 65%; right: 10%; }
 
-    /* ✅ Lock icon smaller */
     .lock-icon {
         width: 45px;
         height: 45px;
         font-size: 22px;
     }
 
-    /* ✅ Modal responsive */
     .modal-content {
         width: 85%;
         max-width: none;
@@ -325,7 +304,6 @@ body, html {
         font-size: 14px;
     }
 
-    /* ✅ Final button mobile-friendly */
     .final-key {
         bottom: 20px;
         right: 15px;
@@ -333,7 +311,6 @@ body, html {
         font-size: 14px;
     }
 
-    /* ✅ Back button smaller */
     .back-button {
         top: 70px;
         left: 10px;
@@ -352,7 +329,6 @@ body, html {
             <h2 id="progressTitle">Magaling!</h2>
             <p>Natapos mo ang isang bahagi ng aralin.</p>
             
-            <!-- Circular Progress Indicator -->
             <div class="progress-circle-container">
                 <svg viewBox="0 0 100 100" class="circular-chart">
                     <circle cx="50" cy="50" r="42" class="circle-bg" />
@@ -416,7 +392,6 @@ body, html {
 <x-vn />
 
 <script>
-// Helper function to update the circular progress in the modal
 function updateCircularProgress(percentage) {
     const circle = document.getElementById('progressCircle');
     const percentText = document.getElementById('circlePercentage');
@@ -429,14 +404,11 @@ function updateCircularProgress(percentage) {
         circle.style.strokeDashoffset = offset;
         percentText.innerText = Math.round(percentage) + '%';
         
-        // Optional: Change color based on percentage
-        if (percentage >= 75) {
-            circle.style.stroke = "#27ae60"; // Darker green for high progress
-        } else if (percentage >= 50) {
-            circle.style.stroke = "#f39c12"; // Orange for medium progress
-        } else {
-            circle.style.stroke = "#5eae4e"; // Default green for low progress
-        }
+        // Always keep it green
+        circle.style.stroke = "#5eae4e";
+        
+        // Also update the text color to match
+        percentText.style.color = "#5eae4e";
     }
 }
 
@@ -450,7 +422,6 @@ function updateMapProgress(){
     const node4 = document.getElementById("node4");
     const finalBtn = document.getElementById("final-key");
 
-    // 1. Calculate Progression Math
     const nodes = ["node1_done", "node2_done", "node3_done", "node4_done"];
     let completedCount = 0;
     nodes.forEach(key => {
@@ -459,7 +430,6 @@ function updateMapProgress(){
 
     const percentage = (completedCount / nodes.length) * 100;
 
-    // 2. Unlock Visuals
     const n1 = getDone("node1_done");
     const n2 = getDone("node2_done");
     const n3 = getDone("node3_done");
@@ -469,19 +439,16 @@ function updateMapProgress(){
     if(n1 && n2) unlockNode(node3);
     if(n1 && n2 && n3) unlockNode(node4);
 
-    // 3. Logic to show Progress Modal only once per completion
     const lastReported = parseInt(sessionStorage.getItem("last_reported_progress") || "0");
     
     if (percentage > lastReported && percentage < 100) {
         showProgressModal(percentage);
         sessionStorage.setItem("last_reported_progress", percentage);
     } else if (percentage === 100 && lastReported < 100) {
-        // If they just hit 100, show the Final Modal instead
         goFinal();
         sessionStorage.setItem("last_reported_progress", 100);
     }
 
-    // 4. Final Button Visibility
     if(percentage === 100){
         finalBtn.style.display = "block";
     } else {
@@ -489,7 +456,6 @@ function updateMapProgress(){
     }
 }
 
-/* LOCK */
 function lockNode(node){
     node.classList.add("locked");
     if(!node.querySelector(".lock-icon")){
@@ -500,15 +466,12 @@ function lockNode(node){
     }
 }
 
-/* UNLOCK */
 function unlockNode(node){
     node.classList.remove("locked");
     node.querySelector(".lock-icon")?.remove();
 }
 
-/* PROGRESS MODAL CONTROLS */
 function showProgressModal(percent) {
-    // Update circular progress before showing modal
     updateCircularProgress(percent);
     document.getElementById("progressModal").style.display = "flex";
 }
@@ -517,7 +480,6 @@ function closeProgressModal() {
     document.getElementById("progressModal").style.display = "none";
 }
 
-/* NAVIGATION */
 function goNode2(){
     if(getDone("node1_done")){
         window.location.href="{{ route('node2') }}";
@@ -540,18 +502,15 @@ function closeModal(){
     document.getElementById("finalModal").style.display = "none";
 }
 
-/* OPEN MODAL */
 function goFinal(){
     document.getElementById("finalModal").style.display = "flex";
 }
 
-/* ✅ FIXED REDIRECT */
 function goToFinal(){
     window.location.href = "{{ route('module2.intro') }}";
 }
 
 window.onload = updateMapProgress;
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const dialogueKey = "module2_innermap";
@@ -562,12 +521,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 name: "Mga Guro",
                 image: "{{ asset('pictures/vn_box_teacher3.png') }}"
             },
-
             {
                 text: "Ang bawat node ay may sariling aralin at mga gawaing makakatulong sa iyong pag-unawa. Subukan mong sagutan ang mga ito at matuto habang ikaw ay naglalaro.",
                 image: "{{ asset('pictures/vn_box_teacher1.png') }}"
             },
-
             {
                 text: "Kapag natapos mo ang lahat ng nodes, maa-unlock ang huling gawain para subukin ang iyong natutunan.",
                 image: "{{ asset('pictures/vn_box_teacher4.png') }}"
