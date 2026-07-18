@@ -5,794 +5,815 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 	<style>
-		:root {
-			--bg-1: #fffaf3;
-			--bg-2: #fff3df;
-			--card: rgba(255, 255, 255, 0.94);
-			--text: #3d2a1a;
-			--muted: #7a6143;
-			--accent: #6dbf7e;
-			--accent-dark: #4da862;
-			--accent-soft: #eefaf1;
-			--warm: #f4c97a;
-			--wrong-soft: #fff3e6;
-			--wrong-border: #efc48f;
-			--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
-			--radius-xl: 24px;
-			--radius-lg: 18px;
-			--radius-md: 14px;
-		}
+	:root {
+		--bg-1: #fffaf3;
+		--bg-2: #fff3df;
+		--card: rgba(255, 255, 255, 0.94);
+		--text: #3d2a1a;
+		--muted: #7a6143;
+		--accent: #6dbf7e;
+		--accent-dark: #4da862;
+		--accent-soft: #eefaf1;
+		--warm: #f4c97a;
+		--wrong-soft: #fff3e6;
+		--wrong-border: #efc48f;
+		--shadow: 0 14px 38px rgba(100, 73, 33, 0.12);
+		--radius-xl: 24px;
+		--radius-lg: 18px;
+		--radius-md: 14px;
+	}
 
-		* {
-			box-sizing: border-box;
-		}
+	* {
+		box-sizing: border-box;
+	}
 
-		.background-map {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			object-fit: cover;
-			z-index: -1;
-		}
+	.background-map {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		object-fit: cover;
+		z-index: -1;
+    }
 
-		html, body{
-			scroll-behavior:smooth;
-			background:
-				radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
-				radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
-				radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
-				linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
-		}
+    html, body{
+        scroll-behavior:smooth;
+        background:
+            radial-gradient(circle at 12% 18%, rgba(91,192,255,.22), transparent 34%),
+            radial-gradient(circle at 88% 20%, rgba(127,212,106,.22), transparent 34%),
+            radial-gradient(circle at 50% 82%, rgba(47,155,87,.20), transparent 36%),
+            linear-gradient(160deg, #0e2b1f 0%, #154733 38%, #1b5a42 68%, #24684d 100%);
+    }
 
-		body{
-			overflow-x:hidden;
-			color:var(--text);
-			font-family:'Poppins', sans-serif;
-		}
+    body{
+        overflow-x:hidden;
+        color:var(--text);
+        font-family:'Poppins', sans-serif;
+    }
 
-		.main-wrapper {
-			display: block;
-			width: 100%;
-			max-width: 1200px;
-			margin: 0 auto;
-		}
+	.main-wrapper {
+		display: block;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
 
-		.pretest-wrap {
-			width: 100%;
-			max-width: 880px;
-			margin: 0 auto;
+	.pretest-wrap {
+		width: 100%;
+		max-width: 880px;
+		margin: 0 auto;
+	}
+
+	.pretest-card {
+		position: relative;
+		background: var(--card);
+		backdrop-filter: blur(10px);
+		border-radius: 28px;
+		box-shadow: var(--shadow);
+		padding: 22px;
+		border: 1px solid rgba(230, 208, 175, 0.7);
+		overflow: hidden;
+	}
+
+	.pretest-card::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+		pointer-events: none;
+	}
+
+	.pretest-header {
+		text-align: center;
+		margin-bottom: 16px;
+		position: relative;
+		z-index: 2;
+	}
+
+	.pretest-header .header-icons {
+		font-size: 1.2rem;
+		letter-spacing: 3px;
+		margin-bottom: 4px;
+	}
+
+	.pretest-header .subtitle {
+		font-size: 0.85rem;
+		font-weight: 800;
+		color: var(--muted);
+		letter-spacing: 1.2px;
+		text-transform: uppercase;
+	}
+
+	.pretest-header h1 {
+		font-family: "Baloo 2", cursive;
+		font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+		margin: 6px 0 4px;
+		color: var(--text);
+		line-height: 1.1;
+	}
+
+	.pretest-header p {
+		color: var(--muted);
+		font-weight: 700;
+		margin-top: 6px;
+		font-size: 0.94rem;
+	}
+
+	.quiz-page {
+		display: block;
+		position: relative;
+		z-index: 2;
+	}
+
+	.quiz-page.hidden {
+		display: none !important;
+	}
+
+	.quiz-progress {
+		max-width: 520px;
+		margin: 0 auto 18px;
+	}
+
+	.progress-topline {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 15px;
+		flex-wrap: wrap;
+	}
+
+	.progress-mini-badge {
+		font-size: 0.85rem;
+		font-weight: 900;
+		padding: 6px 14px;
+		color: #5b472f;
+		background: #fff7ea;
+		border: 1px solid #efd9b3;
+		border-radius: 999px;
+	}
+
+	.progress-dots {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 6px;
+		flex-wrap: wrap;
+		margin-bottom: 10px;
+	}
+
+	.progress-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #dfd2c3;
+		transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.progress-dot.completed {
+		background: var(--accent);
+		transform: scale(1.15);
+	}
+
+	.flashcard-stage {
+		position: relative;
+		min-height: 360px;
+		perspective: 1200px;
+	}
+
+	.question-list {
+		display: block;
+		position: relative;
+		min-height: 360px;
+	}
+
+	.question-item {
+		position: relative;
+		background:
+			linear-gradient(180deg, #ffffff 0%, #fffdf9 100%);
+		border: 1px solid #eadcc5;
+		border-radius: 24px;
+		padding: 18px;
+		min-height: 360px;
+		box-shadow: 0 12px 30px rgba(91, 66, 33, 0.08);
+		overflow: hidden;
+	}
+
+	.question-item::after {
+		content: "";
+		position: absolute;
+		top: -60px;
+		right: -60px;
+		width: 160px;
+		height: 160px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(109,191,126,0.13) 0%, rgba(109,191,126,0) 68%);
+		pointer-events: none;
+	}
+
+	.card-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 12px;
+		border-radius: 999px;
+		font-size: 0.8rem;
+		font-weight: 900;
+		background: #fff7ea;
+		color: #694d30;
+		border: 1px solid #efd9b3;
+		margin-bottom: 12px;
+	}
+
+	.question-item h4 {
+		color: var(--text);
+		margin-bottom: 14px;
+		line-height: 1.5;
+		font-size: 1.02rem;
+		font-weight: 900;
+		padding-right: 18px;
+	}
+
+	.choices {
+		display: grid;
+		gap: 10px;
+	}
+
+	.choice {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		border: 1px solid #e7d7bf;
+		border-radius: 16px;
+		padding: 11px 12px;
+		cursor: pointer;
+		transition: border-color 0.22s, background-color 0.22s, transform 0.18s, box-shadow 0.18s;
+		background: #fff;
+		position: relative;
+	}
+
+	.choice:hover {
+		border-color: #d4a574;
+		background: #fffaf1;
+		transform: translateY(-2px);
+		box-shadow: 0 10px 18px rgba(170, 124, 67, 0.08);
+	}
+
+	.choice.selected {
+		border-color: var(--accent);
+		background: #f3fbf5;
+		transform: translateY(-2px);
+		box-shadow: 0 10px 22px rgba(109, 191, 126, 0.12);
+	}
+
+	.choice.confirmed {
+		border-color: var(--accent);
+		background: #e8f5eb;
+		position: relative;
+	}
+
+	.choice.confirmed::after {
+		content: "✓";
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--accent);
+		font-weight: bold;
+		font-size: 1.2rem;
+	}
+
+	.choice.correct-reveal {
+		border-color: var(--accent);
+		background: #f1fbf4;
+		box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.12);
+	}
+
+	.choice.soft-wrong {
+		border-color: var(--wrong-border);
+		background: var(--wrong-soft);
+	}
+
+	.choice input {
+		margin-top: 4px;
+		accent-color: var(--accent);
+		cursor: pointer;
+		transform: scale(1.05);
+	}
+
+	.choice span {
+		color: #4e3823;
+		font-size: 0.93rem;
+		line-height: 1.45;
+		font-weight: 700;
+	}
+
+	.reaction-box {
+		margin-top: 14px;
+		min-height: 64px;
+		border-radius: 16px;
+		padding: 12px 14px;
+		font-weight: 800;
+		font-size: 0.92rem;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		opacity: 0;
+		transform: translateY(8px);
+		pointer-events: none;
+		transition: opacity 0.25s ease, transform 0.25s ease;
+	}
+
+	.reaction-box.show {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.reaction-box.correct {
+		background: linear-gradient(180deg, #eefaf1 0%, #e4f7ea 100%);
+		border: 1px solid #bfe3c8;
+		color: #2f6c44;
+	}
+
+	.reaction-box.gentle {
+		background: linear-gradient(180deg, #fff8ef 0%, #fff2df 100%);
+		border: 1px solid #efd2a7;
+		color: #7a5a2e;
+	}
+
+	.action-row {
+		margin-top: 16px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.action-row.hidden {
+		display: none !important;
+	}
+
+	.btn-primary,
+	.btn-secondary,
+	.btn-confirm {
+		border: none;
+		outline: none;
+		text-decoration: none;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+		min-width: 160px;
+		padding: 11px 16px;
+		border-radius: 14px;
+		font-size: 0.92rem;
+		font-family: "Baloo 2", cursive;
+		font-weight: 800;
+		cursor: pointer;
+		transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+		color: #fff;
+		box-shadow: 0 10px 22px rgba(77, 168, 98, 0.22);
+	}
+
+	.btn-primary:hover:not([disabled]),
+	.btn-secondary:hover:not([disabled]),
+	.btn-confirm:hover:not([disabled]) {
+		transform: translateY(-2px);
+	}
+
+	.btn-primary[disabled],
+	.btn-secondary[disabled],
+	.btn-confirm[disabled] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: none;
+	}
+
+	.btn-secondary {
+		background: #fff;
+		color: #4c3a26;
+		border: 2px solid #d7c4a3;
+		box-shadow: 0 8px 18px rgba(120, 90, 50, 0.08);
+	}
+
+	.btn-confirm {
+		background: linear-gradient(135deg, #f4c97a, #e5b55c);
+		color: #4a2f14;
+		box-shadow: 0 10px 22px rgba(244, 201, 122, 0.3);
+	}
+
+	.result-page {
+		display: none;
+		max-width: 560px;
+		margin: 12px auto 0;
+	}
+
+	.result-page.show {
+		display: block;
+		animation: fadePop 0.45s ease;
+	}
+
+	.result-box {
+		display: none;
+		margin-top: 14px;
+		border-radius: 24px;
+		border: 2px solid rgba(109, 191, 126, 0.28);
+		background: linear-gradient(180deg, #fffdf7 0%, #f6efe2 100%);
+		color: var(--text);
+		padding: 18px 16px;
+		text-align: center;
+		font-weight: 800;
+		box-shadow: 0 14px 32px rgba(91, 66, 33, 0.1);
+	}
+
+	.result-box.show {
+		display: block;
+	}
+
+	.result-title {
+		font-family: "Baloo 2", cursive;
+		font-size: clamp(1.55rem, 3.4vw, 2rem);
+		color: var(--text);
+		margin-bottom: 10px;
+	}
+
+	.result-ring {
+		--progress: 0;
+		width: 160px;
+		height: 160px;
+		margin: 0 auto 10px;
+		border-radius: 50%;
+		background: conic-gradient(#57ba77 calc(var(--progress) * 1%), #d9e8dc 0);
+		display: grid;
+		place-items: center;
+		position: relative;
+		box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
+	}
+
+	.result-ring::before {
+		content: "";
+		width: 122px;
+		height: 122px;
+		border-radius: 50%;
+		background: linear-gradient(180deg, #fffdf8 0%, #f2eadf 100%);
+		position: absolute;
+		inset: 0;
+		margin: auto;
+	}
+
+	.result-percent {
+		position: relative;
+		z-index: 1;
+		font-size: 1.7rem;
+		font-weight: 900;
+		color: #2f6c44;
+	}
+
+	.result-score {
+		font-size: 1rem;
+		font-weight: 800;
+		color: #4c3a26;
+		margin-top: 4px;
+	}
+
+	.result-feedback {
+		margin-top: 6px;
+		font-size: 0.9rem;
+		font-weight: 800;
+		color: #6f5538;
+	}
+
+	.badge-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 12px;
+		border-radius: 999px;
+		font-size: 0.8rem;
+		font-weight: 900;
+		margin-top: 8px;
+		background: #eefaf1;
+		color: #2f6c44;
+		border: 1px solid #bfe3c8;
+	}
+
+	.result-actions {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-top: 12px;
+	}
+
+	/* Sticky Back Button Styles */
+	.back-button {
+		position: fixed;
+		top: 80px;
+		left: 20px;
+		z-index: 100;
+		background-color: rgba(255, 255, 255, 0.9);
+		padding: 10px 15px;
+		border-radius: 8px;
+		text-decoration: none;
+		color: #1a1a1a;
+		font-weight: bold;
+		font-family: 'Courier New', Courier, monospace;
+		box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+		transition: transform 0.2s;
+	}
+
+	.back-button:hover {
+		transform: translateY(-2px);
+	}
+
+	/* Unanswered question highlight */
+	.unanswered-highlight {
+		background-color: #fff3df !important;
+		transition: background-color 0.5s ease;
+		border-radius: 16px;
+		padding: 12px;
+		border: 2px solid #f4c97a;
+	}
+
+	/* Attempts disabled overlay */
+	.attempts-disabled {
+		position: relative;
+	}
+
+	.attempts-disabled .quiz-page {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	.attempts-disabled .quiz-page.hidden {
+		display: none !important;
+	}
+
+	.attempts-message {
+		display: none;
+		text-align: center;
+		padding: 30px;
+		background: #fff5f5;
+		border: 2px solid #e5a5a5;
+		border-radius: 20px;
+		margin: 20px 0;
+	}
+
+	.attempts-message.show {
+		display: block;
+	}
+
+	.attempts-message h3 {
+		color: #7a2e2e;
+		margin-bottom: 10px;
+	}
+
+	.single-question {
+		margin-bottom: 18px;
+		padding-bottom: 12px;
+		border-bottom: 1px dashed #e7d7bf;
+	}
+
+	.single-question:last-child {
+		border-bottom: none;
+	}
+
+	.retry-indicator {
+		text-align: center;
+		font-size: 0.85rem;
+		font-weight: 900;
+		color: #5b472f;
+		background: #fff7ea;
+		border: 1px solid #efd9b3;
+		padding: 6px 12px;
+		border-radius: 999px;
+		margin-top: 10px;
+		display: inline-block;
+	}
+
+	/* Last score display when no attempts left */
+	.last-score-box {
+		display: none;
+		background: #f0f7ff;
+		border: 2px solid #b8d4f0;
+		border-radius: 16px;
+		padding: 30px 20px;
+		margin: 20px 0;
+		text-align: center;
+	}
+
+	.last-score-box.show {
+		display: block;
+	}
+
+	.last-score-box .score-number {
+		font-size: 3rem;
+		font-weight: 900;
+		color: #2c6b9e;
+	}
+
+	.last-score-box .score-label {
+		font-size: 1.1rem;
+		color: #4a6a8a;
+		margin-top: 5px;
+	}
+
+	.last-score-box .score-badge {
+		margin: 10px 0;
+	}
+
+	/* No Attempts Continue Button */
+	.no-attempts-actions {
+		display: none;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-top: 20px;
+	}
+
+	.no-attempts-actions.show {
+		display: flex;
+	}
+
+	@media (max-width: 768px) {
+		body {
+			padding: 14px 10px 20px;
 		}
 
 		.pretest-card {
-			position: relative;
-			background: var(--card);
-			backdrop-filter: blur(10px);
-			border-radius: 28px;
-			box-shadow: var(--shadow);
-			padding: 22px;
-			border: 1px solid rgba(230, 208, 175, 0.7);
-			overflow: hidden;
-		}
-
-		.pretest-card::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background:
-				linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
-			pointer-events: none;
-		}
-
-		.pretest-header {
-			text-align: center;
-			margin-bottom: 16px;
-			position: relative;
-			z-index: 2;
-		}
-
-		.pretest-header .header-icons {
-			font-size: 1.2rem;
-			letter-spacing: 3px;
-			margin-bottom: 4px;
-		}
-
-		.pretest-header .subtitle {
-			font-size: 0.85rem;
-			font-weight: 800;
-			color: var(--muted);
-			letter-spacing: 1.2px;
-			text-transform: uppercase;
-		}
-
-		.pretest-header h1 {
-			font-family: "Baloo 2", cursive;
-			font-size: clamp(1.9rem, 3.5vw, 2.5rem);
-			margin: 6px 0 4px;
-			color: var(--text);
-			line-height: 1.1;
-		}
-
-		.pretest-header p {
-			color: var(--muted);
-			font-weight: 700;
-			margin-top: 6px;
-			font-size: 0.94rem;
-		}
-
-		.pretest-note {
-			background: linear-gradient(180deg, #fffaf0 0%, #fff4df 100%);
-			border: 1px solid #efd9b3;
-			color: #6e5233;
-			border-radius: 16px;
-			padding: 12px 14px;
-			font-size: 0.92rem;
-			margin-bottom: 16px;
-			font-weight: 700;
-			text-align: center;
-		}
-
-		.quiz-page {
-			display: block;
-			position: relative;
-			z-index: 2;
-		}
-
-		.quiz-progress {
-			max-width: 520px;
-			margin: 0 auto 18px;
-		}
-
-		.progress-topline {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 10px;
-			margin-bottom: 15px;
-			flex-wrap: wrap;
-		}
-
-		.progress-label {
-			font-size: 0.84rem;
-			font-weight: 900;
-			color: var(--muted);
-			letter-spacing: 0.4px;
-		}
-
-		.progress-mini-badge {
-			font-size: 0.85rem;
-			font-weight: 900;
-			padding: 6px 14px;
-			color: #5b472f;
-			background: #fff7ea;
-			border: 1px solid #efd9b3;
-			/* padding: 5px 10px; */
-			border-radius: 999px;
-		}
-
-		.progress-dots {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 6px;
-			flex-wrap: wrap;
-			margin-bottom: 10px;
-		}
-
-		.progress-dot {
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			background: #dfd2c3;
-			transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-		}
-
-		.progress-dot.completed {
-			background: var(--accent);
-			transform: scale(1.15);
-		}
-
-		.progress-dot.active {
-			background: #57ba77;
-			transform: scale(1.45);
-			box-shadow: 0 0 10px rgba(109, 191, 126, 0.45);
-		}
-
-		.progress-track {
-			width: 100%;
-			height: 10px;
-			border-radius: 999px;
-			background: #eadfcd;
-			overflow: hidden;
-		}
-
-		.progress-fill {
-			height: 100%;
-			width: 0%;
-			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-			border-radius: inherit;
-			transition: width 0.35s ease;
-		}
-
-		.flashcard-stage {
-			position: relative;
-			min-height: 360px;
-			perspective: 1200px;
-		}
-
-		.question-list {
-			display: block;
-			position: relative;
-			min-height: 360px;
+			padding: 14px;
+			border-radius: 22px;
 		}
 
 		.question-item {
-			position: relative;
-			background:
-				linear-gradient(180deg, #ffffff 0%, #fffdf9 100%);
-			border: 1px solid #eadcc5;
-			border-radius: 24px;
-			padding: 18px;
-			min-height: 360px;
-			box-shadow: 0 12px 30px rgba(91, 66, 33, 0.08);
-			overflow: hidden;
+			padding: 15px;
+			min-height: 340px;
 		}
 
-		.question-item::after {
-			content: "";
-			position: absolute;
-			top: -60px;
-			right: -60px;
-			width: 160px;
-			height: 160px;
-			border-radius: 50%;
-			background: radial-gradient(circle, rgba(109,191,126,0.13) 0%, rgba(109,191,126,0) 68%);
-			pointer-events: none;
-		}
-
-		.card-chip-row {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			gap: 10px;
-			flex-wrap: wrap;
-			margin-bottom: 12px;
-		}
-
-		.card-chip {
-			display: inline-flex;
-			align-items: center;
-			gap: 6px;
-			padding: 6px 12px;
-			border-radius: 999px;
-			font-size: 0.8rem;
-			font-weight: 900;
-			background: #fff7ea;
-			color: #694d30;
-			border: 1px solid #efd9b3;
-		}
-
-		.card-tip {
-			font-size: 0.78rem;
-			font-weight: 800;
-			color: var(--muted);
-		}
-
-		.question-item h4 {
-			color: var(--text);
-			margin-bottom: 14px;
-			line-height: 1.5;
-			font-size: 1.02rem;
-			font-weight: 900;
-			padding-right: 18px;
-		}
-
-		.choices {
-			display: grid;
-			gap: 10px;
-		}
-
-		.choice {
-			display: flex;
-			align-items: flex-start;
-			gap: 10px;
-			border: 1px solid #e7d7bf;
-			border-radius: 16px;
-			padding: 11px 12px;
-			cursor: pointer;
-			transition: border-color 0.22s, background-color 0.22s, transform 0.18s, box-shadow 0.18s;
-			background: #fff;
-			position: relative;
-		}
-
-		.choice:hover {
-			border-color: #d4a574;
-			background: #fffaf1;
-			transform: translateY(-2px);
-			box-shadow: 0 10px 18px rgba(170, 124, 67, 0.08);
-		}
-
-		.choice.selected {
-			border-color: var(--accent);
-			background: #f3fbf5;
-			transform: translateY(-2px);
-			box-shadow: 0 10px 22px rgba(109, 191, 126, 0.12);
-		}
-
-		.choice.confirmed {
-			border-color: var(--accent);
-			background: #e8f5eb;
-			position: relative;
-		}
-
-		.choice.confirmed::after {
-			content: "✓";
-			position: absolute;
-			right: 12px;
-			top: 50%;
-			transform: translateY(-50%);
-			color: var(--accent);
-			font-weight: bold;
-			font-size: 1.2rem;
-		}
-
-		.choice.correct-reveal {
-			border-color: var(--accent);
-			background: #f1fbf4;
-			box-shadow: 0 0 0 3px rgba(109, 191, 126, 0.12);
-		}
-
-		.choice.soft-wrong {
-			border-color: var(--wrong-border);
-			background: var(--wrong-soft);
-		}
-
-		.choice input {
-			margin-top: 4px;
-			accent-color: var(--accent);
-			cursor: pointer;
-			transform: scale(1.05);
-		}
-
-		.choice span {
-			color: #4e3823;
-			font-size: 0.93rem;
-			line-height: 1.45;
-			font-weight: 700;
-		}
-
-		.reaction-box {
-			margin-top: 14px;
-			min-height: 64px;
-			border-radius: 16px;
-			padding: 12px 14px;
-			font-weight: 800;
-			font-size: 0.92rem;
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			opacity: 0;
-			transform: translateY(8px);
-			pointer-events: none;
-			transition: opacity 0.25s ease, transform 0.25s ease;
-		}
-
-		.reaction-box.show {
-			opacity: 1;
-			transform: translateY(0);
-		}
-
-		.reaction-box.correct {
-			background: linear-gradient(180deg, #eefaf1 0%, #e4f7ea 100%);
-			border: 1px solid #bfe3c8;
-			color: #2f6c44;
-		}
-
-		.reaction-box.gentle {
-			background: linear-gradient(180deg, #fff8ef 0%, #fff2df 100%);
-			border: 1px solid #efd2a7;
-			color: #7a5a2e;
-		}
-
-		.reaction-emoji {
-			font-size: 1.25rem;
-			line-height: 1;
-			flex-shrink: 0;
+		.flashcard-stage,
+		.question-list {
+			min-height: 340px;
 		}
 
 		.action-row {
-			margin-top: 16px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 10px;
+			flex-direction: column;
 		}
 
 		.btn-primary,
 		.btn-secondary,
 		.btn-confirm {
-			border: none;
-			outline: none;
-			text-decoration: none;
-			display: inline-flex;
-			justify-content: center;
-			align-items: center;
-			gap: 8px;
-			min-width: 160px;
-			padding: 11px 16px;
-			border-radius: 14px;
-			font-size: 0.92rem;
-			font-family: "Baloo 2", cursive;
-			font-weight: 800;
-			cursor: pointer;
-			transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
-		}
-
-		.btn-primary {
-			background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-			color: #fff;
-			box-shadow: 0 10px 22px rgba(77, 168, 98, 0.22);
-		}
-
-		.btn-primary:hover:not([disabled]),
-		.btn-secondary:hover:not([disabled]),
-		.btn-confirm:hover:not([disabled]) {
-			transform: translateY(-2px);
-		}
-
-		.btn-primary[disabled],
-		.btn-secondary[disabled],
-		.btn-confirm[disabled] {
-			opacity: 0.5;
-			cursor: not-allowed;
-			transform: none;
-			box-shadow: none;
-		}
-
-		.btn-secondary {
-			background: #fff;
-			color: #4c3a26;
-			border: 2px solid #d7c4a3;
-			box-shadow: 0 8px 18px rgba(120, 90, 50, 0.08);
-		}
-
-		.btn-confirm {
-			background: linear-gradient(135deg, #f4c97a, #e5b55c);
-			color: #4a2f14;
-			box-shadow: 0 10px 22px rgba(244, 201, 122, 0.3);
-		}
-
-		.result-page {
-			display: none;
-			max-width: 560px;
-			margin: 12px auto 0;
-		}
-
-		.result-page.show {
-			display: block;
-			animation: fadePop 0.45s ease;
-		}
-
-		.result-box {
-			display: none;
-			margin-top: 14px;
-			border-radius: 24px;
-			border: 2px solid rgba(109, 191, 126, 0.28);
-			background: linear-gradient(180deg, #fffdf7 0%, #f6efe2 100%);
-			color: var(--text);
-			padding: 18px 16px;
-			text-align: center;
-			font-weight: 800;
-			box-shadow: 0 14px 32px rgba(91, 66, 33, 0.1);
-		}
-
-		.result-box.show {
-			display: block;
-		}
-
-		.result-title {
-			font-family: "Baloo 2", cursive;
-			font-size: clamp(1.55rem, 3.4vw, 2rem);
-			color: var(--text);
-			margin-bottom: 10px;
+			width: 100%;
 		}
 
 		.result-ring {
-			--progress: 0;
-			width: 160px;
-			height: 160px;
-			margin: 0 auto 10px;
-			border-radius: 50%;
-			background: conic-gradient(#57ba77 calc(var(--progress) * 1%), #d9e8dc 0);
-			display: grid;
-			place-items: center;
-			position: relative;
-			box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
+			width: 140px;
+			height: 140px;
 		}
 
 		.result-ring::before {
-			content: "";
-			width: 122px;
-			height: 122px;
-			border-radius: 50%;
-			background: linear-gradient(180deg, #fffdf8 0%, #f2eadf 100%);
-			position: absolute;
-			inset: 0;
-			margin: auto;
+			width: 106px;
+			height: 106px;
 		}
 
 		.result-percent {
-			position: relative;
-			z-index: 1;
-			font-size: 1.7rem;
-			font-weight: 900;
-			color: #2f6c44;
-		}
-
-		.result-score {
-			font-size: 1rem;
-			font-weight: 800;
-			color: #4c3a26;
-			margin-top: 4px;
-		}
-
-		.result-subtext {
-			margin-top: 6px;
-			font-size: 0.85rem;
-			font-weight: 700;
-			color: var(--muted);
-		}
-
-		.result-feedback {
-			margin-top: 6px;
-			font-size: 0.9rem;
-			font-weight: 800;
-			color: #6f5538;
-		}
-
-		.badge-pill {
-			display: inline-flex;
-			align-items: center;
-			gap: 6px;
-			padding: 6px 12px;
-			border-radius: 999px;
-			font-size: 0.8rem;
-			font-weight: 900;
-			margin-top: 8px;
-			background: #eefaf1;
-			color: #2f6c44;
-			border: 1px solid #bfe3c8;
-		}
-
-		.result-actions {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 10px;
-			margin-top: 12px;
+			font-size: 1.42rem;
 		}
 
 		.back-button {
-			position: fixed;
-			top: 80px;
-			left: 20px;
-			z-index: 100;
-			background-color: rgba(255, 255, 255, 0.9);
-			padding: 10px 15px;
-			border-radius: 8px;
-			text-decoration: none;
-			color: #1a1a1a;
-			font-weight: bold;
-			font-family: 'Courier New', Courier, monospace;
-			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-			transition: transform 0.2s;
-		}
-
-		.back-button:hover {
-			transform: scale(1.06);
-		}
-
-		.confirm-pending {
-			animation: pulseBorder 1.5s ease-in-out infinite;
-		}
-
-		/* Unanswered question highlight */
-		.unanswered-highlight {
-			background-color: #fff3df !important;
-			transition: background-color 0.5s ease;
-			border-radius: 16px;
-			padding: 12px;
-			border: 2px solid #f4c97a;
-		}
-
-		@keyframes pulseBorder {
-			0%, 100% { border-color: #e7d7bf; }
-			50% { border-color: #f4c97a; }
-		}
-
-		@media (max-width: 768px) {
-			body {
-				padding: 14px 10px 20px;
-			}
-
-			.pretest-card {
-				padding: 14px;
-				border-radius: 22px;
-			}
-
-			.question-item {
-				padding: 15px;
-				min-height: 340px;
-			}
-
-			.flashcard-stage,
-			.question-list {
-				min-height: 340px;
-			}
-
-			.action-row {
-				flex-direction: column;
-			}
-
-			.btn-primary,
-			.btn-secondary,
-			.btn-confirm {
-				width: 100%;
-			}
-
-			.result-ring {
-				width: 140px;
-				height: 140px;
-			}
-
-			.result-ring::before {
-				width: 106px;
-				height: 106px;
-			}
-
-			.result-percent {
-				font-size: 1.42rem;
-			}
-
-			.back-button {
-				top: 12px;
-				left: 12px;
-				padding: 8px 12px;
-				font-size: 0.85rem;
-			}
-		}
-
-		.card-slide-in-right {
-			animation: slideInRight 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-		}
-
-		.card-slide-in-left {
-			animation: slideInLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-		}
-
-		.card-slide-in-up {
-			animation: slideInUp 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-		}
-
-		.pulse-pop {
-			animation: pulsePop 0.45s ease;
-		}
-
-		@keyframes slideInRight {
-			from {
-				opacity: 0;
-				transform: translateX(60px) rotate(0.7deg) scale(0.98);
-			}
-			to {
-				opacity: 1;
-				transform: translateX(0) rotate(0) scale(1);
-			}
-		}
-
-		@keyframes slideInLeft {
-			from {
-				opacity: 0;
-				transform: translateX(-60px) rotate(-0.7deg) scale(0.98);
-			}
-			to {
-				opacity: 1;
-				transform: translateX(0) rotate(0) scale(1);
-			}
-		}
-
-		@keyframes slideInUp {
-			from {
-				opacity: 0;
-				transform: translateY(42px) scale(0.98);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0) scale(1);
-			}
-		}
-
-		@keyframes fadePop {
-			from {
-				opacity: 0;
-				transform: translateY(18px) scale(0.98);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0) scale(1);
-			}
-		}
-
-		@keyframes pulsePop {
-			0% { transform: scale(0.98); }
-			50% { transform: scale(1.015); }
-			100% { transform: scale(1); }
-		}
-
-		.confetti-piece {
-			position: fixed;
-			top: -20px;
-			width: 10px;
-			height: 16px;
-			border-radius: 3px;
-			opacity: 0.95;
-			z-index: 9999;
-			pointer-events: none;
-			animation: confettiFall linear forwards;
-		}
-
-		@keyframes confettiFall {
-			0% {
-				transform: translateY(0) rotate(0deg);
-				opacity: 1;
-			}
-			100% {
-				transform: translateY(110vh) rotate(720deg);
-				opacity: 0;
-			}
-		}
-
-		.single-question {
-			margin-bottom: 18px;
-			padding-bottom: 12px;
-			border-bottom: 1px dashed #e7d7bf;
-		}
-
-		.single-question:last-child {
-			border-bottom: none;
-		}
-
-		.retry-indicator {
-			text-align: center;
+			position: sticky;
+			top: 120px;
+			margin: 0 10px 20px 10px;
+			padding: 8px 12px;
 			font-size: 0.85rem;
-			font-weight: 900;
-			color: #5b472f;
-			background: #fff7ea;
-			border: 1px solid #efd9b3;
-			padding: 6px 12px;
-			border-radius: 999px;
-			margin-top: 10px;
-			display: inline-block;
 		}
-	</style>
+	}
+
+	.card-slide-in-right {
+		animation: slideInRight 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.card-slide-in-left {
+		animation: slideInLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.card-slide-in-up {
+		animation: slideInUp 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	@keyframes slideInRight {
+		from {
+			opacity: 0;
+			transform: translateX(60px) rotate(0.7deg) scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0) rotate(0) scale(1);
+		}
+	}
+
+	@keyframes slideInLeft {
+		from {
+			opacity: 0;
+			transform: translateX(-60px) rotate(-0.7deg) scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0) rotate(0) scale(1);
+		}
+	}
+
+	@keyframes slideInUp {
+		from {
+			opacity: 0;
+			transform: translateY(42px) scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	@keyframes fadePop {
+		from {
+			opacity: 0;
+			transform: translateY(18px) scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	.confetti-piece {
+		position: fixed;
+		top: -20px;
+		width: 10px;
+		height: 16px;
+		border-radius: 3px;
+		opacity: 0.95;
+		z-index: 9999;
+		pointer-events: none;
+		animation: confettiFall linear forwards;
+	}
+
+	@keyframes confettiFall {
+		0% {
+			transform: translateY(0) rotate(0deg);
+			opacity: 1;
+		}
+		100% {
+			transform: translateY(110vh) rotate(720deg);
+			opacity: 0;
+		}
+	}
+</style>
 @endpush
 
 @section('content')
 
 <img src="{{ asset('pictures/mod3_innermap.png') }}" class="background-map">
 
+<!-- Sticky Back Button -->
 <a href="{{ route('module3.home') }}" class="back-button" title="Bumalik sa Module">⬅️ Bumalik</a>
 
 <div class="main-wrapper">
 	<div class="pretest-wrap">
-		<div class="pretest-card">
+		<div class="pretest-card" id="pretestCard">
 			<div class="pretest-header">
 				<div class="header-icons">🔥 🛡️ 🌊</div>
 				<div class="subtitle">Module 3</div>
 				<h1>PAUNANG PAGSUSULIT</h1>
 				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinaka angkop na sagot.</p>
+			</div>
+
+			<!-- Last Score Display (shown when no attempts left) -->
+			<div class="last-score-box" id="lastScoreBox">
+				<div style="font-size: 1.2rem; margin-bottom: 8px;">📊 Ang iyong huling iskor:</div>
+				<div class="score-number" id="lastScoreNumber">0/15</div>
+				<div class="score-label" id="lastScoreLabel">Nakumpleto mo na ang paunang pagsusulit.</div>
+				
+				<!-- No Attempts Actions -->
+				<div class="no-attempts-actions" id="noAttemptsActions">
+					<a href="{{ route('module3.balik_aral') }}" class="btn-primary" style="min-width: 200px;">
+						➡️ Magpatuloy sa Module
+					</a>
+				</div>
+			</div>
+
+			<!-- Attempts Message -->
+			<div class="attempts-message" id="attemptsMessage">
+				<h3>⏰ Naabot mo na ang maximum na 3 attempts</h3>
+				<p>Hindi ka na makakapag-ulit ng paunang pagsusulit.</p>
 			</div>
 
 			<form id="preTestForm">
@@ -808,9 +829,11 @@
 						<div class="question-list" id="questionList"></div>
 					</div>
 
-					<div class="action-row">
+					<div class="action-row" id="actionRow">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
-						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">Susunod →</button>
+						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
+							Susunod →
+						</button>
 						<button type="button" class="btn-primary" id="submitBtn" onclick="submitPreTest()" style="display:none;">Tapusin ang Paunang Pagsusulit 🚀</button>
 					</div>
 				</div>
@@ -831,7 +854,7 @@
 						</div>
 
 						<div class="result-actions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+							<button type="button" class="btn-secondary" id="retryBtn" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
 							<a href="{{ route('module3.balik_aral') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -840,6 +863,9 @@
 		</div>
 	</div>
 </div>
+
+<!-- Dialog container -->
+<div id="vnContainer"></div>
 
 <script>
 	const questions = [
@@ -997,28 +1023,24 @@
 
 	const questionList = document.getElementById('questionList');
 	const progressDots = document.getElementById('progressDots');
-	const quizProgressLabel = document.getElementById('quizProgressLabel');
 	const answeredCountLabel = document.getElementById('answeredCountLabel');
 	const quizPage = document.getElementById('quizPage');
 	const resultPage = document.getElementById('resultPage');
-	const nextBtn = document.getElementById('nextBtn');
 	const submitBtn = document.getElementById('submitBtn');
 	const confirmBtn = document.getElementById('confirmBtn');
-
-	const correctSfx = new Audio('/audio/mod2correct.mp3');
-	const wrongSfx = new Audio('/audio/mod2wrong.mp3');
+	const actionRow = document.getElementById('actionRow');
 
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
 	let currentQuestionIndex = 0;
 	let lastDirection = 'right';
-	let pendingSelection = null;
-	let remainingAttempts = 3;
-	let retryCount = 0;
-	const maxRetries = 3;
-
 	const questionsPerCard = 5;
 	let currentCard = 0;
+	const maxRetries = 3;
+	let isQuizLocked = false;
+	let remainingAttempts = 3;
+	let lastScore = null;
+	let quizCompleted = false;
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
@@ -1029,24 +1051,19 @@
 	}
 
 	function shuffleQuestionsAndChoices() {
-		// Shuffle the questions array
 		shuffleArray(questions);
 		
-		// Shuffle choices for each question
 		questions.forEach(q => {
-			const optionKeys = Object.keys(q.options); // ['a', 'b', 'c', 'd']
+			const optionKeys = Object.keys(q.options);
 			const optionTexts = optionKeys.map(key => q.options[key]);
 			
-			// Shuffle the option texts
 			shuffleArray(optionTexts);
 			
-			// Create new options object with shuffled order
 			const newOptions = {};
 			optionKeys.forEach((key, index) => {
 				newOptions[key] = optionTexts[index];
 			});
 			
-			// Find which key now contains the correct answer
 			const correctAnswerText = q.options[q.answer];
 			const newAnswerKey = Object.keys(newOptions).find(key => newOptions[key] === correctAnswerText);
 			
@@ -1055,26 +1072,15 @@
 		});
 	}
 
-	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Ayos! Tuloy lang!', '🌟 Sakto! Magaling!', '🎊 Husay! Nakuha mo!', '🧠 Tama! Ang galing!'];
-	const gentleMessages = ['🌱 Ayos lang — bahagi ito ng pagkatuto.', '💛 Mabuti ang pagsubok! Bawi tayo sa susunod na bahagi.', '✨ Okay lang — matututo ka pa rito.', '🌤️ Hindi pa tama ngayon, pero matutunan mo rin ito.', '📘 Subok lang nang subok, nandito lang ang aralin.'];
-
-	function randomFrom(array) { return array[Math.floor(Math.random() * array.length)]; }
-
 	function getAnsweredCount() { return confirmedAnswers.filter(confirmed => confirmed === true).length; }
 
 	function updateProgressAll() {
 		const answeredCount = selectedAnswers.filter(a => a !== '').length;
-
 		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} nasagutan`;
 
 		progressDots.innerHTML = questions.map((_, idx) => `
 			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''}"></div>
 		`).join('');
-	}
-
-	function getCardAnimationClass() {
-		if (currentQuestionIndex === 0) return 'card-slide-in-up';
-		return lastDirection === 'left' ? 'card-slide-in-left' : 'card-slide-in-right';
 	}
 
 	function launchConfetti() {
@@ -1093,16 +1099,12 @@
 		}
 	}
 
-	// ================= SCROLL TO UNANSWERED =================
 	function scrollToFirstUnanswered() {
-		// First check questions on current card
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 		
-		// Check current card first
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				// Scroll to this question
 				const questionElements = document.querySelectorAll('.single-question');
 				for (let el of questionElements) {
 					const h4 = el.querySelector('h4');
@@ -1118,15 +1120,12 @@
 			}
 		}
 		
-		// If all current card questions are answered, check all questions
 		for (let i = 0; i < questions.length; i++) {
 			if (selectedAnswers[i] === '') {
-				// Navigate to the card containing this question
 				const targetCard = Math.floor(i / questionsPerCard);
 				if (targetCard !== currentCard) {
 					currentCard = targetCard;
 					renderAllQuestions();
-					// Wait for render then scroll
 					setTimeout(() => {
 						const questionElements = document.querySelectorAll('.single-question');
 						for (let el of questionElements) {
@@ -1159,10 +1158,12 @@
 			}
 		}
 		
-		return -1; // All answered
+		return -1;
 	}
 
 	function renderAllQuestions() {
+		if (isQuizLocked) return;
+
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 		let currentQuestions = questions.slice(start, end);
@@ -1227,8 +1228,7 @@
 			}
 		}
 
-		// Show submit only on last card when all questions on that card are confirmed
-		if (currentCard === 2 && allConfirmed) {
+		if (currentCard === 2 && allConfirmed && !isQuizLocked) {
 			submitBtn.style.display = 'inline-flex';
 		} else {
 			submitBtn.style.display = 'none';
@@ -1236,17 +1236,17 @@
 	}
 
 	window.selectAnswer = function(index, selectedKey) {
-		if (confirmedAnswers[index]) return;
-
+		if (confirmedAnswers[index] || isQuizLocked) return;
 		selectedAnswers[index] = selectedKey;
 		renderAllQuestions();
 	};
 
 	function confirmAnswer() {
+		if (isQuizLocked) return;
+
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
-		// Check if all questions on current card are answered - SCROLL instead of alert
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
 				scrollToFirstUnanswered();
@@ -1254,14 +1254,12 @@
 			}
 		}
 
-		// Mark all questions on current card as confirmed
 		for (let i = start; i < end; i++) {
 			confirmedAnswers[i] = true;
 		}
 
 		renderAllQuestions();
 
-		// Hide confirm button and show next button if not on last card
 		const confirmButton = document.getElementById('confirmBtn');
 		const nextCardButton = document.getElementById('nextCardBtn');
 		
@@ -1270,17 +1268,15 @@
 		if (currentCard < 2) {
 			nextCardButton.style.display = 'inline-flex';
 		} else if (currentCard === 2) {
-			// On last card, submit button will be shown by renderAllQuestions logic
 			submitBtn.style.display = 'inline-flex';
 		}
 	}
 
 	function goNextCard() {
-		if (currentCard >= 2) return;
+		if (currentCard >= 2 || isQuizLocked) return;
 
 		currentCard++;
 
-		// Reset button states for the new card
 		const confirmButton = document.getElementById('confirmBtn');
 		const nextCardButton = document.getElementById('nextCardBtn');
 		
@@ -1289,22 +1285,6 @@
 
 		renderAllQuestions();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function goNextQuestion() {
-		if (!confirmedAnswers[currentQuestionIndex]) {
-			// SCROLL instead of alert
-			scrollToFirstUnanswered();
-			return;
-		}
-		
-		if (currentQuestionIndex >= questions.length - 1) return;
-		
-		lastDirection = 'right';
-		currentQuestionIndex += 1;
-		pendingSelection = null;
-		renderAllQuestions();
-		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	}
 
 	function animateResultRing(resultRing, targetPercent, duration = 1100) {
@@ -1328,7 +1308,8 @@
 	}
 
 	function submitPreTest() {
-		// Check if all questions are confirmed - SCROLL instead of alert
+		if (isQuizLocked) return;
+
 		let unansweredIndex = -1;
 		for (let i = 0; i < questions.length; i++) {
 			if (!confirmedAnswers[i]) {
@@ -1348,7 +1329,6 @@
 
 		const percentage = Math.round((score / questions.length) * 100);
 
-		// Prepare answers for backend
 		const answersPayload = questions.map((q, index) => ({
 			question_number: index + 1,
 			selected: selectedAnswers[index],
@@ -1356,7 +1336,9 @@
 			is_correct: selectedAnswers[index] === q.answer
 		}));
 
-		// 🔥 SEND TO BACKEND
+		submitBtn.disabled = true;
+		submitBtn.textContent = 'Sinusubmit...';
+
 		fetch("{{ route('student.module3.pretest.store') }}", {
 			method: "POST",
 			headers: {
@@ -1365,65 +1347,83 @@
 				"X-CSRF-TOKEN": "{{ csrf_token() }}"
 			},
 			body: JSON.stringify({
+				score: score,
+				percentage: percentage,
 				answers: answersPayload
 			})
 		})
 		.then(res => res.json())
 		.then(data => {
-			if (data.error) {
-				// Show error in UI instead of alert
-				const resultFeedback = document.getElementById('resultFeedback');
-				resultFeedback.textContent = data.error;
-				resultFeedback.style.color = '#7a2e2e';
+			if (data.status === 'error') {
+				alert(data.message);
+				submitBtn.disabled = false;
+				submitBtn.textContent = 'Tapusin ang Paunang Pagsusulit 🚀';
+				
+				if (!data.can_retry) {
+					lockQuiz();
+				}
 				return;
 			}
-			remainingAttempts = data.remaining;
-			updateRetryIndicator();
+
+			if (data.success) {
+				remainingAttempts = data.remaining_attempts || 0;
+				lastScore = score;
+				quizCompleted = true;
+				
+				updateRetryIndicator();
+				
+				// Show result
+				const resultRing = document.getElementById('resultRing');
+				const resultPercent = document.getElementById('resultPercent');
+				const resultScoreText = document.getElementById('resultScoreText');
+				const resultBadge = document.getElementById('resultBadge');
+				const resultFeedback = document.getElementById('resultFeedback');
+
+				const level = getFeedbackByScore(score);
+
+				animateResultRing(resultRing, percentage);
+				resultPercent.textContent = `${score}/${questions.length}`;
+				resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length}`;
+				resultBadge.textContent = level.badge;
+				resultFeedback.textContent = level.feedback;
+				document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
+
+				quizPage.style.display = 'none';
+				resultPage.classList.add('show');
+
+				if (percentage >= 80) launchConfetti();
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			}
 		})
 		.catch(err => {
 			console.error("Error saving pretest:", err);
+			alert('May error sa pag-save. Subukan muli.');
+			submitBtn.disabled = false;
+			submitBtn.textContent = 'Tapusin ang Paunang Pagsusulit 🚀';
 		});
-
-		// ===== EXISTING RESULT LOGIC =====
-		const resultRing = document.getElementById('resultRing');
-		const resultPercent = document.getElementById('resultPercent');
-		const resultScoreText = document.getElementById('resultScoreText');
-		const resultBadge = document.getElementById('resultBadge');
-		const resultFeedback = document.getElementById('resultFeedback');
-
-		const level = getFeedbackByScore(score);
-
-		animateResultRing(resultRing, percentage);
-		resultPercent.textContent = `${score}/${questions.length}`;
-		resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length}`;
-		resultBadge.textContent = level.badge;
-		resultFeedback.textContent = level.feedback;
-		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
-
-		quizPage.style.display = 'none';
-		resultPage.classList.add('show');
-
-		if (percentage >= 80) launchConfetti();
-		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function updateRetryIndicator() {
 		const retryIndicator = document.getElementById('retryIndicator');
-		const retryBtn = document.querySelector('.btn-secondary');
-		
-		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remainingAttempts} / 3`;
+		const retryBtn = document.getElementById('retryBtn');
+
+		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remainingAttempts} / ${maxRetries}`;
 
 		if (remainingAttempts <= 0) {
 			retryIndicator.style.background = '#ffe5e5';
 			retryIndicator.style.border = '1px solid #e5a5a5';
 			retryIndicator.style.color = '#7a2e2e';
-
+			retryIndicator.textContent = '⏰ Naubos na ang pagsubok.';
+			
 			if (retryBtn) {
 				retryBtn.disabled = true;
 				retryBtn.style.opacity = 0.5;
 				retryBtn.style.cursor = 'not-allowed';
 			}
 		} else {
+			retryIndicator.style.background = '#fff7ea';
+			retryIndicator.style.border = '1px solid #efd9b3';
+			retryIndicator.style.color = '#5b472f';
 			if (retryBtn) {
 				retryBtn.disabled = false;
 				retryBtn.style.opacity = 1;
@@ -1432,65 +1432,144 @@
 		}
 	}
 
+	function lockQuiz() {
+		isQuizLocked = true;
+		
+		const pretestCard = document.getElementById('pretestCard');
+		pretestCard.classList.add('attempts-disabled');
+		
+		const attemptsMessage = document.getElementById('attemptsMessage');
+		attemptsMessage.classList.add('show');
+		
+		// HIDE the quiz page entirely
+		quizPage.classList.add('hidden');
+		
+		// HIDE the action row (buttons)
+		actionRow.classList.add('hidden');
+		
+		// Show last score if available
+		if (lastScore !== null) {
+			const lastScoreBox = document.getElementById('lastScoreBox');
+			lastScoreBox.classList.add('show');
+			document.getElementById('lastScoreNumber').textContent = `${lastScore}/${questions.length}`;
+			
+			const level = getFeedbackByScore(lastScore);
+			document.getElementById('lastScoreLabel').textContent = level.feedback;
+			
+			// Show the continue button
+			document.getElementById('noAttemptsActions').classList.add('show');
+		}
+		
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		const submitButton = document.getElementById('submitBtn');
+		
+		confirmButton.disabled = true;
+		nextCardButton.disabled = true;
+		submitButton.disabled = true;
+		
+		document.querySelectorAll('.choice input[type="radio"]').forEach(input => {
+			input.disabled = true;
+		});
+		
+		// Hide the VN dialog if it exists
+		const vnContainer = document.getElementById('vnContainer');
+		if (vnContainer) {
+			vnContainer.style.display = 'none';
+		}
+	}
+
 	function restartQuiz() {
-		if (retryCount >= maxRetries) {
-			// Show message in UI instead of alert
-			const resultFeedback = document.getElementById('resultFeedback');
-			resultFeedback.textContent = 'Naabot mo na ang maximum na 3 pagsubok.';
-			resultFeedback.style.color = '#7a2e2e';
+		if (isQuizLocked) {
+			alert('Hindi ka na makakapag-retry. Naabot mo na ang maximum na pagsubok.');
 			return;
 		}
 
-		retryCount++;
-		remainingAttempts--;
+		if (remainingAttempts <= 0) {
+			alert('Wala ka nang natitirang pagsubok.');
+			return;
+		}
 
-		// Reset all answer arrays
-		selectedAnswers.fill('');
-		confirmedAnswers.fill(false);
-		currentCard = 0;
-		
-		// Shuffle questions and choices again for new attempt
-		shuffleQuestionsAndChoices();
+		// Check with server if retry is allowed
+		fetch("{{ route('student.module3.pretest.check-attempts') }}")
+			.then(res => res.json())
+			.then(data => {
+				if (!data.can_retry) {
+					alert('Hindi ka na makakapag-retry.');
+					lockQuiz();
+					return;
+				}
 
-		// Reset UI elements
-		resultPage.classList.remove('show');
-		quizPage.style.display = 'block';
-		
-		// Reset button states
-		const confirmButton = document.getElementById('confirmBtn');
-		const nextCardButton = document.getElementById('nextCardBtn');
-		const submitButton = document.getElementById('submitBtn');
-		
-		confirmButton.style.display = 'inline-flex';
-		nextCardButton.style.display = 'none';
-		submitButton.style.display = 'none';
+				// Reset all answer arrays
+				selectedAnswers.fill('');
+				confirmedAnswers.fill(false);
+				currentCard = 0;
+				
+				shuffleQuestionsAndChoices();
 
-		updateRetryIndicator();
-		renderAllQuestions();
+				resultPage.classList.remove('show');
+				quizPage.style.display = 'block';
+				quizPage.classList.remove('hidden');
+				actionRow.classList.remove('hidden');
+				
+				const confirmButton = document.getElementById('confirmBtn');
+				const nextCardButton = document.getElementById('nextCardBtn');
+				const submitButton = document.getElementById('submitBtn');
+				
+				confirmButton.style.display = 'inline-flex';
+				confirmButton.disabled = false;
+				nextCardButton.style.display = 'none';
+				nextCardButton.disabled = false;
+				submitButton.style.display = 'none';
+				submitButton.disabled = false;
+				submitButton.textContent = 'Tapusin ang Paunang Pagsusulit 🚀';
 
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+				updateRetryIndicator();
+				renderAllQuestions();
+
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			})
+			.catch(err => {
+				console.error('Error checking attempts:', err);
+				alert('May error sa pag-check ng pagsubok. Subukan muli.');
+			});
 	}
 
+	// Initialize quiz and check attempts
 	window.addEventListener('load', () => {
-		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-
-		remainingAttempts = 3;
-		retryCount = 0;
-
-		shuffleQuestionsAndChoices();
-		renderAllQuestions();
-		updateRetryIndicator();
-		
-		// Ensure initial button states are correct
-		const confirmButton = document.getElementById('confirmBtn');
-		const nextCardButton = document.getElementById('nextCardBtn');
-		const submitButton = document.getElementById('submitBtn');
-		
-		confirmButton.style.display = 'inline-flex';
-		nextCardButton.style.display = 'none';
-		submitButton.style.display = 'none';
-		
-		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+		// Check attempts from server
+		fetch("{{ route('student.module3.pretest.check-attempts') }}")
+			.then(res => res.json())
+			.then(data => {
+				remainingAttempts = data.remaining || 3;
+				updateRetryIndicator();
+				
+				if (!data.can_retry) {
+					// Get last score if available
+					if (data.last_score !== undefined) {
+						lastScore = data.last_score;
+					}
+					lockQuiz();
+				} else {
+					// Initialize quiz
+					shuffleQuestionsAndChoices();
+					renderAllQuestions();
+					
+					const confirmButton = document.getElementById('confirmBtn');
+					const nextCardButton = document.getElementById('nextCardBtn');
+					const submitButton = document.getElementById('submitBtn');
+					
+					confirmButton.style.display = 'inline-flex';
+					nextCardButton.style.display = 'none';
+					submitButton.style.display = 'none';
+				}
+			})
+			.catch(err => {
+				console.error('Error checking attempts:', err);
+				// Fallback: initialize quiz anyway
+				shuffleQuestionsAndChoices();
+				renderAllQuestions();
+			});
 	});
 </script>
 

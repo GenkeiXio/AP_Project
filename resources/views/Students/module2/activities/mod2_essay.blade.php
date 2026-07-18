@@ -383,8 +383,6 @@
                 </p>
 
                 <div class="button-group">
-                    <button class="btn-primary" onclick="copyAnswer()">📋 Kopyahin ang Sagot</button>
-
                     <a href="https://mail.google.com/" target="_blank" class="btn-primary">
                         📧 Buksan ang Email
                     </a>

@@ -50,6 +50,7 @@ use App\Http\Controllers\Student\Module4\Module4PerformanceController;
 use App\Http\Controllers\Student\Module4\Module4PosttestController;
 use App\Http\Controllers\Student\CertificateController;
 use App\Http\Controllers\Student\Module4\Module4ViewReferencesController;
+use App\Http\Controllers\Student\Pretest\Module3PretestController;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -285,6 +286,13 @@ Route::get('/module3/pretest', function () {
     return view('Students.Module3.Test.module3_pretest');
 })->name('module3.pretest');
 
+Route::prefix('student/module3')->group(function () {
+    Route::get('/pretest', [Module3PretestController::class, 'index'])->name('module3.pretest');
+    Route::post('/pretest/store', [Module3PretestController::class, 'store'])->name('student.module3.pretest.store');
+    Route::get('/pretest/check-attempts', [Module3PretestController::class, 'checkAttempts'])->name('student.module3.pretest.check-attempts');
+    Route::get('/pretest/history', [Module3PretestController::class, 'getAttemptHistory'])->name('student.module3.pretest.history');
+});
+
 // POSTTEST
 Route::get('/module3/posttest', function () {
     return view('Students.Module3.Test.module3_posttest');
@@ -452,8 +460,7 @@ Route::post('/student/module2/pretest/save', [Module2PretestController::class, '
 Route::get('/student/module2/pretest/check', [Module2PretestController::class, 'checkAttempts'])->name('student.module2.pretest.check');
 
 
-
-
-
 Route::post('/student/module2/posttest/save', [Module2_PosttestController::class, 'store'])->name('student.module2.posttest.save');
 Route::get('/student/module2/posttest/check', [Module2_PosttestController::class, 'checkAttempts'])->name('student.module2.posttest.check');
+
+
