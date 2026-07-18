@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\jella\AP Project\AP_Project\resources\views\Students\Module 3\termino_konsepto.blade.php --}}
 @extends('Students.studentslayout')
 @section('title', 'Termino at Konsepto')
 
@@ -161,55 +160,45 @@
             }
         }
 
-        /* Button styles - UPDATED */
-        .btn-wood {
+        /* ===== UPDATED GREEN BUTTON STYLES (matches explore page) ===== */
+        :root {
+            --green-dark: #1b5e20;
+            --green-mid: #2e7d32;
+            --wood-dark: #3d2b1f;
+        }
+
+        .btn-green {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.625rem 1.5rem;
-            background: #2b1b17;
-            color: #c5a059;
-            border: 2px solid #c5a059;
-            border-radius: 0.5rem;
-            font-family: 'Nunito', sans-serif;
+            gap: 8px;
+            padding: 12px 25px;
+            min-width: 200px;
+            background: var(--green-mid) !important;
+            border: 3px solid var(--wood-dark) !important;
+            box-shadow: 0 5px 0 var(--wood-dark) !important;
+            color: #fff !important;
+            border-radius: 12px;
             font-weight: 800;
-            font-size: 0.875rem;
+            font-family: 'Nunito', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-size: 1rem;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: 0.18s ease;
             cursor: pointer;
-            gap: 0.5rem;
-            min-width: 160px;
         }
 
-        @media (min-width: 768px) {
-            .btn-wood {
-                font-size: 1rem;
-                padding: 0.75rem 2rem;
-                min-width: 200px;
-            }
-        }
-
-        .btn-wood:hover {
-            background: #3d2a25;
+        .btn-green:hover {
+            background: var(--green-dark) !important;
             transform: translateY(-2px);
             text-decoration: none;
-            color: #e8c88a;
-            border-color: #d4b87a;
+            color: #fff !important;
         }
 
-        .btn-wood-primary {
-            background: #c5a059;
-            color: #2b1b17;
-            border: 2px solid #c5a059;
-        }
-
-        .btn-wood-primary:hover {
-            background: #d4b87a;
-            transform: translateY(-2px);
-            color: #2b1b17;
-            border-color: #d4b87a;
+        .btn-green:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--wood-dark) !important;
         }
 
         /* Video container */
@@ -300,7 +289,7 @@
         }
 
         @media (max-width: 480px) {
-            .button-container .btn-wood {
+            .button-container .btn-green {
                 width: 100%;
                 justify-content: center;
             }
@@ -433,9 +422,9 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Buttons - UPDATED: Single centered button -->
+                    <!-- Navigation Buttons - UPDATED: Green button with shadow -->
                     <div class="button-container">
-                        <a href="{{ route('inner.map3') }}" class="btn-wood btn-wood-primary">
+                        <a href="{{ route('inner.map3') }}" class="btn-green">
                             🗺️ Magpatuloy
                         </a>
                     </div>

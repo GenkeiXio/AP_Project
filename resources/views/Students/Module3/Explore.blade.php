@@ -45,6 +45,9 @@
             --green-mid: #2e7d32;
             --green-light: #4caf50;
             --wood-dark: #3d2b1f;
+            --gray-dark: #37474f;
+            --gray-mid: #546e7a;
+            --gray-light: #78909c;
         }
 
         .glass {
@@ -171,7 +174,7 @@
             box-shadow: 0 2px 0 var(--wood-dark) !important;
         }
 
-        /* Action buttons */
+        /* Action buttons - Green */
         .btn-green {
             background: var(--green-mid) !important;
             border: 3px solid var(--wood-dark) !important;
@@ -196,10 +199,11 @@
             transform: translateY(-2px);
         }
 
-        .btn-amber {
-            background: #b8860b !important;
-            border: 3px solid var(--wood-dark) !important;
-            box-shadow: 0 5px 0 var(--wood-dark) !important;
+        /* Action buttons - Gray (for retry button only) */
+        .btn-gray {
+            background: var(--gray-mid) !important;
+            border: 3px solid var(--gray-dark) !important;
+            box-shadow: 0 5px 0 var(--gray-dark) !important;
             color: #fff !important;
             padding: 12px 25px;
             border-radius: 12px;
@@ -215,8 +219,8 @@
             gap: 8px;
         }
 
-        .btn-amber:hover {
-            background: #8b6914 !important;
+        .btn-gray:hover {
+            background: var(--gray-dark) !important;
             transform: translateY(-2px);
         }
 
@@ -300,6 +304,27 @@
             background: #ffcdd2 !important;
             border: 2px solid #b71c1c !important;
             color: #b71c1c !important;
+        }
+
+        /* Scene 5 - Result section with GRAY theme */
+        .scene5-header {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-mid)) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scene5-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .scene5-header .header-content {
+            position: relative;
+            z-index: 2;
         }
 
         @media (max-width: 900px) {
@@ -431,17 +456,20 @@
             </div>
         </section>
 
-        <!-- SCENE 5: RESULT -->
+        <!-- SCENE 5: RESULT - Updated with GRAY header, GREEN continue button -->
         <section id="scene5" class="scene hidden mt-6 rounded-xl overflow-hidden">
-            <div class="h-[210px] bg-gradient-to-r from-amber-700 to-amber-500 flex items-center justify-center">
-                <p class="font-black text-3xl text-white drop-shadow-lg">🏆 NATAPOS ANG MISYON!</p>
+            <div class="scene5-header h-[210px] flex items-center justify-center">
+                <div class="header-content text-center">
+                    <p class="font-black text-3xl text-white drop-shadow-lg">🏆 NATAPOS ANG MISYON!</p>
+                    <p class="text-white/80 text-sm mt-1 font-semibold">📋 Resulta ng Iyong Pagpapasya</p>
+                </div>
             </div>
             <div class="p-5 md:p-6">
                 <p>📊 Iyong Iskor: <span id="finalScore" class="font-bold text-emerald-700">0 XP</span></p>
-                <p class="mt-2">🎖 Natamong Badge: <span id="finalBadge" class="font-bold text-amber-700">Wala pang badge</span></p>
+                <p class="mt-2">🎖 Natamong Badge: <span id="finalBadge" class="font-bold text-emerald-700">Wala pang badge</span></p>
 
                 <div class="mt-4 flex flex-wrap gap-3">
-                    <button onclick="ulitinMisyon()" class="btn-amber">🔄 Ulitin ang Laro</button>
+                    <button onclick="ulitinMisyon()" class="btn-gray">🔄 Ulitin ang Laro</button>
                     <a href="{{ route('students.module3.termino_konsepto') }}" class="btn-green">📘 Magpatuloy sa Termino at Konsepto</a>
                 </div>
             </div>
