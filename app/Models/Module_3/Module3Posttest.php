@@ -14,7 +14,8 @@ class Module3Posttest extends Model
         'total_items',
         'performance_level',
         'is_passed',
-        'answers'
+        'answers',
+        'attempts',
     ];
 
     protected $casts = [

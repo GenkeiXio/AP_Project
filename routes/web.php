@@ -107,8 +107,7 @@ Route::middleware(\App\Http\Middleware\StudentAuth::class)->group(function () {
     Route::post('/student/module3/bulkan/save', [Module3BulkanController::class, 'store'])->name('student.module3.bulkan.save');
     Route::get('/student/module3/flood', [Module3FloodController::class, 'index'])->name('flood.activity');
     Route::post('/student/module3/flood/save', [Module3FloodController::class, 'store'])->name('student.module3.flood.save');
-    Route::get('/student/module3/posttest', [Module3PosttestController::class, 'index'])->name('student.module3.posttest');
-    Route::post('/student/module3/posttest/save', [Module3PosttestController::class, 'store'])->name('student.module3.posttest.save');
+    
     Route::get('/student/module3/lindol', [Module3LindolController::class, 'index'])->name('lindol.activity');
     Route::post('/student/module3/lindol/save', [Module3LindolController::class, 'store'])->name('student.module3.lindol.save');
     Route::post('/student/module3/balik-aral/store', [Module3BalikAralController::class, 'store'])->name('student.module3.balikaral.store');
@@ -463,4 +462,15 @@ Route::get('/student/module2/pretest/check', [Module2PretestController::class, '
 Route::post('/student/module2/posttest/save', [Module2_PosttestController::class, 'store'])->name('student.module2.posttest.save');
 Route::get('/student/module2/posttest/check', [Module2_PosttestController::class, 'checkAttempts'])->name('student.module2.posttest.check');
 
+Route::prefix('student/module3')->name('student.module3.')->group(function () {
+    // Show the posttest page
+    Route::get('/posttest', [Module3PosttestController::class, 'index'])
+        ->name('posttest');
+    
+    // Save the posttest results
+    Route::post('/posttest/save', [Module3PosttestController::class, 'store'])
+        ->name('posttest.save');
 
+    Route::get('/posttest/check', [Module3PosttestController::class, 'check'])
+    ->name('posttest.check');
+});
