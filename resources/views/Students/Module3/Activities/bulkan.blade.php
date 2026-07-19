@@ -8,13 +8,16 @@
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;600;900&display=swap");
         :root {
-            --wood-dark: #3e2723;
-            --wood-medium: #5d4037;
-            --wood-light: #8d6e63;
+            /* Lighter Wooden Palette - Matching Safe Home & Lindol */
+            --wood-dark: #5c3d2e;
+            --wood-medium: #8b6b4f;
+            --wood-light: #d2b48c;
+            --wood-bg: #d4b896;
+            --wood-panel: #c4a484;
             --lava: #ff4500;
             --accent: #f1c40f;
             --safe: #2ecc71;
-            --parchment: #f5f5dc;
+            --parchment: #fcfaf7;
         }
 
         * {
@@ -77,14 +80,20 @@
         }
 
         .modal-content-custom {
-            background: var(--wood-dark);
-            border: 6px solid var(--wood-medium);
+            background: var(--wood-panel);
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            border: 6px solid var(--wood-dark);
             box-shadow: 0 0 30px rgba(0, 0, 0, 1);
             width: 100%;
             max-width: 700px;
             padding: 30px;
             text-align: center;
             border-radius: 15px;
+        }
+
+        .modal-content-custom .status-header {
+            color: var(--wood-dark);
+            text-shadow: 0 1px 2px rgba(255,255,255,0.2);
         }
 
         .video-section {
@@ -100,7 +109,7 @@
             max-width: 300px;
             height: 180px;
             border-radius: 8px;
-            border: 3px solid var(--wood-medium);
+            border: 3px solid var(--wood-dark);
             flex: 1;
             min-width: 250px;
         }
@@ -126,8 +135,8 @@
         /* --- LEFT PANEL: UI MODULE --- */
         #ui-module {
             flex: 1;
-            background: rgba(62, 39, 35, 0.95);
-            backdrop-filter: blur(6px);
+            background: var(--wood-panel);
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             border-radius: 20px;
             border-left: 8px solid var(--accent);
             padding: 25px;
@@ -143,15 +152,17 @@
         .status-header {
             font-size: 0.8rem;
             letter-spacing: 4px;
-            color: var(--accent);
+            color: var(--wood-dark);
             font-weight: 900;
             margin-bottom: 15px;
             text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.2);
         }
 
         #scenario-text {
             background: var(--parchment);
-            color: #3e2723;
+            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            color: var(--wood-dark);
             padding: 20px;
             border-radius: 10px;
             font-size: 1rem;
@@ -159,6 +170,7 @@
             margin-bottom: 20px;
             min-height: 140px;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--wood-medium);
         }
 
         .choices-container {
@@ -169,9 +181,9 @@
         }
 
         .stone-btn {
-            background: var(--wood-medium);
-            border: 1px solid #3e2723;
-            border-bottom: 5px solid #2b1d12;
+            background: var(--wood-dark);
+            border: 1px solid var(--wood-medium);
+            border-bottom: 5px solid #3d281a;
             border-radius: 12px;
             padding: 18px 20px;
             cursor: pointer;
@@ -182,7 +194,7 @@
         }
 
         .stone-btn:hover {
-            background: var(--wood-light);
+            background: var(--wood-medium);
             border-color: var(--accent);
             transform: translateX(5px);
         }
@@ -195,7 +207,7 @@
             border-radius: 20px;
             position: relative;
             overflow: hidden;
-            border: 8px solid #3e2723;
+            border: 8px solid var(--wood-dark);
             min-width: 350px;
             height: 75vh;
             min-height: 500px;
@@ -233,8 +245,8 @@
             position: absolute;
             width: 180px;
             height: 50px;
-            background: #4e342e;
-            border-top: 8px solid #8d6e63;
+            background: var(--wood-medium);
+            border-top: 8px solid var(--wood-light);
             border-radius: 10px;
             z-index: 12;
             transform: translateX(-50%);
@@ -245,7 +257,8 @@
             position: absolute;
             width: 280px;
             height: 180px;
-            background: #3e2723;
+            background: var(--wood-panel);
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             border: 4px solid var(--accent);
             border-bottom: none;
             border-radius: 50px 50px 0 0;
@@ -259,10 +272,15 @@
             box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
         }
 
+        #safe-place .status-header {
+            color: var(--safe);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
         .safe-door {
             width: 80px;
             height: 110px;
-            background: #1a1a1a;
+            background: var(--wood-dark);
             border: 2px solid var(--accent);
             border-radius: 10px 10px 0 0;
             transition: 1s ease;
@@ -304,6 +322,16 @@
             border-radius: 20px;
         }
 
+        #mission-deployment-card .text-center {
+            background: var(--wood-panel);
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            border: 4px solid var(--accent);
+        }
+
+        #mission-deployment-card h2 {
+            color: var(--wood-dark);
+        }
+
         /* --- VICTORY GIFT --- */
         #victory-bag-container {
             position: fixed;
@@ -311,7 +339,8 @@
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
             z-index: 5000;
-            background: var(--wood-dark);
+            background: var(--wood-panel);
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             padding: 40px;
             border-radius: 30px;
             border: 5px solid var(--accent);
@@ -374,9 +403,10 @@
         /* --- PROGRESS BAR --- */
         .progress-custom {
             height: 8px;
-            background: #222;
+            background: var(--wood-dark);
             border-radius: 10px;
             overflow: hidden;
+            border: 1px solid var(--wood-medium);
         }
 
         .progress-fill {
@@ -384,6 +414,11 @@
             height: 100%;
             background: var(--accent);
             transition: 0.4s;
+        }
+
+        #prog-txt {
+            color: var(--wood-dark) !important;
+            font-weight: 900;
         }
 
         /* ========== MOBILE RESPONSIVE - 40% LEFT, 60% RIGHT ========== */
@@ -825,7 +860,7 @@
             
             .stone-btn:active {
                 transform: scale(0.97);
-                background: var(--wood-light);
+                background: var(--wood-medium);
             }
         }
         
@@ -835,7 +870,7 @@
         }
         
         #ui-module::-webkit-scrollbar-track {
-            background: #2b1d12;
+            background: var(--wood-dark);
             border-radius: 10px;
         }
         
@@ -851,7 +886,7 @@
         <div id="victory-bag-container">
             <div class="status-header">GANTIMPALA: LIGTAS-KIT</div>
             <img src="https://img.icons8.com/fluency/240/backpack.png" class="gift-item-img" alt="Backpack">
-            <h2 class="text-white fw-bold">Emergency Go-Bag</h2>
+            <h2 style="color: var(--wood-dark); font-weight: 900;">Emergency Go-Bag</h2>
             <p class="text-secondary small">Nakuha mo ang mahahalagang gamit <br> para sa paglikas sa pagsabog!</p>
             <button class="btn btn-warning mt-3 fw-bold w-100" onclick="closeGift()">IPAGPATULOY</button>
         </div>
@@ -871,8 +906,8 @@
             <div id="ui-module">
                 <div class="status-header" id="cmd-status">STANDBY</div>
                 <div id="scenario-text">
-                    <h5 class="fw-bold mb-3">MGA PROTOKOL SA PAGLIGTAS:</h5>
-                    <ul class="list-unstyled small">
+                    <h5 class="fw-bold mb-3" style="color: var(--wood-dark);">MGA PROTOKOL SA PAGLIGTAS:</h5>
+                    <ul class="list-unstyled small" style="color: var(--wood-dark);">
                         <li>• Sagutin ang 10 kritikal na tanong.</li>
                         <li>• Bawat tamang sagot ay magpapaakyat sa iyo.</li>
                         <li>• Mag-ingat sa tumataas na lava.</li>
@@ -882,8 +917,8 @@
 
                 <div class="mt-auto pt-3">
                     <div class="d-flex justify-content-between mb-2">
-                        <small style="opacity:0.5; font-size:0.65rem;">PROGRESO</small>
-                        <small id="prog-txt" style="color:var(--accent); font-weight:900;">0/10</small>
+                        <small style="color: var(--wood-dark); opacity:0.7; font-size:0.65rem;">PROGRESO</small>
+                        <small id="prog-txt" style="color: var(--accent); font-weight:900;">0/10</small>
                     </div>
                     <div class="progress-custom">
                         <div id="prog-bar" class="progress-fill"></div>
@@ -893,8 +928,8 @@
 
             <div id="simulation-module">
                 <div id="mission-deployment-card">
-                    <div class="text-center p-4 p-md-5 bg-dark border border-warning rounded-4 m-3">
-                        <h2 class="text-warning fw-black mb-3">HANDA NA?</h2>
+                    <div class="text-center p-4 p-md-5 border rounded-4 m-3">
+                        <h2 class="fw-black mb-3">HANDA NA?</h2>
                         <button class="btn btn-warning px-4 px-md-5 py-3 fw-bold" onclick="startMission()">SIMULAN ANG PAG-AKYAT</button>
                     </div>
                 </div>
@@ -989,8 +1024,8 @@
             if (Math.random() > 0.5) { choices.reverse(); }
 
             document.getElementById('scenario-text').innerHTML = `
-                <strong style="color:var(--wood-dark);">TANONG ${currentStep + 1}:</strong>
-                <p class="mt-2 mb-0">${escapeHtml(data.q)}</p>
+                <strong style="color: var(--wood-dark);">TANONG ${currentStep + 1}:</strong>
+                <p class="mt-2 mb-0" style="color: var(--wood-dark);">${escapeHtml(data.q)}</p>
             `;
             document.getElementById('prog-bar').style.width = (currentStep / 10 * 100) + "%";
             document.getElementById('prog-txt').innerText = `${currentStep}/10`;
@@ -1037,7 +1072,7 @@
                 } else {
                     document.getElementById('prog-bar').style.width = "100%";
                     document.getElementById('prog-txt').innerText = `10/10`;
-                    document.getElementById('scenario-text').innerHTML = `<h5 class='text-success'>Ligtas ka na! Tumalon na sa Safe Zone!</h5>`;
+                    document.getElementById('scenario-text').innerHTML = `<h5 class='text-success' style="color: var(--safe) !important;">Ligtas ka na! Tumalon na sa Safe Zone!</h5>`;
                     document.getElementById('selection-dock').innerHTML = `<button class='btn btn-success w-100 py-3 fw-bold' onclick='finalLeap()'>TUMALON NA SA LIGTAS NA LUGAR</button>`;
                     jumping = false;
                 }

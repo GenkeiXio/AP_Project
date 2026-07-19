@@ -277,8 +277,8 @@
         width: 100%; 
         height: 100%; 
         object-fit: contain;
-        max-width: 70px;
-        max-height: 70px;
+        max-width: 110px;
+        max-height: 110px;
     }
     
     @media (max-width: 480px) {
