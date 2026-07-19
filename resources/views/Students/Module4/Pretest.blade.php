@@ -134,10 +134,15 @@
 			text-align: center;
 		}
 
+		/* Hide quiz page when locked */
 		.quiz-page {
 			display: block;
 			position: relative;
 			z-index: 2;
+		}
+
+		.quiz-page.hidden {
+			display: none !important;
 		}
 
 		.quiz-progress {
@@ -168,7 +173,6 @@
 			color: #5b472f;
 			background: #fff7ea;
 			border: 1px solid #efd9b3;
-			/* padding: 5px 10px; */
 			border-radius: 999px;
 		}
 
@@ -411,6 +415,10 @@
 			gap: 10px;
 		}
 
+		.action-row.hidden {
+			display: none !important;
+		}
+
 		.btn-primary,
 		.btn-secondary,
 		.btn-confirm {
@@ -600,6 +608,106 @@
 			animation: pulseBorder 1.5s ease-in-out infinite;
 		}
 
+		/* Unanswered question highlight */
+		.unanswered-highlight {
+			background-color: #fff3df !important;
+			transition: background-color 0.5s ease;
+			border-radius: 16px;
+			padding: 12px;
+			border: 2px solid #f4c97a;
+		}
+
+		/* Attempts disabled overlay */
+		.attempts-disabled {
+			position: relative;
+		}
+
+		.attempts-disabled .quiz-page {
+			pointer-events: none;
+			opacity: 0.5;
+		}
+
+		.attempts-disabled .quiz-page.hidden {
+			display: none !important;
+		}
+
+		.attempts-message {
+			display: none;
+			text-align: center;
+			padding: 30px;
+			background: #fff5f5;
+			border: 2px solid #e5a5a5;
+			border-radius: 20px;
+			margin: 20px 0;
+		}
+
+		.attempts-message.show {
+			display: block;
+		}
+
+		.attempts-message h3 {
+			color: #7a2e2e;
+			margin-bottom: 10px;
+		}
+
+		/* Last score display when no attempts left */
+		.last-score-box {
+			display: none;
+			background: #f0f7ff;
+			border: 2px solid #b8d4f0;
+			border-radius: 16px;
+			padding: 30px 20px;
+			margin: 20px 0;
+			text-align: center;
+		}
+
+		.last-score-box.show {
+			display: block;
+		}
+
+		.last-score-box .score-number {
+			font-size: 3rem;
+			font-weight: 900;
+			color: #2c6b9e;
+		}
+
+		.last-score-box .score-label {
+			font-size: 1.1rem;
+			color: #4a6a8a;
+			margin-top: 5px;
+		}
+
+		.last-score-box .score-badge {
+			margin: 10px 0;
+		}
+
+		/* No Attempts Continue Button */
+		.no-attempts-actions {
+			display: none;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 20px;
+		}
+
+		.no-attempts-actions.show {
+			display: flex;
+		}
+
+		.retry-indicator {
+			text-align: center;
+			font-size: 0.85rem;
+			font-weight: 900;
+			color: #5b472f;
+			background: #fff7ea;
+			border: 1px solid #efd9b3;
+			padding: 6px 12px;
+			border-radius: 999px;
+			margin-top: 10px;
+			display: inline-block;
+		}
+
 		@keyframes pulseBorder {
 			0%, 100% { border-color: #e7d7bf; }
 			50% { border-color: #f4c97a; }
@@ -654,6 +762,10 @@
 				left: 12px;
 				padding: 8px 12px;
 				font-size: 0.85rem;
+			}
+
+			.last-score-box .score-number {
+				font-size: 2.2rem;
 			}
 		}
 
@@ -779,7 +891,7 @@
 
 <div class="main-wrapper">
 	<div class="pretest-wrap">
-		<div class="pretest-card">
+		<div class="pretest-card" id="pretestCard">
 			<div class="pretest-header">
 				<div class="header-icons">🔥 🛡️ 🌊</div>
 				<div class="subtitle">Module 4</div>
@@ -787,9 +899,25 @@
 				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinaka angkop na sagot.</p>
 			</div>
 
-			<!-- <div class="pretest-note">
-				💡 Pumili ng sagot at I-click ang "✓ Kumpirmahin".
-			</div> -->
+			<!-- Last Score Display (shown when no attempts left) -->
+			<div class="last-score-box" id="lastScoreBox">
+				<div style="font-size: 1.2rem; margin-bottom: 8px;">📊 Ang iyong pinakamataas na iskor:</div>
+				<div class="score-number" id="lastScoreNumber">0/15</div>
+				<div class="score-label" id="lastScoreLabel">Nakumpleto mo na ang paunang pagsusulit.</div>
+				
+				<!-- No Attempts Actions -->
+				<div class="no-attempts-actions" id="noAttemptsActions">
+					<a href="{{ route('module4.balikaral') }}" class="btn-primary" style="min-width: 200px;">
+						➡️ Magpatuloy sa Balik-Aral
+					</a>
+				</div>
+			</div>
+
+			<!-- Attempts Message -->
+			<div class="attempts-message" id="attemptsMessage">
+				<h3>⏰ Naabot mo na ang maximum na 3 attempts</h3>
+				<p>Hindi ka na makakapag-ulit ng paunang pagsusulit.</p>
+			</div>
 
 			<form id="preTestForm">
 				<div class="quiz-page" id="quizPage">
@@ -804,7 +932,7 @@
 						<div class="question-list" id="questionList"></div>
 					</div>
 
-					<div class="action-row">
+					<div class="action-row" id="actionRow">
 						<button type="button" class="btn-confirm" id="confirmBtn" onclick="confirmAnswer()">✓ Kumpirmahin</button>
 
 						<button type="button" class="btn-primary" id="nextCardBtn" onclick="goNextCard()" style="display:none;">
@@ -832,8 +960,8 @@
 							🔁 Natitirang pagsubok: 3 / 3
 						</div>
 
-						<div class="result-actions">
-							<button type="button" class="btn-secondary" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
+						<div class="result-actions" id="resultActions">
+							<button type="button" class="btn-secondary" id="retryBtn" onclick="restartQuiz()">Ulitin ang Pre-Test</button>
 							<a href="{{ route('module4.balikaral') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -843,7 +971,41 @@
 	</div>
 </div>
 
+<x-vn />
+
 <script>
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+		return array;
+	}
+
+	function shuffleQuestionsAndChoices() {
+		shuffleArray(questions);
+
+		questions.forEach(q => {
+			const optionKeys = Object.keys(q.options);
+			const optionTexts = optionKeys.map(key => q.options[key]);
+
+			shuffleArray(optionTexts);
+
+			const newOptions = {};
+			optionKeys.forEach((key, index) => {
+				newOptions[key] = optionTexts[index];
+			});
+
+			const correctAnswerText = q.options[q.answer];
+			const newAnswerKey = Object.keys(newOptions).find(
+				key => newOptions[key] === correctAnswerText
+			);
+
+			q.options = newOptions;
+			q.answer = newAnswerKey;
+		});
+	}
+
 	const questions = [
 		{
 			question: 'Ayon sa konsepto ng disaster management, alin ang pinakaangkop na paglalarawan nito?',
@@ -997,106 +1159,89 @@
 		}
 	];
 
+	// ================= DOM ELEMENTS =================
 	const questionList = document.getElementById('questionList');
 	const progressDots = document.getElementById('progressDots');
 	const quizProgressLabel = document.getElementById('quizProgressLabel');
 	const answeredCountLabel = document.getElementById('answeredCountLabel');
 	const quizPage = document.getElementById('quizPage');
 	const resultPage = document.getElementById('resultPage');
-	const nextBtn = document.getElementById('nextBtn');
 	const submitBtn = document.getElementById('submitBtn');
 	const confirmBtn = document.getElementById('confirmBtn');
+	const actionRow = document.getElementById('actionRow');
 
-	const correctSfx = new Audio('/audio/mod2correct.mp3');
-	const wrongSfx = new Audio('/audio/mod2wrong.mp3');
-
+	// ================= STATE =================
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
 	
-	let currentQuestionIndex = 0;
-	let lastDirection = 'right';
-	let pendingSelection = null;
 	const questionsPerCard = 5;
 	let currentCard = 0;
 	const totalCards = Math.ceil(questions.length / questionsPerCard);
+	let isQuizLocked = false;
+	let remainingAttempts = 3;
+	let highestScore = null;
 
-	let retryCount = {{ $attempts ?? 0 }};
-	const maxRetries = 3;
+	// ================= MESSAGES =================
+	const correctMessages = [
+		'🎉 Tama! Galing mo!',
+		'✨ Nice one! Tuloy lang!',
+		'🌟 Sakto! Good job!',
+		'🎊 Ayos! Nakuha mo!',
+		'🧠 Correct! Malakas!'
+	];
 
-	function shuffleArray(array) {
-		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
-		}
-		return array;
-	}
+	const gentleMessages = [
+		'🌱 Okay lang iyan — learning moment ito.',
+		'💛 Good try! Bawi tayo sa next card.',
+		'✨ Ayos lang — part ito ng pagkatuto.',
+		'🌤️ Hindi man tama ngayon, mas lilinaw ito mamaya.',
+		'📘 Nice try! Tuloy lang, nandito lang ang aralin.'
+	];
 
-	function shuffleQuestionsAndChoices() {
-		// Shuffle the questions array
-		shuffleArray(questions);
-		
-		// Shuffle choices for each question
-		questions.forEach(q => {
-			const optionKeys = Object.keys(q.options); // ['a', 'b', 'c', 'd']
-			const optionTexts = optionKeys.map(key => q.options[key]);
-			
-			// Shuffle the option texts
-			shuffleArray(optionTexts);
-			
-			// Create new options object with shuffled order
-			const newOptions = {};
-			optionKeys.forEach((key, index) => {
-				newOptions[key] = optionTexts[index];
-			});
-			
-			// Find which key now contains the correct answer
-			const correctAnswerText = q.options[q.answer];
-			const newAnswerKey = Object.keys(newOptions).find(key => newOptions[key] === correctAnswerText);
-			
-			q.options = newOptions;
-			q.answer = newAnswerKey;
-		});
-	}
-
-	const correctMessages = ['🎉 Tama! Galing mo!', '✨ Ayos! Tuloy lang!', '🌟 Sakto! Magaling!', '🎊 Husay! Nakuha mo!', '🧠 Tama! Ang galing!'];
-	const gentleMessages = ['🌱 Ayos lang — bahagi ito ng pagkatuto.', '💛 Mabuti ang pagsubok! Bawi tayo sa susunod na bahagi.', '✨ Okay lang — matututo ka pa rito.', '🌤️ Hindi pa tama ngayon, pero matutunan mo rin ito.', '📘 Subok lang nang subok, nandito lang ang aralin.'];
-
+	// ================= HELPERS =================
 	function randomFrom(array) { return array[Math.floor(Math.random() * array.length)]; }
 
 	function getAnsweredCount() { return confirmedAnswers.filter(confirmed => confirmed === true).length; }
 
+	// ================= PROGRESS =================
 	function updateProgressAll() {
 		const answeredCount = selectedAnswers.filter(a => a !== '').length;
-
-		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} nasagutan`;
+		answeredCountLabel.textContent = `${answeredCount} / ${questions.length} answered`;
 
 		progressDots.innerHTML = questions.map((_, idx) => `
 			<div class="progress-dot ${confirmedAnswers[idx] ? 'completed' : ''}"></div>
 		`).join('');
 	}
 
-	function getCardAnimationClass() {
-		if (currentQuestionIndex === 0) return 'card-slide-in-up';
-		return lastDirection === 'left' ? 'card-slide-in-left' : 'card-slide-in-right';
-	}
-
-	function launchConfetti() {
-		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
-		for (let i = 0; i < 42; i++) {
-			const piece = document.createElement('div');
-			piece.className = 'confetti-piece';
-			piece.style.left = `${Math.random() * 100}vw`;
-			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
-			piece.style.animationDelay = `${Math.random() * 0.15}s`;
-			piece.style.width = `${8 + Math.random() * 6}px`;
-			piece.style.height = `${10 + Math.random() * 10}px`;
-			document.body.appendChild(piece);
-			setTimeout(() => piece.remove(), 4200);
+	// ================= SCROLL TO UNANSWERED =================
+	function scrollToFirstUnanswered() {
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+		
+		for (let i = start; i < end; i++) {
+			if (selectedAnswers[i] === '') {
+				const questionElements = document.querySelectorAll('.single-question');
+				for (let el of questionElements) {
+					const h4 = el.querySelector('h4');
+					if (h4 && h4.textContent.trim().startsWith(`${i + 1}.`)) {
+						el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						el.classList.add('unanswered-highlight');
+						setTimeout(() => {
+							el.classList.remove('unanswered-highlight');
+						}, 2000);
+						return i;
+					}
+				}
+			}
 		}
+		
+		return -1;
 	}
 
+	// ================= RENDER =================
 	function renderAllQuestions() {
+		if (isQuizLocked) return;
+
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 		let currentQuestions = questions.slice(start, end);
@@ -1129,9 +1274,9 @@
 			let feedbackHtml = '';
 			if (isConfirmed) {
 				if (selectedValue === item.answer) {
-					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
+					feedbackHtml = `<div class="reaction-box correct show">✅ ${randomFrom(correctMessages)}</div>`;
 				} else {
-					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Ang tamang sagot ay: ${item.answer.toUpperCase()}</div>`;
+					feedbackHtml = `<div class="reaction-box gentle show">❌ ${randomFrom(gentleMessages)}<br>Tamang sagot: ${item.answer.toUpperCase()}</div>`;
 				}
 			}
 
@@ -1161,24 +1306,31 @@
 			}
 		}
 
+		confirmBtn.style.display = allConfirmed ? 'none' : 'inline-flex';
+
+		const nextCardBtn = document.getElementById('nextCardBtn');
+		nextCardBtn.style.display = (allConfirmed && currentCard < totalCards - 1) ? 'inline-flex' : 'none';
+
 		submitBtn.style.display = (currentCard === totalCards - 1 && allConfirmed) ? 'inline-flex' : 'none';
 	}
 
-	window.selectAnswer = function(index, selectedKey) {
-		if (confirmedAnswers[index]) return;
+	// ================= INTERACTION =================
+	window.selectAnswer = function(index, key) {
+		if (confirmedAnswers[index] || isQuizLocked) return;
 
-		selectedAnswers[index] = selectedKey;
+		selectedAnswers[index] = key;
 		renderAllQuestions();
 	};
 
 	function confirmAnswer() {
+		if (isQuizLocked) return;
 
 		let start = currentCard * questionsPerCard;
 		let end = start + questionsPerCard;
 
 		for (let i = start; i < end; i++) {
 			if (selectedAnswers[i] === '') {
-				alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+				scrollToFirstUnanswered();
 				return;
 			}
 		}
@@ -1188,80 +1340,162 @@
 		}
 
 		renderAllQuestions();
-
-		if (currentCard < totalCards - 1) {
-			document.getElementById('nextCardBtn').style.display = 'inline-flex';
-		}
 	}
 
 	function goNextCard() {
+		if (isQuizLocked) return;
+
+		let start = currentCard * questionsPerCard;
+		let end = start + questionsPerCard;
+
+		for (let i = start; i < end; i++) {
+			if (!confirmedAnswers[i]) {
+				scrollToFirstUnanswered();
+				return;
+			}
+		}
+
 		if (currentCard >= totalCards - 1) return;
 
 		currentCard++;
-
-		document.getElementById('nextCardBtn').style.display = 'none';
-
 		renderAllQuestions();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	function goNextQuestion() {
-		if (!confirmedAnswers[currentQuestionIndex]) {
-			alert('Kailangan munang kumpirmahin ang sagot bago magpatuloy sa susunod.');
-			return;
+	// ================= CONFETTI =================
+	function launchConfetti() {
+		const colors = ['#6dbf7e', '#ffd166', '#ff8fab', '#7bdff2', '#cdb4db', '#f4a261'];
+
+		for (let i = 0; i < 42; i++) {
+			const piece = document.createElement('div');
+			piece.className = 'confetti-piece';
+			piece.style.left = `${Math.random() * 100}vw`;
+			piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+			piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
+			piece.style.animationDelay = `${Math.random() * 0.15}s`;
+			document.body.appendChild(piece);
+
+			setTimeout(() => piece.remove(), 4200);
+		}
+	}
+
+	// ================= UPDATE RETRY INDICATOR =================
+	function updateRetryIndicator() {
+		const retryIndicator = document.getElementById('retryIndicator');
+		const retryBtn = document.getElementById('retryBtn');
+
+		if (retryIndicator) {
+			retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remainingAttempts} / 3`;
+
+			if (remainingAttempts <= 0) {
+				retryIndicator.style.background = '#ffe5e5';
+				retryIndicator.style.border = '1px solid #e5a5a5';
+				retryIndicator.style.color = '#7a2e2e';
+				retryIndicator.textContent = '⏰ Naubos na ang mga pagsubok.';
+			} else {
+				retryIndicator.style.background = '#fff7ea';
+				retryIndicator.style.border = '1px solid #efd9b3';
+				retryIndicator.style.color = '#5b472f';
+			}
+		}
+
+		if (retryBtn) {
+			if (remainingAttempts <= 0) {
+				retryBtn.disabled = true;
+				retryBtn.style.opacity = 0.5;
+				retryBtn.style.cursor = 'not-allowed';
+			} else {
+				retryBtn.disabled = false;
+				retryBtn.style.opacity = 1;
+				retryBtn.style.cursor = 'pointer';
+			}
+		}
+	}
+
+	// ================= LOCK QUIZ =================
+	function lockQuiz() {
+		isQuizLocked = true;
+		
+		const pretestCard = document.getElementById('pretestCard');
+		pretestCard.classList.add('attempts-disabled');
+		
+		const attemptsMessage = document.getElementById('attemptsMessage');
+		attemptsMessage.classList.add('show');
+		
+		// Show highest score
+		if (highestScore !== null) {
+			const lastScoreBox = document.getElementById('lastScoreBox');
+			lastScoreBox.classList.add('show');
+			document.getElementById('lastScoreNumber').textContent = `${highestScore}/${questions.length}`;
+			
+			if (highestScore >= 11) {
+				document.getElementById('lastScoreLabel').textContent = '🏆 Magaling! Magpatuloy sa Balik-Aral.';
+			} else {
+				document.getElementById('lastScoreLabel').textContent = 'Maaari ka pa ring magpatuloy sa Balik-Aral kahit hindi pumasa.';
+			}
+			
+			document.getElementById('noAttemptsActions').classList.add('show');
 		}
 		
-		if (currentQuestionIndex >= questions.length - 1) return;
+		// Hide quiz elements
+		quizPage.classList.add('hidden');
+		actionRow.classList.add('hidden');
 		
-		lastDirection = 'right';
-		currentQuestionIndex += 1;
-		pendingSelection = null;
-		renderAllQuestions();
-		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-	}
-
-	function animateResultRing(resultRing, targetPercent, duration = 1100) {
-		const startTime = performance.now();
-		function frame(currentTime) {
-			const elapsed = currentTime - startTime;
-			const progress = Math.min(elapsed / duration, 1);
-			const eased = 1 - Math.pow(1 - progress, 3);
-			const value = Math.round(targetPercent * eased);
-			resultRing.style.setProperty('--progress', value);
-			if (progress < 1) requestAnimationFrame(frame);
+		const confirmButton = document.getElementById('confirmBtn');
+		const nextCardButton = document.getElementById('nextCardBtn');
+		const submitButton = document.getElementById('submitBtn');
+		
+		confirmButton.disabled = true;
+		nextCardButton.disabled = true;
+		submitButton.disabled = true;
+		
+		document.querySelectorAll('.choice input[type="radio"]').forEach(input => {
+			input.disabled = true;
+		});
+		
+		// Hide VN dialog
+		const vnContainer = document.getElementById('vnContainer');
+		if (vnContainer) {
+			vnContainer.style.display = 'none';
 		}
-		resultRing.style.setProperty('--progress', 0);
-		requestAnimationFrame(frame);
 	}
 
-	function getFeedbackByScore(score) {
-		if (score >= 11) return { badge: '🏆 Napakahusay!', feedback: 'Ang ganda ng iyong pundasyon. Ready ka na sa susunod na bahagi!', interpretation: 'Handa' };
-		if (score >= 6) return { badge: '👏 Magaling!', feedback: 'May kaalaman ka na, patuloy pa ang pag-unlad.', interpretation: 'May kaalaman' };
-		return { badge: '🌱 Warm-up pa lang!', feedback: 'Kailangan ng gabay pa. Gamitin ito bilang panimulang lakas.', interpretation: 'Kailangan ng gabay' };
-	}
-
+	// ================= SUBMIT PRE TEST =================
 	function submitPreTest() {
-		if (!confirmedAnswers.every(confirmed => confirmed === true)) {
-			alert('Pakisagutan at kumpirmahin muna ang lahat ng tanong bago tapusin.');
+		if (isQuizLocked) return;
+
+		let unansweredIndex = -1;
+		for (let i = 0; i < questions.length; i++) {
+			if (!confirmedAnswers[i]) {
+				unansweredIndex = i;
+				break;
+			}
+		}
+		
+		if (unansweredIndex !== -1) {
+			scrollToFirstUnanswered();
 			return;
 		}
 
-		const score = questions.reduce((total, item, index) => {
-			return total + (selectedAnswers[index] === item.answer ? 1 : 0);
-		}, 0);
+		const score = questions.reduce((total, item, index) =>
+			total + (selectedAnswers[index] === item.answer ? 1 : 0), 0);
 
 		const percentage = Math.round((score / questions.length) * 100);
 
-		// Prepare answers for backend
-		const answersPayload = questions.map((q, index) => ({
+		// Track highest score
+		if (highestScore === null || score > highestScore) {
+			highestScore = score;
+		}
+
+		// SEND TO BACKEND
+		const answers = questions.map((q, index) => ({
 			question_number: index + 1,
 			selected_option: selectedAnswers[index],
 			correct_option: q.answer,
 			is_correct: selectedAnswers[index] === q.answer
 		}));
 
-		// 🔥 SEND TO BACKEND
-		fetch("{{ route('student.module4.pretest.store') }}", {
+		fetch("{{ route('student.module4.pretest.save') }}", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -1279,68 +1513,109 @@
 				}))
 			})
 		})
-		.then(async res => {
-			const data = await res.json();
-
-			if (!res.ok) {
-				alert("Naabot mo na ang maximum na 3 pagsubok.");
+		.then(res => res.json())
+		.then(data => {
+			if (data.error) {
+				if (data.max_attempts_reached) {
+					isQuizLocked = true;
+					lockQuiz();
+				}
+				alert(data.error);
 				return;
 			}
-
-			// ✅ UPDATE FIRST
-			retryCount = data.attempt_used;
+			
+			// Update attempts
+			remainingAttempts = data.attempts_remaining || 0;
+			highestScore = data.highest_score || score;
 			updateRetryIndicator();
-
-			// ✅ THEN SHOW RESULT
-			showResultUI(score, percentage);
+			
+			// If no attempts remaining, lock the quiz
+			if (remainingAttempts <= 0) {
+				lockQuiz();
+				return;
+			}
+			
+			// Show result with option to retry
+			showResult(score, percentage);
 		})
-		.catch(err => console.error(err));
+		.catch(err => {
+			console.error('Error saving pretest:', err);
+			alert('May error sa pag-save ng iyong sagot. Pakisubukan muli.');
+		});
+	}
 
-		// ===== EXISTING RESULT LOGIC =====
+	// ================= SHOW RESULT =================
+	function showResult(score, percentage) {
 		const resultRing = document.getElementById('resultRing');
 		const resultPercent = document.getElementById('resultPercent');
 		const resultScoreText = document.getElementById('resultScoreText');
 		const resultBadge = document.getElementById('resultBadge');
 		const resultFeedback = document.getElementById('resultFeedback');
+		const resultActions = document.getElementById('resultActions');
 
-		const level = getFeedbackByScore(score);
+		if (resultRing) {
+			resultRing.style.setProperty('--progress', percentage);
+		}
+		if (resultPercent) {
+			resultPercent.textContent = `${score}/${questions.length}`;
+		}
+		if (resultScoreText) {
+			resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length}`;
+		}
 
-		animateResultRing(resultRing, percentage);
-		resultPercent.textContent = `${score}/${questions.length}`;
-		resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length}`;
-		resultBadge.textContent = level.badge;
-		resultFeedback.textContent = level.feedback;
-		document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
+		if (resultActions) {
+			resultActions.innerHTML = "";
+		}
 
-		quizPage.style.display = 'none';
-		resultPage.classList.add('show');
+		if (score >= 11) {
+			if (resultBadge) resultBadge.textContent = "🏆 Mahusay!";
+			if (resultFeedback) resultFeedback.textContent = "Magaling! Handa ka na para sa Balik-Aral!";
+			document.getElementById('resultInterpretation').textContent = 'Interpretasyon ng Iskor: Handa (11–15)';
 
-		if (percentage >= 80) launchConfetti();
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
+		} else if (score >= 6) {
+			if (resultBadge) resultBadge.textContent = "👏 Magaling!";
+			if (resultFeedback) resultFeedback.textContent = "May kaalaman ka na, patuloy pa ang pag-unlad.";
+			document.getElementById('resultInterpretation').textContent = 'Interpretasyon ng Iskor: May kaalaman (6–10)';
 
-	function updateRetryIndicator() {
-		const remaining = maxRetries - retryCount;
+		} else {
+			if (resultBadge) resultBadge.textContent = "🌱 Warm-up pa lang!";
+			if (resultFeedback) resultFeedback.textContent = "Kailangan ng gabay pa. Gamitin ito bilang panimulang lakas.";
+			document.getElementById('resultInterpretation').textContent = 'Interpretasyon ng Iskor: Kailangan ng gabay (0–5)';
+		}
 
-		const retryIndicator = document.getElementById('retryIndicator');
-		retryIndicator.textContent = `🔁 Natitirang pagsubok: ${remaining} / ${maxRetries}`;
-
-		if (remaining === 0) {
-			retryIndicator.style.background = '#ffe5e5';
-			retryIndicator.style.border = '1px solid #e5a5a5';
-			retryIndicator.style.color = '#7a2e2e';
-
-			const retryBtn = document.querySelector('.btn-secondary');
-			if (retryBtn) {
-				retryBtn.disabled = true;
-				retryBtn.style.opacity = 0.5;
+		if (resultActions) {
+			if (remainingAttempts > 0) {
+				resultActions.innerHTML = `
+					<button class="btn-secondary" id="retryBtn" onclick="restartQuiz()">
+						Ulitin (${remainingAttempts} natitira)
+					</button>
+					<a href="{{ route('module4.balikaral') }}" class="btn-primary">Magpatuloy →</a>
+				`;
+			} else {
+				resultActions.innerHTML = `
+					<a href="{{ route('module4.balikaral') }}" class="btn-primary">Magpatuloy →</a>
+				`;
 			}
 		}
+
+		if (quizPage) quizPage.style.display = 'none';
+		if (resultPage) {
+			resultPage.classList.add('show');
+			resultPage.style.display = 'block';
+		}
+
+		if (percentage >= 80) launchConfetti();
 	}
 
+	// ================= RETRY =================
 	function restartQuiz() {
-		if (retryCount >= maxRetries) {
-			alert('Naabot mo na ang maximum na 3 pagsubok.');
+		if (isQuizLocked) {
+			alert('Hindi ka na makakapag-retry. Naabot mo na ang maximum na attempts.');
+			return;
+		}
+
+		if (remainingAttempts <= 0) {
+			alert('Wala ka nang natitirang pagsubok.');
 			return;
 		}
 
@@ -1351,22 +1626,72 @@
 		shuffleQuestionsAndChoices();
 
 		resultPage.classList.remove('show');
+		resultPage.style.display = 'none';
 		quizPage.style.display = 'block';
+		quizPage.classList.remove('hidden');
+		actionRow.classList.remove('hidden');
 
-		renderAllQuestions();
+		confirmBtn.style.display = 'inline-flex';
+		confirmBtn.disabled = false;
+		document.getElementById('nextCardBtn').style.display = 'none';
+		document.getElementById('nextCardBtn').disabled = false;
+		submitBtn.style.display = 'none';
+		submitBtn.disabled = false;
+		submitBtn.textContent = 'Tapusin ang Paunang Pagsusulit 🚀';
+
 		updateRetryIndicator();
+		renderAllQuestions();
 
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	// ================= INIT =================
 	window.addEventListener('load', () => {
-		if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-		
-		shuffleQuestionsAndChoices();
-		renderAllQuestions();
-		updateRetryIndicator();
-
-		window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+		// Check attempts from server
+		fetch("{{ route('student.module4.pretest.check') }}")
+			.then(res => res.json())
+			.then(data => {
+				remainingAttempts = Math.max(0, data.max_attempts - data.attempts);
+				highestScore = data.highest_score > 0 ? data.highest_score : null;
+				
+				updateRetryIndicator();
+				
+				if (data.is_locked || !data.has_attempts_remaining) {
+					lockQuiz();
+				} else {
+					shuffleQuestionsAndChoices();
+					renderAllQuestions();
+					
+					confirmBtn.style.display = 'inline-flex';
+					document.getElementById('nextCardBtn').style.display = 'none';
+					submitBtn.style.display = 'none';
+					
+					// Start dialogue
+					if (typeof startDialogue === 'function') {
+						startDialogue([
+							{
+								text: "Simulan natin ang paglalakbay sa modyul na ito sa pamamagitan ng paunang pagsusulit. Alamin natin ang iyong kasalukuyang kaalaman tungkol sa disaster management at risk reduction.",
+								name: "Mga Guro",
+								image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+							},
+							{
+								text: "Mayroon ka lamang tatlong pagkakataon upang sagutan ito. Gamitin ito upang masukat ang iyong nalalaman at maging gabay sa iyong pag-aaral.",
+								image: "{{ asset('pictures/vn_box_teacher1.png') }}"
+							},
+							{
+								text: "Huwag mag-alala kung hindi mo ito makuha sa unang pagkakataon. Ang mahalaga ay matuto at lumago sa bawat pagsubok. Kaya mo ito!",
+								image: "{{ asset('pictures/vn_box_teacher4.png') }}"
+							}
+						]);
+					}
+				}
+			})
+			.catch(err => {
+				console.error('Error checking attempts:', err);
+				// Fallback: initialize quiz anyway
+				shuffleQuestionsAndChoices();
+				renderAllQuestions();
+			});
 	});
 </script>
 

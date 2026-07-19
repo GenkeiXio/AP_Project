@@ -474,3 +474,18 @@ Route::prefix('student/module3')->name('student.module3.')->group(function () {
     Route::get('/posttest/check', [Module3PosttestController::class, 'check'])
     ->name('posttest.check');
 });
+
+
+Route::prefix('student/module4')->group(function () {
+    // Show pretest page
+    Route::get('/pretest', [Module4PretestController::class, 'index'])
+        ->name('student.module4.pretest');
+    
+    // Save pretest results
+    Route::post('/pretest/save', [Module4PretestController::class, 'store'])
+        ->name('student.module4.pretest.save');
+    
+    // Check attempts status (AJAX)
+    Route::get('/pretest/check', [Module4PretestController::class, 'checkAttempts'])
+        ->name('student.module4.pretest.check');
+});

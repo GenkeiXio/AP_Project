@@ -14,6 +14,7 @@ class Module4Pretest extends Model
         'total_items',
         'level',
         'is_completed',
+        'attempts'
     ];
 
     protected $casts = [
