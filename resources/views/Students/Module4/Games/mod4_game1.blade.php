@@ -29,7 +29,7 @@
         .content-wrapper {
             position: relative;
             z-index: 1;
-            padding: 25px 15px;
+            padding: 60px 12px 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -45,47 +45,54 @@
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 8px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), inset 0 0 50px rgba(0, 0, 0, 0.2);
-            padding: 30px 30px 40px;
+            padding: 20px 15px 25px;
             border: 2px solid var(--gold-trim);
             position: relative;
         }
 
         h1 {
             font-weight: 800;
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: var(--ink);
             margin-bottom: 6px;
             font-family: 'Nunito', sans-serif;
             border-bottom: 2px solid var(--ink);
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        @media (max-width: 768px) { h1 { font-size: 1.3rem; } }
-        h1 i { color: var(--danger); margin-right: 12px; }
+        h1 i { color: var(--danger); }
+
+        @media (max-width: 768px) { 
+            h1 { font-size: 1.1rem; flex-wrap: wrap; }
+        }
 
         .subhead {
             color: var(--ink);
-            font-size: 1rem;
+            font-size: 0.9rem;
             border-left: 5px solid var(--gold-trim);
-            padding-left: 18px;
-            margin: 10px 0 25px;
+            padding-left: 14px;
+            margin: 8px 0 18px;
         }
-        @media (max-width: 768px) { .subhead { font-size: 0.8rem; } }
+        @media (max-width: 768px) { .subhead { font-size: 0.75rem; padding-left: 10px; } }
 
         /* ---------- Match Board Layout ---------- */
         .match-board {
             position: relative;
             display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-            margin: 10px 0 25px;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+            margin: 10px 0 20px;
         }
         @media (max-width: 900px) {
             .match-board {
                 grid-template-columns: 1fr;
+                gap: 12px;
             }
         }
 
-        /* SVG overlay for connecting lines */
+        /* SVG overlay for connecting lines - hidden on mobile */
         #lineLayer {
             position: absolute;
             top: 0;
@@ -104,7 +111,6 @@
         #lineLayer path.wrong-flash {
             stroke: var(--danger);
         }
-        /* Lines only make visual sense in the two-column desktop layout */
         @media (max-width: 900px) {
             #lineLayer { display: none; }
         }
@@ -113,24 +119,33 @@
         .categories-col {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 12px;
         }
         @media (max-width: 900px) {
             .categories-col {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
                 position: sticky;
-                top: 8px;
+                top: 0;
                 z-index: 6;
-                flex-direction: row;
-                gap: 10px;
                 background: var(--old-paper);
                 padding: 8px 0 4px;
+                border-bottom: 2px solid var(--gold-trim);
+            }
+        }
+        @media (max-width: 480px) {
+            .categories-col {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 5px;
+                padding: 5px 0 3px;
             }
         }
 
         .category-zone {
             background: rgba(244, 228, 199, 0.95);
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            border: 3px solid #8b6b3f;
+            border: 2px solid #8b6b3f;
             border-radius: 8px;
             overflow: hidden;
             transition: all 0.2s ease;
@@ -144,40 +159,69 @@
         .category-header {
             background: var(--vintage-leather);
             color: var(--gold-trim);
-            padding: 12px 15px;
+            padding: 8px 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 6px;
             cursor: pointer;
             user-select: none;
+            min-height: 44px;
         }
         @media (max-width: 900px) {
-            .category-header { padding: 10px; flex-direction: column; gap: 4px; }
+            .category-header { 
+                padding: 6px 4px; 
+                flex-direction: column; 
+                gap: 2px;
+                min-height: 36px;
+            }
+        }
+        @media (max-width: 480px) {
+            .category-header { 
+                padding: 4px 2px; 
+                min-height: 30px;
+            }
         }
 
-        .cat-icon { font-size: 1.4rem; }
+        .cat-icon { font-size: 1.1rem; }
+        @media (max-width: 900px) { .cat-icon { font-size: 0.9rem; } }
+        @media (max-width: 480px) { .cat-icon { font-size: 0.7rem; } }
+
         .cat-label {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 800;
             font-family: 'Nunito', sans-serif;
             text-align: center;
         }
-        @media (max-width: 900px) { .cat-label { font-size: 0.75rem; } }
+        @media (max-width: 900px) { .cat-label { font-size: 0.7rem; } }
+        @media (max-width: 480px) { .cat-label { font-size: 0.55rem; } }
 
         .category-matches {
-            padding: 12px;
-            min-height: 50px;
+            padding: 8px;
+            min-height: 36px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 5px;
             align-items: flex-start;
         }
-        @media (max-width: 900px) { .category-matches { display: none; } }
+        @media (max-width: 900px) { 
+            .category-matches { 
+                padding: 4px; 
+                min-height: 24px;
+                gap: 3px;
+            } 
+        }
+        @media (max-width: 480px) {
+            .category-matches { 
+                padding: 3px; 
+                min-height: 18px;
+                gap: 2px;
+            }
+        }
 
         .match-chip {
-            width: 34px;
-            height: 34px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: var(--success);
             color: #fff;
@@ -186,38 +230,75 @@
             align-items: center;
             justify-content: center;
             font-family: 'Nunito', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.75rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 900px) {
+            .match-chip { width: 22px; height: 22px; font-size: 0.6rem; }
+        }
+        @media (max-width: 480px) {
+            .match-chip { width: 18px; height: 18px; font-size: 0.5rem; }
         }
 
         .category-empty-hint {
             color: #7a6650;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-style: italic;
-            padding: 4px 2px;
+            padding: 2px;
+        }
+        @media (max-width: 900px) { 
+            .category-empty-hint { font-size: 0.55rem; } 
+        }
+        @media (max-width: 480px) { 
+            .category-empty-hint { font-size: 0.45rem; } 
         }
 
         /* ---------- Right: Numbered Item Cards ---------- */
         .items-col {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .items-col { gap: 8px; }
         }
 
         .item-card {
             background: #fff;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 8px;
-            padding: 14px 16px;
+            padding: 10px 12px;
             box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
             border: 2px solid #aaa;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 52px;
         }
-        .item-card:hover { transform: translateY(-2px); box-shadow: 3px 8px 16px rgba(0,0,0,0.35); }
+        @media (max-width: 768px) {
+            .item-card { 
+                padding: 8px 10px; 
+                gap: 8px;
+                min-height: 44px;
+                border-width: 1.5px;
+            }
+        }
+        @media (max-width: 480px) {
+            .item-card { 
+                padding: 6px 8px; 
+                gap: 6px;
+                min-height: 38px;
+                border-radius: 6px;
+            }
+        }
+
+        .item-card:active:not(.matched) {
+            transform: scale(0.97);
+        }
 
         .item-card.selected {
             border-color: var(--gold-trim);
@@ -229,14 +310,14 @@
             opacity: 0.55;
             border-color: var(--success);
         }
-        .item-card.matched:hover { transform: none; }
+        .item-card.matched:active { transform: none; }
 
         .item-card.shake { animation: shakeCard 0.4s ease-in-out; }
 
         .item-number {
             flex: 0 0 auto;
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             background: var(--vintage-leather);
             color: var(--gold-trim);
@@ -246,30 +327,53 @@
             justify-content: center;
             font-family: 'Nunito', sans-serif;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
-        .item-card.matched .item-number { background: var(--success); border-color: var(--success); color: #fff; }
+        @media (max-width: 768px) {
+            .item-number { width: 28px; height: 28px; font-size: 0.8rem; border-width: 1.5px; }
+        }
+        @media (max-width: 480px) {
+            .item-number { width: 22px; height: 22px; font-size: 0.65rem; border-width: 1px; }
+        }
+
+        .item-card.matched .item-number { 
+            background: var(--success); 
+            border-color: var(--success); 
+            color: #fff; 
+        }
 
         .item-image {
             flex: 0 0 auto;
-            width: 46px;
-            height: 46px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
+        }
+        @media (max-width: 768px) {
+            .item-image { width: 32px; height: 32px; }
+        }
+        @media (max-width: 480px) {
+            .item-image { width: 26px; height: 26px; }
         }
 
         .item-text {
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.85rem;
+            line-height: 1.4;
             color: var(--ink);
             font-weight: 500;
+            flex: 1;
         }
-        @media (max-width: 768px) { .item-text { font-size: 0.78rem; } }
+        @media (max-width: 768px) { 
+            .item-text { font-size: 0.7rem; } 
+        }
+        @media (max-width: 480px) { 
+            .item-text { font-size: 0.6rem; line-height: 1.2; } 
+        }
 
         @keyframes shakeCard {
             0% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-4px); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-3px); }
             100% { transform: translateX(0); }
         }
 
@@ -278,21 +382,30 @@
             background: var(--vintage-leather);
             color: var(--gold-trim);
             border: 1px solid var(--gold-trim);
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 3px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-family: 'Nunito', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
-        .reset-btn:hover { background: #3d2a25; transform: translateY(-2px); }
-        @media (max-width: 768px) { .reset-btn { padding: 8px 16px; font-size: 0.75rem; width: 100%; justify-content: center; } }
+        .reset-btn:active { transform: scale(0.95); }
+        @media (max-width: 768px) { 
+            .reset-btn { 
+                padding: 6px 12px; 
+                font-size: 0.65rem; 
+                width: 100%; 
+                justify-content: center; 
+            } 
+        }
 
         .game-controls {
             display: flex;
@@ -300,43 +413,65 @@
             align-items: center;
             flex-wrap: wrap;
             margin-top: 10px;
-            gap: 15px;
+            gap: 10px;
         }
-        @media (max-width: 768px) { .game-controls { flex-direction: column; align-items: stretch; } }
+        @media (max-width: 768px) { 
+            .game-controls { 
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 8px;
+            } 
+        }
 
         .completion-badge {
             background: #d9c5a3;
             color: var(--ink);
-            padding: 6px 15px;
+            padding: 5px 12px;
             border-radius: 3px;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             border: 1px solid #8b6b3f;
             font-family: 'Nunito', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
-        @media (max-width: 768px) { .completion-badge { font-size: 0.7rem; width: 100%; justify-content: center; } }
+        @media (max-width: 768px) { 
+            .completion-badge { 
+                font-size: 0.65rem; 
+                width: 100%; 
+                justify-content: center; 
+                padding: 4px 10px;
+            } 
+        }
 
         .progress-track {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             background: var(--vintage-leather);
             display: inline-block;
-            padding: 4px 12px;
+            padding: 4px 10px;
             border-radius: 3px;
             color: var(--gold-trim);
             border: 1px solid var(--gold-trim);
             font-family: 'Nunito', sans-serif;
+            white-space: nowrap;
+        }
+        @media (max-width: 768px) { 
+            .progress-track { 
+                font-size: 0.65rem; 
+                padding: 3px 8px;
+                text-align: center;
+                width: 100%;
+            } 
         }
 
         .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+            position: fixed;
+            top: 16px;
+            left: 12px;
             z-index: 100;
             background: var(--vintage-leather);
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 3px;
             text-decoration: none;
             color: var(--gold-trim);
@@ -347,10 +482,19 @@
             border: 1px solid var(--gold-trim);
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
-        @media (max-width: 768px) { .back-button { top: 10px; left: 10px; padding: 5px 10px; font-size: 0.65rem; } }
-        .back-button:hover { transform: translateX(-3px); }
+        @media (max-width: 768px) { 
+            .back-button { 
+                top: 10px; 
+                left: 8px; 
+                padding: 4px 8px; 
+                font-size: 0.55rem; 
+            } 
+        }
+        .back-button:active { transform: scale(0.95); }
 
         /* ---------- Modal ---------- */
         .modal-overlay {
@@ -360,13 +504,14 @@
             z-index: 1000;
             display: flex; align-items: center; justify-content: center;
             opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            padding: 20px;
         }
         .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-container {
             background: #f4e4c7;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             border-radius: 5px;
-            max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto;
+            max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
@@ -375,39 +520,85 @@
         .modal-overlay.show .modal-container { transform: scale(1); }
         .modal-header {
             background: var(--vintage-leather);
-            padding: 20px 24px;
+            padding: 16px 20px;
             border-bottom: 1px solid var(--gold-trim);
         }
-        .modal-header h2 { margin: 0; font-size: 1.5rem; color: var(--gold-trim); font-family: 'Nunito', sans-serif; }
-        @media (max-width: 768px) { .modal-header { padding: 16px 18px; } .modal-header h2 { font-size: 1.2rem; } }
-        .modal-body { padding: 24px; }
-        @media (max-width: 768px) { .modal-body { padding: 18px; } }
-        .modal-body p { font-size: 1rem; line-height: 1.7; color: var(--ink); margin-bottom: 20px; }
-        @media (max-width: 768px) { .modal-body p { font-size: 0.85rem; } }
-        .modal-footer { padding: 16px 24px 24px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .modal-header h2 { 
+            margin: 0; 
+            font-size: 1.3rem; 
+            color: var(--gold-trim); 
+            font-family: 'Nunito', sans-serif; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        @media (max-width: 768px) { 
+            .modal-header { padding: 12px 16px; } 
+            .modal-header h2 { font-size: 1rem; } 
+        }
+
+        .modal-body { padding: 20px; }
+        @media (max-width: 768px) { .modal-body { padding: 14px; } }
+        .modal-body p { 
+            font-size: 0.95rem; 
+            line-height: 1.6; 
+            color: var(--ink); 
+            margin-bottom: 16px; 
+        }
+        @media (max-width: 768px) { .modal-body p { font-size: 0.8rem; } }
+        @media (max-width: 480px) { .modal-body p { font-size: 0.7rem; } }
+
+        .modal-footer { 
+            padding: 12px 20px 20px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+        }
+        @media (max-width: 768px) { .modal-footer { padding: 10px 16px 16px; } }
+
         .modal-btn {
             background: var(--vintage-leather);
             color: var(--gold-trim);
             border: 1px solid var(--gold-trim);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 3px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-family: 'Nunito', sans-serif;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
-        @media (max-width: 768px) { .modal-btn { padding: 10px 18px; font-size: 0.8rem; width: 100%; justify-content: center; } }
-        .modal-btn:hover { background: #3d2a25; transform: translateY(-2px); }
+        .modal-btn:active { transform: scale(0.95); }
+        @media (max-width: 768px) { 
+            .modal-btn { 
+                padding: 8px 16px; 
+                font-size: 0.75rem; 
+                width: 100%; 
+                justify-content: center; 
+            } 
+        }
+
+        /* Success celebration animation */
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .celebrate {
+            animation: celebrate 0.5s ease 3;
+        }
     </style>
 @endpush
 
 @section('content')
-    <a href="{{ route('module4.node1') }}" class="back-button">⬅️ Bumalik</a>
+    <a href="{{ route('inner.map4') }}" class="back-button">⬅️ Bumalik</a>
 
     <div class="content-wrapper">
         <div class="game-container">
@@ -458,11 +649,11 @@
 
             <!-- Game Controls -->
             <div class="game-controls">
-                <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
-                    <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset ang Aktibidad</button>
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; width:100%;">
+                    <button class="reset-btn" id="resetGameBtn"><i class="fas fa-undo-alt"></i> I-reset</button>
                     <span class="progress-track" id="progressTrack">0 / 0 natutugma</span>
                 </div>
-                <div id="completionStatus"></div>
+                <div id="completionStatus" style="width:100%;"></div>
             </div>
         </div>
     </div>
@@ -486,8 +677,6 @@
         (function () {
             "use strict";
 
-            // Each statement is independently correct for ONE category.
-            // Add/remove entries here freely - numbering and shuffling is automatic.
             const baseStatements = [
                 { text: "Dumating ang Super Typhoon Rolly sa Bicol Region noong Nobyembre 2020, dala ang napakalakas na hangin at malakas na pag-ulan.", category: "sanhi", imageIcon: "pictures/sanhi-card.png" },
                 { text: "Ang kawalan ng sapat na proteksyon sa baybayin at mga ilog ay nagpalala sa epekto ng bagyo sa mga komunidad.", category: "sanhi", imageIcon: "pictures/sanhi-card.png" },
@@ -545,7 +734,7 @@
                 const fromRect = fromEl.getBoundingClientRect();
                 const toRect = toEl.getBoundingClientRect();
 
-                const x1 = fromRect.left - boardRect.left; // right side item's left edge... but item is on right, zone on left
+                const x1 = fromRect.left - boardRect.left;
                 const y1 = fromRect.top - boardRect.top + fromRect.height / 2;
                 const x2 = toRect.right - boardRect.left;
                 const y2 = toRect.top - boardRect.top + toRect.height / 2;
@@ -610,9 +799,18 @@
                     redrawAllLines();
 
                     if (matchedCount === statements.length) {
-                        sessionStorage.setItem("node_match_done", "true");
+                        // ✅ MARK NODE 1 AS COMPLETED
+                        sessionStorage.setItem("node1_done", "true");
+                        
                         completionStatus.innerHTML = '<span class="completion-badge"><i class="fas fa-trophy"></i> Perpekto! Nakumpleto mo ang aktibidad.</span>';
-                        setTimeout(() => summaryModal.classList.add('show'), 400);
+                        
+                        // Add celebration animation
+                        document.querySelector('.game-container').classList.add('celebrate');
+                        
+                        // Show summary modal after short delay
+                        setTimeout(() => {
+                            summaryModal.classList.add('show');
+                        }, 600);
                     }
                 } else {
                     shake(zoneEl);
@@ -630,7 +828,7 @@
 
                     let imgHtml = '';
                     if (s.imageIcon) {
-                        imgHtml = `<img class="item-image" src="{{ asset('') }}${s.imageIcon}" alt="" onerror="this.style.display='none'">`;
+                        imgHtml = `<img class="item-image" src="{{ asset('') }}${s.imageIcon}" alt="" onerror="this.style.display='none'" loading="lazy">`;
                     }
 
                     card.innerHTML = `
@@ -644,12 +842,23 @@
                         selectCard(s.id);
                     });
 
+                    // Touch support
+                    card.addEventListener('touchstart', (e) => {
+                        if (s.matched) return;
+                        e.preventDefault();
+                        selectCard(s.id);
+                    }, { passive: false });
+
                     itemsCol.appendChild(card);
                 });
             }
 
             Object.keys(zones).forEach(category => {
                 zones[category].addEventListener('click', () => attemptMatch(category));
+                zones[category].addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    attemptMatch(category);
+                }, { passive: false });
             });
 
             function resetGame() {
@@ -666,6 +875,7 @@
                 lineLayer.innerHTML = '';
                 completionStatus.innerHTML = '';
                 summaryModal.classList.remove('show');
+                document.querySelector('.game-container').classList.remove('celebrate');
 
                 Object.values(matchesLists).forEach(list => {
                     list.innerHTML = '<span class="category-empty-hint">Wala pang itinutugma</span>';
@@ -675,8 +885,13 @@
                 updateProgress();
             }
 
+            // ✅ MODIFIED: Go back to inner map when continuing
             if (modalContinueBtn) {
                 modalContinueBtn.addEventListener('click', () => {
+                    window.location.href = "{{ route('inner.map4') }}";
+                });
+                modalContinueBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
                     window.location.href = "{{ route('inner.map4') }}";
                 });
             }
@@ -687,9 +902,20 @@
                 });
             }
 
-            if (resetBtn) resetBtn.addEventListener('click', resetGame);
+            if (resetBtn) {
+                resetBtn.addEventListener('click', resetGame);
+                resetBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    resetGame();
+                });
+            }
 
-            window.addEventListener('resize', redrawAllLines);
+            // Debounced resize handler for performance
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(redrawAllLines, 250);
+            });
 
             resetGame();
         })();

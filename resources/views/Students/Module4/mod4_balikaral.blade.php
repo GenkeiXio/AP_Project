@@ -12,12 +12,19 @@
             --ap-red: #c62828;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background: linear-gradient(rgba(103, 103, 103, 0.88), rgba(117, 114, 114, 0.88)), 
                         url("{{ asset('pictures/mod4_innermap.png') }}") no-repeat center center fixed;
             background-size: cover;
             font-family: 'Baloo 2', cursive;
             color: var(--ap-brown);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
         }
 
         /* --- INSTRUKSYON MODAL --- */
@@ -29,47 +36,76 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 20px;
         }
 
         .kard-instruksyon {
             background: #fffefb;
-            padding: 40px;
+            padding: 30px 25px;
             border: 6px solid var(--ap-gold);
             border-radius: 30px;
             max-width: 550px;
+            width: 100%;
             text-align: center;
             box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .kard-instruksyon h1 {
+            color: var(--ap-brown);
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 0;
+        }
+
+        .kard-instruksyon p {
+            margin-top: 0;
+            color: var(--ap-gold);
+            font-weight: 600;
         }
 
         .gabay-listahan {
             text-align: left;
             background: rgba(197, 160, 89, 0.1);
-            padding: 25px;
+            padding: 20px;
             border-radius: 20px;
-            margin: 25px 0;
-            font-size: 1.1rem;
+            margin: 20px 0;
+            font-size: 1rem;
             line-height: 1.6;
             border-left: 8px solid var(--ap-gold);
+        }
+
+        .gabay-listahan strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
 
         .btn-simula {
             background: var(--ap-green);
             color: white;
-            padding: 12px 50px;
+            padding: 12px 40px;
             border: none;
             font-family: 'Baloo 2', cursive;
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: 0.3s;
             border-radius: 50px;
             box-shadow: 0 4px 0 #1b5e20;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-simula:active {
+            transform: scale(0.95);
         }
 
         /* --- GAME INTERFACE --- */
         .hud-container {
             max-width: 1000px;
-            margin: 40px auto;
+            margin: 20px auto;
             background: var(--ap-paper);
             border-radius: 30px;
             overflow: hidden;
@@ -80,17 +116,52 @@
         .hud-header {
             background: var(--ap-brown);
             color: #fff;
-            padding: 20px 30px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .game-body { display: grid; grid-template-columns: 280px 1fr; min-height: 480px; }
+        .hud-header h2 {
+            margin: 0;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .hud-header #gabayTeksto {
+            color: var(--ap-gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: block;
+        }
+
+        .hud-header > div:last-child {
+            text-align: right;
+        }
+
+        .hud-header > div:last-child > div:first-child {
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .hud-header > div:last-child > div:last-child {
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .game-body { 
+            display: grid; 
+            grid-template-columns: 280px 1fr; 
+            min-height: 400px;
+        }
 
         .sidebar-yugto { 
             background: #f9f6f2; 
-            padding: 25px; 
+            padding: 20px; 
             border-right: 2px solid #eee;
             transition: all 0.3s ease;
         }
@@ -103,13 +174,13 @@
 
         .step-indicator {
             text-align: center;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 8px 10px;
+            margin-bottom: 12px;
             background: var(--ap-brown);
             color: white;
             border-radius: 15px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
         }
 
@@ -118,30 +189,39 @@
             background: var(--ap-gold);
             color: var(--ap-brown);
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            line-height: 24px;
-            font-size: 0.8rem;
-            margin-right: 8px;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            font-size: 0.75rem;
+            margin-right: 6px;
             font-weight: 800;
         }
 
         .yugto-kard {
             background: white;
             border: 3px solid #eee;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 12px 10px;
+            margin-bottom: 12px;
             border-radius: 20px;
             cursor: pointer;
             text-align: center;
             transition: all 0.3s ease;
             font-weight: 600;
             position: relative;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .yugto-kard:hover:not(.disabled):not(.selected) {
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .yugto-kard:active:not(.disabled):not(.selected) {
+            transform: scale(0.95);
+        }
+
+        .yugto-kard div {
+            font-size: 1.2rem;
+        }
+
+        .yugto-kard small {
+            font-size: 0.75rem;
         }
 
         /* Pulsating glow for active step */
@@ -184,8 +264,8 @@
         /* Shake animation */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
         }
 
         .shake {
@@ -206,10 +286,10 @@
 
         /* Image area styling */
         .aksyon-area { 
-            padding: 30px; 
+            padding: 20px; 
             display: flex; 
             flex-direction: column; 
-            gap: 20px;
+            gap: 15px;
             transition: all 0.3s ease;
         }
 
@@ -220,18 +300,22 @@
 
         .ulat-senaryo {
             background: #fff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 20px;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             text-align: center;
             border: 2px solid var(--ap-gold);
             font-weight: 600;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .larawan-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 15px;
+            gap: 12px;
             transition: all 0.3s ease;
         }
 
@@ -250,8 +334,8 @@
             background: #f1f8e9;
         }
 
-        .larawan-grid.highlight-select .larawan-item:hover:not(.tama):not(.shake) {
-            transform: scale(1.05);
+        .larawan-grid.highlight-select .larawan-item:active:not(.tama):not(.shake) {
+            transform: scale(0.95);
             border-color: var(--ap-green);
             box-shadow: 0 4px 20px rgba(46, 125, 50, 0.3);
             background: white;
@@ -260,11 +344,17 @@
         .larawan-item {
             background: white;
             border: 3px solid #f0f0f0;
-            padding: 15px;
+            padding: 10px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .larawan-item.tama {
@@ -275,7 +365,12 @@
             pointer-events: none;
         }
 
-        .larawan-item img { width: 100%; height: 90px; object-fit: contain; }
+        .larawan-item img { 
+            width: 100%; 
+            height: auto;
+            max-height: 80px;
+            object-fit: contain; 
+        }
 
         /* Step 3: After choosing - highlight the selected stage and image area */
         .step-completed .sidebar-yugto {
@@ -325,19 +420,34 @@
             justify-content: center;
             align-items: center;
             z-index: 2000;
+            padding: 20px;
         }
 
         .map-container {
-            position: relative;
             background: white;
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 30px;
             text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .map-container h1 {
+            font-weight: 800;
+            color: var(--ap-brown);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .map-container p {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1rem;
         }
 
         .inner-map-preview {
             width: 100%;
-            max-width: 400px;
+            max-width: 350px;
             border-radius: 15px;
             margin-bottom: 20px;
             border: 3px solid var(--ap-gold);
@@ -346,16 +456,277 @@
         .btn-magpatuloy {
             background: var(--ap-green);
             color: white;
-            padding: 15px 45px;
+            padding: 12px 30px;
             border: none;
             border-radius: 50px;
             font-family: 'Baloo 2', cursive;
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            display: block;
-            margin: 0 auto;
+            display: inline-block;
             text-decoration: none;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-magpatuloy:active {
+            transform: scale(0.95);
+        }
+
+        /* ===================== */
+        /*    MOBILE RESPONSIVE  */
+        /* ===================== */
+        @media (max-width: 768px) {
+            .kard-instruksyon {
+                padding: 20px 15px;
+                border-width: 4px;
+            }
+
+            .kard-instruksyon h1 {
+                font-size: 1.6rem;
+            }
+
+            .gabay-listahan {
+                padding: 15px;
+                font-size: 0.9rem;
+                margin: 15px 0;
+            }
+
+            .btn-simula {
+                font-size: 1.1rem;
+                padding: 10px 30px;
+            }
+
+            .hud-container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+
+            .hud-header {
+                padding: 12px 15px;
+            }
+
+            .hud-header h2 {
+                font-size: 1rem;
+            }
+
+            .hud-header #gabayTeksto {
+                font-size: 0.75rem;
+            }
+
+            .hud-header > div:last-child > div:last-child {
+                font-size: 1.5rem;
+            }
+
+            .game-body { 
+                grid-template-columns: 1fr; 
+                min-height: auto;
+            }
+
+            .sidebar-yugto { 
+                padding: 15px;
+                border-right: none;
+                border-bottom: 2px solid #eee;
+                order: 2;
+            }
+
+            .sidebar-yugto.highlight {
+                border-right: none;
+                border-bottom: 4px solid var(--ap-gold);
+            }
+
+            .aksyon-area { 
+                padding: 15px;
+                order: 1;
+            }
+
+            .aksyon-area.highlight {
+                border-radius: 0;
+            }
+
+            .step-indicator {
+                font-size: 0.75rem;
+                padding: 6px 8px;
+            }
+
+            .step-indicator .step-number {
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                font-size: 0.7rem;
+            }
+
+            .yugto-kard {
+                padding: 10px 8px;
+                margin-bottom: 8px;
+                border-width: 2px;
+            }
+
+            .yugto-kard div {
+                font-size: 1rem;
+            }
+
+            .yugto-kard small {
+                font-size: 0.65rem;
+            }
+
+            .ulat-senaryo {
+                font-size: 0.95rem;
+                padding: 12px;
+                min-height: 50px;
+            }
+
+            .larawan-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 8px;
+            }
+
+            .larawan-item {
+                padding: 8px;
+                border-width: 2px;
+                min-height: 60px;
+                border-radius: 15px;
+            }
+
+            .larawan-item img { 
+                max-height: 60px;
+            }
+
+            .step-completed .sidebar-yugto {
+                border-right: none;
+                border-bottom-color: var(--ap-green);
+            }
+
+            .map-container {
+                padding: 20px 15px;
+            }
+
+            .map-container h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-magpatuloy {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+
+            /* Fix for step 3 completion */
+            .step-completed .aksyon-area {
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kard-instruksyon {
+                padding: 15px 12px;
+                border-width: 3px;
+                border-radius: 20px;
+            }
+
+            .kard-instruksyon h1 {
+                font-size: 1.3rem;
+            }
+
+            .gabay-listahan {
+                font-size: 0.8rem;
+                padding: 12px;
+                border-left-width: 4px;
+            }
+
+            .btn-simula {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+
+            .hud-header h2 {
+                font-size: 0.9rem;
+            }
+
+            .hud-header #gabayTeksto {
+                font-size: 0.65rem;
+            }
+
+            .hud-header > div:last-child > div:last-child {
+                font-size: 1.3rem;
+            }
+
+            .ulat-senaryo {
+                font-size: 0.85rem;
+                padding: 10px;
+                min-height: 45px;
+            }
+
+            .larawan-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 6px;
+            }
+
+            .larawan-item {
+                padding: 6px;
+                min-height: 50px;
+                border-radius: 12px;
+            }
+
+            .larawan-item img { 
+                max-height: 45px;
+            }
+
+            .yugto-kard {
+                padding: 8px 6px;
+                border-radius: 15px;
+            }
+
+            .yugto-kard div {
+                font-size: 0.85rem;
+            }
+
+            .step-indicator {
+                font-size: 0.65rem;
+                padding: 4px 6px;
+            }
+
+            .map-container h1 {
+                font-size: 1.2rem;
+            }
+
+            .map-container p {
+                font-size: 0.85rem;
+            }
+
+            .btn-magpatuloy {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+        }
+
+        /* Touch improvements for mobile */
+        @media (hover: none) {
+            .yugto-kard:hover:not(.disabled):not(.selected) {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .larawan-item:hover:not(.tama):not(.shake) {
+                transform: none;
+                border-color: #f0f0f0;
+                box-shadow: none;
+            }
+
+            .larawan-grid.highlight-select .larawan-item:active:not(.tama):not(.shake) {
+                transform: scale(0.92);
+                border-color: var(--ap-green);
+                box-shadow: 0 2px 10px rgba(46, 125, 50, 0.2);
+            }
+        }
+
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            .larawan-item, .yugto-kard, .btn-simula, .btn-magpatuloy {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            }
         }
     </style>
 @endpush
@@ -363,25 +734,25 @@
 @section('content')
 <div id="instruksyonOverlay">
     <div class="kard-instruksyon">
-        <h1 style="color: var(--ap-brown); font-weight: 800; font-size: 2.5rem; margin-bottom: 0;">BALIK-ARAL</h1>
-        <p style="margin-top: 0; color: var(--ap-gold); font-weight: 600;">OPERASYON: KALAMIDAD</p>
+        <h1>BALIK-ARAL</h1>
+        <p>OPERASYON: KALAMIDAD</p>
         
         <div class="gabay-listahan">
-            <strong>Gabay sa Paglalaro:</strong><br>
-            1. **Basahin** ang ulat sa gitna ng screen.<br>
-            2. **Piliin ang Yugto** (Bago, Habang, o Pagkatapos) sa kaliwa.<br>
-            3. **I-click ang Larawan** na tugma sa yugto at ulat.<br>
-            4. Kumpletuhin ang lahat ng misyon sa sarili mong bilis.
+            <strong>📋 Gabay sa Paglalaro:</strong>
+            1. 📖 Basahin ang ulat sa gitna ng screen.<br>
+            2. 🎯 Piliin ang Yugto (Bago, Habang, o Pagkatapos) sa kaliwa.<br>
+            3. 🖼️ I-click ang Larawan na tugma sa yugto at ulat.<br>
+            4. ✅ Kumpletuhin ang lahat ng misyon sa sarili mong bilis.
         </div>
 
-        <button class="btn-simula" onclick="simulanAngLaro()">MAGSIMULA</button>
+        <button class="btn-simula" onclick="simulanAngLaro()">🚀 MAGSIMULA</button>
     </div>
 </div>
 
 <div class="hud-container" id="gameUI">
     <div class="hud-header">
         <div>
-            <h2 style="margin:0; font-weight: 800;">Ligtas-Kalamidad Command</h2>
+            <h2>🏛️ Ligtas-Kalamidad Command</h2>
             <span id="gabayTeksto" style="color: var(--ap-gold); font-weight: 600;">Step 1: Piliin ang Yugto...</span>
         </div>
         <div style="text-align: right;">
@@ -397,15 +768,15 @@
             </div>
             
             <div class="yugto-kard" onclick="piliinAngYugto('before', this)" id="y-before">
-                <div style="font-size: 1.4rem;">BAGO</div>
+                <div>⏳ BAGO</div>
                 <small>Paghahanda</small>
             </div>
             <div class="yugto-kard" onclick="piliinAngYugto('during', this)" id="y-during">
-                <div style="font-size: 1.4rem;">HABANG</div>
+                <div>⚡ HABANG</div>
                 <small>Pagtugon</small>
             </div>
             <div class="yugto-kard" onclick="piliinAngYugto('after', this)" id="y-after">
-                <div style="font-size: 1.4rem;">PAGKATAPOS</div>
+                <div>🔄 PAGKATAPOS</div>
                 <small>Pagbangon</small>
             </div>
         </div>
@@ -423,7 +794,7 @@
                     ['p' => 'after', 'img' => 'mod4_suriinkuryente.png']
                 ] as $item)
                     <div class="larawan-item" onclick="suriinAngSagot('{{ $item['p'] }}', this)">
-                        <img src="{{ asset('pictures/'.$item['img']) }}">
+                        <img src="{{ asset('pictures/'.$item['img']) }}" alt="Scenario image">
                     </div>
                 @endforeach
             </div>
@@ -433,13 +804,13 @@
 
 <div id="modalPagtatapos">
     <div class="map-container">
-        <h1 style="font-weight: 800; color: var(--ap-brown);">MISYON TAPOS!</h1>
-        <p style="font-weight: 600; margin-bottom: 20px;">Nagtagumpay ka sa pag-aaral ng kahandaan.</p>
+        <h1>🎉 MISYON TAPOS!</h1>
+        <p>Nagtagumpay ka sa pag-aaral ng kahandaan.</p>
         
-        <img src="{{ asset('pictures/mod4_innermap.png') }}" class="inner-map-preview">
+        <img src="{{ asset('pictures/mod4_innermap.png') }}" class="inner-map-preview" alt="Module 4 Map">
         
         <a href="{{ route('module4.welcome') }}" class="btn-magpatuloy">
-            Magpatuloy sa Susunod ➔
+            ➡️ Magpatuloy sa Susunod
         </a>
     </div>
 </div>
@@ -472,6 +843,11 @@
         simulaOras = new Date();
         mgaSenaryo.sort(() => Math.random() - 0.5);
         loadLevel();
+        
+        // Scroll to game on mobile
+        setTimeout(() => {
+            document.getElementById('gameUI').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     }
 
     function loadLevel() {
@@ -483,6 +859,11 @@
             resetAll();
             showStep1();
             document.getElementById('puntosValue').innerText = puntos + " / 6";
+            
+            // Scroll to top of game on mobile for each level
+            if (window.innerWidth <= 768) {
+                document.querySelector('.game-body').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         } else {
             tapusin();
         }

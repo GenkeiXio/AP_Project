@@ -36,11 +36,8 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.3);
-            /* Adjust 0.3 (30%) to make it darker/lighter */
             z-index: 1;
-            /* Sits between BG image and Nodes */
             pointer-events: none;
-            /* Allows clicks to pass through to buttons below */
         }
 
         .background-map {
@@ -59,6 +56,7 @@
             cursor: pointer;
             overflow: visible;
             z-index: 2;
+            transition: transform 0.2s ease;
         }
 
         /* IMAGE */
@@ -70,9 +68,17 @@
             z-index: 2;
         }
 
-        /* ❌ REMOVE HOVER MOVEMENT */
-        .node:hover {
+        /* Individual hover rules to preserve positioning */
+        .node-top-left:hover,
+        .node-top-right:hover,
+        .node-mid-left:hover,
+        .node-mid-right:hover {
             transform: scale(1.1);
+        }
+
+        /* ✅ FIX: Bottom-center hover preserves translateX */
+        .node-bottom-center:hover {
+            transform: translateX(-50%) scale(1.1);
         }
 
         .node,
@@ -162,33 +168,29 @@
 
         /* Adjusted for corner placement */
         .node-top-left {
-            top: 15%;
-            left: 20%;
-        }
-
-        .node-top-left {
-            top: 15vh;
-            left: 15vw;
+            top: 12vh;
+            left: 12vw;
         }
 
         .node-top-right {
-            top: 15vh;
-            right: 15vw;
+            top: 12vh;
+            right: 12vw;
         }
 
         .node-mid-left {
-            top: 45vh;
+            top: 38vh;
             left: 10vw;
         }
 
         .node-mid-right {
-            top: 45vh;
+            top: 38vh;
             right: 10vw;
         }
 
+        /* ✅ MOVED NODE 5 (MAYON) FURTHER DOWN */
         .node-bottom-center {
-            top: 70vh;
-            left: 50vw;
+            bottom: 2%;
+            left: 50%;
             transform: translateX(-50%);
         }
 
@@ -216,6 +218,13 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 100;
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .final-key:hover {
+            transform: scale(1.05);
         }
 
         /* MODAL BACKDROP */
@@ -261,6 +270,11 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .modal-btn:hover {
+            background: #4a8a3d;
         }
 
         /* CLOSE BUTTON */
@@ -272,9 +286,14 @@
             background: none;
             font-size: 18px;
             cursor: pointer;
+            color: #666;
         }
 
-        /* ===== MOBILE RESPONSIVE FIX (SAFE) ===== */
+        .modal-close:hover {
+            color: #000;
+        }
+
+        /* ===== MOBILE RESPONSIVE FIX ===== */
         @media (max-width: 768px) {
 
             /* ✅ Allow scrolling on mobile */
@@ -295,25 +314,37 @@
                 height: 180px;
             }
 
-            /* ✅ Reposition nodes (avoid overlap) */
+            /* ✅ Reposition nodes */
             .node-top-left {
-                top: 18%;
-                left: 10%;
+                top: 16%;
+                left: 8%;
             }
 
             .node-top-right {
-                top: 18%;
-                right: 10%;
+                top: 16%;
+                right: 8%;
             }
 
-            .node-bottom-left {
-                top: 65%;
-                left: 10%;
+            .node-mid-left {
+                top: 40%;
+                left: 6%;
             }
 
-            .node-bottom-right {
-                top: 65%;
-                right: 10%;
+            .node-mid-right {
+                top: 40%;
+                right: 6%;
+            }
+
+            /* ✅ Node 5 further down on mobile */
+            .node-bottom-center {
+                bottom: 3%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            /* ✅ Fix hover for mobile */
+            .node-bottom-center:hover {
+                transform: translateX(-50%) scale(1.1);
             }
 
             /* ✅ Lock icon smaller */
@@ -356,20 +387,68 @@
             }
         }
 
-        .node-mid-left {
-            top: 40%;
-            left: 15%;
-        }
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .node {
+                width: 100px;
+                height: 72px;
+            }
 
-        .node-mid-right {
-            top: 40%;
-            right: 15%;
-        }
+            .center-node {
+                width: 180px;
+                height: 125px;
+            }
 
-        .node-bottom-center {
-            bottom: 10%;
-            left: 50%;
-            transform: translateX(-50%);
+            .lock-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+
+            .node-top-left {
+                top: 18%;
+                left: 4%;
+            }
+
+            .node-top-right {
+                top: 18%;
+                right: 4%;
+            }
+
+            .node-mid-left {
+                top: 42%;
+                left: 2%;
+            }
+
+            .node-mid-right {
+                top: 42%;
+                right: 2%;
+            }
+
+            /* ✅ Node 5 at the very bottom on extra small */
+            .node-bottom-center {
+                bottom: 2%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .node-bottom-center:hover {
+                transform: translateX(-50%) scale(1.1);
+            }
+
+            .back-button {
+                top: 60px;
+                left: 5px;
+                padding: 5px 8px;
+                font-size: 11px;
+            }
+
+            .final-key {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 11px;
+            }
         }
     </style>
 @endpush
@@ -407,30 +486,30 @@
             <img src="{{ asset('pictures/mod4_center_node.png') }}">
         </div>
 
-        <!-- NODE 1 -->
+        <!-- NODE 1 - Typhoon (Top Left) -->
         <a href="{{ route('module4.node1') }}" class="node node-top-left">
             <img src="{{ asset('pictures/mod4_typhoon_node.png') }}">
         </a>
 
-        <!-- NODE 2 -->
+        <!-- NODE 2 - Baha (Top Right) -->
         <button class="node node-top-right locked" id="node2" onclick="goNode2()">
             <img src="{{ asset('pictures/mod4_baha_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
-        <!-- NODE 3 -->
+        <!-- NODE 3 - Lindol (Mid Left) -->
         <button class="node node-mid-left locked" id="node3" onclick="goNode3()">
             <img src="{{ asset('pictures/mod4_lindol_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
-        <!-- NODE 4 -->
+        <!-- NODE 4 - Landslide (Mid Right) -->
         <button class="node node-mid-right locked" id="node4" onclick="goNode4()">
             <img src="{{ asset('pictures/mod4_landslide_node.png') }}">
             <span class="lock-icon">🔒</span>
         </button>
 
-        <!-- NODE 5 -->
+        <!-- NODE 5 - Mayon (Bottom Center - MOVED FURTHER DOWN) -->
         <button class="node node-bottom-center locked" id="node5" onclick="goNode5()">
             <img src="{{ asset('pictures/mod4_mayon_node.png') }}">
             <span class="lock-icon">🔒</span>
@@ -456,7 +535,7 @@
             const node5 = document.getElementById("node5");
             const finalBtn = document.getElementById("final-key");
 
-            // ✅ NOW 5 NODES
+            // ✅ 5 NODES
             const nodes = [
                 "node1_done",
                 "node2_done",
@@ -499,6 +578,7 @@
 
         /* LOCK */
         function lockNode(node) {
+            if (!node) return;
             node.classList.add("locked");
             if (!node.querySelector(".lock-icon")) {
                 const lock = document.createElement("span");
@@ -510,8 +590,10 @@
 
         /* UNLOCK */
         function unlockNode(node) {
+            if (!node) return;
             node.classList.remove("locked");
-            node.querySelector(".lock-icon")?.remove();
+            const lockIcon = node.querySelector(".lock-icon");
+            if (lockIcon) lockIcon.remove();
         }
 
         /* PROGRESS MODAL CONTROLS */
@@ -563,6 +645,9 @@
             window.location.href = "{{ route('module4.alamin') }}";
         }
 
-        window.onload = updateMapProgress;
+        // Run on load
+        window.onload = function() {
+            updateMapProgress();
+        };
     </script>
 @endsection

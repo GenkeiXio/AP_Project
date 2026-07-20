@@ -1005,6 +1005,14 @@
                 });
             }
 
+            // Get responsive hint text
+            function getHintText() {
+                const isMobile = window.innerWidth <= 992;
+                return isMobile 
+                    ? '<i class="fas fa-hand-pointer"></i> I-tap ang tamang kategorya sa itaas' 
+                    : '<i class="fas fa-hand-pointer"></i> I-tap ang tamang kategorya sa kaliwa';
+            }
+
             // Render description card
             function renderDescription(index) {
                 if (!gameActive) return;
@@ -1029,7 +1037,7 @@
                         ${headerImageHtml}
                         <div class="description-text">${statement.text}</div>
                         <div class="description-hint">
-                            <i class="fas fa-hand-pointer"></i> I-tap ang tamang kategorya sa kaliwa
+                            ${getHintText()}
                         </div>
                     </div>
                 `;
@@ -1096,6 +1104,20 @@
             if (resetBtn) {
                 resetBtn.addEventListener('click', resetGame);
             }
+
+            // Add resize listener for responsive hint
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    if (gameActive && currentIndex < shuffledStatements.length) {
+                        const hintElement = document.querySelector('.description-hint');
+                        if (hintElement) {
+                            hintElement.innerHTML = getHintText();
+                        }
+                    }
+                }, 250);
+            });
 
             // Initialize game
             resetGame();
