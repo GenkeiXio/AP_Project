@@ -193,10 +193,15 @@
 
 		.source-modal-card {
 			width: min(940px, 100%);
+			max-width: 100%;
 			background: #fff;
 			border-radius: 14px;
-			border: 2px solid #b8cfb6;
+			border: none;
 			padding: 10px;
+			max-height: 90vh;
+			display: flex;
+			flex-direction: column;
+			box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 		}
 
 		.source-modal-head {
@@ -205,6 +210,7 @@
 			align-items: center;
 			gap: 10px;
 			margin-bottom: 8px;
+			flex-shrink: 0;
 		}
 
 		.source-modal-title {
@@ -223,22 +229,105 @@
 			color: #285438;
 		}
 
-		.source-modal-frame {
+		.source-modal-frame-wrapper {
 			width: 100%;
-			height: min(72vh, 600px);
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			flex: 1;
+			min-height: 400px;
+			overflow: hidden;
+		}
+
+		.source-modal-frame-container {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			min-height: 400px;
+			max-height: 65vh;
+			background: #f0f2f5;
+			border-radius: 0;
+			padding: 0;
+			overflow: auto;
+			flex: 1;
 			border: none;
-			border-radius: 10px;
+		}
+
+		.source-modal-frame-container iframe {
+			max-width: 552px;
+			width: 100%;
+			border: none;
+			border-radius: 0;
+			box-shadow: none;
+			min-height: 800px;
+			height: 800px;
+			display: block;
+			margin: 0 auto;
+			padding: 0;
+			background: #f0f2f5;
+			flex-shrink: 0;
 		}
 
 		.source-modal-tip {
 			font-size: 0.76rem;
 			color: #4a6b52;
 			margin-top: 6px;
+			text-align: center;
+			flex-shrink: 0;
+			padding: 4px 0;
+		}
+
+		/* Hide the iframe border and any extra spacing */
+		iframe {
+			border: none !important;
+			outline: none !important;
+		}
+
+		/* Custom scrollbar for the container */
+		.source-modal-frame-container::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		.source-modal-frame-container::-webkit-scrollbar-track {
+			background: #e0e0e0;
+			border-radius: 4px;
+		}
+
+		.source-modal-frame-container::-webkit-scrollbar-thumb {
+			background: #4caf50;
+			border-radius: 4px;
+		}
+
+		.source-modal-frame-container::-webkit-scrollbar-thumb:hover {
+			background: #2e7d32;
 		}
 
 		@media (max-width: 960px) {
 			.local-grid {
 				grid-template-columns: 1fr;
+			}
+			
+			.source-modal-frame-container iframe {
+				min-height: 700px;
+				height: 700px;
+			}
+		}
+
+		@media (max-width: 600px) {
+			.source-modal-frame-container iframe {
+				min-height: 600px;
+				height: 600px;
+				max-width: 100%;
+			}
+			
+			.source-modal-card {
+				padding: 8px;
+			}
+			
+			.source-modal-frame-container {
+				max-height: 55vh;
+				min-height: 300px;
 			}
 		}
 
@@ -318,12 +407,12 @@
 
 		<div class="local-grid">
 			<article class="source-card">
-				<div class="source-title">📹 Local Example Video (Facebook Reel)</div>
+				<div class="source-title">📹 Baha sa kahabaan ng Brgy. Rawis, Legazpi City.</div>
 				<div class="source-preview">
 					<div class="preview-icon">🎬</div>
 					<div class="preview-text">Panoorin ang video tungkol sa solid waste management sa Albay</div>
 				</div>
-				<button class="source-link source-open" type="button" data-title="Local Example Video" data-embed="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=true">
+				<button class="source-link source-open" type="button" data-title="Brigada News FM Legaspi" data-embed="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847766111132161&show_text=true&width=500">
 					<span class="btn-icon">▶️</span> Panoorin ang Video
 				</button>
 			</article>
@@ -334,7 +423,7 @@
 					<div class="preview-icon">📰</div>
 					<div class="preview-text">Balita at impormasyon tungkol sa tumitinding pagbaha sa Albay</div>
 				</div>
-				<button class="source-link source-open" type="button" data-title="Pagbabaha sa Albay" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=true">
+				<button class="source-link source-open" type="button" data-title="Pagbabaha sa Albay" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1216101583895678%26set%3Dpcb.1216104043895432&show_text=true&width=500">
 					<span class="btn-icon">📖</span> Basahin ang Post
 				</button>
 			</article>
@@ -343,16 +432,16 @@
 				<div class="source-title">🗑️ Mga Basura sa may Dike ng Pawa, Legazpi</div>
 				<div class="source-preview">
 					<div class="preview-icon">⚠️</div>
-					<div class="preview-text">Dokumentasyon ng problema sa  basura sa Pawa</div>
+					<div class="preview-text">Dokumentasyon ng problema sa basura sa Pawa</div>
 				</div>
-				<button class="source-link source-open" type="button" data-title="Mga Basura sa may Dike ng Pawa, Legazpi" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D939689839020670%26set%3Da.105820365740959%26type%3D3&show_text=true&width=500" width="500" height="773" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+				<button class="source-link source-open" type="button" data-title="Mga Basura sa may Dike ng Pawa, Legazpi" data-embed="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D939689839020670%26set%3Da.105820365740959%26type%3D3&show_text=true&width=500">
 					<span class="btn-icon">📋</span> Tingnan ang Post
 				</button>
 			</article>
 		</div>
 
 		<div class="start-wrap">
-			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Simulan ang Activity 🚀</a>
+			<a class="start-btn" href="{{ route('node1.solid-waste.activity') }}">Simulan ang Gawain 🚀</a>
 		</div>
 		
 	<!-- </section> -->
@@ -362,10 +451,12 @@
 		<div class="source-modal-card">
 			<div class="source-modal-head">
 				<div class="source-modal-title" id="sourceModalTitle">Source Viewer</div>
-				<button type="button" class="source-modal-close" id="sourceModalClose">Isara ✕</button>
+				<button type="button" class="source-modal-close" id="sourceModalClose">✕</button>
 			</div>
-			<iframe id="sourceModalFrame" class="source-modal-frame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-			<div class="source-modal-tip">Nasa loob lang ng system ang source viewer; walang external redirect.</div>
+			<div class="source-modal-frame-container" id="sourceModalFrameContainer">
+				<iframe id="sourceModalFrame" class="source-modal-frame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+			</div>
+			<div class="source-modal-tip">💡 Maaaring i-scroll ang post para makita ang buong nilalaman.</div>
 		</div>
 	</div>
 
@@ -375,12 +466,76 @@
 		const sourceModalFrame = document.getElementById('sourceModalFrame');
 		const sourceModalTitle = document.getElementById('sourceModalTitle');
 		const sourceModalClose = document.getElementById('sourceModalClose');
+		const sourceModalFrameContainer = document.getElementById('sourceModalFrameContainer');
 
 		function openSourceModal(title, embedUrl) {
 			sourceModalTitle.textContent = title;
-			sourceModalFrame.src = embedUrl;
+			
+			const frame = sourceModalFrame;
+			
+			// Set iframe to be tall enough to show full content
+			frame.style.width = '100%';
+			frame.style.maxWidth = '552px';
+			frame.style.height = '800px';
+			frame.style.minHeight = '800px';
+			frame.style.border = 'none';
+			frame.style.borderRadius = '0';
+			frame.style.display = 'block';
+			frame.style.margin = '0 auto';
+			frame.style.padding = '0';
+			frame.style.background = '#f0f2f5';
+			frame.style.boxShadow = 'none';
+			frame.style.outline = 'none';
+			frame.style.flexShrink = '0';
+			
+			// Container - with overflow auto to enable scrolling
+			sourceModalFrameContainer.style.width = '100%';
+			sourceModalFrameContainer.style.height = '100%';
+			sourceModalFrameContainer.style.minHeight = '400px';
+			sourceModalFrameContainer.style.maxHeight = '65vh';
+			sourceModalFrameContainer.style.display = 'flex';
+			sourceModalFrameContainer.style.justifyContent = 'center';
+			sourceModalFrameContainer.style.alignItems = 'flex-start';
+			sourceModalFrameContainer.style.background = '#f0f2f5';
+			sourceModalFrameContainer.style.borderRadius = '0';
+			sourceModalFrameContainer.style.padding = '0';
+			sourceModalFrameContainer.style.overflow = 'auto';
+			sourceModalFrameContainer.style.flex = '1';
+			sourceModalFrameContainer.style.border = 'none';
+			
+			// For Facebook posts
+			if (embedUrl.includes('facebook.com/plugins/post.php')) {
+				if (!embedUrl.includes('width=')) {
+					embedUrl += '&width=500';
+				}
+				frame.style.maxWidth = '552px';
+				frame.style.width = '100%';
+				frame.style.height = '800px';
+				frame.style.minHeight = '800px';
+			}
+			
+			// For Facebook videos
+			if (embedUrl.includes('facebook.com/plugins/video.php')) {
+				if (!embedUrl.includes('width=')) {
+					embedUrl += '&width=500';
+				}
+				frame.style.maxWidth = '552px';
+				frame.style.width = '100%';
+				frame.style.height = '500px';
+				frame.style.minHeight = '500px';
+			}
+			
+			// Set the src
+			frame.src = embedUrl;
+			
 			sourceModal.classList.add('show');
 			sourceModal.setAttribute('aria-hidden', 'false');
+			
+			// Reset scroll position to top
+			sourceModalFrameContainer.scrollTop = 0;
+			
+			// Focus the modal for keyboard accessibility
+			sourceModal.focus();
 		}
 
 		function closeSourceModal() {

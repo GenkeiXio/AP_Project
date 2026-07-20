@@ -114,11 +114,21 @@
 		line-height: 1.1;
 	}
 
-	.pretest-header p {
+	.pretest-header .pretest-instruction {
 		color: var(--muted);
 		font-weight: 700;
 		margin-top: 6px;
 		font-size: 0.94rem;
+		transition: opacity 0.3s ease, max-height 0.3s ease;
+		overflow: hidden;
+		max-height: 50px;
+	}
+
+	.pretest-header .pretest-instruction.hidden {
+		opacity: 0;
+		max-height: 0;
+		margin: 0;
+		padding: 0;
 	}
 
 	.quiz-page {
@@ -484,11 +494,9 @@
 		margin-top: 4px;
 	}
 
+	/* HIDE result-feedback completely */
 	.result-feedback {
-		margin-top: 6px;
-		font-size: 0.9rem;
-		font-weight: 800;
-		color: #6f5538;
+		display: none !important;
 	}
 
 	.badge-pill {
@@ -793,7 +801,7 @@
 				<div class="header-icons">🧭 🗺️ ✨</div>
 				<div class="subtitle">Module 2</div>
 				<h1>PAUNANG PAGSUSULIT</h1>
-				<p>Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
+				<p class="pretest-instruction" id="pretestInstruction">Panuto: Basahin at suriin ang bawat sitwasyon. Piliin ang titik ng pinakaangkop na sagot.</p>
 			</div>
 
 			<!-- Last Score Display (shown when no attempts left) -->
@@ -846,7 +854,7 @@
 						</div>
 						<div class="result-score" id="resultScoreText"></div>
 						<div class="badge-pill" id="resultBadge">🌟 Mahusay!</div>
-						<div class="result-feedback" id="resultFeedback"></div>
+						<!-- result-feedback is completely removed -->
 						<div class="result-interpretation" id="resultInterpretation">Interpretasyon ng Iskor: 0–5 → Kailangan ng gabay, 6–10 → May kaalaman, 11–15 → Handa</div>
 
 						<div class="retry-indicator" id="retryIndicator">
@@ -854,7 +862,7 @@
 						</div>
 
 						<div class="result-actions">
-							<button type="button" class="btn-secondary" id="retryBtn" onclick="restartQuiz()">Ulitin ang Paunang Pagsusulit</button>
+							<button type="button" class="btn-secondary" id="retryBtn" onclick="restartQuiz()">Ulitin</button>
 							<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 						</div>
 					</div>
@@ -1029,6 +1037,7 @@
 	const submitBtn = document.getElementById('submitBtn');
 	const confirmBtn = document.getElementById('confirmBtn');
 	const actionRow = document.getElementById('actionRow');
+	const pretestInstruction = document.getElementById('pretestInstruction');
 
 	const selectedAnswers = Array(questions.length).fill('');
 	const confirmedAnswers = Array(questions.length).fill(false);
@@ -1198,7 +1207,7 @@
 				if (selectedValue === item.answer) {
 					feedbackHtml = `<div class="reaction-box correct show">✅ Tama!</div>`;
 				} else {
-					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Tamang sagot: ${item.answer.toUpperCase()}</div>`;
+					feedbackHtml = `<div class="reaction-box gentle show">❌ Mali. Ang Tamang sagot ay ${item.answer.toUpperCase()}</div>`;
 				}
 			}
 
@@ -1371,21 +1380,24 @@
 				
 				updateRetryIndicator();
 				
+				// HIDE the instruction
+				if (pretestInstruction) {
+					pretestInstruction.classList.add('hidden');
+				}
+				
 				// Show result
 				const resultRing = document.getElementById('resultRing');
 				const resultPercent = document.getElementById('resultPercent');
 				const resultScoreText = document.getElementById('resultScoreText');
 				const resultBadge = document.getElementById('resultBadge');
-				const resultFeedback = document.getElementById('resultFeedback');
 
 				const level = getFeedbackByScore(score);
 
 				animateResultRing(resultRing, percentage);
 				resultPercent.textContent = `${score}/${questions.length}`;
-				resultScoreText.textContent = `Nakuha mo ang ${score} sa ${questions.length}`;
+				resultScoreText.textContent = `Nakakuha ka ng ${score} sa ${questions.length} tanong`;
 				resultBadge.textContent = level.badge;
-				resultFeedback.textContent = level.feedback;
-				document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} points)`;
+				document.getElementById('resultInterpretation').textContent = `Interpretasyon: ${level.interpretation} (${score} puntos)`;
 
 				quizPage.style.display = 'none';
 				resultPage.classList.add('show');
@@ -1505,6 +1517,11 @@
 				currentCard = 0;
 				
 				shuffleQuestionsAndChoices();
+
+				// Show instruction again when restarting
+				if (pretestInstruction) {
+					pretestInstruction.classList.remove('hidden');
+				}
 
 				resultPage.classList.remove('show');
 				quizPage.style.display = 'block';

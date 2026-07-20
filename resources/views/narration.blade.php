@@ -343,7 +343,6 @@
 
 <body>
 
-<a href="{{ route('home') }}" class="back-button">⬅️ Bumalik</a>
 <span class="deco deco-2">🦋</span>
 <span class="deco deco-3">🌸</span>
 <span class="deco deco-4">🗺️</span>
@@ -370,7 +369,7 @@
     <div class="vn-controls">
         <button id="nextBtn" class="vn-btn" onclick="nextPage()">Susunod ▶</button>
         <button id="startBtn" class="vn-btn" style="display:none;" onclick="proceedToModule()">
-            Magpatuloy sa Mapa ng Albay 🚀
+            Magpatuloy🚀
         </button>
     </div>
 </div>
@@ -383,7 +382,7 @@
 <script>
 
 const pages = [
-`Sa harap ng patuloy na pagdanas ng Pilipinas ng iba’t ibang kalamidad tulad ng bagyo, lindol, baha, at pagputok ng bulkan, mahalagang maunawaan ng bawat mag-aaral ang kahalagahan ng kahandaan, disiplina, at kooperasyon sa pagtugon sa mga hamong pangkapaligiran.`,
+`Sa gitna ng patuloy na pagharap ng Pilipinas ng iba’t ibang kalamidad tulad ng bagyo, lindol, baha, at pagputok ng bulkan, mahalagang maunawaan ng bawat mag-aaral ang kahalagahan ng kahandaan, disiplina, at kooperasyon sa pagtugon sa mga hamong pangkapaligiran.`,
 
 `Ang interactive instructional material na ito ay idinisenyo upang gawing mas makabuluhan, masigla, at mas malalim ang pagkatuto sa pamamagitan ng mga sitwasyong batay sa tunay na pangyayari, pagsusuri ng sanhi at epekto, at pagbuo ng angkop na plano ng pagtugon.`,
 
