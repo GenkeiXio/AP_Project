@@ -15,16 +15,38 @@ class StudentAuthController extends Controller
         $request->validate([
             'username' => 'required|string|max:50|regex:/^[a-zA-Z0-9_\s]+$/',
             'password' => 'required|string|min:6|max:60',
-        ], [
-            'username.required' => 'Pakiusap ilagay ang iyong username.',
-            'username.regex'    => 'Ang username ay maaari lamang maglaman ng mga letra, numero, at underscore.',
-            'password.required' => 'Pakiusap ilagay ang iyong password.',
-            'password.min'      => 'Ang password ay dapat may hindi bababa sa 6 na karakter.',
         ]);
 
         $username = trim($request->username);
         $student  = Student::where('username', $username)->first();
 
+        // Check if this is an AJAX request
+        if ($request->expectsJson()) {
+            if (!$student || !$student->password || !Hash::check($request->password, $student->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Maling username o password. Kung bago ka, magrehistro muna.'
+                ], 401);
+            }
+
+            $student->update(['last_played' => now()]);
+            Session::put('student_id', $student->id);
+            Session::put('student_username', $student->username);
+
+            if (!$student->avatar) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('student.select-character')
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'redirect' => route('narration')
+            ]);
+        }
+
+        // Regular form submission
         if (!$student || !$student->password || !Hash::check($request->password, $student->password)) {
             return redirect()->back()->withInput($request->only('username'))->withErrors([
                 'auth' => 'Maling username o password. Kung bago ka, magrehistro muna.',
@@ -32,10 +54,9 @@ class StudentAuthController extends Controller
         }
 
         $student->update(['last_played' => now()]);
-        Session::put('student_id',       $student->id);
+        Session::put('student_id', $student->id);
         Session::put('student_username', $student->username);
 
-        // New accounts have no avatar yet send them to character selection
         if (!$student->avatar) {
             return redirect()->route('student.select-character');
         }

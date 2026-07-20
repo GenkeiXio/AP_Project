@@ -172,13 +172,13 @@
 
     /* --- FIX: GREEN BUTTON --- */
     .btn-primary {
-        background: #28a745 !important; /* GREEN */
+        background: #28a745 !important;
         border: none;
         border-radius: 60px;
         padding: 10px 20px;
         font-weight: 700;
         font-size: 1rem;
-        color: #fff !important; /* white text on green */
+        color: #fff !important;
         cursor: pointer;
         transition: 0.2s;
         width: 100%;
@@ -192,7 +192,7 @@
 
     /* --- FIX: FOOTER HINT TEXT COLOR (BLACK) --- */
     .footer-hint {
-        color: #000000 !important; /* BLACK */
+        color: #000000 !important;
         font-size: 0.9rem;
         text-align: center;
     }
@@ -200,7 +200,7 @@
     /* --- FIX: TIGHTEN INPUT AND BUTTON SPACING --- */
     .input-wrap {
         width: 100%;
-        margin: 8px 0 4px 0 !important; /* reduced spacing */
+        margin: 8px 0 4px 0 !important;
     }
     .input-wrap input {
         width: 100%;
@@ -221,6 +221,35 @@
         font-size: 0.8rem;
         margin-top: 2px;
         min-height: 16px;
+    }
+
+    /* --- ENHANCED ERROR MESSAGE STYLES --- */
+    .error-message.show {
+        display: block !important;
+        animation: shake 0.4s ease-in-out;
+        background: #fde8e8 !important;
+        color: #b33c1f !important;
+        padding: 10px 16px !important;
+        border-radius: 12px !important;
+        margin-bottom: 12px !important;
+        font-weight: 600 !important;
+        border-left: 4px solid #b33c1f !important;
+        box-shadow: 0 2px 8px rgba(179, 60, 31, 0.15) !important;
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-8px); }
+        40% { transform: translateX(8px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+    }
+
+    #formSubmitError {
+        min-height: 20px;
+        transition: all 0.3s ease;
     }
 
     .username-availability {
@@ -626,7 +655,12 @@
                         <h2 id="authTitle">Mag-login o Magrehistro</h2>
                         <p id="authSubtitle">Gumamit ng username at password para makapasok at magpatuloy.</p>
 
-                        @if ($errors->any())
+                        <!-- UPDATED ERROR DISPLAY SECTION -->
+                        @if ($errors->has('auth'))
+                            <div id="formSubmitError" class="error-message show">
+                                {{ $errors->first('auth') }}
+                            </div>
+                        @elseif ($errors->any())
                             <div id="formSubmitError" class="error-message show">
                                 {{ $errors->first() }}
                             </div>
@@ -772,6 +806,7 @@
     <audio id="bgMusic" loop>
         <source src="/audio/home-bg-music.mp3" type="audio/mpeg">
     </audio>
+    
     <!-- JS -->
     <script src="{{ asset('js/home.js') }}?v={{ filemtime(public_path('js/home.js')) }}"></script>
     <script>
@@ -781,12 +816,10 @@
             const loginUrl    = '{{ route("student.login") }}';
             const registerUrl = '{{ route("student.register") }}';
 
-            // --- 1. Fix form action + disable inactive inputs on tab switch ---
             function applyMode(mode) {
                 form.action  = mode === 'register' ? registerUrl : loginUrl;
                 authMode.value = mode;
 
-                // Disable inputs in the HIDDEN panel so they don't get submitted
                 document.querySelectorAll('.auth-panel.login-panel input').forEach(i => {
                     i.disabled = mode === 'register';
                 });
@@ -795,8 +828,6 @@
                 });
             }
 
-            // Patch the existing tab buttons (home.js already handles visual toggle,
-            // we just piggyback on the same clicks)
             document.querySelectorAll('.auth-switch button').forEach(btn => {
                 btn.addEventListener('click', function () {
                     applyMode(this.dataset.mode);
@@ -806,7 +837,6 @@
             const initialMode = '{{ old("auth_mode", "login") }}';
             applyMode(initialMode);
 
-            // If returning with register errors, switch the tab visually too
             if (initialMode === 'register') {
                 document.querySelectorAll('.auth-switch button').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.mode === 'register');
@@ -829,7 +859,6 @@
                         usernameInput.value = '{{ session("registered_username") }}';
                     }
 
-                    // Switch to login tab
                     applyMode('login');
                     document.querySelectorAll('.auth-switch button').forEach(btn => {
                         btn.classList.toggle('active', btn.dataset.mode === 'login');
@@ -839,6 +868,13 @@
                     });
                 });
             @endif
+
+            // --- FIX: Display error message on page load ---
+            const errorDiv = document.getElementById('formSubmitError');
+            if (errorDiv && errorDiv.textContent.trim()) {
+                errorDiv.classList.add('show');
+            }
+
         })();
 
         function closeRegSuccessModal() {
@@ -846,6 +882,121 @@
             const pw = document.getElementById('passwordInput');
             if (pw) pw.focus();
         }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('formSubmitError');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.classList.add('show');
+            }
+        }
+
+        function hideError() {
+            const errorDiv = document.getElementById('formSubmitError');
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+                errorDiv.textContent = '';
+            }
+        }
+
+        // --- FIX: Clear error when clicking on username or password inputs ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameInput = document.getElementById('usernameInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const errorDiv = document.getElementById('formSubmitError');
+
+            // Clear error and empty password when username input is clicked/focused
+            usernameInput.addEventListener('focus', function() {
+                hideError();
+                // Empty the password field for security
+                if (passwordInput) {
+                    passwordInput.value = '';
+                }
+            });
+
+            // Clear error and empty password when password input is clicked/focused
+            passwordInput.addEventListener('focus', function() {
+                hideError();
+                // Empty the password field for security
+                if (passwordInput) {
+                    passwordInput.value = '';
+                }
+            });
+
+            // Also clear error when typing in username
+            usernameInput.addEventListener('input', function() {
+                hideError();
+            });
+
+            // Also clear error when typing in password
+            passwordInput.addEventListener('input', function() {
+                hideError();
+            });
+
+            // --- Handle form submission with AJAX ---
+            const form = document.getElementById('studentForm');
+            
+            form.addEventListener('submit', function(e) {
+                const authMode = document.getElementById('authMode').value;
+                
+                // Only intercept login submissions
+                if (authMode === 'register') {
+                    return;
+                }
+                
+                e.preventDefault();
+                
+                const username = document.getElementById('usernameInput').value;
+                const password = document.getElementById('passwordInput').value;
+                
+                // Clear previous errors
+                hideError();
+                
+                if (!username || !password) {
+                    showError('Pakiusap ilagay ang iyong username at password.');
+                    return;
+                }
+                
+                // Disable button to prevent double submission
+                const submitBtn = document.getElementById('startBtn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Loading...';
+                
+                // Send AJAX request
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        auth_mode: authMode
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Mag-login';
+                    
+                    if (data.success) {
+                        window.location.href = data.redirect;
+                    } else {
+                        showError(data.message || 'Maling username o password. Kung bago ka, magrehistro muna.');
+                        // Empty password for security
+                        passwordInput.value = '';
+                    }
+                })
+                .catch(error => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Mag-login';
+                    // If AJAX fails, submit the form normally
+                    form.submit();
+                });
+            });
+        });
     </script>
 </body>
 </html>
