@@ -2,23 +2,29 @@
 <html lang="fil">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katibayan ng Pagmamay-Ari ng Lupa at Bahay</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
 
         body {
             font-family: 'Crimson Text', Georgia, serif;
-            background: #f0f4e8;
+            background: #e8edf0;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
 
         .certificate-wrapper {
-            width: 680px;
+            width: 720px;
+            max-width: 100%;
             background: linear-gradient(160deg, #e8f4e2 0%, #d4ecd0 30%, #c8e8f8 70%, #b8e0f8 100%);
             border-radius: 18px;
             padding: 6px;
@@ -44,7 +50,7 @@
             position: absolute;
             bottom: 0; left: 0; right: 0;
             height: 45%;
-            background: linear-gradient(180deg, #c8e8a0 0%, #a8d878 100%);
+            background: linear-gradient(180deg, #c8e8a0 0%, #8bc34a 60%, #689f38 100%);
             z-index: 0;
             border-radius: 0 0 15px 15px;
         }
@@ -69,15 +75,15 @@
         .republic-header {
             text-align: center;
             font-family: 'Crimson Text', serif;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: #2a5c8a;
-            margin-bottom: 6px;
+            color: #1a4a7a;
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
         }
 
-        /* Philippine flag emoji area */
         .flag-icon {
             font-size: 22px;
             vertical-align: middle;
@@ -87,27 +93,28 @@
         /* Main title */
         .main-title {
             text-align: center;
-            margin: 8px 0 4px;
+            margin: 6px 0 4px;
         }
 
         .main-title .line1 {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 900;
             color: #c0392b;
-            text-shadow: 2px 2px 0 rgba(255,255,255,0.8), 0 1px 4px rgba(0,0,0,0.15);
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.8), 0 2px 8px rgba(192,57,43,0.15);
             display: block;
             letter-spacing: 1px;
         }
 
         .main-title .line2 {
             font-family: 'Playfair Display', serif;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             color: #c0392b;
             text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
             display: block;
             letter-spacing: 0.5px;
+            margin-top: -2px;
         }
 
         /* House illustration area */
@@ -115,21 +122,22 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            margin: 10px 0 0;
+            margin: 8px 0 0;
             gap: 20px;
         }
 
         .house-svg {
-            width: 150px;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+            width: 160px;
+            max-width: 100%;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.15));
         }
 
         /* White content card */
         .content-card {
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255, 255, 255, 0.88);
             border-radius: 14px;
-            padding: 20px 26px 22px;
-            margin-top: 14px;
+            padding: 22px 28px 24px;
+            margin-top: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             backdrop-filter: blur(6px);
             border: 1.5px solid rgba(255,255,255,0.9);
@@ -137,47 +145,56 @@
 
         .certify-text {
             text-align: center;
-            font-size: 15px;
+            font-size: 16px;
             color: #3a3a3a;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             font-style: italic;
         }
 
         .name-field {
-            border-bottom: 2px solid #2a5c8a;
-            width: 75%;
-            margin: 0 auto 4px;
-            min-height: 28px;
+            border-bottom: 3px solid #1a4a7a;
+            width: 80%;
+            margin: 0 auto 2px;
+            min-height: 32px;
             display: block;
             text-align: center;
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             color: #1a3a5c;
             font-family: 'Playfair Display', serif;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 0 0 4px 4px;
         }
 
         .name-label {
             text-align: center;
             font-size: 12px;
-            color: #555;
+            color: #666;
             font-style: italic;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
         }
 
         .description-text {
-            font-size: 13.5px;
+            font-size: 14px;
             color: #333;
             text-align: center;
-            line-height: 1.65;
+            line-height: 1.7;
             margin-bottom: 14px;
+            padding: 0 4px;
+        }
+
+        .description-text strong {
+            color: #1a4a7a;
         }
 
         /* Details box */
         .details-box {
-            background: rgba(240, 255, 240, 0.85);
-            border: 1.5px solid #7dc87d;
+            background: linear-gradient(135deg, rgba(240, 255, 240, 0.9), rgba(220, 255, 220, 0.8));
+            border: 2px solid #66bb6a;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 12px 18px;
             margin-bottom: 12px;
         }
 
@@ -185,33 +202,35 @@
             font-weight: 700;
             font-size: 14px;
             color: #2e7d32;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .details-title .icon { font-size: 16px; }
+        .details-title .icon { font-size: 18px; }
 
         .detail-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-size: 13.5px;
             color: #333;
-            margin-bottom: 5px;
+            padding: 2px 0;
         }
 
         .check-icon {
             color: #27ae60;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
         }
 
         /* Location box */
         .location-box {
-            background: rgba(255, 248, 220, 0.85);
-            border: 1.5px solid #f0b942;
+            background: linear-gradient(135deg, rgba(255, 248, 220, 0.9), rgba(255, 243, 200, 0.8));
+            border: 2px solid #f0b942;
             border-radius: 10px;
             padding: 10px 16px;
             margin-bottom: 14px;
@@ -219,50 +238,50 @@
             color: #5a3e00;
             display: flex;
             align-items: flex-start;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .location-icon { font-size: 18px; margin-top: 1px; }
+        .location-icon { font-size: 20px; margin-top: 1px; }
 
         /* Date & Signature section */
         .date-sig-section {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            gap: 12px;
+            gap: 16px;
         }
 
-        .date-field-group {
+        .date-field-group,
+        .sig-field-group {
             flex: 1;
         }
 
         .field-label {
             font-size: 12px;
             color: #555;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             display: flex;
             align-items: center;
             gap: 5px;
+            font-weight: 600;
         }
 
         .field-label .icon { font-size: 14px; }
 
         .field-line {
-            border-bottom: 1.5px solid #2a5c8a;
+            border-bottom: 2px solid #1a4a7a;
             width: 100%;
-            min-height: 24px;
+            min-height: 28px;
             display: block;
-        }
-
-        .sig-field-group {
-            flex: 1;
+            background: rgba(255,255,255,0.2);
+            border-radius: 0 0 4px 4px;
         }
 
         .sig-label {
-            font-size: 11.5px;
-            color: #555;
+            font-size: 11px;
+            color: #666;
             text-align: center;
-            margin-top: 3px;
+            margin-top: 2px;
             font-style: italic;
         }
 
@@ -271,82 +290,355 @@
             margin-top: 16px;
             text-align: center;
             background: linear-gradient(135deg, #fff9e6, #fff3cc);
-            border-radius: 10px;
-            padding: 12px 16px;
-            border: 1.5px solid #f0c040;
-            box-shadow: 0 2px 8px rgba(240,180,0,0.12);
+            border-radius: 12px;
+            padding: 14px 20px;
+            border: 2px solid #f0c040;
+            box-shadow: 0 2px 12px rgba(240,180,0,0.12);
         }
 
         .congrats-title {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 700;
             color: #b8860b;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .congrats-text {
-            font-size: 13px;
+            font-size: 13.5px;
             color: #5a4000;
-            line-height: 1.55;
+            line-height: 1.6;
             font-style: italic;
         }
 
         /* Decorative corner houses/icons */
         .deco-tl, .deco-tr {
             position: absolute;
-            top: 18px;
-            font-size: 36px;
+            top: 16px;
+            font-size: 32px;
             z-index: 4;
-            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.15));
+            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.1));
+            opacity: 0.8;
         }
-        .deco-tl { left: 22px; }
-        .deco-tr { right: 22px; }
+        .deco-tl { left: 18px; }
+        .deco-tr { right: 18px; }
 
         /* Clouds */
         .cloud {
             position: absolute;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.75);
             border-radius: 50px;
             z-index: 1;
+            box-shadow: 0 2px 10px rgba(255,255,255,0.3);
         }
-        .cloud-1 { width: 70px; height: 22px; top: 52px; left: 40px; }
+        .cloud-1 { 
+            width: 80px; 
+            height: 24px; 
+            top: 50px; 
+            left: 35px; 
+        }
         .cloud-1::before {
             content: '';
             position: absolute;
-            width: 35px; height: 35px;
+            width: 40px; 
+            height: 40px;
+            background: rgba(255,255,255,0.75);
+            border-radius: 50%;
+            top: -18px; 
+            left: 10px;
+        }
+        .cloud-1::after {
+            content: '';
+            position: absolute;
+            width: 28px; 
+            height: 28px;
             background: rgba(255,255,255,0.7);
             border-radius: 50%;
-            top: -15px; left: 10px;
+            top: -12px; 
+            left: 40px;
         }
-        .cloud-2 { width: 55px; height: 18px; top: 44px; right: 55px; }
+        .cloud-2 { 
+            width: 60px; 
+            height: 20px; 
+            top: 42px; 
+            right: 45px; 
+        }
         .cloud-2::before {
             content: '';
             position: absolute;
-            width: 28px; height: 28px;
+            width: 32px; 
+            height: 32px;
+            background: rgba(255,255,255,0.75);
+            border-radius: 50%;
+            top: -14px; 
+            left: 8px;
+        }
+        .cloud-2::after {
+            content: '';
+            position: absolute;
+            width: 22px; 
+            height: 22px;
             background: rgba(255,255,255,0.7);
             border-radius: 50%;
-            top: -12px; left: 8px;
+            top: -10px; 
+            left: 32px;
         }
 
         /* Keys decoration */
         .keys-deco {
             position: absolute;
-            bottom: 22px;
-            right: 28px;
-            font-size: 32px;
+            bottom: 18px;
+            right: 24px;
+            font-size: 30px;
             z-index: 4;
-            opacity: 0.7;
-            transform: rotate(-20deg);
+            opacity: 0.6;
+            transform: rotate(-15deg);
         }
 
         /* Scroll decoration */
         .scroll-deco {
             position: absolute;
-            bottom: 20px;
-            left: 28px;
-            font-size: 30px;
+            bottom: 16px;
+            left: 24px;
+            font-size: 28px;
             z-index: 4;
-            opacity: 0.7;
+            opacity: 0.6;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .certificate-wrapper {
+                width: 100%;
+                border-radius: 12px;
+                padding: 4px;
+            }
+
+            .certificate {
+                padding: 20px 20px 24px;
+            }
+
+            .main-title .line1 {
+                font-size: 24px;
+            }
+
+            .main-title .line2 {
+                font-size: 18px;
+            }
+
+            .house-svg {
+                width: 130px;
+            }
+
+            .content-card {
+                padding: 16px 18px 18px;
+            }
+
+            .name-field {
+                font-size: 20px;
+                min-height: 28px;
+                width: 85%;
+            }
+
+            .description-text {
+                font-size: 13px;
+            }
+
+            .details-box {
+                padding: 10px 14px;
+            }
+
+            .detail-item {
+                font-size: 12.5px;
+            }
+
+            .location-box {
+                font-size: 12.5px;
+                padding: 8px 14px;
+            }
+
+            .date-sig-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .congrats-footer {
+                padding: 12px 16px;
+            }
+
+            .congrats-title {
+                font-size: 16px;
+            }
+
+            .congrats-text {
+                font-size: 12.5px;
+            }
+
+            .deco-tl, .deco-tr {
+                font-size: 24px;
+                top: 12px;
+            }
+            .deco-tl { left: 12px; }
+            .deco-tr { right: 12px; }
+
+            .cloud-1 {
+                width: 60px;
+                height: 18px;
+                top: 38px;
+                left: 25px;
+            }
+            .cloud-1::before {
+                width: 30px;
+                height: 30px;
+                top: -14px;
+                left: 8px;
+            }
+            .cloud-1::after {
+                width: 20px;
+                height: 20px;
+                top: -10px;
+                left: 30px;
+            }
+            .cloud-2 {
+                width: 45px;
+                height: 16px;
+                top: 32px;
+                right: 30px;
+            }
+            .cloud-2::before {
+                width: 24px;
+                height: 24px;
+                top: -10px;
+                left: 6px;
+            }
+            .cloud-2::after {
+                width: 16px;
+                height: 16px;
+                top: -8px;
+                left: 24px;
+            }
+
+            .keys-deco {
+                font-size: 22px;
+                bottom: 12px;
+                right: 16px;
+            }
+            .scroll-deco {
+                font-size: 20px;
+                bottom: 12px;
+                left: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .certificate {
+                padding: 14px 12px 18px;
+            }
+
+            .main-title .line1 {
+                font-size: 20px;
+            }
+
+            .main-title .line2 {
+                font-size: 15px;
+            }
+
+            .house-svg {
+                width: 100px;
+            }
+
+            .content-card {
+                padding: 12px 14px 14px;
+                border-radius: 10px;
+            }
+
+            .republic-header {
+                font-size: 11px;
+                letter-spacing: 1.5px;
+            }
+
+            .name-field {
+                font-size: 18px;
+                min-height: 24px;
+                width: 90%;
+            }
+
+            .certify-text {
+                font-size: 14px;
+            }
+
+            .description-text {
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .details-title {
+                font-size: 13px;
+            }
+            .detail-item {
+                font-size: 11.5px;
+            }
+            .location-box {
+                font-size: 11.5px;
+            }
+
+            .field-label {
+                font-size: 11px;
+            }
+            .field-line {
+                min-height: 22px;
+            }
+
+            .congrats-title {
+                font-size: 14px;
+            }
+            .congrats-text {
+                font-size: 11.5px;
+            }
+
+            .deco-tl, .deco-tr {
+                font-size: 18px;
+                top: 8px;
+            }
+            .deco-tl { left: 8px; }
+            .deco-tr { right: 8px; }
+
+            .cloud-1 {
+                display: none;
+            }
+            .cloud-2 {
+                display: none;
+            }
+
+            .keys-deco {
+                font-size: 18px;
+                bottom: 8px;
+                right: 10px;
+            }
+            .scroll-deco {
+                font-size: 16px;
+                bottom: 8px;
+                left: 10px;
+            }
+
+            .border-frame {
+                top: 4px; left: 4px; right: 4px; bottom: 4px;
+                border-width: 2px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .certificate-wrapper {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 0;
+            }
+            .certificate {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -381,7 +673,7 @@
 
             <!-- House Illustration (SVG) -->
             <div class="house-section">
-                <svg class="house-svg" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                <svg class="house-svg" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="House illustration">
                     <!-- Sky background -->
                     <rect width="200" height="160" fill="none"/>
                     <!-- Sun -->
@@ -430,13 +722,13 @@
 
                 <p class="certify-text">Ito ay nagpapatunay na si:</p>
 
-                <div class="name-field">{{ $name ?? '' }}</div>
+                <div class="name-field">{{ $name ?? '____________________________' }}</div>
                 <p class="name-label">(Pangalan ng Mag-aaral)</p>
 
                 <p class="description-text">
                     Ay opisyal na may-ari ng isang matibay at ligtas na bahay
-                    na kanyang <strong>pinaghirapan</strong> at himo sa pamamagitan ng
-                    tamang pagpaplanong matalinoong pagpapalago ng gantimpala.
+                    na kanyang <strong>pinaghirapan</strong> at itinayo sa pamamagitan ng
+                    tamang pagpaplano at matalinong pagpapalago ng gantimpala.
                 </p>
 
                 <!-- Details Box -->
@@ -451,11 +743,11 @@
                     </div>
                     <div class="detail-item">
                         <span class="check-icon">✓</span>
-                        <span>Kaligtasan</span>
+                        <span>Kaligtasan at Seguridad</span>
                     </div>
                     <div class="detail-item">
                         <span class="check-icon">✓</span>
-                        <span>Katatagan</span>
+                        <span>Katatagan at Tibay</span>
                     </div>
                 </div>
 
@@ -475,15 +767,15 @@
                             <span class="icon">📅</span>
                             <span>Petsa ng Pagkakaloob:</span>
                         </div>
-                        <div class="field-line">{{ $date ?? '' }}</div>
+                        <div class="field-line">{{ $date ?? '________________________' }}</div>
                     </div>
                     <div class="sig-field-group">
                         <div class="field-label">
                             <span class="icon">✍️</span>
-                            <span>Pirmatagay ni:</span>
+                            <span>Pirmado ni:</span>
                         </div>
-                        <div class="field-line">{{ $signature ?? '' }}</div>
-                        <div class="sig-label">(Guro / Tagapamuhala)</div>
+                        <div class="field-line">{{ $signature ?? '________________________' }}</div>
+                        <div class="sig-label">(Guro / Tagapamahala)</div>
                     </div>
                 </div>
 
@@ -494,7 +786,7 @@
                 <div class="congrats-title">🌟 Pagbati!</div>
                 <div class="congrats-text">
                     Ikaw ay isang responsableng tagapagplano at handa sa
-                    pagbuo ng isang matibay at tahanan.
+                    pagbuo ng isang matibay at ligtas na tahanan.
                 </div>
             </div>
 

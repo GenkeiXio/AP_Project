@@ -489,3 +489,18 @@ Route::prefix('student/module4')->group(function () {
     Route::get('/pretest/check', [Module4PretestController::class, 'checkAttempts'])
         ->name('student.module4.pretest.check');
 });
+
+// Module 4 Posttest Routes
+Route::prefix('module4')->group(function () {
+    // Submit posttest results
+    Route::post('/posttest/submit', [Module4PosttestController::class, 'submit'])
+        ->name('module4.posttest.submit');
+    
+    // Check exam status (can take exam or not)
+    Route::get('/posttest/status', [Module4PosttestController::class, 'getExamStatus'])
+        ->name('module4.posttest.status');
+    
+    // Get highest score only
+    Route::get('/posttest/highest-score', [Module4PosttestController::class, 'getHighestScore'])
+        ->name('module4.posttest.highest-score');
+});
