@@ -123,38 +123,117 @@
         box-shadow: 0 6px 16px rgba(54, 87, 47, 0.08);
     }
 
-    .hero {
-        display: grid;
-        grid-template-columns: 1.1fr .9fr;
-        gap: 16px;
-        padding: 8px 18px 16px;
-        align-items: stretch;
+    .hero-side-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 24px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #f7e5c4, #ebd1a6);
+        border: 2px solid #d4b88a;
+        color: #5a4121;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 8px 18px rgba(90, 65, 33, 0.12);
+        font-family: "Baloo 2", cursive;
     }
 
-    .hero-main,
-    .hero-side,
-    .panel {
-        background: var(--panel);
-        border: 1px solid rgba(168, 203, 167, 0.58);
-        border-radius: 24px;
-        box-shadow: 0 12px 24px rgba(65, 103, 59, 0.08);
-        position: relative;
+    .hero-side-trigger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(90, 65, 33, 0.2);
+        background: linear-gradient(180deg, #f7e5c4, #e5c99a);
+    }
+
+    /* ===== INTRO MODAL OVERLAY ===== */
+    .intro-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s ease, opacity 0.3s ease;
+        padding: 20px;
+    }
+
+    .intro-modal-overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .intro-modal-container {
+        background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+        max-width: 800px;
+        width: 100%;
+        border-radius: 30px;
+        border: 2px solid rgba(125, 173, 123, 0.45);
+        box-shadow: 0 30px 60px rgba(32, 58, 34, 0.3);
         overflow: hidden;
+        transform: scale(0.95) translateY(20px);
+        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        padding: 0;
     }
 
-    .hero-main {
-        padding: 22px;
-        min-height: 260px;
+    .intro-modal-overlay.active .intro-modal-container {
+        transform: scale(1) translateY(0);
     }
 
-    .intro-layout {
+    .intro-modal-body {
+        padding: 30px 35px 35px;
+        position: relative;
+    }
+
+    .intro-modal-body::after {
+        content: "🌳";
+        position: absolute;
+        right: 25px;
+        top: 20px;
+        font-size: 4rem;
+        opacity: .08;
+    }
+
+    .intro-modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: rgba(200, 220, 190, 0.6);
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        border-radius: 50px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        color: #3d694b;
+        transition: all 0.2s ease;
+        z-index: 5;
+    }
+
+    .intro-modal-close:hover {
+        background: rgba(180, 200, 170, 0.8);
+        transform: rotate(90deg);
+    }
+
+    .intro-modal-layout {
         display: grid;
         grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
         align-items: start;
-        gap: 20px;
+        gap: 25px;
     }
 
-    .intro-illustration {
+    .intro-modal-illustration {
         width: min(180px, 100%);
         max-width: 220px;
         object-fit: contain;
@@ -162,94 +241,146 @@
         justify-self: center;
     }
 
-    .intro-narration {
+    .intro-modal-narration {
         text-align: left;
         width: 100%;
     }
 
-    .intro-actions {
-        justify-content: flex-start;
-        margin-top: 12px;
-        width: fit-content;
-    }
-
-    .intro-narration .actions {
-        justify-content: flex-start;
-    }
-
-    .hero-main::after {
-        content: "🌳";
-        position: absolute;
-        right: 18px;
-        top: 14px;
-        font-size: 4rem;
-        opacity: .11;
-    }
-
-    .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: linear-gradient(180deg, #245e3b, #1f4f32);
-        color: #f5fff7;
-        padding: 8px 14px;
-        border-radius: 999px;
-        font-size: .78rem;
-        font-weight: 900;
-        letter-spacing: .06em;
-        text-transform: uppercase;
-        box-shadow: 0 10px 18px rgba(31, 79, 50, 0.18);
-    }
-
-    .hero-title {
-        margin: 14px 0 10px;
-        font-family: "Baloo 2", cursive;
-        font-size: clamp(2rem, 4vw, 3.4rem);
-        line-height: .95;
-        color: #23482d;
-    }
-
-    .hero-title span {
-        display: inline-block;
-        color: #c77e13;
-        text-shadow: 0 3px 0 rgba(255, 214, 138, .35);
-    }
-
-    .hero-copy {
-        margin: 0;
-        color: var(--muted);
-        font-size: 1rem;
-        line-height: 1.6;
-        max-width: 60ch;
-    }
-
-    .hero-side {
-        padding: 18px;
-        display: grid;
+    .intro-modal-actions {
+        display: flex;
         gap: 12px;
-        align-content: start;
+        margin-top: 18px;
+        flex-wrap: wrap;
     }
 
-    .quest-card {
-        padding: 14px 14px 16px;
-        border-radius: 20px;
-        background: rgba(255,255,255,0.84);
-        border: 1px solid #d8ead4;
-        position: relative;
+    .intro-modal-actions .btn {
+        border: none;
+        border-radius: 16px;
+        padding: 12px 28px;
+        font-weight: 800;
+        font-size: .9rem;
+        cursor: pointer;
+        transition: transform .18s ease, box-shadow .18s ease;
     }
 
-    .quest-card h3 {
-        margin: 0 0 10px;
-        font-size: .95rem;
-        color: #31523d;
+    .intro-modal-actions .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 20px rgba(34, 59, 33, .14);
     }
 
-    .quest-card p {
+    .intro-modal-actions .btn-primary {
+        background: linear-gradient(180deg, #89d95f, #59ab44);
+        color: #103620;
+    }
+
+    /* ===== INSTRUCTION MODAL ===== */
+    .instruction-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s ease, opacity 0.3s ease;
+        padding: 20px;
+    }
+
+    .instruction-modal-overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .instruction-modal-container {
+        background: linear-gradient(180deg, #ffffff, #f9fef7);
+        max-width: 520px;
+        width: 100%;
+        border-radius: 28px;
+        border: 2px solid rgba(125, 173, 123, 0.45);
+        box-shadow: 0 30px 60px rgba(32, 58, 34, 0.3);
+        overflow: hidden;
+        transform: scale(0.95) translateY(20px);
+        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .instruction-modal-overlay.active .instruction-modal-container {
+        transform: scale(1) translateY(0);
+    }
+
+    .instruction-modal-header {
+        padding: 20px 24px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid #e2f0dc;
+    }
+
+    .instruction-modal-title {
+        font-family: "Baloo 2", cursive;
+        font-size: 1.5rem;
         margin: 0;
-        font-size: .88rem;
-        line-height: 1.5;
-        color: #577060;
-        font-weight: 700;
+        color: #2b5938;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .instruction-modal-close {
+        background: rgba(200, 220, 190, 0.6);
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        border-radius: 50px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        color: #3d694b;
+        transition: all 0.2s ease;
+    }
+
+    .instruction-modal-close:hover {
+        background: rgba(180, 200, 170, 0.8);
+        transform: rotate(90deg);
+    }
+
+    .instruction-modal-body {
+        padding: 20px 24px 28px;
+    }
+
+    .instruction-card {
+        background: #f4fcf0;
+        border-left: 6px solid #8bc97c;
+        border-radius: 16px;
+        padding: 16px 18px;
+        margin-bottom: 14px;
+    }
+
+    .instruction-card h4 {
+        margin: 0 0 6px 0;
+        color: #2b5938;
+        font-size: 1rem;
+        font-weight: 900;
+    }
+
+    .instruction-card p {
+        margin: 0;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        color: #4a6a53;
+        font-weight: 600;
+    }
+
+    .instruction-card:last-child {
+        margin-bottom: 0;
     }
 
     .mission-grid {
@@ -261,6 +392,12 @@
 
     .panel {
         padding: 18px;
+        background: var(--panel);
+        border: 1px solid rgba(168, 203, 167, 0.58);
+        border-radius: 24px;
+        box-shadow: 0 12px 24px rgba(65, 103, 59, 0.08);
+        position: relative;
+        overflow: hidden;
     }
 
     .board-header {
@@ -355,9 +492,6 @@
         cursor: pointer;
     }
 
-    /* Socket / port dot at the top of each zone — this is what the
-       connecting line visually plugs into, so the two ends read as one
-       continuous connector instead of a line floating near a box. */
     .drop-zone::before {
         content: '';
         position: absolute;
@@ -473,7 +607,6 @@
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Connection Point (Circle) on the card */
     .connection-point {
         position: absolute;
         bottom: -14px;
@@ -509,7 +642,6 @@
         transform: translateX(-50%) scale(1.15);
     }
 
-    /* SVG Line Container */
     .line-svg-container {
         position: absolute;
         top: -20px;
@@ -554,7 +686,6 @@
         filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4));
     }
 
-    /* Line end point (circle at zone) */
     .line-end-point {
         fill: #7cae6a;
         r: 8;
@@ -766,7 +897,7 @@
         transform: translateY(-2px);
     }
 
-    /* ===== MODAL ===== */
+    /* ===== COMPLETION MODAL ===== */
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -898,7 +1029,6 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1080px) {
-        .hero,
         .mission-grid { grid-template-columns: 1fr; }
         .drop-zone { min-height: 120px; }
     }
@@ -917,10 +1047,6 @@
             font-size: 1.5rem;
         }
         .drop-zone { min-height: 100px; }
-        .hero { padding: 8px 12px 16px; }
-        .hero-main { padding: 16px; }
-        .intro-layout { grid-template-columns: 100px 1fr; gap: 12px; }
-        .intro-illustration { max-width: 100px; }
         .page { padding: 10px; }
         .deck-area .drag-item { max-width: 100%; }
         .deck-area { padding: 16px; }
@@ -933,14 +1059,44 @@
         .active-card-wrapper .drag-item { max-width: 100%; }
         .line-svg-container { display: none; }
         .connection-point { display: none; }
+        .intro-modal-layout {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        .intro-modal-illustration {
+            max-width: 120px;
+            margin: 0 auto;
+        }
+        .intro-modal-narration {
+            text-align: center;
+        }
+        .intro-modal-actions {
+            justify-content: center;
+        }
+        .intro-modal-body {
+            padding: 20px;
+        }
+        .intro-modal-body::after {
+            display: none;
+        }
+        .hero-side-trigger {
+            width: 100%;
+            justify-content: center;
+        }
+        .xp-rack {
+            flex: 1;
+            justify-content: flex-end;
+        }
     }
 
     @media (max-width: 420px) {
-        .intro-layout { grid-template-columns: 80px 1fr; gap: 10px; }
-        .intro-illustration { max-width: 80px; }
         .drop-zone { min-height: 80px; }
         .deck-area .deck-label { font-size: 0.75rem; }
         .deck-area .deck-counter { font-size: 0.75rem; padding: 3px 10px; }
+        .intro-modal-illustration { max-width: 90px; }
+        .intro-modal-body { padding: 16px; }
+        .instruction-modal-container { max-width: 100%; }
+        .instruction-modal-body { padding: 16px; }
         .line-svg-container { display: none; }
         .connection-point { display: none; }
     }
@@ -955,38 +1111,12 @@
                 <a class="back-link" href="{{ route('node2') }}">⬅ Bumalik</a>
                 <div class="xp-rack">
                     <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
+                    <button class="hero-side-trigger" id="instructionTrigger">❓ Gabay</button>
                 </div>
             </div>
 
-            <!-- INTRO SECTION -->
-            <section class="hero" id="introStage">
-                <div class="hero-main intro-layout">
-                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-illustration">
-                    <div class="intro-narration">
-                        <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
-                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Deforestation <span>Quest</span></h1>
-                        <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
-                        <div class="actions intro-actions" style="margin-left:0;">
-                            <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
-                        </div>
-                    </div>
-                </div>
-
-                <aside class="hero-side" style="margin-top:10px;">
-                    <div class="quest-card">
-                        <h3>🎯 Layunin</h3>
-                        <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng deforestation.</p>
-                    </div>
-
-                    <div class="quest-card">
-                        <h3>📌 Paalala</h3>
-                        <p>I-tap na lang ang tamang kahon — Sanhi, Bunga, o Solusyon — kung saan dapat ilagay ang larawan.</p>
-                    </div>
-                </aside>
-            </section>
-
             <!-- GAME SECTION -->
-            <section class="mission-grid" id="gameStage" style="display:none;">
+            <section class="mission-grid">
                 <div class="panel">
                     <div class="board-header">
                         <h2 class="board-title">Deforestation Quest</h2>
@@ -1091,7 +1221,47 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- INTRO MODAL -->
+    <div class="intro-modal-overlay" id="introModal">
+        <div class="intro-modal-container">
+            <button class="intro-modal-close" id="introModalClose">✕</button>
+            <div class="intro-modal-body">
+                <div class="intro-modal-layout">
+                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-modal-illustration">
+                    <div class="intro-modal-narration">
+                        <div class="eyebrow" style="display:inline-flex; margin-bottom:8px;">🌍 Interaktibong Gawain</div>
+                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem); margin-top:6px;">Deforestation <span>Quest</span></h1>
+                        <p class="hero-copy" id="introText" style="margin:0; max-width:100%;"></p>
+                        <div class="intro-modal-actions">
+                            <button class="btn btn-primary" type="button" id="introStartBtn">Simulan ang Gawain 🚀</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSTRUCTION MODAL (Gabay) -->
+    <div class="instruction-modal-overlay" id="instructionModal">
+        <div class="instruction-modal-container">
+            <div class="instruction-modal-header">
+                <div class="instruction-modal-title">❓ Gabay sa Gawain</div>
+                <button class="instruction-modal-close" id="instructionModalClose">✕</button>
+            </div>
+            <div class="instruction-modal-body">
+                <div class="instruction-card">
+                    <h4>🎯 Layunin</h4>
+                    <p>Tukuyin ang tamang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng deforestation.</p>
+                </div>
+                <div class="instruction-card">
+                    <h4>📌 Paalala</h4>
+                    <p>I-tap na lang ang tamang kahon — Sanhi, Bunga, o Solusyon — kung saan dapat ilagay ang larawan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPLETION MODAL -->
     <div id="completionModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
@@ -1114,10 +1284,19 @@
 
     <script>
         (function() {
-            const introStage = document.getElementById('introStage');
-            const gameStage = document.getElementById('gameStage');
+            // === Intro Modal Elements ===
+            const introModal = document.getElementById('introModal');
+            const introModalClose = document.getElementById('introModalClose');
+            const introStartBtn = document.getElementById('introStartBtn');
             const introText = document.getElementById('introText');
-            const introNextBtn = document.getElementById('introNextBtn');
+
+            // === Instruction Modal Elements ===
+            const instructionModal = document.getElementById('instructionModal');
+            const instructionTrigger = document.getElementById('instructionTrigger');
+            const instructionModalClose = document.getElementById('instructionModalClose');
+
+            // === Game Elements ===
+            const gameStage = document.getElementById('gameStage');
             const activeImageCard = document.getElementById('activeImageCard');
             const activeTextCard = document.getElementById('activeTextCard');
             const activeCardImg = document.getElementById('activeCardImg');
@@ -1133,12 +1312,11 @@
             const confettiLayer = document.getElementById('confettiLayer');
             const errorAudio = document.getElementById('errorAudio');
 
-            // Modal elements
+            // Completion Modal
             const completionModal = document.getElementById('completionModal');
             const modalFeedbackText = document.getElementById('modalFeedbackText');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
-            // Audio
             const nodeCompleteSfx = new Audio('/audio/nodecomplete.mp3');
 
             let completedRecords = [];
@@ -1148,6 +1326,7 @@
             let isProcessing = false;
             let placedItems = [];
             let selectedCard = null;
+            let isGameStarted = false;
 
             const lines = [
                 'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa deforestation o pagkakalbo ng kagubatan.',
@@ -1192,7 +1371,7 @@
                 if (e.target === completionModal) closeModal();
             });
 
-            function typeLine(text) {
+            function typeLine(text, callback) {
                 if (typingTimer) {
                     clearInterval(typingTimer);
                     typingTimer = null;
@@ -1206,6 +1385,7 @@
                     } else {
                         clearInterval(typingTimer);
                         typingTimer = null;
+                        if (callback) callback();
                     }
                 }, 18);
             }
@@ -1240,10 +1420,6 @@
                     activeTextCard.dataset.zone = item.zone;
                 }
 
-                // The active card is always the one "selected" one — no tap
-                // needed. Highlight the empty zones and start the connection
-                // point pulsing right away so the player can just point at a
-                // zone.
                 selectedCard = item;
                 activeCardWrapper.classList.add('selected');
                 dropZones.forEach(z => {
@@ -1256,24 +1432,9 @@
                 hideLine();
             }
 
-            // ===== LINE DRAWING FUNCTIONS - FIXED ALIGNMENT =====
-            // Both the card's connection point and each zone's center must be
-            // measured against the SAME reference element as the <svg> itself,
-            // which is #cardWithLine (the svg is absolutely positioned inside it
-            // with top:0; left:0; width:100%; height:100%). Measuring against
-            // #flowLayout instead — as the previous version did — put every
-            // coordinate off by the offset between flowLayout's and
-            // cardWithLine's bounding boxes, which is why the line never lined
-            // up with the card or the zone it was supposedly pointing at.
             function getCardConnectionPoint() {
                 const containerRect = cardWithLine.getBoundingClientRect();
-                // Use the circle's own rendered position rather than estimating
-                // it from the card's box — the circle is offset from the card
-                // by the wrapper's padding-bottom plus its own "bottom" offset,
-                // so guessing that math led the line to start below/above the
-                // actual dot. Reading its real rect guarantees a perfect match.
                 const dotRect = connectionPoint.getBoundingClientRect();
-
                 return {
                     x: (dotRect.left + dotRect.width / 2) - containerRect.left,
                     y: (dotRect.top + dotRect.height / 2) - containerRect.top
@@ -1283,10 +1444,6 @@
             function getZoneCenter(zoneElement) {
                 const containerRect = cardWithLine.getBoundingClientRect();
                 const zoneRect = zoneElement.getBoundingClientRect();
-
-                // Land on the zone's socket dot (top-center, see .drop-zone::before),
-                // not the middle of the box — that's what makes the line read as
-                // "plugged into" the zone rather than just pointing near it.
                 return {
                     x: (zoneRect.left + zoneRect.width / 2) - containerRect.left,
                     y: zoneRect.top - containerRect.top
@@ -1296,17 +1453,11 @@
             function drawLine(targetZone) {
                 const start = getCardConnectionPoint();
                 const end = getZoneCenter(targetZone);
-
-                // Straight line, start to end — from the connection-point
-                // circle on the card directly to the zone's socket.
                 const d = `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
-
                 connectionLine.setAttribute('d', d);
                 connectionLine.setAttribute('marker-end', 'url(#arrowDefault)');
                 connectionLine.classList.add('visible');
                 connectionLine.classList.remove('correct', 'wrong');
-
-                // Show end point at the zone
                 lineEndPoint.setAttribute('cx', end.x);
                 lineEndPoint.setAttribute('cy', end.y);
                 lineEndPoint.classList.add('visible');
@@ -1389,8 +1540,8 @@
                 placedItems = [];
                 isProcessing = false;
                 selectedCard = null;
+                isGameStarted = true;
 
-                // Clear all drop zones
                 dropZones.forEach(zone => {
                     zone.classList.remove('has-item', 'wrong-zone', 'correct-zone', 'highlight');
                     zone.innerHTML = `
@@ -1399,48 +1550,85 @@
                     `;
                 });
 
-                // Reset active card display
                 activeImageCard.style.display = 'flex';
                 activeTextCard.style.display = 'none';
                 activeCardWrapper.classList.remove('selected', 'shake-item');
 
-                // Shuffle items and update card
                 shuffleArray(items);
                 hideLine();
                 updateCard();
-
-                // Close modal if open
                 closeModal();
             }
 
-            // ===== INTRO =====
-            introNextBtn.addEventListener('click', () => {
-                if (lineIndex >= lines.length - 1) {
-                    introStage.style.display = 'none';
-                    gameStage.style.display = 'grid';
-                    resetGame();
-                    return;
+            function startGame() {
+                if (isGameStarted) return;
+                isGameStarted = true;
+                introModal.classList.remove('active');
+                initializeAndShuffleItems();
+                resetGame();
+            }
+
+            // === Intro Modal Events ===
+            function showIntroModal() {
+                introModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                let textIndex = 0;
+                typeLine(lines[textIndex], function() {
+                    let currentIndex = textIndex + 1;
+                    function typeNext() {
+                        if (currentIndex < lines.length) {
+                            typeLine(lines[currentIndex], function() {
+                                currentIndex++;
+                                if (currentIndex < lines.length) {
+                                    setTimeout(typeNext, 800);
+                                }
+                            });
+                        }
+                    }
+                    setTimeout(typeNext, 1000);
+                });
+            }
+
+            function closeIntroModal() {
+                introModal.classList.remove('active');
+                document.body.style.overflow = '';
+                if (typingTimer) {
+                    clearInterval(typingTimer);
+                    typingTimer = null;
                 }
-                lineIndex += 1;
-                typeLine(lines[lineIndex]);
-                if (lineIndex === lines.length - 1) {
-                    introNextBtn.textContent = 'Simulan ang Gawain';
-                }
+            }
+
+            introModalClose.addEventListener('click', closeIntroModal);
+            introStartBtn.addEventListener('click', startGame);
+            introModal.addEventListener('click', (e) => {
+                if (e.target === introModal) closeIntroModal();
             });
 
-            // ===== RESET =====
+            // === Instruction Modal Events ===
+            function openInstructionModal() {
+                instructionModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeInstructionModal() {
+                instructionModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            instructionTrigger.addEventListener('click', openInstructionModal);
+            instructionModalClose.addEventListener('click', closeInstructionModal);
+            instructionModal.addEventListener('click', (e) => {
+                if (e.target === instructionModal) closeInstructionModal();
+            });
+
+            // === Reset Button ===
             resetBtn.addEventListener('click', resetGame);
 
-            // ===== POINT TO MATCH: CARD IS ALWAYS SELECTED, JUST TAP/HOVER A ZONE =====
-            // (No click-to-select needed — updateCard() auto-selects the
-            // current card the moment it's shown.)
-
-            // Desktop: live-preview the connector as you move between zones,
-            // so the line always terminates on a real socket rather than
-            // floating in empty space.
+            // === Drop Zone Events ===
+            // Desktop: hover preview
             dropZones.forEach(zone => {
                 zone.addEventListener('mouseenter', () => {
-                    if (!selectedCard || isProcessing || zone.classList.contains('has-item')) return;
+                    if (!selectedCard || isProcessing || zone.classList.contains('has-item') || !isGameStarted) return;
                     dropZones.forEach(z => z.classList.remove('hover-target'));
                     zone.classList.add('hover-target');
                     drawLine(zone);
@@ -1468,11 +1656,11 @@
             // Click on drop zones to place the selected card
             dropZones.forEach(zone => {
                 zone.addEventListener('click', (e) => {
+                    if (!isGameStarted) return;
                     if (isProcessing) return;
                     if (itemIndex >= items.length) return;
                     if (zone.classList.contains('has-item')) return;
                     if (!selectedCard) {
-                        // If no card selected, prompt to select first
                         zone.classList.add('wrong-zone');
                         setTimeout(() => zone.classList.remove('wrong-zone'), 400);
                         return;
@@ -1481,16 +1669,13 @@
                     const current = items[itemIndex];
                     const droppedZone = zone.dataset.zone;
 
-                    // Draw line from card to this zone
                     drawLine(zone);
 
                     if (droppedZone === current.zone) {
-                        // Correct!
                         isProcessing = true;
                         zone.classList.add('correct-zone');
                         markLineCorrect();
 
-                        // Store data
                         let value = current.type === 'image'
                             ? current.src.replace(window.location.origin + '/', '')
                             : current.text;
@@ -1504,17 +1689,10 @@
                             };
                         }
 
-                        if (current.zone === 'cause') {
-                            completedRecords[0].sanhi = value;
-                        }
-                        if (current.zone === 'effect') {
-                            completedRecords[0].bunga = value;
-                        }
-                        if (current.zone === 'solution') {
-                            completedRecords[0].solusyon = value;
-                        }
+                        if (current.zone === 'cause') completedRecords[0].sanhi = value;
+                        if (current.zone === 'effect') completedRecords[0].bunga = value;
+                        if (current.zone === 'solution') completedRecords[0].solusyon = value;
 
-                        // Clone card into zone
                         const activeEl = getActiveElement();
                         const snapCard = activeEl.cloneNode(true);
                         snapCard.style.cursor = 'default';
@@ -1524,20 +1702,17 @@
                         zone.classList.add('has-item');
                         placedItems.push(current.zone);
 
-                        // Deselect and clear highlights
                         selectedCard = null;
                         activeCardWrapper.classList.remove('selected');
                         dropZones.forEach(z => z.classList.remove('highlight'));
                         connectionPoint.style.animation = '';
 
-                        // Move to next item
                         setTimeout(() => {
                             itemIndex += 1;
                             isProcessing = false;
 
                             if (itemIndex < items.length) {
                                 updateCard();
-                                // Check if all items are placed
                                 if (placedItems.length === 3) {
                                     sessionStorage.setItem('node2_done', 'true');
                                     nodeCompleteSfx.currentTime = 0;
@@ -1563,7 +1738,6 @@
                         }, 800);
 
                     } else {
-                        // Wrong!
                         isProcessing = true;
                         zone.classList.add('wrong-zone');
                         activeCardWrapper.classList.add('shake-item');
@@ -1574,17 +1748,13 @@
                             zone.classList.remove('wrong-zone');
                             activeCardWrapper.classList.remove('shake-item');
                             isProcessing = false;
-                            // Don't deselect the card, let user try again
-                            // But hide the line
                             hideLine();
                         }, 600);
                     }
                 });
             });
 
-
-            // Window resize handler: if a line is currently anchored to a
-            // hovered zone, redraw it against the zone's new position.
+            // Window resize handler
             let resizeTimeout = null;
             window.addEventListener('resize', () => {
                 const hoveredZone = dropZones.find(z => z.classList.contains('hover-target'));
@@ -1594,8 +1764,19 @@
                 }
             });
 
-            initializeAndShuffleItems();
-            typeLine(lines[0]);
+            // Keyboard shortcut: Escape to close modals
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (introModal.classList.contains('active')) closeIntroModal();
+                    if (instructionModal.classList.contains('active')) closeInstructionModal();
+                    if (completionModal.classList.contains('active')) closeModal();
+                }
+            });
+
+            // Show intro modal on page load
+            window.addEventListener('DOMContentLoaded', () => {
+                setTimeout(showIntroModal, 500);
+            });
         })();
     </script>
 @endsection

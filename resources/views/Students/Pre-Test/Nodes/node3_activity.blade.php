@@ -33,6 +33,7 @@
             height: 100vh;
             object-fit: cover;
             z-index: -1;
+            opacity: 0.3;
         }
 
         html, body {
@@ -55,6 +56,7 @@
             margin: 0 auto;
             position: relative;
             z-index: 1;
+            padding: 20px;
         }
 
         .quest-shell {
@@ -120,39 +122,117 @@
             box-shadow: 0 6px 16px rgba(54, 87, 47, 0.08);
         }
 
-        .hero {
-            display: grid;
-            grid-template-columns: 1.1fr .9fr;
-            gap: 16px;
-            padding: 8px 18px 16px;
-            align-items: stretch;
+        .hero-side-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #f7e5c4, #ebd1a6);
+            border: 2px solid #d4b88a;
+            color: #5a4121;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 18px rgba(90, 65, 33, 0.12);
+            font-family: "Baloo 2", cursive;
         }
 
-        .hero-main,
-        .hero-side,
-        .panel,
-        .deck-panel {
-            background: var(--panel);
-            border: 1px solid rgba(168, 203, 167, 0.58);
-            border-radius: 24px;
-            box-shadow: 0 12px 24px rgba(65, 103, 59, 0.08);
-            position: relative;
+        .hero-side-trigger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(90, 65, 33, 0.2);
+            background: linear-gradient(180deg, #f7e5c4, #e5c99a);
+        }
+
+        /* ===== INTRO MODAL OVERLAY ===== */
+        .intro-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s ease, opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .intro-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .intro-modal-container {
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+            max-width: 800px;
+            width: 100%;
+            border-radius: 30px;
+            border: 2px solid rgba(125, 173, 123, 0.45);
+            box-shadow: 0 30px 60px rgba(32, 58, 34, 0.3);
             overflow: hidden;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 0;
         }
 
-        .hero-main {
-            padding: 22px;
-            min-height: 260px;
+        .intro-modal-overlay.active .intro-modal-container {
+            transform: scale(1) translateY(0);
         }
 
-        .intro-layout {
+        .intro-modal-body {
+            padding: 30px 35px 35px;
+            position: relative;
+        }
+
+        .intro-modal-body::after {
+            content: "🌡️";
+            position: absolute;
+            right: 25px;
+            top: 20px;
+            font-size: 4rem;
+            opacity: .08;
+        }
+
+        .intro-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(200, 220, 190, 0.6);
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border-radius: 50px;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #3d694b;
+            transition: all 0.2s ease;
+            z-index: 5;
+        }
+
+        .intro-modal-close:hover {
+            background: rgba(180, 200, 170, 0.8);
+            transform: rotate(90deg);
+        }
+
+        .intro-modal-layout {
             display: grid;
             grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
             align-items: start;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .intro-illustration {
+        .intro-modal-illustration {
             width: min(180px, 100%);
             max-width: 220px;
             object-fit: contain;
@@ -160,94 +240,146 @@
             justify-self: center;
         }
 
-        .intro-narration {
+        .intro-modal-narration {
             text-align: left;
             width: 100%;
         }
 
-        .intro-actions {
-            justify-content: flex-start;
-            margin-top: 12px;
-            width: fit-content;
-        }
-
-        .intro-narration .actions {
-            justify-content: flex-start;
-        }
-
-        .hero-main::after {
-            content: "🌡️";
-            position: absolute;
-            right: 18px;
-            top: 14px;
-            font-size: 4rem;
-            opacity: .11;
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(180deg, #245e3b, #1f4f32);
-            color: #f5fff7;
-            padding: 8px 14px;
-            border-radius: 999px;
-            font-size: .78rem;
-            font-weight: 900;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            box-shadow: 0 10px 18px rgba(31, 79, 50, 0.18);
-        }
-
-        .hero-title {
-            margin: 14px 0 10px;
-            font-family: "Baloo 2", cursive;
-            font-size: clamp(2rem, 4vw, 3.4rem);
-            line-height: .95;
-            color: #23482d;
-        }
-
-        .hero-title span {
-            display: inline-block;
-            color: #c77e13;
-            text-shadow: 0 3px 0 rgba(255, 214, 138, .35);
-        }
-
-        .hero-copy {
-            margin: 0;
-            color: var(--muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            max-width: 60ch;
-        }
-
-        .hero-side {
-            padding: 18px;
-            display: grid;
+        .intro-modal-actions {
+            display: flex;
             gap: 12px;
-            align-content: start;
+            margin-top: 18px;
+            flex-wrap: wrap;
         }
 
-        .quest-card {
-            padding: 14px 14px 16px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.84);
-            border: 1px solid #d8ead4;
-            position: relative;
+        .intro-modal-actions .btn {
+            border: none;
+            border-radius: 16px;
+            padding: 12px 28px;
+            font-weight: 800;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease;
         }
 
-        .quest-card h3 {
-            margin: 0 0 10px;
-            font-size: .95rem;
-            color: #31523d;
+        .intro-modal-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(34, 59, 33, .14);
         }
 
-        .quest-card p {
+        .intro-modal-actions .btn-primary {
+            background: linear-gradient(180deg, #89d95f, #59ab44);
+            color: #103620;
+        }
+
+        /* ===== INSTRUCTION MODAL ===== */
+        .instruction-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s ease, opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .instruction-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .instruction-modal-container {
+            background: linear-gradient(180deg, #ffffff, #f9fef7);
+            max-width: 520px;
+            width: 100%;
+            border-radius: 28px;
+            border: 2px solid rgba(125, 173, 123, 0.45);
+            box-shadow: 0 30px 60px rgba(32, 58, 34, 0.3);
+            overflow: hidden;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .instruction-modal-overlay.active .instruction-modal-container {
+            transform: scale(1) translateY(0);
+        }
+
+        .instruction-modal-header {
+            padding: 20px 24px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #e2f0dc;
+        }
+
+        .instruction-modal-title {
+            font-family: "Baloo 2", cursive;
+            font-size: 1.5rem;
             margin: 0;
-            font-size: .88rem;
-            line-height: 1.5;
-            color: #577060;
-            font-weight: 700;
+            color: #2b5938;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instruction-modal-close {
+            background: rgba(200, 220, 190, 0.6);
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border-radius: 50px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #3d694b;
+            transition: all 0.2s ease;
+        }
+
+        .instruction-modal-close:hover {
+            background: rgba(180, 200, 170, 0.8);
+            transform: rotate(90deg);
+        }
+
+        .instruction-modal-body {
+            padding: 20px 24px 28px;
+        }
+
+        .instruction-card {
+            background: #f4fcf0;
+            border-left: 6px solid #8bc97c;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+        }
+
+        .instruction-card h4 {
+            margin: 0 0 6px 0;
+            color: #2b5938;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .instruction-card p {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #4a6a53;
+            font-weight: 600;
+        }
+
+        .instruction-card:last-child {
+            margin-bottom: 0;
         }
 
         .mission-grid {
@@ -259,6 +391,12 @@
 
         .panel {
             padding: 18px;
+            background: var(--panel);
+            border: 1px solid rgba(168, 203, 167, 0.58);
+            border-radius: 24px;
+            box-shadow: 0 12px 24px rgba(65, 103, 59, 0.08);
+            position: relative;
+            overflow: hidden;
         }
 
         .board-header {
@@ -516,7 +654,6 @@
             color: #5a4121;
         }
 
-        /* ----- Updated Reset Button: white fill, green border, green glow on hover ----- */
         .btn-reset {
             background: #ffffff;
             color: #2b5c2b;
@@ -674,57 +811,57 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
         }
+
+        @media (max-width: 768px) {
+            .intro-modal-layout {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .intro-modal-illustration {
+                max-width: 120px;
+                margin: 0 auto;
+            }
+            .intro-modal-narration {
+                text-align: center;
+            }
+            .intro-modal-actions {
+                justify-content: center;
+            }
+            .intro-modal-body {
+                padding: 20px;
+            }
+            .intro-modal-body::after {
+                display: none;
+            }
+            .hero-side-trigger {
+                width: 100%;
+                justify-content: center;
+            }
+            .xp-rack {
+                flex: 1;
+                justify-content: flex-end;
+            }
+        }
+
         @media (max-width: 760px) {
-            .hero { grid-template-columns: 1fr; }
             .sequence-track { grid-template-columns: 1fr; }
             .seq-arrow { display: none; }
             .bank-grid { grid-template-columns: 1fr; }
             .seq-slot { min-height: 140px; }
         }
+
         @media (max-width: 640px) {
-            .hero { padding: 8px 12px 16px; }
-            .hero-main { padding: 16px; }
-            .hero-side { margin-top: 0 !important; }
-            .intro-layout {
-                grid-template-columns: 110px 1fr;
-                gap: 12px;
-                align-items: start;
-            }
-            .intro-illustration {
-                width: 100%;
-                max-width: 110px;
-                justify-self: center;
-                align-self: center;
-            }
-            .intro-narration {
-                text-align: left;
-            }
-            .intro-actions {
-                justify-content: flex-end;
-                position: static;
-                bottom: auto;
-                background: transparent;
-                border: 0;
-                padding: 0;
-                z-index: auto;
-            }
-            .quest-card { padding: 10px 12px; }
-            .quest-card h3 { font-size: 0.85rem; }
-            .quest-card p { font-size: 0.8rem; }
-            .actions { gap: 8px; }
-            .btn { width: 100%; }
+            .page { padding: 10px; }
+            .panel { padding: 12px; }
+            .actions .btn { flex: 1 1 140px; min-height: 44px; font-size: .85rem; }
+            .btn-reset { padding: 10px 24px; font-size: 0.85rem; }
         }
 
         @media (max-width: 420px) {
-            .intro-layout {
-                grid-template-columns: 90px 1fr;
-                gap: 10px;
-                align-items: start;
-            }
-            .intro-illustration {
-                max-width: 90px;
-                justify-self: center;
-            }
+            .intro-modal-illustration { max-width: 90px; }
+            .intro-modal-body { padding: 16px; }
+            .instruction-modal-container { max-width: 100%; }
+            .instruction-modal-body { padding: 16px; }
         }
     </style>
 @endpush
@@ -737,36 +874,12 @@
                 <a class="back-link" href="{{ route('node3') }}">⬅ Bumalik</a>
                 <div class="xp-rack">
                     <div class="xp-chip">🏆 Gawaing Pangkalikasan</div>
+                    <button class="hero-side-trigger" id="instructionTrigger">❓ Gabay</button>
                 </div>
             </div>
 
-            <!-- INTRO STAGE -->
-            <section class="hero" id="introStage">
-                <div class="hero-main intro-layout">
-                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-illustration">
-                    <div class="intro-narration">
-                        <div class="eyebrow" style="display:inline-flex;">🌍 Interaktibong Gawain</div>
-                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem);">Climate Change <span>Quest</span></h1>
-                        <p class="hero-copy" id="introText" style="margin:0 auto; max-width:100%;"></p>
-                        <div class="actions intro-actions" style="margin-left:0;">
-                            <button class="btn btn-primary" type="button" id="introNextBtn">Susunod</button>
-                        </div>
-                    </div>
-                </div>
-                <aside class="hero-side" style="margin-top:10px;">
-                    <div class="quest-card">
-                        <h3>🎯 Layunin</h3>
-                        <p>Ayusin sa tamang pagkakasunod-sunod ang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng climate change.</p>
-                    </div>
-                    <div class="quest-card">
-                        <h3>📌 Paalala</h3>
-                        <p>Tatlong larawan ang nasa ibaba. I-tap ang mga ito ayon sa tamang pagkakasunod-sunod ng kuwento: Sanhi, pagkatapos Bunga, saka Solusyon.</p>
-                    </div>
-                </aside>
-            </section>
-
             <!-- GAME STAGE -->
-            <section class="mission-grid" id="gameStage" style="display:none;">
+            <section class="mission-grid">
                 <div class="panel">
                     <div class="board-header">
                         <h2 class="board-title">Climate Change Quest</h2>
@@ -817,7 +930,7 @@
                         <div class="bank-grid" id="cardBank"></div>
                     </div>
 
-                    <!-- Ulitin Button (white fill, green border, green glow on hover) -->
+                    <!-- Ulitin Button -->
                     <div class="actions" style="margin-top: 24px;">
                         <button class="btn btn-reset" id="resetGameBtn">🔄 Ulitin</button>
                     </div>
@@ -826,7 +939,47 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- INTRO MODAL -->
+    <div class="intro-modal-overlay" id="introModal">
+        <div class="intro-modal-container">
+            <button class="intro-modal-close" id="introModalClose">✕</button>
+            <div class="intro-modal-body">
+                <div class="intro-modal-layout">
+                    <img src="{{ asset('pictures/teacher.png') }}" alt="Teacher" class="intro-modal-illustration">
+                    <div class="intro-modal-narration">
+                        <div class="eyebrow" style="display:inline-flex; margin-bottom:8px;">🌍 Interaktibong Gawain</div>
+                        <h1 class="hero-title" style="font-size:clamp(1.4rem, 5vw, 2.3rem); margin-top:6px;">Climate Change <span>Quest</span></h1>
+                        <p class="hero-copy" id="introText" style="margin:0; max-width:100%;"></p>
+                        <div class="intro-modal-actions">
+                            <button class="btn btn-primary" type="button" id="introStartBtn">Simulan ang Gawain 🚀</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSTRUCTION MODAL (Gabay) -->
+    <div class="instruction-modal-overlay" id="instructionModal">
+        <div class="instruction-modal-container">
+            <div class="instruction-modal-header">
+                <div class="instruction-modal-title">❓ Gabay sa Gawain</div>
+                <button class="instruction-modal-close" id="instructionModalClose">✕</button>
+            </div>
+            <div class="instruction-modal-body">
+                <div class="instruction-card">
+                    <h4>🎯 Layunin</h4>
+                    <p>Ayusin sa tamang pagkakasunod-sunod ang <strong>Sanhi</strong>, <strong>Bunga</strong>, at <strong>Solusyon</strong> ng climate change.</p>
+                </div>
+                <div class="instruction-card">
+                    <h4>📌 Paalala</h4>
+                    <p>Tatlong larawan ang nasa ibaba. I-tap ang mga ito ayon sa tamang pagkakasunod-sunod ng kuwento: Sanhi, pagkatapos Bunga, saka Solusyon.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPLETION MODAL -->
     <div id="completionModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
@@ -848,284 +1001,335 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
-        const introStage = document.getElementById('introStage');
-        const gameStage = document.getElementById('gameStage');
-        const introText = document.getElementById('introText');
-        const introNextBtn = document.getElementById('introNextBtn');
-        const cardBank = document.getElementById('cardBank');
-        const confettiLayer = document.getElementById('confettiLayer');
-        const errorAudio = document.getElementById('errorAudio');
-        const seqSlots = Array.from(document.querySelectorAll('.seq-slot'));
-        const resetBtn = document.getElementById('resetGameBtn');
+        (function() {
+            // === Intro Modal Elements ===
+            const introModal = document.getElementById('introModal');
+            const introModalClose = document.getElementById('introModalClose');
+            const introStartBtn = document.getElementById('introStartBtn');
+            const introText = document.getElementById('introText');
 
-        const completionModal = document.getElementById('completionModal');
-        const modalFeedbackText = document.getElementById('modalFeedbackText');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const nodeCompleteSfx = new Audio('/audio/nodecomplete.mp3');
+            // === Instruction Modal Elements ===
+            const instructionModal = document.getElementById('instructionModal');
+            const instructionTrigger = document.getElementById('instructionTrigger');
+            const instructionModalClose = document.getElementById('instructionModalClose');
 
-        const lines = [
-            'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa climate change o pagbabago ng klima.',
-            'Ang climate change ay ang patuloy na pagtaas ng temperatura ng mundo dulot ng mga gawain ng tao.',
-            'Ito ay nagdudulot ng matinding bagyo, pagbaha, tagtuyot, at pagkasira ng ating kalikasan.',
-            'Ngayon, tingnan mo ang tatlong larawan sa ibaba at i-tap ang mga ito ayon sa tamang pagkakasunod-sunod: Sanhi, Bunga, saka Solusyon.'
-        ];
+            // === Game Elements ===
+            const cardBank = document.getElementById('cardBank');
+            const confettiLayer = document.getElementById('confettiLayer');
+            const errorAudio = document.getElementById('errorAudio');
+            const seqSlots = Array.from(document.querySelectorAll('.seq-slot'));
+            const resetBtn = document.getElementById('resetGameBtn');
 
-        const SEQUENCE_ORDER = ['cause', 'effect', 'solution'];
+            // Completion Modal
+            const completionModal = document.getElementById('completionModal');
+            const modalFeedbackText = document.getElementById('modalFeedbackText');
+            const closeModalBtn = document.getElementById('closeModalBtn');
 
-        // Base items (will be cloned for reset)
-        const BASE_ITEMS = [
-            { type: 'image', src: "pictures/node3sanhi.png", zone: 'cause' },
-            { type: 'image', src: "pictures/node3bunga.png", zone: 'effect' },
-            { type: 'image', src: "pictures/node3solusyon.png", zone: 'solution' },
-        ];
+            const nodeCompleteSfx = new Audio('/audio/nodecomplete.mp3');
 
-        let items = [];
-        let completedRecords = [];
-        let nextStepIndex = 0;
-        let locked = false;
+            const SEQUENCE_ORDER = ['cause', 'effect', 'solution'];
+            const BASE_ITEMS = [
+                { type: 'image', src: "pictures/node3sanhi.png", zone: 'cause' },
+                { type: 'image', src: "pictures/node3bunga.png", zone: 'effect' },
+                { type: 'image', src: "pictures/node3solusyon.png", zone: 'solution' },
+            ];
 
-        const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng climate change.\n\nAng climate change ay dulot ng pagsusunog ng fossil fuels, deforestation, at polusyon.\n\nDahil dito, nagkakaroon ng matinding pagbaha, pagguho ng lupa, at pagkawala ng biodiversity.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, disaster preparedness, at paggamit ng renewable energy, mapoprotektahan natin ang ating planeta.\n\nTandaan—ang laban sa climate change ay nagsisimula sa bawat isa sa atin!`;
+            let items = [];
+            let completedRecords = [];
+            let nextStepIndex = 0;
+            let locked = false;
+            let isGameStarted = false;
+            let typingTimer = null;
 
-        let lineIndex = 0;
-        let typingTimer = null;
-        let isTyping = false;
+            const lines = [
+                'Magandang araw! Ako ang inyong guro. Pag-aaralan natin ang suliranin sa climate change o pagbabago ng klima.',
+                'Ang climate change ay ang patuloy na pagtaas ng temperatura ng mundo dulot ng mga gawain ng tao.',
+                'Ito ay nagdudulot ng matinding bagyo, pagbaha, tagtuyot, at pagkasira ng ating kalikasan.',
+                'Ngayon, tingnan mo ang tatlong larawan sa ibaba at i-tap ang mga ito ayon sa tamang pagkakasunod-sunod: Sanhi, Bunga, saka Solusyon.'
+            ];
 
-        // ----- helpers -----
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+            const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng climate change.\n\nAng climate change ay dulot ng pagsusunog ng fossil fuels, deforestation, at polusyon.\n\nDahil dito, nagkakaroon ng matinding pagbaha, pagguho ng lupa, at pagkawala ng biodiversity.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, disaster preparedness, at paggamit ng renewable energy, mapoprotektahan natin ang ating planeta.\n\nTandaan—ang laban sa climate change ay nagsisimula sa bawat isa sa atin!`;
 
-        function resetGameState() {
-            // Reset items (shuffled)
-            items = BASE_ITEMS.map(item => ({ ...item }));
-            shuffleArray(items);
-            completedRecords = [];
-            nextStepIndex = 0;
-            locked = false;
-
-            // Clear slots
-            seqSlots.forEach(slot => {
-                slot.innerHTML = '';
-                slot.classList.remove('filled', 'slot-pop', 'spark', 'next-up');
-                const zone = slot.dataset.zone;
-                if (zone === 'cause') {
-                    slot.innerHTML = '<span class="slot-note">Tapin ang Sanhi</span>';
-                } else if (zone === 'effect') {
-                    slot.innerHTML = '<span class="slot-note">Susunod na hakbang</span>';
-                } else if (zone === 'solution') {
-                    slot.innerHTML = '<span class="slot-note">Huling hakbang</span>';
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
                 }
-            });
-
-            // Re-render bank and update highlights
-            renderBank();
-            updateNextUpHighlight();
-        }
-
-        function showCompletionModal(message) {
-            modalFeedbackText.innerText = message;
-            completionModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            completionModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        closeModalBtn.addEventListener('click', closeModal);
-        completionModal.addEventListener('click', (e) => {
-            if (e.target === completionModal) closeModal();
-        });
-
-        function typeLine(text) {
-            if (typingTimer) {
-                clearInterval(typingTimer);
-                typingTimer = null;
+                return array;
             }
-            introText.textContent = '';
-            let i = 0;
-            isTyping = true;
-            typingTimer = setInterval(() => {
-                if (i < text.length) {
-                    introText.textContent += text[i];
-                    i++;
-                } else {
+
+            function typeLine(text, callback) {
+                if (typingTimer) {
                     clearInterval(typingTimer);
                     typingTimer = null;
-                    isTyping = false;
                 }
-            }, 18);
-        }
-
-        function renderBank() {
-            cardBank.innerHTML = '';
-
-            if (items.length === 0) {
-                const note = document.createElement('div');
-                note.className = 'bank-empty-note';
-                note.textContent = '✅ Nakumpleto ang lahat ng larawan!';
-                cardBank.appendChild(note);
-                return;
-            }
-
-            items.forEach((item, idx) => {
-                const card = document.createElement('div');
-                card.className = 'bank-card';
-                card.dataset.index = String(idx);
-                card.innerHTML = `<img src="/${item.src}" alt="Larawang kard">`;
-                card.addEventListener('click', () => handleCardTap(idx, card));
-                cardBank.appendChild(card);
-            });
-        }
-
-        function updateNextUpHighlight() {
-            seqSlots.forEach(slot => {
-                const order = Number(slot.dataset.order);
-                slot.classList.toggle('next-up', order === nextStepIndex && !slot.classList.contains('filled'));
-            });
-        }
-
-        function burstConfetti() {
-            confettiLayer.innerHTML = '';
-            const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e', '#ffffff'];
-            for (let i = 0; i < 26; i++) {
-                const piece = document.createElement('span');
-                piece.className = 'confetti-piece';
-                piece.style.left = `${Math.random() * 100}%`;
-                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-                piece.style.animationDelay = `${Math.random() * 0.35}s`;
-                piece.style.transform = `translateY(0) rotate(${Math.random() * 120}deg)`;
-                confettiLayer.appendChild(piece);
-            }
-            setTimeout(() => {
-                confettiLayer.innerHTML = '';
-            }, 2200);
-        }
-
-        function playErrorSound() {
-            if (errorAudio) {
-                errorAudio.currentTime = 0;
-                errorAudio.play().catch(() => {});
-            }
-        }
-
-        // ----- intro navigation -----
-        introNextBtn.addEventListener('click', () => {
-            if (isTyping) return;
-
-            if (lineIndex >= lines.length - 1) {
-                introStage.style.display = 'none';
-                gameStage.style.display = 'grid';
-                resetGameState();
-                return;
-            }
-            lineIndex += 1;
-            typeLine(lines[lineIndex]);
-            if (lineIndex === lines.length - 1) {
-                introNextBtn.textContent = 'Simulan ang Gawain';
-            }
-        });
-
-        // ----- card tap handler -----
-        function handleCardTap(idx, cardEl) {
-            if (locked) return;
-
-            const tapped = items[idx];
-            const expectedZone = SEQUENCE_ORDER[nextStepIndex];
-
-            if (tapped.zone === expectedZone) {
-                locked = true;
-
-                // Store data
-                let currentRecordIndex = 0;
-                if (!completedRecords[currentRecordIndex]) {
-                    completedRecords[currentRecordIndex] = {
-                        problem_number: 1,
-                        sanhi: '',
-                        bunga: '',
-                        solusyon: ''
-                    };
-                }
-                if (tapped.zone === 'cause') completedRecords[currentRecordIndex].sanhi = tapped.src;
-                if (tapped.zone === 'effect') completedRecords[currentRecordIndex].bunga = tapped.src;
-                if (tapped.zone === 'solution') completedRecords[currentRecordIndex].solusyon = tapped.src;
-
-                // Snap image into slot
-                const targetSlot = seqSlots.find(s => s.dataset.zone === expectedZone);
-                targetSlot.innerHTML = `<img class="slot-placed-img" src="/${tapped.src}" alt="Nailagay na larawan">`;
-                targetSlot.classList.add('filled', 'slot-pop', 'spark');
-                targetSlot.classList.remove('next-up');
-
-                cardEl.classList.add('placed');
-
-                setTimeout(() => {
-                    targetSlot.classList.remove('slot-pop', 'spark');
-                    items.splice(idx, 1);
-                    nextStepIndex += 1;
-                    locked = false;
-
-                    if (nextStepIndex < SEQUENCE_ORDER.length) {
-                        renderBank();
-                        updateNextUpHighlight();
+                introText.textContent = '';
+                let i = 0;
+                typingTimer = setInterval(() => {
+                    if (i < text.length) {
+                        introText.textContent += text[i];
+                        i++;
                     } else {
-                        renderBank();
-                        sessionStorage.setItem('node3_done', 'true');
-
-                        nodeCompleteSfx.currentTime = 0;
-                        nodeCompleteSfx.play().catch(e => console.log("Audio playback delayed or blocked"));
-
-                        fetch("{{ route('student.module2.node3.save') }}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify({ records: completedRecords })
-                        })
-                        .then(async res => {
-                            const data = await res.json();
-                            if (!res.ok) {
-                                console.error("Server Error:", data);
-                                alert("Error saving data!");
-                                return;
-                            }
-                            console.log("Saved Node3:", data);
-                        })
-                        .catch(err => {
-                            console.error("Fetch Error:", err);
-                        });
-
-                        burstConfetti();
-                        showCompletionModal(summaryMessage);
+                        clearInterval(typingTimer);
+                        typingTimer = null;
+                        if (callback) callback();
                     }
-                }, 650);
-
-            } else {
-                locked = true;
-                cardEl.classList.add('wrong-card');
-                playErrorSound();
-                setTimeout(() => {
-                    cardEl.classList.remove('wrong-card');
-                    locked = false;
-                }, 420);
+                }, 18);
             }
-        }
 
-        // ----- reset button -----
-        resetBtn.addEventListener('click', () => {
-            if (locked) return;
-            resetGameState();
-            // Also reset any completion state
-            completionModal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+            function showCompletionModal(message) {
+                modalFeedbackText.innerText = message;
+                completionModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
 
-        // ----- init intro -----
-        typeLine(lines[0]);
+            function closeModal() {
+                completionModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            completionModal.addEventListener('click', (e) => {
+                if (e.target === completionModal) closeModal();
+            });
+
+            function resetGameState() {
+                items = BASE_ITEMS.map(item => ({ ...item }));
+                shuffleArray(items);
+                completedRecords = [];
+                nextStepIndex = 0;
+                locked = false;
+
+                seqSlots.forEach(slot => {
+                    slot.innerHTML = '';
+                    slot.classList.remove('filled', 'slot-pop', 'spark', 'next-up');
+                    const zone = slot.dataset.zone;
+                    if (zone === 'cause') {
+                        slot.innerHTML = '<span class="slot-note">Tapin ang Sanhi</span>';
+                    } else if (zone === 'effect') {
+                        slot.innerHTML = '<span class="slot-note">Susunod na hakbang</span>';
+                    } else if (zone === 'solution') {
+                        slot.innerHTML = '<span class="slot-note">Huling hakbang</span>';
+                    }
+                });
+
+                renderBank();
+                updateNextUpHighlight();
+                closeModal();
+            }
+
+            function renderBank() {
+                cardBank.innerHTML = '';
+
+                if (items.length === 0) {
+                    const note = document.createElement('div');
+                    note.className = 'bank-empty-note';
+                    note.textContent = '✅ Nakumpleto ang lahat ng larawan!';
+                    cardBank.appendChild(note);
+                    return;
+                }
+
+                items.forEach((item, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'bank-card';
+                    card.dataset.index = String(idx);
+                    card.innerHTML = `<img src="/${item.src}" alt="Larawang kard">`;
+                    card.addEventListener('click', () => handleCardTap(idx, card));
+                    cardBank.appendChild(card);
+                });
+            }
+
+            function updateNextUpHighlight() {
+                seqSlots.forEach(slot => {
+                    const order = Number(slot.dataset.order);
+                    slot.classList.toggle('next-up', order === nextStepIndex && !slot.classList.contains('filled'));
+                });
+            }
+
+            function burstConfetti() {
+                confettiLayer.innerHTML = '';
+                const colors = ['#8fd96d', '#ffd86b', '#8ed8ff', '#ff9b8e', '#ffffff'];
+                for (let i = 0; i < 26; i++) {
+                    const piece = document.createElement('span');
+                    piece.className = 'confetti-piece';
+                    piece.style.left = `${Math.random() * 100}%`;
+                    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.animationDelay = `${Math.random() * 0.35}s`;
+                    piece.style.transform = `translateY(0) rotate(${Math.random() * 120}deg)`;
+                    confettiLayer.appendChild(piece);
+                }
+                setTimeout(() => {
+                    confettiLayer.innerHTML = '';
+                }, 2200);
+            }
+
+            function playErrorSound() {
+                if (errorAudio) {
+                    errorAudio.currentTime = 0;
+                    errorAudio.play().catch(() => {});
+                }
+            }
+
+            function handleCardTap(idx, cardEl) {
+                if (locked || !isGameStarted) return;
+
+                const tapped = items[idx];
+                const expectedZone = SEQUENCE_ORDER[nextStepIndex];
+
+                if (tapped.zone === expectedZone) {
+                    locked = true;
+
+                    let currentRecordIndex = 0;
+                    if (!completedRecords[currentRecordIndex]) {
+                        completedRecords[currentRecordIndex] = {
+                            problem_number: 1,
+                            sanhi: '',
+                            bunga: '',
+                            solusyon: ''
+                        };
+                    }
+                    if (tapped.zone === 'cause') completedRecords[currentRecordIndex].sanhi = tapped.src;
+                    if (tapped.zone === 'effect') completedRecords[currentRecordIndex].bunga = tapped.src;
+                    if (tapped.zone === 'solution') completedRecords[currentRecordIndex].solusyon = tapped.src;
+
+                    const targetSlot = seqSlots.find(s => s.dataset.zone === expectedZone);
+                    targetSlot.innerHTML = `<img class="slot-placed-img" src="/${tapped.src}" alt="Nailagay na larawan">`;
+                    targetSlot.classList.add('filled', 'slot-pop', 'spark');
+                    targetSlot.classList.remove('next-up');
+
+                    cardEl.classList.add('placed');
+
+                    setTimeout(() => {
+                        targetSlot.classList.remove('slot-pop', 'spark');
+                        items.splice(idx, 1);
+                        nextStepIndex += 1;
+                        locked = false;
+
+                        if (nextStepIndex < SEQUENCE_ORDER.length) {
+                            renderBank();
+                            updateNextUpHighlight();
+                        } else {
+                            renderBank();
+                            sessionStorage.setItem('node3_done', 'true');
+
+                            nodeCompleteSfx.currentTime = 0;
+                            nodeCompleteSfx.play().catch(e => console.log("Audio playback delayed or blocked"));
+
+                            fetch("{{ route('student.module2.node3.save') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                },
+                                body: JSON.stringify({ records: completedRecords })
+                            })
+                            .then(async res => {
+                                const data = await res.json();
+                                if (!res.ok) {
+                                    console.error("Server Error:", data);
+                                    return;
+                                }
+                                console.log("Saved Node3:", data);
+                            })
+                            .catch(err => {
+                                console.error("Fetch Error:", err);
+                            });
+
+                            burstConfetti();
+                            showCompletionModal(summaryMessage);
+                        }
+                    }, 650);
+
+                } else {
+                    locked = true;
+                    cardEl.classList.add('wrong-card');
+                    playErrorSound();
+                    setTimeout(() => {
+                        cardEl.classList.remove('wrong-card');
+                        locked = false;
+                    }, 420);
+                }
+            }
+
+            function startGame() {
+                if (isGameStarted) return;
+                isGameStarted = true;
+                introModal.classList.remove('active');
+                resetGameState();
+            }
+
+            // === Intro Modal Events ===
+            function showIntroModal() {
+                introModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                let textIndex = 0;
+                typeLine(lines[textIndex], function() {
+                    let currentIndex = textIndex + 1;
+                    function typeNext() {
+                        if (currentIndex < lines.length) {
+                            typeLine(lines[currentIndex], function() {
+                                currentIndex++;
+                                if (currentIndex < lines.length) {
+                                    setTimeout(typeNext, 800);
+                                }
+                            });
+                        }
+                    }
+                    setTimeout(typeNext, 1000);
+                });
+            }
+
+            function closeIntroModal() {
+                introModal.classList.remove('active');
+                document.body.style.overflow = '';
+                if (typingTimer) {
+                    clearInterval(typingTimer);
+                    typingTimer = null;
+                }
+            }
+
+            introModalClose.addEventListener('click', closeIntroModal);
+            introStartBtn.addEventListener('click', startGame);
+            introModal.addEventListener('click', (e) => {
+                if (e.target === introModal) closeIntroModal();
+            });
+
+            // === Instruction Modal Events ===
+            function openInstructionModal() {
+                instructionModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeInstructionModal() {
+                instructionModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            instructionTrigger.addEventListener('click', openInstructionModal);
+            instructionModalClose.addEventListener('click', closeInstructionModal);
+            instructionModal.addEventListener('click', (e) => {
+                if (e.target === instructionModal) closeInstructionModal();
+            });
+
+            // === Reset Button ===
+            resetBtn.addEventListener('click', () => {
+                if (locked) return;
+                resetGameState();
+            });
+
+            // === Keyboard shortcut: Escape to close modals ===
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (introModal.classList.contains('active')) closeIntroModal();
+                    if (instructionModal.classList.contains('active')) closeInstructionModal();
+                    if (completionModal.classList.contains('active')) closeModal();
+                }
+            });
+
+            // === Show intro modal on page load ===
+            window.addEventListener('DOMContentLoaded', () => {
+                setTimeout(showIntroModal, 500);
+            });
+        })();
     </script>
 @endsection
