@@ -1162,7 +1162,7 @@
                 { type: 'image', src: "{{ asset('pictures/node2solusyon.png') }}", zone: 'solution', emoji: '🌱', text: 'Pagtatanim ng puno at responsableng paggamit ng kalikasan.' }
             ];
 
-            const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng pagkakalbo ng kagubatan.\n\nAng deforestation ay dulot ng illegal logging at labis na paggamit ng lupa.\n\nDahil dito, nagkakaroon ng pagbaha, soil erosion, at pagkawala ng tirahan ng mga hayop at halaman.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, pagsunod sa batas, at responsableng paggamit ng kalikasan, mapoprotektahan natin ang ating kagubatan.\n\nTandaan—ang kalikasan ay buhay, kaya ito ay dapat pangalagaan!`;
+            const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng pagkakalbo ng kagubatan.\n\nAng deforestation ay dulot ng illegal logging at labis na paggamit ng lupa.\n\nDahil dito, nagkakaroon ng pagbaha, soil erosion, at pagkawala ng tirahan ng mga hayop at halaman.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, pagsunod sa batas, at responsableng paggamit ng kalikasan, mapoprotektahan natin ang ating kagubatan.\n\nTandaan na ang kalikasan ay buhay, kaya ito ay dapat pangalagaan!`;
 
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {

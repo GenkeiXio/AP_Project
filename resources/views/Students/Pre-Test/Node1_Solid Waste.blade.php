@@ -535,7 +535,7 @@
         max-width: 400px;
         width: 100%;
         margin: 0 auto;
-        min-height: 80px;
+        min-height: 100px;
     }
 
     .deck-empty-text {
@@ -831,7 +831,7 @@
                         <div id="activeCardContainer" style="width:100%; display:flex; justify-content:center;">
                             <div class="drag-item image-item card-enter" id="activeImageCard" draggable="true" style="display:flex;">
                                 <div style="width:100%; min-height:80px; display:flex; align-items:center; justify-content:center; border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.8);">
-                                    <img class="thumb" id="activeCardImg" alt="Larawang kard ng gawain" src="" style="max-height:150px; object-fit:contain; width:100%;">
+                                    <img class="thumb" id="activeCardImg" alt="Larawang kard ng gawain" src="" style="max-height:170px; object-fit:contain; width:100%;">
                                 </div>
                             </div>
                             <div class="drag-item text-item card-enter" id="activeTextCard" draggable="true" style="display:none; min-height:80px;"></div>
@@ -987,7 +987,7 @@
             shuffleArray(items);
         }
 
-        const summaryMessage = `Magaling! Natukoy mo ang tamang ugnayan ng sanhi, bunga, at solusyon.\nAng mga suliraning pangkapaligiran ay kadalasang nagsisimula sa kawalan ng disiplina, tulad ng maling pagtatapon ng basura at hindi pagsunod sa wastong paghihiwalay nito.\nDahil dito, nagkakaroon ng pagbaha, polusyon, at paglaganap ng sakit.\nNgunit may magagawa tayo. Sa pamamagitan ng waste segregation, recycling, at pakikilahok sa clean-up drives, makakatulong tayo sa pangangalaga ng ating kapaligiran.\nTandaan—ang pagbabago ay nagsisimula sa iyo.`;
+        const summaryMessage = `Magaling! Natukoy mo ang tamang ugnayan ng sanhi, bunga, at solusyon.\nAng mga suliraning pangkapaligiran ay kadalasang nagsisimula sa kawalan ng disiplina, tulad ng maling pagtatapon ng basura at hindi pagsunod sa wastong paghihiwalay nito.\nDahil dito, nagkakaroon ng pagbaha, polusyon, at paglaganap ng sakit.\nNgunit may magagawa tayo. Sa pamamagitan ng waste segregation, recycling, at pakikilahok sa clean-up drives, makakatulong tayo sa pangangalaga ng ating kapaligiran.\nTandaan na ang pagbabago ay nagsisimula sa iyo.`;
 
         function getActiveElement() {
             const current = items[itemIndex];
@@ -1026,7 +1026,7 @@
                 activeImageCard.dataset.zone = item.zone;
                 activeImageCard.innerHTML = `
                     <div style="width:100%; min-height:80px; display:flex; align-items:center; justify-content:center; border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.8);">
-                        <img src="${item.src}" style="max-height:150px; object-fit:contain; width:100%;">
+                        <img src="${item.src}" style="max-height:170px; object-fit:contain; width:100%;">
                     </div>
                 `;
             } else {
