@@ -719,7 +719,7 @@ function openCard(index) {
 function getSubtitle(index) {
     const subtitles = [
         "Disaster Risk Reduction and Management Act of 2010",
-        "Sistema ng Babala bago ang Sakuna",
+        "",
         "Programa sa Maagang Paglikas",
         "Climate Change Act of 2009",
         "Ecological Solid Waste Management Act of 2000",

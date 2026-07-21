@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'Module 2 : Node 3 ')
+@section('title', 'Module 2 : Node 3')
 
 @push('styles')
 
@@ -16,6 +16,7 @@
         height: 100vh;
         object-fit: cover;
         z-index: -1;
+        opacity: 0.3;
     }
 
     html, body{
@@ -206,6 +207,7 @@
         transform: translateX(-3px);
     }
 
+    /* ===== MODAL STYLES ===== */
     .source-modal {
         position: fixed;
         inset: 0;
@@ -223,10 +225,15 @@
 
     .source-modal-card {
         width: min(940px, 100%);
+        max-width: 100%;
         background: #fff;
         border-radius: 14px;
-        border: 2px solid #b8cfb6;
+        border: none;
         padding: 10px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
     .source-modal-head {
@@ -235,6 +242,7 @@
         align-items: center;
         gap: 10px;
         margin-bottom: 8px;
+        flex-shrink: 0;
     }
 
     .source-modal-title {
@@ -251,19 +259,139 @@
         font-weight: 800;
         cursor: pointer;
         color: #285438;
+        font-size: 1rem;
     }
 
-    .source-modal-frame {
+    .source-modal-frame-container {
         width: 100%;
-        height: min(72vh, 600px);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 400px;
+        max-height: 65vh;
+        background: #f0f2f5;
+        border-radius: 0;
+        padding: 0;
+        overflow: auto;
+        flex: 1;
         border: none;
-        border-radius: 10px;
+    }
+
+    .source-modal-frame-container iframe {
+        max-width: 552px;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 800px;
+        height: 800px;
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        background: #f0f2f5;
+        flex-shrink: 0;
     }
 
     .source-modal-tip {
         font-size: 0.76rem;
         color: #4a6b52;
         margin-top: 6px;
+        text-align: center;
+        flex-shrink: 0;
+        padding: 4px 0;
+    }
+
+    /* Hide iframe border */
+    iframe {
+        border: none !important;
+        outline: none !important;
+    }
+
+    /* Custom scrollbar */
+    .source-modal-frame-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .source-modal-frame-container::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 4px;
+    }
+
+    .source-modal-frame-container::-webkit-scrollbar-thumb {
+        background: #4caf50;
+        border-radius: 4px;
+    }
+
+    .source-modal-frame-container::-webkit-scrollbar-thumb:hover {
+        background: #2e7d32;
+    }
+
+    /* ===== ARTICLE MODAL (ABS-CBN) ===== */
+    .article-modal .source-modal-frame-container iframe {
+        max-width: 100%;
+        height: 800px;
+        min-height: 800px;
+        background: white;
+    }
+
+    .article-modal .source-modal-frame-container {
+        background: white;
+    }
+
+    /* ===== CONFIRMATION MODAL ===== */
+    .confirm-modal .source-modal-card {
+        max-width: 480px;
+        text-align: center;
+    }
+
+    .confirm-modal .confirm-content {
+        padding: 10px 0 20px;
+    }
+
+    .confirm-modal .confirm-content p {
+        font-size: 1rem;
+        color: #2a4a35;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .confirm-modal .confirm-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .confirm-modal .confirm-actions .btn {
+        padding: 10px 28px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 800;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .confirm-modal .confirm-actions .btn-yes {
+        background: linear-gradient(180deg, #4caf50, #2e7d32);
+        color: white;
+    }
+
+    .confirm-modal .confirm-actions .btn-yes:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+
+    .confirm-modal .confirm-actions .btn-no {
+        background: #e9f3eb;
+        color: #285438;
+        border: 1px solid #c8e0c1;
+    }
+
+    .confirm-modal .confirm-actions .btn-no:hover {
+        background: #d5e8d0;
+        transform: translateY(-2px);
     }
 
     .btn-icon {
@@ -274,6 +402,33 @@
         .local-grid {
             grid-template-columns: 1fr;
             gap: 15px;
+        }
+        
+        .source-modal-frame-container iframe {
+            min-height: 600px;
+            height: 600px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .source-modal-frame-container iframe {
+            min-height: 500px;
+            height: 500px;
+            max-width: 100%;
+        }
+        
+        .source-modal-frame-container {
+            max-height: 55vh;
+            min-height: 300px;
+        }
+        
+        .source-modal-card {
+            padding: 8px;
+        }
+        
+        .confirm-modal .confirm-actions .btn {
+            padding: 8px 20px;
+            font-size: 0.8rem;
         }
     }
 </style>
@@ -308,7 +463,7 @@
             </div>
         </div>
 
-        <!-- Three source cards based on the provided links -->
+        <!-- Three source cards -->
         <div class="local-grid">
             <!-- Card 1: ABS-CBN News Article -->
             <div class="source-card">
@@ -317,8 +472,9 @@
                     <div class="preview-icon">📰</div>
                     <div class="preview-text">"Mas masahol po ito sa Reming" – Panawagan ng Tabaco City para sa pagkain at materyales matapos ang sunod-sunod na bagyo.</div>
                 </div>
-                <button class="source-link" type="button"
-                        onclick="window.open('https://www.abs-cbn.com/news/11/05/20/mas-masahol-po-ito-sa-reming-typhoon-battered-tabaco-city-seeks-food-housing-materials', '_blank')">
+                <button class="source-link source-open-article" type="button"
+                        data-title="ABS-CBN News: Tabaco City Typhoon Victims"
+                        data-url="https://www.abs-cbn.com/news/11/05/20/mas-masahol-po-ito-sa-reming-typhoon-battered-tabaco-city-seeks-food-housing-materials">
                     <span class="btn-icon">📖</span> Basahin ang Balita
                 </button>
             </div>
@@ -352,41 +508,114 @@
             </div>
         </div>
 
-        <!-- "Simulan ang Activity" Button at the very bottom -->
+        <!-- "Simulan ang Activity" Button -->
         <div class="start-wrap">
             <a class="start-btn" href="{{ route('node3.activity') }}">
-                Simulan ang Activity 🚀
+                Simulan ang Gawain🚀
             </a>
         </div>
 
     </section>
 </div>
 
-<!-- Modal for viewing sources -->
+<!-- Modal for viewing YouTube sources -->
 <div class="source-modal" id="sourceModal" aria-hidden="true">
     <div class="source-modal-card">
         <div class="source-modal-head">
             <div class="source-modal-title" id="sourceModalTitle">Source Viewer</div>
-            <button type="button" class="source-modal-close" id="sourceModalClose">Isara ✕</button>
+            <button type="button" class="source-modal-close" id="sourceModalClose">✕</button>
         </div>
-        <iframe id="sourceModalFrame" class="source-modal-frame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Source Viewer"></iframe>
-        <div class="source-modal-tip">Nasa loob lang ng system ang source viewer; walang external redirect.</div>
+        <div class="source-modal-frame-container" id="sourceModalFrameContainer">
+            <iframe id="sourceModalFrame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Source Viewer"></iframe>
+        </div>
+        <div class="source-modal-tip">💡 Maaaring i-scroll ang video para makita ang buong nilalaman.</div>
+    </div>
+</div>
+
+<!-- Modal for ABS-CBN Article -->
+<div class="source-modal article-modal" id="articleModal" aria-hidden="true">
+    <div class="source-modal-card">
+        <div class="source-modal-head">
+            <div class="source-modal-title" id="articleModalTitle">ABS-CBN News Article</div>
+            <button type="button" class="source-modal-close" id="articleModalClose">✕</button>
+        </div>
+        <div class="source-modal-frame-container" id="articleModalFrameContainer">
+            <iframe id="articleModalFrame" src="about:blank" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Article Viewer"></iframe>
+        </div>
+        <div class="source-modal-tip">💡 Maaaring i-scroll ang artikulo para makita ang buong nilalaman.</div>
+    </div>
+</div>
+
+<!-- Confirmation Modal for Desktop -->
+<div class="source-modal confirm-modal" id="confirmModal" aria-hidden="true">
+    <div class="source-modal-card">
+        <div class="source-modal-head">
+            <div class="source-modal-title">🔗 Lumabas ng System</div>
+            <button type="button" class="source-modal-close" id="confirmModalClose">✕</button>
+        </div>
+        <div class="confirm-content">
+            <p>Dadalhin ka sa labas ng system upang basahin ang buong artikulo sa ABS-CBN News.<br><br>
+            <strong>Gusto mo bang magpatuloy?</strong></p>
+            <div class="confirm-actions">
+                <button type="button" class="btn btn-yes" id="confirmYesBtn">✅ Oo, magpatuloy</button>
+                <button type="button" class="btn btn-no" id="confirmNoBtn">❌ Hindi, manatili</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
+    // === YouTube Modal ===
     const sourceOpenBtns = Array.from(document.querySelectorAll('.source-open'));
     const sourceModal = document.getElementById('sourceModal');
     const sourceModalFrame = document.getElementById('sourceModalFrame');
     const sourceModalTitle = document.getElementById('sourceModalTitle');
     const sourceModalClose = document.getElementById('sourceModalClose');
+    const sourceModalFrameContainer = document.getElementById('sourceModalFrameContainer');
 
     function openSourceModal(title, embedUrl) {
         sourceModalTitle.textContent = title;
-        sourceModalFrame.src = embedUrl;
+        
+        const frame = sourceModalFrame;
+        
+        // Set iframe to be tall enough to show full content
+        frame.style.width = '100%';
+        frame.style.maxWidth = '100%';
+        frame.style.height = '800px';
+        frame.style.minHeight = '800px';
+        frame.style.border = 'none';
+        frame.style.borderRadius = '0';
+        frame.style.display = 'block';
+        frame.style.margin = '0 auto';
+        frame.style.padding = '0';
+        frame.style.background = '#f0f2f5';
+        frame.style.boxShadow = 'none';
+        frame.style.outline = 'none';
+        frame.style.flexShrink = '0';
+        
+        // Container
+        sourceModalFrameContainer.style.width = '100%';
+        sourceModalFrameContainer.style.height = '100%';
+        sourceModalFrameContainer.style.minHeight = '400px';
+        sourceModalFrameContainer.style.maxHeight = '65vh';
+        sourceModalFrameContainer.style.display = 'flex';
+        sourceModalFrameContainer.style.justifyContent = 'center';
+        sourceModalFrameContainer.style.alignItems = 'flex-start';
+        sourceModalFrameContainer.style.background = '#f0f2f5';
+        sourceModalFrameContainer.style.borderRadius = '0';
+        sourceModalFrameContainer.style.padding = '0';
+        sourceModalFrameContainer.style.overflow = 'auto';
+        sourceModalFrameContainer.style.flex = '1';
+        sourceModalFrameContainer.style.border = 'none';
+        
+        frame.src = embedUrl;
+        
         sourceModal.classList.add('show');
         sourceModal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        
+        // Reset scroll position to top
+        sourceModalFrameContainer.scrollTop = 0;
     }
 
     function closeSourceModal() {
@@ -409,9 +638,155 @@
         }
     });
 
+    // === Article Modal (ABS-CBN) ===
+    const articleOpenBtns = Array.from(document.querySelectorAll('.source-open-article'));
+    const articleModal = document.getElementById('articleModal');
+    const articleModalFrame = document.getElementById('articleModalFrame');
+    const articleModalTitle = document.getElementById('articleModalTitle');
+    const articleModalClose = document.getElementById('articleModalClose');
+    const articleModalFrameContainer = document.getElementById('articleModalFrameContainer');
+
+    // Confirmation modal elements
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmModalClose = document.getElementById('confirmModalClose');
+    const confirmYesBtn = document.getElementById('confirmYesBtn');
+    const confirmNoBtn = document.getElementById('confirmNoBtn');
+    let pendingUrl = '';
+    let pendingTitle = '';
+
+    function isMobile() {
+        return window.innerWidth <= 860;
+    }
+
+    function openArticleModal(title, url) {
+        articleModalTitle.textContent = title;
+        
+        const frame = articleModalFrame;
+        
+        frame.style.width = '100%';
+        frame.style.height = '800px';
+        frame.style.minHeight = '800px';
+        frame.style.border = 'none';
+        frame.style.borderRadius = '0';
+        frame.style.display = 'block';
+        frame.style.margin = '0 auto';
+        frame.style.padding = '0';
+        frame.style.background = 'white';
+        frame.style.boxShadow = 'none';
+        frame.style.outline = 'none';
+        frame.style.flexShrink = '0';
+        frame.style.maxWidth = '100%';
+        
+        articleModalFrameContainer.style.width = '100%';
+        articleModalFrameContainer.style.height = '100%';
+        articleModalFrameContainer.style.minHeight = '400px';
+        articleModalFrameContainer.style.maxHeight = '65vh';
+        articleModalFrameContainer.style.display = 'flex';
+        articleModalFrameContainer.style.justifyContent = 'center';
+        articleModalFrameContainer.style.alignItems = 'flex-start';
+        articleModalFrameContainer.style.background = 'white';
+        articleModalFrameContainer.style.borderRadius = '0';
+        articleModalFrameContainer.style.padding = '0';
+        articleModalFrameContainer.style.overflow = 'auto';
+        articleModalFrameContainer.style.flex = '1';
+        articleModalFrameContainer.style.border = 'none';
+        
+        frame.src = url;
+        
+        articleModal.classList.add('show');
+        articleModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        
+        articleModalFrameContainer.scrollTop = 0;
+    }
+
+    function closeArticleModal() {
+        articleModal.classList.remove('show');
+        articleModal.setAttribute('aria-hidden', 'true');
+        articleModalFrame.src = 'about:blank';
+        document.body.style.overflow = '';
+    }
+
+    function openConfirmModal(title, url) {
+        pendingTitle = title;
+        pendingUrl = url;
+        confirmModal.classList.add('show');
+        confirmModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeConfirmModal() {
+        confirmModal.classList.remove('show');
+        confirmModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        pendingUrl = '';
+        pendingTitle = '';
+    }
+
+    function proceedToArticle() {
+        if (pendingUrl) {
+            window.open(pendingUrl, '_blank');
+            closeConfirmModal();
+        }
+    }
+
+    articleOpenBtns.forEach(button => {
+        button.addEventListener('click', () => {
+            const url = button.dataset.url || 'about:blank';
+            const title = button.dataset.title || 'ABS-CBN News Article';
+            
+            // Check if desktop (width > 860px)
+            if (!isMobile()) {
+                // Desktop: Show confirmation modal first
+                openConfirmModal(title, url);
+            } else {
+                // Mobile: Open in modal directly
+                openArticleModal(title, url);
+            }
+        });
+    });
+
+    // Confirmation modal events
+    confirmYesBtn.addEventListener('click', proceedToArticle);
+    confirmNoBtn.addEventListener('click', closeConfirmModal);
+    confirmModalClose.addEventListener('click', closeConfirmModal);
+    confirmModal.addEventListener('click', (event) => {
+        if (event.target === confirmModal) {
+            closeConfirmModal();
+        }
+    });
+
+    articleModalClose.addEventListener('click', closeArticleModal);
+    articleModal.addEventListener('click', (event) => {
+        if (event.target === articleModal) {
+            closeArticleModal();
+        }
+    });
+
+    // === Global Escape key ===
     window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && sourceModal.classList.contains('show')) {
-            closeSourceModal();
+        if (event.key === 'Escape') {
+            if (sourceModal.classList.contains('show')) {
+                closeSourceModal();
+            }
+            if (articleModal.classList.contains('show')) {
+                closeArticleModal();
+            }
+            if (confirmModal.classList.contains('show')) {
+                closeConfirmModal();
+            }
+        }
+    });
+
+    // === Handle window resize ===
+    window.addEventListener('resize', () => {
+        // If on desktop and article modal is open, close it
+        if (!isMobile() && articleModal.classList.contains('show')) {
+            closeArticleModal();
+        }
+        // If on mobile and confirm modal is open, close it
+        if (isMobile() && confirmModal.classList.contains('show')) {
+            closeConfirmModal();
         }
     });
 </script>

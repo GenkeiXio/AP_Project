@@ -416,11 +416,11 @@
             text-align: center;
         }
 
-        /* ===== SEQUENCE TRACK ===== */
+        /* ===== SEQUENCE TRACK WITH ARROWS ===== */
         .sequence-track {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 12px;
             position: relative;
             align-items: stretch;
             margin-bottom: 26px;
@@ -428,31 +428,27 @@
 
         .seq-wrap {
             position: relative;
+            flex: 1;
         }
 
-        .seq-arrow {
-            position: absolute;
-            top: 50%;
-            width: 56px;
-            height: 12px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, #86cf68, #f6ca58);
-            box-shadow: 0 6px 12px rgba(77, 113, 51, .15);
-            z-index: 0;
-            transform: translateY(-50%);
+        .flow-arrow-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
         }
 
-        .seq-arrow.one { left: calc(33.33% - 21px); }
-        .seq-arrow.two { left: calc(66.66% - 34px); }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #8cc68a;
+            opacity: 0.6;
+            font-weight: 300;
+            animation: pulseArrow 1.5s ease-in-out infinite;
+        }
 
-        .seq-arrow::after {
-            content: "➜";
-            position: absolute;
-            right: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-weight: 900;
-            color: #4f7c2f;
+        @keyframes pulseArrow {
+            0%, 100% { opacity: 0.4; transform: translateX(0); }
+            50% { opacity: 0.8; transform: translateX(4px); }
         }
 
         .seq-card {
@@ -813,6 +809,19 @@
         }
 
         @media (max-width: 768px) {
+            .sequence-track {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .flow-arrow-wrapper {
+                padding: 4px 0;
+                transform: rotate(90deg);
+            }
+            .flow-arrow {
+                font-size: 1.5rem;
+            }
+            .seq-slot { min-height: 140px; }
+            .bank-grid { grid-template-columns: 1fr; }
             .intro-modal-layout {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -841,13 +850,6 @@
                 flex: 1;
                 justify-content: flex-end;
             }
-        }
-
-        @media (max-width: 760px) {
-            .sequence-track { grid-template-columns: 1fr; }
-            .seq-arrow { display: none; }
-            .bank-grid { grid-template-columns: 1fr; }
-            .seq-slot { min-height: 140px; }
         }
 
         @media (max-width: 640px) {
@@ -885,11 +887,9 @@
                         <h2 class="board-title">Climate Change Quest</h2>
                     </div>
 
-                    <!-- Sequence Track -->
+                    <!-- Sequence Track with Arrows -->
                     <div class="sequence-track" id="sequenceTrack">
-                        <div class="seq-arrow one"></div>
-                        <div class="seq-arrow two"></div>
-
+                        <!-- Sanhi -->
                         <div class="seq-wrap">
                             <div class="seq-card">
                                 <div class="seq-head">
@@ -901,6 +901,12 @@
                             </div>
                         </div>
 
+                        <!-- Arrow 1 -->
+                        <div class="flow-arrow-wrapper">
+                            <span class="flow-arrow">➔</span>
+                        </div>
+
+                        <!-- Bunga -->
                         <div class="seq-wrap">
                             <div class="seq-card">
                                 <div class="seq-head">
@@ -912,6 +918,12 @@
                             </div>
                         </div>
 
+                        <!-- Arrow 2 -->
+                        <div class="flow-arrow-wrapper">
+                            <span class="flow-arrow">➔</span>
+                        </div>
+
+                        <!-- Solusyon -->
                         <div class="seq-wrap">
                             <div class="seq-card">
                                 <div class="seq-head">
@@ -1048,7 +1060,7 @@
                 'Ngayon, tingnan mo ang tatlong larawan sa ibaba at i-tap ang mga ito ayon sa tamang pagkakasunod-sunod: Sanhi, Bunga, saka Solusyon.'
             ];
 
-            const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng climate change.\n\nAng climate change ay dulot ng pagsusunog ng fossil fuels, deforestation, at polusyon.\n\nDahil dito, nagkakaroon ng matinding pagbaha, pagguho ng lupa, at pagkawala ng biodiversity.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, disaster preparedness, at paggamit ng renewable energy, mapoprotektahan natin ang ating planeta.\n\nTandaan—ang laban sa climate change ay nagsisimula sa bawat isa sa atin!`;
+            const summaryMessage = `Magaling! Naunawaan mo ang sanhi, bunga, at solusyon ng climate change.\n\nAng climate change ay dulot ng pagsusunog ng fossil fuels, deforestation, at polusyon.\n\nDahil dito, nagkakaroon ng matinding pagbaha, pagguho ng lupa, at pagkawala ng biodiversity.\n\nNgunit may magagawa tayo. Sa pamamagitan ng pagtatanim ng puno, disaster preparedness, at paggamit ng renewable energy, mapoprotektahan natin ang ating planeta.\n\nTandaan na ang laban sa climate change ay nagsisimula sa bawat isa sa atin!`;
 
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
