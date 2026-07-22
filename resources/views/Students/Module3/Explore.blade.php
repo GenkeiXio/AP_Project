@@ -3,11 +3,17 @@
 
 @push('styles')
     <style>
-        html, body { background: #0b1220 !important; }
+        html, body { 
+            background: #0b1220 !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow-y: auto !important;
+        }
 
         body {
             position: relative;
             overflow-x: hidden;
+            overflow-y: auto !important;
         }
 
         .page-bg {
@@ -140,6 +146,9 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            width: 100%;
+            text-align: center;
+            justify-content: center;
         }
 
         .choice-btn.text-slate-900 { color: #0f172a !important; }
@@ -161,6 +170,9 @@
             font-size: 1rem !important;
             text-align: center;
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .choice-btn:hover {
@@ -192,6 +204,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            justify-content: center;
         }
 
         .btn-green:hover {
@@ -217,6 +230,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            justify-content: center;
         }
 
         .btn-gray:hover {
@@ -241,6 +255,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            justify-content: center;
         }
 
         .btn-red:hover {
@@ -306,7 +321,7 @@
             color: #b71c1c !important;
         }
 
-        /* Scene 5 - Result section with GRAY theme */
+        /* Scene 5 - Result section with GRAY header */
         .scene5-header {
             background: linear-gradient(135deg, var(--gray-dark), var(--gray-mid)) !important;
             position: relative;
@@ -325,6 +340,60 @@
         .scene5-header .header-content {
             position: relative;
             z-index: 2;
+        }
+
+        /* Button container for centering */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .button-container .btn-green,
+        .button-container .btn-gray {
+            flex: 1;
+            min-width: 140px;
+            max-width: 250px;
+            justify-content: center;
+        }
+
+        /* Grid for choice buttons - ensures centering */
+        .choice-grid {
+            display: grid;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .choice-grid .choice-btn {
+            justify-content: center;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .choice-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .choice-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .choice-grid .choice-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .button-container .btn-green,
+            .button-container .btn-gray {
+                flex: 1 1 100%;
+                max-width: 100%;
+                min-width: auto;
+            }
         }
 
         @media (max-width: 900px) {
@@ -359,6 +428,23 @@
             from { opacity: 0; transform: translateY(8px) }
             to { opacity: 1; transform: translateY(0) }
         }
+
+        /* Modal fix for mobile */
+        #panimulangModal {
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        #panimulangModal .intro-card {
+            margin: auto;
+            max-width: 1080px;
+            width: 100%;
+        }
+
+        /* Ensure content is scrollable on mobile */
+        .relative.z-10 {
+            padding-bottom: 40px;
+        }
     </style>
 @endpush
 
@@ -384,7 +470,7 @@
                     <p class="font-bold text-amber-700">Handa ka na bang harapin ang sakuna?</p>
                 </div>
 
-                <div class="mt-4 flex justify-end">
+                <div class="mt-4 flex justify-center md:justify-end">
                     <button id="simulanModalBtn" class="btn-green" style="padding: 12px 40px; font-size: 1.1rem;">
                         SIMULAN
                     </button>
@@ -407,7 +493,7 @@
                 <p class="mt-3 font-bold">Nakatanggap ka ng impormasyon mula sa PAGASA:</p>
                 <p class="scene-description">May signal ng bagyo #3. Mataas ang posibilidad ng pagbaha sa inyong lugar. May mga pamilyang nakatira malapit sa ilog na nasa panganib.</p>
                 <p class="mt-3 font-bold italic">💬 Ano ang una mong gagawin?</p>
-                <div class="grid md:grid-cols-3 gap-3 mt-3">
+                <div class="choice-grid mt-3">
                     <button onclick="piliinSaEksena2('A')" class="choice-btn">A. Balewalain ang babala</button>
                     <button onclick="piliinSaEksena2('B')" class="choice-btn">B. Makinig sa balita at maghanda</button>
                     <button onclick="piliinSaEksena2('C')" class="choice-btn">C. Maghintay kung ano ang mangyayari</button>
@@ -426,7 +512,7 @@
                 <p class="mt-3 font-bold">Tumama na ang bagyo. Narito ang sitwasyon:</p>
                 <p class="scene-description">Patuloy ang malakas na ulan at hangin. Mabilis na tumataas ang tubig baha sa inyong lugar. Ang evacuation center ay ligtas at may sapat na suplay, ngunit may mga naiwan pang matatanda at batang hindi agad nailikas dahil sa biglaang pagtaas ng baha.</p>
                 <p class="mt-3 font-bold italic">💬 Ano ang gagawin mo?</p>
-                <div class="grid md:grid-cols-3 gap-3 mt-3">
+                <div class="choice-grid mt-3">
                     <button onclick="piliinSaEksena3('A')" class="choice-btn">A. Manatili sa evacuation center</button>
                     <button onclick="piliinSaEksena3('B')" class="choice-btn">B. Tumulong sa pagsagip sa mga naiwan</button>
                     <button onclick="piliinSaEksena3('C')" class="choice-btn">C. Maghintay ng utos mula sa barangay</button>
@@ -447,7 +533,7 @@
                 <p class="mt-3 font-bold">Humupa na ang bagyo. Narito ang sitwasyon:</p>
                 <p class="scene-description">Unti-unting bumababa ang baha ngunit maraming bahay ang nasira at nangangailangan ng tulong. Kulang ang pagkain at inuming tubig sa evacuation center. Maraming boluntaryo ang gustong tumulong sa paglilinis at pamamahagi ng tulong.</p>
                 <p class="mt-3 font-bold italic">💬 Ano ang gagawin mo?</p>
-                <div class="grid md:grid-cols-3 gap-3 mt-3">
+                <div class="choice-grid mt-3">
                     <button onclick="piliinSaEksena4('A')" class="choice-btn">A. Manguna sa pagtulong</button>
                     <button onclick="piliinSaEksena4('B')" class="choice-btn">B. Umuwi na lamang</button>
                     <button onclick="piliinSaEksena4('C')" class="choice-btn">C. Hintaying may mag-utos</button>
@@ -468,7 +554,7 @@
                 <p>📊 Iyong Iskor: <span id="finalScore" class="font-bold text-emerald-700">0 XP</span></p>
                 <p class="mt-2">🎖 Natamong Badge: <span id="finalBadge" class="font-bold text-emerald-700">Wala pang badge</span></p>
 
-                <div class="mt-4 flex flex-wrap gap-3">
+                <div class="mt-4 button-container">
                     <button onclick="ulitinMisyon()" class="btn-gray">🔄 Ulitin ang Laro</button>
                     <a href="{{ route('students.module3.termino_konsepto') }}" class="btn-green">📘 Magpatuloy sa Termino at Konsepto</a>
                 </div>
@@ -702,4 +788,5 @@ function saveExplore(xp, badge) {
 
 buksanPanimulangModal();
 </script>
+
 @endsection

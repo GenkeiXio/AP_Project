@@ -1,5 +1,5 @@
 @extends('Students.studentslayout')
-@section('title', 'Module 2 : Sanaysay')
+@section('title', 'Module 2 : Repleksyon at Feedback')
 
 @push('styles')
 
@@ -125,6 +125,58 @@
         }
 
         .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f0a500, #d48900);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4da862;
+            border: 2px solid #4da862;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-outline:hover {
+            background: #4da862;
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-success:hover {
             transform: scale(1.05);
         }
 
@@ -326,6 +378,59 @@
             justify-content: center;
             padding: 12px;
         }
+
+        /* ===== CONFIRMATION MODAL ===== */
+        .confirmation-modal {
+            max-width: 450px;
+            width: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 0;
+            text-align: center;
+        }
+
+        .confirmation-modal .modal-header {
+            padding: 20px 20px 10px;
+            text-align: center;
+        }
+
+        .confirmation-modal .modal-header h2 {
+            margin: 0;
+            font-family: "Baloo 2", cursive;
+            color: #3d2a1a;
+            font-size: 1.8rem;
+        }
+
+        .confirmation-modal .modal-body {
+            padding: 10px 20px 20px;
+        }
+
+        .confirmation-modal .modal-body p {
+            font-size: 1rem;
+            color: #5a4630;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-modal .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px 20px 20px;
+            flex-wrap: wrap;
+        }
+
+        .confirmation-modal .modal-footer .btn-primary,
+        .confirmation-modal .modal-footer .btn-secondary,
+        .confirmation-modal .modal-footer .btn-outline,
+        .confirmation-modal .modal-footer .btn-success {
+            min-width: 120px;
+        }
+
+        .check-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
     </style>
 @endpush
 
@@ -341,31 +446,27 @@
         <div class="essay-container">
             <div class="essay-card">
 
-                <h1 class="contn">MAIKLING SANAYSAY</h1>
+                <h1 class="contn">📝 REPLEKSYON AT FEEDBACK</h1>
 
-                <p><strong>Panuto:</strong> Ibigay ang iyong opinyon at isulat ang sagot sa ibaba.</p>
+                <p><strong>Panuto:</strong> Magbigay ng iyong repleksyon at feedback tungkol sa buong modyul na ito.</p>
 
                 <p class="question">
-                    Bilang isang mag-aaral at miyembro ng komunidad, paano ka makatutulong sa pagtugon sa mga suliraning
-                    pangkapaligiran tulad ng
-                    <strong>basurang solido, pagkakalbo ng kagubatan, at pagbabago ng klima</strong>?
+                    <strong>Mga Gabay na Tanong:</strong><br><br>
+                    1. Ano ang iyong natutunan sa modyul na ito tungkol sa mga suliraning pangkapaligiran?<br><br>
+                    2. Paano mo mailalapat ang mga natutunan mo sa iyong pang-araw-araw na buhay bilang mag-aaral at miyembro ng komunidad?<br><br>
+                    3. Ano ang iyong mga suhestiyon upang mas mapabuti pa ang nilalaman at presentasyon ng modyul na ito?<br><br>
+                    4. Mayroon ka bang iba pang komento o rekomendasyon para sa guro?
                 </p>
 
-                <p>
-                    Magbigay ng ebidensya ng iyong mga gawain (hal. paglilinis ng kapaligiran, pagtatanim ng puno) sa
-                    pamamagitan ng larawan o video.
-                </p>
-
-                <form action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
+                <form id="essayForm" action="{{ route('student.module2.essay.submit') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <!-- FIXED TEXTAREA ID -->
-                    <textarea id="essay_answer" name="essay_answer" rows="8"
-                        placeholder="Ilagay dito ang iyong sagot..." required></textarea>
+                    <textarea id="essay_answer" name="essay_answer" rows="10"
+                        placeholder="Isulat dito ang iyong repleksyon at feedback..." required></textarea>
 
                     <div style="display:flex; justify-content:center; margin-top:10px;">
-                        <button type="submit" class="btn-primary">
-                            📤 Isumite ang Sanaysay
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            📤 Isumite ang Repleskyon
                         </button>
                     </div>
                 </form>
@@ -375,28 +476,6 @@
                         {{ session('success') }}
                     </div>
                 @endif
-
-                <p class="submission-note">
-                    📩 <strong>Paraan ng Pagsusumite:</strong><br><br>
-                    Kopyahin ang iyong sagot at ipadala ito sa email ng iyong guro.<br><br>
-                    <strong>Email:</strong> teacher@gmail.com
-                </p>
-
-                <div class="button-group">
-                    <a href="https://mail.google.com/" target="_blank" class="btn-primary">
-                        📧 Buksan ang Email
-                    </a>
-                </div>
-
-                <div id="copyMessage" class="success-message" style="display:none;">
-                    ✅ Nakopya na ang sagot!
-                </div>
-
-                <div style="text-align:center; margin-top:15px;">
-                    <a href="{{ route('module2.buod') }}" class="btn-primary">
-                        👉 Magpatuloy sa Susunod
-                    </a>
-                </div>
 
             </div>
         </div>
@@ -424,27 +503,86 @@
 
             </div>
         </div>
+
+        <!-- CONFIRMATION MODAL -->
+        <div id="confirmationModal" class="modal">
+            <div class="modal-content confirmation-modal">
+
+                <!-- HEADER -->
+                <div class="modal-header">
+                    <div class="check-icon">✅</div>
+                    <h2>Naitala na ang Iyong Sagot!</h2>
+                </div>
+
+                <!-- BODY -->
+                <div class="modal-body">
+                    <p>
+                        Matagumpay mong naisumite ang iyong repleksyon at feedback.<br><br>
+                        Ano ang nais mong gawin?
+                    </p>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer">
+                    <button class="btn-outline" onclick="editResponse()">
+                        ✏️ I-edit ang Sagot
+                    </button>
+                    <a href="{{ route('module2.buod') }}" class="btn-success">
+                        👉 Susunod na Modyul
+                    </a>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <script>
-        function copyAnswer() {
-            const text = document.getElementById("essay_answer").value;
+        // Store the submitted text for editing
+        let submittedText = '';
 
-            if (!text.trim()) {
-                alert("⚠️ Wala pang nakalagay na sagot.");
+        // Handle form submission
+        document.getElementById('essayForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const textarea = document.getElementById('essay_answer');
+            const text = textarea.value.trim();
+
+            if (!text) {
+                alert('⚠️ Pakisulat muna ang iyong repleksyon bago isumite.');
                 return;
             }
 
-            navigator.clipboard.writeText(text).then(() => {
-                const msg = document.getElementById("copyMessage");
-                msg.style.display = "block";
+            // Store the submitted text
+            submittedText = text;
 
-                setTimeout(() => {
-                    msg.style.display = "none";
-                }, 2000);
-            });
+            // Show confirmation modal
+            document.getElementById('confirmationModal').style.display = 'flex';
+        });
+
+        // Edit response - close modal and focus on textarea
+        function editResponse() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            const textarea = document.getElementById('essay_answer');
+            textarea.value = submittedText;
+            textarea.focus();
+            // Scroll to textarea
+            textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
+        // Close modal functions
+        function closeModal() {
+            document.getElementById('rubricsModal').style.display = 'none';
+        }
+
+        // Close confirmation modal if clicked outside
+        document.getElementById('confirmationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                // Don't close on outside click to prevent accidental dismissal
+                return;
+            }
+        });
+
+        // Show rubrics modal on load if not submitted
         document.addEventListener("DOMContentLoaded", function () {
             const submitted = document.body.getAttribute("data-submitted");
 
@@ -453,9 +591,13 @@
             }
         });
 
-        function closeModal() {
-            document.getElementById("rubricsModal").style.display = "none";
-        }
+        // Keyboard shortcut: Escape to close modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('rubricsModal').style.display = 'none';
+                // Don't close confirmation modal on escape to prevent accidental dismissal
+            }
+        });
     </script>
 
 </body>

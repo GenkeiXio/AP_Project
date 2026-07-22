@@ -357,20 +357,81 @@ body{
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
-@media (max-width:760px){
-    .arg-grid { grid-template-columns: 1fr; }
+
+/* When there's a neutral option, use a 3-row layout */
+.arg-grid.has-neutral {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
 }
+
+/* The neutral option spans both columns and is centered */
+.arg-grid.has-neutral .arg-btn.neutral-btn {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 60%;
+    max-width: 500px;
+    text-align: center;
+    background: linear-gradient(135deg, #f5ede0, #e8ddd0);
+    border-color: #c4b09a;
+    border-style: dashed;
+}
+
+/* First two options in the grid */
+.arg-grid .arg-btn:not(.neutral-btn) {
+    grid-row: 1;
+}
+
+/* If there are exactly 2 non-neutral options, they go in row 1 */
+.arg-grid.has-neutral .arg-btn:not(.neutral-btn):nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+.arg-grid.has-neutral .arg-btn:not(.neutral-btn):nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+}
+/* The neutral option goes in row 2 */
+.arg-grid.has-neutral .arg-btn.neutral-btn {
+    grid-row: 2;
+}
+
+@media (max-width:760px){
+    .arg-grid { 
+        grid-template-columns: 1fr; 
+    }
+    .arg-grid.has-neutral {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .arg-grid.has-neutral .arg-btn.neutral-btn {
+        width: 100%;
+        max-width: 100%;
+        grid-column: 1;
+        grid-row: auto;
+    }
+    .arg-grid.has-neutral .arg-btn:not(.neutral-btn):nth-child(1),
+    .arg-grid.has-neutral .arg-btn:not(.neutral-btn):nth-child(2) {
+        grid-column: 1;
+        grid-row: auto;
+    }
+    .arg-grid.has-neutral .arg-btn.neutral-btn {
+        grid-row: auto;
+    }
+}
+
 .arg-btn {
     border: 1px solid #d1bea3;
     background: linear-gradient(135deg, #fffcf6, #f1e4d0);
     color: #3f2f24;
     text-align: left;
     border-radius: 12px;
-    padding: 12px;
+    padding: 10px 14px;
     cursor: pointer;
     font-weight: 700;
     transition: .18s ease;
-    font-size: 0.92rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    min-height: 50px;
 }
 .arg-btn:hover {
     transform: translateY(-2px);
@@ -380,6 +441,12 @@ body{
     opacity: 0.6;
     cursor: not-allowed;
     transform: none !important;
+}
+.arg-btn.neutral-btn {
+    text-align: center;
+    background: linear-gradient(135deg, #f5ede0, #e8ddd0);
+    border-color: #c4b09a;
+    border-style: dashed;
 }
 
 .hud {
@@ -565,6 +632,40 @@ body{
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
 }
+
+/* Enhanced feedback styling */
+.feedback-detail {
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.6);
+    border-left: 4px solid var(--green-mid);
+    font-size: 0.85rem;
+    text-align: left;
+    line-height: 1.6;
+}
+.feedback-detail .highlight {
+    font-weight: 700;
+    color: var(--green-dark);
+}
+.feedback-detail .penalty {
+    color: var(--bad);
+}
+
+/* Paragraph description styles */
+.approach-description {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #4a3a2a;
+    padding: 8px 4px;
+}
+.approach-description ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+.approach-description ul li {
+    margin-bottom: 4px;
+}
 </style>
 
 <a href="{{ route('inner.map3') }}" class="back-btn">⬅ Bumalik</a>
@@ -572,7 +673,7 @@ body{
 <div class="wrapper">
     <div class="card">
         <div class="top">
-            <h1 class="title">🟦 MGA PAMAMARAAN → LARO NG PAGTATALO</h1>
+            <h1 class="title">🟦 ANONG MAS EPEKTIBO: TOP-DOWN VS BOTTOM-UP?</h1>
             <p class="subtitle">
                 Tanong na Gabay: Paano nakaaapekto ang panganib, kahinaan, at banta sa paglitaw ng sakuna?
             </p>
@@ -612,26 +713,31 @@ body{
                         <div class="choice-container">
                             <div class="choice-card active" id="topCard">
                                 <div class="choice-head">
-                                    <h3>Top-down Approach</h3>
+                                    <h3>🏛️ Top-down Approach</h3>
                                 </div>
-                                <div class="choice-text" id="topText">
-                                    Ang pamamaraang ito ay umaasa sa mas mataas na antas ng pamahalaan sa lahat ng aspeto ng pagharap sa sakuna,
-                                    mula pagpaplano hanggang pagtugon. Gayunman, madalas itong mabagal dahil hindi agad natutugunan ang
-                                    pangangailangan ng mga mamamayan, lalo na ang mga pinakaapektado. Karaniwan ding limitado ang mga plano dahil
-                                    nakabatay lamang ito sa pananaw ng mga pinuno, habang napapabayaan ang karanasan at boses ng komunidad.
+                                <div class="choice-text approach-description">
+                                    <p style="margin: 0 0 8px 0;">Ang pamamaraang ito ay umaasa sa mas mataas na antas ng pamahalaan sa lahat ng aspeto ng pagharap sa sakuna, mula pagpaplano hanggang pagtugon. Nakatuon ito sa:</p>
+                                    <ul>
+                                        <li><strong>Desisyon</strong> mula sa pambansa o panlalawigang pamahalaan</li>
+                                        <li><strong>Standardized protocols</strong> at SOPs</li>
+                                        <li><strong>Centralized coordination</strong> at command structure</li>
+                                        <li><strong>Pambansang building codes</strong> at standards</li>
+                                    </ul>
                                 </div>
                             </div>
 
                             <div class="choice-card active" id="bottomCard">
                                 <div class="choice-head">
-                                    <h3>Bottom-up Approach</h3>
+                                    <h3>🌱 Bottom-up Approach</h3>
                                 </div>
-                                <div class="choice-text" id="bottomText">
-                                    Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba't ibang sektor ng pamayanan
-                                    sa pagtukoy, pag-aanalisa, at paglutas ng mga suliranin. Mahalaga ang pamumuno ng lokal na komunidad, kasama
-                                    ang lokal na pamahalaan, pribadong sektor, at mga organisasyong hindi pangkalakalan, upang maisulong ang
-                                    epektibong pag-unlad mula sa ibaba. Sa paraang ito, nabibigyang-halaga ang iba't ibang pananaw at karanasan
-                                    ng mga taong nakatira sa mga lugar na madalas tamaan ng sakuna.
+                                <div class="choice-text approach-description">
+                                    <p style="margin: 0 0 8px 0;">Ang pamamaraang ito ay nakatuon sa aktibong pakikilahok ng mga mamamayan at iba't ibang sektor ng pamayanan sa pagtukoy, pag-aanalisa, at paglutas ng mga suliranin. Nakatuon ito sa:</p>
+                                    <ul>
+                                        <li><strong>Pakikilahok</strong> ng komunidad at lokal na lider</li>
+                                        <li><strong>Community-based planning</strong> at early warning</li>
+                                        <li><strong>Bayanihan</strong> at mutual aid</li>
+                                        <li><strong>Lokal na kaalaman</strong> at kultura sa pagtugon</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -648,7 +754,7 @@ body{
                     <div class="step-card">
                         <div class="step-number">HAKBANG 2</div>
                         <h3 class="step-title">👉 Piliin ang iyong panig</h3>
-                        <p class="step-description">Pumili ng panig na sa tingin mo ay mas epektibo sa pagharap sa sakuna.</p>
+                        <p class="step-description">Pumili ng panig na sa tingin mo ay mas epektibo sa pagharap sa sakuna. Tandaan: ang iyong mga sagot sa susunod na bahagi ay dapat naaayon sa iyong napiling approach.</p>
 
                         <div class="choice-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px;">
                             <button class="arg-btn" style="text-align:center; padding:16px; font-size:1rem;" onclick="chooseSide('top')">
@@ -673,21 +779,22 @@ body{
                     <div class="step-card">
                         <div class="step-number">HAKBANG 3</div>
                         <h3 class="step-title">⚖️ Mga Ikot ng Pagtatalo</h3>
-                        <p class="step-description">Sagutin ang mga tanong gamit ang iyong napiling panig.</p>
+                        <p class="step-description">Pumili ng sagot na naaayon sa iyong napiling approach. May <strong>20 segundo</strong> ka para magdesisyon.</p>
 
                         <div class="hud">
                             <div class="pill" id="roundPill">Ikot 1/3</div>
-                            <div class="pill gold" id="scorePill">Iskor: 0</div>
+                            <div class="pill gold" id="scorePill">Iskor: 0/9</div>
                             <div class="pill" id="lifePill">Buhay: ❤️❤️❤️</div>
                         </div>
                         <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-                        <div class="timer" id="timerLabel">⏱ 15 segundo</div>
+                        <div class="timer" id="timerLabel">⏱ 20 segundo</div>
                         <div class="prompt" id="promptText"></div>
                         <div class="arg-grid" id="argGrid"></div>
                         <div class="status" id="statusText"></div>
+                        <div id="feedbackDetail" class="feedback-detail" style="display:none;"></div>
 
                         <div style="text-align:center; margin-top:12px; font-size:0.85rem; color:#7a6a5a;">
-                            ⚡ Sagutin ang bawat tanong sa loob ng 15 segundo
+                            ⚡ Sagutin ang bawat tanong sa loob ng 20 segundo
                         </div>
                     </div>
                 </div>
@@ -729,34 +836,102 @@ let chosenSide = null;
 let score = 0;
 let lives = 3;
 let roundIndex = 0;
-let timeLeft = 15;
+let timeLeft = 20;
 let timer = null;
 let isGameCompleted = false;
 let gameStarted = false;
+let roundResults = [];
 
+// ===== REVISED ROUNDS WITH SHORTER CHOICES =====
 const rounds = [
     {
-        prompt: "May paparating na bagyo sa baybaying barangay. Ano ang mas epektibong unang hakbang?",
+        prompt: "📋 ROUND 1: May paparating na bagyo sa loob ng 72 oras. Ano ang unang hakbang?",
         options: [
-            { side: "top", text: "Hintayin muna ang utos mula sa itaas bago kumilos ang barangay.", points: 0, feedback: "Mabagal ang unang pagtugon." },
-            { side: "bottom", text: "Agad na buhayin ang mga boluntaryo ng barangay at ang planong paglilikas.", points: 2, feedback: "Tama: mabilis at angkop sa sitwasyon ang aksyon." }
+            { 
+                side: "top", 
+                text: "Iutos ang direktiba ng NDRRMC at siguruhing masunod ang SOP",
+                points: 3,
+                feedback: "✓ Proaktibong pagpapatupad ng pambansang direktiba at SOP.",
+                reasoning: "Top-down: umaasa sa pambansang direktiba, sumusunod sa SOP, gumagamit ng command structure."
+            },
+            { 
+                side: "bottom", 
+                text: "Tipunin ang komunidad at i-update ang lokal na disaster plan",
+                points: 3,
+                feedback: "✓ Aktibong pakikilahok ng komunidad gamit ang lokal na plano.",
+                reasoning: "Bottom-up: nakikilahok ang komunidad, gumagamit ng lokal na plano, nagbibigay-halaga sa lokal na konteksto."
+            },
+            { 
+                side: "neutral", 
+                text: "Maghintay ng utos mula sa pambansang pamahalaan bago kumilos",
+                points: 0,
+                feedback: "✗ Ang paghihintay ay hindi epektibo sa alinmang approach.",
+                reasoning: "Hindi ito Top-down o Bottom-up - ito ay passive na paghihintay."
+            }
         ]
     },
     {
-        prompt: "Pagkatapos ng baha, alin ang mas makakatulong sa pangmatagalang pagbangon?",
+        prompt: "🚨 ROUND 2: Bumaha sa tatlong barangay. May mga residenteng hindi makalikas. Paano tutugon?",
         options: [
-            { side: "top", text: "Iisang plano lamang mula sa taas para sa lahat ng lugar.", points: 0, feedback: "Maaaring hindi tugma sa iba't ibang pangangailangan ng mga lugar." },
-            { side: "bottom", text: "Pagmamapa ng komunidad at sama-samang pagpaplano sa pinakaapektadong purok.", points: 2, feedback: "Tama: mas inklusibo at mas pangmatagalan." }
+            { 
+                side: "top", 
+                text: "Aktibahin ang provincial operations center at i-deploy ang rescue teams",
+                points: 3,
+                feedback: "✓ Sentralisadong koordinasyon at standardized response.",
+                reasoning: "Top-down: gumagamit ng centralized coordination at standardized procedures."
+            },
+            { 
+                side: "bottom", 
+                text: "Makiisa sa barangay rescue at gamitin ang community early warning system",
+                points: 3,
+                feedback: "✓ Community-based response at mutual aid gamit ang lokal na kaalaman.",
+                reasoning: "Bottom-up: community-based ang response, gumagamit ng mutual aid at lokal na kaalaman."
+            },
+            { 
+                side: "neutral", 
+                text: "Hintayin ang utos ng mas mataas na opisyal bago magpadala ng tulong",
+                points: 0,
+                feedback: "✗ Delikado ang paghihintay sa gitna ng kalamidad.",
+                reasoning: "Hindi ito Top-down o Bottom-up - ito ay mapanganib na pagkaantala."
+            }
         ]
     },
     {
-        prompt: "Sa paglalaan ng badyet para sa kahandaan sa sakuna, alin ang mas may mataas na pag-aari ng komunidad?",
+        prompt: "🏗️ ROUND 3: Tatlong linggo matapos ang bagyo. Marami pa ring nasa evacuation centers. Paano ang rehabilitasyon?",
         options: [
-            { side: "top", text: "Mga prayoridad sa badyet na puro sentralisado at isang direksiyon lamang.", points: 0, feedback: "Mababa ang pagmamay-ari ng komunidad." },
-            { side: "bottom", text: "May pampublikong konsultasyon bago pinal ang paggasta sa lokal na kahandaan sa sakuna.", points: 2, feedback: "Tama: mas malinaw at mas sinusuportahan." }
+            { 
+                side: "top", 
+                text: "Gamitin ang national recovery framework at pambansang building codes",
+                points: 3,
+                feedback: "✓ Systematic rehabilitation gamit ang national standards.",
+                reasoning: "Top-down: gumagamit ng national framework, building codes, at systematic allocation."
+            },
+            { 
+                side: "bottom", 
+                text: "Magsagawa ng community consultation at localized recovery plan",
+                points: 3,
+                feedback: "✓ Participatory recovery planning batay sa aktwal na pangangailangan.",
+                reasoning: "Bottom-up: community consultation, local organizations, batay sa lokal na pangangailangan."
+            },
+            { 
+                side: "neutral", 
+                text: "Ipasa ang problema sa pambansang pamahalaan at hintayin sila",
+                points: 0,
+                feedback: "✗ Ang pagsasawalang-bahala ay hindi katanggap-tanggap.",
+                reasoning: "Hindi ito Top-down o Bottom-up - ito ay pag-iwas sa responsibilidad."
+            }
         ]
     }
 ];
+
+// ===== SHUFFLE FUNCTION =====
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 // ===== STEP NAVIGATION =====
 function goToStep(step) {
@@ -810,6 +985,7 @@ function startGame() {
     score = 0;
     lives = 3;
     roundIndex = 0;
+    roundResults = [];
     renderRound();
 }
 
@@ -820,19 +996,50 @@ function renderRound() {
     }
 
     clearInterval(timer);
-    timeLeft = 15;
+    timeLeft = 20;
     updateHUD();
 
     const r = rounds[roundIndex];
-    document.getElementById('promptText').textContent = `Ikot ${roundIndex + 1}: ${r.prompt}`;
+    document.getElementById('promptText').textContent = r.prompt;
     const argGrid = document.getElementById('argGrid');
     argGrid.innerHTML = '';
+    argGrid.className = 'arg-grid';
+    document.getElementById('statusText').textContent = '';
+    document.getElementById('feedbackDetail').style.display = 'none';
 
-    r.options.forEach((opt, i) => {
+    // Shuffle the options randomly
+    const shuffledOptions = shuffleArray([...r.options]);
+    
+    // Check if there's a neutral option
+    let hasNeutral = false;
+    shuffledOptions.forEach(opt => {
+        if (opt.side === 'neutral') {
+            hasNeutral = true;
+        }
+    });
+    
+    // Add class if there's a neutral option
+    if (hasNeutral) {
+        argGrid.classList.add('has-neutral');
+    }
+    
+    // Create buttons
+    shuffledOptions.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.className = 'arg-btn';
+        
+        // If this is the neutral option, add special class
+        if (opt.side === 'neutral') {
+            btn.classList.add('neutral-btn');
+        }
+        
         btn.textContent = opt.text;
-        btn.onclick = () => answer(i);
+        btn.dataset.index = i;
+        btn.onclick = () => {
+            // Find the original index of this option
+            const originalIndex = r.options.indexOf(opt);
+            answer(originalIndex);
+        };
         argGrid.appendChild(btn);
     });
 
@@ -843,17 +1050,38 @@ function renderRound() {
 
 function startTimer() {
     document.getElementById('timerLabel').textContent = `⏱ ${timeLeft} segundo`;
+    document.getElementById('timerLabel').style.color = '#7a4d2b';
     timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timerLabel').textContent = `⏱ ${timeLeft} segundo`;
         if (timeLeft <= 5) document.getElementById('timerLabel').style.color = '#a7392f';
         if (timeLeft <= 0) {
             clearInterval(timer);
-            loseLife("⏰ Naubos ang oras! Walang naipiling argumento.");
-            setTimeout(() => {
-                roundIndex++;
-                renderRound();
-            }, 800);
+            // Time's up - lose a life
+            lives = Math.max(0, lives - 1);
+            updateHUD();
+            document.getElementById('statusText').className = 'status bad';
+            document.getElementById('statusText').textContent = '⏰ Naubos ang oras! -1 buhay';
+            
+            // Record result
+            roundResults.push({
+                round: roundIndex + 1,
+                selected: 'timeout',
+                points: 0,
+                correct: false
+            });
+            
+            if (lives === 0) {
+                document.getElementById('wrongText').textContent = '⏰ Naubos ang oras at wala ka nang natitirang buhay.';
+                document.getElementById('wrongModal').style.display = 'flex';
+                clearInterval(timer);
+                setTimeout(() => endGame(false), 500);
+            } else {
+                setTimeout(() => {
+                    roundIndex++;
+                    renderRound();
+                }, 1000);
+            }
         }
     }, 1000);
 }
@@ -863,47 +1091,94 @@ function answer(index) {
     const r = rounds[roundIndex];
     const pick = r.options[index];
 
+    // Determine points based on the selected option
     let gained = pick.points;
-    if (pick.side === chosenSide) gained += 1;
-
+    
+    // If the option is for the opposite side but has points, give only 1 point
+    if (pick.side !== 'neutral' && pick.side !== chosenSide) {
+        gained = Math.min(1, pick.points);
+    }
+    
     score += gained;
 
     const statusText = document.getElementById('statusText');
-    if (pick.points > 0 || pick.side === chosenSide) {
+    const feedbackDetail = document.getElementById('feedbackDetail');
+    
+    // Show feedback
+    if (pick.side === chosenSide && pick.points === 3) {
         statusText.className = 'status ok';
-        statusText.textContent = `✅ ${pick.feedback} (+${gained} puntos)`;
-    } else {
+        statusText.textContent = `✅ +${gained} puntos`;
+        feedbackDetail.style.display = 'block';
+        feedbackDetail.innerHTML = `
+            <div style="color: var(--green-dark);">
+                <strong>🏆 Tamang sagot para sa iyong approach!</strong><br>
+                ${pick.feedback}<br>
+                <span style="font-size:0.8rem; opacity:0.8;">${pick.reasoning}</span>
+            </div>
+        `;
+    } else if (pick.side === 'neutral') {
         statusText.className = 'status bad';
-        statusText.textContent = `❌ ${pick.feedback} (+${gained} puntos)`;
-        loseLife("Mas mahina ang napiling argumento sa ikot na ito.");
+        statusText.textContent = `❌ +${gained} puntos`;
+        feedbackDetail.style.display = 'block';
+        feedbackDetail.innerHTML = `
+            <div style="color: var(--bad);">
+                <strong>⚠️ Hindi ito epektibong sagot sa alinmang approach.</strong><br>
+                ${pick.feedback}<br>
+                <span style="font-size:0.8rem; opacity:0.8;">${pick.reasoning}</span>
+            </div>
+        `;
+    } else {
+        // Chose opposite side's answer
+        statusText.className = 'status bad';
+        statusText.textContent = `⚠️ +${gained} puntos`;
+        feedbackDetail.style.display = 'block';
+        feedbackDetail.innerHTML = `
+            <div style="color: var(--bad);">
+                <strong>❌ Hindi tugma sa iyong napiling approach.</strong><br>
+                Pinili mo ang <strong>${chosenSide === 'top' ? 'Top-down' : 'Bottom-up'}</strong> approach, ngunit ang iyong sagot ay sumusuporta sa 
+                <strong>${pick.side === 'top' ? 'Top-down' : 'Bottom-up'}</strong> approach.<br>
+                <span style="font-size:0.8rem; opacity:0.8;">${pick.reasoning}</span>
+            </div>
+        `;
+        
+        // Penalize by losing a life for being completely wrong approach
+        if (gained === 0) {
+            lives = Math.max(0, lives - 1);
+            updateHUD();
+        }
     }
+
+    // Record result
+    roundResults.push({
+        round: roundIndex + 1,
+        selected: pick.side,
+        points: gained,
+        correct: pick.side === chosenSide && pick.points === 3
+    });
 
     updateHUD();
     
     // Disable all buttons
     document.querySelectorAll('.arg-btn').forEach(btn => btn.disabled = true);
     
+    // Check if lives are 0
+    if (lives === 0) {
+        document.getElementById('wrongText').textContent = 'Wala ka nang natitirang buhay. Subukan muli!';
+        document.getElementById('wrongModal').style.display = 'flex';
+        clearInterval(timer);
+        setTimeout(() => endGame(false), 500);
+        return;
+    }
+    
     setTimeout(() => {
         roundIndex++;
         renderRound();
-    }, 1200);
-}
-
-function loseLife(msg) {
-    lives = Math.max(0, lives - 1);
-    updateHUD();
-    if (lives === 0) {
-        document.getElementById('wrongText').textContent = msg + " Wala ka nang natitirang buhay.";
-        document.getElementById('wrongModal').style.display = 'flex';
-        clearInterval(timer);
-        // Game over - failed
-        setTimeout(() => endGame(false), 500);
-    }
+    }, 2000);
 }
 
 function updateHUD() {
     document.getElementById('roundPill').textContent = `Ikot ${Math.min(roundIndex + 1, rounds.length)}/${rounds.length}`;
-    document.getElementById('scorePill').textContent = `Iskor: ${score}`;
+    document.getElementById('scorePill').textContent = `Iskor: ${score}/9`;
     document.getElementById('lifePill').textContent = `Buhay: ${'❤️'.repeat(lives)}${'🖤'.repeat(3 - lives)}`;
     document.getElementById('timerLabel').style.color = '#7a4d2b';
 }
@@ -914,27 +1189,66 @@ function endGame(passed) {
     // Disable all game buttons
     document.querySelectorAll('.arg-btn').forEach(btn => btn.disabled = true);
     
-    if (passed) {
-        // Check if score meets passing criteria
-        const maxScore = rounds.length * 3;
-        const isPassed = score >= 5;
+    if (passed && lives > 0) {
+        // Check if score meets passing criteria - need at least 6 points (2 out of 3 rounds correct)
+        const isPassed = score >= 6;
         
         if (isPassed) {
             markNodeComplete();
             burstConfetti();
-            document.getElementById('successText').textContent = 
-                `Naipakita mo ang mas matibay na argumento sa mga pamamaraang pangkahandaan sa sakuna. (Iskor: ${score}/${maxScore})`;
+            
+            // Build detailed success message
+            let details = roundResults.map(r => {
+                const status = r.correct ? '✅' : '❌';
+                return `Ikot ${r.round}: ${status} +${r.points} puntos`;
+            }).join('<br>');
+            
+            document.getElementById('successText').innerHTML = `
+                <strong>Naipakita mo ang matibay na argumento para sa iyong napiling approach!</strong><br><br>
+                <div style="text-align:left; padding:10px; background: rgba(255,255,255,0.5); border-radius:8px; font-size:0.9rem;">
+                    <strong>📊 Resulta:</strong><br>
+                    ${details}<br><br>
+                    <strong>Kabuuang Iskor: ${score}/9</strong>
+                </div>
+                <br>
+                ${score >= 7 ? '🌟 Napakahusay! Perpektong naunawaan mo ang iyong napiling approach.' : 
+                  '👍 Mahusay! Naipakita mo ang konsistent na pag-unawa sa iyong napiling approach.'}
+            `;
             document.getElementById('successModal').style.display = 'flex';
             saveGameProgress(true);
         } else {
             // Not enough points
-            document.getElementById('wrongText').textContent = 
-                `Hindi sapat ang iyong iskor (${score}/${maxScore}) upang manalo. Kailangan mo ng hindi bababa sa 5 puntos. Subukan muli!`;
+            document.getElementById('wrongText').innerHTML = `
+                <strong>Hindi sapat ang iyong iskor (${score}/9) upang manalo.</strong><br><br>
+                Kailangan mo ng hindi bababa sa <strong>6 puntos</strong> (dalawang tamang sagot) upang maipakita ang 
+                matibay na pag-unawa sa iyong napiling approach.<br><br>
+                <div style="text-align:left; padding:10px; background: rgba(255,255,255,0.5); border-radius:8px; font-size:0.9rem;">
+                    <strong>📊 Iyong mga resulta:</strong><br>
+                    ${roundResults.map(r => {
+                        const status = r.correct ? '✅ Tama' : r.selected === 'timeout' ? '⏰ Oras' : '❌ Mali';
+                        return `Ikot ${r.round}: ${status} (+${r.points} puntos)`;
+                    }).join('<br>')}
+                </div>
+            `;
             document.getElementById('wrongModal').style.display = 'flex';
             saveGameProgress(false);
         }
     } else {
         // Failed from losing lives
+        document.getElementById('wrongText').innerHTML = `
+            <strong>Wala ka nang natitirang buhay.</strong><br><br>
+            <div style="text-align:left; padding:10px; background: rgba(255,255,255,0.5); border-radius:8px; font-size:0.9rem;">
+                <strong>📊 Iyong mga resulta:</strong><br>
+                ${roundResults.map(r => {
+                    const status = r.correct ? '✅ Tama' : r.selected === 'timeout' ? '⏰ Oras' : '❌ Mali';
+                    return `Ikot ${r.round}: ${status} (+${r.points} puntos)`;
+                }).join('<br>')}<br><br>
+                <strong>Kabuuang Iskor: ${score}/9</strong>
+            </div>
+            <br>
+            Subukan mong maging mas konsistent sa iyong napiling approach sa susunod na pagsubok.
+        `;
+        document.getElementById('wrongModal').style.display = 'flex';
         saveGameProgress(false);
     }
 }
@@ -960,7 +1274,8 @@ function saveGameProgress(passed) {
             chosen_side: chosenSide,
             score: score,
             lives_remaining: lives,
-            is_passed: passed ? 1 : 0
+            is_passed: passed ? 1 : 0,
+            round_results: roundResults
         })
     })
     .then(res => res.json())
@@ -1026,11 +1341,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (alreadyCompleted) {
         updateStepDots();
         document.querySelector('.step-dot[data-step="3"]').classList.add('completed');
-        // Auto-redirect to map if already completed
-        // Uncomment below to auto-redirect
-        // setTimeout(() => {
-        //     window.location.href = "{{ route('inner.map3') }}";
-        // }, 2000);
     }
     
     // Start game when step 3 becomes visible

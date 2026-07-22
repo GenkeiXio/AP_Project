@@ -1597,7 +1597,7 @@
 			if (remainingAttempts > 0) {
 				resultActions.innerHTML = `
 					<button class="btn-secondary" onclick="restartQuiz()">
-						Ulitin (${remainingAttempts} natitira)
+						Ulitin ang Pagsusulit
 					</button>
 					<a href="{{ route('inner.map2') }}" class="btn-primary">Magpatuloy →</a>
 				`;

@@ -357,7 +357,11 @@
         box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .topbar span{
+    .topbar .timer-wrap,
+    .topbar .xp-wrap {
+        display:flex;
+        align-items:center;
+        gap:6px;
         background:#2c3e50;
         color: #ecf0f1;
         padding:6px 14px;
@@ -366,6 +370,24 @@
         font-weight: bold;
         font-size: 1.1rem;
         box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 1px 2px rgba(255,255,255,0.5);
+    }
+
+    .topbar .timer-wrap span,
+    .topbar .xp-wrap span {
+        background:transparent;
+        padding:0;
+        color: #ecf0f1;
+        box-shadow:none;
+    }
+
+    .topbar .timer-label,
+    .topbar .xp-label {
+        color: #aab;
+        font-size:0.75rem;
+        font-weight:700;
+        text-transform:uppercase;
+        letter-spacing:0.5px;
+        font-family:'Poppins',sans-serif;
     }
 
     #feedback{
@@ -465,13 +487,36 @@
             border-radius:14px;
         }
         h1{ font-size:1.3rem; line-height:1.4; }
+        
         .topbar{
-            flex-direction:column;
+            flex-direction:row;
+            justify-content:space-between;
             gap:8px;
             align-items:center;
-            text-align:center;
+            padding:10px 12px;
+            border-radius:30px;
+            flex-wrap:nowrap;
         }
-        .topbar span{ font-size:13px; padding:5px 10px; }
+        
+        .topbar .timer-wrap,
+        .topbar .xp-wrap {
+            font-size:0.85rem;
+            padding:4px 10px;
+            border-radius:30px;
+            flex-shrink:0;
+        }
+        
+        .topbar .timer-label,
+        .topbar .xp-label {
+            font-size:0.55rem;
+            margin-right:2px;
+        }
+        
+        .topbar .timer-wrap span,
+        .topbar .xp-wrap span {
+            font-size:0.85rem;
+        }
+
         .card{ padding:16px; margin-top:15px; }
         .situation{ font-size:14px; padding:8px; }
         .choices-grid{ grid-template-columns:1fr; gap:12px; }
@@ -490,6 +535,26 @@
         .panuto-modal-box { padding: 20px; margin: 10px; }
         .panuto-modal-title { font-size: 1.5rem; }
     }
+
+    @media (max-width: 400px){
+        .topbar{
+            padding:8px 10px;
+            border-radius:20px;
+        }
+        .topbar .timer-wrap,
+        .topbar .xp-wrap {
+            font-size:0.7rem;
+            padding:3px 8px;
+        }
+        .topbar .timer-wrap span,
+        .topbar .xp-wrap span {
+            font-size:0.7rem;
+        }
+        .topbar .timer-label,
+        .topbar .xp-label {
+            font-size:0.5rem;
+        }
+    }
 </style>
 @endpush
 
@@ -503,8 +568,14 @@
             <h1>Matalinong Pagpapasya sa Oras ng Sakuna</h1>
 
             <div class="topbar">
-                <div>⏱ ORAS: <span id="timer">05:00</span></div>
-                <div>⭐ PUNTOS: <span id="xp">0</span></div>
+                <div class="timer-wrap">
+                    <span class="timer-label">⏱</span>
+                    <span id="timer">05:00</span>
+                </div>
+                <div class="xp-wrap">
+                    <span class="xp-label">⭐ Puntos</span>
+                    <span id="xp">0</span>
+                </div>
             </div>
 
             <!-- PROGRESS BAR -->
